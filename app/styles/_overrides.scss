@@ -4,9 +4,9 @@
 }
 
 .nav-sm {
-    @media (max-width: breakpoint-max(sm)) {
-      width: 100%;
-    }
+  @media (max-width: breakpoint-max(sm)) {
+    width: 100%;
+  }
 }
 
 .navbar {
@@ -100,7 +100,8 @@
   transition: border-color ease-in-out 0.15s, background-color ease-in-out 0.15s;
   background: $bg-custom-dark;
   border: none;
-  &:focus {
+
+  &:not(.is-invalid):focus {
     box-shadow: none;
     background: $bg-custom-dark;
   }
@@ -217,7 +218,11 @@ legend {
 }
 
 .table {
-  color: inherit;
+  color: white;
+}
+
+.table-responsive > .table-bordered {
+  border: 1px solid $white;
 }
 
 h1,
@@ -661,6 +666,7 @@ h6,
   &.nav-item + .nav-item {
     margin-left: 0;
   }
+
   border-bottom: none;
   border-top-left-radius: $widget-border-radius;
   border-top-right-radius: $widget-border-radius;
@@ -725,7 +731,7 @@ h6,
 
 code {
   font-size: 85%;
-  background-color: rgba($primary,.3);
+  background-color: rgba($primary, .3);
   color: $success;
   padding: 2px;
   border-radius: $border-radius;
@@ -743,7 +749,7 @@ pre {
   background-color: $gray-100;
   border: 1px solid $gray-400;
   border-radius: $border-radius;
-  white-space: pre-line;       /* css-3 */
+  white-space: pre-line; /* css-3 */
 
   // Account for some code outputs that place code tags in pre tags
   code {
@@ -882,8 +888,8 @@ div.abc-radio label {
 ///// Toastify /////
 .Toastify {
   .Toastify__toast {
-    font-family: Montserrat, sans-serif;
     border-radius: $border-radius;
+
     &.Toastify__toast--success {
       background: $success;
     }
@@ -902,11 +908,12 @@ div.abc-radio label {
 
     &-body {
       text-align: center;
-      color: $violet_deep;
+      color: #ffffff;
 
       button {
         border-color: $violet_deep;
         color: $violet_deep;
+
         &:hover {
           border-color: transparent;
         }
@@ -927,7 +934,7 @@ div.abc-radio label {
 
 //// Highcharts Width fix ////
 .highcharts-container, .highcharts-root {
-  width:100% !important;
+  width: 100% !important;
 }
 
 .breadcrumb > .active {
@@ -947,9 +954,11 @@ pre code {
     background: #1b1e3c;
     color: $content-color
   }
+
   .modal-header {
     border-bottom: 1px solid $bg-custom-dark;
   }
+
   .modal-footer {
     border-top: 1px solid $bg-custom-dark;
   }
@@ -962,3 +971,5 @@ pre code {
 .list-group-item .deemphasize {
   color: $gray-600;
 }
+
+

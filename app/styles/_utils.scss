@@ -136,7 +136,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
     @include transition(background-color 0.15s ease-in-out);
   }
 
-  .form-control:focus,
+  .form-control:not(.is-invalid):focus,
   .form-control:focus + .input-group-addon,
   &.focus .input-group-addon {
     background-color: $gray-200;
@@ -376,7 +376,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
     @include transition(background-color 0.15s ease-in-out);
   }
 
-  .form-control:focus,
+  .form-control:not(.is-invalid):focus,
   .form-control:focus + .input-group-addon,
   &.focus .input-group-addon {
     background-color: $gray-200;
@@ -439,7 +439,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
     @extend .input-no-border;
   }
 
-  .form-control:focus,
+  .form-control:not(.is-invalid):focus,
   .form-control:focus + .input-group-addon,
   &.focus .input-group-addon {
     @extend .input-no-border:focus;

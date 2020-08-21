@@ -23,6 +23,7 @@ const DEFAULT_LOCALE = 'en';
 const appLocales = [
   'en',
   'de',
+  'vn'
 ];
 
 const formatTranslationMessages = (locale, messages) => {
@@ -43,6 +44,7 @@ const formatTranslationMessages = (locale, messages) => {
 const translationMessages = {
   en: formatTranslationMessages('en', enTranslationMessages),
   de: formatTranslationMessages('de', deTranslationMessages),
+  vn: formatTranslationMessages('vn', deTranslationMessages),
 };
 
 exports.appLocales = appLocales;

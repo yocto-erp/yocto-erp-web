@@ -1,48 +1,61 @@
-/**
- *
- * App
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
- */
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Switch, Route } from 'react-router-dom';
-
-import LayoutComponent from 'components/Layout/Layout';
-import FeaturePage from 'containers/FeaturePage/Loadable';
+import { Route, Switch } from 'react-router-dom';
+import { SWRConfig } from 'swr';
+import LayoutComponent from 'containers/Layout/Layout';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { ToastContainer } from 'react-toastify';
 
 import GlobalStyle from '../../global-styles';
+import { Login } from '../Login';
+import useUser from '../../libs/hooks/useUser';
 
-// eslint-disable-next-line react/prop-types
-const CloseButton = ({ closeToast }) => (
-  <button type="button" onClick={closeToast}>
-    <i className="la la-close notifications-close" />
-  </button>
-);
 export default function App() {
+  const { isAuthenticated, isLoading } = useUser();
+
+  const mainPage = React.useMemo(() => {
+    let rs = (
+      <div className="container h-100 d-flex justify-content-center">
+        <div className=" my-auto animate__animated animate__pulse animate__infinite	infinite">
+          <h1 className="display-4 ">Loading !</h1>
+        </div>
+      </div>
+    );
+    if (!isLoading) {
+      if (!isAuthenticated) {
+        rs = <Login />;
+      } else {
+        rs = <LayoutComponent />;
+      }
+    }
+    return rs;
+  }, [isAuthenticated, isLoading]);
+
   return (
-    <div>
-      <Helmet titleTemplate="%s - Yocto ERP" defaultTitle="Yocto ERP">
-        <meta
-          name="description"
-          content="Yocto ERP - a simple management tool for small company"
-        />
-      </Helmet>
-      <ToastContainer
-        autoClose={5000}
-        hideProgressBar
-        closeButton={<CloseButton />}
-      />
-      <Switch>
-        <Route path="/" component={LayoutComponent} />
-        <Route path="/features" component={FeaturePage} />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
-      <GlobalStyle />
-    </div>
+    <SWRConfig
+      value={{
+        revalidateOnFocus: false,
+        refreshInterval: 0,
+        shouldRetryOnError: false,
+        revalidateOnMount: false,
+        errorRetryCount: 3,
+        errorRetryInterval: 10,
+      }}
+    >
+      <>
+        <Helmet titleTemplate="%s - Yocto ERP" defaultTitle="Yocto ERP">
+          <meta
+            name="description"
+            content="Yocto ERP - a simple management tool for small company"
+          />
+        </Helmet>
+        <ToastContainer autoClose={5000} hideProgressBar />
+        <Switch>
+          <Route path="/">{mainPage}</Route>
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+        <GlobalStyle />
+      </>
+    </SWRConfig>
   );
 }

@@ -6,11 +6,11 @@ import { withRouter } from 'react-router-dom';
 import s from './Sidebar.module.scss';
 import LinksGroup from './LinksGroup/LinksGroup';
 
-import { changeActiveSidebarItem } from '../Header/redux/navigation';
+import { changeActiveSidebarItem } from '../../containers/Layout/redux/navigation';
+import { SIDE_BAR_MENU } from './constants';
 
 class Sidebar extends React.Component {
   static propTypes = {
-    sidebarStatic: PropTypes.bool,
     sidebarOpened: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
     activeItem: PropTypes.string,
@@ -20,7 +20,6 @@ class Sidebar extends React.Component {
   };
 
   static defaultProps = {
-    sidebarStatic: false,
     activeItem: '',
   };
 
@@ -73,111 +72,57 @@ class Sidebar extends React.Component {
           </header>
 
           <ul className={cx(s.nav)}>
-            <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Dashboard"
-              isHeader
-              iconName="flaticon-home"
-              link="/app/main"
-              index="main"
-            />
-            <h5 className={[s.navTitle, s.groupTitle].join(' ')}>TEMPLATE</h5>
-            <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Typography"
-              isHeader
-              iconName="flaticon-network"
-              link="/app/typography"
-              index="core"
-            />
-            <LinksGroup
-              onActiveSidebarItemChange={t =>
-                this.props.dispatch(changeActiveSidebarItem(t))
-              }
-              activeItem={this.props.activeItem}
-              header="Tables Basic"
-              isHeader
-              iconName="flaticon-map-location"
-              link="/app/tables"
-              index="tables"
-            />
-            <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Notifications"
-              isHeader
-              iconName="flaticon-layers"
-              link="/app/notifications"
-              index="ui"
-            />
-            <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Components"
-              isHeader
-              iconName="flaticon-list"
-              link="/app/forms"
-              index="forms"
-              childrenLinks={[
-                {
-                  header: 'Charts',
-                  link: '/app/charts',
-                },
-                {
-                  header: 'Icons',
-                  link: '/app/icons',
-                },
-                {
-                  header: 'Maps',
-                  link: '/app/maps',
-                },
-              ]}
-            />
-          </ul>
-          <h5 className={s.navTitle}>
-            LABELS
-            {/* eslint-disable-next-line */}
-            <a className={s.actionLink}>
-              <i
-                className={`${
-                  s.glyphiconSm
-                } glyphicon glyphicon-plus float-right`}
+            {SIDE_BAR_MENU.main.map(t => (
+              <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                key={t.index}
+                activeItem={this.props.activeItem}
+                header={t.header}
+                isHeader={t.isHeader}
+                iconName={t.iconName}
+                link={t.link}
+                index={t.index}
+                childrenLinks={t.children}
               />
-            </a>
-          </h5>
-          {/* eslint-disable */}
-          <ul className={s.sidebarLabels}>
-            <li>
-              <a href="#">
-                <i className="fa fa-circle text-success mr-2" />
-                <span className={s.labelName}>My Recent</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i className="fa fa-circle text-primary mr-2" />
-                <span className={s.labelName}>Starred</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i className="fa fa-circle text-danger mr-2" />
-                <span className={s.labelName}>Background</span>
-              </a>
-            </li>
+            ))}
           </ul>
-          {/* eslint-enable */}
-          <h5 className={s.navTitle}>PROJECTS</h5>
+          <h5 className={s.navTitle}>Tiện ích</h5>
+          <ul>
+            {SIDE_BAR_MENU.utils.map(t => (
+              <LinksGroup
+                key={t.index}
+                onActiveSidebarItemChange={activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header={t.header}
+                isHeader={t.isHeader}
+                iconName={t.iconName}
+                link={t.link}
+                index={t.index}
+              />
+            ))}
+          </ul>
+          <h5 className={s.navTitle}>Hệ thống</h5>
+          <ul>
+            {SIDE_BAR_MENU.management.map(t => (
+              <LinksGroup
+                key={t.index}
+                onActiveSidebarItemChange={activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header={t.header}
+                isHeader={t.isHeader}
+                iconName={t.iconName}
+                link={t.link}
+                index={t.index}
+                childrenLinks={t.children}
+              />
+            ))}
+          </ul>
         </div>
       </nav>
     );

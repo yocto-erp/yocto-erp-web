@@ -623,31 +623,6 @@ class Dashboard extends React.Component {
               </div>
             </Widget>
           </Col>
-
-          <Col lg={4} xs={12}>
-            <Widget
-              title={<h6>Calendar</h6>}
-              settings
-              close
-              bodyClass="pt-2 px-0 py-0"
-            >
-              <Calendar />
-              <div className="list-group fs-mini">
-                <button type="button" className="list-group-item text-ellipsis">
-                  <span className="badge badge-pill badge-primary float-right">
-                    6:45
-                  </span>
-                  Weed out the flower bed
-                </button>
-                <button type="button" className="list-group-item text-ellipsis">
-                  <span className="badge badge-pill badge-success float-right">
-                    9:41
-                  </span>
-                  Stop world water pollution
-                </button>
-              </div>
-            </Widget>
-          </Col>
         </Row>
       </div>
     );

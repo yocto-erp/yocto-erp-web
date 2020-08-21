@@ -109,7 +109,9 @@
   }
 
   :global {
-    
+    .table {
+      margin-bottom: 0;
+    }
     .loader {
       position: absolute;
       top: 0;
@@ -128,7 +130,7 @@
     }
     .widget-body.undo_padding {
       margin: $widget-padding-vertical (-$widget-padding-horizontal) (-$widget-padding-vertical);
-      
+
 
       + footer {
         margin-top: $widget-padding-vertical;
@@ -144,7 +146,7 @@
 .widget {
   &:global.p-0 .widget-body {
       padding: 0!important;
-  }  
+  }
 }
 
 .widgetBody {

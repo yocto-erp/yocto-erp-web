@@ -171,26 +171,6 @@ table > thead > tr > th {
   text-transform: uppercase;
 }
 
-/* --------- Pagination --------- */
-.pagination {
-  font-weight: $font-weight-normal;
-
-  > .page-item {
-    display: inline; // Remove list-style and block-level defaults
-
-    > .page-link,
-    > span {
-      border-radius: $border-radius;
-      margin: 0 2px;
-    }
-
-    > .page-link {
-      text-decoration: none;
-      border: none;
-    }
-  }
-}
-
 /* --------- Stats Row --------- */
 .stats-row {
   margin-bottom: 1.25rem;
@@ -236,7 +216,7 @@ table > thead > tr > th {
   margin: -1px -1px calc(#{$grid-gutter-width} - 1px) -1px;
 }
 
-.sortable-chosen { 
+.sortable-chosen {
   opacity: 1!important
 }
 

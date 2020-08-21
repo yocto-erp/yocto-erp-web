@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import s from './Loader.module.scss';
 
-class Loader extends React.Component {
+class Loader extends React.PureComponent {
   static propTypes = {
-    size: PropTypes.number.isRequired,
+    size: PropTypes.number,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
