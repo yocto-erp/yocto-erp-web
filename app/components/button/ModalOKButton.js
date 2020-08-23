@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 
-const SubmitButton = ({ isLoading, children, ...props }) => {
+const ModalOKButton = ({ isLoading, children, ...props }) => {
   let els = 'Loading';
   if (!isLoading) {
     if (children) {
@@ -18,9 +18,9 @@ const SubmitButton = ({ isLoading, children, ...props }) => {
   );
 };
 
-SubmitButton.propTypes = {
+ModalOKButton.propTypes = {
   isLoading: PropTypes.bool,
   children: PropTypes.any,
 };
 
-export default SubmitButton;
+export default ModalOKButton;

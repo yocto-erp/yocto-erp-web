@@ -97,17 +97,12 @@
 }
 
 .auth-footer {
-  margin-bottom: 25px;
   font-size: 13px;
   color: #636c72;
   text-align: center;
-
-  @media (min-height: 600px) {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
+  width: 100%;
+  position: absolute;
+  bottom: 10px;
 }
 
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import { Row, Col, Progress, Table, Label, Input } from 'reactstrap';
-
-import Calendar from './components/calendar/Calendar';
 import Rickshaw from './components/rickshaw/Rickshaw';
 
 import s from './Dashboard.module.scss';
@@ -60,7 +58,7 @@ class Dashboard extends React.Component {
 
         <Row>
           <Col lg={4} xs={12}>
-            <Widget title={<h6> USERBASE GROWTH </h6>} close settings>
+            <Widget title={<h6> USERBASE GROWTH </h6>} close settings collapse>
               <div className="stats-row">
                 <div className="stat-item">
                   <h6 className="name">Overall Growth</h6>

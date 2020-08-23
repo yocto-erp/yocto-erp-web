@@ -2,25 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 
-const SubmitButton = ({ isLoading, children, ...props }) => {
+const SearchButton = ({ isLoading, children, ...props }) => {
   let els = 'Loading';
   if (!isLoading) {
     if (children) {
       els = children;
     } else {
-      els = 'Submit';
+      els = 'Search';
     }
   }
   return (
-    <Button color="info" disabled={isLoading} {...props}>
+    <Button color="info" outline disabled={isLoading} {...props}>
+      <i className="fi flaticon-search mr-2" />
       {els}
     </Button>
   );
 };
 
-SubmitButton.propTypes = {
+SearchButton.propTypes = {
   isLoading: PropTypes.bool,
   children: PropTypes.any,
 };
 
-export default SubmitButton;
+export default SearchButton;

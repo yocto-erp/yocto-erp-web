@@ -17,3 +17,7 @@ export function viewPage(url, id) {
 export function deletePage(url, id) {
   return `${url}/${id}/delete`;
 }
+
+export function deletePagePattern(url) {
+  return `${url}/:id/delete`;
+}

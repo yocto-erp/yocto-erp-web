@@ -1,0 +1,60 @@
+.wrapper {
+  .filter {
+    margin-bottom: 10px;
+  }
+
+  table {
+    thead {
+      tr {
+        th {
+          vertical-align: middle;
+
+          &.sorting {
+            position: relative;
+            cursor: pointer;
+
+            &:after {
+              font: normal normal normal 14px FontAwesome; // shortening font declaration
+              font-size: inherit; // can't have font-size inherit on line above, so need to override
+              text-rendering: auto; // optimizelegibility throws things off #1094
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+              right: 4px;
+              content: "\f0dc";
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+            }
+
+            &.asc:after {
+              content: "\f15d";
+            }
+
+            &.desc:after {
+              content: "\f15e";
+            }
+          }
+        }
+
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .action {
+      white-space: nowrap;
+      width: 1px;
+      text-align: center;
+    }
+  }
+
+  .pagination {
+    margin-bottom: 0;
+  }
+}

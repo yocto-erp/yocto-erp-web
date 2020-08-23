@@ -1,89 +1,135 @@
 import React from 'react';
-import { Progress } from 'reactstrap';
+import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 import Widget from '../../components/Widget/Widget';
-import Table from '../../components/Table';
-import makeData from './makeData';
-import TableFilter from '../../components/Table/TableFilter';
+import CreatedBy from '../../components/ListWidget/CreatedBy';
+import TableActionColumns from '../../components/ListWidget/TableActionColumn';
+import warehouseApi from '../../libs/apis/warehouse.api';
+import { WAREHOUSE_ROOT_PATH } from './constants';
+import Filter from './components/Filter';
+import PageTitle from '../Layout/PageTitle';
+import {
+  deletePage,
+  deletePagePattern,
+  editPage,
+  newPage,
+} from '../../libs/utils/crud.util';
+import CreateButton from '../../components/button/CreateButton';
+import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
+import ListWidget from '../../components/ListWidget';
 
-const serverData = makeData(10000);
-const ListPage = () => {
-  // Let's simulate a large dataset on the server (outside of our component)
+const ROOT_PATH = WAREHOUSE_ROOT_PATH;
+const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'ID',
-        data: 'id',
+        header: <strong>Warehouse</strong>,
+        data: 'name',
         sort: {
-          name: 'id',
-          dir: 'asc',
+          name: 'name',
         },
       },
       {
-        header: 'First Name',
-        data: 'firstName',
+        header: 'Address',
+        data: 'address',
+        width: '40%',
       },
       {
-        header: 'Last Name',
-        data: 'lastName',
+        header: 'Created By',
+        data: 'createdBy',
+        width: '1px',
+        render: row => {
+          const { createdBy, createdDate } = row;
+          return <CreatedBy user={createdBy} date={createdDate} />;
+        },
       },
       {
-        header: 'Age',
-        data: 'age',
-      },
-      {
-        header: 'Visits',
-        data: 'visits',
-      },
-      {
-        header: 'Status',
-        data: 'status',
-      },
-      {
-        header: 'Profile Progress',
-        data: 'progress',
+        header: 'Action',
+        data: '',
+        class: 'action',
         render: row => (
-          <Progress color="danger" animated value={row.progress} />
+          <TableActionColumns
+            onEdit={() => {
+              history.push(editPage(ROOT_PATH, row.id));
+              console.log(`Edit Item ${JSON.stringify(row)}`);
+            }}
+            onDelete={() => {
+              console.log(`Delete Item ${JSON.stringify(row)}`);
+              history.push(deletePage(ROOT_PATH, row.id));
+            }}
+          />
         ),
       },
     ],
     [],
   );
 
-  const serverApi = React.useCallback(
-    ({ page, size }) =>
-      new Promise(resolve => {
-        console.log('Fetch Data');
-        setTimeout(() => {
-          const startRow = (page - 1) * size;
-          const endRow = startRow + size;
-          resolve({
-            count: 10000,
-            rows: serverData.slice(startRow, endRow),
-          });
-        }, 1000);
-      }),
-    [],
+  console.log('ListPage');
+  const search = { search: '' };
+  const action = (
+    <div>
+      <CreateButton
+        onClick={() => {
+          console.log('Create');
+          history.push(newPage(ROOT_PATH));
+        }}
+      />
+    </div>
   );
 
-  const tableFilter = React.useMemo(
-    () => <TableFilter filter={{ email: '1234324' }} />,
+  const deleteConfirmDialog = React.useMemo(
+    () => (
+      <Route
+        path={deletePagePattern(ROOT_PATH)}
+        render={({
+          match: {
+            params: { id },
+          },
+        }) => (
+          // match === null
+          <DeleteConfirmModal
+            id={id}
+            deleteApi={warehouseApi.remove}
+            readApi={warehouseApi.read}
+            routePattern={ROOT_PATH}
+            onClose={item => {
+              history.goBack();
+              if (item) {
+                toast.success(`Delete Warehouse ${item.name} Success`);
+              }
+            }}
+            title="Delete Warehouse?"
+            message={row => {
+              if (!row) return '';
+              return `Are you sure to delete ${row.name} ?`;
+            }}
+          />
+        )}
+      />
+    ),
     [],
   );
-  console.log('ListPage');
   return (
-    <Widget>
-      <Table
-        columns={columns}
-        fetchData={serverApi}
-        initialSize={10}
-        initialPage={1}
-        initialFilter={{ email: '1234324' }}
-      >
-        {tableFilter}
-      </Table>
-    </Widget>
+    <>
+      <PageTitle title="Warehouse" actions={action} />
+      <Widget>
+        <ListWidget
+          deleteDialog={deleteConfirmDialog}
+          columns={columns}
+          fetchData={warehouseApi.search}
+          initialSize={10}
+          initialPage={1}
+          initialFilter={search}
+        >
+          <Filter data={search} />
+        </ListWidget>
+      </Widget>
+    </>
   );
 };
-ListPage.propTypes = {};
+ListPage.propTypes = {
+  history: PropTypes.any,
+};
 
 export default ListPage;

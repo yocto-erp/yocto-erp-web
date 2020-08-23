@@ -101,7 +101,7 @@
   background: $bg-custom-dark;
   border: none;
 
-  &:not(.is-invalid):focus {
+  &:focus {
     box-shadow: none;
     background: $bg-custom-dark;
   }
@@ -274,7 +274,7 @@ small {
 
 .btn-secondary {
   border-color: $gray-400;
-  color: $white;
+  //color: $white;
 }
 
 .btn-success,
@@ -888,6 +888,18 @@ div.abc-radio label {
 ///// Toastify /////
 .Toastify {
   .Toastify__toast {
+
+    &-body {
+      button {
+        border-color: $violet_deep;
+        color: $violet_deep;
+
+        &:hover {
+          border-color: transparent;
+        }
+      }
+    }
+
     border-radius: $border-radius;
 
     &.Toastify__toast--success {
@@ -896,6 +908,7 @@ div.abc-radio label {
 
     &.Toastify__toast--warn {
       background: $warning;
+      color: black;
     }
 
     &.Toastify__toast--error {
@@ -906,19 +919,7 @@ div.abc-radio label {
       background: $info;
     }
 
-    &-body {
-      text-align: center;
-      color: #ffffff;
 
-      button {
-        border-color: $violet_deep;
-        color: $violet_deep;
-
-        &:hover {
-          border-color: transparent;
-        }
-      }
-    }
   }
 
   .notifications-close {
@@ -950,6 +951,11 @@ pre code {
 }
 
 .modal {
+  .modal-content {
+    padding: 0 10px;
+    background: #1b1e3c;
+  }
+
   .modal-body, .modal-header, .modal-footer {
     background: #1b1e3c;
     color: $content-color
@@ -957,11 +963,33 @@ pre code {
 
   .modal-header {
     border-bottom: 1px solid $bg-custom-dark;
+
+    .close {
+      color: white;
+    }
   }
 
   .modal-footer {
     border-top: 1px solid $bg-custom-dark;
   }
+
+  .modal-dialog {
+    &.danger {
+      .modal-header {
+        .modal-title {
+          color: $danger;
+          font-weight: 700;
+        }
+
+        border-bottom: 1px solid $danger;
+      }
+
+      .modal-footer {
+        border-top: none;
+      }
+    }
+  }
+
 }
 
 .list-group-item.bg-warning-light, .list-group-item.bg-warning-light:hover {

@@ -5,14 +5,14 @@ import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import classNames from 'classnames';
-import Header from '../../components/Header/Header';
-import Sidebar from '../../components/Sidebar/Sidebar';
-import BreadcrumbHistory from '../../components/BreadcrumbHistory/BreadcrumbHistory';
+import Header from './Header/Header';
+import Sidebar from './Sidebar/Sidebar';
 import { openSidebar, closeSidebar } from './redux/navigation';
 import s from './Layout.module.scss';
 import Dashboard from '../dashboard/Dashboard';
 import { WAREHOUSE_ROOT_PATH } from '../warehouse/constants';
 import WarehousePage from '../warehouse/Loadable';
+import Footer from './Footer';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -20,7 +20,6 @@ class Layout extends React.Component {
     dispatch: PropTypes.func.isRequired,
     sidebarPosition: PropTypes.any,
     sidebarVisibility: PropTypes.any,
-    location: PropTypes.any,
   };
 
   static defaultProps = {
@@ -74,24 +73,27 @@ class Layout extends React.Component {
                 },
                 paddingAbsolute: false,
               }}
-              className={classNames(s.content, 'os-theme-light')}
+              className={classNames(s.contentWrapper, 'os-theme-light')}
             >
-              <BreadcrumbHistory url={this.props.location.pathname} />
-              <Switch>
-                <Route
-                  path="/"
-                  exact
-                  render={() => <Redirect to="/app/main/dashboard" />}
-                />
-                <Route path="/app/main/dashboard" exact component={Dashboard} />
-                <Route
-                  path={`${WAREHOUSE_ROOT_PATH}`}
-                  component={WarehousePage}
-                />
-              </Switch>
-              <footer className={s.contentFooter}>
-                Yocto ERP - Simple Management tool for small company.
-              </footer>
+              <div className="content">
+                <Switch>
+                  <Route
+                    path="/"
+                    exact
+                    render={() => <Redirect to="/app/main/dashboard" />}
+                  />
+                  <Route
+                    path="/app/main/dashboard"
+                    exact
+                    component={Dashboard}
+                  />
+                  <Route
+                    path={`${WAREHOUSE_ROOT_PATH}`}
+                    component={WarehousePage}
+                  />
+                </Switch>
+                <Footer />
+              </div>
             </OverlayScrollbarsComponent>
           </main>
         </div>

@@ -36,7 +36,7 @@
   }
 }
 
-.content {
+.contentWrapper {
   position: relative;
   flex-grow: 1;
   // 20px for footer height
@@ -50,6 +50,12 @@
   // hammers disallows text selection, allowing it for large screens
   @media (min-width: breakpoint-min(sm)) {
     user-select: auto !important;
+  }
+
+  :global(.content) {
+    min-height: calc(100vh - 110px);
+    position: relative;
+    padding-bottom: 60px;
   }
 }
 

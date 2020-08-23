@@ -30,6 +30,7 @@ class Widget extends React.Component {
     close: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     fullscreen: PropTypes.bool,
     collapse: PropTypes.bool,
+    collapsed: PropTypes.bool,
     refresh: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     settings: PropTypes.bool,
     settingsInverse: PropTypes.bool,
@@ -39,6 +40,16 @@ class Widget extends React.Component {
     customControls: PropTypes.bool,
     options: PropTypes.object, // eslint-disable-line,
     fetchingData: PropTypes.bool,
+    widgetType: PropTypes.any,
+    updateWidgetData: PropTypes.any,
+    customClose: PropTypes.any,
+    customExpand: PropTypes.any,
+    customCollapse: PropTypes.any,
+    customFullscreen: PropTypes.any,
+    customReload: PropTypes.any,
+    customDropDown: PropTypes.any,
+    customBody: PropTypes.any,
+    prompt: PropTypes.any,
   };
 
   static defaultProps = {
@@ -76,28 +87,27 @@ class Widget extends React.Component {
       hideWidget: false,
       collapseWidget: !!props.collapsed,
       height: props.collapsed ? 0 : 'auto',
-      fullscreened: false,
+      fullScreened: false,
       reloading: false,
       modal: false,
-      apiData: '',
     };
   }
 
   toggleModal = () => {
-    this.setState({ modal: !this.state.modal });
+    this.setState(previous => ({ modal: !previous.modal }));
   };
 
   handleClose = () => {
-    this.setState({ hideWidget: !this.state.hideWidget });
+    this.setState(prevs => ({ hideWidget: !prevs.hideWidget }));
   };
 
   handleCollapse = () => {
     const heightValue = this.state.collapseWidget ? 'auto' : 0;
-    this.setState({
+    this.setState(prev => ({
       height: heightValue,
-      collapseWidget: !this.state.collapseWidget,
+      collapseWidget: !prev.collapseWidget,
       reloading: false,
-    });
+    }));
   };
 
   closeWithModal = () => {
@@ -124,15 +134,11 @@ class Widget extends React.Component {
       setTimeout(() => this.setState({ reloading: false }), 2000);
     } else {
       this.setState({ reloading: true });
-      fetch('https://yourapi.com')
-        .then(response => response.json())
-        .then(json => this.setState({ apiData: json.title }))
-        .then(setTimeout(() => this.setState({ reloading: false }), 1000));
     }
   };
 
   handleFullscreen = () => {
-    this.setState({ fullscreened: !this.state.fullscreened });
+    this.setState(prev => ({ fullScreened: !prev.fullScreened }));
   };
 
   render() {
@@ -176,7 +182,7 @@ class Widget extends React.Component {
 
     const {
       reloading,
-      fullscreened,
+      fullScreened,
       randomId,
       height,
       hideWidget,
@@ -191,7 +197,7 @@ class Widget extends React.Component {
           className={classNames(
             'widget',
             {
-              fullscreened: !!fullscreened,
+              fullScreened: !!fullScreened,
               collapsed: !!collapseWidget,
             },
             s.widget,
@@ -210,17 +216,24 @@ class Widget extends React.Component {
           {!customControls && mainControls && (
             <div className={`${s.widgetControls} widget-controls`}>
               {settings && (
-                <button>
+                <button type="button">
                   <i className="la la-cog" />
                 </button>
               )}
               {settingsInverse && (
-                <button className={`bg-gray-transparent ${s.inverse}`}>
+                <button
+                  type="button"
+                  className={`bg-gray-transparent ${s.inverse}`}
+                >
                   <i className="la la-cog text-white" />
                 </button>
               )}
               {refresh && (
-                <button onClick={this.handleReload} id={`reloadId-${randomId}`}>
+                <button
+                  type="button"
+                  onClick={this.handleReload}
+                  id={`reloadId-${randomId}`}
+                >
                   {typeof refresh === 'string' ? (
                     <strong className="text-gray-light">{refresh}</strong>
                   ) : (
@@ -238,12 +251,13 @@ class Widget extends React.Component {
               )}
               {fullscreen && (
                 <button
+                  type="button"
                   onClick={this.handleFullscreen}
                   id={`fullscreenId-${randomId}`}
                 >
                   <i
                     className={`glyphicon glyphicon-resize-${
-                      fullscreened ? 'small' : 'full'
+                      fullScreened ? 'small' : 'full'
                     }`}
                   />
                   {showTooltip && (
@@ -256,9 +270,10 @@ class Widget extends React.Component {
                   )}
                 </button>
               )}
-              {!fullscreened && collapse && (
+              {!fullScreened && collapse && (
                 <span>
                   <button
+                    type="button"
                     onClick={this.handleCollapse}
                     id={`collapseId-${randomId}`}
                   >
@@ -278,9 +293,13 @@ class Widget extends React.Component {
                   </button>
                 </span>
               )}
-              {!fullscreened &&
+              {!fullScreened &&
                 (close && !prompt ? (
-                  <button onClick={this.handleClose} id={`closeId-${randomId}`}>
+                  <button
+                    type="button"
+                    onClick={this.handleClose}
+                    id={`closeId-${randomId}`}
+                  >
                     {typeof close === 'string' ? (
                       <strong className="text-gray-light">{close}</strong>
                     ) : (
@@ -296,7 +315,11 @@ class Widget extends React.Component {
                     )}
                   </button>
                 ) : (
-                  <button onClick={this.toggleModal} id={`closeId-${randomId}`}>
+                  <button
+                    type="button"
+                    onClick={this.toggleModal}
+                    id={`closeId-${randomId}`}
+                  >
                     {typeof close === 'string' ? (
                       <strong className="text-gray-light">{close}</strong>
                     ) : (
@@ -330,12 +353,12 @@ class Widget extends React.Component {
 
                   <DropdownItem
                     onClick={this.handleFullscreen}
-                    title={!fullscreened ? 'Full Screen' : 'Restore'}
+                    title={!fullScreened ? 'Full Screen' : 'Restore'}
                   >
-                    {!fullscreened ? 'Fullscreen' : 'Restore'}{' '}
+                    {!fullScreened ? 'Fullscreen' : 'Restore'}{' '}
                   </DropdownItem>
                   <DropdownItem divider />
-                  {!fullscreened &&
+                  {!fullScreened &&
                     (!prompt ? (
                       <DropdownItem onClick={this.handleClose} title="Close">
                         Close
@@ -351,9 +374,10 @@ class Widget extends React.Component {
           )}
           {customControls && (
             <div className={`${s.widgetControls} widget-controls`}>
-              {!fullscreened &&
+              {!fullScreened &&
                 (customClose && !prompt ? (
                   <button
+                    type="button"
                     onClick={this.handleClose}
                     id={`closeId-${randomId}`}
                     className={s.customControlItem}
@@ -362,6 +386,7 @@ class Widget extends React.Component {
                   </button>
                 ) : (
                   <button
+                    type="button"
                     onClick={this.toggleModal}
                     id={`closeId-${randomId}`}
                     className={s.customControlItem}
@@ -369,9 +394,10 @@ class Widget extends React.Component {
                     <i title="Close" className="glyphicon glyphicon-remove" />
                   </button>
                 ))}
-              {!fullscreened &&
+              {!fullScreened &&
                 (customCollapse && (
                   <button
+                    type="button"
                     onClick={this.handleCollapse}
                     id={`closeId-${randomId}`}
                     className={s.customControlItem}
@@ -386,6 +412,7 @@ class Widget extends React.Component {
                 ))}
               {customFullscreen && (
                 <button
+                  type="button"
                   onClick={this.handleFullscreen}
                   id={`closeId-${randomId}`}
                   className={s.customControlItem}
@@ -393,13 +420,14 @@ class Widget extends React.Component {
                   <i
                     title="Fullscreen"
                     className={`glyphicon glyphicon-resize-${
-                      fullscreened ? 'small' : 'full'
+                      fullScreened ? 'small' : 'full'
                     }`}
                   />
                 </button>
               )}
               {customReload && (
                 <button
+                  type="button"
                   onClick={this.handleReload}
                   id={`closeId-${randomId}`}
                   className={s.customControlItem}
@@ -411,6 +439,7 @@ class Widget extends React.Component {
           )}
           <AnimateHeight duration={500} height={height}>
             <div className={`${s.widgetBody} widget-body ${bodyClass}`}>
+              {/* eslint-disable-next-line no-nested-ternary */}
               {reloading || fetchingData ? (
                 <Loader className={s.widgetLoader} size={40} />
               ) : customBody ? (
@@ -422,10 +451,11 @@ class Widget extends React.Component {
                     </p>
                     <p className="text-center">
                       <button
+                        type="button"
                         onClick={this.handleFullscreen}
                         className="btn btn-danger btn-lg"
                       >
-                        {!fullscreened ? (
+                        {!fullScreened ? (
                           <React.Fragment>
                             Fullscreen me! &nbsp;
                             <i className="fa fa-check" />
@@ -470,7 +500,7 @@ class Widget extends React.Component {
           </Modal>
         )}
         <div
-          style={{ display: fullscreened ? 'block' : 'none' }}
+          style={{ display: fullScreened ? 'block' : 'none' }}
           className={s.widgetBackground}
         />
       </React.Fragment>

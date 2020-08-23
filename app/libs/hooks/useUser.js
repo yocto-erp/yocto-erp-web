@@ -4,7 +4,7 @@ import { getInfo } from '../apis/auth.api';
 export const SWR_KEY_USER = 'user';
 
 export default () => {
-  const { data: user, error } = useSWR(SWR_KEY_USER, getInfo, {
+  const { data: user, error, mutate } = useSWR(SWR_KEY_USER, getInfo, {
     initialData: null,
   });
   const isAuthenticated = !error && user != null;
@@ -14,5 +14,6 @@ export default () => {
     isAuthenticated,
     isLoading,
     user,
+    getUser: mutate,
   };
 };

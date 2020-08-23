@@ -30,6 +30,7 @@ import LanguageProvider from 'containers/LanguageProvider';
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess'; // eslint-disable-line import/extensions
 
+import { SWRConfig } from 'swr';
 import configureStore from './configureStore';
 
 // Import i18n messages
@@ -54,7 +55,18 @@ const render = messages => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <App />
+          <SWRConfig
+            value={{
+              revalidateOnFocus: false,
+              refreshInterval: 0,
+              shouldRetryOnError: false,
+              revalidateOnMount: false,
+              errorRetryCount: 3,
+              errorRetryInterval: 10,
+            }}
+          >
+            <App />
+          </SWRConfig>
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 class RickshawGraph extends React.Component {
   static propTypes = {
     height: PropTypes.number,
+    sidebarVisibility: PropTypes.any,
   };
 
   static defaultProps = {
