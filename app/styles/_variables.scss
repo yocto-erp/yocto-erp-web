@@ -41,6 +41,8 @@ $gray-light: $gray-100 !default;
 $bg-custom-dark: #040620;
 $main-gradient: radial-gradient(farthest-side ellipse at 10% 0, #333867 20%, #17193B);
 
+$input-placeholder-color: $gray-700;
+
 $lime: #8cbf26 !default;
 $red: #F45722 !default;
 $red-dark: #d04f4f !default;
@@ -76,7 +78,7 @@ $theme-colors: map-merge((
 $link-color: #1870DC;
 
 $text-color: $white !default;
-$content-color: rgba($white, .8) !default;
+$content-color: $white !default;
 $text-muted: $gray-400 !default;
 
 $font-weight-bold: 700 !default;

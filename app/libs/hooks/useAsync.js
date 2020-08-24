@@ -7,8 +7,11 @@ export const useAsync = ({ asyncApi }) => {
   const exec = useCallback(
     (...args) => {
       setIsLoading(true);
-      return asyncApi(args)
-        .then(t => setResp(t))
+      return asyncApi(...args)
+        .then(t => {
+          setResp(t);
+          return t;
+        })
         .finally(() => {
           setIsLoading(false);
         });
