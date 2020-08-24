@@ -30,6 +30,12 @@
   &:focus,&:active {
     color: $content-color;
   }
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    background-color: $gray-700;
+    color: $gray-300;
+  }
   &.input-transparent {
     border: none;
     color: $text-color;

@@ -3,14 +3,19 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { useHookForm } from '../../../libs/hooks/useHookForm';
+import { useWatch } from 'react-hook-form';
+import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import warehouseApi from '../../../libs/apis/warehouse.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
+import ProductSelect from '../../../components/common/product/ProductSelect';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
+  product: Yup.object()
+    .required('Product is required')
+    .nullable(true),
 });
 
 const { create, update, read } = warehouseApi;
@@ -20,8 +25,10 @@ function MyForm({ id }) {
     register,
     submit,
     errors,
+    control,
+    getValues,
     state: { isLoading },
-  } = useHookForm({
+  } = useHookCRUDForm({
     create,
     update,
     read,
@@ -39,13 +46,41 @@ function MyForm({ id }) {
       };
     },
     validationSchema,
+    initForm: {
+      product: { value: 'forest', label: 'Forest', color: '#00875A' },
+      name: 'warehouse test',
+    },
     id,
   });
-
+  const product = useWatch({
+    control,
+    name: 'product', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
+    defaultValue: '', // default value before the render
+  });
   const form = React.useMemo(() => {
     console.log('cache');
     return (
       <Form onSubmit={submit} noValidate formNoValidate>
+        <FormGroup>
+          <Label for="product" className="mr-sm-2">
+            Product
+          </Label>
+          <ProductSelect
+            invalid={!!errors.product}
+            name="product"
+            control={control}
+            id="product"
+            placeholder="Warehouse Name"
+            onAdded={newProduct => {
+              console.log(`Added Product ${JSON.stringify(newProduct)}`);
+            }}
+          />
+          {JSON.stringify(getValues('product'))}
+          <FormFeedback>
+            {errors.product && errors.product.message}
+          </FormFeedback>
+          {JSON.stringify(errors)}
+        </FormGroup>
         <FormGroup>
           <Label for="name" className="mr-sm-2">
             Name
@@ -71,7 +106,6 @@ function MyForm({ id }) {
             id="address"
             placeholder="Warehouse Address"
           />
-          <FormFeedback>{JSON.stringify(errors)}</FormFeedback>
         </FormGroup>
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} />
@@ -80,7 +114,12 @@ function MyForm({ id }) {
   }, [errors, isLoading, submit, register]);
   console.log('MyForm');
 
-  return <Widget>{form}</Widget>;
+  return (
+    <Widget>
+      {form}
+      {JSON.stringify(product)}
+    </Widget>
+  );
 }
 
 MyForm.propTypes = {

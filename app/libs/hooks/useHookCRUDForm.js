@@ -42,7 +42,7 @@ const formReducer = (state, action) =>
         throw new Error(`Not support type: ${action.type}`);
     }
   });
-export const useHookForm = ({
+export const useHookCRUDForm = ({
   id,
   read,
   create,
@@ -57,11 +57,14 @@ export const useHookForm = ({
     formData: initForm,
   }));
 
-  const { register, handleSubmit, reset, errors } = useForm({
-    mode: 'all',
-    reValidateMode: 'onChange',
-    resolver: yupResolver(validationSchema),
-  });
+  const { register, handleSubmit, reset, errors, control, getValues } = useForm(
+    {
+      mode: 'all',
+      reValidateMode: 'onChange',
+      resolver: yupResolver(validationSchema),
+      defaultValues: initForm,
+    },
+  );
 
   useEffect(() => {
     if (id) {
@@ -94,5 +97,5 @@ export const useHookForm = ({
     [update, create, onSuccess, dispatch, initForm, handleSubmit],
   );
 
-  return { state, register, submit, errors };
+  return { state, register, submit, errors, control, getValues };
 };
