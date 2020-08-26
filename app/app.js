@@ -62,7 +62,8 @@ const render = messages => {
               shouldRetryOnError: false,
               revalidateOnMount: false,
               errorRetryCount: 3,
-              errorRetryInterval: 10,
+              errorRetryInterval: 15000,
+              focusThrottleInterval: 5000,
             }}
           >
             <App />

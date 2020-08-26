@@ -41,7 +41,6 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
  * should be used with bg-* and text-* classes for colors.
  */
 .circle,
-.rounded,
 .circle-o {
   display: inline-block;
   width: #{$line-height-base}em;
@@ -59,8 +58,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
   @include border-radius(5px);
 }
 
-.circle-lg,
-.rounded-lg {
+.circle-lg {
   width: 2.2em;
   height: 2.2em;
   line-height: 2.2em;
@@ -70,18 +68,65 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
   border: #{$line-height-base/5}em solid transparent;
 
   // stylelint-disable
-  &.circle-o-danger { border-color: theme-color('danger') };
-  &.circle-o-warning { border-color: theme-color('warning') };
-  &.circle-o-success { border-color: theme-color('success') };
-  &.circle-o-info { border-color: theme-color('info') };
-  &.circle-o-primary { border-color: theme-color('primary') };
-  &.circle-o-black { border-color: $black };
-  &.circle-o-gray-darker { border-color: $gray-900 };
-  &.circle-o-gray-dark { border-color: $gray-800 };
-  &.circle-o-gray { border-color: $gray-700 };
-  &.circle-o-gray-light { border-color: $gray-600 };
-  &.circle-o-gray-lighter { border-color: $gray-200 };
-  &.circle-o-white { border-color: $white };
+  &.circle-o-danger {
+    border-color: theme-color('danger')
+  }
+;
+
+  &.circle-o-warning {
+    border-color: theme-color('warning')
+  }
+;
+
+  &.circle-o-success {
+    border-color: theme-color('success')
+  }
+;
+
+  &.circle-o-info {
+    border-color: theme-color('info')
+  }
+;
+
+  &.circle-o-primary {
+    border-color: theme-color('primary')
+  }
+;
+
+  &.circle-o-black {
+    border-color: $black
+  }
+;
+
+  &.circle-o-gray-darker {
+    border-color: $gray-900
+  }
+;
+
+  &.circle-o-gray-dark {
+    border-color: $gray-800
+  }
+;
+
+  &.circle-o-gray {
+    border-color: $gray-700
+  }
+;
+
+  &.circle-o-gray-light {
+    border-color: $gray-600
+  }
+;
+
+  &.circle-o-gray-lighter {
+    border-color: $gray-200
+  }
+;
+
+  &.circle-o-white {
+    border-color: $white
+  }
+;
   // stylelint-enable
 }
 
@@ -208,7 +253,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
 @include bg-variant('.bg-black', $black);
 @include bg-variant('.bg-gray-light', $gray-600);
 @include bg-variant('.bg-gray-lighter', $gray-200);
-@include bg-variant('.bg-transparent', rgba(0,0,0,0));
+@include bg-variant('.bg-transparent', rgba(0, 0, 0, 0));
 @include bg-variant('.bg-white', $white);
 @include bg-variant('.bg-sidebar', $sidebar-bg-color);
 
@@ -233,7 +278,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
 @include text-emphasis-variant('.text-warning', theme-color('warning'));
 @include text-emphasis-variant('.text-danger', theme-color('danger'));
 @include text-emphasis-variant('.text-link', $link-color);
-@include text-emphasis-variant('.text-white', rgba($white,.9));
+@include text-emphasis-variant('.text-white', rgba($white, .9));
 @include text-emphasis-variant('.text-gray', $gray-700);
 @include text-emphasis-variant('.text-gray-dark', $gray-800);
 @include text-emphasis-variant('.text-gray-light', $gray-600);
@@ -503,14 +548,30 @@ $padding-horizontal-variants: (lg: 20px, md: 15px, sm: 10px, xs: 5px, 0: 0);
   @include media-breakpoint-down($breakpoint) {
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    .d#{$infix}-down-none { display: none !important; }
-    .d#{$infix}-down-inline { display: inline !important; }
-    .d#{$infix}-down-inline-block { display: inline-block !important; }
-    .d#{$infix}-down-block { display: block !important; }
-    .d#{$infix}-down-table { display: table !important; }
-    .d#{$infix}-down-table-cell { display: table-cell !important; }
-    .d#{$infix}-down-flex { display: flex !important; }
-    .d#{$infix}-down-inline-flex { display: inline-flex !important; }
+    .d#{$infix}-down-none {
+      display: none !important;
+    }
+    .d#{$infix}-down-inline {
+      display: inline !important;
+    }
+    .d#{$infix}-down-inline-block {
+      display: inline-block !important;
+    }
+    .d#{$infix}-down-block {
+      display: block !important;
+    }
+    .d#{$infix}-down-table {
+      display: table !important;
+    }
+    .d#{$infix}-down-table-cell {
+      display: table-cell !important;
+    }
+    .d#{$infix}-down-flex {
+      display: flex !important;
+    }
+    .d#{$infix}-down-inline-flex {
+      display: inline-flex !important;
+    }
   }
 }
 

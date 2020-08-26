@@ -4,40 +4,24 @@ import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
 import AsyncSelect from 'react-select/async';
 import { Controller } from 'react-hook-form';
 import classNames from 'classnames';
+import debounce from 'lodash/debounce';
 import ProductModalForm from './ProductModalForm';
 import productApi from '../../../libs/apis/product.api';
 
-const loadOptions1 = inputValue =>
+const loadOptions1 = debounce((inputValue, cb) => {
   productApi
     .search({
       page: 1,
       size: 10,
       filter: {
-        search: inputValue,
+        name: inputValue,
       },
     })
-    .then(resp => resp.rows);
-
-const customStyles = {
-  option: (provided, state) => {
-    let color = '#1870DC';
-    let background = 'transparent';
-    if (state.isDisabled) {
-      color = '#798892';
-    } else if (state.isFocused || state.isSelected) {
-      color = 'white';
-      background = '#1870DC';
-    }
-    return {
-      ...provided,
-      color,
-      backgroundColor: background,
-    };
-  },
-};
+    .then(resp => cb(resp.rows));
+}, 300);
 
 const formatOptionLabel = data => (
-  <div className="text-info">
+  <div className="text-white">
     <span>
       {data.name} - {data.remark}
     </span>
@@ -54,6 +38,26 @@ const ProductSelect = ({
 }) => {
   const [isOpen, open] = useState(false);
 
+  const customStyles = React.useMemo(
+    () => ({
+      option: (provided, state) => {
+        let color = '#1870DC';
+        let background = 'transparent';
+        if (state.isDisabled) {
+          color = '#798892';
+        } else if (state.isFocused || state.isSelected) {
+          color = 'white';
+          background = '#1870DC';
+        }
+        return {
+          ...provided,
+          color,
+          backgroundColor: background,
+        };
+      },
+    }),
+    [],
+  );
   return (
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })}>

@@ -1,0 +1,71 @@
+.upload-zone-wrapper {
+  transition: border-color ease-in-out 0.15s, background-color ease-in-out 0.15s;
+  background: #040620;
+  padding: .5rem .75rem;
+
+  .upload-zone {
+    color: #495057;
+  }
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+
+  div[role=button] {
+    outline: none;
+  }
+}
+
+.preview-image {
+  position: relative;
+  margin: 8px;
+  text-align: center;
+  cursor: pointer;
+
+  i {
+    font-size: 160px;
+  }
+
+  div.title {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-spaces;
+  }
+
+  .img-thumbnail {
+    padding: 0;
+    height: 160px;
+    object-fit: cover;
+    border: none;
+    border-radius: 0;
+  }
+
+  .close {
+    display: block;
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: #F45722;
+    text-align: center;
+    border-radius: 50%;
+    opacity: 0.75;
+    text-shadow: none;
+    color: white;
+
+    &:not(:disabled):not(.disabled):hover, .close:not(:disabled):not(.disabled):focus {
+      opacity: 1;
+      color: white;
+    }
+  }
+
+  &:hover {
+    button {
+      display: block;
+    }
+  }
+}

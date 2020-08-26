@@ -22,6 +22,7 @@ function logError(error) {
   console.error('Looks like there was a problem: \n', error);
   if (error instanceof ApiError) {
     toast.error(<ErrorMessage errors={error.errors} />, {
+      toastId: error.errors.join(''),
       position: toast.POSITION.TOP_CENTER,
     });
   }
