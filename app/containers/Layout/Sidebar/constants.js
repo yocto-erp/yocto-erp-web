@@ -52,6 +52,12 @@ export const SIDE_BAR_MENU = {
           index: 'management.warehouse',
         },
         {
+          header: 'Hàng tồn kho',
+          link: '/inventory',
+          index: 'management.inventory',
+          isHeader: true,
+        },
+        {
           header: 'Sản phẩm',
           link: '/product',
           index: 'management.product',

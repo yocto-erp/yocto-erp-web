@@ -15,13 +15,14 @@ import {
 import { toast } from 'react-toastify';
 import get from 'lodash/get';
 import { v4 as uuidv4 } from 'uuid';
-import { useFieldArray } from 'react-hook-form';
+import { Controller, useFieldArray } from 'react-hook-form';
 import productApi from '../../../libs/apis/product.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import CreateButton from '../../../components/button/CreateButton';
+import FileUpload from '../../../components/FileUpload';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -120,7 +121,42 @@ function MyForm({ id }) {
         </Row>
 
         <Row>
-          <Col xs="6" lg="6" md="12" sm="12" />
+          <Col xs="6" lg="6" md="12" sm="12">
+            <FormGroup>
+              <Label for="files" className="required">
+                Files
+              </Label>
+              <Controller
+                invalid={!!errors.files}
+                as={FileUpload}
+                name="files"
+                placeholder="Upload files"
+                control={control}
+                defaultValue={[]}
+                accept={['image/*']}
+                maxSize={5242880}
+              />
+              <FormFeedback>
+                {errors.files && errors.files.message}
+              </FormFeedback>
+            </FormGroup>
+          </Col>
+          <Col xs="6" lg="6" md="12" sm="12">
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Remark
+              </Label>
+              <Input
+                type="textarea"
+                name="remark"
+                innerRef={register}
+                id="remark"
+                placeholder="Product Remark"
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
           <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label>Units</Label>
@@ -201,22 +237,6 @@ function MyForm({ id }) {
                   </tr>
                 </tfoot>
               </Table>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
-            <FormGroup>
-              <Label for="remark" className="mr-sm-2">
-                Remark
-              </Label>
-              <Input
-                type="textarea"
-                name="remark"
-                innerRef={register}
-                id="remark"
-                placeholder="Product Remark"
-              />
             </FormGroup>
           </Col>
           <Col xs="6" lg="6" md="12" sm="12" />
