@@ -13,6 +13,8 @@ import Dashboard from '../dashboard/Dashboard';
 import { WAREHOUSE_ROOT_PATH } from '../warehouse/constants';
 import WarehousePage from '../warehouse/Loadable';
 import Footer from './Footer';
+import { PRODUCT_ROOT_PATH } from '../product/constants';
+import ProductPage from '../product/Loadable';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -90,6 +92,10 @@ class Layout extends React.Component {
                   <Route
                     path={`${WAREHOUSE_ROOT_PATH}`}
                     component={WarehousePage}
+                  />
+                  <Route
+                    path={`${PRODUCT_ROOT_PATH}`}
+                    component={ProductPage}
                   />
                 </Switch>
                 <Footer />

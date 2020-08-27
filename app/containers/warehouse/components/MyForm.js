@@ -10,6 +10,7 @@ import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
 import ProductSelect from '../../../components/common/product/ProductSelect';
+import UnitSelect from '../../../components/common/unit/UnitSelect';
 import FileUpload from '../../../components/FileUpload';
 
 const validationSchema = Yup.object().shape({
@@ -20,6 +21,9 @@ const validationSchema = Yup.object().shape({
   files: Yup.array()
     .required('Files is required')
     .nullable(),
+  unit: Yup.object()
+    .required('Unit is required')
+    .nullable(true),
 });
 
 const { create, update, read } = warehouseApi;
@@ -52,6 +56,7 @@ function MyForm({ id }) {
     validationSchema,
     initForm: {
       product: null,
+      unit: null,
       name: 'warehouse test',
     },
     id,
@@ -61,10 +66,31 @@ function MyForm({ id }) {
     name: 'product', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
     defaultValue: '', // default value before the render
   });
+
   const form = React.useMemo(() => {
-    console.log('cache');
+    console.log('cache form warehouse');
     return (
       <Form onSubmit={submit} noValidate formNoValidate>
+        <FormGroup>
+          <Label for="units" className="mr-sm-2">
+            Unit
+          </Label>
+          <UnitSelect
+            invalid={!!errors.unit}
+            name="unit"
+            productId={2}
+            control={control}
+            id="unit"
+            placeholder="Product Unit"
+            onAdded={newUnit => {
+              console.log(`Added Unit ${JSON.stringify(newUnit)}`);
+            }}
+          />
+          {JSON.stringify(getValues('unit'))}
+          <FormFeedback>{errors.unit && errors.unit.message}</FormFeedback>
+          {JSON.stringify(errors)}
+        </FormGroup>
+
         <FormGroup>
           <Label for="product" className="mr-sm-2">
             Product
