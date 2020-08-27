@@ -2,9 +2,15 @@
   transition: border-color ease-in-out 0.15s, background-color ease-in-out 0.15s;
   background: #040620;
   padding: .5rem .75rem;
+  cursor: pointer;
 
   .upload-zone {
+    padding: 15px;
     color: #495057;
+
+    p {
+      margin-bottom: 0;
+    }
   }
 
   &:focus {

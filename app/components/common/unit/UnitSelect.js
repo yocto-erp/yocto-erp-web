@@ -6,24 +6,7 @@ import classNames from 'classnames';
 import Select from 'react-select';
 import productApi from '../../../libs/apis/product.api';
 import UnitModalForm from './UnitModalForm';
-
-const customStyles = {
-  option: (provided, state) => {
-    let color = '#1870DC';
-    let background = 'transparent';
-    if (state.isDisabled) {
-      color = '#798892';
-    } else if (state.isFocused || state.isSelected) {
-      color = 'white';
-      background = '#1870DC';
-    }
-    return {
-      ...provided,
-      color,
-      backgroundColor: background,
-    };
-  },
-};
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 
 const formatOptionLabel = data => (
   <div className="text-info">
@@ -67,7 +50,7 @@ const UnitSelect = ({
               classNamePrefix="react-select"
               placeholder={placeholder}
               options={options}
-              styles={customStyles}
+              styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
               isClearable
               onBlur={onBlur}
               onChange={val => {

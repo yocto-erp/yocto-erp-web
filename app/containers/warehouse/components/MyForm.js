@@ -149,7 +149,7 @@ function MyForm({ id }) {
             control={control}
             defaultValue={[]}
             accept={['image/*']}
-            maxSize={5242880}
+            maxSize={500}
           />
           <FormFeedback>{errors.files && errors.files.message}</FormFeedback>
         </FormGroup>

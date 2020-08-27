@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import isFunction from 'lodash/isFunction';
 import './file-upload.scss';
+import { imageUrl } from '../../libs/apis/image.api';
 
 const PREVIEW_FILE = {
   doc: <i className="fa fa-file-word-o text-primary" />,
@@ -30,9 +31,10 @@ const MIME_TYPE = {
   VIDEO: 'video/*',
 };
 
-const PreviewImage = ({ name = 'test', image, onRemove, type }) => {
+const PreviewImage = ({ file, onRemove }) => {
   const els = useMemo(() => {
     let previewEls;
+    const { type, source, fileId, data } = file;
     switch (type) {
       case MIME_TYPE.PDF:
         previewEls = PREVIEW_FILE.pdf;
@@ -50,9 +52,19 @@ const PreviewImage = ({ name = 'test', image, onRemove, type }) => {
         break;
       default:
         if (type.match(MIME_TYPE.IMAGE)) {
-          previewEls = (
-            <img className="img-fluid img-thumbnail " src={image} alt="" />
-          );
+          if (source === 'server') {
+            previewEls = (
+              <img
+                className="img-fluid img-thumbnail "
+                src={imageUrl(fileId)}
+                alt=""
+              />
+            );
+          } else {
+            previewEls = (
+              <img className="img-fluid img-thumbnail " src={data} alt="" />
+            );
+          }
         } else if (type.match(MIME_TYPE.AUDIO)) {
           previewEls = PREVIEW_FILE.mp3;
         } else if (type.match(MIME_TYPE.VIDEO)) {
@@ -63,7 +75,7 @@ const PreviewImage = ({ name = 'test', image, onRemove, type }) => {
         break;
     }
     return previewEls;
-  }, [type, image]);
+  }, [file]);
 
   return (
     <div className="preview-image">
@@ -84,16 +96,14 @@ const PreviewImage = ({ name = 'test', image, onRemove, type }) => {
         </span>
       </button>
       {els}
-      <div className="title">{name}</div>
+      <div className="title">{file.name}</div>
     </div>
   );
 };
 
 PreviewImage.propTypes = {
-  image: PropTypes.any.isRequired,
+  file: PropTypes.object.isRequired,
   onRemove: PropTypes.func,
-  type: PropTypes.string.isRequired,
-  name: PropTypes.string,
 };
 
 export default PreviewImage;

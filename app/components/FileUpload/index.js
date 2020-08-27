@@ -3,9 +3,17 @@ import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import {
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Spinner,
+} from 'reactstrap';
+import { toast } from 'react-toastify';
 import PreviewImage from './PreviewImage';
 import ModalOKButton from '../button/ModalOKButton';
+import { imageUrl } from '../../libs/apis/image.api';
 
 const parseFile = file =>
   new Promise(resolve => {
@@ -28,12 +36,31 @@ const parseFile = file =>
     reader.readAsDataURL(file);
   });
 
+const getFileUrl = file => {
+  const { source, data, fileId } = file;
+  if (source === 'server') {
+    return imageUrl(fileId);
+  }
+  return data;
+};
+
+const getErrorUpload = errorFile => {
+  const { errors, file } = errorFile;
+  return (
+    <span>
+      File <strong>{file.name}</strong>: {errors[0].message}
+    </span>
+  );
+};
+
 const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
   const [files, setFiles] = useState(value);
   const [enlargeFile, setEnlargeFile] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onDropAccepted = React.useCallback(
     acceptedFiles => {
+      setIsProcessing(true);
       console.log(acceptedFiles);
       Promise.all(acceptedFiles.map(file => parseFile(file))).then(t => {
         console.log(t);
@@ -42,13 +69,25 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
           onChange(t);
           return newFiles;
         });
+        setIsProcessing(false);
       });
     },
-    [onChange],
+    [onChange, setIsProcessing, setFiles],
   );
   const onDropRejected = React.useCallback(rejectFiles => {
     console.log(rejectFiles);
-  });
+    const errors = (
+      <ul className="m-0 p-2">
+        {rejectFiles
+          .map(t => getErrorUpload(t))
+          .map(e => (
+            <li key={uuidv4()}>{e}</li>
+          ))}
+      </ul>
+    );
+    toast.error(errors);
+  }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDropAccepted,
     onDropRejected,
@@ -72,19 +111,8 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
     [setEnlargeFile],
   );
 
-  return (
-    <div
-      {...getRootProps()}
-      className={classNames('upload-zone-wrapper', { 'is-invalid': invalid })}
-    >
-      <div className="upload-zone text-center">
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag & drop some files here, or click to select files</p>
-        )}
-      </div>
+  const preview = React.useMemo(
+    () => (
       <div className="previews">
         <div className="row no-gutters">
           {files.map((t, i) => (
@@ -101,17 +129,36 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
               }}
             >
               <PreviewImage
-                image={t.data}
-                name={t.name}
+                file={t}
                 onRemove={() => {
                   onRemoveItem(i);
                 }}
-                type={t.type}
               />
             </div>
           ))}
         </div>
       </div>
+    ),
+    [files],
+  );
+
+  return (
+    <div
+      {...getRootProps()}
+      className={classNames('upload-zone-wrapper', { 'is-invalid': invalid })}
+    >
+      <div className="upload-zone text-center">
+        <input {...getInputProps()} />
+        <div className="d-flex justify-content-center align-items-center">
+          <p className="mr-2">
+            {isDragActive
+              ? 'Drop the files here ...'
+              : 'Drag & drop some files here, or click to select files'}
+          </p>
+          {isProcessing ? <Spinner color="info" /> : ''}
+        </div>
+      </div>
+      {preview}
       <Modal
         scrollable
         size="xl"
@@ -125,7 +172,7 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
           <figure className="figure">
             {enlargeFile != null ? (
               <img
-                src={enlargeFile.data}
+                src={getFileUrl(enlargeFile)}
                 className="figure-img img-fluid rounded"
                 alt=""
               />

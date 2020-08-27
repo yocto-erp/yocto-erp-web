@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import ProductModalForm from './ProductModalForm';
 import productApi from '../../../libs/apis/product.api';
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 
 const loadOptions1 = debounce((inputValue, cb) => {
   productApi
@@ -38,26 +39,6 @@ const ProductSelect = ({
 }) => {
   const [isOpen, open] = useState(false);
 
-  const customStyles = React.useMemo(
-    () => ({
-      option: (provided, state) => {
-        let color = '#1870DC';
-        let background = 'transparent';
-        if (state.isDisabled) {
-          color = '#798892';
-        } else if (state.isFocused || state.isSelected) {
-          color = 'white';
-          background = '#1870DC';
-        }
-        return {
-          ...provided,
-          color,
-          backgroundColor: background,
-        };
-      },
-    }),
-    [],
-  );
   return (
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })}>
@@ -75,7 +56,7 @@ const ProductSelect = ({
               placeholder={placeholder}
               loadOptions={loadOptions1}
               defaultOptions
-              styles={customStyles}
+              styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
               isClearable
               onBlur={onBlur}
               onChange={val => {
