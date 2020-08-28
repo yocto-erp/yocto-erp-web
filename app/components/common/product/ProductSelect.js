@@ -25,6 +25,7 @@ const ProductSelect = ({
   placeholder,
   onAdded,
   onChanged,
+  defaultValue,
   ...props
 }) => {
   const [isOpen, open] = useState(false);
@@ -46,6 +47,7 @@ const ProductSelect = ({
         style={props.checkStyle ? { width: '250px' } : {}}
       >
         <Controller
+          defaultValue={defaultValue}
           control={control}
           name={name}
           {...props}
@@ -97,6 +99,7 @@ const ProductSelect = ({
 };
 
 ProductSelect.propTypes = {
+  defaultValue: PropTypes.any,
   control: PropTypes.any,
   invalid: PropTypes.bool,
   name: PropTypes.string.isRequired,

@@ -8,13 +8,16 @@ import productApi from '../../../libs/apis/product.api';
 import UnitModalForm from './UnitModalForm';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 
-const formatOptionLabel = data => (
-  <div className="text-info">
-    <span>
-      {data.name} - {data.rate}
-    </span>
-  </div>
-);
+const formatOptionLabel = data =>
+  data ? (
+    <div className="text-info">
+      <span>
+        {data.name} - {data.rate}
+      </span>
+    </div>
+  ) : (
+    ''
+  );
 
 const UnitSelect = ({
   control,
@@ -26,19 +29,30 @@ const UnitSelect = ({
 }) => {
   const [isOpen, open] = useState(false);
   const [options, setOptions] = useState(null);
-
+  const request = React.useRef(0);
   useEffect(() => {
+    request.current += 1;
+    let currentRequest = request.current;
+    console.log(`Unit Product Id: ${props.productId}`);
     if (props.productId) {
       productApi.read(props.productId).then(data => {
-        setOptions(data.units);
+        if (currentRequest === request.current) {
+          setOptions(data.units);
+        }
       });
+    } else {
+      setOptions(null);
     }
+    return () => {
+      currentRequest = 0;
+    };
   }, [props.productId]);
 
   return (
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })}>
         <Controller
+          defaultValue={props.defaultValue}
           control={control}
           name={name}
           {...props}
@@ -69,24 +83,29 @@ const UnitSelect = ({
           </Button>
         </InputGroupAddon>
       </InputGroup>
-      <UnitModalForm
-        closeHandle={val => {
-          console.log(val);
-          if (val && onAdded) {
-            onAdded(val);
-          }
-          open(false);
-        }}
-        isOpen={isOpen}
-        productId={props.productId}
-      />
+      {props.productId ? (
+        <UnitModalForm
+          closeHandle={val => {
+            console.log(val);
+            if (val && onAdded) {
+              onAdded(val);
+            }
+            open(false);
+          }}
+          isOpen={isOpen}
+          productId={props.productId}
+        />
+      ) : (
+        ''
+      )}
     </>
   );
 };
 UnitSelect.propTypes = {
+  defaultValue: PropTypes.any,
   control: PropTypes.any,
   invalid: PropTypes.bool,
-  productId: PropTypes.number.isRequired,
+  productId: PropTypes.any,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   onAdded: PropTypes.func,

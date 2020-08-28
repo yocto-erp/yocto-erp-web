@@ -87,6 +87,8 @@ function GoodsReceiptForm({ id }) {
     validationSchema,
     initForm: {
       warehouse: null,
+      name: '',
+      remark: '',
       details: [{ product: null, unit: null, quantity: 0, remark: '' }],
     },
     id,
@@ -152,6 +154,7 @@ function GoodsReceiptForm({ id }) {
             </FormGroup>
           </Col>
         </Row>
+
         <DetailsInventory
           control={control}
           register={register}

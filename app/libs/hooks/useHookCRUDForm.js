@@ -83,6 +83,7 @@ export const useHookCRUDForm = ({
           type: FORM_TYPE.FINISH_LOAD_DATA,
           payload: localFormData,
         });
+        console.log(`LocalForm Data: ${JSON.stringify(localFormData)}`);
         reset(localFormData);
       });
     }

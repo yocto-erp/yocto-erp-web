@@ -68,6 +68,7 @@ const WarehouseSelect = ({ control, invalid, name, placeholder, ...props }) => {
 };
 
 WarehouseSelect.propTypes = {
+  defaultValue: PropTypes.any,
   control: PropTypes.any,
   invalid: PropTypes.bool,
   name: PropTypes.string.isRequired,

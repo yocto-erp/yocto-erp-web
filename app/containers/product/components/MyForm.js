@@ -136,7 +136,7 @@ function MyForm({ id }) {
                 placeholder="Upload files"
                 control={control}
                 accept={['image/*']}
-                maxSize={500}
+                maxSize={500000}
               />
               <FormFeedback>
                 {errors.files && errors.files.message}

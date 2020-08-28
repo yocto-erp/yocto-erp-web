@@ -1,12 +1,10 @@
 import React from 'react';
-import { Button, FormFeedback, FormGroup, Input, Table } from 'reactstrap';
+import { FormGroup, Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useFieldArray } from 'react-hook-form';
-import get from 'lodash/get';
 import { v4 as uuidv4 } from 'uuid';
-import ProductSelect from '../../../components/common/product/ProductSelect';
-import UnitSelect from '../../../components/common/unit/UnitSelect';
 import CreateButton from '../../../components/button/CreateButton';
+import DetailInventory from './DetailInventory';
 
 const DetailsInventory = ({
   control,
@@ -35,89 +33,17 @@ const DetailsInventory = ({
         </thead>
         <tbody>
           {fields.map((item, index) => (
-            <tr key={item.id}>
-              <td>
-                <ProductSelect
-                  invalid={!!get(errors, ['details', index, 'product'], false)}
-                  name={`details[${index}].product`}
-                  control={control}
-                  id="productId"
-                  placeholder="Product Name"
-                  onAdded={newProduct => {
-                    console.log(`Added Product ${JSON.stringify(newProduct)}`);
-                  }}
-                  onChanged={val => {
-                    console.log(
-                      `Set Unit value on Product change: ${JSON.stringify(
-                        val,
-                      )}`,
-                    );
-                    if (!val) {
-                      setValue(`details[${index}].unit`, null, {
-                        shouldValidate: true,
-                      });
-                    }
-                  }}
-                />
-                <FormFeedback>
-                  {get(errors, ['details', index, 'product', 'message'], '')}
-                </FormFeedback>
-              </td>
-              <td>
-                <UnitSelect
-                  invalid={!!get(errors, ['details', index, 'unit'], false)}
-                  name={`details[${index}].unit`}
-                  control={control}
-                  id="unitId"
-                  placeholder="Unit Name"
-                  onAdded={newUnit => {
-                    console.log(`Added unit ${JSON.stringify(newUnit)}`);
-                  }}
-                  productId={
-                    getValues(`details[${index}].product`)
-                      ? getValues(`details[${index}].product`).id
-                      : 0
-                  }
-                />
-                <FormFeedback>
-                  {get(errors, ['details', index, 'unit', 'message'], '')}
-                </FormFeedback>
-              </td>
-              <td>
-                <Input
-                  type="number"
-                  invalid={!!get(errors, ['details', index, 'quantity'], false)}
-                  name={`details[${index}].quantity`}
-                  innerRef={register()}
-                  defaultValue={item.quantity} // make sure to set up defaultValue
-                />
-                <FormFeedback>
-                  {get(errors, ['details', index, 'quantity', 'message'], '')}
-                </FormFeedback>
-              </td>
-              <td>
-                <Input
-                  type="text"
-                  invalid={!!get(errors, ['details', index, 'remark'], false)}
-                  name={`details[${index}].remark`}
-                  innerRef={register()}
-                  defaultValue={item.remark} // make sure to set up defaultValue
-                />
-                <FormFeedback>
-                  {get(errors, ['details', index, 'remark', 'message'], '')}
-                </FormFeedback>
-              </td>
-              <td className="action">
-                <Button
-                  type="button"
-                  color="danger"
-                  size="sm"
-                  onClick={() => remove(index)}
-                >
-                  <i className="fi flaticon-trash" />{' '}
-                </Button>
-              </td>
-            </tr>
+            <DetailInventory
+              key={uuidv4()}
+              control={control}
+              errors={errors}
+              register={register}
+              getValues={getValues}
+              setValue={setValue}
+              item={item}
+              index={index}
+              remove={remove}
+            />
           ))}
         </tbody>
         <tfoot>
