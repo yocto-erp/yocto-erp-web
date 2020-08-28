@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Widget from '../../../components/Widget/Widget';
-import CreatedBy from '../../../components/ListWidget/CreatedBy';
-import inventorySummaryApi from '../../../libs/apis/inventory-summary.api';
-import PageTitle from '../../Layout/PageTitle';
+import Widget from '../../../../components/Widget/Widget';
+import CreatedBy from '../../../../components/ListWidget/CreatedBy';
+import inventorySummaryApi from '../../../../libs/apis/inventory-summary.api';
+import PageTitle from '../../../Layout/PageTitle';
 
-import ListWidget from '../../../components/ListWidget';
-import Filter from './Filter';
+import ListWidget from '../../../../components/ListWidget';
+import FilterInventorySummary from './FilterInventorySummary';
+import CreateButton from '../../../../components/button/CreateButton';
+import { newPage } from '../../../../libs/utils/crud.util';
+import { INVENTORY_ROOT_PATH } from '../../constants';
 
+const ROOT_PATH = INVENTORY_ROOT_PATH;
 const ListInventorySummary = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
         header: <strong>Warehouse</strong>,
         data: 'warehouse',
-        width: '20%',
+        width: '30%',
         render: row => {
           const { warehouse } = row;
           return warehouse ? warehouse.name : '';
@@ -56,21 +60,37 @@ const ListInventorySummary = ({ history }) => {
     [],
   );
 
-  const search = { search: '' };
-  // const action = (
-  //   <div>
-  //     <CreateButton
-  //       onClick={() => {
-  //         console.log('Create');
-  //         history.push(newPage(ROOT_PATH));
-  //       }}
-  //     />
-  //   </div>
-  // );
+  const search = { warehouseId: null, productId: null };
+  const action = (
+    <div>
+      <CreateButton
+        onClick={() => {
+          console.log('Create');
+          history.push(newPage(ROOT_PATH));
+        }}
+      >
+        Goods Receipt
+      </CreateButton>
+    </div>
+  );
+
+  const action1 = (
+    <div>
+      <CreateButton
+        onClick={() => {
+          console.log('Create');
+          history.push(newPage(ROOT_PATH));
+        }}
+        color="warning"
+      >
+        Goods Issue
+      </CreateButton>
+    </div>
+  );
 
   return (
     <>
-      <PageTitle title="Inventory Summary" />
+      <PageTitle title="Inventory Summary" actions={[action, action1]} />
       <Widget>
         <ListWidget
           columns={columns}
@@ -79,12 +99,13 @@ const ListInventorySummary = ({ history }) => {
           initialPage={1}
           initialFilter={search}
         >
-          <Filter data={search} />
+          <FilterInventorySummary data={search} />
         </ListWidget>
       </Widget>
     </>
   );
 };
+
 ListInventorySummary.propTypes = {
   history: PropTypes.any,
 };

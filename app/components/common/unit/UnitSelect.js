@@ -39,7 +39,6 @@ const UnitSelect = ({
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })}>
         <Controller
-          defaultValue=""
           control={control}
           name={name}
           {...props}

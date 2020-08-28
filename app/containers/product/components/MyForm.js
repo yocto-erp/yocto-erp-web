@@ -58,17 +58,20 @@ function MyForm({ id }) {
     },
     mappingToForm: form => {
       console.log(`Mapping to form`);
+      console.log(form);
       return {
         name: form.name,
         priceBaseUnit: form.priceBaseUnit,
         remark: form.remark,
         units: form.units,
+        files: form.assets,
       };
     },
     validationSchema,
     initForm: {
       priceBaseUnit: 0,
       units: [{ name: '', rate: 1 }],
+      files: [],
     },
     id,
   });
@@ -132,31 +135,14 @@ function MyForm({ id }) {
                 name="files"
                 placeholder="Upload files"
                 control={control}
-                defaultValue={[]}
                 accept={['image/*']}
-                maxSize={5242880}
+                maxSize={500}
               />
               <FormFeedback>
                 {errors.files && errors.files.message}
               </FormFeedback>
             </FormGroup>
           </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
-            <FormGroup>
-              <Label for="remark" className="mr-sm-2">
-                Remark
-              </Label>
-              <Input
-                type="textarea"
-                name="remark"
-                innerRef={register}
-                id="remark"
-                placeholder="Product Remark"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
           <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label>Units</Label>
@@ -237,6 +223,22 @@ function MyForm({ id }) {
                   </tr>
                 </tfoot>
               </Table>
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="6" lg="6" md="12" sm="12">
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Remark
+              </Label>
+              <Input
+                type="textarea"
+                name="remark"
+                innerRef={register}
+                id="remark"
+                placeholder="Product Remark"
+              />
             </FormGroup>
           </Col>
           <Col xs="6" lg="6" md="12" sm="12" />

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 import { v4 as uuidv4 } from 'uuid';
@@ -57,6 +57,10 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
   const [files, setFiles] = useState(value);
   const [enlargeFile, setEnlargeFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  useEffect(() => {
+    setFiles(value);
+  }, [value]);
 
   const onDropAccepted = React.useCallback(
     acceptedFiles => {

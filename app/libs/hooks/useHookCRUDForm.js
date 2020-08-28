@@ -2,6 +2,7 @@ import { useReducer, useEffect, useCallback } from 'react';
 import produce from 'immer';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
+import isFunction from 'lodash/isFunction';
 
 const FORM_TYPE = {
   LOAD_DATA: 'LOAD_DATA',
@@ -49,6 +50,7 @@ export const useHookCRUDForm = ({
   update,
   initForm = {},
   mappingToForm,
+  mappingToServer,
   validationSchema,
   onSuccess,
 }) => {
@@ -57,14 +59,20 @@ export const useHookCRUDForm = ({
     formData: initForm,
   }));
 
-  const { register, handleSubmit, reset, errors, control, getValues } = useForm(
-    {
-      mode: 'all',
-      reValidateMode: 'onChange',
-      resolver: yupResolver(validationSchema),
-      defaultValues: initForm,
-    },
-  );
+  const {
+    register,
+    handleSubmit,
+    reset,
+    errors,
+    control,
+    getValues,
+    setValue,
+  } = useForm({
+    mode: 'all',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(validationSchema),
+    defaultValues: initForm,
+  });
 
   useEffect(() => {
     if (id) {
@@ -82,7 +90,11 @@ export const useHookCRUDForm = ({
 
   const submit = useCallback(
     handleSubmit(values => {
-      const promise = id ? update(id, values) : create(values);
+      let form = values;
+      if (isFunction(mappingToServer)) {
+        form = mappingToServer(values);
+      }
+      const promise = id ? update(id, form) : create(form);
       return promise
         .then(resp => {
           if (!id) {
@@ -97,5 +109,5 @@ export const useHookCRUDForm = ({
     [update, create, onSuccess, dispatch, initForm, handleSubmit],
   );
 
-  return { state, register, submit, errors, control, getValues };
+  return { state, register, submit, errors, control, getValues, setValue };
 };

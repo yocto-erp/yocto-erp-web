@@ -1,35 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
+import { InputGroup } from 'reactstrap';
 import AsyncSelect from 'react-select/async';
 import { Controller } from 'react-hook-form';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import isFunction from 'lodash/isFunction';
-import ProductModalForm from './ProductModalForm';
-import productApi from '../../../libs/apis/product.api';
+import warehouseApi from '../../../libs/apis/warehouse.api';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 
 const formatOptionLabel = data => (
   <div className="text-white">
     <span>
-      {data.name} - {data.remark}
+      {data.name} - {data.address}
     </span>
   </div>
 );
 
-const ProductSelect = ({
-  control,
-  invalid,
-  name,
-  placeholder,
-  onAdded,
-  onChanged,
-  ...props
-}) => {
-  const [isOpen, open] = useState(false);
+const WarehouseSelect = ({ control, invalid, name, placeholder, ...props }) => {
   const loadOptions1 = debounce((inputValue, cb) => {
-    productApi
+    warehouseApi
       .search({
         page: 1,
         size: 10,
@@ -39,6 +28,7 @@ const ProductSelect = ({
       })
       .then(resp => cb(resp.rows));
   }, 300);
+
   return (
     <>
       <InputGroup
@@ -49,7 +39,7 @@ const ProductSelect = ({
           control={control}
           name={name}
           {...props}
-          render={({ onChange: _onChange, onBlur, value, name: _name }) => (
+          render={({ onChange, onBlur, value, name: _name }) => (
             <AsyncSelect
               aria-labelledby="test"
               className="react-select-container"
@@ -63,10 +53,7 @@ const ProductSelect = ({
               onBlur={onBlur}
               onChange={val => {
                 console.log(`OnChange: ${JSON.stringify(val)}`);
-                if (isFunction(onChanged)) {
-                  onChanged(val);
-                }
-                _onChange(val);
+                onChange(val);
               }}
               formatOptionLabel={formatOptionLabel}
               getOptionValue={data => data.id}
@@ -75,35 +62,17 @@ const ProductSelect = ({
             />
           )}
         />
-
-        <InputGroupAddon addonType="append">
-          <Button color="primary" type="button" onClick={() => open(true)}>
-            <i className="las la-plus" />
-          </Button>
-        </InputGroupAddon>
       </InputGroup>
-      <ProductModalForm
-        closeHandle={val => {
-          console.log(val);
-          if (val && onAdded) {
-            onAdded(val);
-          }
-          open(false);
-        }}
-        isOpen={isOpen}
-      />
     </>
   );
 };
 
-ProductSelect.propTypes = {
+WarehouseSelect.propTypes = {
   control: PropTypes.any,
   invalid: PropTypes.bool,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  onAdded: PropTypes.func,
   checkStyle: PropTypes.bool,
-  onChanged: PropTypes.func,
 };
 
-export default ProductSelect;
+export default WarehouseSelect;
