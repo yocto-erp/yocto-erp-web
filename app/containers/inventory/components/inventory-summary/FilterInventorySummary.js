@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useListFilter } from '../../../../components/ListWidget/constants';
 import SearchButton from '../../../../components/button/SearchButton';
 import ProductSelect from '../../../../components/common/product/ProductSelect';
@@ -24,12 +24,14 @@ const FilterInventorySummary = ({ data }) => {
         <Label for="productId" className="mr-sm-2">
           Warehouse
         </Label>
-        <WarehouseSelect
+        <Controller
+          style={{ width: '250px' }}
+          defaultValue={null}
           name="warehouse"
           control={control}
           id="warehouseId"
           placeholder="Warehouse Name"
-          checkStyle
+          as={WarehouseSelect}
         />
       </FormGroup>
 
@@ -37,16 +39,15 @@ const FilterInventorySummary = ({ data }) => {
         <Label for="productId" className="mr-sm-2">
           Product
         </Label>
-        <ProductSelect
+        <Controller
           name="product"
+          defaultValue={null}
+          creatable={false}
+          style={{ width: '250px' }}
           control={control}
           id="productId"
           placeholder="Product Name"
-          checkStyle
-          innerRef={register}
-          onAdded={newProduct => {
-            console.log(`Added Product ${JSON.stringify(newProduct)}`);
-          }}
+          as={ProductSelect}
         />
       </FormGroup>
 

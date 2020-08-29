@@ -51,6 +51,7 @@ $borderColor: #1870DC;
   .react-select__menu {
     background-color: $primaryColor;
     border: 1px solid $borderColor;
+    z-index: 5;
     -webkit-box-shadow: 5px 5px 3px 1px rgba(24, 112, 220, 0.15);
     box-shadow: 5px 5px 3px 1px rgba(24, 112, 220, 0.15);
   }
@@ -59,6 +60,7 @@ $borderColor: #1870DC;
 
     .react-select__multi-value {
       background-color: $borderColor;
+      color: white;
 
       > .react-select__multi-value__label {
         color: white;

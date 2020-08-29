@@ -41,7 +41,7 @@ const TableHeader = ({ columns }) => {
       <tr>
         {columns.map(item => (
           <th
-            key={item.header}
+            key={item.data}
             {...getSortProps(item)}
             style={item.width ? { width: item.width } : {}}
           >

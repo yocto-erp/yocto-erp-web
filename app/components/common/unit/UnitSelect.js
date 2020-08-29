@@ -10,7 +10,7 @@ import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 
 const formatOptionLabel = data =>
   data ? (
-    <div className="text-info">
+    <div className="">
       <span>
         {data.name} - {data.rate}
       </span>
@@ -20,7 +20,9 @@ const formatOptionLabel = data =>
   );
 
 const UnitSelect = ({
-  control,
+  onChange,
+  value,
+  onBlur,
   invalid,
   name,
   placeholder,
@@ -28,7 +30,7 @@ const UnitSelect = ({
   ...props
 }) => {
   const [isOpen, open] = useState(false);
-  const [options, setOptions] = useState(null);
+  const [options, setOptions] = useState([]);
   const request = React.useRef(0);
   useEffect(() => {
     request.current += 1;
@@ -41,7 +43,7 @@ const UnitSelect = ({
         }
       });
     } else {
-      setOptions(null);
+      setOptions([]);
     }
     return () => {
       currentRequest = 0;
@@ -51,32 +53,21 @@ const UnitSelect = ({
   return (
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })}>
-        <Controller
-          defaultValue={props.defaultValue}
-          control={control}
+        <Select
+          aria-labelledby="test"
+          className="react-select-container"
+          classNamePrefix="react-select"
+          placeholder={placeholder}
+          options={options}
+          styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
+          isClearable
+          onBlur={onBlur}
+          onChange={onChange}
+          getOptionValue={data => data.id}
+          formatOptionLabel={formatOptionLabel}
           name={name}
-          {...props}
-          render={({ onChange, onBlur, value, name: _name }) => (
-            <Select
-              aria-labelledby="test"
-              className="react-select-container"
-              classNamePrefix="react-select"
-              placeholder={placeholder}
-              options={options}
-              styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
-              isClearable
-              onBlur={onBlur}
-              onChange={val => {
-                console.log(`OnChange: ${JSON.stringify(val)}`);
-                onChange(val);
-              }}
-              formatOptionLabel={formatOptionLabel}
-              name={_name}
-              value={value}
-            />
-          )}
+          value={value}
         />
-
         <InputGroupAddon addonType="append">
           <Button color="primary" type="button" onClick={() => open(true)}>
             <i className="las la-plus" />
@@ -102,13 +93,14 @@ const UnitSelect = ({
   );
 };
 UnitSelect.propTypes = {
-  defaultValue: PropTypes.any,
-  control: PropTypes.any,
   invalid: PropTypes.bool,
   productId: PropTypes.any,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   onAdded: PropTypes.func,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  value: PropTypes.func,
 };
 
 export default UnitSelect;

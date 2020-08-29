@@ -23,13 +23,14 @@ const FilterInventory = ({ data }) => {
         <Label for="productId" className="mr-sm-2">
           Warehouse
         </Label>
-        <WarehouseSelect
-          name="warehouse"
-          control={control}
-          id="warehouseId"
-          placeholder="Warehouse Name"
-          checkStyle
-        />
+        <div style={{ width: '250px' }} className="">
+          <WarehouseSelect
+            name="warehouse"
+            control={control}
+            id="warehouseId"
+            placeholder="Warehouse Name"
+          />
+        </div>
       </FormGroup>
       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
         <Label for="name" className="mr-sm-2">

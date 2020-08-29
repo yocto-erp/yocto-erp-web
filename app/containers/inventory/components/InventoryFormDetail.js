@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { Button, FormFeedback, Input } from 'reactstrap';
-import { useWatch } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import ProductSelect from '../../../components/common/product/ProductSelect';
 import UnitSelect from '../../../components/common/unit/UnitSelect';
 
-const DetailInventory = ({
+const InventoryFormDetail = ({
   control,
   errors,
   register,
-  getValues,
   setValue,
   item,
   index,
@@ -24,34 +23,40 @@ const DetailInventory = ({
   return (
     <tr key={item.id}>
       <td>
-        <ProductSelect
-          defaultValue={item.product}
-          invalid={!!get(errors, ['details', index, 'product'], false)}
+        <Controller
           name={`details[${index}].product`}
+          defaultValue={item.product}
           control={control}
-          id="productId"
-          placeholder="Product Name"
-          onAdded={newProduct => {
-            console.log(`Added Product ${JSON.stringify(newProduct)}`);
-          }}
-          onChanged={val => {
-            console.log(
-              `Set Unit value on Product change: ${JSON.stringify(val)}`,
-            );
-            setValue(`details[${index}].unit`, null, {
-              shouldValidate: true,
-            });
-          }}
+          render={({ onChange, ...data }) => (
+            <ProductSelect
+              id="productId"
+              placeholder="Select Product"
+              invalid={!!get(errors, ['details', index, 'product'], false)}
+              onAdded={newProd => {
+                console.log(`OnAdd: ${JSON.stringify(newProd)}`);
+                setValue(`details[${index}].product`, newProd, {
+                  shouldValidate: true,
+                });
+              }}
+              onChange={val => {
+                setValue(`details[${index}].unit`, null, {
+                  shouldValidate: true,
+                });
+                onChange(val);
+              }}
+              {...data}
+            />
+          )}
         />
         <FormFeedback>
           {get(errors, ['details', index, 'product', 'message'], '')}
         </FormFeedback>
       </td>
       <td>
-        <UnitSelect
+        <Controller
+          name={`details[${index}].unit`}
           defaultValue={item.unit}
           invalid={!!get(errors, ['details', index, 'unit'], false)}
-          name={`details[${index}].unit`}
           control={control}
           id="unitId"
           placeholder="Unit Name"
@@ -59,6 +64,7 @@ const DetailInventory = ({
             console.log(`Added unit ${JSON.stringify(newUnit)}`);
           }}
           productId={product ? product.id : null}
+          as={UnitSelect}
         />
         <FormFeedback>
           {get(errors, ['details', index, 'unit', 'message'], '')}
@@ -102,7 +108,7 @@ const DetailInventory = ({
   );
 };
 
-DetailInventory.propTypes = {
+InventoryFormDetail.propTypes = {
   control: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
@@ -112,4 +118,4 @@ DetailInventory.propTypes = {
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
 };
-export default DetailInventory;
+export default InventoryFormDetail;

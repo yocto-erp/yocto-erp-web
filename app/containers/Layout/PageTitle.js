@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 
 const PageTitle = ({ title, subtitle, actions }) => (
-  <Row className="align-items-center">
+  <Row className="align-items-start mb-5">
     <Col cols={6} className="d-flex justify-content-start">
-      <h1 className="page-title">
+      <h1 className="page-title m-0">
         {title} &nbsp;
         <small>
           <small>{subtitle}</small>
@@ -13,7 +13,7 @@ const PageTitle = ({ title, subtitle, actions }) => (
       </h1>
     </Col>
     {actions ? (
-      <Col cols={6} className="text-right">
+      <Col cols={6} className="text-right d-flex justify-content-end">
         {actions}
       </Col>
     ) : (

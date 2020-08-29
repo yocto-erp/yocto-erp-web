@@ -24,6 +24,7 @@ const ListInventory = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
+        key: 'type',
         header: 'Type',
         data: 'type',
         width: '12%',
@@ -81,7 +82,7 @@ const ListInventory = ({ history }) => {
       },
       {
         header: 'Action',
-        data: '',
+        data: 'action',
         class: 'action',
         render: row => (
           <TableActionColumns
@@ -102,9 +103,10 @@ const ListInventory = ({ history }) => {
 
   console.log('ListPage');
   const search = { warehouseId: null, search: '' };
-  const action = (
-    <div>
+  const actions = (
+    <>
       <CreateButton
+        className="mr-2"
         onClick={() => {
           console.log('Create');
           history.push(newPage(ROOT_PATH));
@@ -112,11 +114,6 @@ const ListInventory = ({ history }) => {
       >
         Goods Receipt
       </CreateButton>
-    </div>
-  );
-
-  const action1 = (
-    <div>
       <CreateButton
         onClick={() => {
           console.log('Create');
@@ -126,7 +123,7 @@ const ListInventory = ({ history }) => {
       >
         Goods Issue
       </CreateButton>
-    </div>
+    </>
   );
 
   const deleteConfirmDialog = React.useMemo(
@@ -163,7 +160,7 @@ const ListInventory = ({ history }) => {
   );
   return (
     <>
-      <PageTitle title="GOODS RECEIPT / ISSUE" actions={[action, action1]} />
+      <PageTitle title="GOODS RECEIPT / ISSUE" actions={actions} />
       <Widget>
         <ListWidget
           deleteDialog={deleteConfirmDialog}

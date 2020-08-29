@@ -9,15 +9,19 @@ import {
   Label,
   Row,
   Col,
+  Table,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import { useFieldArray } from 'react-hook-form';
 import goodsReceiptApi from '../../../libs/apis/goods-receipt.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
-import DetailsInventory from './DetailsInventory';
+import InventoryFormDetail from './InventoryFormDetail';
+import CreateButton from '../../../components/button/CreateButton';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required.'),
@@ -58,7 +62,9 @@ function GoodsReceiptForm({ id }) {
     read,
     onSuccess: resp => {
       console.log(`Success: ${JSON.stringify(resp)}`);
-      toast.success(id ? 'Update product success' : 'Create product success');
+      toast.success(
+        id ? 'Update Goods Receipt success' : 'Create Goods Receipt success',
+      );
     },
     mappingToForm: form => {
       console.log(`Mapping to form`);
@@ -67,10 +73,12 @@ function GoodsReceiptForm({ id }) {
         name: form.name,
         remark: form.remark,
         warehouse: form.warehouse,
-        details: form.details,
+        details: form.details.map(t => ({ ...t, id: uuidv4() })),
       };
     },
     mappingToServer: form => {
+      console.log(`Mapping to server: ${JSON.stringify(form)}`);
+      console.log(form);
       const details = form.details.map(result => ({
         productId: result.product.id,
         unitId: result.unit.id,
@@ -92,6 +100,11 @@ function GoodsReceiptForm({ id }) {
       details: [{ product: null, unit: null, quantity: 0, remark: '' }],
     },
     id,
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'details',
   });
 
   const form = React.useMemo(() => {
@@ -155,26 +168,67 @@ function GoodsReceiptForm({ id }) {
           </Col>
         </Row>
 
-        <DetailsInventory
-          control={control}
-          register={register}
-          errors={errors}
-          getValues={getValues}
-          setValue={setValue}
-        />
-
+        <FormGroup>
+          <Table bordered hover striped>
+            <thead>
+              <tr>
+                <th style={{ width: '30%' }}>Product</th>
+                <th style={{ width: '200px' }}>Unit</th>
+                <th style={{ width: '150px' }}>Quantity</th>
+                <th>Remark</th>
+                <th className="action">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {fields.map((item, index) => (
+                <InventoryFormDetail
+                  key={item.id}
+                  control={control}
+                  errors={errors}
+                  register={register}
+                  getValues={getValues}
+                  setValue={setValue}
+                  item={item}
+                  index={index}
+                  remove={remove}
+                />
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan="5">
+                  <CreateButton
+                    size="sm"
+                    type="button"
+                    onClick={() => {
+                      append({
+                        id: uuidv4(),
+                        product: null,
+                        unit: null,
+                        quantity: 0,
+                        remark: '',
+                      });
+                    }}
+                  >
+                    Add
+                  </CreateButton>
+                </td>
+              </tr>
+            </tfoot>
+          </Table>
+        </FormGroup>
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} />
       </Form>
     );
-  }, [errors, isLoading, submit, register]);
+  }, [errors, isLoading, submit, register, control]);
   console.log('MyForm');
 
   return <Widget>{form}</Widget>;
 }
 
 GoodsReceiptForm.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 GoodsReceiptForm.defaultProps = {};

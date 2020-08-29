@@ -8,15 +8,27 @@ import debounce from 'lodash/debounce';
 import warehouseApi from '../../../libs/apis/warehouse.api';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 
-const formatOptionLabel = data => (
-  <div className="text-white">
-    <span>
-      {data.name} - {data.address}
-    </span>
-  </div>
-);
+const formatOptionLabel = data =>
+  data ? (
+    <div className="">
+      <span>
+        {data.name} - {data.address}
+      </span>
+    </div>
+  ) : (
+    ''
+  );
 
-const WarehouseSelect = ({ control, invalid, name, placeholder, ...props }) => {
+const WarehouseSelect = ({
+  value,
+  onChange,
+  onBlur,
+  invalid,
+  name,
+  placeholder,
+  ...props
+}) => {
+  console.log(props);
   const loadOptions1 = debounce((inputValue, cb) => {
     warehouseApi
       .search({
@@ -31,49 +43,35 @@ const WarehouseSelect = ({ control, invalid, name, placeholder, ...props }) => {
 
   return (
     <>
-      <InputGroup
-        className={classNames({ 'is-invalid': invalid })}
-        style={props.checkStyle ? { width: '250px' } : {}}
-      >
-        <Controller
-          control={control}
-          name={name}
-          {...props}
-          render={({ onChange, onBlur, value, name: _name }) => (
-            <AsyncSelect
-              aria-labelledby="test"
-              className="react-select-container"
-              classNamePrefix="react-select"
-              cacheOptions
-              placeholder={placeholder}
-              loadOptions={loadOptions1}
-              defaultOptions
-              styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
-              isClearable
-              onBlur={onBlur}
-              onChange={val => {
-                console.log(`OnChange: ${JSON.stringify(val)}`);
-                onChange(val);
-              }}
-              formatOptionLabel={formatOptionLabel}
-              getOptionValue={data => data.id}
-              name={_name}
-              value={value}
-            />
-          )}
-        />
-      </InputGroup>
+      <AsyncSelect
+        {...props}
+        className={classNames('react-select-container', {
+          'is-invalid': invalid,
+        })}
+        defaultOptions
+        classNamePrefix="react-select"
+        placeholder={placeholder}
+        loadOptions={loadOptions1}
+        styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
+        isClearable
+        onBlur={onBlur}
+        onChange={onChange}
+        formatOptionLabel={formatOptionLabel}
+        getOptionValue={data => data.id}
+        name={name}
+        value={value}
+      />
     </>
   );
 };
 
 WarehouseSelect.propTypes = {
-  defaultValue: PropTypes.any,
-  control: PropTypes.any,
+  value: PropTypes.any,
   invalid: PropTypes.bool,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  checkStyle: PropTypes.bool,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default WarehouseSelect;
