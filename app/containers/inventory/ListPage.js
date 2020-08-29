@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   TabContent,
   TabPane,
@@ -8,58 +8,59 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-import classnames from 'classnames';
-
-import PropTypes from 'prop-types';
-import { INVENTORY_ROOT_PATH } from './constants';
+import { useRouteMatch, Route, useHistory } from 'react-router-dom';
 import ListInventorySummary from './components/inventory-summary/ListInventorySummary';
 import ListInventory from './components/ListInventory';
 
-const ROOT_PATH = INVENTORY_ROOT_PATH;
-
-const ListPage = ({ history }) => {
-  const [activeTab, setActiveTab] = useState('1');
-
-  const toggle = tab => {
-    if (activeTab !== tab) setActiveTab(tab);
-  };
+const ListPage = () => {
+  const { path } = useRouteMatch();
+  const history = useHistory();
 
   return (
     <div>
       <Nav tabs>
-        <NavItem>
-          <NavLink
-            className={classnames({ active: activeTab === '1' })}
-            onClick={() => {
-              toggle('1');
-            }}
-          >
-            GOODS RECEIPT/ISSUE
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink
-            className={classnames({ active: activeTab === '2' })}
-            onClick={() => {
-              toggle('2');
-            }}
-          >
-            INVENTORY SUMMARY
-          </NavLink>
-        </NavItem>
+        <Route
+          path={`${path}`}
+          exact
+          render={() => (
+            <>
+              <NavItem>
+                <NavLink className="active">GOODS RECEIPT/ISSUE</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink onClick={() => history.push(`${path}/summary`)}>
+                  INVENTORY SUMMARY
+                </NavLink>
+              </NavItem>
+            </>
+          )}
+        />
+        <Route
+          path={`${path}/summary`}
+          render={() => (
+            <>
+              <NavItem>
+                <NavLink onClick={() => history.push(`${path}`)}>
+                  GOODS RECEIPT/ISSUE
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink className="active">INVENTORY SUMMARY</NavLink>
+              </NavItem>
+            </>
+          )}
+        />
       </Nav>
-      <TabContent activeTab={activeTab}>
-        <TabPane tabId="1">
+      <TabContent>
+        <TabPane>
           <Row>
             <Col xl="12" lg="12" md="12" sm="12">
-              <ListInventory history={history} />
-            </Col>
-          </Row>
-        </TabPane>
-        <TabPane tabId="2">
-          <Row>
-            <Col xl="12" lg="12" md="12" sm="12">
-              <ListInventorySummary history={history} />
+              <Route exact path={`${path}`} component={ListInventory} />
+              <Route
+                exact
+                path={`${path}/summary`}
+                component={ListInventorySummary}
+              />
             </Col>
           </Row>
         </TabPane>
@@ -68,8 +69,6 @@ const ListPage = ({ history }) => {
   );
 };
 
-ListPage.propTypes = {
-  history: PropTypes.any,
-};
+ListPage.propTypes = {};
 
 export default ListPage;

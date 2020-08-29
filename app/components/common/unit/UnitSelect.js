@@ -100,7 +100,7 @@ UnitSelect.propTypes = {
   onAdded: PropTypes.func,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
-  value: PropTypes.func,
+  value: PropTypes.any,
 };
 
 export default UnitSelect;

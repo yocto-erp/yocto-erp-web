@@ -13,7 +13,7 @@ import {
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-import { useFieldArray } from 'react-hook-form';
+import { Controller, useFieldArray } from 'react-hook-form';
 import goodsReceiptApi from '../../../libs/apis/goods-receipt.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
@@ -55,7 +55,7 @@ function GoodsReceiptForm({ id }) {
     errors,
     getValues,
     setValue,
-    state: { isLoading },
+    state: { isLoading, formData },
   } = useHookCRUDForm({
     create,
     update,
@@ -117,12 +117,14 @@ function GoodsReceiptForm({ id }) {
               <Label for="warehouse" className="mr-sm-2 required">
                 Warehouse <span className="text-danger">*</span>
               </Label>
-              <WarehouseSelect
-                invalid={!!errors.warehouse}
+              <Controller
+                defaultValue={formData ? formData.warehouse : null}
                 name="warehouse"
+                invalid={!!errors.warehouse}
                 control={control}
                 id="warehouseId"
                 placeholder="Warehouse Name"
+                as={WarehouseSelect}
               />
               <FormFeedback>
                 {errors.warehouse && errors.warehouse.message}

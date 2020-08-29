@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InputGroup } from 'reactstrap';
 import AsyncSelect from 'react-select/async';
-import { Controller } from 'react-hook-form';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import warehouseApi from '../../../libs/apis/warehouse.api';

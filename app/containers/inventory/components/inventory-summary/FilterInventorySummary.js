@@ -24,15 +24,16 @@ const FilterInventorySummary = ({ data }) => {
         <Label for="productId" className="mr-sm-2">
           Warehouse
         </Label>
-        <Controller
-          style={{ width: '250px' }}
-          defaultValue={null}
-          name="warehouse"
-          control={control}
-          id="warehouseId"
-          placeholder="Warehouse Name"
-          as={WarehouseSelect}
-        />
+        <div style={{ width: '250px' }}>
+          <Controller
+            defaultValue={null}
+            name="warehouse"
+            control={control}
+            id="warehouseId"
+            placeholder="Warehouse Name"
+            as={WarehouseSelect}
+          />
+        </div>
       </FormGroup>
 
       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
