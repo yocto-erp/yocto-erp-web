@@ -7,9 +7,10 @@ import PageTitle from '../../../Layout/PageTitle';
 
 import ListWidget from '../../../../components/ListWidget';
 import FilterInventorySummary from './FilterInventorySummary';
-import { INVENTORY_ROOT_PATH } from '../../constants';
+import { PATH_GOODS_ISSUE, PATH_GOODS_RECEIPT } from '../../constants';
+import CreateButton from '../../../../components/button/CreateButton';
+import { newPage } from '../../../../libs/utils/crud.util';
 
-const ROOT_PATH = INVENTORY_ROOT_PATH;
 const ListInventorySummary = ({ history }) => {
   const columns = React.useMemo(
     () => [
@@ -60,9 +61,32 @@ const ListInventorySummary = ({ history }) => {
 
   const search = { warehouseId: null, productId: null };
 
+  const actions = (
+    <>
+      <CreateButton
+        className="mr-2"
+        onClick={() => {
+          console.log('Create Goods Receipt');
+          history.push(newPage(PATH_GOODS_RECEIPT));
+        }}
+      >
+        Goods Receipt
+      </CreateButton>
+      <CreateButton
+        onClick={() => {
+          console.log('Create  Goods Issue');
+          history.push(newPage(PATH_GOODS_ISSUE));
+        }}
+        color="warning"
+      >
+        Goods Issue
+      </CreateButton>
+    </>
+  );
+
   return (
     <>
-      <PageTitle title="Inventory Summary" />
+      <PageTitle title="INVENTORY SUMMARY" actions={actions} />
       <Widget>
         <ListWidget
           columns={columns}

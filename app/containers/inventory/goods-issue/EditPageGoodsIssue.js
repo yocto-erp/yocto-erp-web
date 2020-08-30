@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import GoodsReceiptForm from '../components/GoodsReceiptForm';
+import GoodsIssueForm from '../components/GoodsIssueForm';
 import PageTitle from '../../Layout/PageTitle';
 
 const EditPageGoodsIssue = () => {
@@ -10,7 +10,7 @@ const EditPageGoodsIssue = () => {
       <PageTitle title="Update Goods Issue" />
       <div className="row">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-          <GoodsReceiptForm id={id} />
+          <GoodsIssueForm id={id} />
         </div>
       </div>
     </>

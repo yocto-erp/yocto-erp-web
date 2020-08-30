@@ -28,7 +28,7 @@ import { useAsync } from '../../../libs/hooks/useAsync';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
-  price: Yup.number(),
+  priceBaseUnit: Yup.number(),
   units: Yup.array()
     .of(
       Yup.object().shape({
@@ -82,10 +82,10 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
           />
           <FormRow
             label="Price"
-            name="price"
+            name="priceBaseUnit"
             type="number"
             register={register}
-            placeholder="Product Price"
+            placeholder="Product Price Base Unit"
           />
           <FormRow
             label="Remark"

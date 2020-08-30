@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import {
+  Button,
+  Col,
   Form,
   FormFeedback,
   FormGroup,
   Input,
   Label,
   Row,
-  Col,
   Table,
-  Button,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import get from 'lodash/get';
@@ -47,7 +47,8 @@ function MyForm({ id }) {
     register,
     submit,
     errors,
-    state: { isLoading },
+    state: { isLoading, formData },
+    formState: { isDirty, isValid },
   } = useHookCRUDForm({
     create,
     update,
@@ -58,20 +59,19 @@ function MyForm({ id }) {
     },
     mappingToForm: form => {
       console.log(`Mapping to form`);
-      console.log(form);
       return {
         name: form.name,
         priceBaseUnit: form.priceBaseUnit,
         remark: form.remark,
         units: form.units,
-        files: form.assets,
+        assets: form.assets,
       };
     },
     validationSchema,
     initForm: {
       priceBaseUnit: 0,
       units: [{ name: '', rate: 1 }],
-      files: [],
+      assets: [],
     },
     id,
   });
@@ -106,7 +106,7 @@ function MyForm({ id }) {
           <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label for="priceBaseUnit" className="required">
-                Price Base Unit <span className="text-danger">*</span>
+                Price<span className="text-danger">*</span>
               </Label>
               <Input
                 invalid={!!errors.priceBaseUnit}
@@ -130,16 +130,17 @@ function MyForm({ id }) {
                 Files
               </Label>
               <Controller
-                invalid={!!errors.files}
+                defaultValue={formData ? formData.assets : []}
+                invalid={!!errors.assets}
                 as={FileUpload}
-                name="files"
+                name="assets"
                 placeholder="Upload files"
                 control={control}
                 accept={['image/*']}
                 maxSize={500000}
               />
               <FormFeedback>
-                {errors.files && errors.files.message}
+                {errors.assets && errors.assets.message}
               </FormFeedback>
             </FormGroup>
           </Col>
@@ -244,7 +245,7 @@ function MyForm({ id }) {
           <Col xs="6" lg="6" md="12" sm="12" />
         </Row>
         <BackButton className="mr-2" />
-        <SubmitButton isLoading={isLoading} />
+        <SubmitButton isLoading={isLoading} disabled={!isValid || !isDirty} />
       </Form>
     );
   }, [errors, isLoading, submit, register]);
@@ -254,7 +255,7 @@ function MyForm({ id }) {
 }
 
 MyForm.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 MyForm.defaultProps = {};
