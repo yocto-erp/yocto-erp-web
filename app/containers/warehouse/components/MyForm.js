@@ -12,6 +12,7 @@ import BackButton from '../../../components/button/BackButton';
 import ProductSelect from '../../../components/common/product/ProductSelect';
 import UnitSelect from '../../../components/common/unit/UnitSelect';
 import FileUpload from '../../../components/FileUpload';
+import DateSelect from '../../../components/date/DateSelect';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -24,6 +25,7 @@ const validationSchema = Yup.object().shape({
   unit: Yup.object()
     .required('Unit is required')
     .nullable(true),
+  date: Yup.date().required('Date is required'),
 });
 
 const { create, update, read } = warehouseApi;
@@ -35,7 +37,7 @@ function MyForm({ id }) {
     errors,
     control,
     getValues,
-    state: { isLoading },
+    state: { isLoading, formData },
   } = useHookCRUDForm({
     create,
     update,
@@ -58,6 +60,7 @@ function MyForm({ id }) {
       product: null,
       unit: null,
       name: 'warehouse test',
+      date: new Date(),
     },
     id,
   });
@@ -71,6 +74,19 @@ function MyForm({ id }) {
     console.log('cache form warehouse');
     return (
       <Form onSubmit={submit} noValidate formNoValidate>
+        <FormGroup>
+          <Label for="units" className="mr-sm-2">
+            Date
+          </Label>
+          <Controller
+            defaultValue={formData ? formData.date : null}
+            name="date"
+            control={control}
+            invalid={!!errors.date}
+            as={DateSelect}
+          />
+          <FormFeedback>{errors.date && errors.date.message}</FormFeedback>
+        </FormGroup>
         <FormGroup>
           <Label for="units" className="mr-sm-2">
             Unit

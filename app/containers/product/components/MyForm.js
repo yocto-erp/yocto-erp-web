@@ -254,7 +254,7 @@ function MyForm({ id }) {
 }
 
 MyForm.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 MyForm.defaultProps = {};

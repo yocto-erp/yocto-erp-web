@@ -14,6 +14,7 @@
 @import '../../node_modules/rickshaw/rickshaw.css';
 @import '../../node_modules/react-toastify/dist/ReactToastify.css';
 @import '../../node_modules/overlayscrollbars/css/OverlayScrollbars.css';
+@import '../../node_modules/react-day-picker/lib/style.css';
 @import 'mixins';
 @import 'base';
 @import 'auth';
@@ -24,3 +25,4 @@
 @import "react-select";
 @import "table";
 @import "typography";
+@import "react-date-picker";
