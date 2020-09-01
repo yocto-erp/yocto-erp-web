@@ -115,7 +115,8 @@
     "swr": "^0.3.0",
     "use-immer": "^0.4.1",
     "uuid": "^8.3.0",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "react-day-picker": "^7.4.8"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",

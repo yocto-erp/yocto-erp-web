@@ -1,0 +1,21 @@
+$primaryColor: #040620;
+$borderColor: #1870DC;
+.DayPickerInput-Overlay {
+  background: $primaryColor;
+  border: 1px solid $borderColor;
+  border-radius: 4px;
+  margin-top: 2px;
+  z-index: 5;
+  -webkit-box-shadow: 5px 5px 3px 1px rgba(24, 112, 220, 0.15);
+  box-shadow: 5px 5px 3px 1px rgba(24, 112, 220, 0.15);
+
+  .DayPicker-Day {
+    padding: 0.4em 0.5em;
+    margin: 0;
+  }
+
+  .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+    background-color: #798892;
+    color: white;
+  }
+}
