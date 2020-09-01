@@ -14,7 +14,7 @@ import {
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Controller, useFieldArray } from 'react-hook-form';
-import goodsReceiptApi from '../../../libs/apis/goods-receipt.api';
+import goodsIssueApi from '../../../libs/apis/goods-issue.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
@@ -45,9 +45,9 @@ const validationSchema = Yup.object().shape({
     .required('Details is required'),
 });
 
-const { create, update, read } = goodsReceiptApi;
+const { create, update, read } = goodsIssueApi;
 
-function GoodsReceiptForm({ id }) {
+function GoodsIssueForm({ id }) {
   const {
     control,
     register,
@@ -63,7 +63,7 @@ function GoodsReceiptForm({ id }) {
     onSuccess: resp => {
       console.log(`Success: ${JSON.stringify(resp)}`);
       toast.success(
-        id ? 'Update Goods Receipt success' : 'Create Goods Receipt success',
+        id ? 'Update Goods Issue success' : 'Create Goods Issue success',
       );
     },
     mappingToForm: form => {
@@ -229,10 +229,10 @@ function GoodsReceiptForm({ id }) {
   return <Widget>{form}</Widget>;
 }
 
-GoodsReceiptForm.propTypes = {
+GoodsIssueForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-GoodsReceiptForm.defaultProps = {};
+GoodsIssueForm.defaultProps = {};
 
-export default GoodsReceiptForm;
+export default GoodsIssueForm;

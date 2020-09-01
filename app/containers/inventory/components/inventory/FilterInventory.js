@@ -2,9 +2,9 @@ import React from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import { useListFilter } from '../../../components/ListWidget/constants';
-import SearchButton from '../../../components/button/SearchButton';
-import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
+import { useListFilter } from '../../../../components/ListWidget/constants';
+import SearchButton from '../../../../components/button/SearchButton';
+import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
 
 const FilterInventory = ({ data }) => {
   const { handleSubmit, register, control } = useForm({

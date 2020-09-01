@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,7 +27,6 @@ const parseFile = file =>
         id: uuidv4(),
         name: file.name,
         type: file.type,
-        ext: '',
         lastModified: file.lastModified,
         size: file.size,
         data: base64Data,
@@ -54,12 +53,12 @@ const getErrorUpload = errorFile => {
 };
 
 const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
-  const [files, setFiles] = useState(value);
+  const [files, setFiles] = useState([]);
   const [enlargeFile, setEnlargeFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
-    setFiles(value);
+    setFiles([...value]);
   }, [value]);
 
   const onDropAccepted = React.useCallback(
@@ -70,7 +69,7 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
         console.log(t);
         setFiles(oldFiles => {
           const newFiles = [...oldFiles, ...t];
-          onChange(t);
+          onChange(newFiles);
           return newFiles;
         });
         setIsProcessing(false);

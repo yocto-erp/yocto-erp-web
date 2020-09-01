@@ -67,6 +67,7 @@ export const useHookCRUDForm = ({
     control,
     getValues,
     setValue,
+    formState,
   } = useForm({
     mode: 'all',
     reValidateMode: 'onChange',
@@ -110,5 +111,14 @@ export const useHookCRUDForm = ({
     [update, create, onSuccess, dispatch, initForm, handleSubmit],
   );
 
-  return { state, register, submit, errors, control, getValues, setValue };
+  return {
+    state,
+    register,
+    submit,
+    errors,
+    control,
+    getValues,
+    setValue,
+    formState,
+  };
 };

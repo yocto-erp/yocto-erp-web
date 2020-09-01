@@ -8,9 +8,9 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-import { useRouteMatch, Route, useHistory } from 'react-router-dom';
+import { useRouteMatch, Route, useHistory, Switch } from 'react-router-dom';
 import ListInventorySummary from './components/inventory-summary/ListInventorySummary';
-import ListInventory from './components/ListInventory';
+import ListInventory from './components/inventory/ListInventory';
 
 const ListPage = () => {
   const { path } = useRouteMatch();
@@ -55,12 +55,14 @@ const ListPage = () => {
         <TabPane>
           <Row>
             <Col xl="12" lg="12" md="12" sm="12">
-              <Route exact path={`${path}`} component={ListInventory} />
-              <Route
-                exact
-                path={`${path}/summary`}
-                component={ListInventorySummary}
-              />
+              <Switch>
+                <Route
+                  exact
+                  path={`${path}/summary`}
+                  component={ListInventorySummary}
+                />
+                <Route path={`${path}`} component={ListInventory} />
+              </Switch>
             </Col>
           </Row>
         </TabPane>

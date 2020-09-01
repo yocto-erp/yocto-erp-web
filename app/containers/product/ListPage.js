@@ -51,15 +51,6 @@ const ListPage = ({ history }) => {
         },
       },
       {
-        header: 'Last Modified By',
-        data: 'lastModified',
-        width: '1px',
-        render: row => {
-          const { lastModifiedBy, lastModifiedDate } = row;
-          return <CreatedBy user={lastModifiedBy} date={lastModifiedDate} />;
-        },
-      },
-      {
         header: 'Action',
         data: '',
         class: 'action',
