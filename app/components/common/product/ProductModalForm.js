@@ -23,7 +23,7 @@ import FormRow from '../../Form/FormRow';
 import ModalCancelButton from '../../button/ModalCancelButton';
 import SubmitButton from '../../button/SubmitButton';
 import CreateButton from '../../button/CreateButton';
-import productApi from '../../../libs/apis/product.api';
+import productApi from '../../../libs/apis/product/product.api';
 import { useAsync } from '../../../libs/hooks/useAsync';
 
 const validationSchema = Yup.object().shape({

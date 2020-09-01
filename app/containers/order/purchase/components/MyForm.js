@@ -14,14 +14,14 @@ import {
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Controller, useFieldArray } from 'react-hook-form';
-import goodsReceiptApi from '../../../libs/apis/inventory/goods-receipt.api';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
-import InventoryFormDetail from './InventoryFormDetail';
-import CreateButton from '../../../components/button/CreateButton';
+import goodsReceiptApi from '../../../../libs/apis/inventory/goods-receipt.api';
+import Widget from '../../../../components/Widget/Widget';
+import SubmitButton from '../../../../components/button/SubmitButton';
+import BackButton from '../../../../components/button/BackButton';
+import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
+import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
+import InventoryFormDetail from '../../../inventory/components/InventoryFormDetail';
+import CreateButton from '../../../../components/button/CreateButton';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required.'),

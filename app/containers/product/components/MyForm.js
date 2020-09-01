@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import get from 'lodash/get';
 import { v4 as uuidv4 } from 'uuid';
 import { Controller, useFieldArray } from 'react-hook-form';
-import productApi from '../../../libs/apis/product.api';
+import productApi from '../../../libs/apis/product/product.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';

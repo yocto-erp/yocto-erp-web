@@ -2,24 +2,24 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Widget from '../../components/Widget/Widget';
-import CreatedBy from '../../components/ListWidget/CreatedBy';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
-import productApi from '../../libs/apis/product/product.api';
-import { PRODUCT_ROOT_PATH } from './constants';
-import PageTitle from '../Layout/PageTitle';
+import Widget from '../../../components/Widget/Widget';
+import CreatedBy from '../../../components/ListWidget/CreatedBy';
+import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
+import purchaseApi from '../../../libs/apis/order/purchase.api';
+import { PURCHASE_ROOT_PATH } from './constants';
+import PageTitle from '../../Layout/PageTitle';
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../libs/utils/crud.util';
-import CreateButton from '../../components/button/CreateButton';
-import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../components/ListWidget';
+} from '../../../libs/utils/crud.util';
+import CreateButton from '../../../components/button/CreateButton';
+import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
+import ListWidget from '../../../components/ListWidget';
 import Filter from './components/Filter';
 
-const ROOT_PATH = PRODUCT_ROOT_PATH;
+const ROOT_PATH = PURCHASE_ROOT_PATH;
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
@@ -32,13 +32,27 @@ const ListPage = ({ history }) => {
         width: '20%',
       },
       {
-        header: 'Price Base Unit',
-        data: 'priceBaseUnit',
+        header: 'Partner',
+        data: 'partnerPerson',
+        width: '12%',
+        render: row => {
+          const { partnerPerson } = row;
+          return partnerPerson ? partnerPerson.name : '';
+        },
+      },
+      {
+        header: 'Total Amount',
+        data: 'totalAmount',
         width: '12%',
       },
       {
         header: 'Remark',
         data: 'remark',
+        width: '40%',
+      },
+      {
+        header: 'Processed Date',
+        data: 'processedDate',
         width: '40%',
       },
       {
@@ -96,8 +110,8 @@ const ListPage = ({ history }) => {
           // match === null
           <DeleteConfirmModal
             id={id}
-            deleteApi={productApi.remove}
-            readApi={productApi.read}
+            deleteApi={purchaseApi.remove}
+            readApi={purchaseApi.read}
             routePattern={ROOT_PATH}
             onClose={item => {
               history.goBack();
@@ -123,7 +137,7 @@ const ListPage = ({ history }) => {
         <ListWidget
           deleteDialog={deleteConfirmDialog}
           columns={columns}
-          fetchData={productApi.search}
+          fetchData={purchaseApi.search}
           initialSize={10}
           initialPage={1}
           initialFilter={search}

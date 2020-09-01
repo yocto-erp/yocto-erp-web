@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Widget from '../../../../components/Widget/Widget';
 import CreatedBy from '../../../../components/ListWidget/CreatedBy';
-import inventorySummaryApi from '../../../../libs/apis/inventory-summary.api';
+import inventorySummaryApi from '../../../../libs/apis/inventory/inventory-summary.api';
 import PageTitle from '../../../Layout/PageTitle';
 
 import ListWidget from '../../../../components/ListWidget';

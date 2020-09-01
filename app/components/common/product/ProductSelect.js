@@ -5,7 +5,7 @@ import AsyncSelect from 'react-select/async';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import ProductModalForm from './ProductModalForm';
-import productApi from '../../../libs/apis/product.api';
+import productApi from '../../../libs/apis/product/product.api';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 
 const formatOptionLabel = data => (

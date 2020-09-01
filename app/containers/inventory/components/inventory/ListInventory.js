@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import Widget from '../../../../components/Widget/Widget';
 import CreatedBy from '../../../../components/ListWidget/CreatedBy';
 import TableActionColumns from '../../../../components/ListWidget/TableActionColumn';
-import inventoryApi from '../../../../libs/apis/inventory.api';
-import goodsIssuesApi from '../../../../libs/apis/goods-issue.api';
-import goodsReceiptApi from '../../../../libs/apis/goods-receipt.api';
+import inventoryApi from '../../../../libs/apis/inventory/inventory.api';
+import goodsIssuesApi from '../../../../libs/apis/inventory/goods-issue.api';
+import goodsReceiptApi from '../../../../libs/apis/inventory/goods-receipt.api';
 import {
   INVENTORY_ROOT_PATH,
   INVENTORY_TYPE,

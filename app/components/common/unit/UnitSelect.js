@@ -4,7 +4,7 @@ import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
 import { Controller } from 'react-hook-form';
 import classNames from 'classnames';
 import Select from 'react-select';
-import productApi from '../../../libs/apis/product.api';
+import productApi from '../../../libs/apis/product/product.api';
 import UnitModalForm from './UnitModalForm';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 

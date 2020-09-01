@@ -14,7 +14,7 @@ import {
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Controller, useFieldArray } from 'react-hook-form';
-import goodsIssueApi from '../../../libs/apis/goods-issue.api';
+import goodsIssueApi from '../../../libs/apis/inventory/goods-issue.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';

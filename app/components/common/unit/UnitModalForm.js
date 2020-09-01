@@ -21,8 +21,8 @@ import { toast } from 'react-toastify';
 import ModalCancelButton from '../../button/ModalCancelButton';
 import SubmitButton from '../../button/SubmitButton';
 import CreateButton from '../../button/CreateButton';
-import productApi from '../../../libs/apis/product.api';
-import productUnitApi from '../../../libs/apis/product-unit.api';
+import productApi from '../../../libs/apis/product/product.api';
+import productUnitApi from '../../../libs/apis/product/product-unit.api';
 import { useAsync } from '../../../libs/hooks/useAsync';
 
 const validationSchema = Yup.object().shape({
