@@ -10,9 +10,7 @@ import CompanyModalForm from './CompanyModalForm';
 
 const formatOptionLabel = data => (
   <div className="text-white">
-    <span>
-      {data.name} - {data.gsm}
-    </span>
+    <span>{data.name}</span>
   </div>
 );
 

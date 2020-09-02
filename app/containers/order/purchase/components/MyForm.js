@@ -55,7 +55,7 @@ const validationSchema = Yup.object().shape({
 
 const { create, update, read } = purchaseApi;
 
-function GoodsReceiptForm({ id }) {
+function MyForm({ id }) {
   const {
     control,
     register,
@@ -75,20 +75,15 @@ function GoodsReceiptForm({ id }) {
           : `Create Purchase ${resp.name} success`,
       );
     },
-    mappingToForm: form => {
-      console.log(`Mapping to form`);
-      console.log(form);
-      return {
-        name: form.name,
-        remark: form.remark,
-        partnerPersonId: form.partnerPersonId,
-        partnerCompanyId: form.partnerCompanyId,
-        details: form.details.map(t => ({ ...t, id: uuidv4() })),
-      };
-    },
+    mappingToForm: form => ({
+      name: form.name,
+      remark: form.remark,
+      partnerPersonId: form.partnerPerson,
+      partnerCompanyId: form.partnerCompany,
+      assets: form.assets,
+      details: form.details.map(t => ({ ...t, id: uuidv4() })),
+    }),
     mappingToServer: form => {
-      console.log(`Mapping to server: ${JSON.stringify(form)}`);
-      console.log(form);
       const details = form.details.map(result => ({
         productId: result.product.id,
         unitId: result.unit.id,
@@ -102,6 +97,7 @@ function GoodsReceiptForm({ id }) {
         partnerPersonId: form.partnerPersonId.id,
         remark: form.remark,
         details,
+        assets: form.assets,
       };
     },
     validationSchema,
@@ -161,13 +157,13 @@ function GoodsReceiptForm({ id }) {
               </Label>
               <Controller
                 name="partnerPersonId"
-                defaultValue="partnerPersonId"
+                defaultValue={formData ? formData.partnerPersonId : null}
                 control={control}
                 render={({ onChange, ...data }) => (
                   <CustomerSelect
                     id="partnerPersonId"
                     placeholder="Choose Customer"
-                    invalid={!!errors.partnerCompanyId}
+                    invalid={!!errors.partnerPersonId}
                     onAdded={newCustomer => {
                       console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
                       setValue('partnerPersonId', newCustomer, {
@@ -189,10 +185,9 @@ function GoodsReceiptForm({ id }) {
               <Label for="partnerCompanyId" className="mr-sm-2">
                 Partner Company
               </Label>
-
               <Controller
                 name="partnerCompanyId"
-                defaultValue="partnerCompanyId"
+                defaultValue={formData ? formData.partnerCompanyId : null}
                 control={control}
                 render={({ onChange, ...data }) => (
                   <CompanySelect
@@ -300,10 +295,10 @@ function GoodsReceiptForm({ id }) {
   return <Widget>{form}</Widget>;
 }
 
-GoodsReceiptForm.propTypes = {
+MyForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-GoodsReceiptForm.defaultProps = {};
+MyForm.defaultProps = {};
 
-export default GoodsReceiptForm;
+export default MyForm;

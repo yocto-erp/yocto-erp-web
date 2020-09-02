@@ -60,9 +60,9 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
   const [isLoading, exec] = useAsync({ asyncApi: productApi.create });
   const onSubmit = handleSubmit(val => {
     console.log(val);
-    exec(val).then(() => {
-      toast.success(`Create Product ${val.name} success !`);
-      closeHandle(val);
+    exec(val).then(result => {
+      toast.success(`Create Product ${result.name} success !`);
+      closeHandle(result);
     });
   });
   return (

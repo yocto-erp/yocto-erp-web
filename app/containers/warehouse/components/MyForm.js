@@ -21,6 +21,7 @@ function MyForm({ id }) {
     submit,
     errors,
     state: { isLoading },
+    formState: { isDirty, isValid },
   } = useHookCRUDForm({
     create,
     update,
@@ -74,7 +75,7 @@ function MyForm({ id }) {
           />
         </FormGroup>
         <BackButton className="mr-2" />
-        <SubmitButton isLoading={isLoading} />
+        <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
       </Form>
     ),
     [errors, isLoading, submit, register],

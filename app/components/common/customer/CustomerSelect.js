@@ -10,9 +10,7 @@ import CustomerModalForm from './CustomerModalForm';
 
 const formatOptionLabel = data => (
   <div className="text-white">
-    <span>
-      {`${data.firstName} ${data.lastName}`} - {data.email}
-    </span>
+    <span>{data.name ? data.name : `${data.firstName} ${data.lastName}`}</span>
   </div>
 );
 

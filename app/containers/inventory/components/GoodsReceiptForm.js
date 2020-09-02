@@ -76,8 +76,6 @@ function GoodsReceiptForm({ id }) {
       details: form.details.map(t => ({ ...t, id: uuidv4() })),
     }),
     mappingToServer: form => {
-      console.log(`Mapping to server: ${JSON.stringify(form)}`);
-      console.log(form);
       const details = form.details.map(result => ({
         productId: result.product.id,
         unitId: result.unit.id,
