@@ -19,6 +19,8 @@ import InventoryPage from '../inventory/Loadable';
 import { INVENTORY_ROOT_PATH } from '../inventory/constants';
 import { PURCHASE_ROOT_PATH } from '../order/purchase/constants';
 import PurchasePage from '../order/purchase/Loadable';
+import { SALE_ROOT_PATH } from '../order/sale/constants';
+import SalePage from '../order/sale/Loadable';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -93,6 +95,7 @@ class Layout extends React.Component {
                     exact
                     component={Dashboard}
                   />
+                  <Route path={`${SALE_ROOT_PATH}`} component={SalePage} />
                   <Route
                     path={`${PURCHASE_ROOT_PATH}`}
                     component={PurchasePage}

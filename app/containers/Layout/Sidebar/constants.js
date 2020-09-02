@@ -47,6 +47,11 @@ export const SIDE_BAR_MENU = {
       link: '',
       children: [
         {
+          header: 'Bán hàng',
+          link: '/sale',
+          index: 'management.sale',
+        },
+        {
           header: 'Mua hàng',
           link: '/purchase',
           index: 'management.purchase',

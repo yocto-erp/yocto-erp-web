@@ -21,7 +21,7 @@ import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
 import CreateButton from '../../../../components/button/CreateButton';
 import OrderFormDetail from '../../components/OrderFormDetail';
 import CustomerSelect from '../../../../components/common/customer/CustomerSelect';
-import purchaseApi from '../../../../libs/apis/order/purchase.api';
+import saleApi from '../../../../libs/apis/order/sale.api';
 import CompanySelect from '../../../../components/common/company/CompanySelect';
 
 const validationSchema = Yup.object().shape({
@@ -52,7 +52,7 @@ const validationSchema = Yup.object().shape({
     .required('Details is required'),
 });
 
-const { create, update, read } = purchaseApi;
+const { create, update, read } = saleApi;
 
 function MyForm({ id }) {
   const {
