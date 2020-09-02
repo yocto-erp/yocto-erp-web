@@ -60,8 +60,6 @@ const Pagination = ({ total, pageSize, currentPage, setPage, ...props }) => {
     }
   }
 
-  console.log('Pagination');
-
   return (
     <nav aria-label="Page navigation" {...props}>
       <ul className="pagination">

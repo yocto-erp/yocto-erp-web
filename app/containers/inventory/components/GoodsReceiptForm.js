@@ -22,6 +22,7 @@ import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
 import InventoryFormDetail from './InventoryFormDetail';
 import CreateButton from '../../../components/button/CreateButton';
+import DateSelect from '../../../components/date/DateSelect';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required.'),
@@ -43,6 +44,7 @@ const validationSchema = Yup.object().shape({
       }),
     )
     .required('Details is required'),
+  processedDate: Yup.date().required('Date is required'),
 });
 
 const { create, update, read } = goodsReceiptApi;
@@ -66,16 +68,13 @@ function GoodsReceiptForm({ id }) {
         id ? 'Update Goods Receipt success' : 'Create Goods Receipt success',
       );
     },
-    mappingToForm: form => {
-      console.log(`Mapping to form`);
-      console.log(form);
-      return {
-        name: form.name,
-        remark: form.remark,
-        warehouse: form.warehouse,
-        details: form.details.map(t => ({ ...t, id: uuidv4() })),
-      };
-    },
+    mappingToForm: form => ({
+      name: form.name,
+      remark: form.remark,
+      warehouse: form.warehouse,
+      processedDate: form.processedDate,
+      details: form.details.map(t => ({ ...t, id: uuidv4() })),
+    }),
     mappingToServer: form => {
       console.log(`Mapping to server: ${JSON.stringify(form)}`);
       console.log(form);
@@ -89,6 +88,7 @@ function GoodsReceiptForm({ id }) {
         name: form.name,
         warehouseId: form.warehouse.id,
         remark: form.remark,
+        processedDate: form.processedDate,
         details,
       };
     },
@@ -98,6 +98,7 @@ function GoodsReceiptForm({ id }) {
       name: '',
       remark: '',
       details: [{ product: null, unit: null, quantity: 0, remark: '' }],
+      processedDate: new Date(),
     },
     id,
   });
@@ -150,9 +151,24 @@ function GoodsReceiptForm({ id }) {
         </Row>
         <Row>
           <Col xs="6" lg="6" md="12" sm="12">
-            <Label for="remark" className="mr-sm-2">
-              Date
-            </Label>
+            <FormGroup>
+              <Label for="units" className="mr-sm-2">
+                Process Date
+              </Label>
+              <div style={{ width: '250px' }} className="">
+                <Controller
+                  defaultValue={formData ? formData.processedDate : null}
+                  name="processedDate"
+                  control={control}
+                  invalid={!!errors.processedDate}
+                  as={DateSelect}
+                />
+              </div>
+
+              <FormFeedback>
+                {errors.processedDate && errors.processedDate.message}
+              </FormFeedback>
+            </FormGroup>
           </Col>
           <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>

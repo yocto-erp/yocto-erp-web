@@ -35,7 +35,6 @@ const TableHeader = ({ columns }) => {
     return rs;
   };
 
-  console.log('TableHeader');
   return (
     <>
       <tr>

@@ -66,7 +66,6 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
     asyncApi: productUnitApi.update,
   });
   const onSubmit = handleSubmit(val => {
-    console.log(val);
     exec(productId, val.units).then(() => {
       toast.success(`Create unit success !`);
       productApi.read(productId).then(data => {

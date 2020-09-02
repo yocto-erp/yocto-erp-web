@@ -57,7 +57,7 @@ export const SIDE_BAR_MENU = {
           index: 'management.warehouse',
         },
         {
-          header: 'Hàng tồn kho',
+          header: 'Nhập, xuất kho',
           link: '/inventory',
           index: 'management.inventory',
           isHeader: true,

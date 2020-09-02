@@ -54,19 +54,19 @@ function MyForm({ id }) {
     update,
     read,
     onSuccess: resp => {
-      console.log(`Success: ${JSON.stringify(resp)}`);
-      toast.success(id ? 'Update product success' : 'Create product success');
+      toast.success(
+        id
+          ? `Update product ${resp.name} success`
+          : `Create product ${resp.name} success`,
+      );
     },
-    mappingToForm: form => {
-      console.log(`Mapping to form`);
-      return {
-        name: form.name,
-        priceBaseUnit: form.priceBaseUnit,
-        remark: form.remark,
-        units: form.units,
-        assets: form.assets,
-      };
-    },
+    mappingToForm: form => ({
+      name: form.name,
+      priceBaseUnit: form.priceBaseUnit,
+      remark: form.remark,
+      units: form.units,
+      assets: form.assets,
+    }),
     validationSchema,
     initForm: {
       priceBaseUnit: 0,
@@ -82,12 +82,11 @@ function MyForm({ id }) {
     // keyName: "id", default to "id", you can change the key name
   });
 
-  const form = React.useMemo(() => {
-    console.log('cache');
-    return (
+  const form = React.useMemo(
+    () => (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
                 Name <span className="text-danger">*</span>
@@ -102,8 +101,6 @@ function MyForm({ id }) {
               />
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
-          </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label for="priceBaseUnit" className="required">
                 Price<span className="text-danger">*</span>
@@ -120,31 +117,20 @@ function MyForm({ id }) {
                 {errors.priceBaseUnit && errors.priceBaseUnit.message}
               </FormFeedback>
             </FormGroup>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
-              <Label for="files" className="required">
-                Files
+              <Label for="remark" className="mr-sm-2">
+                Remark
               </Label>
-              <Controller
-                defaultValue={formData ? formData.assets : []}
-                invalid={!!errors.assets}
-                as={FileUpload}
-                name="assets"
-                placeholder="Upload files"
-                control={control}
-                accept={['image/*']}
-                maxSize={500000}
+              <Input
+                type="textarea"
+                name="remark"
+                innerRef={register}
+                id="remark"
+                placeholder="Product Remark"
               />
-              <FormFeedback>
-                {errors.assets && errors.assets.message}
-              </FormFeedback>
             </FormGroup>
           </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label>Units</Label>
               <Table bordered hover striped>
@@ -227,29 +213,36 @@ function MyForm({ id }) {
             </FormGroup>
           </Col>
         </Row>
+
         <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
-              <Label for="remark" className="mr-sm-2">
-                Remark
+              <Label for="files" className="required">
+                Files
               </Label>
-              <Input
-                type="textarea"
-                name="remark"
-                innerRef={register}
-                id="remark"
-                placeholder="Product Remark"
+              <Controller
+                defaultValue={formData ? formData.assets : []}
+                invalid={!!errors.assets}
+                as={FileUpload}
+                name="assets"
+                placeholder="Upload files"
+                control={control}
+                accept={['image/*']}
+                maxSize={500000}
               />
+              <FormFeedback>
+                {errors.assets && errors.assets.message}
+              </FormFeedback>
             </FormGroup>
           </Col>
-          <Col xs="6" lg="6" md="12" sm="12" />
+          <Col xs="12" sm="12" md="12" lg="6" xl="6" />
         </Row>
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!isValid || !isDirty} />
       </Form>
-    );
-  }, [errors, isLoading, submit, register]);
-  console.log('MyForm');
+    ),
+    [errors, isLoading, submit, register],
+  );
 
   return <Widget>{form}</Widget>;
 }

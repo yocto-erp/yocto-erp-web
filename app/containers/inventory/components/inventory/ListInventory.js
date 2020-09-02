@@ -34,13 +34,13 @@ const ListInventory = ({ history }) => {
         key: 'type',
         header: 'Type',
         data: 'type',
-        width: '12%',
+        width: '5%',
         render: row => (row.type === 1 ? 'OUT' : 'IN'),
       },
       {
         header: <strong>Warehouse</strong>,
         data: 'warehouse',
-        width: '30%',
+        width: '20%',
         render: row => {
           const { warehouse } = row;
           return warehouse ? warehouse.name : '';
@@ -62,12 +62,12 @@ const ListInventory = ({ history }) => {
       {
         header: 'Remark',
         data: 'remark',
-        width: '40%',
+        width: '20%',
       },
       {
-        header: 'Date',
+        header: 'Processed Date',
         data: 'processedDate',
-        width: '40%',
+        width: '15%',
       },
       {
         header: 'Created By',

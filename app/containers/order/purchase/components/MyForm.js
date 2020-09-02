@@ -14,19 +14,24 @@ import {
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Controller, useFieldArray } from 'react-hook-form';
-import goodsReceiptApi from '../../../../libs/apis/inventory/goods-receipt.api';
 import Widget from '../../../../components/Widget/Widget';
 import SubmitButton from '../../../../components/button/SubmitButton';
 import BackButton from '../../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
-import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
-import InventoryFormDetail from '../../../inventory/components/InventoryFormDetail';
 import CreateButton from '../../../../components/button/CreateButton';
+import FileUpload from '../../../../components/FileUpload';
+import OrderFormDetail from '../../components/OrderFormDetail';
+import CustomerSelect from '../../../../components/common/customer/CustomerSelect';
+import purchaseApi from '../../../../libs/apis/order/purchase.api';
+import CompanySelect from '../../../../components/common/company/CompanySelect';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required.'),
-  warehouse: Yup.object()
-    .required('Warehouse is required')
+  partnerPersonId: Yup.object()
+    .required('Customer is required')
+    .nullable(true),
+  partnerCompanyId: Yup.object()
+    .required('Company is required')
     .nullable(true),
   details: Yup.array()
     .of(
@@ -37,6 +42,9 @@ const validationSchema = Yup.object().shape({
         quantity: Yup.number()
           .moreThan(0)
           .required('Quantity is required'),
+        price: Yup.number()
+          .moreThan(0)
+          .required('Quantity is required'),
         unit: Yup.object()
           .required('Unit is required')
           .nullable(true),
@@ -45,7 +53,7 @@ const validationSchema = Yup.object().shape({
     .required('Details is required'),
 });
 
-const { create, update, read } = goodsReceiptApi;
+const { create, update, read } = purchaseApi;
 
 function GoodsReceiptForm({ id }) {
   const {
@@ -61,9 +69,10 @@ function GoodsReceiptForm({ id }) {
     update,
     read,
     onSuccess: resp => {
-      console.log(`Success: ${JSON.stringify(resp)}`);
       toast.success(
-        id ? 'Update Goods Receipt success' : 'Create Goods Receipt success',
+        id
+          ? `Update Purchase ${resp.name} success`
+          : `Create Purchase ${resp.name} success`,
       );
     },
     mappingToForm: form => {
@@ -72,7 +81,8 @@ function GoodsReceiptForm({ id }) {
       return {
         name: form.name,
         remark: form.remark,
-        warehouse: form.warehouse,
+        partnerPersonId: form.partnerPersonId,
+        partnerCompanyId: form.partnerCompanyId,
         details: form.details.map(t => ({ ...t, id: uuidv4() })),
       };
     },
@@ -83,21 +93,27 @@ function GoodsReceiptForm({ id }) {
         productId: result.product.id,
         unitId: result.unit.id,
         quantity: result.quantity,
+        price: result.price,
         remark: result.remark,
       }));
       return {
         name: form.name,
-        warehouseId: form.warehouse.id,
+        partnerCompanyId: form.partnerCompanyId.id,
+        partnerPersonId: form.partnerPersonId.id,
         remark: form.remark,
         details,
       };
     },
     validationSchema,
     initForm: {
-      warehouse: null,
       name: '',
       remark: '',
-      details: [{ product: null, unit: null, quantity: 0, remark: '' }],
+      partnerPersonId: null,
+      partnerCompanyId: null,
+      details: [
+        { product: null, unit: null, quantity: 0, price: 0, remark: '' },
+      ],
+      assets: [],
     },
     id,
   });
@@ -112,26 +128,7 @@ function GoodsReceiptForm({ id }) {
     return (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
-            <FormGroup>
-              <Label for="warehouse" className="mr-sm-2 required">
-                Warehouse <span className="text-danger">*</span>
-              </Label>
-              <Controller
-                defaultValue={formData ? formData.warehouse : null}
-                name="warehouse"
-                invalid={!!errors.warehouse}
-                control={control}
-                id="warehouseId"
-                placeholder="Warehouse Name"
-                as={WarehouseSelect}
-              />
-              <FormFeedback>
-                {errors.warehouse && errors.warehouse.message}
-              </FormFeedback>
-            </FormGroup>
-          </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
                 Name <span className="text-danger">*</span>
@@ -142,19 +139,10 @@ function GoodsReceiptForm({ id }) {
                 name="name"
                 innerRef={register}
                 id="name"
-                placeholder="Inventory Name"
+                placeholder="Name"
               />
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
-            <Label for="remark" className="mr-sm-2">
-              Date
-            </Label>
-          </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
                 Remark
@@ -164,8 +152,89 @@ function GoodsReceiptForm({ id }) {
                 name="remark"
                 innerRef={register}
                 id="remark"
-                placeholder="Product Remark"
+                placeholder="Remark"
               />
+            </FormGroup>
+            <FormGroup>
+              <Label for="partnerPersonId" className="mr-sm-2">
+                Customer
+              </Label>
+              <Controller
+                name="partnerPersonId"
+                defaultValue="partnerPersonId"
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <CustomerSelect
+                    id="partnerPersonId"
+                    placeholder="Choose Customer"
+                    invalid={!!errors.partnerCompanyId}
+                    onAdded={newCustomer => {
+                      console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
+                      setValue('partnerPersonId', newCustomer, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
+                )}
+              />
+              <FormFeedback>
+                {errors.partnerPersonId && errors.partnerPersonId.message}
+              </FormFeedback>
+            </FormGroup>
+            <FormGroup>
+              <Label for="partnerCompanyId" className="mr-sm-2">
+                Partner Company
+              </Label>
+
+              <Controller
+                name="partnerCompanyId"
+                defaultValue="partnerCompanyId"
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <CompanySelect
+                    id="partnerCompanyId"
+                    placeholder="Choose Partner Company"
+                    invalid={!!errors.partnerCompanyId}
+                    onAdded={newCompany => {
+                      console.log(`OnAdd: ${JSON.stringify(newCompany)}`);
+                      setValue('partnerCompanyId', newCompany, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
+                )}
+              />
+              <FormFeedback>
+                {errors.partnerCompanyId && errors.partnerCompanyId.message}
+              </FormFeedback>
+            </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+            <FormGroup>
+              <Label for="files" className="required">
+                Files
+              </Label>
+              <Controller
+                defaultValue={formData ? formData.assets : []}
+                invalid={!!errors.assets}
+                as={FileUpload}
+                name="assets"
+                placeholder="Upload files"
+                control={control}
+                accept={['image/*']}
+                maxSize={500000}
+              />
+              <FormFeedback>
+                {errors.assets && errors.assets.message}
+              </FormFeedback>
             </FormGroup>
           </Col>
         </Row>
@@ -177,13 +246,14 @@ function GoodsReceiptForm({ id }) {
                 <th style={{ width: '30%' }}>Product</th>
                 <th style={{ width: '250px' }}>Unit</th>
                 <th style={{ width: '150px' }}>Quantity</th>
+                <th style={{ width: '150px' }}>Price Per Unit</th>
                 <th>Remark</th>
                 <th className="action">Action</th>
               </tr>
             </thead>
             <tbody>
               {fields.map((item, index) => (
-                <InventoryFormDetail
+                <OrderFormDetail
                   key={item.id}
                   control={control}
                   errors={errors}
@@ -198,7 +268,7 @@ function GoodsReceiptForm({ id }) {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan="5">
+                <td colSpan="6">
                   <CreateButton
                     size="sm"
                     type="button"
@@ -208,6 +278,7 @@ function GoodsReceiptForm({ id }) {
                         product: null,
                         unit: null,
                         quantity: 0,
+                        price: 0,
                         remark: '',
                       });
                     }}

@@ -64,9 +64,7 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
   const onDropAccepted = React.useCallback(
     acceptedFiles => {
       setIsProcessing(true);
-      console.log(acceptedFiles);
       Promise.all(acceptedFiles.map(file => parseFile(file))).then(t => {
-        console.log(t);
         setFiles(oldFiles => {
           const newFiles = [...oldFiles, ...t];
           onChange(newFiles);
@@ -78,7 +76,6 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
     [onChange, setIsProcessing, setFiles],
   );
   const onDropRejected = React.useCallback(rejectFiles => {
-    console.log(rejectFiles);
     const errors = (
       <ul className="m-0 p-2">
         {rejectFiles

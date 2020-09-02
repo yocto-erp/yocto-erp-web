@@ -6,7 +6,7 @@ import { Controller, useWatch } from 'react-hook-form';
 import ProductSelect from '../../../components/common/product/ProductSelect';
 import UnitSelect from '../../../components/common/unit/UnitSelect';
 
-const InventoryFormDetail = ({
+const OrderFormDetail = ({
   control,
   errors,
   register,
@@ -83,6 +83,18 @@ const InventoryFormDetail = ({
       </td>
       <td>
         <Input
+          type="number"
+          invalid={!!get(errors, ['details', index, 'price'], false)}
+          name={`details[${index}].price`}
+          innerRef={register()}
+          defaultValue={item.price} // make sure to set up defaultValue
+        />
+        <FormFeedback>
+          {get(errors, ['details', index, 'price', 'message'], '')}
+        </FormFeedback>
+      </td>
+      <td>
+        <Input
           type="text"
           invalid={!!get(errors, ['details', index, 'remark'], false)}
           name={`details[${index}].remark`}
@@ -107,7 +119,7 @@ const InventoryFormDetail = ({
   );
 };
 
-InventoryFormDetail.propTypes = {
+OrderFormDetail.propTypes = {
   control: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
@@ -117,4 +129,4 @@ InventoryFormDetail.propTypes = {
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
 };
-export default InventoryFormDetail;
+export default OrderFormDetail;

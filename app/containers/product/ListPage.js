@@ -58,10 +58,8 @@ const ListPage = ({ history }) => {
           <TableActionColumns
             onEdit={() => {
               history.push(editPage(ROOT_PATH, row.id));
-              console.log(`Edit Item ${JSON.stringify(row)}`);
             }}
             onDelete={() => {
-              console.log(`Delete Item ${JSON.stringify(row)}`);
               history.push(deletePage(ROOT_PATH, row.id));
             }}
           />
@@ -71,13 +69,11 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  console.log('ListPage');
   const search = { search: '' };
   const action = (
     <div>
       <CreateButton
         onClick={() => {
-          console.log('Create');
           history.push(newPage(ROOT_PATH));
         }}
       />

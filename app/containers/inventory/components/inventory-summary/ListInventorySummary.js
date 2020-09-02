@@ -66,7 +66,6 @@ const ListInventorySummary = ({ history }) => {
       <CreateButton
         className="mr-2"
         onClick={() => {
-          console.log('Create Goods Receipt');
           history.push(newPage(PATH_GOODS_RECEIPT));
         }}
       >
@@ -74,7 +73,6 @@ const ListInventorySummary = ({ history }) => {
       </CreateButton>
       <CreateButton
         onClick={() => {
-          console.log('Create  Goods Issue');
           history.push(newPage(PATH_GOODS_ISSUE));
         }}
         color="warning"

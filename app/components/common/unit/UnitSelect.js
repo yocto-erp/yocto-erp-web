@@ -35,7 +35,6 @@ const UnitSelect = ({
   useEffect(() => {
     request.current += 1;
     let currentRequest = request.current;
-    console.log(`Unit Product Id: ${props.productId}`);
     if (props.productId) {
       productApi.read(props.productId).then(data => {
         if (currentRequest === request.current) {
@@ -77,7 +76,6 @@ const UnitSelect = ({
       {props.productId ? (
         <UnitModalForm
           closeHandle={val => {
-            console.log(val);
             if (val && onAdded) {
               onAdded(val);
             }

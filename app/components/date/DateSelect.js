@@ -25,8 +25,6 @@ const DateSelect = ({ onChange, value, onBlur, invalid, placeholder }) => {
       classNames={classes}
       inputProps={{ className: 'form-control' }}
       formatDate={formatDate}
-      showOverlay="true"
-      keepFocus={false}
       placeholder={placeholder || 'DD/MM/YYYY'}
     />
   );
