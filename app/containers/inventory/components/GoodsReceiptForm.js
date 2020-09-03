@@ -25,26 +25,26 @@ import CreateButton from '../../../components/button/CreateButton';
 import DateSelect from '../../../components/date/DateSelect';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required.'),
+  name: Yup.string().required('This field is required.'),
   warehouse: Yup.object()
-    .required('Warehouse is required')
+    .required('This field is required.')
     .nullable(true),
   details: Yup.array()
     .of(
       Yup.object().shape({
         product: Yup.object()
-          .required('Product is required')
+          .required('This field is required.')
           .nullable(true),
         quantity: Yup.number()
           .moreThan(0)
-          .required('Quantity is required'),
+          .required('This field is required.'),
         unit: Yup.object()
-          .required('Unit is required')
+          .required('This field is required.')
           .nullable(true),
       }),
     )
-    .required('Details is required'),
-  processedDate: Yup.date().required('Date is required'),
+    .required('This field is required.'),
+  processedDate: Yup.date().required('This field is required.'),
 });
 
 const { create, update, read } = goodsReceiptApi;
@@ -114,7 +114,7 @@ function GoodsReceiptForm({ id }) {
           <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label for="warehouse" className="mr-sm-2 required">
-                Warehouse <span className="text-danger">*</span>
+                Warehouse<span className="text-danger">*</span>
               </Label>
               <Controller
                 defaultValue={formData ? formData.warehouse : null}
@@ -133,7 +133,7 @@ function GoodsReceiptForm({ id }) {
           <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
-                Name <span className="text-danger">*</span>
+                Name<span className="text-danger">*</span>
               </Label>
               <Input
                 invalid={!!errors.name}
@@ -151,7 +151,7 @@ function GoodsReceiptForm({ id }) {
           <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label for="units" className="mr-sm-2">
-                Process Date
+                Process Date<span className="text-danger">*</span>
               </Label>
               <div style={{ width: '250px' }} className="">
                 <Controller
@@ -162,7 +162,6 @@ function GoodsReceiptForm({ id }) {
                   as={DateSelect}
                 />
               </div>
-
               <FormFeedback>
                 {errors.processedDate && errors.processedDate.message}
               </FormFeedback>
@@ -188,9 +187,15 @@ function GoodsReceiptForm({ id }) {
           <Table bordered hover striped>
             <thead>
               <tr>
-                <th style={{ width: '30%' }}>Product</th>
-                <th style={{ width: '250px' }}>Unit</th>
-                <th style={{ width: '150px' }}>Quantity</th>
+                <th style={{ width: '30%' }}>
+                  Product<span className="text-danger">*</span>
+                </th>
+                <th style={{ width: '250px' }}>
+                  Unit<span className="text-danger">*</span>
+                </th>
+                <th style={{ width: '150px' }}>
+                  Quantity<span className="text-danger">*</span>
+                </th>
                 <th>Remark</th>
                 <th className="action">Action</th>
               </tr>

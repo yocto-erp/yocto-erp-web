@@ -29,11 +29,11 @@ const validationSchema = Yup.object().shape({
   units: Yup.array()
     .of(
       Yup.object().shape({
-        name: Yup.string().required('Unit name is required'),
-        rate: Yup.number().required('Unit rate is required'),
+        name: Yup.string().required('This field is required.'),
+        rate: Yup.number().required('This field is required.'),
       }),
     )
-    .required('Product units is required'),
+    .required('This field is required.'),
 });
 
 const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
@@ -83,8 +83,12 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
             <Table bordered hover striped>
               <thead>
                 <tr>
-                  <th>Unit Name</th>
-                  <th style={{ width: '120px' }}>Rate</th>
+                  <th>
+                    Unit Name<span className="text-danger">*</span>
+                  </th>
+                  <th style={{ width: '120px' }}>
+                    Rate<span className="text-danger">*</span>
+                  </th>
                   <th className="action">Action</th>
                 </tr>
               </thead>

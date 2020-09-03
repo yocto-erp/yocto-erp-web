@@ -67,7 +67,11 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
         </ModalHeader>
         <ModalBody>
           <FormRow
-            label="First Name"
+            label={
+              <>
+                First Name<span className="text-danger">*</span>
+              </>
+            }
             labelCol={3}
             valueCol={9}
             name="firstName"
@@ -77,7 +81,11 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
             placeholder="First Name"
           />
           <FormRow
-            label="Last Name"
+            label={
+              <>
+                Last Name<span className="text-danger">*</span>
+              </>
+            }
             labelCol={3}
             valueCol={9}
             name="lastName"
@@ -97,7 +105,11 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
           />
 
           <FormRow
-            label="Email"
+            label={
+              <>
+                Email<span className="text-danger">*</span>
+              </>
+            }
             labelCol={3}
             valueCol={9}
             name="email"

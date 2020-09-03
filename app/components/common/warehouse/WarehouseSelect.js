@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/async';
 import classNames from 'classnames';
@@ -26,7 +26,22 @@ const WarehouseSelect = ({
   placeholder,
   ...props
 }) => {
-  console.log(props);
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    warehouseApi
+      .search({
+        page: 1,
+        size: 1000,
+      })
+      .then(resp => {
+        setOptions(resp.rows);
+      });
+  }, []);
+
+  console.log('fdsfsafdfdsfsdfds');
+  console.log(options);
+
   const loadOptions1 = debounce((inputValue, cb) => {
     warehouseApi
       .search({
