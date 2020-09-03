@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Button, CustomInput, InputGroup, InputGroupAddon } from 'reactstrap';
 import { Controller } from 'react-hook-form';
 import classNames from 'classnames';
 import Select from 'react-select';
@@ -27,6 +27,7 @@ const UnitSelect = ({
   name,
   placeholder,
   onAdded,
+  productId,
   ...props
 }) => {
   const [isOpen, open] = useState(false);
@@ -35,8 +36,8 @@ const UnitSelect = ({
   useEffect(() => {
     request.current += 1;
     let currentRequest = request.current;
-    if (props.productId) {
-      productApi.read(props.productId).then(data => {
+    if (productId) {
+      productApi.read(productId).then(data => {
         if (currentRequest === request.current) {
           setOptions(data.units);
         }
@@ -47,33 +48,50 @@ const UnitSelect = ({
     return () => {
       currentRequest = 0;
     };
-  }, [props.productId]);
+  }, [productId]);
+
+  const onChangeHandle = React.useCallback(
+    event => {
+      console.log(event.target.value);
+      const id = Number(event.target.value);
+      if (id > 0) {
+        onChange(options.find(t => t.id === id));
+      } else {
+        onChange(null);
+      }
+    },
+    [onChange, options],
+  );
 
   return (
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })}>
-        <Select
-          aria-labelledby="test"
-          className="react-select-container"
-          classNamePrefix="react-select"
-          placeholder={placeholder}
-          options={options}
-          styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
-          isClearable
+        <CustomInput
+          type="select"
+          onChange={onChangeHandle}
           onBlur={onBlur}
-          onChange={onChange}
-          getOptionValue={data => data.id}
-          formatOptionLabel={formatOptionLabel}
-          name={name}
-          value={value}
-        />
+          disabled={!productId}
+          value={value ? value.id : '0'}
+        >
+          <option value="0">{placeholder}</option>
+          {options.map(t => (
+            <option key={t.id} value={t.id}>
+              {t.name}
+            </option>
+          ))}
+        </CustomInput>
         <InputGroupAddon addonType="append">
-          <Button color="primary" type="button" onClick={() => open(true)}>
+          <Button
+            color="primary"
+            type="button"
+            disabled={!productId}
+            onClick={() => open(true)}
+          >
             <i className="las la-plus" />
           </Button>
         </InputGroupAddon>
       </InputGroup>
-      {props.productId ? (
+      {productId ? (
         <UnitModalForm
           closeHandle={val => {
             if (val && onAdded) {
@@ -82,7 +100,7 @@ const UnitSelect = ({
             open(false);
           }}
           isOpen={isOpen}
-          productId={props.productId}
+          productId={productId}
         />
       ) : (
         ''

@@ -39,11 +39,11 @@ const validationSchema = Yup.object().shape({
           .required('Product is required')
           .nullable(true),
         quantity: Yup.number()
-          .moreThan(0)
+          .moreThan(0, 'Quantity must larger than 0')
           .required('Quantity is required'),
         price: Yup.number()
-          .moreThan(0)
-          .required('Quantity is required'),
+          .moreThan(0, 'Price must larger than 0')
+          .required('Price is required'),
         unit: Yup.object()
           .required('Unit is required')
           .nullable(true),
@@ -219,7 +219,7 @@ function MyForm({ id }) {
         </Row>
 
         <FormGroup>
-          <Table bordered hover striped>
+          <Table bordered hover striped size="sm">
             <thead>
               <tr>
                 <th style={{ width: '30%' }}>Product</th>
