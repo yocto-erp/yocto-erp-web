@@ -8,7 +8,7 @@ import ProductSelect from '../../../../components/common/product/ProductSelect';
 import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
 
 const FilterInventorySummary = ({ data }) => {
-  const { handleSubmit, register, control } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: data,
   });
   const setFilter = useListFilter();

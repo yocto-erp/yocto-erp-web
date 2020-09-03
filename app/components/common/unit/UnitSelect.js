@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
-import { Controller } from 'react-hook-form';
 import classNames from 'classnames';
 import Select from 'react-select';
 import productApi from '../../../libs/apis/product/product.api';

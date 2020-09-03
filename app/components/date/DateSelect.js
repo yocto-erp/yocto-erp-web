@@ -5,7 +5,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import classNames from 'classnames';
 import { formatDateOnly } from '../../libs/utils/date.util';
 
-const DateSelect = ({ onChange, value, onBlur, invalid, placeholder }) => {
+const DateSelect = ({ onChange, value, invalid, placeholder }) => {
   const handleDayChange = selectedDay => {
     if (isFunction(onChange)) {
       onChange(selectedDay);
@@ -33,7 +33,6 @@ const DateSelect = ({ onChange, value, onBlur, invalid, placeholder }) => {
 DateSelect.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.func,
-  onBlur: PropTypes.func,
   invalid: PropTypes.bool,
   placeholder: PropTypes.string,
 };
