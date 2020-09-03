@@ -67,6 +67,7 @@ const ListPage = ({ history }) => {
   const action = (
     <div>
       <CreateButton
+        className="box"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}

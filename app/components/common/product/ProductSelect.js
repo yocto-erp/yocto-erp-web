@@ -34,7 +34,7 @@ const ProductSelect = ({
         page: 1,
         size: 10,
         filter: {
-          name: inputValue,
+          search: inputValue,
         },
       })
       .then(resp => cb(resp.rows));
@@ -47,8 +47,10 @@ const ProductSelect = ({
           className="react-select-container"
           classNamePrefix="react-select"
           placeholder={placeholder}
+          noOptionsMessage={({ inputValue }) =>
+            inputValue ? '<span>Not found</span>' : 'Input and search product'
+          }
           loadOptions={loadOptions1}
-          defaultOptions
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           onBlur={onBlur}

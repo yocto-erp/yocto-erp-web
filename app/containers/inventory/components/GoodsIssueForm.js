@@ -36,7 +36,7 @@ const validationSchema = Yup.object().shape({
           .required('This field is required.')
           .nullable(true),
         quantity: Yup.number()
-          .moreThan(0)
+          .moreThan(0, 'Quantity must larger than 0')
           .required('This field is required.'),
         unit: Yup.object()
           .required('This field is required.')
@@ -80,7 +80,6 @@ function GoodsIssueForm({ id }) {
     },
     mappingToServer: form => {
       console.log(`Mapping to server: ${JSON.stringify(form)}`);
-      console.log(form);
       const details = form.details.map(result => ({
         productId: result.product.id,
         unitId: result.unit.id,
@@ -117,14 +116,14 @@ function GoodsIssueForm({ id }) {
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
           <Col xs="6" lg="6" md="12" sm="12">
-            <FormGroup>
+            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
               <Label for="warehouse" className="mr-sm-2 required">
                 Warehouse<span className="text-danger">*</span>
               </Label>
               <Controller
+                invalid={!!errors.warehouse}
                 defaultValue={formData ? formData.warehouse : null}
                 name="warehouse"
-                invalid={!!errors.warehouse}
                 control={control}
                 id="warehouseId"
                 placeholder="Warehouse Name"

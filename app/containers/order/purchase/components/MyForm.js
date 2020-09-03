@@ -39,17 +39,17 @@ const validationSchema = Yup.object().shape({
           .required('This field is required.')
           .nullable(true),
         quantity: Yup.number()
-          .moreThan(0)
+          .moreThan(0, 'Quantity must larger than 0')
           .required('This field is required.'),
         price: Yup.number()
-          .moreThan(0)
+          .moreThan(0, 'Price must larger than 0')
           .required('This field is required.'),
         unit: Yup.object()
           .required('This field is required.')
           .nullable(true),
       }),
     )
-    .required('This field is required.'),
+    .required('Details is required'),
 });
 
 const { create, update, read } = purchaseApi;
@@ -123,7 +123,7 @@ function MyForm({ id }) {
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
-                Name<span className="text-danger">*</span>
+                Name <span className="text-danger">*</span>
               </Label>
               <Input
                 invalid={!!errors.name}
@@ -155,7 +155,7 @@ function MyForm({ id }) {
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="partnerPersonId" className="mr-sm-2">
-                Customer<span className="text-danger">*</span>
+                Customer
               </Label>
               <Controller
                 name="partnerPersonId"
@@ -187,7 +187,7 @@ function MyForm({ id }) {
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="partnerCompanyId" className="mr-sm-2">
-                Company<span className="text-danger">*</span>
+                Company
               </Label>
               <Controller
                 name="partnerCompanyId"
@@ -219,7 +219,7 @@ function MyForm({ id }) {
         </Row>
 
         <FormGroup>
-          <Table bordered hover striped>
+          <Table bordered hover striped size="sm">
             <thead>
               <tr>
                 <th style={{ width: '30%' }}>

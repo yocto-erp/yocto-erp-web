@@ -39,13 +39,13 @@ const validationSchema = Yup.object().shape({
           .required('This field is required.')
           .nullable(true),
         quantity: Yup.number()
-          .moreThan(0)
+          .moreThan(0, 'Quantity must larger than 0')
           .required('This field is required.'),
         price: Yup.number()
-          .moreThan(0)
+          .moreThan(0, 'Price must larger than 0')
           .required('This field is required.'),
         unit: Yup.object()
-          .required('Unit is required')
+          .required('This field is required.')
           .nullable(true),
       }),
     )

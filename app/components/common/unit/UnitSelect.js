@@ -1,22 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Button, CustomInput, InputGroup, InputGroupAddon } from 'reactstrap';
 import classNames from 'classnames';
-import Select from 'react-select';
 import productApi from '../../../libs/apis/product/product.api';
 import UnitModalForm from './UnitModalForm';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-
-const formatOptionLabel = data =>
-  data ? (
-    <div className="">
-      <span>
-        {data.name} - {data.rate}
-      </span>
-    </div>
-  ) : (
-    ''
-  );
 
 const UnitSelect = ({
   onChange,
@@ -26,6 +13,8 @@ const UnitSelect = ({
   name,
   placeholder,
   onAdded,
+  productId,
+  id,
   ...props
 }) => {
   const [isOpen, open] = useState(false);
@@ -34,8 +23,8 @@ const UnitSelect = ({
   useEffect(() => {
     request.current += 1;
     let currentRequest = request.current;
-    if (props.productId) {
-      productApi.read(props.productId).then(data => {
+    if (productId) {
+      productApi.read(productId).then(data => {
         if (currentRequest === request.current) {
           setOptions(data.units);
         }
@@ -46,28 +35,46 @@ const UnitSelect = ({
     return () => {
       currentRequest = 0;
     };
-  }, [props.productId]);
+  }, [productId]);
+
+  const onChangeHandle = React.useCallback(
+    event => {
+      console.log(event.target.value);
+      const idSelect = Number(event.target.value);
+      if (idSelect > 0) {
+        onChange(options.find(t => t.id === idSelect));
+      } else {
+        onChange(null);
+      }
+    },
+    [onChange, options],
+  );
 
   return (
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })}>
-        <Select
-          aria-labelledby="test"
-          className="react-select-container"
-          classNamePrefix="react-select"
-          placeholder={placeholder}
-          options={options}
-          styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
-          isClearable
+        <CustomInput
+          id={id}
+          type="select"
+          onChange={onChangeHandle}
           onBlur={onBlur}
-          onChange={onChange}
-          getOptionValue={data => data.id}
-          formatOptionLabel={formatOptionLabel}
-          name={name}
-          value={value}
-        />
+          disabled={!productId}
+          value={value ? value.id : '0'}
+        >
+          <option value="0">{placeholder}</option>
+          {options.map(t => (
+            <option key={t.id} value={t.id}>
+              {t.name}
+            </option>
+          ))}
+        </CustomInput>
         <InputGroupAddon addonType="append">
-          <Button color="primary" type="button" onClick={() => open(true)}>
+          <Button
+            color="primary"
+            type="button"
+            disabled={!productId}
+            onClick={() => open(true)}
+          >
             <i className="las la-plus" />
           </Button>
         </InputGroupAddon>
@@ -81,7 +88,7 @@ const UnitSelect = ({
             open(false);
           }}
           isOpen={isOpen}
-          productId={props.productId}
+          productId={productId}
         />
       ) : (
         ''
@@ -90,6 +97,7 @@ const UnitSelect = ({
   );
 };
 UnitSelect.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   invalid: PropTypes.bool,
   productId: PropTypes.any,
   name: PropTypes.string.isRequired,

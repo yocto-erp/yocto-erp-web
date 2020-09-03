@@ -21,7 +21,7 @@ const FilterInventorySummary = ({ data }) => {
   return (
     <Form inline onSubmit={onSubmit} noValidate>
       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="productId" className="mr-sm-2">
+        <Label for="warehouseId" className="mr-sm-2">
           Warehouse
         </Label>
         <div style={{ width: '250px' }}>
