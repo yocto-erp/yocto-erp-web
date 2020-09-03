@@ -1,75 +1,78 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import AsyncSelect from 'react-select/async';
+import { CustomInput, InputGroup } from 'reactstrap';
 import classNames from 'classnames';
-import debounce from 'lodash/debounce';
 import warehouseApi from '../../../libs/apis/warehouse.api';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-
-const formatOptionLabel = data =>
-  data ? (
-    <div className="">
-      <span>
-        {data.name} - {data.address}
-      </span>
-    </div>
-  ) : (
-    ''
-  );
 
 const WarehouseSelect = ({
-  value,
   onChange,
+  value,
   onBlur,
   invalid,
-  name,
+  id,
   placeholder,
-  ...props
 }) => {
-  console.log(props);
-  const loadOptions1 = debounce((inputValue, cb) => {
+  const [options, setOptions] = useState([]);
+  const request = React.useRef(0);
+  useEffect(() => {
+    request.current += 1;
+    let currentRequest = request.current;
     warehouseApi
       .search({
         page: 1,
-        size: 10,
-        filter: {
-          name: inputValue,
-        },
+        size: 1000,
       })
-      .then(resp => cb(resp.rows));
-  }, 300);
+      .then(data => {
+        if (currentRequest === request.current) {
+          setOptions(data.rows);
+        }
+      });
+    return () => {
+      currentRequest = 0;
+    };
+  }, []);
+
+  const onChangeHandle = React.useCallback(
+    event => {
+      console.log(event.target.value);
+      const idSelect = Number(event.target.value);
+      if (idSelect > 0) {
+        onChange(options.find(t => t.id === idSelect));
+      } else {
+        onChange(null);
+      }
+    },
+    [onChange, options],
+  );
 
   return (
     <>
-      <AsyncSelect
-        {...props}
-        className={classNames('react-select-container', {
-          'is-invalid': invalid,
-        })}
-        defaultOptions
-        classNamePrefix="react-select"
-        placeholder={placeholder}
-        loadOptions={loadOptions1}
-        styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
-        isClearable
-        onBlur={onBlur}
-        onChange={onChange}
-        formatOptionLabel={formatOptionLabel}
-        getOptionValue={data => data.id}
-        name={name}
-        value={value}
-      />
+      <InputGroup className={classNames({ 'is-invalid': invalid })}>
+        <CustomInput
+          id={id}
+          type="select"
+          onChange={onChangeHandle}
+          onBlur={onBlur}
+          value={value ? value.id : '0'}
+        >
+          <option value="0">{placeholder}</option>
+          {options.map(t => (
+            <option key={t.id} value={t.id}>
+              {t.name}
+            </option>
+          ))}
+        </CustomInput>
+      </InputGroup>
     </>
   );
 };
-
 WarehouseSelect.propTypes = {
-  value: PropTypes.any,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   invalid: PropTypes.bool,
-  name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  value: PropTypes.any,
 };
 
 export default WarehouseSelect;

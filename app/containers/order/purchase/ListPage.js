@@ -32,7 +32,16 @@ const ListPage = ({ history }) => {
         width: '20%',
       },
       {
-        header: 'Partner',
+        header: 'Company',
+        data: 'partnerCompany',
+        width: '12%',
+        render: row => {
+          const { partnerCompany } = row;
+          return partnerCompany ? partnerCompany.name : '';
+        },
+      },
+      {
+        header: 'Customer',
         data: 'partnerPerson',
         width: '12%',
         render: row => {
@@ -84,7 +93,7 @@ const ListPage = ({ history }) => {
   );
 
   console.log('ListPage');
-  const search = { search: '' };
+  const search = { search: '', partnerCompanyId: null, partnerPersonId: null };
   const action = (
     <div>
       <CreateButton
@@ -130,7 +139,7 @@ const ListPage = ({ history }) => {
   );
   return (
     <>
-      <PageTitle title="Product" actions={action} />
+      <PageTitle title="Purchase" actions={action} />
       <Widget>
         <ListWidget
           deleteDialog={deleteConfirmDialog}

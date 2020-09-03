@@ -19,34 +19,33 @@ import SubmitButton from '../../../../components/button/SubmitButton';
 import BackButton from '../../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
 import CreateButton from '../../../../components/button/CreateButton';
-import FileUpload from '../../../../components/FileUpload';
 import OrderFormDetail from '../../components/OrderFormDetail';
 import CustomerSelect from '../../../../components/common/customer/CustomerSelect';
 import purchaseApi from '../../../../libs/apis/order/purchase.api';
 import CompanySelect from '../../../../components/common/company/CompanySelect';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required.'),
+  name: Yup.string().required('This field is required.'),
   partnerPersonId: Yup.object()
-    .required('Customer is required')
+    .required('This field is required.')
     .nullable(true),
   partnerCompanyId: Yup.object()
-    .required('Company is required')
+    .required('This field is required.')
     .nullable(true),
   details: Yup.array()
     .of(
       Yup.object().shape({
         product: Yup.object()
-          .required('Product is required')
+          .required('This field is required.')
           .nullable(true),
         quantity: Yup.number()
-          .moreThan(0)
-          .required('Quantity is required'),
+          .moreThan(0, 'Quantity must larger than 0')
+          .required('This field is required.'),
         price: Yup.number()
-          .moreThan(0)
-          .required('Quantity is required'),
+          .moreThan(0, 'Price must larger than 0')
+          .required('This field is required.'),
         unit: Yup.object()
-          .required('Unit is required')
+          .required('This field is required.')
           .nullable(true),
       }),
     )
@@ -80,7 +79,6 @@ function MyForm({ id }) {
       remark: form.remark,
       partnerPersonId: form.partnerPerson,
       partnerCompanyId: form.partnerCompany,
-      assets: form.assets,
       details: form.details.map(t => ({ ...t, id: uuidv4() })),
     }),
     mappingToServer: form => {
@@ -97,7 +95,6 @@ function MyForm({ id }) {
         partnerPersonId: form.partnerPersonId.id,
         remark: form.remark,
         details,
-        assets: form.assets,
       };
     },
     validationSchema,
@@ -109,7 +106,6 @@ function MyForm({ id }) {
       details: [
         { product: null, unit: null, quantity: 0, price: 0, remark: '' },
       ],
-      assets: [],
     },
     id,
   });
@@ -139,6 +135,8 @@ function MyForm({ id }) {
               />
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
                 Remark
@@ -151,6 +149,10 @@ function MyForm({ id }) {
                 placeholder="Remark"
               />
             </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="partnerPersonId" className="mr-sm-2">
                 Customer
@@ -181,9 +183,11 @@ function MyForm({ id }) {
                 {errors.partnerPersonId && errors.partnerPersonId.message}
               </FormFeedback>
             </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="partnerCompanyId" className="mr-sm-2">
-                Partner Company
+                Company
               </Label>
               <Controller
                 name="partnerCompanyId"
@@ -212,36 +216,24 @@ function MyForm({ id }) {
               </FormFeedback>
             </FormGroup>
           </Col>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
-            <FormGroup>
-              <Label for="files" className="required">
-                Files
-              </Label>
-              <Controller
-                defaultValue={formData ? formData.assets : []}
-                invalid={!!errors.assets}
-                as={FileUpload}
-                name="assets"
-                placeholder="Upload files"
-                control={control}
-                accept={['image/*']}
-                maxSize={500000}
-              />
-              <FormFeedback>
-                {errors.assets && errors.assets.message}
-              </FormFeedback>
-            </FormGroup>
-          </Col>
         </Row>
 
         <FormGroup>
-          <Table bordered hover striped>
+          <Table bordered hover striped size="sm">
             <thead>
               <tr>
-                <th style={{ width: '30%' }}>Product</th>
-                <th style={{ width: '250px' }}>Unit</th>
-                <th style={{ width: '150px' }}>Quantity</th>
-                <th style={{ width: '150px' }}>Price Per Unit</th>
+                <th style={{ width: '30%' }}>
+                  Product<span className="text-danger">*</span>
+                </th>
+                <th style={{ width: '250px' }}>
+                  Unit<span className="text-danger">*</span>
+                </th>
+                <th style={{ width: '150px' }}>
+                  Quantity<span className="text-danger">*</span>
+                </th>
+                <th style={{ width: '150px' }}>
+                  Price Per Unit<span className="text-danger">*</span>
+                </th>
                 <th>Remark</th>
                 <th className="action">Action</th>
               </tr>

@@ -14,19 +14,22 @@ import {
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Controller, useFieldArray } from 'react-hook-form';
-import goodsReceiptApi from '../../../libs/apis/inventory/goods-receipt.api';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
-import InventoryFormDetail from './InventoryFormDetail';
-import CreateButton from '../../../components/button/CreateButton';
-import DateSelect from '../../../components/date/DateSelect';
+import Widget from '../../../../components/Widget/Widget';
+import SubmitButton from '../../../../components/button/SubmitButton';
+import BackButton from '../../../../components/button/BackButton';
+import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
+import CreateButton from '../../../../components/button/CreateButton';
+import OrderFormDetail from '../../components/OrderFormDetail';
+import CustomerSelect from '../../../../components/common/customer/CustomerSelect';
+import saleApi from '../../../../libs/apis/order/sale.api';
+import CompanySelect from '../../../../components/common/company/CompanySelect';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
-  warehouse: Yup.object()
+  partnerPersonId: Yup.object()
+    .required('This field is required.')
+    .nullable(true),
+  partnerCompanyId: Yup.object()
     .required('This field is required.')
     .nullable(true),
   details: Yup.array()
@@ -38,18 +41,20 @@ const validationSchema = Yup.object().shape({
         quantity: Yup.number()
           .moreThan(0, 'Quantity must larger than 0')
           .required('This field is required.'),
+        price: Yup.number()
+          .moreThan(0, 'Price must larger than 0')
+          .required('This field is required.'),
         unit: Yup.object()
           .required('This field is required.')
           .nullable(true),
       }),
     )
     .required('This field is required.'),
-  processedDate: Yup.date().required('This field is required.'),
 });
 
-const { create, update, read } = goodsReceiptApi;
+const { create, update, read } = saleApi;
 
-function GoodsReceiptForm({ id }) {
+function MyForm({ id }) {
   const {
     control,
     register,
@@ -63,16 +68,17 @@ function GoodsReceiptForm({ id }) {
     update,
     read,
     onSuccess: resp => {
-      console.log(`Success: ${JSON.stringify(resp)}`);
       toast.success(
-        id ? 'Update Goods Receipt success' : 'Create Goods Receipt success',
+        id
+          ? `Update Purchase ${resp.name} success`
+          : `Create Purchase ${resp.name} success`,
       );
     },
     mappingToForm: form => ({
       name: form.name,
       remark: form.remark,
-      warehouse: form.warehouse,
-      processedDate: form.processedDate,
+      partnerPersonId: form.partnerPerson,
+      partnerCompanyId: form.partnerCompany,
       details: form.details.map(t => ({ ...t, id: uuidv4() })),
     }),
     mappingToServer: form => {
@@ -80,23 +86,26 @@ function GoodsReceiptForm({ id }) {
         productId: result.product.id,
         unitId: result.unit.id,
         quantity: result.quantity,
+        price: result.price,
         remark: result.remark,
       }));
       return {
         name: form.name,
-        warehouseId: form.warehouse.id,
+        partnerCompanyId: form.partnerCompanyId.id,
+        partnerPersonId: form.partnerPersonId.id,
         remark: form.remark,
-        processedDate: form.processedDate,
         details,
       };
     },
     validationSchema,
     initForm: {
-      warehouse: null,
       name: '',
       remark: '',
-      details: [{ product: null, unit: null, quantity: 0, remark: '' }],
-      processedDate: new Date(),
+      partnerPersonId: null,
+      partnerCompanyId: null,
+      details: [
+        { product: null, unit: null, quantity: 0, price: 0, remark: '' },
+      ],
     },
     id,
   });
@@ -111,26 +120,7 @@ function GoodsReceiptForm({ id }) {
     return (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <Label for="warehouse" className="mr-sm-2 required">
-                Warehouse<span className="text-danger">*</span>
-              </Label>
-              <Controller
-                invalid={!!errors.warehouse}
-                defaultValue={formData ? formData.warehouse : null}
-                name="warehouse"
-                control={control}
-                id="warehouseId"
-                placeholder="Warehouse Name"
-                as={WarehouseSelect}
-              />
-              <FormFeedback>
-                {errors.warehouse && errors.warehouse.message}
-              </FormFeedback>
-            </FormGroup>
-          </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
                 Name<span className="text-danger">*</span>
@@ -141,33 +131,12 @@ function GoodsReceiptForm({ id }) {
                 name="name"
                 innerRef={register}
                 id="name"
-                placeholder="Inventory Name"
+                placeholder="Name"
               />
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
           </Col>
-        </Row>
-        <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
-            <FormGroup>
-              <Label for="units" className="mr-sm-2">
-                Process Date<span className="text-danger">*</span>
-              </Label>
-              <div style={{ width: '250px' }} className="">
-                <Controller
-                  defaultValue={formData ? formData.processedDate : null}
-                  name="processedDate"
-                  control={control}
-                  invalid={!!errors.processedDate}
-                  as={DateSelect}
-                />
-              </div>
-              <FormFeedback>
-                {errors.processedDate && errors.processedDate.message}
-              </FormFeedback>
-            </FormGroup>
-          </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
                 Remark
@@ -177,8 +146,74 @@ function GoodsReceiptForm({ id }) {
                 name="remark"
                 innerRef={register}
                 id="remark"
-                placeholder="Product Remark"
+                placeholder="Remark"
               />
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+            <FormGroup>
+              <Label for="partnerPersonId" className="mr-sm-2">
+                Customer<span className="text-danger">*</span>
+              </Label>
+              <Controller
+                name="partnerPersonId"
+                defaultValue={formData ? formData.partnerPersonId : null}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <CustomerSelect
+                    id="partnerPersonId"
+                    placeholder="Choose Customer"
+                    invalid={!!errors.partnerPersonId}
+                    onAdded={newCustomer => {
+                      console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
+                      setValue('partnerPersonId', newCustomer, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
+                )}
+              />
+              <FormFeedback>
+                {errors.partnerPersonId && errors.partnerPersonId.message}
+              </FormFeedback>
+            </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+            <FormGroup>
+              <Label for="partnerCompanyId" className="mr-sm-2">
+                Company<span className="text-danger">*</span>
+              </Label>
+              <Controller
+                name="partnerCompanyId"
+                defaultValue={formData ? formData.partnerCompanyId : null}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <CompanySelect
+                    id="partnerCompanyId"
+                    placeholder="Choose Partner Company"
+                    invalid={!!errors.partnerCompanyId}
+                    onAdded={newCompany => {
+                      console.log(`OnAdd: ${JSON.stringify(newCompany)}`);
+                      setValue('partnerCompanyId', newCompany, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
+                )}
+              />
+              <FormFeedback>
+                {errors.partnerCompanyId && errors.partnerCompanyId.message}
+              </FormFeedback>
             </FormGroup>
           </Col>
         </Row>
@@ -196,13 +231,16 @@ function GoodsReceiptForm({ id }) {
                 <th style={{ width: '150px' }}>
                   Quantity<span className="text-danger">*</span>
                 </th>
+                <th style={{ width: '150px' }}>
+                  Price Per Unit<span className="text-danger">*</span>
+                </th>
                 <th>Remark</th>
                 <th className="action">Action</th>
               </tr>
             </thead>
             <tbody>
               {fields.map((item, index) => (
-                <InventoryFormDetail
+                <OrderFormDetail
                   key={item.id}
                   control={control}
                   errors={errors}
@@ -217,7 +255,7 @@ function GoodsReceiptForm({ id }) {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan="5">
+                <td colSpan="6">
                   <CreateButton
                     size="sm"
                     type="button"
@@ -227,6 +265,7 @@ function GoodsReceiptForm({ id }) {
                         product: null,
                         unit: null,
                         quantity: 0,
+                        price: 0,
                         remark: '',
                       });
                     }}
@@ -248,10 +287,10 @@ function GoodsReceiptForm({ id }) {
   return <Widget>{form}</Widget>;
 }
 
-GoodsReceiptForm.propTypes = {
+MyForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-GoodsReceiptForm.defaultProps = {};
+MyForm.defaultProps = {};
 
-export default GoodsReceiptForm;
+export default MyForm;

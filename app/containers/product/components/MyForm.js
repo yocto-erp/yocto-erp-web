@@ -27,7 +27,7 @@ import FileUpload from '../../../components/FileUpload';
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
   priceBaseUnit: Yup.number()
-    .moreThan(0)
+    .moreThan(0, 'Price must larger than 0')
     .required('This field is required.'),
   units: Yup.array()
     .of(

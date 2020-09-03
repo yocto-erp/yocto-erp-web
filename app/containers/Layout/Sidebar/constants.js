@@ -47,20 +47,9 @@ export const SIDE_BAR_MENU = {
       link: '',
       children: [
         {
-          header: 'Mua hàng',
-          link: '/purchase',
-          index: 'management.purchase',
-        },
-        {
           header: 'Kho',
           link: '/warehouse',
           index: 'management.warehouse',
-        },
-        {
-          header: 'Nhập, xuất kho',
-          link: '/inventory',
-          index: 'management.inventory',
-          isHeader: true,
         },
         {
           header: 'Sản phẩm',

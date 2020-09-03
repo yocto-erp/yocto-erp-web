@@ -13,7 +13,6 @@ import { useAsync } from '../../../libs/hooks/useAsync';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
-  gsm: Yup.string().required('This field is required.'),
 });
 
 const CompanyModalForm = ({ isOpen, closeHandle }) => {
@@ -44,7 +43,11 @@ const CompanyModalForm = ({ isOpen, closeHandle }) => {
         </ModalHeader>
         <ModalBody>
           <FormRow
-            label="Name"
+            label={
+              <>
+                Name<span className="text-danger">*</span>
+              </>
+            }
             name="name"
             type="text"
             error={errors.name}
@@ -57,14 +60,13 @@ const CompanyModalForm = ({ isOpen, closeHandle }) => {
             type="text"
             register={register}
             placeholder="gsm"
-            error={errors.gsm}
           />
           <FormRow
-            label="address"
+            label="Address"
             name="address"
             type="text"
             register={register}
-            placeholder="address"
+            placeholder="Address"
           />
           <FormRow
             label="Remark"

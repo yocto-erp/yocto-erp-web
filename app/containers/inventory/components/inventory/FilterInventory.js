@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useListFilter } from '../../../../components/ListWidget/constants';
 import SearchButton from '../../../../components/button/SearchButton';
 import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
@@ -20,18 +20,21 @@ const FilterInventory = ({ data }) => {
   return (
     <Form inline onSubmit={onSubmit} noValidate>
       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="productId" className="mr-sm-2">
+        <Label for="warehouseId" className="mr-sm-2">
           Warehouse
         </Label>
-        <div style={{ width: '250px' }} className="">
-          <WarehouseSelect
+        <div style={{ width: '250px' }}>
+          <Controller
+            defaultValue={null}
             name="warehouse"
             control={control}
             id="warehouseId"
             placeholder="Warehouse Name"
+            as={WarehouseSelect}
           />
         </div>
       </FormGroup>
+
       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
         <Label for="name" className="mr-sm-2">
           Name
