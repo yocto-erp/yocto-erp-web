@@ -48,7 +48,9 @@ const ProductSelect = ({
           classNamePrefix="react-select"
           placeholder={placeholder}
           noOptionsMessage={({ inputValue }) =>
-            inputValue ? '<span>Not found</span>' : 'Input and search product'
+            inputValue
+              ? `Not found any Product with search "${inputValue}", try to search another`
+              : 'Input and search product'
           }
           loadOptions={loadOptions1}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}

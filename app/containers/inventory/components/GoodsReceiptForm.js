@@ -14,6 +14,7 @@ import {
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Controller, useFieldArray } from 'react-hook-form';
+import classNames from 'classnames';
 import goodsReceiptApi from '../../../libs/apis/inventory/goods-receipt.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
@@ -44,7 +45,9 @@ const validationSchema = Yup.object().shape({
       }),
     )
     .required('This field is required.'),
-  processedDate: Yup.date().required('This field is required.'),
+  processedDate: Yup.date()
+    .required('This field is required.')
+    .nullable(),
 });
 
 const { create, update, read } = goodsReceiptApi;
@@ -96,7 +99,7 @@ function GoodsReceiptForm({ id }) {
       name: '',
       remark: '',
       details: [{ product: null, unit: null, quantity: 0, remark: '' }],
-      processedDate: new Date(),
+      processedDate: new Date(1599023532000),
     },
     id,
   });
@@ -153,7 +156,10 @@ function GoodsReceiptForm({ id }) {
               <Label for="units" className="mr-sm-2">
                 Process Date<span className="text-danger">*</span>
               </Label>
-              <div style={{ width: '250px' }} className="">
+              <div
+                style={{ width: '250px' }}
+                className={classNames({ 'is-invalid': !!errors.processedDate })}
+              >
                 <Controller
                   defaultValue={formData ? formData.processedDate : null}
                   name="processedDate"

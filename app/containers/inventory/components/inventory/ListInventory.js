@@ -111,7 +111,7 @@ const ListInventory = ({ history }) => {
   const actions = (
     <>
       <CreateButton
-        className="mr-2"
+        className="mr-2 btn-raised"
         onClick={() => {
           console.log('Create Goods Receipt');
           history.push(newPage(PATH_GOODS_RECEIPT));
@@ -120,6 +120,7 @@ const ListInventory = ({ history }) => {
         Goods Receipt
       </CreateButton>
       <CreateButton
+        className="shadow btn-raised"
         onClick={() => {
           console.log('Create  Goods Issue');
           history.push(newPage(PATH_GOODS_ISSUE));

@@ -1,31 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import isFunction from 'lodash/isFunction';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
+import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
-import { formatDateOnly } from '../../libs/utils/date.util';
+import { FNS_DATE_FORMAT } from '../../libs/utils/date.util';
 
 const DateSelect = ({ onChange, value, onBlur, invalid, placeholder }) => {
   const handleDayChange = selectedDay => {
+    console.log(selectedDay);
     if (isFunction(onChange)) {
       onChange(selectedDay);
     }
   };
 
-  const classes = {
-    container: classNames('DayPickerInput', { 'is-invalid': invalid }),
-    overlayWrapper: 'DayPickerInput-OverlayWrapper',
-    overlay: 'DayPickerInput-Overlay',
+  const handleOnBlur = ({ target: { val } }) => {
+    console.log(val);
+
+    if (isFunction(onBlur)) {
+      onBlur();
+    }
   };
-  const formatDate = formatDateOnly;
+
   return (
-    <DayPickerInput
-      onDayChange={handleDayChange}
-      value={value}
-      classNames={classes}
-      inputProps={{ className: 'form-control' }}
-      formatDate={formatDate}
-      placeholder={placeholder || 'DD/MM/YYYY'}
+    <DatePicker
+      className={classNames('form-control', {
+        'is-invalid': !!invalid,
+      })}
+      onBlur={handleOnBlur}
+      selected={value}
+      onChange={handleDayChange}
+      peekNextMonth
+      showMonthDropdown
+      showYearDropdown
+      dropdownMode="select"
+      placeholderText={placeholder}
+      dateFormat={FNS_DATE_FORMAT}
     />
   );
 };

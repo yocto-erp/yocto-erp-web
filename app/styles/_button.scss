@@ -6,8 +6,8 @@
 .btn-raised:not([disabled]):active,
 .btn-raised:not([disabled]):focus,
 .btn-raised:not([disabled]):hover {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .4);
-  transform: translate3d(0, -1px, 0)
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, .2);
+  transform: translate3d(0, -2px, 0)
 }
 
 .shadow {

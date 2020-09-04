@@ -1,13 +1,16 @@
-import moment from 'moment';
+import { format, parse } from 'date-fns';
 
-const DATE_TIME_FORMAT = 'DD/MM/YYYY HH:mm:ss';
-
-const DATE_FORMAT = 'DD/MM/YYYY';
+export const FNS_DATE_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss';
+export const FNS_DATE_FORMAT = 'dd/MM/yyyy';
 
 export function formatDate(dateObj) {
-  return moment(dateObj).format(DATE_TIME_FORMAT);
+  return format(dateObj, FNS_DATE_TIME_FORMAT);
 }
 
 export function formatDateOnly(dateObj) {
-  return moment(dateObj).format(DATE_FORMAT);
+  return format(dateObj, FNS_DATE_FORMAT);
+}
+
+export function parseDateOnly(dateString) {
+  return parse(dateString, FNS_DATE_FORMAT);
 }

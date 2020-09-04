@@ -278,8 +278,7 @@ small {
 }
 
 .btn-success,
-.btn-info,
-.btn-warning {
+.btn-info, {
   color: $white;
 
   &:not([disabled]):hover {
@@ -310,10 +309,12 @@ small {
 
 .btn {
   font-family: $font-family-sans-serif;
-  &[disabled]{
+
+  &[disabled] {
     color: $gray-700;
     cursor: not-allowed;
   }
+
   .glyphicon {
     top: 3px;
   }
@@ -379,11 +380,20 @@ small {
   }
 }
 
-.nav-item.dropdown {
-  &.show {
-    .nav-link.active {
-      background: $navbar-link-active-bg;
-      color: $navbar-link-active-color;
+.nav-item {
+  .nav-link {
+    color: $gray-600;
+    &:hover {
+      color: $gray-400;
+    }
+  }
+
+  &.dropdown {
+    &.show {
+      .nav-link.active {
+        background: $navbar-link-active-bg;
+        color: $navbar-link-active-color;
+      }
     }
   }
 }
