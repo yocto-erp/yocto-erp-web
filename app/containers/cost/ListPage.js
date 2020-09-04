@@ -47,11 +47,11 @@ const ListPage = ({ history }) => {
     },
     {
       header: 'Created By',
-      data: 'partnerPerson',
+      data: 'createdBy',
       width: '1px',
       render: row => {
-        const { partnerPerson, createdDate } = row;
-        return <CreatedBy user={partnerPerson} date={createdDate} />;
+        const { createdBy, createdDate } = row;
+        return <CreatedBy user={createdBy} date={createdDate} />;
       },
     },
     {
