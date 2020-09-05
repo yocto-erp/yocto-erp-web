@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
 import {
@@ -16,24 +15,21 @@ import {
 } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
-import { mutate } from 'swr';
+import Alert from 'reactstrap/es/Alert';
 import messages from './messages';
-import Widget from '../../components/Widget/Widget';
-import Footer from '../Layout/Footer';
-import SubmitButton from '../../components/button/SubmitButton';
-import { login } from '../../libs/apis/auth.api';
-import { set, STORAGE } from '../../libs/utils/storage';
-import { SWR_KEY_USER } from '../../libs/hooks/useUser';
+import Widget from '../../../components/Widget/Widget';
+import Footer from '../../Layout/Footer';
+import SubmitButton from '../../../components/button/SubmitButton';
+import { forgotPasswordSendMail } from '../../../libs/apis/auth.api';
 
 const schema = yup.object().shape({
-  username: yup
+  email: yup
     .string()
-    .email('Invalid Email1')
-    .required(),
-  password: yup.string().required(),
+    .email('Invalid Email')
+    .required('This field is required.'),
 });
 
-export function Login() {
+export function ForgotPasswordPage() {
   const {
     register,
     errors,
@@ -44,14 +40,13 @@ export function Login() {
     reValidateMode: 'onChange',
     resolver: yupResolver(schema),
   });
-
+  const [isCheck, check] = useState(false);
   const onSubmit = formData => {
-    login(formData).then(
+    forgotPasswordSendMail(formData).then(
       async r => {
-        // eslint-disable-next-line no-console
         console.log(r);
-        set(STORAGE.JWT, r.token);
-        await mutate(SWR_KEY_USER);
+        check(true);
+        console.log('send mail success');
       },
       () => {},
     );
@@ -60,8 +55,8 @@ export function Login() {
   return (
     <div>
       <Helmet>
-        <title>Login</title>
-        <meta name="description" content="Description of Login" />
+        <title>Forgot your password?</title>
+        <meta name="description" content="Description of forgot password" />
       </Helmet>
       <div className="auth-page d-flex align-items-center">
         <Container>
@@ -73,7 +68,10 @@ export function Login() {
               </h3>
             }
           >
-            <p className="widget-auth-info">Use your email to sign in.</p>
+            <p className="widget-auth-info">Nhập email bạn đã đăng kí!</p>
+            <div>
+              {isCheck ? <Alert color="success">Please check mail!</Alert> : ''}
+            </div>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <FormGroup className="mt">
                 <Label for="email">Email</Label>
@@ -84,39 +82,16 @@ export function Login() {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    invalid={!!errors.username}
-                    id="username"
+                    invalid={!!errors.email}
+                    id="email"
                     className="input-transparent pl-3"
                     type="email"
                     innerRef={register}
-                    name="username"
+                    name="email"
                     placeholder="Email"
                   />
                   <FormFeedback>
-                    <FormattedMessage {...messages.invalidUsername} />
-                  </FormFeedback>
-                </InputGroup>
-              </FormGroup>
-              <FormGroup>
-                <Label for="password">Password</Label>
-                <InputGroup className="input-group-no-border">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="la la-lock text-white" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    invalid={!!errors.password}
-                    id="password"
-                    className="input-transparent pl-3"
-                    type="password"
-                    innerRef={register}
-                    required
-                    name="password"
-                    placeholder="Password"
-                  />
-                  <FormFeedback>
-                    <FormattedMessage {...messages.invalidPassword} />
+                    {errors.email && errors.email.message}
                   </FormFeedback>
                 </InputGroup>
               </FormGroup>
@@ -129,14 +104,8 @@ export function Login() {
                   isLoading={isSubmitting}
                   style={{ color: '#fff' }}
                 >
-                  <FormattedMessage {...messages.loginButton} />
+                  <FormattedMessage {...messages.forgotPasswordButton} />
                 </SubmitButton>
-                <p className="widget-auth-info mt-4">
-                  Don&apos;t have an account? Sign up now!
-                </p>
-                <Link className="d-block text-center mb-4" to="register">
-                  Create an Account
-                </Link>
               </div>
             </form>
           </Widget>
@@ -147,4 +116,4 @@ export function Login() {
   );
 }
 
-export default Login;
+export default ForgotPasswordPage;

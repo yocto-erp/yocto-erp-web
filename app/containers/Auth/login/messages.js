@@ -1,28 +1,28 @@
 /*
- * Login Messages
+ * login Messages
  *
- * This contains all the text for the Login container.
+ * This contains all the text for the login container.
  */
 
 import { defineMessages } from 'react-intl';
 
-export const scope = 'app.containers.Login';
+export const scope = 'app.containers.login';
 
 export default defineMessages({
   header: {
     id: `${scope}.header`,
     defaultMessage: 'Một ngày yên bình !',
   },
-  username: {
-    id: `${scope}.username`,
-    defaultMessage: 'Username',
+  email: {
+    id: `${scope}.email`,
+    defaultMessage: 'email',
   },
   password: {
     id: `${scope}.password`,
     defaultMessage: 'password',
   },
-  invalidUsername: {
-    id: `${scope}.invalid.username`,
+  invalidEmail: {
+    id: `${scope}.invalid.email`,
     defaultMessage: 'Invalid Email',
   },
   invalidPassword: {

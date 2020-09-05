@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import isFunction from 'lodash/isFunction';
 import DatePicker from 'react-datepicker';

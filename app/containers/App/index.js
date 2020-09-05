@@ -7,8 +7,12 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { ToastContainer } from 'react-toastify';
 
 import GlobalStyle from '../../global-styles';
-import { Login } from '../Login';
+import { Login } from '../Auth/login';
 import useUser from '../../libs/hooks/useUser';
+import RegisterPage from '../Auth/register';
+import { VerifyMailPage } from '../Auth/verify-mail';
+import ForgotPasswordPage from '../Auth/forgot-password';
+import RestPasswordPage from '../Auth/reset-password';
 
 export default function App() {
   const { isAuthenticated, isLoading, getUser } = useUser();
@@ -44,6 +48,13 @@ export default function App() {
       </Helmet>
       <ToastContainer autoClose={5000} hideProgressBar />
       <Switch>
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/email-activate" component={VerifyMailPage} />
+        <Route
+          path="/forgot-password/send-mail"
+          component={ForgotPasswordPage}
+        />
+        <Route path="/forgot-password/reset" component={RestPasswordPage} />
         <Route path="/">{mainPage}</Route>
         <Route path="" component={NotFoundPage} />
       </Switch>
