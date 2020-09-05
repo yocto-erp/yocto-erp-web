@@ -1,5 +1,6 @@
 import React from 'react';
-import FormFeedback, {
+import {
+  FormFeedback,
   FormGroup,
   Form,
   Input,
@@ -10,28 +11,39 @@ import FormFeedback, {
 import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
+import { Controller } from 'react-hook-form';
 import apiCost from '../../../libs/apis/cost.api';
 import Widget from '../../../components/Widget/Widget';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
+import CompanySelect from '../../../components/common/company/CompanySelect';
+import CustomerSelect from '../../../components/common/customer/CustomerSelect';
 const MyForm = ({ id }) => {
   const validationSchema = yup.object().shape({
     name: yup.string().required('this field is required'),
     type: yup.number().required('this field is required'),
-    partnerCompany: yup.number().required('this field is required'),
-    partnerPerson: yup.number().required('this field is required'),
+    partnerCompanyId: yup
+      .object()
+      .required('this field is required')
+      .nullable(true),
+    partnerPersonId: yup
+      .object()
+      .required('this field is required')
+      .nullable(true),
     amount: yup.number().required('this field is required'),
-    purpose: yup.number().required('this field is required'),
-    relative: yup.number().required('this field is required'),
+    purposeId: yup.number().required('this field is required'),
+    relativeId: yup.number().required('this field is required'),
   });
-  const { create, update, read } = apiCost;
+  const { create, read, update } = apiCost;
   const {
+    control,
     register,
     submit,
     errors,
-    state: { isLoading },
+    setValue,
     formState: { isValid, isDirty },
+    state: { isLoading, formData },
   } = useHookCRUDForm({
     create,
     update,
@@ -39,136 +51,196 @@ const MyForm = ({ id }) => {
     onSuccess: resp => {
       toast.success(
         id
-          ? `Update cost ${resp.name}  sucsss`
-          : `Created cost ${resp.name} succss`,
+          ? `Update Cost ${resp.name} success`
+          : `Create Cost ${resp.name} success`,
       );
     },
     mappingToForm: form => ({
       name: form.name,
       remark: form.remark,
       type: form.type,
-      partnerCompany: form.partnerCompany,
-      partnerPerson: form.partnerPerson,
       amount: form.amount,
-      purpose: form.purpose,
-      relative: form.relative,
+      purposeId: form.purposeId,
+      relativeId: form.relativeId,
+      partnerPersonId: form.partnerPersonId,
+      partnerCompanyId: form.partnerCompanyId,
     }),
-    validationSchema,
+    mappingToServer: form => ({
+      name: form.name,
+      remark: form.remark,
+      type: form.type,
+      amount: form.amount,
+      purposeId: form.purposeId,
+      relativeId: form.relativeId,
+      partnerPersonId: form.partnerPersonId.id,
+      partnerCompanyId: form.partnerCompanyId.id,
+    }),
     initForm: {
       amount: 0,
     },
+    validationSchema,
     id,
   });
   const form = React.useMemo(
     () => (
-      <Form onSbumit={submit}>
+      <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
           <Col md={6}>
             <FormGroup>
-              <Label for="name">
+              <Label>
                 Title <span className="text-danger">*</span>
               </Label>
               <Input
+                invalid={!!errors.name}
                 name="name"
                 id="name"
+                placeholder="Enter title"
                 innerRef={register}
-                placeholder="Name"
               />
-              <FormFeedback>{errors.name}</FormFeedback>
+              <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="remark">
-                Remark <span className="text-danger" />
-              </Label>
-              <Input
-                name="remark"
-                id="remark"
-                innerRef={register}
-                placeholder="remark"
-              />
+              <Label>Remark</Label>
+              <Input name="remark" type="textarea" placeholder="Enter title" />
             </FormGroup>
           </Col>
         </Row>
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="partnerPerson">
-                Partner Person <span className="text-danger">*</span>
+              <Label>
+                Type <span className="text-danger">*</span>
               </Label>
               <Input
-                name="partnerPerson"
-                id="partnerPerson"
+                invalid={!!errors.type}
+                name="type"
+                type="number"
+                placeholder="Enter title"
                 innerRef={register}
               />
-              <FormFeedback>{errors.partnerPerson}</FormFeedback>
+              <FormFeedback>{errors.type && errors.type.message}</FormFeedback>
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="partnerCompany">
-                Partner Compamy <span className="text-danger" />
-              </Label>
-              <Input
-                name="partnerCompany"
-                id="partnerCompany"
-                innerRef={register}
+              <Label>Company</Label>
+              <Controller
+                name="partnerCompanyId"
+                defaultValue={formData ? formData.partnerCompanyId : null}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <CompanySelect
+                    id="partnerCompanyId"
+                    placeholder="Choose Partner Company"
+                    invalid={!!errors.partnerCompanyId}
+                    onAdded={newCompany => {
+                      console.log(`OnAdd: ${JSON.stringify(newCompany)}`);
+                      setValue('partnerCompanyId', newCompany, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
+                )}
               />
+              <FormFeedback>
+                {errors.partnerCompanyId && errors.partnerCompanyId.message}
+              </FormFeedback>
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="amount">
-                Amount <span className="text-danger" />
+              <Label>Person</Label>
+              <Controller
+                name="partnerPersonId"
+                defaultValue={formData ? formData.partnerPersonId : null}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <CustomerSelect
+                    id="partnerPersonId"
+                    placeholder="Choose Partner Person"
+                    invalid={!!errors.partnerPersonId}
+                    onAdded={newCustomer => {
+                      console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
+                      setValue('partnerPersonId', newCustomer, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
+                )}
+              />
+              <FormFeedback>
+                {errors.partnerPersonId && errors.partnerPersonId.message}
+              </FormFeedback>
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={4}>
+            <FormGroup>
+              <Label>
+                Amount <span className="text-danger">*</span>
               </Label>
               <Input
+                invalid={!!errors.amount}
+                type="number"
                 name="amount"
-                id="amount"
+                innerRef={register}
+              />
+              <FormFeedback>
+                {errors.amount && errors.amount.message}
+              </FormFeedback>
+            </FormGroup>
+          </Col>
+          <Col md={4}>
+            <FormGroup>
+              <Label>Purpose</Label>
+              <Input
+                invalid={!!errors.purposeId}
+                name="purposeId"
                 type="number"
                 innerRef={register}
               />
+              <FormFeedback>
+                {errors.purposeId && errors.purposeId.message}
+              </FormFeedback>
+            </FormGroup>
+          </Col>
+          <Col md={4}>
+            <FormGroup>
+              <Label>Relative</Label>
+              <Input
+                invalid={!!errors.relativeId}
+                name="relativeId"
+                type="number"
+                innerRef={register}
+              />
+              <FormFeedback>
+                {errors.relativeId && errors.relativeId.message}
+              </FormFeedback>
             </FormGroup>
           </Col>
         </Row>
-        <Row>
-          <Col md={4}>
-            <FormGroup>
-              <Label for="purpose">
-                Purpose <span className="text-danger">*</span>
-              </Label>
-              <Input name="purpose" id="purpose" innerRef={register} />
-            </FormGroup>
-          </Col>
-          <Col md={4}>
-            <FormGroup>
-              <Label for="relative">
-                Relative <span className="text-danger" />
-              </Label>
-              <Input name="relative" id="relative" innerRef={register} />
-            </FormGroup>
-          </Col>
-          <Col md={4}>
-            <FormGroup>
-              <Label for="type">
-                Type <span className="text-danger">*</span>
-              </Label>
-              <Input name="type" id="type" type="select" innerRef={register}>
-                <option value="0">IN</option>
-                <option value="1">OUT</option>
-              </Input>
-            </FormGroup>
-          </Col>
-        </Row>
-        <BackButton />
-        <SubmitButton isLoading={isLoading} disable={!isValid || !isDirty} />
+        <BackButton className="mr-2" />
+        <SubmitButton isLoading={isLoading} disabled={!isValid || !isDirty} />
       </Form>
     ),
-    [errors, register, submit, isLoading],
+    [submit, errors, isLoading, register],
   );
+
   return <Widget>{form}</Widget>;
 };
 MyForm.propTypes = {
-  id: PropTypes.any,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
+MyForm.defaultProps = {};
 export default MyForm;
