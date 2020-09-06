@@ -73,6 +73,16 @@ const ListPage = ({ history }) => {
       ),
     },
   ]);
+  const search = { search: '' };
+  const action = (
+    <div>
+      <CreateButton
+        onClick={() => {
+          history.push(newPage(ROOT_PATH));
+        }}
+      />
+    </div>
+  );
   const deleteConfirmDialog = React.useMemo(
     () => (
       <Route
@@ -104,16 +114,6 @@ const ListPage = ({ history }) => {
       />
     ),
     [],
-  );
-  const search = { search: '' };
-  const action = (
-    <div>
-      <CreateButton
-        onClick={() => {
-          history.push(newPage(ROOT_PATH));
-        }}
-      />
-    </div>
   );
   return (
     <>

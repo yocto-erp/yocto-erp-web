@@ -11,8 +11,10 @@ const Filter = ({ data }) => {
   const { register, handleSubmit } = useForm({
     defaultValues: data,
   });
-  const [startDate, setStartDate] = useState(new Date('01/06/2020'));
-  const [endDate, setEndDate] = useState(new Date('01/16/2020'));
+  const prevDate = new Date();
+  prevDate.setDate(new Date().getDay() - 30);
+  const [startDate, setStartDate] = useState(prevDate);
+  const [endDate, setEndDate] = useState(new Date());
   const setFilter = useListFilter();
   const onSubmit = handleSubmit(val => setFilter(val));
   return (
@@ -21,9 +23,15 @@ const Filter = ({ data }) => {
         <Label for="type" className="mr-2">
           Type
         </Label>
-        <Input className="mr-2" id="type" type="select">
-          <option value="1">IN</option>
-          <option value="2">Out</option>
+        <Input
+          name="type"
+          className="mr-2"
+          id="type"
+          type="select"
+          innerRef={register}
+        >
+          <option value="1">In</option>
+          <option value="0">Out</option>
         </Input>
       </FormGroup>
       <FormGroup>

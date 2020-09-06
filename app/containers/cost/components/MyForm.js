@@ -125,10 +125,12 @@ const MyForm = ({ id }) => {
               <Input
                 invalid={!!errors.type}
                 name="type"
-                type="number"
-                placeholder="Enter title"
+                type="select"
                 innerRef={register}
-              />
+              >
+                <option value="0">IN</option>
+                <option value="1">OUT</option>
+              </Input>
               <FormFeedback>{errors.type && errors.type.message}</FormFeedback>
             </FormGroup>
           </Col>
