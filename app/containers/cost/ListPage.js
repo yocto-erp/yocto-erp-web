@@ -38,6 +38,9 @@ const ListPage = ({ history }) => {
     {
       header: 'Total Amount',
       data: 'amount',
+      sort: {
+        name: 'amount',
+      },
       width: '20%',
     },
     {
@@ -70,7 +73,7 @@ const ListPage = ({ history }) => {
       ),
     },
   ]);
-  const deleteConfirmDiaLog = React.useMemo(
+  const deleteConfirmDialog = React.useMemo(
     () => (
       <Route
         path={deletePagePattern(ROOT_PATH)}
@@ -79,6 +82,7 @@ const ListPage = ({ history }) => {
             params: { id },
           },
         }) => (
+          // match === null
           <DeleteConfirmModal
             id={id}
             deleteApi={apiCost.remove}
@@ -87,13 +91,13 @@ const ListPage = ({ history }) => {
             onClose={item => {
               history.goBack();
               if (item) {
-                toast.success(`Delete Cost ${item.name} success`);
+                toast.success(`Delete Cost ${item.name} Success`);
               }
             }}
-            title="Delete Cost"
+            title="Delete Cost?"
             message={row => {
               if (!row) return '';
-              return `Are you sure delete ${row.name} ?`;
+              return `Are you sure to delete ${row.name} ?`;
             }}
           />
         )}
@@ -116,7 +120,7 @@ const ListPage = ({ history }) => {
       <PageTitle title="Cost" actions={action} />
       <Widget>
         <ListWidget
-          deleteDialog={deleteConfirmDiaLog}
+          deleteDialog={deleteConfirmDialog}
           columns={columns}
           fetchData={apiCost.search}
           initFilter={search}

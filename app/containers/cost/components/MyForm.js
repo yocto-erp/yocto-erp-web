@@ -19,6 +19,7 @@ import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
 import CompanySelect from '../../../components/common/company/CompanySelect';
 import CustomerSelect from '../../../components/common/customer/CustomerSelect';
+import FileUpload from '../../../components/FileUpload';
 const MyForm = ({ id }) => {
   const validationSchema = yup.object().shape({
     name: yup.string().required('this field is required'),
@@ -60,10 +61,11 @@ const MyForm = ({ id }) => {
       remark: form.remark,
       type: form.type,
       amount: form.amount,
-      purposeId: form.purposeId,
-      relativeId: form.relativeId,
-      partnerPersonId: form.partnerPersonId,
-      partnerCompanyId: form.partnerCompanyId,
+      purposeId: form.costPurpose.purposeId,
+      relativeId: form.costPurpose.relativeId,
+      partnerPersonId: form.partnerPerson,
+      partnerCompanyId: form.partnerCompany,
+      assets: form.assets,
     }),
     mappingToServer: form => ({
       name: form.name,
@@ -74,9 +76,11 @@ const MyForm = ({ id }) => {
       relativeId: form.relativeId,
       partnerPersonId: form.partnerPersonId.id,
       partnerCompanyId: form.partnerCompanyId.id,
+      assets: form.assets,
     }),
     initForm: {
       amount: 0,
+      assets: [],
     },
     validationSchema,
     id,
@@ -103,7 +107,12 @@ const MyForm = ({ id }) => {
           <Col md={6}>
             <FormGroup>
               <Label>Remark</Label>
-              <Input name="remark" type="textarea" placeholder="Enter title" />
+              <Input
+                name="remark"
+                innerRef={register}
+                type="textarea"
+                placeholder="Enter title"
+              />
             </FormGroup>
           </Col>
         </Row>
@@ -229,6 +238,29 @@ const MyForm = ({ id }) => {
               </FormFeedback>
             </FormGroup>
           </Col>
+        </Row>
+        <Row>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+            <FormGroup>
+              <Label for="files" className="required">
+                Files
+              </Label>
+              <Controller
+                defaultValue={formData ? formData.assets : []}
+                invalid={!!errors.assets}
+                as={FileUpload}
+                name="assets"
+                placeholder="Upload files"
+                control={control}
+                accept={['image/*']}
+                maxSize={500000}
+              />
+              <FormFeedback>
+                {errors.assets && errors.assets.message}
+              </FormFeedback>
+            </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6" />
         </Row>
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!isValid || !isDirty} />
