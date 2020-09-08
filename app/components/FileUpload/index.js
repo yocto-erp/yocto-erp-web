@@ -163,7 +163,7 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
         scrollable
         size="xl"
         isOpen={enlargeFile != null && enlargeFile.type.match('image/*')}
-        fade
+        fade={false}
       >
         <ModalHeader toggle={() => setEnlargeFile(null)}>
           {enlargeFile != null ? enlargeFile.name : ''}

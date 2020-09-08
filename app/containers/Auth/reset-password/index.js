@@ -12,8 +12,6 @@ import {
   InputGroupText,
   Label,
 } from 'reactstrap';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import messages from './messages';
@@ -21,14 +19,16 @@ import Widget from '../../../components/Widget/Widget';
 import Footer from '../../Layout/Footer';
 import { resetPassword, verifyToken } from '../../../libs/apis/auth.api';
 import SubmitButton from '../../../components/button/SubmitButton';
+import useMyForm from '../../../libs/hooks/useMyForm';
+import FormError from '../../../components/Form/FormError';
 
 const schema = yup.object().shape({
   password: yup.string().required('This field is required.'),
   rePassword: yup.string().required('This field is required.'),
 });
+
 export function RestPasswordPage() {
   const [isCheck, check] = useState(false);
-  const [isResetStatus, resetStatus] = useState(false);
   const { search } = window.location;
   const params = new URLSearchParams(search);
   const token = params.get('token');
@@ -42,21 +42,16 @@ export function RestPasswordPage() {
   const {
     register,
     errors,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm({
-    mode: 'all',
-    reValidateMode: 'onChange',
-    resolver: yupResolver(schema),
+    onSubmit,
+    state: { isLoading, resp, errors: backendErrors },
+  } = useMyForm({
+    validationSchema: schema,
+    api: formData => {
+      const { password, rePassword } = formData;
+      return resetPassword({ token, password, rePassword });
+    },
   });
 
-  const onSubmit = formData => {
-    const { password, rePassword } = formData;
-    resetPassword({ token, password, rePassword }).then(r => {
-      console.log(r);
-      resetStatus(true);
-    });
-  };
   return (
     <div>
       <Helmet>
@@ -73,86 +68,92 @@ export function RestPasswordPage() {
               </h3>
             }
           >
-            {/* <p className="widget-auth-info">Rest your passoword</p> */}
             <>
-              {isResetStatus ? (
-                <Alert color="success">
+              {resp ? (
+                <Alert color="info" fade={false}>
                   Reset Password successful!.
-                  <Link className="d-block text-center mb-4" to="/">
-                    Login
+                  <br />
+                  <Link className="alert-link" to="/">
+                    Login here
                   </Link>
                 </Alert>
               ) : (
-                ''
-              )}
-            </>
-            <>
-              {isCheck ? (
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                  <FormGroup>
-                    <Label for="password">Password</Label>
-                    <InputGroup className="input-group-no-border">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="la la-lock text-white" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        invalid={!!errors.password}
-                        id="password"
-                        className="input-transparent pl-3"
-                        type="password"
-                        innerRef={register}
-                        required
-                        name="password"
-                        placeholder="Password"
-                      />
-                      <FormFeedback>
-                        {errors.password && errors.password.message}
-                      </FormFeedback>
-                    </InputGroup>
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="rePassword">rePassword</Label>
-                    <InputGroup className="input-group-no-border">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="la la-lock text-white" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        invalid={!!errors.rePassword}
-                        id="rePassword"
-                        className="input-transparent pl-3"
-                        type="password"
-                        innerRef={register}
-                        required
-                        name="rePassword"
-                        placeholder="rePassword"
-                      />
-                      <FormFeedback>
-                        {errors.rePassword && errors.rePassword.message}
-                      </FormFeedback>
-                    </InputGroup>
-                  </FormGroup>
-                  <div className="bg-widget auth-widget-footer">
-                    <SubmitButton
-                      type="submit"
-                      color="danger"
-                      className="auth-btn"
-                      size="sm"
-                      isLoading={isSubmitting}
-                      style={{ color: '#fff' }}
-                    >
-                      <FormattedMessage {...messages.resetPasswordButton} />
-                    </SubmitButton>
-                  </div>
-                </form>
-              ) : (
-                <Alert color="danger">
-                  Invalid token!
-                  <Link to="/">Back Login</Link>
-                </Alert>
+                <>
+                  {isCheck ? (
+                    <form onSubmit={onSubmit} noValidate>
+                      {backendErrors && backendErrors.length ? (
+                        <FormError errors={backendErrors} />
+                      ) : (
+                        ''
+                      )}
+                      <FormGroup>
+                        <Label for="password">Password</Label>
+                        <InputGroup className="input-group-no-border">
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                              <i className="la la-lock text-white" />
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            invalid={!!errors.password}
+                            id="password"
+                            className="input-transparent pl-3"
+                            type="password"
+                            innerRef={register}
+                            required
+                            name="password"
+                            placeholder="Password"
+                          />
+                          <FormFeedback>
+                            {errors.password && errors.password.message}
+                          </FormFeedback>
+                        </InputGroup>
+                      </FormGroup>
+                      <FormGroup>
+                        <Label for="rePassword">Retype Password</Label>
+                        <InputGroup className="input-group-no-border">
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                              <i className="la la-lock text-white" />
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            invalid={!!errors.rePassword}
+                            id="rePassword"
+                            className="input-transparent pl-3"
+                            type="password"
+                            innerRef={register}
+                            required
+                            name="rePassword"
+                            placeholder="Retype Password"
+                          />
+                          <FormFeedback>
+                            {errors.rePassword && errors.rePassword.message}
+                          </FormFeedback>
+                        </InputGroup>
+                      </FormGroup>
+                      <div className="bg-widget auth-widget-footer">
+                        <SubmitButton
+                          type="submit"
+                          color="danger"
+                          className="auth-btn text-white mb-3"
+                          size="sm"
+                          isLoading={isLoading}
+                        >
+                          <FormattedMessage {...messages.resetPasswordButton} />
+                        </SubmitButton>
+                      </div>
+                    </form>
+                  ) : (
+                    <Alert color="danger">
+                      Invalid token!
+                      <br />
+                      <Link to="/" className="alert-link">
+                        Back Login
+                      </Link>
+                    </Alert>
+                  )}
+                </>
               )}
             </>
           </Widget>

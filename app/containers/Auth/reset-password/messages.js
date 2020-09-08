@@ -5,7 +5,7 @@ export const scope = 'app.containers.RestPassword';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'Rest your password!',
+    defaultMessage: 'Reset your password!',
   },
   password: {
     id: `${scope}.password`,

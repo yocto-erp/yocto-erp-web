@@ -30,7 +30,7 @@ const TableActionColumns = ({ onEdit, onView, onDelete, buttons = [] }) => {
     buttonEls.forEach(t => buttons.push(t));
   }
   return (
-    <ButtonToolbar>
+    <ButtonToolbar className="">
       <ButtonGroup size="sm">{buttonEls}</ButtonGroup>
     </ButtonToolbar>
   );

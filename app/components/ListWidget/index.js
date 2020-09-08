@@ -121,7 +121,7 @@ const ListWidget = ({
           </ListFilterProvider>
         </div>
         <div className="table-responsive">
-          <table className="table-sm table table-bordered table-striped">
+          <table className="table table-sm table-bordered table-striped">
             <thead>
               <ListSortValueProvider value={sorts}>
                 <ListSortFuncProvider value={onSort}>

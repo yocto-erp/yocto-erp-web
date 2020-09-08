@@ -238,7 +238,7 @@ function MyForm({ id }) {
           <Col xs="12" sm="12" md="12" lg="6" xl="6" />
         </Row>
         <BackButton className="mr-2" />
-        <SubmitButton isLoading={isLoading} disabled={!isValid || !isDirty} />
+        <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     ),
     [errors, isLoading, submit, register],

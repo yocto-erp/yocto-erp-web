@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
+import { Link } from 'react-router-dom';
 import messages from './messages';
 import Widget from '../../../components/Widget/Widget';
 import Footer from '../../Layout/Footer';
@@ -71,7 +72,7 @@ export function RegisterPage() {
             <p className="widget-auth-info">Use your email to register.</p>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <FormGroup className="mt">
-                <Label for="displayName">Display Name</Label>
+                <Label for="displayName">Your name</Label>
                 <InputGroup className="input-group-no-border">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -97,7 +98,7 @@ export function RegisterPage() {
                 <InputGroup className="input-group-no-border">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className="la la-user text-white" />
+                      <i className="la la-envelope   text-white" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
@@ -141,13 +142,16 @@ export function RegisterPage() {
                 <SubmitButton
                   type="submit"
                   color="danger"
-                  className="auth-btn"
+                  className="auth-btn text-white"
                   size="sm"
                   isLoading={isSubmitting}
-                  style={{ color: '#fff' }}
                 >
                   <FormattedMessage {...messages.registerButton} />
                 </SubmitButton>
+                <p className="widget-auth-info m-4">
+                  If you had account, &nbsp;
+                  <Link to="/">login here</Link>
+                </p>
               </div>
             </form>
           </Widget>

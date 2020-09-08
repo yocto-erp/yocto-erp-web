@@ -20,59 +20,63 @@ import Widget from '../../components/Widget/Widget';
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 
 const ROOT_PATH = COST_ROOT_PATH;
+
 const ListPage = ({ history }) => {
-  const columns = React.useMemo(() => [
-    {
-      header: <strong>Type</strong>,
-      data: 'type',
-      width: '12%',
-    },
-    {
-      header: 'Name',
-      data: 'name',
-      sort: {
-        name: 'name',
+  const columns = React.useMemo(
+    () => [
+      {
+        header: <strong>Type</strong>,
+        data: 'type',
+        width: '12%',
       },
-      width: '20%',
-    },
-    {
-      header: 'Total Amount',
-      data: 'amount',
-      sort: {
-        name: 'amount',
+      {
+        header: 'Name',
+        data: 'name',
+        sort: {
+          name: 'name',
+        },
+        width: '20%',
       },
-      width: '20%',
-    },
-    {
-      header: 'Remark',
-      data: 'remark',
-      width: '20%',
-    },
-    {
-      header: 'Created By',
-      data: 'createdBy',
-      width: '1px',
-      render: row => {
-        const { createdBy, createdDate } = row;
-        return <CreatedBy user={createdBy} date={createdDate} />;
+      {
+        header: 'Total Amount',
+        data: 'amount',
+        sort: {
+          name: 'amount',
+        },
+        width: '20%',
       },
-    },
-    {
-      header: 'Action',
-      data: '',
-      class: 'action',
-      render: row => (
-        <TableActionColumns
-          onEdit={() => {
-            history.push(editPage(ROOT_PATH, row.id));
-          }}
-          onDelete={() => {
-            history.push(deletePage(ROOT_PATH, row.id));
-          }}
-        />
-      ),
-    },
-  ]);
+      {
+        header: 'Remark',
+        data: 'remark',
+        width: '20%',
+      },
+      {
+        header: 'Created By',
+        data: 'createdBy',
+        width: '1px',
+        render: row => {
+          const { createdBy, createdDate } = row;
+          return <CreatedBy user={createdBy} date={createdDate} />;
+        },
+      },
+      {
+        header: 'Action',
+        data: '',
+        class: 'action',
+        render: row => (
+          <TableActionColumns
+            onEdit={() => {
+              history.push(editPage(ROOT_PATH, row.id));
+            }}
+            onDelete={() => {
+              history.push(deletePage(ROOT_PATH, row.id));
+            }}
+          />
+        ),
+      },
+    ],
+    [],
+  );
   const search = { search: '' };
   const action = (
     <div>
@@ -133,6 +137,7 @@ const ListPage = ({ history }) => {
     </>
   );
 };
+
 ListPage.propTypes = {
   history: PropTypes.any,
 };

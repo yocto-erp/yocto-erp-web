@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { PropTypes } from 'prop-types';
@@ -15,6 +15,7 @@ const Filter = ({ data }) => {
   prevDate.setDate(new Date().getDay() - 30);
   const [startDate, setStartDate] = useState(prevDate);
   const [endDate, setEndDate] = useState(new Date());
+
   const setFilter = useListFilter();
   const onSubmit = handleSubmit(val => setFilter(val));
   return (
@@ -47,30 +48,24 @@ const Filter = ({ data }) => {
       </FormGroup>
       <>
         <FormGroup>
-          <Label className="mr-2">Start Date</Label>
+          <Label className="mr-2">Range Date</Label>
           <DatePicker
             id="startDate"
             className="form-control mr-2"
             selected={startDate}
-            onChange={date => setStartDate(date)}
+            onChange={setStartDate}
             selectsStart
             startDate={startDate}
             endDate={endDate}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="endDate" className="mr-2">
-            To
-          </Label>
           <DatePicker
             id="endDate"
             className="form-control mr-2"
             selected={endDate}
-            onChange={date => setEndDate(date)}
+            onChange={setEndDate}
             selectsEnd
             startDate={startDate}
             endDate={endDate}
-            minDate={startDate}
           />
         </FormGroup>
       </>

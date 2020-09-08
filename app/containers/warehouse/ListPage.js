@@ -38,7 +38,7 @@ const ListPage = ({ history }) => {
       {
         header: 'Created By',
         data: 'createdBy',
-        class: 'action',
+        class: 'min-width',
         render: row => {
           const { createdBy, createdDate } = row;
           return <CreatedBy user={createdBy} date={createdDate} />;

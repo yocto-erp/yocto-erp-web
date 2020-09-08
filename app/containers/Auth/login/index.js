@@ -132,16 +132,15 @@ export function Login() {
                   <FormattedMessage {...messages.loginButton} />
                 </SubmitButton>
                 <Link
-                  className="d-block text-right"
-                  mt-2
-                  to="forgot-password/send-mail"
+                  className="d-block text-right mt-2"
+                  to="/forgot-password/send-mail"
                 >
                   Forget Password ?
                 </Link>
                 <p className="widget-auth-info mt-4">
                   Don&apos;t have an account? Sign up now!
                 </p>
-                <Link className="d-block text-center mb-4" to="register">
+                <Link className="d-block text-center mb-4" to="/register">
                   Create an Account
                 </Link>
               </div>

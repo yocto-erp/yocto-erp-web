@@ -3,7 +3,7 @@ import { Button } from 'reactstrap';
 
 const BackButton = props => (
   <Button onClick={() => window.history.back()} {...props}>
-    <i className="las la-angle-left" />
+    <i className="la la-angle-left" />
     {/* eslint-disable-next-line react/prop-types */}
     {props.children ? props.children : 'Back'}
   </Button>

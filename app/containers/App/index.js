@@ -17,8 +17,6 @@ import RestPasswordPage from '../Auth/reset-password';
 export default function App() {
   const { isAuthenticated, isLoading, getUser } = useUser();
 
-  setTimeout(getUser, 1000);
-
   const mainPage = React.useMemo(() => {
     let rs = (
       <div className="container h-100 d-flex justify-content-center">

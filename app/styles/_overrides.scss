@@ -200,7 +200,7 @@ legend {
 }
 
 .table-sm {
-  font-size: $font-size-sm;
+  // font-size: $font-size-sm;
 
   > thead > tr > th,
   > thead > tr > td,
@@ -432,8 +432,8 @@ small {
     opacity: 1;
     color: #fff;
     outline: none;
-    padding: 0;
-    position: static;
+    /*padding: 0;
+    position: static;*/
 
     &.alert-transparent {
       color: inherit;

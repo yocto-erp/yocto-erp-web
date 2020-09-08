@@ -16,7 +16,7 @@ const CreatedBy = ({ user, date }) => {
       <>
         <br />
         <span className="text-nowrap">
-          <i className="fi flaticon-time" /> {formatDate(date)}
+          <i className="fi flaticon-time" /> {formatDate(new Date(date))}
         </span>
       </>
     );
