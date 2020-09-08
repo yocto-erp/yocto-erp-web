@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
 import { FNS_DATE_FORMAT } from '../../libs/utils/date.util';
 
-const DateSelect = ({ onChange, value, onBlur, invalid, placeholder }) => {
+const DateSelect = ({ onChange, value, invalid, placeholder }) => {
   const handleDayChange = selectedDay => {
     console.log(selectedDay);
     if (isFunction(onChange)) {
@@ -42,7 +42,6 @@ const DateSelect = ({ onChange, value, onBlur, invalid, placeholder }) => {
 DateSelect.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.func,
-  onBlur: PropTypes.func,
   invalid: PropTypes.bool,
   placeholder: PropTypes.string,
 };
