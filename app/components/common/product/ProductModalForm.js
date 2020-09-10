@@ -137,7 +137,7 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
                         invalid={!!get(errors, ['units', index, 'rate'], false)}
                         type="text"
                         name={`units[${index}].rate`}
-                        disabled={item.rate === 1}
+                        readOnly={item.rate === 1}
                         innerRef={register()}
                         defaultValue={item.rate} // make sure to set up defaultValue
                       />

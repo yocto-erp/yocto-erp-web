@@ -61,7 +61,7 @@ FormRow.propTypes = {
     'color',
   ]),
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   register: PropTypes.any.isRequired,
   labelCol: PropTypes.number,
   valueCol: PropTypes.number,

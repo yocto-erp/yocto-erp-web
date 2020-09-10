@@ -25,6 +25,7 @@ import CreateButton from '../../../../components/button/CreateButton';
 import DeleteConfirmModal from '../../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../../components/ListWidget';
 import FilterInventory from './FilterInventory';
+import { formatDate } from '../../../../libs/utils/date.util';
 
 const ROOT_PATH = INVENTORY_ROOT_PATH;
 const ListInventory = ({ history }) => {
@@ -67,7 +68,8 @@ const ListInventory = ({ history }) => {
       {
         header: 'Processed Date',
         data: 'processedDate',
-        width: '15%',
+        width: '18%',
+        render: row => formatDate(new Date(row.processedDate)),
       },
       {
         header: 'Created By',
