@@ -13,9 +13,10 @@ import RegisterPage from '../Auth/register';
 import { VerifyMailPage } from '../Auth/verify-mail';
 import ForgotPasswordPage from '../Auth/forgot-password';
 import RestPasswordPage from '../Auth/reset-password';
+import OnBoardPage from '../Auth/onboard';
 
 export default function App() {
-  const { isAuthenticated, isLoading, getUser } = useUser();
+  const { isAuthenticated, isLoading, user } = useUser();
 
   const mainPage = React.useMemo(() => {
     let rs = (
@@ -30,11 +31,16 @@ export default function App() {
       if (!isAuthenticated) {
         rs = <Login />;
       } else {
-        rs = <LayoutComponent />;
+        console.log(user);
+        if (user.userCompanies === null) {
+          rs = <OnBoardPage />;
+        } else {
+          rs = <LayoutComponent />;
+        }
       }
     }
     return rs;
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, user]);
 
   return (
     <>

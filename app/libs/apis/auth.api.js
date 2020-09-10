@@ -29,10 +29,18 @@ export const verifyToken = ({ token }) =>
   fetchJSON(`${API_URL}/forgot-password/verify-token/?token=${token}`);
 
 export const resetPassword = ({ token, password, rePassword }) =>
-  postJSON(`${API_URL}//forgot-password/reset`, {
+  postJSON(`${API_URL}/forgot-password/reset`, {
     token,
     password,
     rePassword,
+  });
+
+export const createCompany = ({ name, gsm, address, remark }) =>
+  postJSON(`${API_URL}/company`, {
+    name,
+    gsm,
+    address,
+    remark,
   });
 
 export const getInfo = () => fetchJSON(`${API_URL}/information`);
