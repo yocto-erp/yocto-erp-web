@@ -92,7 +92,7 @@ export function OnboardPage() {
           </FormGroup>
 
           <FormGroup className="mt">
-            <Label for="address">address</Label>
+            <Label for="address">Address</Label>
             <InputGroup className="input-group-no-border">
               {/* <InputGroupAddon addonType="prepend"> */}
               {/*  <InputGroupText> */}
