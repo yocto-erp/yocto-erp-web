@@ -46,8 +46,8 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
       email: '',
       gsm: '',
       address: '',
-      birthday: null,
-      sex: null,
+      birthday: new Date(),
+      sex: 0,
       remark: '',
     },
   });
@@ -134,7 +134,6 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
             </Label>
             <Col sm={9}>
               <Controller
-                defaultValue={null}
                 name="birthday"
                 control={control}
                 invalid={!!errors.birthday}

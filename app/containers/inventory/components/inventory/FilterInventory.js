@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
 import { useListFilter } from '../../../../components/ListWidget/constants';
 import SearchButton from '../../../../components/button/SearchButton';
 import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const FilterInventory = ({ data }) => {
   const { handleSubmit, register, control } = useForm({
     defaultValues: data,
   });
+  const prevDate = new Date();
+  prevDate.setDate(new Date().getDate() - 7);
+  const [startDate, setStartDate] = useState(prevDate);
+  const [endDate, setEndDate] = useState(new Date());
   const setFilter = useListFilter();
   const onSubmit = handleSubmit(val => {
     const { search } = val;
     const warehouseId = val.warehouse ? val.warehouse.id : null;
-    setFilter({ warehouseId, search });
+    setFilter({ warehouseId, search, startDate, endDate });
   });
 
   return (
@@ -23,7 +29,7 @@ const FilterInventory = ({ data }) => {
         <Label for="warehouseId" className="mr-sm-2">
           Warehouse
         </Label>
-        <div style={{ width: '250px' }}>
+        <div style={{ width: '150px' }}>
           <Controller
             defaultValue={null}
             name="warehouse"
@@ -43,12 +49,37 @@ const FilterInventory = ({ data }) => {
           type="search"
           name="search"
           className="mr-2"
-          style={{ width: '300px' }}
+          style={{ width: '200px' }}
           innerRef={register}
           id="search"
           placeholder="Search By Inventory Name"
         />
       </FormGroup>
+      <>
+        <FormGroup>
+          <Label className="mr-2">StartDate</Label>
+          <DatePicker
+            id="startDate"
+            className="form-control mr-2"
+            selected={startDate}
+            onChange={date => setStartDate(date)}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+          />
+          <Label className="mr-2">EndDate</Label>
+          <DatePicker
+            id="endDate"
+            className="form-control mr-2"
+            selected={endDate}
+            onChange={date => setEndDate(date)}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            minDate={startDate}
+          />
+        </FormGroup>
+      </>
       <SearchButton />
     </Form>
   );

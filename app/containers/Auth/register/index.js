@@ -72,7 +72,9 @@ export function RegisterPage() {
             <p className="widget-auth-info">Use your email to register.</p>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <FormGroup className="mt">
-                <Label for="displayName">Your name</Label>
+                <Label for="displayName">
+                  Your name<span className="text-danger">*</span>
+                </Label>
                 <InputGroup className="input-group-no-border">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -94,11 +96,13 @@ export function RegisterPage() {
                 </InputGroup>
               </FormGroup>
               <FormGroup className="mt">
-                <Label for="email">Email</Label>
+                <Label for="email">
+                  Email<span className="text-danger">*</span>
+                </Label>
                 <InputGroup className="input-group-no-border">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className="la la-envelope   text-white" />
+                      <i className="la la-envelope text-white" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
@@ -116,7 +120,9 @@ export function RegisterPage() {
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <Label for="password">Password</Label>
+                <Label for="password">
+                  Password<span className="text-danger">*</span>
+                </Label>
                 <InputGroup className="input-group-no-border">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>

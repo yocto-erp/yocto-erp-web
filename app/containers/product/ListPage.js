@@ -32,7 +32,7 @@ const ListPage = ({ history }) => {
         width: '20%',
       },
       {
-        header: 'Price Base Unit',
+        header: 'Price',
         data: 'priceBaseUnit',
         width: '12%',
       },
