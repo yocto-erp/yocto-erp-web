@@ -21,21 +21,6 @@ const Filter = ({ data }) => {
   return (
     <Form onSubmit={onSubmit} inline>
       <FormGroup>
-        <Label for="type" className="mr-2">
-          Type
-        </Label>
-        <Input
-          name="type"
-          className="mr-2"
-          id="type"
-          type="select"
-          innerRef={register}
-        >
-          <option value="1">In</option>
-          <option value="0">Out</option>
-        </Input>
-      </FormGroup>
-      <FormGroup>
         <Label className="mr-2">Name</Label>
         <Input
           type="text"
