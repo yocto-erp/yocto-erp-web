@@ -7,7 +7,7 @@ export default () => {
   const { data: user, error, mutate } = useSWR(SWR_KEY_USER, getInfo, {
     initialData: null,
     revalidateOnFocus: false,
-    refreshInterval: 5000,
+    refreshInterval: 0,
     shouldRetryOnError: false,
     revalidateOnMount: false,
     errorRetryCount: 3,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Row, Col, Progress, Table, Label, Input } from 'reactstrap';
-import Rickshaw from './components/rickshaw/Rickshaw';
 
 import s from './Dashboard.module.scss';
 
@@ -611,13 +610,6 @@ class Dashboard extends React.Component {
                     </tr>
                   </tbody>
                 </Table>
-              </div>
-
-              <div
-                className="widget-body mt-xlg chart-overflow-bottom"
-                style={{ height: '100px' }}
-              >
-                <Rickshaw height={100} />
               </div>
             </Widget>
           </Col>
