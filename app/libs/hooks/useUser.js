@@ -9,7 +9,7 @@ export default () => {
     revalidateOnFocus: false,
     refreshInterval: 0,
     shouldRetryOnError: false,
-    revalidateOnMount: false,
+    revalidateOnMount: true,
     errorRetryCount: 3,
     errorRetryInterval: 15000,
     focusThrottleInterval: 5000,
