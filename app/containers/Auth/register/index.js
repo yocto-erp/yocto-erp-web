@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
+import Alert from 'reactstrap/es/Alert';
 import messages from './messages';
 import Widget from '../../../components/Widget/Widget';
 import Footer from '../../Layout/Footer';
@@ -38,7 +39,7 @@ export function RegisterPage() {
     errors,
     onSubmit,
     formState,
-    state: { isLoading, errors: serverErrors },
+    state: { isLoading, errors: serverErrors, resp },
   } = useMyForm({
     validationSchema: schema,
     api: registerUser,
@@ -160,15 +161,22 @@ export function RegisterPage() {
               </h3>
             }
           >
-            <p className="widget-auth-info">Use your email to register.</p>
-            <>
-              <FormError
-                className="mt-3"
-                errors={serverErrors}
-                item={item => 'Create user failed !'}
-              />
-              {formEls}
-            </>
+            {resp ? (
+              <Alert color="info" className="mt-2">
+                Register succeed link has been send to your email. Please check
+                your mailbox.
+              </Alert>
+            ) : (
+              <>
+                <p className="widget-auth-info">Use your email to register.</p>
+                <FormError
+                  className="mt-3"
+                  errors={serverErrors}
+                  item={item => [item]}
+                />
+                {formEls}
+              </>
+            )}
           </Widget>
         </Container>
         <Footer />

@@ -40,7 +40,7 @@ export function VerifyMailPage() {
               {isCheck ? (
                 <Alert color="success">
                   Email has been activated successful!.
-                  <Link className="d-block text-center mb-4" to="/">
+                  <Link className="text-center mb-4" to="/">
                     Login
                   </Link>
                 </Alert>
