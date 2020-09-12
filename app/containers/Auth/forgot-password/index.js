@@ -14,6 +14,7 @@ import {
   FormFeedback,
 } from 'reactstrap';
 import Alert from 'reactstrap/es/Alert';
+import { Link } from 'react-router-dom';
 import messages from './messages';
 import Widget from '../../../components/Widget/Widget';
 import Footer from '../../Layout/Footer';
@@ -78,6 +79,10 @@ export function ForgotPasswordPage() {
             >
               <FormattedMessage {...messages.forgotPasswordButton} />
             </SubmitButton>
+            <p className="widget-auth-info m-4">
+              If you remember password, &nbsp;
+              <Link to="/">login here</Link>
+            </p>
           </div>
         </form>
       </>
