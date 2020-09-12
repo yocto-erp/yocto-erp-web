@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import MyForm from './components/MyForm';
+import CreactReceiptForm from './components/CreactReceiptForm';
 import PageTitle from '../Layout/PageTitle';
 
 const EditPage = () => {
@@ -10,7 +10,7 @@ const EditPage = () => {
       <PageTitle title="Update Cost" />
       <div className="row">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-          <MyForm id={id} />
+          <CreactReceiptForm id={id} />
         </div>
       </div>
     </>

@@ -12,7 +12,7 @@ import {
   newPage,
 } from '../../libs/utils/crud.util';
 import PageTitle from '../Layout/PageTitle';
-import { COST_ROOT_PATH } from './constants';
+import { COST_ROOT_PATH, COST_PAYMENT_PATH } from './constants';
 import apiCost from '../../libs/apis/cost.api';
 import CreateButton from '../../components/button/CreateButton';
 import ListWidget from '../../components/ListWidget';
@@ -20,7 +20,7 @@ import Widget from '../../components/Widget/Widget';
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 
 const ROOT_PATH = COST_ROOT_PATH;
-
+const PAYMENT_PATH = COST_PAYMENT_PATH;
 const ListPaymentVoucher = ({ history }) => {
   const columns = React.useMemo(
     () => [
@@ -66,7 +66,7 @@ const ListPaymentVoucher = ({ history }) => {
         render: row => (
           <TableActionColumns
             onEdit={() => {
-              history.push(editPage(ROOT_PATH, row.id));
+              history.push(editPage(PAYMENT_PATH, row.id));
             }}
             onDelete={() => {
               history.push(deletePage(ROOT_PATH, row.id));
@@ -82,7 +82,7 @@ const ListPaymentVoucher = ({ history }) => {
     <div>
       <CreateButton
         onClick={() => {
-          history.push(newPage(ROOT_PATH));
+          history.push(newPage(PAYMENT_PATH));
         }}
       >
         Create Payment Voucher

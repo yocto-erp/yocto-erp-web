@@ -20,10 +20,9 @@ import BackButton from '../../../components/button/BackButton';
 import CompanySelect from '../../../components/common/company/CompanySelect';
 import CustomerSelect from '../../../components/common/customer/CustomerSelect';
 import FileUpload from '../../../components/FileUpload';
-const MyForm = ({ id }) => {
+const CreactPaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
     name: yup.string().required('this field is required'),
-    type: yup.number().required('this field is required'),
     partnerCompanyId: yup
       .object()
       .required('this field is required')
@@ -33,8 +32,6 @@ const MyForm = ({ id }) => {
       .required('this field is required')
       .nullable(true),
     amount: yup.number().required('this field is required'),
-    purposeId: yup.number().required('this field is required'),
-    relativeId: yup.number().required('this field is required'),
   });
   const { create, read, update } = apiCost;
   const {
@@ -61,8 +58,7 @@ const MyForm = ({ id }) => {
       remark: form.remark,
       type: form.type,
       amount: form.amount,
-      purposeId: form.costPurpose.purposeId,
-      relativeId: form.costPurpose.relativeId,
+      purpose: form.costPurpose.purpose,
       partnerPersonId: form.partnerPerson,
       partnerCompanyId: form.partnerCompany,
       assets: form.assets,
@@ -72,8 +68,7 @@ const MyForm = ({ id }) => {
       remark: form.remark,
       type: form.type,
       amount: form.amount,
-      purposeId: form.purposeId,
-      relativeId: form.relativeId,
+      purpose: form.purpose,
       partnerPersonId: form.partnerPersonId.id,
       partnerCompanyId: form.partnerCompanyId.id,
       assets: form.assets,
@@ -110,15 +105,7 @@ const MyForm = ({ id }) => {
             <FormGroup row>
               <Label sm={3}>Purpose</Label>
               <Col sm={9}>
-                <Input
-                  invalid={!!errors.purposeId}
-                  name="purposeId"
-                  type="number"
-                  innerRef={register}
-                />
-                <FormFeedback>
-                  {errors.purposeId && errors.purposeId.message}
-                </FormFeedback>
+                <Input name="purpose" type="text" innerRef={register} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -222,6 +209,7 @@ const MyForm = ({ id }) => {
                 {errors.partnerPersonId && errors.partnerPersonId.message}
               </FormFeedback>
             </FormGroup>
+            <Input innerRef={register} type="hidden" value="1" name="type" />
           </Col>
         </Row>
         <BackButton className="mr-2" />
@@ -233,8 +221,8 @@ const MyForm = ({ id }) => {
 
   return <Widget>{form}</Widget>;
 };
-MyForm.propTypes = {
+CreactPaymentForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
-MyForm.defaultProps = {};
-export default MyForm;
+CreactPaymentForm.defaultProps = {};
+export default CreactPaymentForm;

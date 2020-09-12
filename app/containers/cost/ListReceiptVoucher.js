@@ -12,7 +12,7 @@ import {
   newPage,
 } from '../../libs/utils/crud.util';
 import PageTitle from '../Layout/PageTitle';
-import { COST_ROOT_PATH } from './constants';
+import { COST_ROOT_PATH, COST_RECEIPT_PATH } from './constants';
 import costApi from '../../libs/apis/cost.api';
 import CreateButton from '../../components/button/CreateButton';
 import ListWidget from '../../components/ListWidget';
@@ -20,6 +20,7 @@ import Widget from '../../components/Widget/Widget';
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 
 const ROOT_PATH = COST_ROOT_PATH;
+const RECEIPT_PATH = COST_RECEIPT_PATH;
 
 const ListReceiptVoucher = ({ history }) => {
   const columns = React.useMemo(
@@ -61,7 +62,7 @@ const ListReceiptVoucher = ({ history }) => {
         render: row => (
           <TableActionColumns
             onEdit={() => {
-              history.push(editPage(ROOT_PATH, row.id));
+              history.push(editPage(RECEIPT_PATH, row.id));
             }}
             onDelete={() => {
               history.push(deletePage(ROOT_PATH, row.id));
@@ -77,7 +78,7 @@ const ListReceiptVoucher = ({ history }) => {
     <div>
       <CreateButton
         onClick={() => {
-          history.push(newPage(ROOT_PATH));
+          history.push(newPage(RECEIPT_PATH));
         }}
       >
         Create Receipt Voucher
@@ -102,10 +103,10 @@ const ListReceiptVoucher = ({ history }) => {
             onClose={item => {
               history.goBack();
               if (item) {
-                toast.success(`Delete Product ${item.name} Success`);
+                toast.success(`Delete Cost ${item.name} Success`);
               }
             }}
-            title="Delete Product?"
+            title="Delete Cost?"
             message={row => {
               if (!row) return '';
               return `Are you sure to delete ${row.name} ?`;
