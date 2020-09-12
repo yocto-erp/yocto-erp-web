@@ -25,11 +25,6 @@ const ListPaymentVoucher = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: <strong>Type</strong>,
-        data: 'type',
-        width: '12%',
-      },
-      {
         header: 'Name',
         data: 'name',
         sort: {
@@ -66,7 +61,7 @@ const ListPaymentVoucher = ({ history }) => {
         render: row => (
           <TableActionColumns
             onEdit={() => {
-              history.push(editPage(PAYMENT_PATH, row.id));
+              history.push(editPage(ROOT_PATH, row.id));
             }}
             onDelete={() => {
               history.push(deletePage(ROOT_PATH, row.id));
