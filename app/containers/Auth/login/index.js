@@ -150,7 +150,7 @@ export function Login() {
               <FormError
                 className="mt-3"
                 errors={serverErrors}
-                item={item => 'Email or Password Invalid!'}
+                item={item => [item]}
               />
               {formEls}
             </>
