@@ -123,7 +123,7 @@ function MyForm({ id }) {
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
-                Name <span className="text-danger">*</span>
+                Name<span className="text-danger">*</span>
               </Label>
               <Input
                 invalid={!!errors.name}
@@ -135,27 +135,9 @@ function MyForm({ id }) {
               />
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
-            <FormGroup>
-              <Label for="remark" className="mr-sm-2">
-                Remark
-              </Label>
-              <Input
-                type="textarea"
-                name="remark"
-                innerRef={register}
-                id="remark"
-                placeholder="Remark"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="partnerPersonId" className="mr-sm-2">
-                Customer
+                Customer Partner<span className="text-danger">*</span>
               </Label>
               <Controller
                 name="partnerPersonId"
@@ -183,11 +165,9 @@ function MyForm({ id }) {
                 {errors.partnerPersonId && errors.partnerPersonId.message}
               </FormFeedback>
             </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="partnerCompanyId" className="mr-sm-2">
-                Company
+                Company Partner<span className="text-danger">*</span>
               </Label>
               <Controller
                 name="partnerCompanyId"
@@ -216,8 +196,22 @@ function MyForm({ id }) {
               </FormFeedback>
             </FormGroup>
           </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Remark
+              </Label>
+              <Input
+                rows={5}
+                type="textarea"
+                name="remark"
+                innerRef={register}
+                id="remark"
+                placeholder="Remark"
+              />
+            </FormGroup>
+          </Col>
         </Row>
-
         <FormGroup>
           <Table bordered hover striped size="sm">
             <thead>

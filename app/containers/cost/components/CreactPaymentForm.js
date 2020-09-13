@@ -31,7 +31,10 @@ const CreactPaymentForm = ({ id }) => {
       .object()
       .required('this field is required')
       .nullable(true),
-    amount: yup.number().required('this field is required'),
+    amount: yup
+      .number()
+      .moreThan(0, 'Amount must larger than 0')
+      .required('this field is required'),
   });
   const { create, read, update } = apiCost;
   const {
@@ -136,7 +139,7 @@ const CreactPaymentForm = ({ id }) => {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={3}>Customer / Partnere</Label>
+              <Label sm={3}>Customer / Partner</Label>
               <Col sm={9}>
                 <Controller
                   name="partnerCompanyId"

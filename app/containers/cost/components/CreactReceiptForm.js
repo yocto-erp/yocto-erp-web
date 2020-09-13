@@ -136,7 +136,7 @@ const CreactReceiptForm = ({ id }) => {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={3}>Customer / Partnere</Label>
+              <Label sm={3}>Customer / Partner</Label>
               <Col sm={9}>
                 <Controller
                   name="partnerCompanyId"

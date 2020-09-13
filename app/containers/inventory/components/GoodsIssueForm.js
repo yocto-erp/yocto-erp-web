@@ -115,8 +115,8 @@ function GoodsIssueForm({ id }) {
     return (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+            <FormGroup>
               <Label for="warehouse" className="mr-sm-2 required">
                 Warehouse<span className="text-danger">*</span>
               </Label>
@@ -133,8 +133,6 @@ function GoodsIssueForm({ id }) {
                 {errors.warehouse && errors.warehouse.message}
               </FormFeedback>
             </FormGroup>
-          </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
                 Name<span className="text-danger">*</span>
@@ -149,10 +147,6 @@ function GoodsIssueForm({ id }) {
               />
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="6" lg="6" md="12" sm="12">
             <FormGroup>
               <Label for="units" className="mr-sm-2">
                 Process Date<span className="text-danger">*</span>
@@ -171,12 +165,13 @@ function GoodsIssueForm({ id }) {
               </FormFeedback>
             </FormGroup>
           </Col>
-          <Col xs="6" lg="6" md="12" sm="12">
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
                 Remark
               </Label>
               <Input
+                rows={5}
                 type="textarea"
                 name="remark"
                 innerRef={register}
@@ -186,7 +181,6 @@ function GoodsIssueForm({ id }) {
             </FormGroup>
           </Col>
         </Row>
-
         <FormGroup>
           <Table bordered hover striped>
             <thead>

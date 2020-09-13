@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('This field is required.'),
   lastName: Yup.string().required('This field is required.'),
   email: Yup.string()
-    .email('Email not format.')
+    .email('Invalid Email.')
     .required('This field is required.'),
 });
 

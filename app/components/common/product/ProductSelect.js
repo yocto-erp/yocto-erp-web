@@ -10,9 +10,7 @@ import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 
 const formatOptionLabel = data => (
   <div className="text-white">
-    <span>
-      {data.name} - {data.remark}
-    </span>
+    <span>{data.name}</span>
   </div>
 );
 
