@@ -1,8 +1,8 @@
-import { API_URL } from '../../constants';
 import { createCRUDApi } from './fetch';
+import { API_URL } from '../../constants';
 
 const API_ENDPOINT_URL = `${API_URL}/cost`;
 
-const apiCost = createCRUDApi(API_ENDPOINT_URL);
+const costApi = createCRUDApi(API_ENDPOINT_URL);
 
-export default apiCost;
+export default costApi;
