@@ -1,14 +1,14 @@
 import React from 'react';
 import PageTitle from '../../Layout/PageTitle';
-import CreactReceiptForm from '../components/CreactReceiptForm';
-const CreatePageReceipt = () => (
+import CreateReceiptForm from '../components/CreateReceiptForm';
+const CreatePage = () => (
   <>
     <PageTitle title="Create Receipt Voucher" />
     <div className="row">
       <div className="col-md-12">
-        <CreactReceiptForm />
+        <CreateReceiptForm />
       </div>
     </div>
   </>
 );
-export default CreatePageReceipt;
+export default CreatePage;

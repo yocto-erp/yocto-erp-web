@@ -1,6 +1,17 @@
 table {
   tr {
+    th {
+      .sorting {
+        padding-right: 16px;
+      }
+    }
+
     th, td {
+      &.min {
+        white-space: nowrap;
+        width: 1px;
+      }
+
       &.action {
         white-space: nowrap;
         width: 1px;

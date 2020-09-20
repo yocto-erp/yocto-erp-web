@@ -151,6 +151,8 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
         <input {...getInputProps()} />
         <div className="d-flex justify-content-center align-items-center">
           <p className="mr-2">
+            {props.placeholder}
+            <br />
             {isDragActive
               ? 'Drop the files here ...'
               : 'Drag & drop some files here, or click to select files'}

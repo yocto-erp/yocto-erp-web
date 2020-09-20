@@ -99,7 +99,7 @@ export const useHookCRUDForm = ({
       return promise
         .then(resp => {
           if (!id) {
-            reset({});
+            reset(initForm);
           }
           return onSuccess(resp);
         })

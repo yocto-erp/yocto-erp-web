@@ -20,17 +20,11 @@ import BackButton from '../../../components/button/BackButton';
 import CompanySelect from '../../../components/common/company/CompanySelect';
 import CustomerSelect from '../../../components/common/customer/CustomerSelect';
 import FileUpload from '../../../components/FileUpload';
-const CreactPaymentForm = ({ id }) => {
+import InputAmount from '../../../components/Form/InputAmount';
+
+const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
     name: yup.string().required('this field is required'),
-    partnerCompanyId: yup
-      .object()
-      .required('this field is required')
-      .nullable(true),
-    partnerPersonId: yup
-      .object()
-      .required('this field is required')
-      .nullable(true),
     amount: yup
       .number()
       .moreThan(0, 'Amount must larger than 0')
@@ -72,13 +66,15 @@ const CreactPaymentForm = ({ id }) => {
       type: form.type,
       amount: form.amount,
       purpose: form.purpose,
-      partnerPersonId: form.partnerPersonId.id,
-      partnerCompanyId: form.partnerCompanyId.id,
+      partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
+      partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
       assets: form.assets,
     }),
     initForm: {
-      amount: 0,
+      amount: '',
       assets: [],
+      partnerPersonId: null,
+      partnerCompanyId: null,
     },
     validationSchema,
     id,
@@ -116,11 +112,14 @@ const CreactPaymentForm = ({ id }) => {
                 Total Amount <span className="text-danger">*</span>
               </Label>
               <Col sm={9}>
-                <Input
-                  invalid={!!errors.amount}
+                <Controller
                   type="number"
                   name="amount"
-                  innerRef={register}
+                  invalid={!!errors.amount}
+                  control={control}
+                  as={InputAmount}
+                  defaultValue={formData.amount}
+                  placeholder="Enter Amount here"
                 />
                 <FormFeedback>
                   {errors.amount && errors.amount.message}
@@ -139,7 +138,7 @@ const CreactPaymentForm = ({ id }) => {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={3}>Customer / Partner</Label>
+              <Label sm={3}>Partner Company</Label>
               <Col sm={9}>
                 <Controller
                   name="partnerCompanyId"
@@ -168,6 +167,36 @@ const CreactPaymentForm = ({ id }) => {
                 </FormFeedback>
               </Col>
             </FormGroup>
+            <FormGroup row>
+              <Label sm={3}>Partner Person</Label>
+              <Col sm={9}>
+                <Controller
+                  name="partnerPersonId"
+                  defaultValue={formData ? formData.partnerPersonId : null}
+                  control={control}
+                  render={({ onChange, ...data }) => (
+                    <CustomerSelect
+                      id="partnerPersonId"
+                      placeholder="Choose Partner Person"
+                      invalid={!!errors.partnerPersonId}
+                      onAdded={newCustomer => {
+                        console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
+                        setValue('partnerPersonId', newCustomer, {
+                          shouldValidate: true,
+                        });
+                      }}
+                      onChange={val => {
+                        onChange(val);
+                      }}
+                      {...data}
+                    />
+                  )}
+                />
+                <FormFeedback>
+                  {errors.partnerPersonId && errors.partnerPersonId.message}
+                </FormFeedback>
+              </Col>
+            </FormGroup>
           </Col>
           <Col md={5}>
             <FormGroup className="costUpload">
@@ -185,34 +214,7 @@ const CreactPaymentForm = ({ id }) => {
                 {errors.assets && errors.assets.message}
               </FormFeedback>
             </FormGroup>
-            <FormGroup>
-              <Controller
-                name="partnerPersonId"
-                defaultValue={formData ? formData.partnerPersonId : null}
-                control={control}
-                render={({ onChange, ...data }) => (
-                  <CustomerSelect
-                    id="partnerPersonId"
-                    placeholder="Choose Partner Person"
-                    invalid={!!errors.partnerPersonId}
-                    onAdded={newCustomer => {
-                      console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
-                      setValue('partnerPersonId', newCustomer, {
-                        shouldValidate: true,
-                      });
-                    }}
-                    onChange={val => {
-                      onChange(val);
-                    }}
-                    {...data}
-                  />
-                )}
-              />
-              <FormFeedback>
-                {errors.partnerPersonId && errors.partnerPersonId.message}
-              </FormFeedback>
-            </FormGroup>
-            <Input innerRef={register} type="hidden" value="1" name="type" />
+            <Input innerRef={register} type="hidden" value="2" name="type" />
           </Col>
         </Row>
         <BackButton className="mr-2" />
@@ -224,8 +226,8 @@ const CreactPaymentForm = ({ id }) => {
 
   return <Widget>{form}</Widget>;
 };
-CreactPaymentForm.propTypes = {
+CreatePaymentForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
-CreactPaymentForm.defaultProps = {};
-export default CreactPaymentForm;
+CreatePaymentForm.defaultProps = {};
+export default CreatePaymentForm;

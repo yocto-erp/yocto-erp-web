@@ -21,3 +21,7 @@ export function deletePage(url, id) {
 export function deletePagePattern(url) {
   return `${url}/:id/delete`;
 }
+
+export function editPagePattern(url) {
+  return `${url}/:id/edit`;
+}

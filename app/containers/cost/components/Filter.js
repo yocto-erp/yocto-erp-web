@@ -4,7 +4,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { PropTypes } from 'prop-types';
 import { Input, Label, FormGroup, Form } from 'reactstrap';
 import { useForm } from 'react-hook-form';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import SearchButton from '../../../components/button/SearchButton';
 import { useListFilter } from '../../../components/ListWidget/constants';
 
@@ -16,7 +15,6 @@ const Filter = ({ data }) => {
   prevDate.setDate(new Date().getDate() - 7);
   const [startDate, setStartDate] = useState(prevDate);
   const [endDate, setEndDate] = useState(new Date());
-  const { path } = useRouteMatch();
   const setFilter = useListFilter();
   const onSubmit = handleSubmit(val => setFilter(val));
   return (
@@ -56,36 +54,6 @@ const Filter = ({ data }) => {
             minDate={startDate}
           />
         </FormGroup>
-        <Switch>
-          <Route
-            exact
-            path={`${path}`}
-            render={() => (
-              <>
-                <Input
-                  type="hidden"
-                  value="0"
-                  name="type"
-                  innerRef={register}
-                />
-              </>
-            )}
-          />
-          <Route
-            exact
-            path={`${path}/payment`}
-            render={() => (
-              <>
-                <Input
-                  type="hidden"
-                  value="1"
-                  name="type"
-                  innerRef={register}
-                />
-              </>
-            )}
-          />
-        </Switch>
       </>
       <SearchButton />
     </Form>

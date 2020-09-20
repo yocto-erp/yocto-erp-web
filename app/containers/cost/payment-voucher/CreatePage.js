@@ -1,14 +1,14 @@
 import React from 'react';
 import PageTitle from '../../Layout/PageTitle';
-import CreactPaymentForm from '../components/CreactPaymentForm';
-const CreatePagePayment = () => (
+import CreatePaymentForm from '../components/CreatePaymentForm';
+const CreatePage = () => (
   <>
     <PageTitle title="Create Payment Voucher" />
     <div className="row">
       <div className="col-md-12">
-        <CreactPaymentForm />
+        <CreatePaymentForm />
       </div>
     </div>
   </>
 );
-export default CreatePagePayment;
+export default CreatePage;
