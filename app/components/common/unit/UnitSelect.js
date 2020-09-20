@@ -79,7 +79,7 @@ const UnitSelect = ({
           </Button>
         </InputGroupAddon>
       </InputGroup>
-      {props.productId ? (
+      {productId ? (
         <UnitModalForm
           closeHandle={val => {
             if (val && onAdded) {
