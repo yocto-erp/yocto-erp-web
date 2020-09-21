@@ -98,8 +98,8 @@ function GoodsReceiptForm({ id }) {
       warehouse: null,
       name: '',
       remark: '',
-      details: [{ product: null, unit: null, quantity: 0, remark: '' }],
-      processedDate: new Date(1599023532000),
+      details: [{ product: null, unit: null, quantity: '', remark: '' }],
+      processedDate: new Date(),
     },
     id,
   });
@@ -110,7 +110,6 @@ function GoodsReceiptForm({ id }) {
   });
 
   const form = React.useMemo(() => {
-    console.log('cache');
     return (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
@@ -226,7 +225,7 @@ function GoodsReceiptForm({ id }) {
                         id: uuidv4(),
                         product: null,
                         unit: null,
-                        quantity: 0,
+                        quantity: '',
                         remark: '',
                       });
                     }}
@@ -243,7 +242,6 @@ function GoodsReceiptForm({ id }) {
       </Form>
     );
   }, [errors, isLoading, submit, register, control]);
-  console.log('MyForm');
 
   return <Widget>{form}</Widget>;
 }

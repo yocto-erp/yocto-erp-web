@@ -15,7 +15,7 @@ const Price = ({ amount, currency = 'VND' }) => {
   );
   return (
     <span>
-      {numberPipe(amount)} {currency}
+      {numberPipe(amount)} <strong>{currency}</strong>
     </span>
   );
 };

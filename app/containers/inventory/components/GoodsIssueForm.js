@@ -23,6 +23,7 @@ import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelec
 import InventoryFormDetail from './InventoryFormDetail';
 import CreateButton from '../../../components/button/CreateButton';
 import DateSelect from '../../../components/date/DateSelect';
+import { ERROR } from '../../../components/Form/messages';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -36,8 +37,9 @@ const validationSchema = Yup.object().shape({
           .required('This field is required.')
           .nullable(true),
         quantity: Yup.number()
-          .moreThan(0, 'Quantity must larger than 0')
-          .required('This field is required.'),
+          .typeError(ERROR.required)
+          .moreThan(0, ERROR.amountGT0)
+          .required(ERROR.required),
         unit: Yup.object()
           .required('This field is required.')
           .nullable(true),
@@ -99,7 +101,7 @@ function GoodsIssueForm({ id }) {
       warehouse: null,
       name: '',
       remark: '',
-      details: [{ product: null, unit: null, quantity: 0, remark: '' }],
+      details: [{ product: null, unit: null, quantity: '', remark: '' }],
       processedDate: new Date(),
     },
     id,
@@ -224,7 +226,7 @@ function GoodsIssueForm({ id }) {
                         id: uuidv4(),
                         product: null,
                         unit: null,
-                        quantity: 0,
+                        quantity: '',
                         remark: '',
                       });
                     }}
