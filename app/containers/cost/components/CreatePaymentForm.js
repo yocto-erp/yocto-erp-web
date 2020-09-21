@@ -12,6 +12,7 @@ import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { Controller } from 'react-hook-form';
+
 import apiCost from '../../../libs/apis/cost.api';
 import Widget from '../../../components/Widget/Widget';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
@@ -21,14 +22,17 @@ import CompanySelect from '../../../components/common/company/CompanySelect';
 import CustomerSelect from '../../../components/common/customer/CustomerSelect';
 import FileUpload from '../../../components/FileUpload';
 import InputAmount from '../../../components/Form/InputAmount';
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import { ERROR } from '../../../components/Form/messages';
 
 const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
-    name: yup.string().required('this field is required'),
+    name: yup.string().required(ERROR.required),
     amount: yup
       .number()
-      .moreThan(0, 'Amount must larger than 0')
-      .required('this field is required'),
+      .typeError(ERROR.required)
+      .positive(ERROR.amountGT0)
+      .required(ERROR.required),
   });
   const { create, read, update } = apiCost;
   const {
@@ -96,15 +100,7 @@ const CreatePaymentForm = ({ id }) => {
                   placeholder="Enter title"
                   innerRef={register}
                 />
-                <FormFeedback>
-                  {errors.name && errors.name.message}
-                </FormFeedback>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label sm={3}>Purpose</Label>
-              <Col sm={9}>
-                <Input name="purpose" type="text" innerRef={register} />
+                <FormErrorMessage error={errors.name} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -121,9 +117,7 @@ const CreatePaymentForm = ({ id }) => {
                   defaultValue={formData.amount}
                   placeholder="Enter Amount here"
                 />
-                <FormFeedback>
-                  {errors.amount && errors.amount.message}
-                </FormFeedback>
+                <FormErrorMessage error={errors.amount} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -162,9 +156,6 @@ const CreatePaymentForm = ({ id }) => {
                     />
                   )}
                 />
-                <FormFeedback>
-                  {errors.partnerCompanyId && errors.partnerCompanyId.message}
-                </FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -192,9 +183,6 @@ const CreatePaymentForm = ({ id }) => {
                     />
                   )}
                 />
-                <FormFeedback>
-                  {errors.partnerPersonId && errors.partnerPersonId.message}
-                </FormFeedback>
               </Col>
             </FormGroup>
           </Col>

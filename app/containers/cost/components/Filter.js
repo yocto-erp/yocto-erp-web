@@ -3,19 +3,17 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { PropTypes } from 'prop-types';
 import { Input, Label, FormGroup, Form } from 'reactstrap';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import SearchButton from '../../../components/button/SearchButton';
 import { useListFilter } from '../../../components/ListWidget/constants';
 
 const Filter = ({ data }) => {
-  const { register, handleSubmit } = useForm({
+  const [startDate, setStartDate] = useState(data.startDate);
+  const [endDate, setEndDate] = useState(data.endDate);
+  const setFilter = useListFilter();
+  const { register, handleSubmit, control } = useForm({
     defaultValues: data,
   });
-  const prevDate = new Date();
-  prevDate.setDate(new Date().getDate() - 7);
-  const [startDate, setStartDate] = useState(prevDate);
-  const [endDate, setEndDate] = useState(new Date());
-  const setFilter = useListFilter();
   const onSubmit = handleSubmit(val => setFilter(val));
   return (
     <Form onSubmit={onSubmit} inline>
@@ -25,7 +23,7 @@ const Filter = ({ data }) => {
           type="text"
           name="search"
           className="mr-2"
-          placeholder="Search cost by title"
+          placeholder="Search By Name"
           style={{ width: '250px' }}
           innerRef={register}
         />
@@ -33,25 +31,45 @@ const Filter = ({ data }) => {
       <>
         <FormGroup>
           <Label className="mr-2">Range Date</Label>
-          <DatePicker
-            id="startDate"
-            className="form-control mr-2"
-            selected={startDate}
-            onChange={date => setStartDate(date)}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
+          <Controller
+            name="startDate"
+            control={control}
+            render={({ onChange, onBlur, value }) => (
+              <DatePicker
+                className="form-control mr-2"
+                onChange={val => {
+                  onChange(val);
+                  setStartDate(val);
+                }}
+                onBlur={onBlur}
+                selected={value}
+                selectsStart
+                startDate={startDate}
+                endDate={endDate}
+              />
+            )}
           />
+
           <Label className="mr-2">To</Label>
-          <DatePicker
-            id="endDate"
-            className="form-control mr-2"
-            selected={endDate}
-            onChange={date => setEndDate(date)}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            minDate={startDate}
+          <Controller
+            name="endDate"
+            control={control}
+            render={({ onChange, onBlur, value }) => (
+              <DatePicker
+                id="endDate"
+                className="form-control mr-2"
+                onChange={val => {
+                  onChange(val);
+                  setEndDate(val);
+                }}
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                minDate={startDate}
+                onBlur={onBlur}
+                selected={value}
+              />
+            )}
           />
         </FormGroup>
       </>

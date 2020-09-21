@@ -1,21 +1,12 @@
-import { createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
+import CreatedBy from './CreatedBy';
 
 const ListFilterContext = createContext({});
-const ListSortFuncContext = createContext({});
-const ListSortValueContext = createContext({});
 const ListRefreshContext = createContext(null);
 
 export function useListFilter() {
   return useContext(ListFilterContext);
-}
-
-export function useListFuncSort() {
-  return useContext(ListSortFuncContext);
-}
-
-export function useListSortValue() {
-  return useContext(ListSortValueContext);
 }
 
 export function useListRefreshContext() {
@@ -35,6 +26,22 @@ export const COLUMN_PROPS = PropTypes.arrayOf(
 );
 
 export const ListFilterProvider = ListFilterContext.Provider;
-export const ListSortFuncProvider = ListSortFuncContext.Provider;
-export const ListSortValueProvider = ListSortValueContext.Provider;
 export const ListRefreshProvider = ListRefreshContext.Provider;
+
+export const CreatedByColumn = {
+  header: <span className="text-nowrap">Created By</span>,
+  data: 'createdBy',
+  sort: {
+    name: 'createdDate',
+  },
+  width: '1px',
+  render: row => {
+    const { createdBy, createdDate } = row;
+    return <CreatedBy user={createdBy} date={createdDate} />;
+  },
+};
+
+export const SORT_DIR = Object.freeze({
+  DESC: 'desc',
+  ASC: 'asc',
+});

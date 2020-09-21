@@ -117,7 +117,7 @@ export function ForgotPasswordPage() {
                 <FormError
                   className="mt-3"
                   errors={serverErrors}
-                  item={item => 'Email not existed !'}
+                  item={() => 'Email not existed !'}
                 />
                 {formEls}
               </>

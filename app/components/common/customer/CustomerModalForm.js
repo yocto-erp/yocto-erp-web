@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   Form,
   FormGroup,
-  Label,
   Modal,
   ModalBody,
   ModalFooter,
@@ -13,25 +12,22 @@ import {
 import { yupResolver } from '@hookform/resolvers';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import FormRow from '../../Form/FormRow';
 import ModalCancelButton from '../../button/ModalCancelButton';
 import SubmitButton from '../../button/SubmitButton';
 import { useAsync } from '../../../libs/hooks/useAsync';
 import partnerPersonApi from '../../../libs/apis/partner/partner-person.api';
-import DateSelect from '../../date/DateSelect';
+import Label from '../../Form/Label';
+import { ERROR } from '../../Form/messages';
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('This field is required.'),
-  lastName: Yup.string().required('This field is required.'),
-  email: Yup.string()
-    .email('Invalid Email.')
-    .required('This field is required.'),
+  firstName: Yup.string().required(ERROR.required),
+  lastName: Yup.string().required(ERROR.required),
 });
 
 const CustomerModalForm = ({ isOpen, closeHandle }) => {
   const {
-    control,
     register,
     handleSubmit,
     errors,
@@ -46,8 +42,7 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
       email: '',
       gsm: '',
       address: '',
-      birthday: new Date(),
-      sex: 0,
+      sex: '',
       remark: '',
     },
   });
@@ -68,9 +63,9 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
         <ModalBody>
           <FormRow
             label={
-              <>
-                First Name<span className="text-danger">*</span>
-              </>
+              <span className="text-nowrap">
+                First Name <span className="text-danger">*</span>
+              </span>
             }
             labelCol={3}
             valueCol={9}
@@ -81,11 +76,7 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
             placeholder="First Name"
           />
           <FormRow
-            label={
-              <>
-                Last Name<span className="text-danger">*</span>
-              </>
-            }
+            label={<Label required>Last Name</Label>}
             labelCol={3}
             valueCol={9}
             name="lastName"
@@ -95,7 +86,7 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
             error={errors.lastName}
           />
           <FormRow
-            label="gsm"
+            label="Phone"
             labelCol={3}
             valueCol={9}
             name="gsm"
@@ -105,11 +96,7 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
           />
 
           <FormRow
-            label={
-              <>
-                Email<span className="text-danger">*</span>
-              </>
-            }
+            label="Email"
             labelCol={3}
             valueCol={9}
             name="email"
@@ -127,31 +114,19 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
             register={register}
             placeholder="Address"
           />
-
-          <FormGroup row>
-            <Label sm={3} for="birthday">
-              Birthday
-            </Label>
-            <Col sm={9}>
-              <Controller
-                name="birthday"
-                control={control}
-                invalid={!!errors.birthday}
-                as={DateSelect}
-              />
-            </Col>
-          </FormGroup>
           <FormRow
-            label="Sex"
+            label="Gender"
             labelCol={3}
             valueCol={9}
             name="sex"
             type="select"
             register={register}
-            placeholder="Choose sex"
+            placeholder="Choose Gender"
           >
+            <option value="">Select Gender</option>
             <option value={0}>MALE</option>
             <option value={1}>FEMALE</option>
+            <option value={2}>OTHER</option>
           </FormRow>
           <FormRow
             label="Remark"

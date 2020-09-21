@@ -78,7 +78,6 @@ class Sidebar extends React.Component {
                   this.props.dispatch(changeActiveSidebarItem(activeItem))
                 }
                 key={t.index}
-                activeItem={this.props.activeItem}
                 header={t.header}
                 isHeader={t.isHeader}
                 iconName={t.iconName}

@@ -22,6 +22,11 @@ import CreateButton from '../../components/button/CreateButton';
 import ListWidget from '../../components/ListWidget';
 import Widget from '../../components/Widget/Widget';
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
+import Price from '../../components/common/Price';
+import {
+  CreatedByColumn,
+  SORT_DIR,
+} from '../../components/ListWidget/constants';
 
 const ROOT_PATH = COST_ROOT_PATH;
 
@@ -51,25 +56,19 @@ const ListPage = ({ history }) => {
         width: '20%',
       },
       {
-        header: 'Total Amount',
+        header: <span className="text-nowrap">Total Amount</span>,
         data: 'amount',
+        render: row => <Price amount={row.amount} />,
         sort: {
           name: 'amount',
         },
+        class: 'min text-right',
       },
       {
         header: 'Remark',
         data: 'remark',
       },
-      {
-        header: 'Created By',
-        data: 'createdBy',
-        width: '1px',
-        render: row => {
-          const { createdBy, createdDate } = row;
-          return <CreatedBy user={createdBy} date={createdDate} />;
-        },
-      },
+      CreatedByColumn,
       {
         header: 'Action',
         data: '',
@@ -93,7 +92,10 @@ const ListPage = ({ history }) => {
     ],
     [],
   );
-  const search = { search: '' };
+  const toDate = new Date();
+  const prevDate = new Date();
+  prevDate.setDate(new Date().getDate() - 7);
+  const search = { search: '', startDate: prevDate, endDate: toDate };
 
   const actions = (
     <>
@@ -160,6 +162,7 @@ const ListPage = ({ history }) => {
           initFilter={search}
           initPage={1}
           initSize={10}
+          initSorts={{ createdDate: SORT_DIR.DESC }}
         >
           <Filter data={search} />
         </ListWidget>

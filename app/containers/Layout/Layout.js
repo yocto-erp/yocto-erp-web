@@ -90,13 +90,9 @@ class Layout extends React.Component {
                   <Route
                     path="/"
                     exact
-                    render={() => <Redirect to="/app/main/dashboard" />}
+                    render={() => <Redirect to="/dashboard" />}
                   />
-                  <Route
-                    path="/app/main/dashboard"
-                    exact
-                    component={Dashboard}
-                  />
+                  <Route path="/dashboard" exact component={Dashboard} />
                   <Route path={`${SALE_ROOT_PATH}`} component={SalePage} />
                   <Route
                     path={`${PURCHASE_ROOT_PATH}`}

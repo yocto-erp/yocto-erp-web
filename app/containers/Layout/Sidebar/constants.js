@@ -4,7 +4,7 @@ export const SIDE_BAR_MENU = {
       header: 'Dashboard',
       isHeader: true,
       iconName: 'flaticon-home',
-      link: '/',
+      link: '/dashboard',
       index: 'dashboard',
     },
   ],

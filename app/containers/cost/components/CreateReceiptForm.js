@@ -98,16 +98,11 @@ const CreateReceiptForm = ({ id }) => {
                   id="name"
                   placeholder="Enter title"
                   innerRef={register}
+                  defaultValue={formData.name}
                 />
                 <FormFeedback>
                   {errors.name && errors.name.message}
                 </FormFeedback>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label sm={3}>Purpose</Label>
-              <Col sm={9}>
-                <Input name="purpose" innerRef={register} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -121,6 +116,7 @@ const CreateReceiptForm = ({ id }) => {
                   invalid={!!errors.amount}
                   control={control}
                   as={InputAmount}
+                  defaultValue={formData.amount}
                   placeholder="Enter Amount here"
                 />
                 <FormFeedback>

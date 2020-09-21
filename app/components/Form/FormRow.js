@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { Col, FormGroup, Input, Label } from 'reactstrap';
+import FormErrorMessage from './FormHookErrorMessage';
 
 const FormRow = ({
   name,
@@ -27,7 +28,7 @@ const FormRow = ({
         placeholder={placeholder}
         {...props}
       />
-      <FormFeedback>{error && error.message}</FormFeedback>
+      <FormErrorMessage error={error} />
     </Col>
   </FormGroup>
 );

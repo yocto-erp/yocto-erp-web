@@ -26,7 +26,7 @@ const CompanySelect = ({
   ...props
 }) => {
   const [isOpen, open] = useState(false);
-  const loadOptions1 = debounce((inputValue, cb) => {
+  const loadOptions = debounce((inputValue, cb) => {
     companyApi
       .search({
         page: 1,
@@ -45,9 +45,13 @@ const CompanySelect = ({
           className="react-select-container"
           classNamePrefix="react-select"
           placeholder={placeholder}
-          loadOptions={loadOptions1}
-          defaultOptions
+          loadOptions={loadOptions}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
+          noOptionsMessage={({ inputValue }) =>
+            inputValue
+              ? `Not found any Partner Company with search "${inputValue}", try to search another`
+              : 'Input and search Partner Company'
+          }
           isClearable
           onBlur={onBlur}
           onChange={onChange}

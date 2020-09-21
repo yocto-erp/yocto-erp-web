@@ -26,7 +26,7 @@ const CustomerSelect = ({
   ...props
 }) => {
   const [isOpen, open] = useState(false);
-  const loadOptions1 = debounce((inputValue, cb) => {
+  const loadOptions = debounce((inputValue, cb) => {
     personApi
       .search({
         page: 1,
@@ -45,8 +45,12 @@ const CustomerSelect = ({
           className="react-select-container"
           classNamePrefix="react-select"
           placeholder={placeholder}
-          loadOptions={loadOptions1}
-          defaultOptions
+          noOptionsMessage={({ inputValue }) =>
+            inputValue
+              ? `Not found any Partner Person with search "${inputValue}", try to search another`
+              : 'Input and search Partner Person'
+          }
+          loadOptions={loadOptions}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           onBlur={onBlur}

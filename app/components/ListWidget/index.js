@@ -6,9 +6,7 @@ import { Input, Spinner } from 'reactstrap';
 import {
   COLUMN_PROPS,
   ListFilterProvider,
-  ListSortValueProvider,
   ListRefreshProvider,
-  ListSortFuncProvider,
 } from './constants';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
@@ -70,9 +68,10 @@ const ListWidget = ({
     [setSorts],
   );
 
-  const tableHeader = React.useMemo(() => <TableHeader columns={columns} />, [
-    columns,
-  ]);
+  const tableHeader = React.useMemo(
+    () => <TableHeader columns={columns} sorts={sorts} onSort={onSort} />,
+    [columns, sorts, onSort],
+  );
 
   const tableBody = React.useMemo(
     () => <TableBody columns={columns} rows={rows} />,
@@ -122,13 +121,7 @@ const ListWidget = ({
         </div>
         <div className="table-responsive">
           <table className="table table-sm table-bordered table-striped">
-            <thead>
-              <ListSortValueProvider value={sorts}>
-                <ListSortFuncProvider value={onSort}>
-                  {tableHeader}
-                </ListSortFuncProvider>
-              </ListSortValueProvider>
-            </thead>
+            <thead>{tableHeader}</thead>
             <tbody>{tableBody}</tbody>
           </table>
         </div>

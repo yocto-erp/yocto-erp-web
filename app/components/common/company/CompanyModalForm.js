@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import {
+  Form,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from 'reactstrap';
 import { yupResolver } from '@hookform/resolvers';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -44,9 +51,9 @@ const CompanyModalForm = ({ isOpen, closeHandle }) => {
         <ModalBody>
           <FormRow
             label={
-              <>
-                Name<span className="text-danger">*</span>
-              </>
+              <span className="text-nowrap">
+                Name <span className="text-danger">*</span>
+              </span>
             }
             name="name"
             type="text"
@@ -55,7 +62,7 @@ const CompanyModalForm = ({ isOpen, closeHandle }) => {
             placeholder="Company Name"
           />
           <FormRow
-            label="gsm"
+            label={<span>Phone</span>}
             name="gsm"
             type="text"
             register={register}

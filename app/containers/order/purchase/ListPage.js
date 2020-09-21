@@ -18,6 +18,8 @@ import CreateButton from '../../../components/button/CreateButton';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../components/ListWidget';
 import Filter from './components/Filter';
+import { CreatedByColumn } from '../../../components/ListWidget/constants';
+import Price from '../../../components/common/Price';
 
 const ROOT_PATH = PURCHASE_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -52,6 +54,7 @@ const ListPage = ({ history }) => {
       {
         header: 'Total Amount',
         data: 'totalAmount',
+        render: row => <Price amount={row.totalAmount} />,
         width: '12%',
       },
       {
@@ -60,19 +63,11 @@ const ListPage = ({ history }) => {
         width: '40%',
       },
       {
-        header: 'Processed Date',
+        header: <span className="text-nowrap">Processed Date</span>,
         data: 'processedDate',
-        width: '40%',
+        class: 'min',
       },
-      {
-        header: 'Created By',
-        data: 'createdBy',
-        width: '1px',
-        render: row => {
-          const { createdBy, createdDate } = row;
-          return <CreatedBy user={createdBy} date={createdDate} />;
-        },
-      },
+      CreatedByColumn,
       {
         header: 'Action',
         data: '',
