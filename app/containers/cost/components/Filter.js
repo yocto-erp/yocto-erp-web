@@ -30,7 +30,7 @@ const Filter = ({ data }) => {
       </FormGroup>
       <>
         <FormGroup>
-          <Label className="mr-2">Range Date</Label>
+          <Label className="mr-2">StartDate</Label>
           <Controller
             name="startDate"
             control={control}
@@ -50,7 +50,7 @@ const Filter = ({ data }) => {
             )}
           />
 
-          <Label className="mr-2">To</Label>
+          <Label className="mr-2">EndDate</Label>
           <Controller
             name="endDate"
             control={control}
