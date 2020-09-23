@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import isFunction from 'lodash/isFunction';
+import { toast } from 'react-toastify';
 import { useAsync } from '../../libs/hooks/useAsync';
 import ModalOKButton from '../button/ModalOKButton';
 import ModalCancelButton from '../button/ModalCancelButton';
@@ -41,9 +42,14 @@ const DeleteConfirmModal = ({
   }, [id]);
 
   const onDelete = () => {
-    exec(item.id).then(() => {
-      onCloseHandle(item);
-    });
+    exec(item.id).then(
+      () => {
+        onCloseHandle(item);
+      },
+      onerror => {
+        toast.error(onerror.errors[0].message);
+      },
+    );
   };
 
   return (

@@ -9,12 +9,14 @@ const FORM_TYPE = {
   FINISH_LOAD_DATA: 'FINISH_LOAD_DATA',
   SUBMIT: 'SUBMIT',
   SUBMIT_ERROR: 'SUBMIT_ERROR',
+  SUBMIT_DONE: 'SUBMIT_DONE',
 };
 
 const STATE = {
   formData: {},
   isLoading: false,
   errors: [],
+  resp: null,
   isInitial: false,
 };
 
@@ -38,6 +40,11 @@ const formReducer = (state, action) =>
         draft.errors = action.payload;
         draft.isInitial = false;
         draft.isLoading = false;
+        break;
+      case FORM_TYPE.SUBMIT_DONE:
+        draft.errors = [];
+        draft.isLoading = false;
+        draft.resp = action.payload;
         break;
       default:
         throw new Error(`Not support type: ${action.type}`);
@@ -96,15 +103,17 @@ export const useHookCRUDForm = ({
         form = mappingToServer(values);
       }
       const promise = id ? update(id, form) : create(form);
+      dispatch({ type: FORM_TYPE.SUBMIT });
       return promise
         .then(resp => {
           if (!id) {
             reset(initForm);
           }
+          dispatch({ type: FORM_TYPE.SUBMIT_DONE, payload: resp });
           return onSuccess(resp);
         })
-        .catch(() =>
-          dispatch({ type: FORM_TYPE.SUBMIT_ERROR, payload: initForm }),
+        .catch(error =>
+          dispatch({ type: FORM_TYPE.SUBMIT_ERROR, payload: error.errors }),
         );
     }),
     [update, create, onSuccess, dispatch, initForm, handleSubmit],

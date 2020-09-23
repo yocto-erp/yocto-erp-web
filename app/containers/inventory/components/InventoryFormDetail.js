@@ -6,6 +6,7 @@ import { Controller, useWatch } from 'react-hook-form';
 import ProductSelect from '../../../components/common/product/ProductSelect';
 import UnitSelect from '../../../components/common/unit/UnitSelect';
 import InputNumber from '../../../components/Form/InputNumber';
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 
 const InventoryFormDetail = ({
   control,
@@ -79,9 +80,20 @@ const InventoryFormDetail = ({
           defaultValue={item.quantity}
           placeholder="Amount"
         />
-        <FormFeedback>
-          {get(errors, ['details', index, 'quantity', 'message'], '')}
-        </FormFeedback>
+        <FormErrorMessage error={get(errors, ['details', index, 'quantity'])} />
+      </td>
+      <td>
+        <Input
+          type="text"
+          invalid={!!get(errors, ['details', index, 'serialCode'], false)}
+          name={`details[${index}].serialCode`}
+          innerRef={register()}
+          placeholder="Input Serial"
+          defaultValue={item.serialCode} // make sure to set up defaultValue
+        />
+        <FormErrorMessage
+          error={get(errors, ['details', index, 'serialCode'])}
+        />
       </td>
       <td>
         <Input

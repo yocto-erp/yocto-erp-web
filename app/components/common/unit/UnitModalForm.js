@@ -122,6 +122,7 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
                     </td>
                     <td className="action">
                       <Button
+                        disabled={item.rate === 1}
                         type="button"
                         color="danger"
                         size="sm"

@@ -24,34 +24,39 @@ import InventoryFormDetail from './InventoryFormDetail';
 import CreateButton from '../../../components/button/CreateButton';
 import DateSelect from '../../../components/date/DateSelect';
 import { ERROR } from '../../../components/Form/messages';
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
-  warehouse: Yup.object()
-    .required('This field is required.')
-    .nullable(true),
-  details: Yup.array()
-    .of(
-      Yup.object().shape({
-        product: Yup.object()
-          .required('This field is required.')
-          .nullable(true),
-        quantity: Yup.number()
-          .typeError(ERROR.required)
-          .moreThan(0, ERROR.amountGT0)
-          .required(ERROR.required),
-        unit: Yup.object()
-          .required('This field is required.')
-          .nullable(true),
-      }),
-    )
-    .required('This field is required.'),
-  processedDate: Yup.date().required('This field is required.'),
-});
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 
 const { create, update, read } = goodsIssueApi;
 
 function GoodsIssueForm({ id }) {
+  const validationSchema = React.useMemo(
+    () =>
+      Yup.object().shape({
+        name: Yup.string().required('This field is required.'),
+        warehouse: Yup.object()
+          .required('This field is required.')
+          .nullable(true),
+        details: Yup.array()
+          .of(
+            Yup.object().shape({
+              product: Yup.object()
+                .required('This field is required.')
+                .nullable(true),
+              quantity: Yup.number()
+                .typeError(ERROR.required)
+                .moreThan(0, ERROR.amountGT0)
+                .required(ERROR.required),
+              unit: Yup.object()
+                .required(ERROR.required)
+                .nullable(true),
+              serialCode: Yup.string().max(64, ERROR.max),
+            }),
+          )
+          .required('This field is required.'),
+        processedDate: Yup.date().required('This field is required.'),
+      }),
+    [],
+  );
   const {
     control,
     register,
@@ -70,23 +75,21 @@ function GoodsIssueForm({ id }) {
         id ? 'Update Goods Issue success' : 'Create Goods Issue success',
       );
     },
-    mappingToForm: form => {
-      console.log(`Mapping to form`);
-      return {
-        name: form.name,
-        remark: form.remark,
-        warehouse: form.warehouse,
-        processedDate: form.processedDate,
-        details: form.details.map(t => ({ ...t, id: uuidv4() })),
-      };
-    },
+    mappingToForm: data => ({
+      name: data.name,
+      remark: data.remark,
+      warehouse: data.warehouse,
+      processedDate: new Date(data.processedDate),
+      details: data.details.map(t => {
+        const { inventoryDetailId } = t;
+        return { ...t, id: inventoryDetailId };
+      }),
+    }),
     mappingToServer: form => {
-      console.log(`Mapping to server: ${JSON.stringify(form)}`);
       const details = form.details.map(result => ({
+        ...result,
         productId: result.product.id,
         unitId: result.unit.id,
-        quantity: result.quantity,
-        remark: result.remark,
       }));
       return {
         name: form.name,
@@ -101,7 +104,9 @@ function GoodsIssueForm({ id }) {
       warehouse: null,
       name: '',
       remark: '',
-      details: [{ product: null, unit: null, quantity: '', remark: '' }],
+      details: [
+        { product: null, unit: null, quantity: '', remark: '', serialCode: '' },
+      ],
       processedDate: new Date(),
     },
     id,
@@ -131,9 +136,7 @@ function GoodsIssueForm({ id }) {
                 placeholder="Select Warehouse"
                 as={WarehouseSelect}
               />
-              <FormFeedback>
-                {errors.warehouse && errors.warehouse.message}
-              </FormFeedback>
+              <FormErrorMessage error={errors.warehouse} />
             </FormGroup>
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
@@ -162,9 +165,7 @@ function GoodsIssueForm({ id }) {
                   as={DateSelect}
                 />
               </div>
-              <FormFeedback>
-                {errors.processedDate && errors.processedDate.message}
-              </FormFeedback>
+              <FormErrorMessage error={errors.processedDate} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -187,15 +188,16 @@ function GoodsIssueForm({ id }) {
           <Table bordered hover striped>
             <thead>
               <tr>
-                <th style={{ width: '30%' }}>
-                  Product<span className="text-danger">*</span>
+                <th style={{ width: '300px' }}>
+                  Product <span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '250px' }}>
-                  Unit<span className="text-danger">*</span>
+                <th style={{ width: '180px' }}>
+                  Unit <span className="text-danger">*</span>
                 </th>
                 <th style={{ width: '150px' }}>
-                  Quantity<span className="text-danger">*</span>
+                  Quantity <span className="text-danger">*</span>
                 </th>
+                <th style={{ width: '350px' }}>Serials</th>
                 <th>Remark</th>
                 <th className="action">Action</th>
               </tr>
@@ -217,7 +219,7 @@ function GoodsIssueForm({ id }) {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan="5">
+                <td colSpan="6">
                   <CreateButton
                     size="sm"
                     type="button"
@@ -228,6 +230,7 @@ function GoodsIssueForm({ id }) {
                         unit: null,
                         quantity: '',
                         remark: '',
+                        serialCode: '',
                       });
                     }}
                   >

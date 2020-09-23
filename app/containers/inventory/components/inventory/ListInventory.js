@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Widget from '../../../../components/Widget/Widget';
-import CreatedBy from '../../../../components/ListWidget/CreatedBy';
 import TableActionColumns from '../../../../components/ListWidget/TableActionColumn';
 import inventoryApi from '../../../../libs/apis/inventory/inventory.api';
 import goodsIssuesApi from '../../../../libs/apis/inventory/goods-issue.api';
@@ -26,6 +25,10 @@ import DeleteConfirmModal from '../../../../components/modal/DeleteConfirmModal'
 import ListWidget from '../../../../components/ListWidget';
 import FilterInventory from './FilterInventory';
 import { formatDate } from '../../../../libs/utils/date.util';
+import {
+  CreatedByColumn,
+  SORT_DIR,
+} from '../../../../components/ListWidget/constants';
 
 const ROOT_PATH = INVENTORY_ROOT_PATH;
 const ListInventory = ({ history }) => {
@@ -36,7 +39,12 @@ const ListInventory = ({ history }) => {
         header: 'Type',
         data: 'type',
         width: '5%',
-        render: row => (row.type === 1 ? 'OUT' : 'IN'),
+        render: row =>
+          row.type === 1 ? (
+            <span className="badge badge-danger">OUT</span>
+          ) : (
+            <span className="badge badge-primary">IN</span>
+          ),
       },
       {
         header: <strong>Warehouse</strong>,
@@ -66,20 +74,12 @@ const ListInventory = ({ history }) => {
         width: '20%',
       },
       {
-        header: 'Processed Date',
+        header: <span className="text-nowrap">Processed Date</span>,
         data: 'processedDate',
-        width: '18%',
+        class: 'min',
         render: row => formatDate(new Date(row.processedDate)),
       },
-      {
-        header: 'Created By',
-        data: 'createdBy',
-        width: '1px',
-        render: row => {
-          const { createdBy, createdDate } = row;
-          return <CreatedBy user={createdBy} date={createdDate} />;
-        },
-      },
+      CreatedByColumn,
       {
         header: 'Action',
         data: 'action',
@@ -92,7 +92,6 @@ const ListInventory = ({ history }) => {
               } else {
                 history.push(editPage(PATH_GOODS_RECEIPT, row.id));
               }
-              console.log(`Edit Item ${JSON.stringify(row)}`);
             }}
             onDelete={() => {
               if (INVENTORY_TYPE.OUT === row.type) {
@@ -115,7 +114,6 @@ const ListInventory = ({ history }) => {
       <CreateButton
         className="mr-2 btn-raised"
         onClick={() => {
-          console.log('Create Goods Receipt');
           history.push(newPage(PATH_GOODS_RECEIPT));
         }}
       >
@@ -124,7 +122,6 @@ const ListInventory = ({ history }) => {
       <CreateButton
         className="shadow btn-raised"
         onClick={() => {
-          console.log('Create  Goods Issue');
           history.push(newPage(PATH_GOODS_ISSUE));
         }}
         color="warning"
@@ -207,6 +204,7 @@ const ListInventory = ({ history }) => {
           initialSize={10}
           initialPage={1}
           initialFilter={search}
+          initSorts={{ createdDate: SORT_DIR.DESC }}
         >
           <FilterInventory data={search} />
         </ListWidget>

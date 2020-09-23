@@ -1,0 +1,21 @@
+.serial-wrapper {
+  border-radius: 4px;
+  padding: 2px;
+  //border: 1px solid #cccccc;
+  margin-top: 8px;
+  margin-bottom: 0;
+
+  li.list-inline-item {
+    margin: 3px;
+    cursor: pointer;
+
+    &.clearable {
+      &:hover {
+        span {
+          text-decoration: line-through;
+          text-decoration-color: red;
+        }
+      }
+    }
+  }
+}

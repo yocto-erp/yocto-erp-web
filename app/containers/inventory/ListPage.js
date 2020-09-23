@@ -19,37 +19,38 @@ const ListPage = () => {
   return (
     <div>
       <Nav tabs>
-        <Route
-          path={`${path}`}
-          exact
-          render={() => (
-            <>
-              <NavItem>
-                <NavLink className="active">GOODS RECEIPT/ISSUE</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink onClick={() => history.push(`${path}/summary`)}>
-                  INVENTORY SUMMARY
-                </NavLink>
-              </NavItem>
-            </>
-          )}
-        />
-        <Route
-          path={`${path}/summary`}
-          render={() => (
-            <>
-              <NavItem>
-                <NavLink onClick={() => history.push(`${path}`)}>
-                  GOODS RECEIPT/ISSUE
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink className="active">INVENTORY SUMMARY</NavLink>
-              </NavItem>
-            </>
-          )}
-        />
+        <Switch>
+          <Route
+            path={`${path}/summary`}
+            render={() => (
+              <>
+                <NavItem>
+                  <NavLink onClick={() => history.push(`${path}`)}>
+                    GOODS RECEIPT/ISSUE
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink className="active">INVENTORY SUMMARY</NavLink>
+                </NavItem>
+              </>
+            )}
+          />
+          <Route
+            path={`${path}`}
+            render={() => (
+              <>
+                <NavItem>
+                  <NavLink className="active">GOODS RECEIPT/ISSUE</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink onClick={() => history.push(`${path}/summary`)}>
+                    INVENTORY SUMMARY
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
+          />
+        </Switch>
       </Nav>
       <TabContent>
         <TabPane>
