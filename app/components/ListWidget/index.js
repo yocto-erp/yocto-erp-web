@@ -25,7 +25,7 @@ const ListWidget = ({
 }) => {
   const [page, setPage] = useState(initPage);
   const [size, setSize] = useState(initSize);
-  const [sorts, setSorts] = useImmer(initSorts);
+  const [sorts, setSorts] = useState(initSorts);
   const [filter, setFilter] = useState(initFilter);
   const [isLoading, setIsLoading] = useState(true);
   const [{ count, rows }, setResponse] = useState({
@@ -60,9 +60,8 @@ const ListWidget = ({
 
   const onSort = React.useCallback(
     (name, newDir) => {
-      setSorts(draft => {
-        // eslint-disable-next-line no-param-reassign
-        draft[name] = newDir;
+      setSorts({
+        [name]: newDir,
       });
     },
     [setSorts],

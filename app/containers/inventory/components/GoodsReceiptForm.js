@@ -24,6 +24,7 @@ import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelec
 import InventoryFormDetail from './InventoryFormDetail';
 import CreateButton from '../../../components/button/CreateButton';
 import DateSelect from '../../../components/date/DateSelect';
+import FormError from '../../../components/Form/FormError';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -42,6 +43,7 @@ const validationSchema = Yup.object().shape({
         unit: Yup.object()
           .required('This field is required.')
           .nullable(true),
+        serialCode: Yup.string(),
       }),
     )
     .required('This field is required.'),
@@ -60,23 +62,27 @@ function GoodsReceiptForm({ id }) {
     errors,
     getValues,
     setValue,
-    state: { isLoading, formData },
+    state: { isLoading, formData, errors: serverErrors },
   } = useHookCRUDForm({
     create,
     update,
     read,
     onSuccess: resp => {
-      console.log(`Success: ${JSON.stringify(resp)}`);
       toast.success(
-        id ? 'Update Goods Receipt success' : 'Create Goods Receipt success',
+        id
+          ? `Update Goods Receipt ${resp.name} success`
+          : `Create Goods Receipt ${resp.name} success`,
       );
     },
-    mappingToForm: form => ({
-      name: form.name,
-      remark: form.remark,
-      warehouse: form.warehouse,
-      processedDate: form.processedDate,
-      details: form.details.map(t => ({ ...t, id: uuidv4() })),
+    mappingToForm: data => ({
+      name: data.name,
+      remark: data.remark,
+      warehouse: data.warehouse,
+      processedDate: new Date(data.processedDate),
+      details: data.details.map(t => {
+        const { inventoryDetailId } = t;
+        return { ...t, id: inventoryDetailId };
+      }),
     }),
     mappingToServer: form => {
       const details = form.details.map(result => ({
@@ -84,6 +90,7 @@ function GoodsReceiptForm({ id }) {
         unitId: result.unit.id,
         quantity: result.quantity,
         remark: result.remark,
+        serialCode: result.serialCode,
       }));
       return {
         name: form.name,
@@ -98,7 +105,9 @@ function GoodsReceiptForm({ id }) {
       warehouse: null,
       name: '',
       remark: '',
-      details: [{ product: null, unit: null, quantity: 0, remark: '' }],
+      details: [
+        { product: null, unit: null, quantity: '', remark: '', serialCode: '' },
+      ],
       processedDate: new Date(),
     },
     id,
@@ -109,9 +118,8 @@ function GoodsReceiptForm({ id }) {
     name: 'details',
   });
 
-  const form = React.useMemo(() => {
-    console.log('cache');
-    return (
+  const form = React.useMemo(
+    () => (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -196,6 +204,7 @@ function GoodsReceiptForm({ id }) {
                 <th style={{ width: '150px' }}>
                   Quantity<span className="text-danger">*</span>
                 </th>
+                <th style={{ width: '350px' }}>Serials</th>
                 <th>Remark</th>
                 <th className="action">Action</th>
               </tr>
@@ -217,7 +226,7 @@ function GoodsReceiptForm({ id }) {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan="5">
+                <td colSpan="6">
                   <CreateButton
                     size="sm"
                     type="button"
@@ -226,7 +235,8 @@ function GoodsReceiptForm({ id }) {
                         id: uuidv4(),
                         product: null,
                         unit: null,
-                        quantity: 0,
+                        quantity: '',
+                        serialCode: '',
                         remark: '',
                       });
                     }}
@@ -241,11 +251,16 @@ function GoodsReceiptForm({ id }) {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} />
       </Form>
-    );
-  }, [errors, isLoading, submit, register, control]);
-  console.log('MyForm');
+    ),
+    [errors, isLoading, submit, register, control],
+  );
 
-  return <Widget>{form}</Widget>;
+  return (
+    <Widget>
+      <FormError className="mt-3" errors={serverErrors} item={item => [item]} />
+      {form}
+    </Widget>
+  );
 }
 
 GoodsReceiptForm.propTypes = {

@@ -83,6 +83,9 @@ const UnitSelect = ({
         <UnitModalForm
           closeHandle={val => {
             if (val && onAdded) {
+              productApi.read(productId).then(data => {
+                setOptions(data.units);
+              });
               onAdded(val);
             }
             open(false);

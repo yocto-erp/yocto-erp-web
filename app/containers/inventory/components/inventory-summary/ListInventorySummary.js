@@ -10,6 +10,7 @@ import FilterInventorySummary from './FilterInventorySummary';
 import { PATH_GOODS_ISSUE, PATH_GOODS_RECEIPT } from '../../constants';
 import CreateButton from '../../../../components/button/CreateButton';
 import { newPage } from '../../../../libs/utils/crud.util';
+import { SORT_DIR } from '../../../../components/ListWidget/constants';
 
 const ListInventorySummary = ({ history }) => {
   const columns = React.useMemo(
@@ -50,6 +51,9 @@ const ListInventorySummary = ({ history }) => {
         header: 'Last Modified By',
         data: 'lastModified',
         width: '1px',
+        sort: {
+          name: 'lastModifiedDate',
+        },
         render: row => {
           const { lastModifiedBy, lastModifiedDate } = row;
           return <CreatedBy user={lastModifiedBy} date={lastModifiedDate} />;
@@ -93,6 +97,7 @@ const ListInventorySummary = ({ history }) => {
           initialSize={10}
           initialPage={1}
           initialFilter={search}
+          initSorts={{ lastModifiedDate: SORT_DIR.DESC }}
         >
           <FilterInventorySummary data={search} />
         </ListWidget>

@@ -49,9 +49,6 @@ const ListPage = ({ history }) => {
       {
         header: 'Name',
         data: 'name',
-        sort: {
-          name: 'name',
-        },
         width: '20%',
       },
       {

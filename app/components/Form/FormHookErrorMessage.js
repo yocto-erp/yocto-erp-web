@@ -5,7 +5,6 @@ import { FormFeedback } from 'reactstrap';
 import messages from './messages';
 
 const FormErrorMessage = ({ error }) => {
-  console.log(error);
   const errorMessage = useMemo(() => {
     if (!error) {
       return '';
