@@ -56,6 +56,7 @@ const UnitSelect = ({
         <CustomInput
           id={id}
           type="select"
+          name={name}
           onChange={onChangeHandle}
           onBlur={onBlur}
           disabled={!productId}
