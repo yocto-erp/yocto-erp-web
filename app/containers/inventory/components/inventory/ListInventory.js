@@ -92,6 +92,7 @@ const ListInventory = ({ history }) => {
               } else {
                 history.push(editPage(PATH_GOODS_RECEIPT, row.id));
               }
+              console.log(`Edit Item ${JSON.stringify(row)}`);
             }}
             onDelete={() => {
               if (INVENTORY_TYPE.OUT === row.type) {
@@ -108,7 +109,15 @@ const ListInventory = ({ history }) => {
   );
 
   console.log('ListPage');
-  const search = { warehouseId: null, search: '' };
+  const toDate = new Date();
+  const prevDate = new Date();
+  prevDate.setDate(new Date().getDate() - 7);
+  const search = {
+    warehouseId: null,
+    search: '',
+    startDate: prevDate,
+    endDate: toDate,
+  };
   const actions = (
     <>
       <CreateButton
@@ -169,7 +178,6 @@ const ListInventory = ({ history }) => {
               params: { id },
             },
           }) => (
-            // match === null
             <DeleteConfirmModal
               id={id}
               deleteApi={goodsReceiptApi.remove}

@@ -195,10 +195,10 @@ function GoodsReceiptForm({ id }) {
           <Table bordered hover striped>
             <thead>
               <tr>
-                <th style={{ width: '300px' }}>
+                <th style={{ width: '30%' }}>
                   Product<span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '180px' }}>
+                <th style={{ width: '250px' }}>
                   Unit<span className="text-danger">*</span>
                 </th>
                 <th style={{ width: '150px' }}>

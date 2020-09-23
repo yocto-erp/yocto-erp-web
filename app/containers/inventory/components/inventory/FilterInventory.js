@@ -9,14 +9,12 @@ import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSe
 import 'react-datepicker/dist/react-datepicker.css';
 
 const FilterInventory = ({ data }) => {
+  const [startDate, setStartDate] = useState(data.startDate);
+  const [endDate, setEndDate] = useState(data.endDate);
+  const setFilter = useListFilter();
   const { handleSubmit, register, control } = useForm({
     defaultValues: data,
   });
-  const prevDate = new Date();
-  prevDate.setDate(new Date().getDate() - 7);
-  const [startDate, setStartDate] = useState(prevDate);
-  const [endDate, setEndDate] = useState(new Date());
-  const setFilter = useListFilter();
   const onSubmit = handleSubmit(val => {
     const { search } = val;
     const warehouseId = val.warehouse ? val.warehouse.id : null;
