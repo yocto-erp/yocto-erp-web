@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Form,
-  Label,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from 'reactstrap';
+import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { yupResolver } from '@hookform/resolvers';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -15,7 +8,7 @@ import { toast } from 'react-toastify';
 import FormRow from '../../Form/FormRow';
 import ModalCancelButton from '../../button/ModalCancelButton';
 import SubmitButton from '../../button/SubmitButton';
-import companyApi from '../../../libs/apis/company.api';
+import partnerCompanyApi from '../../../libs/apis/partner/partner-company.api';
 import { useAsync } from '../../../libs/hooks/useAsync';
 
 const validationSchema = Yup.object().shape({
@@ -35,7 +28,7 @@ const CompanyModalForm = ({ isOpen, closeHandle }) => {
     defaultValues: { name: '', gsm: '', address: '', remark: '' },
   });
 
-  const [isLoading, exec] = useAsync({ asyncApi: companyApi.create });
+  const [isLoading, exec] = useAsync({ asyncApi: partnerCompanyApi.create });
   const onSubmit = handleSubmit(val => {
     exec(val).then(result => {
       toast.success(`Create Company ${result.name} success !`);
@@ -52,7 +45,7 @@ const CompanyModalForm = ({ isOpen, closeHandle }) => {
           <FormRow
             label={
               <span className="text-nowrap">
-                Name <span className="text-danger">*</span>
+                Name<span className="text-danger">*</span>
               </span>
             }
             name="name"

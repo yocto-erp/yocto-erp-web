@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Widget from '../../../components/Widget/Widget';
-import CreatedBy from '../../../components/ListWidget/CreatedBy';
 import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
 import saleApi from '../../../libs/apis/order/sale.api';
 import { SALE_ROOT_PATH } from './constants';
@@ -18,6 +17,11 @@ import CreateButton from '../../../components/button/CreateButton';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../components/ListWidget';
 import Filter from './components/Filter';
+import {
+  CreatedByColumn,
+  SORT_DIR,
+} from '../../../components/ListWidget/constants';
+import Price from '../../../components/common/Price';
 
 const ROOT_PATH = SALE_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -52,7 +56,11 @@ const ListPage = ({ history }) => {
       {
         header: 'Total Amount',
         data: 'totalAmount',
-        width: '12%',
+        render: row => <Price amount={row.totalAmount} />,
+        sort: {
+          name: 'totalAmount',
+        },
+        class: 'min text-right',
       },
       {
         header: 'Remark',
@@ -64,15 +72,7 @@ const ListPage = ({ history }) => {
         data: 'processedDate',
         width: '40%',
       },
-      {
-        header: 'Created By',
-        data: 'createdBy',
-        width: '1px',
-        render: row => {
-          const { createdBy, createdDate } = row;
-          return <CreatedBy user={createdBy} date={createdDate} />;
-        },
-      },
+      CreatedByColumn,
       {
         header: 'Action',
         data: '',
@@ -97,6 +97,7 @@ const ListPage = ({ history }) => {
   const action = (
     <div>
       <CreateButton
+        className="mr-2 btn-raised"
         onClick={() => {
           console.log('Create');
           history.push(newPage(ROOT_PATH));
@@ -148,6 +149,7 @@ const ListPage = ({ history }) => {
           initialSize={10}
           initialPage={1}
           initialFilter={search}
+          initSorts={{ createdDate: SORT_DIR.DESC }}
         >
           <Filter data={search} />
         </ListWidget>

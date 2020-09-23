@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
 import Filter from './components/Filter';
-import CreatedBy from '../../components/ListWidget/CreatedBy';
 import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import {
   deletePage,

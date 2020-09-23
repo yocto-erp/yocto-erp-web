@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Widget from '../../../components/Widget/Widget';
-import CreatedBy from '../../../components/ListWidget/CreatedBy';
 import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
 import purchaseApi from '../../../libs/apis/order/purchase.api';
 import { PURCHASE_ROOT_PATH } from './constants';
@@ -18,7 +17,10 @@ import CreateButton from '../../../components/button/CreateButton';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../components/ListWidget';
 import Filter from './components/Filter';
-import { CreatedByColumn } from '../../../components/ListWidget/constants';
+import {
+  CreatedByColumn,
+  SORT_DIR,
+} from '../../../components/ListWidget/constants';
 import Price from '../../../components/common/Price';
 
 const ROOT_PATH = PURCHASE_ROOT_PATH;
@@ -55,7 +57,10 @@ const ListPage = ({ history }) => {
         header: 'Total Amount',
         data: 'totalAmount',
         render: row => <Price amount={row.totalAmount} />,
-        width: '12%',
+        sort: {
+          name: 'totalAmount',
+        },
+        class: 'min text-right',
       },
       {
         header: 'Remark',
@@ -92,6 +97,7 @@ const ListPage = ({ history }) => {
   const action = (
     <div>
       <CreateButton
+        className="mr-2 btn-raised"
         onClick={() => {
           console.log('Create');
           history.push(newPage(ROOT_PATH));
@@ -143,6 +149,7 @@ const ListPage = ({ history }) => {
           initialSize={10}
           initialPage={1}
           initialFilter={search}
+          initSorts={{ createdDate: SORT_DIR.DESC }}
         >
           <Filter data={search} />
         </ListWidget>

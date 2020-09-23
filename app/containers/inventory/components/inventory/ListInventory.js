@@ -26,6 +26,7 @@ import DeleteConfirmModal from '../../../../components/modal/DeleteConfirmModal'
 import ListWidget from '../../../../components/ListWidget';
 import FilterInventory from './FilterInventory';
 import { formatDate } from '../../../../libs/utils/date.util';
+import { CreatedByColumn, SORT_DIR } from '../../../../components/ListWidget/constants';
 
 const ROOT_PATH = INVENTORY_ROOT_PATH;
 const ListInventory = ({ history }) => {
@@ -71,15 +72,7 @@ const ListInventory = ({ history }) => {
         width: '18%',
         render: row => formatDate(new Date(row.processedDate)),
       },
-      {
-        header: 'Created By',
-        data: 'createdBy',
-        width: '1px',
-        render: row => {
-          const { createdBy, createdDate } = row;
-          return <CreatedBy user={createdBy} date={createdDate} />;
-        },
-      },
+      CreatedByColumn,
       {
         header: 'Action',
         data: 'action',
@@ -109,7 +102,15 @@ const ListInventory = ({ history }) => {
   );
 
   console.log('ListPage');
-  const search = { warehouseId: null, search: '' };
+  const toDate = new Date();
+  const prevDate = new Date();
+  prevDate.setDate(new Date().getDate() - 7);
+  const search = {
+    warehouseId: null,
+    search: '',
+    startDate: prevDate,
+    endDate: toDate,
+  };
   const actions = (
     <>
       <CreateButton
@@ -172,7 +173,6 @@ const ListInventory = ({ history }) => {
               params: { id },
             },
           }) => (
-            // match === null
             <DeleteConfirmModal
               id={id}
               deleteApi={goodsReceiptApi.remove}
@@ -207,6 +207,7 @@ const ListInventory = ({ history }) => {
           initialSize={10}
           initialPage={1}
           initialFilter={search}
+          initSorts={{ createdDate: SORT_DIR.DESC }}
         >
           <FilterInventory data={search} />
         </ListWidget>

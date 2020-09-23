@@ -99,7 +99,7 @@ function GoodsReceiptForm({ id }) {
       name: '',
       remark: '',
       details: [{ product: null, unit: null, quantity: 0, remark: '' }],
-      processedDate: new Date(1599023532000),
+      processedDate: new Date(),
     },
     id,
   });
