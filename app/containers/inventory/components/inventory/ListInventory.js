@@ -39,6 +39,9 @@ const ListInventory = ({ history }) => {
         header: 'Type',
         data: 'type',
         width: '5%',
+        sort: {
+          name: 'type',
+        },
         render: row =>
           row.type === 1 ? (
             <span className="badge badge-danger">OUT</span>
@@ -92,7 +95,6 @@ const ListInventory = ({ history }) => {
               } else {
                 history.push(editPage(PATH_GOODS_RECEIPT, row.id));
               }
-              console.log(`Edit Item ${JSON.stringify(row)}`);
             }}
             onDelete={() => {
               if (INVENTORY_TYPE.OUT === row.type) {
@@ -107,8 +109,6 @@ const ListInventory = ({ history }) => {
     ],
     [],
   );
-
-  console.log('ListPage');
   const toDate = new Date();
   const prevDate = new Date();
   prevDate.setDate(new Date().getDate() - 7);

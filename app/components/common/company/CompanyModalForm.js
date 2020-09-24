@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import FormRow from '../../Form/FormRow';
 import ModalCancelButton from '../../button/ModalCancelButton';
 import SubmitButton from '../../button/SubmitButton';
-import partnerCompanyApi from '../../../libs/apis/partner/partner-company.api';
+import companyApi from '../../../libs/apis/company.api';
 import { useAsync } from '../../../libs/hooks/useAsync';
 
 const validationSchema = Yup.object().shape({
@@ -28,7 +28,7 @@ const CompanyModalForm = ({ isOpen, closeHandle }) => {
     defaultValues: { name: '', gsm: '', address: '', remark: '' },
   });
 
-  const [isLoading, exec] = useAsync({ asyncApi: partnerCompanyApi.create });
+  const [isLoading, exec] = useAsync({ asyncApi: companyApi.create });
   const onSubmit = handleSubmit(val => {
     exec(val).then(result => {
       toast.success(`Create Company ${result.name} success !`);

@@ -17,7 +17,7 @@ import FormRow from '../../Form/FormRow';
 import ModalCancelButton from '../../button/ModalCancelButton';
 import SubmitButton from '../../button/SubmitButton';
 import { useAsync } from '../../../libs/hooks/useAsync';
-import partnerPersonApi from '../../../libs/apis/partner/partner-person.api';
+import personApi from '../../../libs/apis/person.api';
 import Label from '../../Form/Label';
 import { ERROR } from '../../Form/messages';
 
@@ -47,7 +47,7 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
     },
   });
 
-  const [isLoading, exec] = useAsync({ asyncApi: partnerPersonApi.create });
+  const [isLoading, exec] = useAsync({ asyncApi: personApi.create });
   const onSubmit = handleSubmit(val => {
     exec(val).then(result => {
       toast.success(`Create Customer success !`);
