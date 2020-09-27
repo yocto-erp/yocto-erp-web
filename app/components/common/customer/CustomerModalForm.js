@@ -2,12 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Form,
-  FormGroup,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Col,
 } from 'reactstrap';
 import { yupResolver } from '@hookform/resolvers';
 import * as Yup from 'yup';
