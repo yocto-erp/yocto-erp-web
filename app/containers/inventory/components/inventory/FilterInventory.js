@@ -33,7 +33,7 @@ const FilterInventory = ({ data }) => {
             name="warehouse"
             control={control}
             id="warehouseId"
-            placeholder="Warehouse Name"
+            placeholder="Select Warehouse"
             as={WarehouseSelect}
           />
         </div>

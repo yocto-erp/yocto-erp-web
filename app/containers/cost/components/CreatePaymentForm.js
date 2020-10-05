@@ -7,6 +7,7 @@ import {
   Label,
   Row,
   Col,
+  Container,
 } from 'reactstrap';
 import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
@@ -187,11 +188,12 @@ const CreatePaymentForm = ({ id }) => {
             </FormGroup>
           </Col>
           <Col md={5}>
-            <FormGroup className="costUpload">
+            <FormGroup className="pb-3 h-100">
               <Controller
                 defaultValue={formData ? formData.assets : []}
                 invalid={!!errors.assets}
                 as={FileUpload}
+                className="h-100"
                 name="assets"
                 placeholder="Upload files"
                 control={control}
@@ -205,6 +207,7 @@ const CreatePaymentForm = ({ id }) => {
             <Input innerRef={register} type="hidden" value="2" name="type" />
           </Col>
         </Row>
+
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!isValid || !isDirty} />
       </Form>

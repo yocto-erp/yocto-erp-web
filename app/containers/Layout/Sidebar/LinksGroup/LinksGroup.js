@@ -48,7 +48,7 @@ const LinksGroup = ({
       <NavLink
         to={link}
         activeClassName={s.headerLinkActive}
-        exact
+        exact={exact}
         onClick={e => onLinkClick(index, e)}
         style={headingStyle}
       >

@@ -81,6 +81,7 @@ class Sidebar extends React.Component {
                 header={t.header}
                 isHeader={t.isHeader}
                 iconName={t.iconName}
+                exact={t.exact}
                 link={t.link}
                 index={t.index}
                 childrenLinks={t.children}
@@ -95,6 +96,7 @@ class Sidebar extends React.Component {
                 onActiveSidebarItemChange={activeItem =>
                   this.props.dispatch(changeActiveSidebarItem(activeItem))
                 }
+                exact={t.exact}
                 activeItem={this.props.activeItem}
                 header={t.header}
                 isHeader={t.isHeader}
@@ -112,6 +114,7 @@ class Sidebar extends React.Component {
                 onActiveSidebarItemChange={activeItem =>
                   this.props.dispatch(changeActiveSidebarItem(activeItem))
                 }
+                exact={t.exact}
                 activeItem={this.props.activeItem}
                 header={t.header}
                 isHeader={t.isHeader}

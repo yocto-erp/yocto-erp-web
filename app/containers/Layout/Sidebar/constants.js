@@ -6,6 +6,7 @@ export const SIDE_BAR_MENU = {
       iconName: 'flaticon-home',
       link: '/dashboard',
       index: 'dashboard',
+      exact: true,
     },
   ],
   utils: [

@@ -52,7 +52,7 @@ const getErrorUpload = errorFile => {
   );
 };
 
-const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
+const FileUpload = ({ onChange, value = [], invalid, className, ...props }) => {
   const [files, setFiles] = useState([]);
   const [enlargeFile, setEnlargeFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -145,7 +145,11 @@ const FileUpload = ({ onChange, value = [], invalid, ...props }) => {
   return (
     <div
       {...getRootProps()}
-      className={classNames('upload-zone-wrapper', { 'is-invalid': invalid })}
+      className={classNames(
+        'upload-zone-wrapper',
+        { 'is-invalid': invalid },
+        className,
+      )}
     >
       <div className="upload-zone text-center">
         <input {...getInputProps()} />
@@ -201,6 +205,7 @@ FileUpload.propTypes = {
   value: PropTypes.any.isRequired,
   placeholder: PropTypes.any,
   name: PropTypes.string,
+  className: PropTypes.any,
 };
 
 export default FileUpload;
