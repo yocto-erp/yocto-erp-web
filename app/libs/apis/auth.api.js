@@ -36,7 +36,7 @@ export const resetPassword = ({ token, password, rePassword }) =>
   });
 
 export const createCompany = ({ name, gsm, address, remark }) =>
-  postJSON(`${API_URL}/company`, {
+  postJSON(`${API_URL}/createCompanyOnboard`, {
     name,
     gsm,
     address,

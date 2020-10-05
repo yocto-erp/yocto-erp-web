@@ -23,6 +23,8 @@ import { COST_ROOT_PATH } from '../cost/constants';
 import CostPage from '../cost';
 import { SALE_ROOT_PATH } from '../order/sale/constants';
 import SalePage from '../order/sale/Loadable';
+import { PARTNER_ROOT_PATH } from '../partner/constants';
+import PartnerPage from '../partner/Loadable';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -109,6 +111,10 @@ class Layout extends React.Component {
                   <Route
                     path={`${INVENTORY_ROOT_PATH}`}
                     component={InventoryPage}
+                  />
+                  <Route
+                    path={`${PARTNER_ROOT_PATH}`}
+                    component={PartnerPage}
                   />
                   <Route path={`${COST_ROOT_PATH}`} component={CostPage} />
                 </Switch>

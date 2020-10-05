@@ -26,12 +26,6 @@ import CompanySelect from '../../../../components/common/company/CompanySelect';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
-  partnerPersonId: Yup.object()
-    .required('This field is required.')
-    .nullable(true),
-  partnerCompanyId: Yup.object()
-    .required('This field is required.')
-    .nullable(true),
   details: Yup.array()
     .of(
       Yup.object().shape({
@@ -137,7 +131,7 @@ function MyForm({ id }) {
             </FormGroup>
             <FormGroup>
               <Label for="partnerPersonId" className="mr-sm-2">
-                Customer Partner<span className="text-danger">*</span>
+                Customer Partner
               </Label>
               <Controller
                 name="partnerPersonId"
@@ -147,7 +141,6 @@ function MyForm({ id }) {
                   <CustomerSelect
                     id="partnerPersonId"
                     placeholder="Choose Customer"
-                    invalid={!!errors.partnerPersonId}
                     onAdded={newCustomer => {
                       console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
                       setValue('partnerPersonId', newCustomer, {
@@ -161,9 +154,6 @@ function MyForm({ id }) {
                   />
                 )}
               />
-              <FormFeedback>
-                {errors.partnerPersonId && errors.partnerPersonId.message}
-              </FormFeedback>
             </FormGroup>
             <FormGroup>
               <Label for="partnerCompanyId" className="mr-sm-2">
@@ -177,7 +167,6 @@ function MyForm({ id }) {
                   <CompanySelect
                     id="partnerCompanyId"
                     placeholder="Choose Partner Company"
-                    invalid={!!errors.partnerCompanyId}
                     onAdded={newCompany => {
                       console.log(`OnAdd: ${JSON.stringify(newCompany)}`);
                       setValue('partnerCompanyId', newCompany, {
@@ -191,9 +180,6 @@ function MyForm({ id }) {
                   />
                 )}
               />
-              <FormFeedback>
-                {errors.partnerCompanyId && errors.partnerCompanyId.message}
-              </FormFeedback>
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">

@@ -59,7 +59,7 @@ export const SIDE_BAR_MENU = {
           isHeader: true,
         },
         {
-          header: 'Khách hàng - Đối tác',
+          header: 'Khách hàng - Company',
           link: '/partner',
           index: 'management.partner',
           isHeader: true,
