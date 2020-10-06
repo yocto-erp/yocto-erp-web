@@ -18,6 +18,7 @@ const useMyForm = ({ form = {}, validationSchema, api }) => {
     getValues,
     setValue,
     formState,
+    watch,
   } = useForm({
     mode: 'all',
     reValidateMode: 'onChange',
@@ -68,6 +69,7 @@ const useMyForm = ({ form = {}, validationSchema, api }) => {
     reset,
     setValue,
     state,
+    watch,
   };
 };
 

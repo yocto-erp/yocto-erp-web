@@ -6,8 +6,7 @@ import {
   Input,
   Label,
   Row,
-  Col,
-  Container,
+  Col
 } from 'reactstrap';
 import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';

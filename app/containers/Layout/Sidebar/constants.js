@@ -66,5 +66,19 @@ export const SIDE_BAR_MENU = {
         },
       ],
     },
+    {
+      header: 'Cấu hình',
+      isHeader: true,
+      iconName: 'flaticon-settings-3',
+      index: 'configuration',
+      link: '',
+      children: [
+        {
+          header: 'Email',
+          link: '/configuration/email',
+          index: 'configuration.email',
+        },
+      ],
+    },
   ],
 };

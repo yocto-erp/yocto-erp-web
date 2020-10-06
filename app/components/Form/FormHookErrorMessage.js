@@ -6,6 +6,7 @@ import messages from './messages';
 
 const FormErrorMessage = ({ error }) => {
   const errorMessage = useMemo(() => {
+    console.log(error);
     if (!error) {
       return '';
     }

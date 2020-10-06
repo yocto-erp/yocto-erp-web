@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'reactstrap';
+import { v4 as uuidv4 } from 'uuid';
 
 const FormError = ({ errors, item, ...props }) =>
   errors && errors.length ? (
     <Alert fade={false} color="danger" {...props}>
       <ul className="m-0">
         {errors.map(t => (
-          <li>{item ? item(t.message) : t.message}</li>
+          <li key={uuidv4()}>{item ? item(t.message) : t.message}</li>
         ))}
       </ul>
     </Alert>
