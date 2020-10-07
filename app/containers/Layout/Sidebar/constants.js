@@ -64,6 +64,12 @@ export const SIDE_BAR_MENU = {
           index: 'management.partner',
           isHeader: true,
         },
+        {
+          header: 'Student',
+          link: '/student',
+          index: 'management.student',
+          isHeader: true,
+        },
       ],
     },
     {
