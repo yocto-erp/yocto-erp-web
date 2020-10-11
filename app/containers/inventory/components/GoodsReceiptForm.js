@@ -95,7 +95,7 @@ function GoodsReceiptForm({ id }) {
       }));
       return {
         name: form.name,
-        warehouseId: form.warehouse.id,
+        warehouseId: form.warehouse ? form.warehouse.id : null,
         remark: form.remark,
         processedDate: form.processedDate,
         details,
@@ -156,7 +156,7 @@ function GoodsReceiptForm({ id }) {
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
             <FormGroup>
-              <Label for="units" className="mr-sm-2">
+              <Label for="birthday" className="mr-sm-2">
                 Process Date<span className="text-danger">*</span>
               </Label>
               <div

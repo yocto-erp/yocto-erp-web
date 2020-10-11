@@ -93,7 +93,7 @@ function GoodsIssueForm({ id }) {
       }));
       return {
         name: form.name,
-        warehouseId: form.warehouse.id,
+        warehouseId: form.warehouse ? form.warehouse.id : null,
         processedDate: form.processedDate,
         remark: form.remark,
         details,
@@ -153,7 +153,7 @@ function GoodsIssueForm({ id }) {
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
             <FormGroup>
-              <Label for="units" className="mr-sm-2">
+              <Label for="birthday" className="mr-sm-2">
                 Process Date<span className="text-danger">*</span>
               </Label>
               <div style={{ width: '250px' }} className="">
