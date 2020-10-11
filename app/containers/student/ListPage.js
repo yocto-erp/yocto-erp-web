@@ -24,21 +24,33 @@ const ListPage = ({ history }) => {
     () => [
       {
         header: <strong>Student ID</strong>,
-        data: 'name',
+        data: 'studentId',
         sort: {
           name: 'name',
         },
-        width: '20%',
+        width: '12%',
       },
       {
         header: 'Name (Alias)',
         data: 'alias',
-        width: '12%',
+        width: '16%',
+        render: row => {
+          const { alias } = row;
+          return `${row.child.name} (${alias})`;
+        },
       },
       {
         header: 'parent',
         data: 'father',
-        width: '40%',
+        width: '20%',
+        render: row => (
+          <>
+            <p>
+              Father: {row.father.name} <br />
+              Mother: {row.mother.name}
+            </p>
+          </>
+        ),
       },
       {
         header: 'Free information',
@@ -47,10 +59,26 @@ const ListPage = ({ history }) => {
       {
         header: 'Meal',
         data: 'enableMeal',
+        width: '10%',
+        render: row =>
+          row.enableMeal === 1 ? (
+            <span className="badge badge-success">TRUE</span>
+          ) : (
+            <span className="badge badge-danger">FALSE</span>
+          ),
       },
       {
         header: 'Bus',
         data: 'bus',
+        width: '20%',
+        render: row => (
+          <>
+            <p>
+              Father: {row.father.firstName} {row.father.lastName} <br />
+              Mother: {row.mother.firstName} {row.mother.lastName}
+            </p>
+          </>
+        ),
       },
       {
         header: 'Start Date',
@@ -104,13 +132,13 @@ const ListPage = ({ history }) => {
             onClose={item => {
               history.goBack();
               if (item) {
-                toast.success(`Delete Student ${item.name} Success`);
+                toast.success(`Delete Student ${item.child.name} Success`);
               }
             }}
             title="Delete Student?"
             message={row => {
               if (!row) return '';
-              return `Are you sure to delete ${row.name} ?`;
+              return `Are you sure to delete ${row.child.name} ?`;
             }}
           />
         )}

@@ -1,12 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Form,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from 'reactstrap';
+import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { yupResolver } from '@hookform/resolvers';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';

@@ -15,7 +15,6 @@ const UnitSelect = ({
   onAdded,
   productId,
   id,
-  ...props
 }) => {
   const [isOpen, open] = useState(false);
   const [options, setOptions] = useState([]);

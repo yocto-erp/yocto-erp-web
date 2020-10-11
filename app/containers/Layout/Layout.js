@@ -26,7 +26,7 @@ import SalePage from '../order/sale/Loadable';
 import { PARTNER_ROOT_PATH } from '../partner/constants';
 import PartnerPage from '../partner/Loadable';
 import { STUDENT_ROOT_PATH } from '../student/constants';
-import StudentPage from '../student';
+import StudentPage from '../student/Loadable';
 import ConfigurationPage from '../configuration/Loadable';
 
 class Layout extends React.Component {

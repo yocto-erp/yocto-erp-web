@@ -38,6 +38,13 @@ export const SIDE_BAR_MENU = {
       link: '/inventory',
       index: 'inventory',
     },
+    {
+      header: 'Student',
+      isHeader: true,
+      iconName: 'flaticon-network',
+      link: '/student',
+      index: 'student',
+    },
   ],
   management: [
     {
@@ -64,12 +71,6 @@ export const SIDE_BAR_MENU = {
           index: 'management.partner',
           isHeader: true,
         },
-        {
-          header: 'Student',
-          link: '/student',
-          index: 'management.student',
-          isHeader: true,
-        },
       ],
     },
     {
@@ -83,6 +84,11 @@ export const SIDE_BAR_MENU = {
           header: 'Email',
           link: '/configuration/email',
           index: 'configuration.email',
+        },
+        {
+          header: 'Student',
+          link: '/configuration/student',
+          index: 'configuration.student',
         },
       ],
     },
