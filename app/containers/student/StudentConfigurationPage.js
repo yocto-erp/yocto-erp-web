@@ -18,7 +18,6 @@ import BusRouteForm from './components/BusRouteForm';
 import ClassForm from './components/ClassForm';
 
 const StudentConfigurationPage = () => {
-  console.log('fsdadfsdfasdfsdfsdafsdfsdfdsfds');
   const validationSchema = React.useMemo(
     () =>
       Yup.object().shape({

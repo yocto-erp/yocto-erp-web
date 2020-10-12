@@ -24,11 +24,12 @@ import studentApi from '../../../libs/apis/student/student.api';
 import DateSelect from '../../../components/date/DateSelect';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import studentConfigurationApi from '../../../libs/apis/student/student-config.api';
+import { ERROR } from '../../../components/Form/messages';
 
 const validationSchema = Yup.object().shape({
-  fullName: Yup.string().required('This field is required.'),
-  studentId: Yup.string().required('This field is required.'),
-  alias: Yup.string().required('This field is required.'),
+  fullName: Yup.string().required(ERROR.required),
+  studentId: Yup.string().required(ERROR.required),
+  alias: Yup.string().required(ERROR.required),
 });
 
 const { create, update, read } = studentApi;
@@ -143,9 +144,7 @@ function MyForm({ id }) {
                 id="studentId"
                 placeholder="Student ID"
               />
-              <FormFeedback>
-                {errors.studentId && errors.studentId.message}
-              </FormFeedback>
+              <FormErrorMessage error={errors.studentId} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
@@ -161,9 +160,7 @@ function MyForm({ id }) {
                 id="fullName"
                 placeholder="FullName Student"
               />
-              <FormFeedback>
-                {errors.fullName && errors.fullName.message}
-              </FormFeedback>
+              <FormErrorMessage error={errors.fullName} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
@@ -179,9 +176,7 @@ function MyForm({ id }) {
                 id="alias"
                 placeholder="Alias"
               />
-              <FormFeedback>
-                {errors.alias && errors.alias.message}
-              </FormFeedback>
+              <FormErrorMessage error={errors.alias} />
             </FormGroup>
           </Col>
         </Row>
