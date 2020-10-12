@@ -20,10 +20,10 @@ import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import CustomerSelect from '../../../components/common/customer/CustomerSelect';
-import studentApi from '../../../libs/apis/student.api';
+import studentApi from '../../../libs/apis/student/student.api';
 import DateSelect from '../../../components/date/DateSelect';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import studentConfigurationApi from '../../../libs/apis/configuration/student-config.api';
+import studentConfigurationApi from '../../../libs/apis/student/student-config.api';
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required('This field is required.'),
@@ -71,7 +71,7 @@ function MyForm({ id }) {
         ? `${form.child.firstName} ${form.child.lastName}`
         : '',
       alias: form.alias,
-      joinDate: form.joinDate,
+      joinDate: form.joinDate ? new Date(form.joinDate) : new Date(),
       status: form.status ? form.status : '',
       class: form.class,
       birthday: form.child ? new Date(form.child.birthday) : new Date(),
@@ -432,10 +432,14 @@ function MyForm({ id }) {
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     ),
-    [errors, isLoading, submit, register],
+    [errors, isLoading, submit, register, optionsBusRoute, optionsClass],
   );
 
-  return <Widget>{optionsBusRoute.length ? form : <></>}</Widget>;
+  return (
+    <Widget>
+      {optionsBusRoute.length && optionsClass.length ? form : <></>}
+    </Widget>
+  );
 }
 
 MyForm.propTypes = {

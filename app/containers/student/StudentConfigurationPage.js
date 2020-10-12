@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Controller, useFieldArray } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import Widget from '../../components/Widget/Widget';
-import studentConfigurationApi from '../../libs/apis/configuration/student-config.api';
+import studentConfigurationApi from '../../libs/apis/student/student-config.api';
 import { ERROR } from '../../components/Form/messages';
 import useMyForm from '../../libs/hooks/useMyForm';
 import FormError from '../../components/Form/FormError';
@@ -18,6 +18,7 @@ import BusRouteForm from './components/BusRouteForm';
 import ClassForm from './components/ClassForm';
 
 const StudentConfigurationPage = () => {
+  console.log('fsdadfsdfasdfsdfsdafsdfsdfdsfds');
   const validationSchema = React.useMemo(
     () =>
       Yup.object().shape({

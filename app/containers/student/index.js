@@ -5,12 +5,17 @@ import { listPage, newPage } from '../../libs/utils/crud.util';
 import CreatePage from './CreatePage';
 import EditPage from './EditPage';
 import ListPage from './ListPage';
+import StudentConfigurationPage from './StudentConfigurationPage';
 
 const MAIN_PATH = STUDENT_ROOT_PATH;
 
 function StudentPage() {
   return (
     <Switch>
+      <Route
+        path={`${MAIN_PATH}/configure`}
+        component={StudentConfigurationPage}
+      />
       <Route exact path={`${newPage(MAIN_PATH)}`} component={CreatePage} />
       <Route exact path={`${MAIN_PATH}/:id/edit`} component={EditPage} />
       <Route path={`${listPage(MAIN_PATH)}`} component={ListPage} />

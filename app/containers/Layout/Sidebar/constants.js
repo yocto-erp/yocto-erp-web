@@ -85,11 +85,6 @@ export const SIDE_BAR_MENU = {
           link: '/configuration/email',
           index: 'configuration.email',
         },
-        {
-          header: 'Student',
-          link: '/configuration/student',
-          index: 'configuration.student',
-        },
       ],
     },
   ],

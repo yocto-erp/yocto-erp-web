@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Widget from '../../components/Widget/Widget';
 import TableActionColumns from '../../components/ListWidget/TableActionColumn';
-import studentApi from '../../libs/apis/student.api';
+import studentApi from '../../libs/apis/student/student.api';
 import { STUDENT_ROOT_PATH } from './constants';
 import PageTitle from '../Layout/PageTitle';
 import {
@@ -17,11 +17,43 @@ import CreateButton from '../../components/button/CreateButton';
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
+import { formatDateOnly } from '../../libs/utils/date.util';
+import studentConfigurationApi from '../../libs/apis/student/student-config.api';
 
 const ROOT_PATH = STUDENT_ROOT_PATH;
 const ListPage = ({ history }) => {
+  const [busRoute, setBusRoute] = React.useState([]);
+  React.useEffect(() => {
+    studentConfigurationApi.get().then(resp => {
+      if (resp) {
+        setBusRoute(resp.busRoutes);
+      }
+    });
+  }, []);
+
   const columns = React.useMemo(
     () => [
+      {
+        key: 'status',
+        header: 'Status',
+        data: 'status',
+        width: '5%',
+        sort: {
+          name: 'status',
+        },
+        render: row => {
+          if (row.status === 1) {
+            return <span className="badge badge-warning">PENDING</span>;
+          }
+          if (row.status === 2) {
+            return <span className="badge badge-success">ACTIVE</span>;
+          }
+          if (row.status === 3) {
+            return <span className="badge badge-danger">LEAVE</span>;
+          }
+          return <></>;
+        },
+      },
       {
         header: <strong>Student ID</strong>,
         data: 'studentId',
@@ -33,7 +65,7 @@ const ListPage = ({ history }) => {
       {
         header: 'Name (Alias)',
         data: 'alias',
-        width: '16%',
+        width: '20%',
         render: row => {
           const { alias } = row;
           return `${row.child.name} (${alias})`;
@@ -42,7 +74,7 @@ const ListPage = ({ history }) => {
       {
         header: 'parent',
         data: 'father',
-        width: '20%',
+        width: '15%',
         render: row => (
           <>
             <p>
@@ -53,36 +85,62 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: 'Free information',
-        data: 'freePackage',
+        header: 'Fee information',
+        data: 'feePackage',
+        width: '5%',
+        render: row => {
+          if (row.feePackage === 0) {
+            return <span className="badge badge-success">Monthly</span>;
+          }
+          if (row.feePackage === 1) {
+            return <span className="badge badge-success">Quarterly</span>;
+          }
+          if (row.feePackage === 2) {
+            return <span className="badge badge-success">Yearly</span>;
+          }
+          return <></>;
+        },
       },
       {
         header: 'Meal',
         data: 'enableMeal',
-        width: '10%',
+        width: '5%',
         render: row =>
           row.enableMeal === 1 ? (
-            <span className="badge badge-success">TRUE</span>
+            <span className="badge badge-success">YES</span>
           ) : (
-            <span className="badge badge-danger">FALSE</span>
+            <span className="badge badge-danger">NO</span>
           ),
       },
       {
         header: 'Bus',
         data: 'bus',
         width: '20%',
-        render: row => (
-          <>
-            <p>
-              Father: {row.father.firstName} {row.father.lastName} <br />
-              Mother: {row.mother.firstName} {row.mother.lastName}
-            </p>
-          </>
-        ),
+        render: row => {
+          if (busRoute.length) {
+            const toSchoolBus = busRoute.find(
+              value => value.id === row.toSchoolBusRoute,
+            );
+            const toHomeBus = busRoute.find(
+              value => value.id === row.toHomeBusRoute,
+            );
+            return (
+              <>
+                <p>
+                  Bus To School From: {toSchoolBus.name} <br />
+                  Bus From School To: {toHomeBus.name}
+                </p>
+              </>
+            );
+          }
+          return <></>;
+        },
       },
       {
         header: 'Start Date',
         data: 'joinDate',
+        class: 'min',
+        render: row => formatDateOnly(new Date(row.joinDate)),
       },
       {
         header: 'Action',
@@ -100,18 +158,32 @@ const ListPage = ({ history }) => {
         ),
       },
     ],
-    [],
+    [busRoute],
   );
 
   const search = { search: '' };
-  const action = (
-    <div>
+
+  const actions = (
+    <>
       <CreateButton
+        className="mr-2 btn-raised"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
-      />
-    </div>
+      >
+        Create
+      </CreateButton>
+      <CreateButton
+        className="shadow btn-raised"
+        onClick={() => {
+          history.push(`${ROOT_PATH}/configure`);
+        }}
+        color="light"
+        icon="las la-cog mr-2"
+      >
+        Configure
+      </CreateButton>
+    </>
   );
 
   const deleteConfirmDialog = React.useMemo(
@@ -148,18 +220,24 @@ const ListPage = ({ history }) => {
   );
   return (
     <>
-      <PageTitle title="Student" actions={action} />
+      <PageTitle title="Student" actions={actions} />
       <Widget>
-        <ListWidget
-          deleteDialog={deleteConfirmDialog}
-          columns={columns}
-          fetchData={studentApi.search}
-          initialSize={10}
-          initialPage={1}
-          initialFilter={search}
-        >
-          <Filter data={search} />
-        </ListWidget>
+        {busRoute.length ? (
+          <>
+            <ListWidget
+              deleteDialog={deleteConfirmDialog}
+              columns={columns}
+              fetchData={studentApi.search}
+              initialSize={10}
+              initialPage={1}
+              initialFilter={search}
+            >
+              <Filter data={search} />
+            </ListWidget>
+          </>
+        ) : (
+          <></>
+        )}
       </Widget>
     </>
   );
