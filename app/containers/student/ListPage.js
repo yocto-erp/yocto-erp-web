@@ -77,9 +77,21 @@ const ListPage = ({ history }) => {
         width: '15%',
         render: row => (
           <>
-            <p>
-              Father: {row.father.name} <br />
-              Mother: {row.mother.name}
+            <p className="m-0">
+              {row.father ? (
+                <>
+                  <span>Father: {row.father.name}</span> <br />
+                </>
+              ) : (
+                ''
+              )}
+              {row.mother ? (
+                <>
+                  <span>Mother: {row.mother.name}</span> <br />
+                </>
+              ) : (
+                ''
+              )}
             </p>
           </>
         ),
@@ -125,12 +137,10 @@ const ListPage = ({ history }) => {
               value => value.id === row.toHomeBusRoute,
             );
             return (
-              <>
-                <p>
-                  Bus To School From: {toSchoolBus.name} <br />
-                  Bus From School To: {toHomeBus.name}
-                </p>
-              </>
+              <p className="m-0">
+                Bus To School From: <strong>{toSchoolBus.name}</strong> <br />
+                Bus From School To: <strong>{toHomeBus.name}</strong>
+              </p>
             );
           }
           return <></>;
