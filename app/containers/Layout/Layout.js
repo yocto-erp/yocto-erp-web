@@ -25,6 +25,8 @@ import { SALE_ROOT_PATH } from '../order/sale/constants';
 import SalePage from '../order/sale/Loadable';
 import { PARTNER_ROOT_PATH } from '../partner/constants';
 import PartnerPage from '../partner/Loadable';
+import { STUDENT_ROOT_PATH } from '../student/constants';
+import StudentPage from '../student/Loadable';
 import ConfigurationPage from '../configuration/Loadable';
 import StudentMonthlyPage from '../StudentMonthly/Loadable';
 import { STUDENT_MONTHLY_ROOT_PATH } from '../StudentMonthly/constants';
@@ -124,6 +126,10 @@ class Layout extends React.Component {
                     component={StudentMonthlyPage}
                   />
                   <Route path={`${COST_ROOT_PATH}`} component={CostPage} />
+                  <Route
+                    path={`${STUDENT_ROOT_PATH}`}
+                    component={StudentPage}
+                  />
                   <Route path="/configuration" component={ConfigurationPage} />
                 </Switch>
                 <Footer />

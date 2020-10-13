@@ -6,7 +6,7 @@ import {
   Input,
   Label,
   Row,
-  Col
+  Col,
 } from 'reactstrap';
 import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';

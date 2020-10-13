@@ -7,7 +7,11 @@ const MAIN_PATH = '/configuration';
 function ConfigurationPage() {
   return (
     <Switch>
-      <Route exact path={`${MAIN_PATH}/email`} component={EmailConfigurationPage} />
+      <Route
+        exact
+        path={`${MAIN_PATH}/email`}
+        component={EmailConfigurationPage}
+      />
     </Switch>
   );
 }

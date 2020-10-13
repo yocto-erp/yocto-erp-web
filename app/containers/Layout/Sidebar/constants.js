@@ -39,6 +39,13 @@ export const SIDE_BAR_MENU = {
       index: 'inventory',
     },
     {
+      header: 'Student',
+      isHeader: true,
+      iconName: 'flaticon-network',
+      link: '/student',
+      index: 'student',
+    },
+    {
       header: 'Student Monthly',
       isHeader: true,
       iconName: 'flaticon-network',
