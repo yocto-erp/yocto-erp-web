@@ -80,14 +80,20 @@ const ListPage = ({ history }) => {
             <p className="m-0">
               {row.father ? (
                 <>
-                  <span>Father: {row.father.name}</span> <br />
+                  <span>
+                    Father: <strong>{row.father.name}</strong>
+                  </span>
+                  <br />
                 </>
               ) : (
                 ''
               )}
               {row.mother ? (
                 <>
-                  <span>Mother: {row.mother.name}</span> <br />
+                  <span>
+                    Mother: <strong>{row.mother.name}</strong>
+                  </span>
+                  <br />
                 </>
               ) : (
                 ''
