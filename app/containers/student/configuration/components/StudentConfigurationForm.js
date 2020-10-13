@@ -4,20 +4,20 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { Controller, useFieldArray } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
-import Widget from '../../components/Widget/Widget';
-import studentConfigurationApi from '../../libs/apis/student/student-config.api';
-import { ERROR } from '../../components/Form/messages';
-import useMyForm from '../../libs/hooks/useMyForm';
-import FormError from '../../components/Form/FormError';
-import FormErrorMessage from '../../components/Form/FormHookErrorMessage';
-import SubmitButton from '../../components/button/SubmitButton';
-import InputNumber from '../../components/Form/InputNumber';
-import InputAmount from '../../components/Form/InputAmount';
-import CreateButton from '../../components/button/CreateButton';
-import BusRouteForm from './components/BusRouteForm';
-import ClassForm from './components/ClassForm';
+import Widget from '../../../../components/Widget/Widget';
+import studentConfigurationApi from '../../../../libs/apis/student/student-config.api';
+import { ERROR } from '../../../../components/Form/messages';
+import useMyForm from '../../../../libs/hooks/useMyForm';
+import FormError from '../../../../components/Form/FormError';
+import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import SubmitButton from '../../../../components/button/SubmitButton';
+import InputNumber from '../../../../components/Form/InputNumber';
+import InputAmount from '../../../../components/Form/InputAmount';
+import CreateButton from '../../../../components/button/CreateButton';
+import BusRouteForm from './BusRouteForm';
+import ClassForm from './ClassForm';
 
-const StudentConfigurationPage = () => {
+const StudentConfigurationForm = () => {
   const validationSchema = React.useMemo(
     () =>
       Yup.object().shape({
@@ -65,14 +65,8 @@ const StudentConfigurationPage = () => {
     [],
   );
 
-  useEffect(() => {
-    studentConfigurationApi.get().then(resp => {
-      console.log(resp);
-      if (resp) {
-        reset(resp);
-      }
-    });
-  }, [reset]);
+  const [result, setResult] = React.useState(null);
+
   const {
     control,
     register,
@@ -87,7 +81,26 @@ const StudentConfigurationPage = () => {
       return studentConfigurationApi.save(data);
     },
     validationSchema,
+    defaultValues: {
+      numberDayOfMonth: 0,
+      feePerDay: 0,
+      monthlyTuitionFee: 0,
+      feePerTrialDay: 0,
+      mealFeePerDay: 0,
+      busFee: 0,
+      busRoutes: [{ id: '', name: '' }],
+      classes: [{ id: '', name: '' }],
+    },
   });
+
+  useEffect(() => {
+    studentConfigurationApi.get().then(resp => {
+      if (resp) {
+        setResult(resp);
+        reset(resp);
+      }
+    });
+  }, [reset]);
 
   useEffect(() => {
     if (submitResp) {
@@ -320,24 +333,20 @@ const StudentConfigurationPage = () => {
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     ),
-    [onSubmit, errors, register, isLoading],
+    [onSubmit, errors, register, isLoading, result],
   );
   return (
-    <Row>
-      <Col xs="12" sm="12" md="12" lg="12" xl="12">
-        <Widget title="Student Configuration">
-          {serverErrors && serverErrors.length ? (
-            <FormError errors={serverErrors} />
-          ) : (
-            ''
-          )}
-          {form}
-        </Widget>
-      </Col>
-    </Row>
+    <Widget>
+      {serverErrors && serverErrors.length ? (
+        <FormError errors={serverErrors} />
+      ) : (
+        ''
+      )}
+      {result ? form : <></>}
+    </Widget>
   );
 };
 
-StudentConfigurationPage.propTypes = {};
+StudentConfigurationForm.propTypes = {};
 
-export default StudentConfigurationPage;
+export default StudentConfigurationForm;

@@ -5,7 +5,7 @@ import { ButtonTypes } from './constants';
 
 const CreateButton = props => (
   <Button {...props} color={props.color ? props.color : 'primary'}>
-    <i className={props.icon ? props.icon : 'las la-plus mr-2'} />
+    <i className="las la-plus mr-2" />
     {/* eslint-disable-next-line react/prop-types */}
     {props.children ? props.children : 'Create'}
   </Button>
@@ -15,7 +15,6 @@ CreateButton.propsType = ButtonTypes;
 
 CreateButton.propTypes = {
   color: PropTypes.string,
-  icon: PropTypes.string,
 };
 
 export default CreateButton;

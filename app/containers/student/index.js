@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { STUDENT_ROOT_PATH } from './constants';
+import { STUDENT_CONFIGURATION_ROOT_PATH, STUDENT_ROOT_PATH } from './constants';
 import { listPage, newPage } from '../../libs/utils/crud.util';
 import CreatePage from './CreatePage';
 import EditPage from './EditPage';
 import ListPage from './ListPage';
-import StudentConfigurationPage from './StudentConfigurationPage';
+import ConfigurationPage from './configuration/ConfigurationPage';
 
 const MAIN_PATH = STUDENT_ROOT_PATH;
 
@@ -13,8 +13,9 @@ function StudentPage() {
   return (
     <Switch>
       <Route
-        path={`${MAIN_PATH}/configure`}
-        component={StudentConfigurationPage}
+        exact
+        path={STUDENT_CONFIGURATION_ROOT_PATH}
+        component={ConfigurationPage}
       />
       <Route exact path={`${newPage(MAIN_PATH)}`} component={CreatePage} />
       <Route exact path={`${MAIN_PATH}/:id/edit`} component={EditPage} />
