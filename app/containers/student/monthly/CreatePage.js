@@ -1,6 +1,6 @@
 import React from 'react';
 import MyForm from './components/MyForm';
-import PageTitle from '../Layout/PageTitle';
+import PageTitle from '../../Layout/PageTitle';
 
 const CreatePage = () => (
   <>

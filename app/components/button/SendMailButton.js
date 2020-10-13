@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { ButtonTypes } from './constants';
 
 const SendMailButton = props => (
-  <Button {...props} color={props.color ? props.color : 'primary'}>
+  <Button {...props} color={props.color ? props.color : 'success'}>
+    <i className="las la-envelope-open-text mr-2" />
     {/* eslint-disable-next-line react/prop-types */}
     {props.children ? props.children : 'Send Mail'}
   </Button>

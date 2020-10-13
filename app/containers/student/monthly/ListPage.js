@@ -2,36 +2,29 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Widget from '../../components/Widget/Widget';
-import CreatedBy from '../../components/ListWidget/CreatedBy';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
-import warehouseApi from '../../libs/apis/warehouse.api';
+import Widget from '../../../components/Widget/Widget';
+import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
+import warehouseApi from '../../../libs/apis/warehouse.api';
 import { STUDENT_MONTHLY_ROOT_PATH } from './constants';
 import Filter from './components/Filter';
-import PageTitle from '../Layout/PageTitle';
+import PageTitle from '../../Layout/PageTitle';
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../libs/utils/crud.util';
-import CreateButton from '../../components/button/CreateButton';
-import SendMailButton from '../../components/button/SendMailButton';
-import ConfigureButton from '../../components/button/ConfigureButton';
-import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../components/ListWidget';
+} from '../../../libs/utils/crud.util';
+import CreateButton from '../../../components/button/CreateButton';
+import SendMailButton from '../../../components/button/SendMailButton';
+import ConfigureButton from '../../../components/button/ConfigureButton';
+import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
+import ListWidget from '../../../components/ListWidget';
+import { STUDENT_CONFIGURATION_ROOT_PATH } from '../constants';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
-      // {
-      //   header: <strong>Student Monthly</strong>,
-      //   data: 'name',
-      //   sort: {
-      //     name: 'name',
-      //   },
-      // },
       {
         header: 'Select',
         data: 'select',
@@ -108,23 +101,23 @@ const ListPage = ({ history }) => {
   const action = (
     <div>
       <CreateButton
-        className="box"
+        className="mr-2 btn-raised"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
       />
 
       <SendMailButton
-        className="box ml-2"
+        className="mr-2 btn-raised"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
       />
 
       <ConfigureButton
-        className="box ml-2"
+        className="shadow btn-raised"
         onClick={() => {
-          history.push(newPage(ROOT_PATH));
+          history.push(STUDENT_CONFIGURATION_ROOT_PATH);
         }}
       />
     </div>

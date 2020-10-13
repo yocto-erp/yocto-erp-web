@@ -5,7 +5,10 @@ import { toast } from 'react-toastify';
 import Widget from '../../components/Widget/Widget';
 import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import studentApi from '../../libs/apis/student/student.api';
-import { STUDENT_ROOT_PATH } from './constants';
+import {
+  STUDENT_CONFIGURATION_ROOT_PATH,
+  STUDENT_ROOT_PATH,
+} from './constants';
 import PageTitle from '../Layout/PageTitle';
 import {
   deletePage,
@@ -19,6 +22,7 @@ import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
 import { formatDateOnly } from '../../libs/utils/date.util';
 import studentConfigurationApi from '../../libs/apis/student/student-config.api';
+import ConfigureButton from '../../components/button/ConfigureButton';
 
 const ROOT_PATH = STUDENT_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -133,7 +137,7 @@ const ListPage = ({ history }) => {
       {
         header: 'Bus',
         data: 'bus',
-        width: '20%',
+        width: '25%',
         render: row => {
           if (busRoute.length) {
             const toSchoolBus = busRoute.find(
@@ -186,19 +190,13 @@ const ListPage = ({ history }) => {
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
-      >
-        Create
-      </CreateButton>
-      <CreateButton
+      />
+      <ConfigureButton
         className="shadow btn-raised"
         onClick={() => {
-          history.push(`${ROOT_PATH}/configure`);
+          history.push(STUDENT_CONFIGURATION_ROOT_PATH);
         }}
-        color="light"
-        icon="las la-cog mr-2"
-      >
-        Configure
-      </CreateButton>
+      />
     </>
   );
 

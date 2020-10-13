@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import warehouseApi from '../../../libs/apis/warehouse.api';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
+import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
+import warehouseApi from '../../../../libs/apis/warehouse.api';
+import Widget from '../../../../components/Widget/Widget';
+import SubmitButton from '../../../../components/button/SubmitButton';
+import BackButton from '../../../../components/button/BackButton';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),

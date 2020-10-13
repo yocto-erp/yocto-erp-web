@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { ButtonTypes } from './constants';
 
 const ConfigureButton = props => (
-  <Button {...props} color={props.color ? props.color : 'primary'}>
+  <Button {...props} color={props.color ? props.color : 'light'}>
+    <i className="las la-cog mr-2" />
     {/* eslint-disable-next-line react/prop-types */}
     {props.children ? props.children : 'Configure'}
   </Button>
