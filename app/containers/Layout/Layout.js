@@ -28,8 +28,8 @@ import PartnerPage from '../partner/Loadable';
 import { STUDENT_ROOT_PATH } from '../student/constants';
 import StudentPage from '../student/Loadable';
 import ConfigurationPage from '../configuration/Loadable';
-import StudentMonthlyPage from '../student/monthly/Loadable';
-import { STUDENT_MONTHLY_ROOT_PATH } from '../student/monthly/constants';
+import StudentMonthlyPage from '../student/monthly-fee/Loadable';
+import { STUDENT_MONTHLY_ROOT_PATH } from '../student/monthly-fee/constants';
 
 class Layout extends React.Component {
   static propTypes = {

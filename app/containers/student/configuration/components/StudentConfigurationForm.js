@@ -95,7 +95,10 @@ const StudentConfigurationForm = () => {
 
   useEffect(() => {
     studentConfigurationApi.get().then(resp => {
+      console.log(resp);
       if (resp) {
+        // console.log(resp.busRoutes);
+        // const data = { ...resp, key: uuidv4() };
         setResult(resp);
         reset(resp);
       }

@@ -4,9 +4,9 @@ import PageTitle from '../../Layout/PageTitle';
 
 const CreatePage = () => (
   <>
-    <PageTitle title="Create Warehouse" />
+    <PageTitle title="Create Student Monthly Fee" />
     <div className="row">
-      <div className="col-md-6">
+      <div className="col-md-12">
         <MyForm />
       </div>
     </div>
