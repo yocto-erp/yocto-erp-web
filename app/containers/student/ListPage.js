@@ -148,8 +148,10 @@ const ListPage = ({ history }) => {
             );
             return (
               <p className="m-0">
-                Bus To School From: <strong>{toSchoolBus.name}</strong> <br />
-                Bus From School To: <strong>{toHomeBus.name}</strong>
+                Bus To School From:
+                <strong>{toSchoolBus ? toSchoolBus.name : ''}</strong> <br />
+                Bus From School To:
+                <strong>{toHomeBus ? toHomeBus.name : ''}</strong>
               </p>
             );
           }

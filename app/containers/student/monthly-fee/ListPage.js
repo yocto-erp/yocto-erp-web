@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Widget from '../../../components/Widget/Widget';
 import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
-import warehouseApi from '../../../libs/apis/warehouse.api';
+import studentMonthlyFeeApi from '../../../libs/apis/student/student-monthly-fee.api';
 import { STUDENT_MONTHLY_ROOT_PATH } from './constants';
 import Filter from './components/Filter';
 import PageTitle from '../../Layout/PageTitle';
@@ -135,8 +135,8 @@ const ListPage = ({ history }) => {
           // match === null
           <DeleteConfirmModal
             id={id}
-            deleteApi={warehouseApi.remove}
-            readApi={warehouseApi.read}
+            deleteApi={studentMonthlyFeeApi.remove}
+            readApi={studentMonthlyFeeApi.read}
             routePattern={ROOT_PATH}
             onClose={item => {
               history.goBack();
@@ -162,7 +162,7 @@ const ListPage = ({ history }) => {
         <ListWidget
           deleteDialog={deleteConfirmDialog}
           columns={columns}
-          fetchData={warehouseApi.search}
+          fetchData={studentMonthlyFeeApi.search}
           initialSize={10}
           initialPage={1}
           initialFilter={search}

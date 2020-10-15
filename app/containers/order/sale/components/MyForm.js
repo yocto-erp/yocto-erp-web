@@ -23,6 +23,7 @@ import OrderFormDetail from '../../components/OrderFormDetail';
 import CustomerSelect from '../../../../components/common/customer/CustomerSelect';
 import saleApi from '../../../../libs/apis/order/sale.api';
 import CompanySelect from '../../../../components/common/company/CompanySelect';
+import { ERROR } from '../../../../components/Form/messages';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -33,8 +34,9 @@ const validationSchema = Yup.object().shape({
           .required('This field is required.')
           .nullable(true),
         quantity: Yup.number()
-          .moreThan(0, 'Quantity must larger than 0')
-          .required('This field is required.'),
+          .typeError(ERROR.required)
+          .moreThan(0, ERROR.numberGT0)
+          .required(ERROR.required),
         price: Yup.number()
           .moreThan(0, 'Price must larger than 0')
           .required('This field is required.'),
