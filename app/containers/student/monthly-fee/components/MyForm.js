@@ -63,6 +63,7 @@ function MyForm({ id }) {
     errors,
     getValues,
     setValue,
+    formState: { isValid, isDirty },
     state: { isLoading },
   } = useHookCRUDForm({
     create,
@@ -203,10 +204,10 @@ function MyForm({ id }) {
           </div>
         </FormGroup>
         <BackButton className="mr-2" />
-        <SubmitButton isLoading={isLoading} />
+        <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     );
-  }, [errors, isLoading, submit, register, control]);
+  }, [errors, isLoading, submit, register, control, isValid, isDirty]);
   console.log('MyForm');
 
   return <Widget>{form}</Widget>;

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { Button, FormFeedback, Input } from 'reactstrap';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import MonthSelect from '../../../../components/date/MonthSelect';
 import StudentSelect from '../../components/StudentSelect';
@@ -28,6 +28,19 @@ const FormDetail = ({
       }
     });
   }, []);
+  console.log(studentConfig);
+  const absentDay = useWatch({
+    control,
+    name: `details[${index}].absentDay`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
+    defaultValue: item.absentDay, // default value before the render
+  });
+
+  const student = useWatch({
+    control,
+    name: `details[${index}].student`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
+    defaultValue: item.student, // default value before the render
+  });
+
   const columns = React.useMemo(
     () => (
       <tr key={item.id}>
@@ -56,7 +69,7 @@ const FormDetail = ({
                 placeholder="Select Student"
                 invalid={!!get(errors, ['details', index, 'student'], false)}
                 onChange={val => {
-                  if (studentConfig) {
+                  if (studentConfig && val) {
                     if (val.enableBus && studentConfig.busFee) {
                       setValue(
                         `details[${index}].busFee`,
@@ -71,13 +84,16 @@ const FormDetail = ({
                       });
                     }
                     if (val.enableMeal && studentConfig.mealFeePerDay) {
-                      setValue(
-                        `details[${index}].mealFee`,
-                        studentConfig.mealFeePerDay,
-                        {
-                          shouldValidate: true,
-                        },
-                      );
+                      console.log('absentDay', absentDay);
+                      const totalFeeMeal =
+                        studentConfig.numberDayOfMonth &&
+                        studentConfig.mealFeePerDay
+                          ? (studentConfig.numberDayOfMonth - absentDay) *
+                            studentConfig.mealFeePerDay
+                          : 0;
+                      setValue(`details[${index}].mealFee`, totalFeeMeal, {
+                        shouldValidate: true,
+                      });
                     } else {
                       setValue(`details[${index}].mealFee`, 0, {
                         shouldValidate: true,
@@ -110,12 +126,38 @@ const FormDetail = ({
         </td>
         <td>
           <Controller
-            invalid={!!get(errors, ['details', index, 'absentDay'], false)}
             name={`details[${index}].absentDay`}
             control={control}
-            as={InputNumber}
             defaultValue={item.absentDay}
-            placeholder="Absent Day"
+            render={({ onChange, ...data }) => (
+              <InputNumber
+                id="absentDay"
+                placeholder="Absent Day"
+                invalid={!!get(errors, ['details', index, 'absentDay'], false)}
+                onChange={val => {
+                  if (studentConfig && val && student && student.enableBus) {
+                    if (val && studentConfig.mealFeePerDay) {
+                      const totalFeeMeal =
+                        studentConfig.numberDayOfMonth &&
+                        studentConfig.mealFeePerDay
+                          ? (studentConfig.numberDayOfMonth - val) *
+                            studentConfig.mealFeePerDay
+                          : 0;
+                      setValue(`details[${index}].mealFee`, totalFeeMeal, {
+                        shouldValidate: true,
+                      });
+                    } else {
+                      setValue(`details[${index}].mealFee`, 0, {
+                        shouldValidate: true,
+                      });
+                    }
+                  }
+
+                  onChange(val);
+                }}
+                {...data}
+              />
+            )}
           />
           <FormErrorMessage
             error={get(errors, ['details', index, 'absentDay'])}
@@ -213,7 +255,13 @@ const FormDetail = ({
     ),
     [studentConfig, errors, register, control],
   );
-  return <>{studentConfig ? columns : 'please set student configuration'}</>;
+
+  const columnEmpty = (
+    <tr>
+      <td colSpan="10">please set student configuration</td>
+    </tr>
+  );
+  return <>{studentConfig ? columns : columnEmpty}</>;
 };
 
 FormDetail.propTypes = {
