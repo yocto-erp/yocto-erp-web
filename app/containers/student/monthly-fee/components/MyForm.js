@@ -42,14 +42,14 @@ function MyForm({ id }) {
                 .typeError(ERROR.required)
                 .moreThan(0, ERROR.numberGT0)
                 .required(ERROR.required),
-              otherFee: Yup.number()
-                .typeError(ERROR.required)
-                .moreThan(0, ERROR.amountGT0)
-                .required(ERROR.required),
-              otherDeduceFee: Yup.number()
-                .typeError(ERROR.required)
-                .moreThan(0, ERROR.amountGT0)
-                .required(ERROR.required),
+              // otherFee: Yup.number()
+              //   .typeError(ERROR.required)
+              //   .moreThan(0, ERROR.amountGT0)
+              //   .required(ERROR.required),
+              // otherDeduceFee: Yup.number()
+              //   .typeError(ERROR.required)
+              //   .moreThan(0, ERROR.amountGT0)
+              //   .required(ERROR.required),
             }),
           )
           .required('Details is required'),
@@ -147,12 +147,8 @@ function MyForm({ id }) {
                   </th>
                   <th className="size-with-td-120">Bus Fee</th>
                   <th className="size-with-td-120">Meal Fee</th>
-                  <th style={{ minWidth: '150px' }}>
-                    Other Extra Fee<span className="text-danger">*</span>
-                  </th>
-                  <th style={{ minWidth: '160px' }}>
-                    Other Deduct Fee<span className="text-danger">*</span>
-                  </th>
+                  <th style={{ minWidth: '150px' }}>Other Extra Fee</th>
+                  <th style={{ minWidth: '160px' }}>Other Deduct Fee</th>
                   <th style={{ minWidth: '160px' }}>Remark</th>
                   <th>Total</th>
                   <th className="action">Action</th>
