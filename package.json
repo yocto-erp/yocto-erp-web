@@ -76,7 +76,6 @@
     "cross-env": "5.2.0",
     "date-fns": "^2.16.1",
     "express": "4.16.4",
-    "fast-text-encoding": "^1.0.3",
     "font-awesome": "^4.7.0",
     "fontfaceobserver": "2.1.0",
     "glyphicons-halflings": "^1.9.1",
