@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'reactstrap';
 import { COLUMN_PROPS, SORT_DIR } from './constants';
 
 const SORT_ORDER = [SORT_DIR.ASC, SORT_DIR.DESC, ''];
 
-const TableHeader = ({ columns, onSort, sorts }) => {
+const TableHeader = ({
+  columns,
+  onSort,
+  sorts,
+  enableSelectColumn = false,
+  onSelectAll,
+}) => {
   console.log(sorts);
   const onSortClick = React.useCallback(
     name => {
@@ -43,6 +50,35 @@ const TableHeader = ({ columns, onSort, sorts }) => {
   return (
     <>
       <tr>
+        {enableSelectColumn ? (
+          <th className="min text-center">
+            Select
+            <br />
+            <Button
+              type="button"
+              color="link"
+              size="sm"
+              className="text-success"
+              style={{ padding: '2px' }}
+              onClick={() => onSelectAll(true)}
+            >
+              ALL
+            </Button>
+            |
+            <Button
+              type="button"
+              color="link"
+              size="sm"
+              className="text-danger"
+              style={{ padding: '2px' }}
+              onClick={() => onSelectAll(false)}
+            >
+              None
+            </Button>
+          </th>
+        ) : (
+          ''
+        )}
         {columns.map(item => (
           <th
             key={item.data}
@@ -61,6 +97,8 @@ TableHeader.propTypes = {
   columns: COLUMN_PROPS,
   sorts: PropTypes.object,
   onSort: PropTypes.func,
+  enableSelectColumn: PropTypes.bool,
+  onSelectAll: PropTypes.func,
 };
 
 export default TableHeader;

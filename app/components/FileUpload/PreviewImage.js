@@ -51,6 +51,15 @@ const PreviewImage = ({ file, onRemove }) => {
         previewEls = PREVIEW_FILE.zip;
         break;
       default:
+        if (!type) {
+          return (
+            <img
+              className="img-fluid img-thumbnail "
+              src={imageUrl(fileId)}
+              alt=""
+            />
+          );
+        }
         if (type.match(MIME_TYPE.IMAGE)) {
           if (source === 'server') {
             previewEls = (

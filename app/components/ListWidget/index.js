@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useImmer } from 'use-immer';
 import debounce from 'lodash/debounce';
 import { Input, Spinner } from 'reactstrap';
 import {
@@ -21,17 +20,32 @@ const ListWidget = ({
   initSorts = {},
   initFilter = {},
   deleteDialog,
+  enableSelectColumn = false,
   ...props
 }) => {
   const [page, setPage] = useState(initPage);
   const [size, setSize] = useState(initSize);
   const [sorts, setSorts] = useState(initSorts);
   const [filter, setFilter] = useState(initFilter);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [{ count, rows }, setResponse] = useState({
     count: 0,
     rows: [],
   });
+
+  console.log(rows);
+
+  const [selectedList, setSelectedList] = useState({});
+
+  const onSelectItem = useCallback(
+    row => {
+      setSelectedList(prevState => ({
+        ...prevState,
+        [`item${String(row.id)}`]: !prevState[`item${String(row.id)}`],
+      }));
+    },
+    [setSelectedList],
+  );
 
   const searchApi = React.useCallback(
     debounce(
@@ -39,24 +53,19 @@ const ListWidget = ({
         setIsLoading(true);
         return fetchData(args)
           .then(resp => {
-            setResponse(resp);
+            console.log(resp);
+            setResponse({
+              count: resp.count,
+              rows: [...resp.rows],
+            });
           })
           .finally(() => setIsLoading(false));
       },
       300,
       { trailing: true },
     ),
-    [fetchData],
+    [fetchData, setIsLoading, setResponse],
   );
-
-  const refresh = React.useCallback(
-    () => searchApi({ page, size, filter, sorts }),
-    [searchApi, page, size, sorts, filter],
-  );
-
-  React.useEffect(() => {
-    searchApi({ page, size, filter, sorts });
-  }, [refresh]);
 
   const onSort = React.useCallback(
     (name, newDir) => {
@@ -67,14 +76,50 @@ const ListWidget = ({
     [setSorts],
   );
 
+  const refresh = React.useCallback(
+    () => searchApi({ page, size, filter, sorts }),
+    [searchApi, page, size, sorts, filter],
+  );
+
+  const onSelectAll = React.useCallback(
+    isSelectAll => {
+      if (isSelectAll) {
+        const newState = { ...selectedList };
+        for (let i = 0; i < rows.length; i += 1) {
+          newState[`item${String(rows[i].id)}`] = true;
+        }
+        setSelectedList(newState);
+      } else {
+        setSelectedList({});
+      }
+    },
+    [rows, selectedList],
+  );
+
   const tableHeader = React.useMemo(
-    () => <TableHeader columns={columns} sorts={sorts} onSort={onSort} />,
-    [columns, sorts, onSort],
+    () => (
+      <TableHeader
+        columns={columns}
+        sorts={sorts}
+        onSort={onSort}
+        enableSelectColumn={enableSelectColumn}
+        onSelectAll={onSelectAll}
+      />
+    ),
+    [columns, sorts, enableSelectColumn, onSelectAll],
   );
 
   const tableBody = React.useMemo(
-    () => <TableBody columns={columns} rows={rows} />,
-    [columns, rows],
+    () => (
+      <TableBody
+        columns={columns}
+        rows={rows}
+        enableSelectColumn={enableSelectColumn}
+        onItemSelect={onSelectItem}
+        selectedList={selectedList}
+      />
+    ),
+    [columns, rows, enableSelectColumn, selectedList],
   );
 
   const pagination = React.useMemo(
@@ -110,6 +155,10 @@ const ListWidget = ({
     [page, size, setSize, count, setPage, isLoading],
   );
 
+  React.useEffect(() => {
+    refresh();
+  }, [refresh]);
+
   return (
     <ListRefreshProvider value={refresh}>
       <div className="wrapper">
@@ -140,6 +189,7 @@ ListWidget.propTypes = {
   initSorts: PropTypes.object,
   initFilter: PropTypes.object,
   children: PropTypes.element,
+  enableSelectColumn: PropTypes.bool,
 };
 
 export default ListWidget;
