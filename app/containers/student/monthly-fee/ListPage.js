@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Widget from '../../../components/Widget/Widget';
 import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
-import Checkbox from '../../../components/Form/Checkbox';
 import studentMonthlyFeeApi from '../../../libs/apis/student/student-monthly-fee.api';
 import { STUDENT_MONTHLY_ROOT_PATH } from './constants';
 import Filter from './components/Filter';
@@ -26,24 +25,35 @@ const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
   const [listUpdate, setListUpdate] = useState([]);
   const checkItem = id => {
-    if (listUpdate.includes(id)) {
-      const newListUpdate = listUpdate.splice(id, 1);
-      setListUpdate(newListUpdate);
-    } else {
-      const newListUpdate = [...listUpdate, id];
-      setListUpdate(newListUpdate);
-    }
+    console.log('vaoooo');
+    console.log(id);
+    // if (listUpdate.includes(id)) {
+    //   const newListUpdate = listUpdate.splice(id, 1);
+    //   setListUpdate(newListUpdate);
+    // } else {
+    //   const newListUpdate = [...listUpdate, id];
+    //   setListUpdate(newListUpdate);
+    // }
   };
+
+  console.log(listUpdate);
+  console.log('vaooooo');
 
   const columns = React.useMemo(
     () => [
       {
-        header: 'Select',
-        data: 'select',
+        header: (
+          <div>
+            <input
+              type="checkbox"
+              onClick={() => console.log('vaooooo', 'id')}
+            />
+          </div>
+        ),
         render: row => (
-          <Checkbox
+          <input
+            type="checkbox"
             onClick={() => checkItem(row.id)}
-            checked={listUpdate.includes(row.id)}
           />
         ),
       },
