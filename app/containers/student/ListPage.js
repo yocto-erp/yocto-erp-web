@@ -238,22 +238,16 @@ const ListPage = ({ history }) => {
     <>
       <PageTitle title="Student" actions={actions} />
       <Widget>
-        {busRoute.length ? (
-          <>
-            <ListWidget
-              deleteDialog={deleteConfirmDialog}
-              columns={columns}
-              fetchData={studentApi.search}
-              initialSize={10}
-              initialPage={1}
-              initialFilter={search}
-            >
-              <Filter data={search} />
-            </ListWidget>
-          </>
-        ) : (
-          <></>
-        )}
+        <ListWidget
+          deleteDialog={deleteConfirmDialog}
+          columns={columns}
+          fetchData={studentApi.search}
+          initialSize={10}
+          initialPage={1}
+          initialFilter={search}
+        >
+          <Filter data={search} />
+        </ListWidget>
       </Widget>
     </>
   );

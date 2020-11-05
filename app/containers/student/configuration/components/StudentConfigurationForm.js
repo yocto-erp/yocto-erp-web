@@ -345,7 +345,8 @@ const StudentConfigurationForm = () => {
       ) : (
         ''
       )}
-      {result ? form : <></>}
+      {form}
+      {/* {result ? form : <></>} */}
     </Widget>
   );
 };

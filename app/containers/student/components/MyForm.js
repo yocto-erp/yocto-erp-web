@@ -430,11 +430,7 @@ function MyForm({ id }) {
     [errors, isLoading, submit, register, optionsBusRoute, optionsClass],
   );
 
-  return (
-    <Widget>
-      {optionsBusRoute.length && optionsClass.length ? form : <></>}
-    </Widget>
-  );
+  return <Widget>{form}</Widget>;
 }
 
 MyForm.propTypes = {

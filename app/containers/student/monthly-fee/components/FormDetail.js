@@ -256,12 +256,7 @@ const FormDetail = ({
     [studentConfig, errors, register, control],
   );
 
-  const columnEmpty = (
-    <tr>
-      <td colSpan="10">please set student configuration</td>
-    </tr>
-  );
-  return <>{studentConfig ? columns : columnEmpty}</>;
+  return <>{columns}</>;
 };
 
 FormDetail.propTypes = {
