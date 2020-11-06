@@ -25,7 +25,7 @@ const TableBody = ({
                 aria-label="..."
                 defaultChecked={selectedList[`item${String(row.id)}`]}
                 checked={selectedList[`item${String(row.id)}`]}
-                onClick={() => isFunc(onItemSelect) && onItemSelect(row)}
+                onChange={() => isFunc(onItemSelect) && onItemSelect(row)}
               />
             </div>
           </td>
