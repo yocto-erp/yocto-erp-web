@@ -15,7 +15,6 @@ import { COMPANY_ROOT_PATH } from '../constants';
 import companyApi from '../../../libs/apis/company.api';
 import CreateButton from '../../../components/button/CreateButton';
 import ListWidget from '../../../components/ListWidget';
-import Widget from '../../../components/Widget/Widget';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 
 import {
@@ -111,22 +110,18 @@ const ListPageCompany = ({ history }) => {
     [],
   );
   return (
-    <>
-      <PageTitle title="Company Management" actions={actions} />
-      <Widget>
-        <ListWidget
-          deleteDialog={deleteConfirmDialog}
-          columns={columns}
-          fetchData={companyApi.search}
-          initFilter={search}
-          initPage={1}
-          initSize={10}
-          initSorts={{ createdDate: SORT_DIR.DESC }}
-        >
-          <Filter data={search} />
-        </ListWidget>
-      </Widget>
-    </>
+    <ListWidget
+      pageHeader={<PageTitle title="Company Management" actions={actions} />}
+      deleteDialog={deleteConfirmDialog}
+      columns={columns}
+      fetchData={companyApi.search}
+      initFilter={search}
+      initPage={1}
+      initSize={10}
+      initSorts={{ createdDate: SORT_DIR.DESC }}
+    >
+      <Filter data={search} />
+    </ListWidget>
   );
 };
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Widget from '../../../components/Widget/Widget';
 import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
 import saleApi from '../../../libs/apis/order/sale.api';
 import { SALE_ROOT_PATH } from './constants';
@@ -139,22 +138,18 @@ const ListPage = ({ history }) => {
     [],
   );
   return (
-    <>
-      <PageTitle title="Sale" actions={action} />
-      <Widget>
-        <ListWidget
-          deleteDialog={deleteConfirmDialog}
-          columns={columns}
-          fetchData={saleApi.search}
-          initialSize={10}
-          initialPage={1}
-          initialFilter={search}
-          initSorts={{ createdDate: SORT_DIR.DESC }}
-        >
-          <Filter data={search} />
-        </ListWidget>
-      </Widget>
-    </>
+    <ListWidget
+      pageHeader={<PageTitle title="Sale" actions={action} />}
+      deleteDialog={deleteConfirmDialog}
+      columns={columns}
+      fetchData={saleApi.search}
+      initialSize={10}
+      initialPage={1}
+      initialFilter={search}
+      initSorts={{ createdDate: SORT_DIR.DESC }}
+    >
+      <Filter data={search} />
+    </ListWidget>
   );
 };
 ListPage.propTypes = {

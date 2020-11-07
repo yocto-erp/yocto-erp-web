@@ -20,43 +20,12 @@ import ConfigureButton from '../../../components/button/ConfigureButton';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../components/ListWidget';
 import { STUDENT_CONFIGURATION_ROOT_PATH } from '../constants';
+import { SORT_DIR } from '../../../components/ListWidget/constants';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
-  const [listUpdate, setListUpdate] = useState([]);
-  const checkItem = id => {
-    console.log('vaoooo');
-    console.log(id);
-    // if (listUpdate.includes(id)) {
-    //   const newListUpdate = listUpdate.splice(id, 1);
-    //   setListUpdate(newListUpdate);
-    // } else {
-    //   const newListUpdate = [...listUpdate, id];
-    //   setListUpdate(newListUpdate);
-    // }
-  };
-
-  console.log(listUpdate);
-  console.log('vaooooo');
-
   const columns = React.useMemo(
     () => [
-      {
-        header: (
-          <div>
-            <input
-              type="checkbox"
-              onClick={() => console.log('vaooooo', 'id')}
-            />
-          </div>
-        ),
-        render: row => (
-          <input
-            type="checkbox"
-            onClick={() => checkItem(row.id)}
-          />
-        ),
-      },
       {
         header: 'Month',
         data: 'month',
@@ -192,21 +161,19 @@ const ListPage = ({ history }) => {
     [],
   );
   return (
-    <>
-      <PageTitle title="Student Monthly" actions={action} />
-      <Widget>
-        <ListWidget
-          deleteDialog={deleteConfirmDialog}
-          columns={columns}
-          fetchData={studentMonthlyFeeApi.search}
-          initialSize={10}
-          initialPage={1}
-          initialFilter={search}
-        >
-          <Filter data={search} />
-        </ListWidget>
-      </Widget>
-    </>
+    <ListWidget
+      pageHeader={<PageTitle title="Student Monthly" actions={action} />}
+      deleteDialog={deleteConfirmDialog}
+      columns={columns}
+      fetchData={studentMonthlyFeeApi.search}
+      initFilter={search}
+      initPage={1}
+      initSize={10}
+      initSorts={{ id: SORT_DIR.DESC }}
+      enableSelectColumn
+    >
+      <Filter data={search} />
+    </ListWidget>
   );
 };
 ListPage.propTypes = {

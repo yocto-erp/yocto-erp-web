@@ -113,22 +113,18 @@ const ListPagePerson = ({ history }) => {
     [],
   );
   return (
-    <>
-      <PageTitle title="Customer Management" actions={actions} />
-      <Widget>
-        <ListWidget
-          deleteDialog={deleteConfirmDialog}
-          columns={columns}
-          fetchData={personApi.search}
-          initFilter={search}
-          initPage={1}
-          initSize={10}
-          initSorts={{ createdDate: SORT_DIR.DESC }}
-        >
-          <Filter data={search} />
-        </ListWidget>
-      </Widget>
-    </>
+    <ListWidget
+      pageHeader={<PageTitle title="Customer Management" actions={actions} />}
+      deleteDialog={deleteConfirmDialog}
+      columns={columns}
+      fetchData={personApi.search}
+      initFilter={search}
+      initPage={1}
+      initSize={10}
+      initSorts={{ createdDate: SORT_DIR.DESC }}
+    >
+      <Filter data={search} />
+    </ListWidget>
   );
 };
 

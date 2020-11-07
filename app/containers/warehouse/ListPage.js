@@ -108,21 +108,17 @@ const ListPage = ({ history }) => {
     [],
   );
   return (
-    <>
-      <PageTitle title="Warehouse" actions={action} />
-      <Widget>
-        <ListWidget
-          deleteDialog={deleteConfirmDialog}
-          columns={columns}
-          fetchData={warehouseApi.search}
-          initialSize={10}
-          initialPage={1}
-          initialFilter={search}
-        >
-          <Filter data={search} />
-        </ListWidget>
-      </Widget>
-    </>
+    <ListWidget
+      pageHeader={<PageTitle title="Warehouse" actions={action} />}
+      deleteDialog={deleteConfirmDialog}
+      columns={columns}
+      fetchData={warehouseApi.search}
+      initialSize={10}
+      initialPage={1}
+      initialFilter={search}
+    >
+      <Filter data={search} />
+    </ListWidget>
   );
 };
 ListPage.propTypes = {

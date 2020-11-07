@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Widget from '../../../../components/Widget/Widget';
 import CreatedBy from '../../../../components/ListWidget/CreatedBy';
 import inventorySummaryApi from '../../../../libs/apis/inventory/inventory-summary.api';
 import PageTitle from '../../../Layout/PageTitle';
@@ -88,21 +87,17 @@ const ListInventorySummary = ({ history }) => {
   );
 
   return (
-    <>
-      <PageTitle title="INVENTORY SUMMARY" actions={actions} />
-      <Widget>
-        <ListWidget
-          columns={columns}
-          fetchData={inventorySummaryApi.search}
-          initialSize={10}
-          initialPage={1}
-          initialFilter={search}
-          initSorts={{ lastModifiedDate: SORT_DIR.DESC }}
-        >
-          <FilterInventorySummary data={search} />
-        </ListWidget>
-      </Widget>
-    </>
+    <ListWidget
+      pageHeader={<PageTitle title="INVENTORY SUMMARY" actions={actions} />}
+      columns={columns}
+      fetchData={inventorySummaryApi.search}
+      initialSize={10}
+      initialPage={1}
+      initialFilter={search}
+      initSorts={{ lastModifiedDate: SORT_DIR.DESC }}
+    >
+      <FilterInventorySummary data={search} />
+    </ListWidget>
   );
 };
 

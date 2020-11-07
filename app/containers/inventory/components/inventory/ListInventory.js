@@ -202,22 +202,18 @@ const ListInventory = ({ history }) => {
     [],
   );
   return (
-    <>
-      <PageTitle title="GOODS RECEIPT / ISSUE" actions={actions} />
-      <Widget>
-        <ListWidget
-          deleteDialog={deleteConfirmDialog}
-          columns={columns}
-          fetchData={inventoryApi.search}
-          initialSize={10}
-          initialPage={1}
-          initialFilter={search}
-          initSorts={{ createdDate: SORT_DIR.DESC }}
-        >
-          <FilterInventory data={search} />
-        </ListWidget>
-      </Widget>
-    </>
+    <ListWidget
+      pageHeader={<PageTitle title="GOODS RECEIPT / ISSUE" actions={actions} />}
+      deleteDialog={deleteConfirmDialog}
+      columns={columns}
+      fetchData={inventoryApi.search}
+      initialSize={10}
+      initialPage={1}
+      initialFilter={search}
+      initSorts={{ createdDate: SORT_DIR.DESC }}
+    >
+      <FilterInventory data={search} />
+    </ListWidget>
   );
 };
 ListInventory.propTypes = {
