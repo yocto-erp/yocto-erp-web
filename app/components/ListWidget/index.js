@@ -11,6 +11,7 @@ import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import Pagination from '../Pagination';
 import './List.scss';
+import Widget from '../Widget/Widget';
 
 const ListWidget = ({
   columns,
@@ -21,6 +22,7 @@ const ListWidget = ({
   initFilter = {},
   deleteDialog,
   enableSelectColumn = false,
+  pageHeader,
   ...props
 }) => {
   const [page, setPage] = useState(initPage);
@@ -161,20 +163,23 @@ const ListWidget = ({
 
   return (
     <ListRefreshProvider value={refresh}>
-      <div className="wrapper">
-        <div className="filter">
-          <ListFilterProvider value={setFilter}>
-            {props.children}
-          </ListFilterProvider>
+      {pageHeader}
+      <Widget>
+        <div className="wrapper">
+          <div className="filter">
+            <ListFilterProvider value={setFilter}>
+              {props.children}
+            </ListFilterProvider>
+          </div>
+          <div className="table-responsive">
+            <table className="table table-sm table-bordered table-striped">
+              <thead>{tableHeader}</thead>
+              <tbody>{tableBody}</tbody>
+            </table>
+          </div>
+          {pagination}
         </div>
-        <div className="table-responsive">
-          <table className="table table-sm table-bordered table-striped">
-            <thead>{tableHeader}</thead>
-            <tbody>{tableBody}</tbody>
-          </table>
-        </div>
-        {pagination}
-      </div>
+      </Widget>
       {deleteDialog}
     </ListRefreshProvider>
   );
@@ -190,6 +195,7 @@ ListWidget.propTypes = {
   initFilter: PropTypes.object,
   children: PropTypes.element,
   enableSelectColumn: PropTypes.bool,
+  pageHeader: PropTypes.node,
 };
 
 export default ListWidget;

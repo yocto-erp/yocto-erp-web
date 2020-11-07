@@ -148,23 +148,19 @@ const ListPage = ({ history }) => {
     [],
   );
   return (
-    <>
-      <PageTitle title="Cost Management" actions={actions} />
-      <Widget>
-        <ListWidget
-          deleteDialog={deleteConfirmDialog}
-          columns={columns}
-          fetchData={apiCost.search}
-          initFilter={search}
-          initPage={1}
-          initSize={10}
-          initSorts={{ createdDate: SORT_DIR.DESC }}
-          enableSelectColumn
-        >
-          <Filter data={search} />
-        </ListWidget>
-      </Widget>
-    </>
+    <ListWidget
+      pageHeader={<PageTitle title="Cost Management" actions={actions} />}
+      deleteDialog={deleteConfirmDialog}
+      columns={columns}
+      fetchData={apiCost.search}
+      initFilter={search}
+      initPage={1}
+      initSize={10}
+      initSorts={{ createdDate: SORT_DIR.DESC }}
+      enableSelectColumn
+    >
+      <Filter data={search} />
+    </ListWidget>
   );
 };
 
