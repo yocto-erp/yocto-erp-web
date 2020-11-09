@@ -117,7 +117,9 @@
     "swr": "^0.3.2",
     "use-immer": "^0.4.1",
     "uuid": "^8.3.0",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "tinymce": "^5.5.1",
+    "@tinymce/tinymce-react": "^3.8.1"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",

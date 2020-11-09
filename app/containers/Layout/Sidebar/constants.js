@@ -78,6 +78,11 @@ export const SIDE_BAR_MENU = {
           index: 'management.partner',
           isHeader: true,
         },
+        {
+          header: 'Mẫu in',
+          link: '/template',
+          index: 'management.template',
+        },
       ],
     },
     {

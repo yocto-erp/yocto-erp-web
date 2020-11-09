@@ -30,6 +30,8 @@ import StudentPage from '../student/Loadable';
 import ConfigurationPage from '../configuration/Loadable';
 import StudentMonthlyPage from '../student/monthly-fee/Loadable';
 import { STUDENT_MONTHLY_ROOT_PATH } from '../student/monthly-fee/constants';
+import { TEMPLATE_ROOT_PATH } from '../template/constants';
+import TemplatePage from '../template/Loadable';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -131,6 +133,10 @@ class Layout extends React.Component {
                     component={StudentPage}
                   />
                   <Route path="/configuration" component={ConfigurationPage} />
+                  <Route
+                    path={`${TEMPLATE_ROOT_PATH}`}
+                    component={TemplatePage}
+                  />
                 </Switch>
                 <Footer />
               </div>

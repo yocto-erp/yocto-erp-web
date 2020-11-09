@@ -60,6 +60,28 @@ export const PERMISSION = {
     UPDATE: 31,
     DELETE: 32,
   },
+  PERSON: {
+    CREATE: 33,
+    READ: 34,
+    UPDATE: 35,
+    DELETE: 36,
+  },
+  COMPANY: {
+    CREATE: 39,
+    READ: 40,
+    UPDATE: 41,
+    DELETE: 42,
+  },
+  IMAGE: {
+    READ: 37,
+  },
+  CONFIGURATION: 43,
+  TEMPLATE: {
+    CREATE: 44,
+    READ: 45,
+    UPDATE: 46,
+    DELETE: 47,
+  },
 };
 
 export const FORM_LAYOUT = {
