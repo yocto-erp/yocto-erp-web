@@ -4,6 +4,7 @@ import CreatedBy from './CreatedBy';
 
 const ListFilterContext = createContext({});
 const ListRefreshContext = createContext(null);
+const ListStateContext = createContext(null);
 
 export function useListFilter() {
   return useContext(ListFilterContext);
@@ -11,6 +12,10 @@ export function useListFilter() {
 
 export function useListRefreshContext() {
   return useContext(ListRefreshContext);
+}
+
+export function useListStateContext() {
+  return useContext(ListStateContext);
 }
 
 export const COLUMN_PROPS = PropTypes.arrayOf(
@@ -27,6 +32,7 @@ export const COLUMN_PROPS = PropTypes.arrayOf(
 
 export const ListFilterProvider = ListFilterContext.Provider;
 export const ListRefreshProvider = ListRefreshContext.Provider;
+export const ListStateProvider = ListStateContext.Provider;
 
 export const CreatedByColumn = {
   header: <span className="text-nowrap">Created By</span>,

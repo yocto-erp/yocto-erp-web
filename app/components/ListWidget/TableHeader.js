@@ -12,7 +12,6 @@ const TableHeader = ({
   enableSelectColumn = false,
   onSelectAll,
 }) => {
-  console.log(sorts);
   const onSortClick = React.useCallback(
     name => {
       const currentDir = sorts[name];

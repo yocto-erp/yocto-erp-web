@@ -6,6 +6,7 @@ import {
   COLUMN_PROPS,
   ListFilterProvider,
   ListRefreshProvider,
+  ListStateProvider,
 } from './constants';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
@@ -35,8 +36,6 @@ const ListWidget = ({
     rows: [],
   });
 
-  console.log(rows);
-
   const [selectedList, setSelectedList] = useState({});
 
   const onSelectItem = useCallback(
@@ -55,7 +54,6 @@ const ListWidget = ({
         setIsLoading(true);
         return fetchData(args)
           .then(resp => {
-            console.log(resp);
             setResponse({
               count: resp.count,
               rows: [...resp.rows],
@@ -88,7 +86,7 @@ const ListWidget = ({
       if (isSelectAll) {
         const newState = { ...selectedList };
         for (let i = 0; i < rows.length; i += 1) {
-          newState[`item${String(rows[i].id)}`] = true;
+          newState[`item${String(rows[i].id)}`] = rows[i].id;
         }
         setSelectedList(newState);
       } else {
@@ -163,24 +161,26 @@ const ListWidget = ({
 
   return (
     <ListRefreshProvider value={refresh}>
-      {pageHeader}
-      <Widget>
-        <div className="wrapper">
-          <div className="filter">
-            <ListFilterProvider value={setFilter}>
-              {props.children}
-            </ListFilterProvider>
+      <ListStateProvider value={selectedList}>
+        {pageHeader}
+        <Widget>
+          <div className="wrapper">
+            <div className="filter">
+              <ListFilterProvider value={setFilter}>
+                {props.children}
+              </ListFilterProvider>
+            </div>
+            <div className="table-responsive">
+              <table className="table table-sm table-bordered table-striped">
+                <thead>{tableHeader}</thead>
+                <tbody>{tableBody}</tbody>
+              </table>
+            </div>
+            {pagination}
           </div>
-          <div className="table-responsive">
-            <table className="table table-sm table-bordered table-striped">
-              <thead>{tableHeader}</thead>
-              <tbody>{tableBody}</tbody>
-            </table>
-          </div>
-          {pagination}
-        </div>
-      </Widget>
-      {deleteDialog}
+        </Widget>
+        {deleteDialog}
+      </ListStateProvider>
     </ListRefreshProvider>
   );
 };

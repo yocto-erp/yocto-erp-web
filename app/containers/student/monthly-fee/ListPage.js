@@ -1,26 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Widget from '../../../components/Widget/Widget';
 import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
 import studentMonthlyFeeApi from '../../../libs/apis/student/student-monthly-fee.api';
 import { STUDENT_MONTHLY_ROOT_PATH } from './constants';
 import Filter from './components/Filter';
-import PageTitle from '../../Layout/PageTitle';
-import {
-  deletePage,
-  deletePagePattern,
-  editPage,
-  newPage,
-} from '../../../libs/utils/crud.util';
-import CreateButton from '../../../components/button/CreateButton';
-import SendMailButton from '../../../components/button/SendMailButton';
-import ConfigureButton from '../../../components/button/ConfigureButton';
+import { deletePage, deletePagePattern } from '../../../libs/utils/crud.util';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../components/ListWidget';
-import { STUDENT_CONFIGURATION_ROOT_PATH } from '../constants';
 import { SORT_DIR } from '../../../components/ListWidget/constants';
+import Header from './components/Header';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -92,41 +82,6 @@ const ListPage = ({ history }) => {
   );
 
   const search = { search: '' };
-  const action = (
-    <div>
-      <CreateButton
-        className="mr-2 btn-raised"
-        onClick={() => {
-          history.push(newPage(ROOT_PATH));
-        }}
-      />
-
-      <CreateButton
-        className="mr-2 btn-raised"
-        text="Edit"
-        icon="fi flaticon-edit"
-        color="warning"
-        onClick={() => {
-          history.push(editPage(ROOT_PATH, 'listID'));
-          // list id create
-        }}
-      />
-
-      <SendMailButton
-        className="mr-2 btn-raised"
-        onClick={() => {
-          history.push(newPage(ROOT_PATH));
-        }}
-      />
-
-      <ConfigureButton
-        className="shadow btn-raised"
-        onClick={() => {
-          history.push(STUDENT_CONFIGURATION_ROOT_PATH);
-        }}
-      />
-    </div>
-  );
 
   const deleteConfirmDialog = React.useMemo(
     () => (
@@ -162,7 +117,7 @@ const ListPage = ({ history }) => {
   );
   return (
     <ListWidget
-      pageHeader={<PageTitle title="Student Monthly" actions={action} />}
+      pageHeader={<Header history={history} />}
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={studentMonthlyFeeApi.search}
