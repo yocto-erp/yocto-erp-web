@@ -29,9 +29,7 @@ const TableBody = ({
               />
             </div>
           </td>
-        ) : (
-          ''
-        )}
+        ) : null}
         {columns.map(item => (
           <td
             key={item.data}

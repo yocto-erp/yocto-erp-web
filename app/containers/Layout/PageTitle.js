@@ -23,7 +23,7 @@ const PageTitle = ({ title, subtitle, actions }) => (
 );
 
 PageTitle.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
   subtitle: PropTypes.string,
   actions: PropTypes.node,
 };

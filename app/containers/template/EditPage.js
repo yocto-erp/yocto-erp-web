@@ -9,7 +9,7 @@ const EditPage = () => {
     <>
       <PageTitle title="Update Template" />
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-12">
           <MyForm id={id} />
         </div>
       </div>

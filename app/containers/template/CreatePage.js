@@ -6,7 +6,7 @@ const CreatePage = () => (
   <>
     <PageTitle title="Create Template" />
     <div className="row">
-      <div className="col-md-6">
+      <div className="col-md-12">
         <MyForm />
       </div>
     </div>

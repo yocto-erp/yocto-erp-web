@@ -66,6 +66,7 @@
   "dependencies": {
     "@babel/polyfill": "7.4.3",
     "@hookform/resolvers": "^0.1.0",
+    "@tinymce/tinymce-react": "^3.8.1",
     "animate.css": "^4.1.0",
     "awesome-bootstrap-checkbox": "^1.0.1",
     "bootstrap": "^4.5.2",
@@ -101,7 +102,7 @@
     "react-day-picker": "^7.4.8",
     "react-dom": "16.8.6",
     "react-dropzone": "^11.0.3",
-    "react-helmet": "6.0.0-beta",
+    "react-helmet": "^6.1.0",
     "react-hook-form": "^6.7.2",
     "react-imask": "^6.0.5",
     "react-intl": "2.8.0",
@@ -115,11 +116,10 @@
     "reselect": "^4.0.0",
     "styled-components": "4.2.0",
     "swr": "^0.3.2",
+    "tinymce": "^5.5.1",
     "use-immer": "^0.4.1",
     "uuid": "^8.3.0",
-    "yup": "^0.29.3",
-    "tinymce": "^5.5.1",
-    "@tinymce/tinymce-react": "^3.8.1"
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
@@ -198,6 +198,7 @@
     "webpack-dev-middleware": "3.6.2",
     "webpack-hot-middleware": "2.24.3",
     "webpack-pwa-manifest": "^4.2.0",
-    "whatwg-fetch": "3.0.0"
+    "whatwg-fetch": "3.0.0",
+    "copy-webpack-plugin": "^5.1.2"
   }
 }

@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { Form, FormFeedback, Input, Label } from 'reactstrap';
 import { toast } from 'react-toastify';
+import { Controller } from 'react-hook-form';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
 import templateApi from '../../../libs/apis/template/template.api';
+import Editor from '../../../components/Form/Editor';
+import FormGroup from '../../../components/Form/FormGroup';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -22,7 +25,8 @@ function MyForm({ id }) {
     register,
     submit,
     errors,
-    state: { isLoading },
+    control,
+    state: { isLoading, formData },
     formState: { isDirty, isValid },
   } = useHookCRUDForm({
     create,
@@ -37,7 +41,9 @@ function MyForm({ id }) {
     },
     mappingToForm: form => ({
       name: form.name,
-      address: form.address,
+      content: form.content,
+      templateTypeId: form.templateTypeId,
+      remark: form.remark,
     }),
     validationSchema,
     initForm: {
@@ -51,67 +57,50 @@ function MyForm({ id }) {
   const form = React.useMemo(
     () => (
       <Form onSubmit={submit} noValidate formNoValidate>
-        <FormGroup>
-          <Label for="name" className="mr-sm-2">
-            Name
-          </Label>
-          <Input
-            invalid={!!errors.name}
-            type="text"
-            name="name"
-            innerRef={register}
-            id="name"
-            placeholder="Template Name"
-          />
-          <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
-        </FormGroup>
-        <FormGroup>
-          <Label for="address" className="required">
-            Template Type
-          </Label>
-          <Input
-            type="select"
-            name="templateTypeId"
-            innerRef={register}
-            id="templateTypeId"
-          >
-            <option value="">Select Type</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </Input>
-          <FormFeedback>
-            {errors.templateTypeId && errors.templateTypeId.message}
-          </FormFeedback>
-        </FormGroup>
-        <FormGroup>
-          <Label for="remark" className="mr-sm-2">
-            Content
-          </Label>
-          <Input
-            type="textarea"
-            name="remark"
-            innerRef={register}
-            id="remark"
-            placeholder="Remark"
-          />
-        </FormGroup>
-        <FormGroup>
+        <div className="row">
+          <div className="col-md-6">
+            <FormGroup
+              name="name"
+              type="text"
+              error={errors.name}
+              placeholder="Template Name"
+              register={register}
+              label="Name"
+            />
+            <FormGroup
+              name="templateTypeId"
+              type="select"
+              error={errors.templateTypeId}
+              register={register}
+              label="Template Type"
+            >
+              <option value="">Select Type</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </FormGroup>
+          </div>
+          <div className="col-md-6">
+            <FormGroup
+              name="remark"
+              type="textarea"
+              placeholder="Remark"
+              register={register}
+              label="Remark"
+            />
+          </div>
+        </div>
+        <div className="form-group">
           <Label for="content" className="mr-sm-2">
             Content
           </Label>
-          <Input
-            invalid={!!errors.content}
-            type="textarea"
+          <Controller
             name="content"
-            innerRef={register}
-            id="content"
-            placeholder="Content"
+            control={control}
+            defaultValue={formData.content || ''}
+            as={Editor}
           />
-          <FormFeedback>
-            {errors.content && errors.content.message}
-          </FormFeedback>
-        </FormGroup>
+        </div>
         <BackButton className="mr-2" />
         <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
       </Form>

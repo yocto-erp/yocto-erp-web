@@ -20,6 +20,7 @@ import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../components/ListWidget';
 import messages from './messages';
 import templateApi from '../../libs/apis/template/template.api';
+import { CreatedByColumn, SORT_DIR } from "../../components/ListWidget/constants";
 
 const ROOT_PATH = TEMPLATE_ROOT_PATH;
 
@@ -46,15 +47,7 @@ const ListPage = ({ history }) => {
         data: 'remark',
         width: '40%',
       },
-      {
-        header: 'Created By',
-        data: 'createdBy',
-        class: 'min-width',
-        render: row => {
-          const { createdBy, createdDate } = row;
-          return <CreatedBy user={createdBy} date={createdDate} />;
-        },
-      },
+      CreatedByColumn,
       {
         header: 'Action',
         data: '',
@@ -133,6 +126,7 @@ const ListPage = ({ history }) => {
       initialSize={10}
       initialPage={1}
       initialFilter={search}
+      initSorts={{ createdDate: SORT_DIR.DESC }}
     >
       <Filter data={search} />
     </ListWidget>
