@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
 import CreatedBy from './CreatedBy';
+import { formatDate } from '../../libs/utils/date.util';
 
 const ListFilterContext = createContext({});
 const ListRefreshContext = createContext(null);
@@ -51,3 +52,10 @@ export const SORT_DIR = Object.freeze({
   DESC: 'desc',
   ASC: 'asc',
 });
+
+export const dateRender = date => {
+  if (date && date.length) {
+    return formatDate(new Date(date));
+  }
+  return null;
+};

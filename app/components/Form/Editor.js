@@ -35,85 +35,39 @@ import 'tinymce/plugins/help';
 
 import { isFunc } from '../../utils/util';
 
-tinymce.PluginManager.add('flags', function flags(editor) {
-  console.log('PluginManager');
-  console.log(editor);
-  editor.ui.registry.addAutocompleter('autocompleter-flags', {
+const VARIABLE_AUTO_COMPLETE = 'variables';
+
+const addSearchVariable = (editor, variables) => {
+  console.log(variables);
+  editor.ui.registry.addAutocompleter(VARIABLE_AUTO_COMPLETE, {
     ch: '$', // the trigger character to open the autocompleter
     minChars: 2, // lower number means searching sooner - but more lookups as we go
     columns: 1, // must be 1 for text-based results
-    fetch: function fetchCountry(pattern) {
+    fetch: function fetchVaria(pattern) {
+      console.log(`Pattern ${pattern}`);
       return new tinymce.util.Promise(function promise(resolve) {
-        // call the countries REST endpoint to look up the query, and return the name and flag
-        fetch(
-          `https://restcountries.eu/rest/v2/name/${pattern}?fields=name;flag`,
-        )
-          .then(resp => resp.json()) // convert response to json
-          .then(function success(data) {
-            const results = [];
-
-            // create our own results array
-            for (let i = 0; i < data.length; i += 1) {
-              const result = data[i];
-
-              results.push({
-                value: `${result.name}|${result.flag}`,
-                text: result.name,
-                icon: `<img style="width:28px; height:14px;" src="${
-                  result.flag
-                }" alt="" width="28" height="14" />`,
-              });
-            }
-
-            // sort results by the "name"
-            results.sort(function onSort(a, b) {
-              const x = a.text.toLowerCase();
-              const y = b.text.toLowerCase();
-              if (x < y) {
-                return -1;
-              }
-              if (x > y) {
-                return 1;
-              }
-              return 0;
-            });
-
-            // resolve the initial promise
-            resolve(results);
-          });
+        resolve(
+          variables.map(t => ({
+            value: t.name,
+            text: t.remark,
+          })),
+        );
       });
     },
     onAction(autocompleteApi, rng, value) {
-      // split the value in to two parts - the name and the flag URL
-      // we joined it above using a pipe (|)
-      const parts = value.split('|');
-      const name = parts[0];
-      const flag = parts[1];
-
-      // make an image element
-      const img = `<img src="${flag}" alt="${name}" width="48" height="24" />`;
+      const els = `<span class="badge badge-info">${value}</span>`;
 
       // insert in to the editor
       editor.selection.setRng(rng);
-      editor.insertContent(img);
+      editor.insertContent(els);
 
       // hide the autocompleter
       autocompleteApi.hide();
     },
   });
+};
 
-  // return metadata for the Help plugin
-  return {
-    getMetadata() {
-      return {
-        name: 'Flags Autocompleter example',
-        url:
-          'https://www.martyfriedel.com/blog/tinymce-5-creating-an-autocomplete-plugin',
-      };
-    },
-  };
-});
-const Editor = ({ value, onChange, onBlur }) => {
+const Editor = ({ value, onChange, onBlur, variables }) => {
   const ref = useRef(null);
   const editor = useRef(null);
 
@@ -130,14 +84,14 @@ const Editor = ({ value, onChange, onBlur }) => {
     const edi = editor.current;
     edi.setContent(value);
     edi.on('change keyup setcontent', () => {
-      if (editor.current) {
-        const newContent = editor.current.getContent({ format: 'html' });
-        if (isFunc(onChange)) {
-          onChange(newContent);
-        }
+      const newContent = editor.current.getContent({ format: 'html' });
+      if (isFunc(onChange)) {
+        onChange(newContent);
       }
     });
-  }, [onChange]);
+    addSearchVariable(edi, variables);
+  }, [onChange, variables]);
+
   useEffect(() => {
     console.log(ref.current);
     tinymce
@@ -151,13 +105,12 @@ const Editor = ({ value, onChange, onBlur }) => {
           edi.on('init', handleInit);
         },
         target: ref.current,
-        plugins:
-          'print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap',
+        plugins: `${VARIABLE_AUTO_COMPLETE} print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap`,
         toolbar:
           'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview save print | imagetools image media template link code',
         importcss_append: true,
         contextmenu: 'link image imagetools table',
-        toolbar_mode: 'floating',
+        toolbar_mode: 'wrap',
         image_advtab: true,
         menubar: false,
       })
@@ -175,7 +128,7 @@ const Editor = ({ value, onChange, onBlur }) => {
         edi.remove();
       }
     };
-  }, []);
+  }, [variables]);
   return (
     <textarea
       ref={ref}
@@ -190,6 +143,7 @@ Editor.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  variables: PropTypes.array,
 };
 
 export default Editor;

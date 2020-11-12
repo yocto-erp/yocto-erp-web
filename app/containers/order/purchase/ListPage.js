@@ -19,6 +19,7 @@ import ListWidget from '../../../components/ListWidget';
 import Filter from './components/Filter';
 import {
   CreatedByColumn,
+  dateRender,
   SORT_DIR,
 } from '../../../components/ListWidget/constants';
 import Price from '../../../components/common/Price';
@@ -70,6 +71,7 @@ const ListPage = ({ history }) => {
       {
         header: <span className="text-nowrap">Processed Date</span>,
         data: 'processedDate',
+        render: row => dateRender(row.processedDate),
         class: 'min',
       },
       CreatedByColumn,

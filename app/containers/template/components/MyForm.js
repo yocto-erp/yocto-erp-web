@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { Form, FormFeedback, Input, Label } from 'reactstrap';
+import { Form, Label } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
@@ -11,6 +11,10 @@ import BackButton from '../../../components/button/BackButton';
 import templateApi from '../../../libs/apis/template/template.api';
 import Editor from '../../../components/Form/Editor';
 import FormGroup from '../../../components/Form/FormGroup';
+import {
+  useTemplateType,
+  useTemplateTypeId,
+} from '../../../libs/apis/template/templateType.api';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -54,6 +58,17 @@ function MyForm({ id }) {
     id,
   });
 
+  const { templateTypeList } = useTemplateType();
+  const templateTypeId = useWatch({
+    control,
+    name: 'templateTypeId', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
+    defaultValue: '', // default value before the render
+  });
+  const { templateType } = useTemplateTypeId(templateTypeId);
+  useEffect(() => {
+    console.log(templateType);
+  }, [templateType]);
+
   const form = React.useMemo(
     () => (
       <Form onSubmit={submit} noValidate formNoValidate>
@@ -75,9 +90,11 @@ function MyForm({ id }) {
               label="Template Type"
             >
               <option value="">Select Type</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
+              {templateTypeList.map(i => (
+                <option value={i.id} key={i.id}>
+                  {i.name}
+                </option>
+              ))}
             </FormGroup>
           </div>
           <div className="col-md-6">
@@ -90,22 +107,25 @@ function MyForm({ id }) {
             />
           </div>
         </div>
-        <div className="form-group">
-          <Label for="content" className="mr-sm-2">
-            Content
-          </Label>
-          <Controller
-            name="content"
-            control={control}
-            defaultValue={formData.content || ''}
-            as={Editor}
-          />
-        </div>
+        {templateTypeId ? (
+          <div className="form-group">
+            <Label for="content" className="mr-sm-2">
+              Content
+            </Label>
+            <Controller
+              name="content"
+              control={control}
+              defaultValue={formData.content || ''}
+              variables={templateType}
+              as={Editor}
+            />
+          </div>
+        ) : null}
         <BackButton className="mr-2" />
         <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
       </Form>
     ),
-    [errors, isLoading, submit, register],
+    [errors, isLoading, submit, register, templateTypeList],
   );
   return <Widget>{form}</Widget>;
 }

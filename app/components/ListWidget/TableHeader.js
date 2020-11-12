@@ -75,9 +75,7 @@ const TableHeader = ({
               None
             </Button>
           </th>
-        ) : (
-          ''
-        )}
+        ) : null}
         {columns.map(item => (
           <th
             key={item.data}

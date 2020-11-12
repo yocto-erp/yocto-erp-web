@@ -141,6 +141,7 @@ module.exports = require('./webpack.base.babel')({
       hashDigest: 'hex',
       hashDigestLength: 20,
     }),
+    new CopyWebpackPlugin([{ from: 'static', to: 'static' }])
   ],
 
   performance: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import {
@@ -58,7 +58,7 @@ function MyForm({ id }) {
     errors,
     getValues,
     setValue,
-    state: { isLoading, formData },
+    state: { isLoading, formData, errors: serverError },
   } = useHookCRUDForm({
     create,
     update,
@@ -87,8 +87,10 @@ function MyForm({ id }) {
       }));
       return {
         name: form.name,
-        partnerCompanyId: form.partnerCompanyId.id,
-        partnerPersonId: form.partnerPersonId.id,
+        partnerCompanyId: form.partnerCompanyId
+          ? form.partnerCompanyId.id
+          : null,
+        partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
         remark: form.remark,
         details,
       };
@@ -105,6 +107,12 @@ function MyForm({ id }) {
     },
     id,
   });
+
+  useEffect(() => {
+    if (serverError && serverError.length) {
+      toast.error(serverError.map(t => t.message).join('\n'));
+    }
+  }, [serverError]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -159,7 +167,7 @@ function MyForm({ id }) {
             </FormGroup>
             <FormGroup>
               <Label for="partnerCompanyId" className="mr-sm-2">
-                Company Partner<span className="text-danger">*</span>
+                Company Partner
               </Label>
               <Controller
                 name="partnerCompanyId"

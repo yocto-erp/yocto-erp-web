@@ -13,6 +13,8 @@ import TableBody from './TableBody';
 import Pagination from '../Pagination';
 import './List.scss';
 import Widget from '../Widget/Widget';
+import { useIsMounted } from '../../libs/hooks/useIsMounted';
+import { toast } from 'react-toastify';
 
 const ListWidget = ({
   columns,
@@ -31,6 +33,7 @@ const ListWidget = ({
   const [sorts, setSorts] = useState(initSorts);
   const [filter, setFilter] = useState(initFilter);
   const [isLoading, setIsLoading] = useState(false);
+  const isMounted = useIsMounted();
   const [{ count, rows }, setResponse] = useState({
     count: 0,
     rows: [],
@@ -52,14 +55,23 @@ const ListWidget = ({
     debounce(
       args => {
         setIsLoading(true);
-        return fetchData(args)
-          .then(resp => {
-            setResponse({
-              count: resp.count,
-              rows: [...resp.rows],
-            });
-          })
-          .finally(() => setIsLoading(false));
+        return fetchData(args).then(
+          resp => {
+            if (isMounted()) {
+              setResponse({
+                count: resp.count,
+                rows: [...resp.rows],
+              });
+              setIsLoading(false);
+            }
+          },
+          err => {
+            if (isMounted()) {
+              setIsLoading(false);
+              toast.error(err.statusText || err.responseText);
+            }
+          },
+        );
       },
       300,
       { trailing: true },
