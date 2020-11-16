@@ -41,16 +41,18 @@ const addSearchVariable = (editor, variables) => {
   console.log(variables);
   editor.ui.registry.addAutocompleter(VARIABLE_AUTO_COMPLETE, {
     ch: '$', // the trigger character to open the autocompleter
-    minChars: 2, // lower number means searching sooner - but more lookups as we go
+    minChars: 0, // lower number means searching sooner - but more lookups as we go
     columns: 1, // must be 1 for text-based results
     fetch: function fetchVaria(pattern) {
       console.log(`Pattern ${pattern}`);
       return new tinymce.util.Promise(function promise(resolve) {
         resolve(
-          variables.map(t => ({
-            value: t.name,
-            text: t.remark,
-          })),
+          variables
+            .filter(t => t.remark.indexOf(pattern) >= 0)
+            .map(t => ({
+              value: t.value,
+              text: t.remark,
+            })),
         );
       });
     },
@@ -105,14 +107,22 @@ const Editor = ({ value, onChange, onBlur, variables }) => {
           edi.on('init', handleInit);
         },
         target: ref.current,
-        plugins: `${VARIABLE_AUTO_COMPLETE} print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap`,
+        plugins: `print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap`,
         toolbar:
-          'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview save print | imagetools image media template link code',
+          'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview save print | table imagetools image media template link code',
         importcss_append: true,
         contextmenu: 'link image imagetools table',
+        table_toolbar: '',
         toolbar_mode: 'wrap',
         image_advtab: true,
         menubar: false,
+        images_upload_handler(blobInfo, success) {
+          const reader = new FileReader();
+          reader.readAsDataURL(blobInfo.blob());
+          reader.onload = function onload() {
+            success(this.result);
+          };
+        },
       })
       .then(editors => {
         console.log(editors);

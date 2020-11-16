@@ -35,6 +35,7 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
+import { getFirebaseToken } from './libs/3rd-party/firebase';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -112,6 +113,24 @@ if (!window.Intl) {
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('./static/firebase-messaging-sw.js')
+    .then(function done(registration) {
+      console.log('Registration successful, scope is:', registration.scope);
+      getFirebaseToken(registration).then(
+        t => console.log(t),
+        e => console.log(`Error: ${JSON.stringify(e)}`),
+      );
+    })
+    .catch(function error(err) {
+      console.log('Service worker registration failed, error:', err);
+    });
+  navigator.serviceWorker.addEventListener('message', event => {
+    console.log(event.data);
+  });
+}
+
 if (process.env.NODE_ENV === 'production') {
   // require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }

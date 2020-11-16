@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form, Label } from 'reactstrap';
@@ -46,7 +46,7 @@ function MyForm({ id }) {
     mappingToForm: form => ({
       name: form.name,
       content: form.content,
-      templateTypeId: form.templateTypeId,
+      templateTypeId: String(form.templateTypeId),
       remark: form.remark,
     }),
     validationSchema,
@@ -62,70 +62,84 @@ function MyForm({ id }) {
   const templateTypeId = useWatch({
     control,
     name: 'templateTypeId', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
-    defaultValue: '', // default value before the render
+    defaultValue: formData.templateTypeId || '', // default value before the render
   });
   const { templateType } = useTemplateTypeId(templateTypeId);
   useEffect(() => {
     console.log(templateType);
   }, [templateType]);
 
-  const form = React.useMemo(
-    () => (
-      <Form onSubmit={submit} noValidate formNoValidate>
-        <div className="row">
-          <div className="col-md-6">
-            <FormGroup
-              name="name"
-              type="text"
-              error={errors.name}
-              placeholder="Template Name"
-              register={register}
-              label="Name"
-            />
-            <FormGroup
-              name="templateTypeId"
-              type="select"
-              error={errors.templateTypeId}
-              register={register}
-              label="Template Type"
-            >
-              <option value="">Select Type</option>
-              {templateTypeList.map(i => (
-                <option value={i.id} key={i.id}>
-                  {i.name}
-                </option>
-              ))}
-            </FormGroup>
-          </div>
-          <div className="col-md-6">
-            <FormGroup
-              name="remark"
-              type="textarea"
-              placeholder="Remark"
-              register={register}
-              label="Remark"
-            />
-          </div>
+  const editor = useMemo(
+    () =>
+      templateTypeId ? (
+        <div className="form-group">
+          <Label for="content" className="mr-sm-2">
+            Content
+          </Label>
+          <Controller
+            name="content"
+            control={control}
+            defaultValue={formData.content || ''}
+            render={({ onChange, onBlur, value }) => (
+              <Editor
+                value={value}
+                onBlur={onBlur}
+                onChange={onChange}
+                variables={templateType}
+                name="content"
+              />
+            )}
+          />
         </div>
-        {templateTypeId ? (
-          <div className="form-group">
-            <Label for="content" className="mr-sm-2">
-              Content
-            </Label>
-            <Controller
-              name="content"
-              control={control}
-              defaultValue={formData.content || ''}
-              variables={templateType}
-              as={Editor}
-            />
+      ) : null,
+    [control, templateType, templateTypeId, formData.content],
+  );
+
+  const form = React.useMemo(
+    () =>
+      templateTypeList && templateTypeList.length ? (
+        <Form onSubmit={submit} noValidate formNoValidate>
+          <div className="row">
+            <div className="col-md-6">
+              <FormGroup
+                name="name"
+                type="text"
+                error={errors.name}
+                placeholder="Template Name"
+                register={register}
+                label="Name"
+              />
+              <FormGroup
+                name="templateTypeId"
+                type="select"
+                error={errors.templateTypeId}
+                register={register}
+                label="Template Type"
+              >
+                <option value="">Select Type</option>
+                {templateTypeList.map(i => (
+                  <option value={i.id} key={i.id}>
+                    {i.name}
+                  </option>
+                ))}
+              </FormGroup>
+            </div>
+            <div className="col-md-6">
+              <FormGroup
+                name="remark"
+                type="textarea"
+                placeholder="Remark"
+                register={register}
+                label="Remark"
+              />
+            </div>
           </div>
-        ) : null}
-        <BackButton className="mr-2" />
-        <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
-      </Form>
-    ),
-    [errors, isLoading, submit, register, templateTypeList],
+          {editor}
+          <BackButton className="mr-2" />
+          <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
+        </Form>
+      ) : null,
+    [errors, isLoading, submit, register, templateTypeList, editor],
   );
   return <Widget>{form}</Widget>;
 }
