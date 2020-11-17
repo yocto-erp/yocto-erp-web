@@ -65,8 +65,6 @@ const StudentConfigurationForm = () => {
     [],
   );
 
-  const [result, setResult] = React.useState(null);
-
   const {
     control,
     register,
@@ -97,9 +95,6 @@ const StudentConfigurationForm = () => {
     studentConfigurationApi.get().then(resp => {
       console.log(resp);
       if (resp) {
-        // console.log(resp.busRoutes);
-        // const data = { ...resp, key: uuidv4() };
-        setResult(resp);
         reset(resp);
       }
     });
@@ -336,7 +331,7 @@ const StudentConfigurationForm = () => {
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     ),
-    [onSubmit, errors, register, isLoading, result],
+    [onSubmit, errors, register, isLoading, reset],
   );
   return (
     <Widget>
@@ -346,7 +341,6 @@ const StudentConfigurationForm = () => {
         ''
       )}
       {form}
-      {/* {result ? form : <></>} */}
     </Widget>
   );
 };

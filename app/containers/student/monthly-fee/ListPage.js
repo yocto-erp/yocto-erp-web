@@ -18,7 +18,7 @@ const ListPage = ({ history }) => {
     () => [
       {
         header: 'Month',
-        data: 'month',
+        data: 'monthYear',
       },
       {
         header: 'Tuition Fee',
@@ -30,7 +30,7 @@ const ListPage = ({ history }) => {
       },
       {
         header: 'Absent Date',
-        data: 'absentDate',
+        data: 'absentDay',
       },
       {
         header: 'Trial Date',
@@ -46,11 +46,11 @@ const ListPage = ({ history }) => {
       },
       {
         header: 'Other Extra Fee',
-        data: 'otherExtraFee',
+        data: 'otherFee',
       },
       {
-        header: 'Orther Deduct Fee',
-        data: 'artherDeductFee',
+        header: 'Other Deduct Fee',
+        data: 'otherDeduceFee',
       },
       {
         header: 'Remark',

@@ -42,14 +42,6 @@ function MyForm({ id }) {
                 .typeError(ERROR.required)
                 .moreThan(0, ERROR.numberGT0)
                 .required(ERROR.required),
-              // otherFee: Yup.number()
-              //   .typeError(ERROR.required)
-              //   .moreThan(0, ERROR.amountGT0)
-              //   .required(ERROR.required),
-              // otherDeduceFee: Yup.number()
-              //   .typeError(ERROR.required)
-              //   .moreThan(0, ERROR.amountGT0)
-              //   .required(ERROR.required),
             }),
           )
           .required('Details is required'),
@@ -72,15 +64,18 @@ function MyForm({ id }) {
     onSuccess: resp => {
       toast.success(
         id
-          ? `Update Student Monthly ${resp.name} success`
+          ? `Update Student Monthly success`
           : `Create Monthly ${resp.name} success`,
       );
     },
     mappingToForm: form => ({
-      details: form.details.map(t => ({ ...t, id: uuidv4() })),
+      details: form.details,
     }),
     mappingToServer: form => {
+      console.log(form);
+      console.log(id);
       const details = form.details.map(result => ({
+        id: result.id,
         monthYear: result.monthYear,
         studentId: result.student.id,
         scholarShip: result.scholarShip,
@@ -100,6 +95,7 @@ function MyForm({ id }) {
     initForm: {
       details: [
         {
+          id: '',
           monthYear: new Date(),
           student: null,
           scholarShip: '',
@@ -130,6 +126,7 @@ function MyForm({ id }) {
             <Table bordered hover striped size="sm">
               <thead>
                 <tr>
+                  {id ? <th className="size-with-td-120">ID</th> : <></>}
                   <th className="size-with-td-120">
                     Month<span className="text-danger">*</span>
                   </th>
@@ -151,13 +148,13 @@ function MyForm({ id }) {
                   <th style={{ minWidth: '160px' }}>Other Deduct Fee</th>
                   <th style={{ minWidth: '160px' }}>Remark</th>
                   <th>Total</th>
-                  <th className="action">Action</th>
+                  {id ? <></> : <th className="action">Action</th>}
                 </tr>
               </thead>
               <tbody>
                 {fields.map((item, index) => (
                   <FormDetail
-                    key={item.id}
+                    key={index.toString()}
                     control={control}
                     errors={errors}
                     register={register}
@@ -169,33 +166,38 @@ function MyForm({ id }) {
                   />
                 ))}
               </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan="12">
-                    <CreateButton
-                      size="sm"
-                      type="button"
-                      onClick={() => {
-                        append({
-                          id: uuidv4(),
-                          monthYear: new Date(),
-                          student: null,
-                          scholarShip: '',
-                          absentDay: '',
-                          trialDate: '',
-                          busFee: 0,
-                          mealFee: 0,
-                          otherFee: '',
-                          otherDeduceFee: '',
-                          remark: '',
-                        });
-                      }}
-                    >
-                      Add
-                    </CreateButton>
-                  </td>
-                </tr>
-              </tfoot>
+              {id ? (
+                <></>
+              ) : (
+                <tfoot>
+                  <tr>
+                    <td colSpan="12">
+                      <CreateButton
+                        size="sm"
+                        type="button"
+                        onClick={() => {
+                          append({
+                            ids: uuidv4(),
+                            id: '',
+                            monthYear: new Date(),
+                            student: null,
+                            scholarShip: '',
+                            absentDay: '',
+                            trialDate: '',
+                            busFee: 0,
+                            mealFee: 0,
+                            otherFee: '',
+                            otherDeduceFee: '',
+                            remark: '',
+                          });
+                        }}
+                      >
+                        Add
+                      </CreateButton>
+                    </td>
+                  </tr>
+                </tfoot>
+              )}
             </Table>
           </div>
         </FormGroup>
@@ -204,7 +206,6 @@ function MyForm({ id }) {
       </Form>
     );
   }, [errors, isLoading, submit, register, control, isValid, isDirty]);
-  console.log('MyForm');
 
   return <Widget>{form}</Widget>;
 }

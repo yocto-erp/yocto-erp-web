@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import { toast } from 'react-toastify';
 import { Input, Spinner } from 'reactstrap';
 import {
   COLUMN_PROPS,
@@ -14,7 +15,6 @@ import Pagination from '../Pagination';
 import './List.scss';
 import Widget from '../Widget/Widget';
 import { useIsMounted } from '../../libs/hooks/useIsMounted';
-import { toast } from 'react-toastify';
 
 const ListWidget = ({
   columns,
@@ -43,10 +43,19 @@ const ListWidget = ({
 
   const onSelectItem = useCallback(
     row => {
-      setSelectedList(prevState => ({
-        ...prevState,
-        [`item${String(row.id)}`]: !prevState[`item${String(row.id)}`],
-      }));
+      setSelectedList(prevState => {
+        if (prevState[`item${String(row.id)}`]) {
+          // eslint-disable-next-line no-param-reassign
+          delete prevState[`item${String(row.id)}`];
+          return {
+            ...prevState,
+          };
+        }
+        return {
+          ...prevState,
+          [`item${String(row.id)}`]: row.id,
+        };
+      });
     },
     [setSelectedList],
   );

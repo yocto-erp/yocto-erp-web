@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CreateButton from '../../../../components/button/CreateButton';
-import { newPage } from '../../../../libs/utils/crud.util';
+import { newPage, editPage } from '../../../../libs/utils/crud.util';
 import { useListStateContext } from '../../../../components/ListWidget/constants';
 import SendMailButton from '../../../../components/button/SendMailButton';
 import ConfigureButton from '../../../../components/button/ConfigureButton';
@@ -27,9 +27,7 @@ const Header = ({ history }) => {
         icon="fi flaticon-edit"
         color="warning"
         onClick={() => {
-          console.log(33333333);
-          console.log(111, getStateSelect);
-          // list id create
+          history.push(editPage(ROOT_PATH, Object.values(getStateSelect)));
         }}
       />
 

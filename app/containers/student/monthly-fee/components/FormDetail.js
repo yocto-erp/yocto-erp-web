@@ -28,7 +28,7 @@ const FormDetail = ({
       }
     });
   }, []);
-  console.log(studentConfig);
+
   const absentDay = useWatch({
     control,
     name: `details[${index}].absentDay`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
@@ -43,11 +43,25 @@ const FormDetail = ({
 
   const columns = React.useMemo(
     () => (
-      <tr key={item.id}>
+      <tr key={item.id || item.ids}>
+        {item.id ? (
+          <td>
+            <Input
+              readOnly
+              type="text"
+              invalid={!!get(errors, ['details', index, 'id'], false)}
+              name={`details[${index}].id`}
+              innerRef={register()}
+              defaultValue={item.id} // make sure to set up defaultValue
+            />
+          </td>
+        ) : (
+          <></>
+        )}
         <td>
           <div style={{ maxWidth: '100%' }} className="">
             <Controller
-              defaultValue={item.monthYear}
+              defaultValue={new Date(item.monthYear)}
               name={`details[${index}].monthYear`}
               control={control}
               invalid={!!get(errors, ['details', index, 'monthYear'], false)}
@@ -84,7 +98,6 @@ const FormDetail = ({
                       });
                     }
                     if (val.enableMeal && studentConfig.mealFeePerDay) {
-                      console.log('absentDay', absentDay);
                       const totalFeeMeal =
                         studentConfig.numberDayOfMonth &&
                         studentConfig.mealFeePerDay
@@ -240,17 +253,21 @@ const FormDetail = ({
             {get(errors, ['details', index, 'remark', 'message'], '')}
           </FormFeedback>
         </td>
-        <td>s</td>
-        <td className="action">
-          <Button
-            type="button"
-            color="danger"
-            size="sm"
-            onClick={() => remove(index)}
-          >
-            <i className="fi flaticon-trash" />{' '}
-          </Button>
-        </td>
+        <td>total</td>
+        {item.id ? (
+          <></>
+        ) : (
+          <td className="action">
+            <Button
+              type="button"
+              color="danger"
+              size="sm"
+              onClick={() => remove(index)}
+            >
+              <i className="fi flaticon-trash" />{' '}
+            </Button>
+          </td>
+        )}
       </tr>
     ),
     [studentConfig, errors, register, control],
