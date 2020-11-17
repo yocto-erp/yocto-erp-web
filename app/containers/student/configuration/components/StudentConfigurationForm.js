@@ -214,7 +214,9 @@ const StudentConfigurationForm = () => {
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
             <FormGroup>
-              <Label for="busFee">Bus Fee</Label>
+              <Label for="busFee">
+                Bus Fee<span className="text-danger">*</span>
+              </Label>
               <Controller
                 type="number"
                 name="busFee"
