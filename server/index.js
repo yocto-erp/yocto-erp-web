@@ -21,10 +21,11 @@ if (isDev) {
   console.log('Create Proxy');
   const serverURL = process.env.SERVER_URL || 'http://104.248.156.227:3001/';
   app.use(
-    '/api',
+    '/api/**',
     createProxyMiddleware({
       target: serverURL,
       changeOrigin: true,
+      logLevel: 'debug'
     }),
   );
 }

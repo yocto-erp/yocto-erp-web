@@ -35,7 +35,11 @@ export const useTemplateTypeId = id => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: templateType, error, mutate } = useSWR(
     () => (id ? ['getTemplateTypeId', id] : null),
-    (url, _id) => templateApi.read(_id),
+    (url, _id) => {
+      console.log(url);
+      console.log(_id);
+      return templateApi.read(_id);
+    },
     {
       initialData: [],
       shouldRetryOnError: true,
