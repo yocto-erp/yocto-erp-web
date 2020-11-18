@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 import { Form } from 'reactstrap';
 import SubmitButton from '../../../components/button/SubmitButton';
-import Widget from '../../../components/Widget/Widget';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import FormGroup from '../../../components/Form/FormGroup';
 import FormError from '../../../components/Form/FormError';
@@ -57,21 +56,18 @@ const EmailValidationForm = ({ surveyId = 0 }) => {
           error={errors.email}
           register={register}
           placeholder="Input your email"
-          label="Email"
+          label=""
+          iconRight={<i className="fa fa-envelope" />}
         />
-        <SubmitButton isLoading={isLoading} />
+        <SubmitButton isLoading={isLoading} color="primary" />
       </Form>
     ),
     [errors, isLoading, onSubmit, register, isValid, isDirty],
   );
-  return (
-    <Widget>
-      {!resp ? (
-        form
-      ) : (
-        <VerifyCodeForm onResend={onResend} onVerify={onVerify} />
-      )}
-    </Widget>
+  return !resp ? (
+    form
+  ) : (
+    <VerifyCodeForm onResend={onResend} onVerify={onVerify} />
   );
 };
 

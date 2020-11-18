@@ -17,8 +17,6 @@ import FontFaceObserver from 'fontfaceobserver';
 import OverlayScrollbars from 'overlayscrollbars';
 
 import history from 'utils/history';
-import 'styles/theme.scss';
-import 'overlayscrollbars/css/OverlayScrollbars.css';
 
 // Import root app
 import App from 'containers/App';
@@ -29,13 +27,15 @@ import LanguageProvider from 'containers/LanguageProvider';
 // Load the favicon and the .htaccess file
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess'; // eslint-disable-line import/extensions
-
 import { SWRConfig } from 'swr';
+import { Route, Switch } from 'react-router-dom';
 import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
 import { getFirebaseToken } from './libs/3rd-party/firebase';
+import { SURVEY_ROOT_PATH } from './containers/survey/constants';
+import SurveyPage from './containers/survey/Loadable';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -67,7 +67,10 @@ const render = messages => {
               focusThrottleInterval: 5000,
             }}
           >
-            <App />
+            <Switch>
+              <Route path={`${SURVEY_ROOT_PATH}`} component={SurveyPage} />
+              <Route path="/" component={App} />
+            </Switch>
           </SWRConfig>
         </ConnectedRouter>
       </LanguageProvider>

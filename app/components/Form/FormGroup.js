@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormGroup as BootStrapFormGroup, Input, Label } from 'reactstrap';
+import PropTypes from 'prop-types';
 import FormErrorMessage from './FormHookErrorMessage';
 
 const FormGroup = ({
@@ -11,10 +11,11 @@ const FormGroup = ({
   error,
   placeholder,
   children,
+  iconLeft,
+  iconRight,
   ...props
-}) => (
-  <BootStrapFormGroup>
-    <Label for={name}>{label}</Label>
+}) => {
+  const input = (
     <Input
       type={type}
       id={name}
@@ -26,9 +27,32 @@ const FormGroup = ({
     >
       {children}
     </Input>
-    <FormErrorMessage error={error} />
-  </BootStrapFormGroup>
-);
+  );
+
+  return (
+    <BootStrapFormGroup>
+      <Label for={name}>{label}</Label>
+      {iconLeft || iconRight ? (
+        <div className="input-group">
+          {iconLeft ? (
+            <div className="input-group-prepend">
+              <span className="input-group-text">{iconLeft}</span>
+            </div>
+          ) : null}
+          {input}
+          {iconRight ? (
+            <div className="input-group-append">
+              <span className="input-group-text">{iconRight}</span>
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        input
+      )}
+      <FormErrorMessage error={error} />
+    </BootStrapFormGroup>
+  );
+};
 
 FormGroup.propTypes = {
   type: PropTypes.oneOf([
@@ -58,6 +82,8 @@ FormGroup.propTypes = {
     'time',
     'color',
   ]),
+  iconLeft: PropTypes.node,
+  iconRight: PropTypes.node,
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   register: PropTypes.any.isRequired,

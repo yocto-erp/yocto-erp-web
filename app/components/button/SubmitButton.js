@@ -7,11 +7,12 @@ const SubmitButton = ({
   children,
   disabled,
   type = 'submit',
+  color = 'info',
   ...props
 }) => {
   const isDisabled = isLoading || disabled;
   return (
-    <Button color="info" disabled={isDisabled} type={type} {...props}>
+    <Button color={color} disabled={isDisabled} type={type} {...props}>
       {isLoading ? <i className="fa fa-spinner fa-spin fa-fw" /> : ''}&nbsp;
       {children || 'Submit'}
     </Button>
@@ -22,6 +23,7 @@ SubmitButton.propTypes = {
   children: PropTypes.any,
   disabled: PropTypes.bool,
   type: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default SubmitButton;

@@ -14,8 +14,9 @@ import { VerifyMailPage } from '../Auth/verify-mail';
 import ForgotPasswordPage from '../Auth/forgot-password';
 import RestPasswordPage from '../Auth/reset-password';
 import OnBoardPage from '../Auth/onboard';
-import { SURVEY_ROOT_PATH } from '../survey/constants';
-import SurveyPage from '../survey/Loadable';
+
+import 'styles/theme.scss';
+import 'overlayscrollbars/css/OverlayScrollbars.css';
 
 export default function App() {
   const { isAuthenticated, isLoading, user } = useUser();
@@ -61,7 +62,6 @@ export default function App() {
           component={ForgotPasswordPage}
         />
         <Route path="/forgot-password/reset" component={RestPasswordPage} />
-        <Route path={`${SURVEY_ROOT_PATH}`} component={SurveyPage} />
         <Route path="/">{mainPage}</Route>
         <Route path="" component={NotFoundPage} />
       </Switch>

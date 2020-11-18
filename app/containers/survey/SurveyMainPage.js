@@ -19,7 +19,7 @@ const SurveyMainPage = props => {
       <div className="h-100 row align-items-center">
         <div className="col text-center">
           <h1>{resp.name}</h1>
-          <EmailValidationForm surveyId={id} />
+          <EmailValidationForm surveyId={Number(id)} />
         </div>
       </div>
     </div>
