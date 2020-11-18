@@ -115,7 +115,7 @@ if (!window.Intl) {
 // we do not want it installed
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register('./static/firebase-messaging-sw.js')
+    .register('/static/firebase-messaging-sw.js')
     .then(function done(registration) {
       console.log('Registration successful, scope is:', registration.scope);
       getFirebaseToken(registration).then(
