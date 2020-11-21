@@ -3,3 +3,50 @@ body {
   background: white;
   color: black;
 }
+
+
+.question-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+
+.option-item {
+  min-width: 200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 8px;
+  border: 1px solid rgb(118, 118, 118);
+  border-radius: 3px;
+  min-height: 40px;
+  align-items: center;
+  margin: 5px 0 0 0;
+  cursor: pointer;
+  flex-direction: column;
+  position: relative;
+
+  label {
+    margin-bottom: 0;
+    margin-top: 2px;
+    width: 90%;
+    text-align: start;
+  }
+
+  input {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+    margin-top: 0;
+  }
+}
+.question-button {
+  margin-top: 15px;
+}
+
+.answer-question {
+  .invalid-feedback {
+    display: block;
+  }
+}
