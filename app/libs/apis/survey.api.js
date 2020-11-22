@@ -14,6 +14,8 @@ const surveyApi = {
       target,
       code,
     }),
+
+  answerQuestion: form => postJSON(`${API_ENDPOINT_URL}`, form),
 };
 
 export default surveyApi;
