@@ -1,4 +1,3 @@
-@import '../../../node_modules/bootstrap/scss/bootstrap-reboot';
 @import '../../../node_modules/bootstrap/scss/bootstrap';
 
 body {
@@ -10,8 +9,8 @@ body {
 
 
 .question-form {
-  max-width: 500px;
-  margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
 }
 
 
@@ -20,7 +19,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 5px 8px;
+  padding: 5px 0;
   border: 1px solid rgb(118, 118, 118);
   border-radius: 3px;
   min-height: 40px;
@@ -32,9 +31,10 @@ body {
 
   label {
     margin-bottom: 0;
-    margin-top: 2px;
+    margin-top: 3px;
     width: 90%;
     text-align: start;
+    cursor: pointer;
   }
 
   input {
@@ -43,5 +43,6 @@ body {
     top: 50%;
     transform: translate(0, -50%);
     margin-top: 0;
+    cursor: pointer;
   }
 }

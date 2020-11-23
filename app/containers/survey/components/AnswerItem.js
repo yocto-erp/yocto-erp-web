@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Label } from 'reactstrap';
 import { SURVEY_QUESTION_TYPE } from '../constants';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 
 const AnswerItem = ({ item, register, value, type, ...props }) => {
   const inputType = useMemo(() => {
@@ -23,9 +22,10 @@ const AnswerItem = ({ item, register, value, type, ...props }) => {
   return (
     <div className="answer-question" key={item.id}>
       <div className="option-item">
-        <Label>{item.content}</Label>
+        <Label for={`answer${item.id}`}>{item.content}</Label>
         <Input
           type={inputType}
+          id={`answer${item.id}`}
           value={item.key}
           innerRef={register}
           {...props}

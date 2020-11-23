@@ -7,8 +7,9 @@ const surveyApi = {
   readSurveyQuestion: id => fetchJSON(`${API_ENDPOINT_URL}/${id}/questions`),
   sendCode: (id, clientId, target) =>
     postJSON(`${API_ENDPOINT_URL}/${id}/code`, { id, clientId, target }),
-  verify: code => postJSON(`${API_ENDPOINT_URL}/${code}/verify`),
-  answerQuestion: form => postJSON(`${API_ENDPOINT_URL}`, form),
+  verify: code => fetchJSON(`${API_ENDPOINT_URL}/${code}/join`),
+  answerQuestion: (code, form) =>
+    postJSON(`${API_ENDPOINT_URL}/${code}/answer`, form),
 };
 
 export default surveyApi;

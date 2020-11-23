@@ -16,11 +16,12 @@ const Question = ({ question, onBack, onNext, index, total, answers }) => {
         });
         break;
       case SURVEY_QUESTION_TYPE.CHECKBOX: {
-        const arraySchema = Yup.array().required();
+        let arraySchema = Yup.array().required();
         try {
           const conf = JSON.parse(question.data);
           if (conf.max) {
-            arraySchema.max(conf.max);
+            console.log(conf);
+            arraySchema = arraySchema.max(conf.max);
           }
           // eslint-disable-next-line no-empty
         } catch (e) {}
@@ -37,7 +38,8 @@ const Question = ({ question, onBack, onNext, index, total, answers }) => {
   const {
     register,
     onSubmit,
-    formState: { isValid, isDirty },
+    errors,
+    formState: { isValid },
   } = useMyForm({
     form: {
       answer: answers,
@@ -46,50 +48,50 @@ const Question = ({ question, onBack, onNext, index, total, answers }) => {
     api: async formData => onNext(formData),
   });
 
-  return React.useMemo(
-    () => (
-      <Form onSubmit={onSubmit} noValidate formNoValidate>
-        <div className="question-form">
-          <p>{question.introduction}</p>
-          <p>{question.content}</p>
-          <div>
-            {question?.questionAnswers.map(t => (
-              <AnswerItem
-                key={t.id}
-                register={register}
-                type={question.type}
-                item={t}
-                name="answer"
-              />
-            ))}
+  return (
+    <Form onSubmit={onSubmit} noValidate formNoValidate>
+      <div className="question-form">
+        <p>{question.introduction}</p>
+        <p>{question.content}</p>
+        {Object.keys(errors).length ? (
+          <div className="alert-danger alert">
+            <ul className="list-group text-left">
+              {Object.keys(errors).map(t => {
+                const item = errors[t];
+                return <li className="">{item.message}</li>;
+              })}
+            </ul>
           </div>
-          <div className="row mt-3">
-            <div className="col">
-              {index > 0 ? (
-                <Button type="button" outline color="primary" onClick={onBack}>
-                  Back
-                </Button>
-              ) : (
-                <></>
-              )}
-              {index <= total ? (
-                <Button
-                  type="submit"
-                  disabled={!isValid}
-                  outline
-                  color="secondary"
-                >
-                  Next
-                </Button>
-              ) : (
-                <></>
-              )}
-            </div>
+        ) : null}
+        <div>
+          {question.questionAnswers.map(t => (
+            <AnswerItem
+              key={t.id}
+              register={register}
+              type={question.type}
+              item={t}
+              name="answer"
+            />
+          ))}
+        </div>
+        <div className="row mt-3">
+          <div className="col justify-content-start ">
+            {index > 0 ? (
+              <Button type="button" outline color="secondary" onClick={onBack}>
+                Back
+              </Button>
+            ) : null}
+          </div>
+          <div className="col justify-content-end">
+            {index <= total ? (
+              <Button type="submit" disabled={!isValid} color="primary">
+                Next
+              </Button>
+            ) : null}
           </div>
         </div>
-      </Form>
-    ),
-    [index],
+      </div>
+    </Form>
   );
 };
 

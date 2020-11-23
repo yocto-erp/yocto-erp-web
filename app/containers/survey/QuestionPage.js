@@ -5,14 +5,20 @@ import { Button } from 'reactstrap';
 import { useAsync } from '../../libs/hooks/useAsync';
 import surveyApi from '../../libs/apis/survey.api';
 import Question from './components/Question';
+import SubmitButton from '../../components/button/SubmitButton';
+import { useApi } from '../../libs/hooks/useApi';
 
 const QuestionPage = () => {
   const [answers, setAnswers] = React.useState({});
   const [index, setIndex] = React.useState(0);
-  const { id } = useParams();
-  const [isLoading, exec, resp] = useAsync({
-    asyncApi: () => surveyApi.readSurveyQuestion(id),
-  });
+  const [person, setPerson] = React.useState({});
+
+  const { code } = useParams();
+
+  const {
+    state: { isLoading, errors, resp },
+    exec,
+  } = useApi(() => surveyApi.verify(code));
 
   const [isLoading2, exec2] = useAsync({
     asyncApi: surveyApi.answerQuestion,
@@ -28,19 +34,6 @@ const QuestionPage = () => {
         questionId: +split[1] + 1,
         answer: answers[property],
       });
-      // if (typeof answers[property] === 'object') {
-      //   for (let i = 0; i < answers[property].length; i += 1) {
-      //     form.push({
-      //       questionId: +split[1] + 1,
-      //       answer: answers[property][i],
-      //     });
-      //   }
-      // } else {
-      //   form.push({
-      //     questionId: +split[1] + 1,
-      //     answer: answers[property],
-      //   });
-      // }
     }
     if (form.length) {
       exec2(form).then(result => {
@@ -72,9 +65,9 @@ const QuestionPage = () => {
   );
 
   useEffect(() => {
+    console.log(code);
     exec();
-  }, [id]);
-
+  }, []);
   const formReview = React.useMemo(
     () => (
       <div className="row align-items-center">
@@ -102,19 +95,22 @@ const QuestionPage = () => {
                 </div>
               </div>
             ))}
-            <div className="row mt-3">
+            <div className="row mt-3 mb-3">
               <div className="col">
                 <Button type="button" outline color="primary" onClick={onBack}>
                   Back
                 </Button>
-                <Button
+              </div>
+              <div className="col">
+                <SubmitButton
                   type="button"
+                  isLoading={isLoading2}
                   outline
                   color="secondary"
                   onClick={onSubmitForm}
                 >
                   Submit Form
-                </Button>
+                </SubmitButton>
               </div>
             </div>
           </div>
@@ -124,31 +120,32 @@ const QuestionPage = () => {
     [index],
   );
 
-  const form = React.useMemo(
-    () => (
-      <div className="h-50 row align-items-center">
-        <div className="col text-center">
-          <h1>{resp?.name}</h1>
-          <Question
-            key={index}
-            question={resp?.questions[index] || {}}
-            onNext={onNext}
-            onBack={onBack}
-            index={index}
-            total={resp?.questions.length - 1}
-            answers={answers[`question${index}`] || {}}
-          />
+  if (resp) {
+    if (index === resp.questions.length) {
+      return (
+        <div className="h-50 row align-items-center">
+          <div className="col-md-12 text-center">
+            <h1>{resp?.name}</h1>
+            <Question
+              key={index}
+              question={resp.questions[index] || {}}
+              onNext={onNext}
+              onBack={onBack}
+              index={index}
+              total={resp.questions.length - 1}
+              answers={answers[`question${index}`] || {}}
+            />
+          </div>
         </div>
-      </div>
-    ),
-    [resp, index],
-  );
-
-  if (index > resp?.questions.length - 1) {
-    return formReview;
+      );
+    }
+    return <div className="container mb-4 mt-4">{formReview}</div>;
   }
-
-  return resp ? form : null;
+  return (
+    <div className="d-flex align-items-center h-100 justify-content-center">
+      <h1>Invalid Survey</h1>
+    </div>
+  );
 };
 
 QuestionPage.propTypes = {};
