@@ -82,20 +82,22 @@ const QuestionPage = () => {
           <div className="question-form card">
             <h5 className="card-header">Review Answer</h5>
             {resp?.questions.map((t, indexQ) => (
-              <div className="card-body" key={indexQ}>
-                <h5 className="card-title">{t.content}</h5>
-                <div className="card-text">
+              <div className="card-body text-left" key={indexQ}>
+                <h5 className="card-title">
+                  {indexQ + 1}. {t.content}
+                </h5>
+                <div className="card-text ml-3">
                   {typeof answers[`question${indexQ}`] === 'object' ? (
                     <>
                       {answers[`question${indexQ}`].map((answer, indexA) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <div key={indexA}>
-                          {indexA + 1} - {answer}
+                          {indexA + 1}. {answer}
                         </div>
                       ))}
                     </>
                   ) : (
-                    <div>{answers[`question${indexQ}`]}</div>
+                    <div>1. {answers[`question${indexQ}`]}</div>
                   )}
                 </div>
               </div>
