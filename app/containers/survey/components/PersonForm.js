@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'reactstrap';
 import * as Yup from 'yup';
-import FormGroup from '../../../components/Form/FormGroup';
+import { Form } from 'reactstrap';
 import SubmitButton from '../../../components/button/SubmitButton';
+import FormGroup from '../../../components/Form/FormGroup';
 import useSyncForm from '../../../libs/hooks/useSyncForm';
 
-const schema = Yup.object().shape({
+const validationPerson = Yup.object().shape({
+  email: Yup.string()
+    .email()
+    .required('This field is required.'),
   firstName: Yup.string().required('This field is required.'),
   lastName: Yup.string().required('This field is required.'),
-  address: Yup.string(),
 });
 
-const SurveyUserForm = ({ onDone, form = {} }) => {
+const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
   const {
     register,
     errors,
@@ -20,43 +22,62 @@ const SurveyUserForm = ({ onDone, form = {} }) => {
     formState: { isDirty, isValid },
   } = useSyncForm({
     form,
-    validationSchema: schema,
-    api: onDone,
+    validationSchema: validationPerson,
+    api: async formData => onSubmitFormPerson(formData),
   });
-  return (
-    <Form onSubmit={onSubmit} noValidate formNoValidate>
-      <FormGroup
-        name="firstName"
-        type="text"
-        error={errors.firstName}
-        register={register}
-        placeholder="First Name"
-        label="First Name"
-      />
-      <FormGroup
-        name="lastName"
-        type="text"
-        error={errors.lastName}
-        register={register}
-        placeholder="Last Name"
-        label="Last Name"
-      />
-      <FormGroup
-        name="lastName"
-        type="text"
-        error={errors.address}
-        register={register}
-        placeholder="Last Name"
-        label="Last Name"
-      />
-      <SubmitButton color="primary" disabled={!isDirty || !isValid} />
-    </Form>
+
+  return React.useMemo(
+    () => (
+      <Form onSubmit={onSubmit} noValidate formNoValidate>
+        <FormGroup
+          name="email"
+          type="email"
+          error={errors.email}
+          register={register}
+          placeholder="Input your email"
+          label=""
+          iconLeft={<i className="fa fa-envelope" />}
+        />
+        <FormGroup
+          name="firstName"
+          type="text"
+          error={errors.firstName}
+          register={register}
+          placeholder="Input your first name"
+          label=""
+          iconLeft={<i className="fa fa-user" />}
+        />
+        <FormGroup
+          name="lastName"
+          type="text"
+          error={errors.lastName}
+          register={register}
+          placeholder="Input your last name"
+          label=""
+          iconLeft={<i className="fa fa-user" />}
+        />
+        <FormGroup
+          name="address"
+          type="text"
+          register={register}
+          placeholder="Input your address"
+          label=""
+          iconLeft={<i className="fa fa-address-book-o" />}
+        />
+        <SubmitButton
+          className="btn-block"
+          color="primary"
+          disabled={!isDirty || !isValid}
+        />
+      </Form>
+    ),
+    [errors, onSubmit, register, isValid, isDirty],
   );
 };
 
-SurveyUserForm.propTypes = {
-  onDone: PropTypes.func.isRequired,
-  form: PropTypes.object,
+PersonForm.propTypes = {
+  onSubmitFormPerson: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
 };
 
-export default SurveyUserForm;
+export default PersonForm;

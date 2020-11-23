@@ -36,7 +36,7 @@ const FormGroup = ({
         <div className="input-group">
           {iconLeft ? (
             <div className="input-group-prepend">
-              <span className="input-group-text">{iconLeft}</span>
+              <span className="input-group-text style-icon">{iconLeft}</span>
             </div>
           ) : null}
           {input}
