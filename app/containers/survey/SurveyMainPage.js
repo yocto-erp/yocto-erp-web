@@ -1,29 +1,29 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAsync } from '../../libs/hooks/useAsync';
 import surveyApi from '../../libs/apis/survey.api';
-import './survey.scss';
-import EmailValidationForm from './components/EmailValidateForm';
+import { useApi } from '../../libs/hooks/useApi';
 
 const SurveyMainPage = props => {
-  const { id } = useParams();
-  const [isLoading, exec, resp] = useAsync({
-    asyncApi: () => surveyApi.read(id),
-  });
+  const { code } = useParams();
+
+  const {
+    state: { isLoading, errors, resp },
+    exec,
+  } = useApi(() => surveyApi.verify(code));
 
   useEffect(() => {
+    console.log(code);
     exec();
-  }, [id]);
-  return resp ? (
-    <div className="h-100 container">
-      <div className="h-100 row align-items-center">
-        <div className="col text-center">
-          <h1>{resp.name}</h1>
-          <EmailValidationForm surveyId={Number(id)} />
-        </div>
-      </div>
-    </div>
-  ) : null;
+  }, []);
+
+  console.log(resp);
+  console.log(errors);
+
+  return !isLoading && errors && errors.length ? (
+    <h1>Invalid Survey or you have no permission to this.</h1>
+  ) : (
+    <div>OK {JSON.stringify(resp)}</div>
+  );
 };
 
 SurveyMainPage.propTypes = {};

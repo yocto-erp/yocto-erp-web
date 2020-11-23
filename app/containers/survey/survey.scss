@@ -1,5 +1,9 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap-reboot';
 @import '../../../node_modules/bootstrap/scss/bootstrap';
+
 body {
   background: white;
-  color: black;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
 }

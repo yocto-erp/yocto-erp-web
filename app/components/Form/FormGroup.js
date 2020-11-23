@@ -31,7 +31,7 @@ const FormGroup = ({
 
   return (
     <BootStrapFormGroup>
-      <Label for={name}>{label}</Label>
+      {label ? <Label for={name}>{label}</Label> : null}
       {iconLeft || iconRight ? (
         <div className="input-group">
           {iconLeft ? (
@@ -85,7 +85,7 @@ FormGroup.propTypes = {
   iconLeft: PropTypes.node,
   iconRight: PropTypes.node,
   name: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   register: PropTypes.any.isRequired,
   error: PropTypes.object,
   placeholder: PropTypes.string,

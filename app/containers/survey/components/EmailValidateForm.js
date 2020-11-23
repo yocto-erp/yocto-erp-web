@@ -1,14 +1,16 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { v4 as uuidv4 } from 'uuid';
 import { Form } from 'reactstrap';
+import { useHistory } from 'react-router-dom';
 import SubmitButton from '../../../components/button/SubmitButton';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import FormGroup from '../../../components/Form/FormGroup';
 import FormError from '../../../components/Form/FormError';
 import surveyApi from '../../../libs/apis/survey.api';
 import VerifyCodeForm from './VerifyCodeForm';
+import { getClientId } from '../../../libs/utils/storage';
+import { SURVEY_ROOT_PATH } from '../constants';
 
 const emailValidationSchema = Yup.object().shape({
   email: Yup.string()
@@ -17,8 +19,7 @@ const emailValidationSchema = Yup.object().shape({
 });
 
 const EmailValidationForm = ({ surveyId = 0 }) => {
-  const clientId = useMemo(() => uuidv4(), []);
-
+  const clientId = getClientId();
   const {
     register,
     errors,
@@ -30,19 +31,6 @@ const EmailValidationForm = ({ surveyId = 0 }) => {
     validationSchema: emailValidationSchema,
     api: formData => surveyApi.sendCode(surveyId, clientId, formData.email),
   });
-
-  const onVerify = useCallback(
-    code => {
-      const { email } = getValues();
-      return surveyApi.verify(surveyId, clientId, email, code);
-    },
-    [getValues, surveyId, clientId],
-  );
-
-  const onResend = useCallback(() => {
-    const { email } = getValues();
-    return surveyApi.sendCode(surveyId, clientId, email);
-  }, [getValues, surveyId, clientId]);
 
   const form = React.useMemo(
     () => (
@@ -57,9 +45,13 @@ const EmailValidationForm = ({ surveyId = 0 }) => {
           register={register}
           placeholder="Input your email"
           label=""
-          iconRight={<i className="fa fa-envelope" />}
+          iconLeft={<i className="fa fa-envelope" />}
         />
-        <SubmitButton isLoading={isLoading} color="primary" />
+        <SubmitButton
+          isLoading={isLoading}
+          color="primary"
+          disabled={!isDirty || !isValid}
+        />
       </Form>
     ),
     [errors, isLoading, onSubmit, register, isValid, isDirty],
@@ -67,7 +59,7 @@ const EmailValidationForm = ({ surveyId = 0 }) => {
   return !resp ? (
     form
   ) : (
-    <VerifyCodeForm onResend={onResend} onVerify={onVerify} />
+    <VerifyCodeForm surveyId={surveyId} target={resp.target} />
   );
 };
 
