@@ -12,7 +12,10 @@ const PreviewQuestionAnswer = ({ question, answer, isOpen }) => {
 
   return (
     <Card className="text-left mt-2">
-      <CardHeader onClick={() => setIsOpen(!state)}>
+      <CardHeader
+        className="font-weight-bolder"
+        onClick={() => setIsOpen(!state)}
+      >
         {question.content}
       </CardHeader>
       <Collapse isOpen={state}>
