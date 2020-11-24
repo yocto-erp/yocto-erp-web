@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { SURVEY_ROOT_PATH } from './constants';
 import SurveyLandingPage from './SurveyLandingPage';
 import QuestionPage from './QuestionPage';
-import ResultPage from './components/ResultPage';
+import ResultPage from './ResultPage';
 
 const MAIN_PATH = SURVEY_ROOT_PATH;
 

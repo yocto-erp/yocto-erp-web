@@ -7,34 +7,34 @@ body {
   line-height: 1.5;
 }
 
-
 .question-form {
   max-width: 600px;
   margin: 0 auto 1.5rem;
+  padding: 1.5rem;
 }
 
-
 .option-item {
+  &:hover{
+    background: lighten(#1870DC, 45%);
+  }
   min-width: 200px;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
+  display: block;
+  padding: 0;
   border: 1px solid rgb(118, 118, 118);
   border-radius: 3px;
   min-height: 40px;
   align-items: center;
   margin: 5px 0 0 0;
   cursor: pointer;
-  flex-direction: column;
   position: relative;
 
   label {
-    margin-bottom: 0;
-    margin-top: 3px;
-    width: 90%;
+    width: 100%;
     text-align: start;
     cursor: pointer;
+    padding: 8px 1.5rem .5rem;
+    margin: 0;
   }
 
   input {

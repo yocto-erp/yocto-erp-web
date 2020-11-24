@@ -26,24 +26,30 @@ const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
   return React.useMemo(
     () => (
       <Form onSubmit={onSubmit} noValidate formNoValidate>
-        <FormGroup
-          name="firstName"
-          type="text"
-          error={errors.firstName}
-          register={register}
-          placeholder="Input your first name"
-          label=""
-          iconLeft={<i className="fa fa-user" />}
-        />
-        <FormGroup
-          name="lastName"
-          type="text"
-          error={errors.lastName}
-          register={register}
-          placeholder="Input your last name"
-          label=""
-          iconLeft={<i className="fa fa-user" />}
-        />
+        <div className="row">
+          <div className="col-md-6">
+            <FormGroup
+              name="firstName"
+              type="text"
+              error={errors.firstName}
+              register={register}
+              placeholder="First name"
+              label=""
+              iconLeft={<i className="fa fa-user" />}
+            />
+          </div>
+          <div className="col-md-6">
+            <FormGroup
+              name="lastName"
+              type="text"
+              error={errors.lastName}
+              register={register}
+              placeholder="Last Name"
+              label=""
+            />
+          </div>
+        </div>
+
         <FormGroup
           name="address"
           type="text"

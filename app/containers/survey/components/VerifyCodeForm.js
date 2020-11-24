@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import useMyForm from '../../../libs/hooks/useMyForm';
-import FormError from '../../../components/Form/FormError';
 import FormGroup from '../../../components/Form/FormGroup';
 import SubmitButton from '../../../components/button/SubmitButton';
 import { getClientId } from '../../../libs/utils/storage';
 import { SURVEY_ROOT_PATH } from '../constants';
+import useSyncForm from '../../../libs/hooks/useSyncForm';
 
 const schema = Yup.object().shape({
   code: Yup.string().required('This field is required.'),
@@ -22,8 +21,7 @@ const VerifyCodeForm = ({ surveyId, target }) => {
     errors,
     onSubmit,
     formState: { isDirty, isValid },
-    state: { isLoading, errors: serverErrors },
-  } = useMyForm({
+  } = useSyncForm({
     validationSchema: schema,
     api: formData =>
       new Promise(resolve => {
@@ -40,9 +38,6 @@ const VerifyCodeForm = ({ surveyId, target }) => {
         <p className="mb-0">The code has been sent to your mail box !</p>
       </div>
       <Form onSubmit={onSubmit} noValidate formNoValidate>
-        {serverErrors && serverErrors.length ? (
-          <FormError errors={serverErrors} />
-        ) : null}
         <FormGroup
           name="code"
           type="text"
@@ -51,11 +46,7 @@ const VerifyCodeForm = ({ surveyId, target }) => {
           placeholder="Input Code"
           iconLeft={<i className="fa fa-code" />}
         />
-        <SubmitButton
-          isLoading={isLoading}
-          disabled={!isDirty || !isValid}
-          color="primary"
-        />
+        <SubmitButton disabled={!isDirty || !isValid} color="primary" />
       </Form>
     </>
   );

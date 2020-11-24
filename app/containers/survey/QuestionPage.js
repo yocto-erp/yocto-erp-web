@@ -2,64 +2,62 @@ import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-
-import { useAsync } from '../../libs/hooks/useAsync';
 import surveyApi from '../../libs/apis/survey.api';
-import Question from './components/Question';
+import QuestionForm from './components/QuestionForm';
 import { useApi } from '../../libs/hooks/useApi';
 import PersonForm from './components/PersonForm';
 import ReviewAnswerForm from './components/ReviewAnswerForm';
 import { SURVEY_ROOT_PATH } from './constants';
+import { isArrayHasItem } from '../../utils/util';
 
 const QuestionPage = () => {
   const history = useHistory();
   const [answers, setAnswers] = React.useState({});
   const [index, setIndex] = React.useState(0);
-  const [person, setPerson] = React.useState({});
-  const [completed, isCompleted] = React.useState(false);
+  const [person, setPerson] = React.useState(null);
 
   const { code } = useParams();
 
   const {
-    state: { isLoading, errors, resp },
+    state: { errors, resp },
     exec,
   } = useApi(() => surveyApi.verify(code));
 
-  const [isLoadingAnswer, execAnswer] = useAsync({
-    asyncApi: surveyApi.answerQuestion,
-  });
+  const {
+    exec: execAnswer,
+    state: { resp: answerResp, isLoading },
+  } = useApi(surveyApi.answerQuestion);
 
-  const onSubmitFormAnswer = () => {
+  const onSubmitFormAnswer = React.useCallback(() => {
     const formAnswer = [];
-    // eslint-disable-next-line guard-for-in,no-restricted-syntax
-    for (const property in answers) {
-      const split = property.split('question');
+    for (let i = 0; i < resp.questions.length; i += 1) {
+      const questionId = resp.questions[i].id;
+      let userAnswer = answers[`question${i}`];
+      if (isArrayHasItem(userAnswer)) {
+        userAnswer = userAnswer.map(t => t.key);
+      } else {
+        userAnswer = userAnswer.key;
+      }
       formAnswer.push({
-        questionId: +split[1] + 1,
-        answer: answers[property],
+        questionId,
+        answer: userAnswer,
       });
     }
+
+    console.log(formAnswer, person);
     if (formAnswer.length && !_.isEmpty(person)) {
-      execAnswer(code, { formAnswer, formPerson: person }).then(t => {
-        isCompleted(true);
-      });
+      execAnswer(code, { formAnswer, formPerson: person });
     } else {
       toast.error(`Please choose a answer !`);
     }
-  };
-
-  const onSubmitFormPerson = React.useCallback(
-    data => {
-      setPerson(data);
-    },
-    [person, resp],
-  );
+  }, [resp, answers, person]);
 
   const onNext = React.useCallback(
     answer => {
+      console.log('answer', answer);
       setAnswers(prevState => ({
         ...prevState,
-        [`question${index}`]: answer.answer,
+        [`question${index}`]: answer,
       }));
       setIndex(index + 1);
     },
@@ -78,95 +76,64 @@ const QuestionPage = () => {
     exec();
   }, []);
 
-  const formThankYou = React.useMemo(
-    () => (
-      <div className="form-person p-4">
-        <div className="container">
-          <div className="row align-items-center justify-content-center mh-100">
-            <div className="col-12 col-sm-10 col-md-6 col-lg-4 text-center">
-              <div className="question-form">
-                <h5 className="mb-3">Thank you!</h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ),
-    [completed],
-  );
+  useEffect(() => {
+    if (errors && errors.length) {
+      const decodeCode = atob(code);
+      const [surveyId, , target] = decodeCode.split('|');
+      if (errors[0].code === 'EXISTED') {
+        history.push(`${SURVEY_ROOT_PATH}/result/${target}/${surveyId}`);
+      }
+    }
+  }, [errors, code]);
 
-  if (completed) {
-    return formThankYou;
-  }
-
+  let renderEls = <h1>Invalid Survey</h1>;
   if (resp) {
     if (_.isEmpty(person)) {
-      return (
-        <div className="form-person p-4">
-          <div className="container">
-            <div className="row align-items-center justify-content-center mh-100">
-              <div className="col-12 col-sm-10 col-md-6 col-lg-4 text-center">
-                <div className="question-form">
-                  <h5 className="mb-3">Please Input Information to Survey!</h5>
-                  <PersonForm
-                    form={person}
-                    onSubmitFormPerson={onSubmitFormPerson}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      renderEls = (
+        <>
+          <h1 className="mb-3">Please Input Information to Survey!</h1>
+          <PersonForm form={{}} onSubmitFormPerson={setPerson} />
+        </>
+      );
+    } else if (index < resp.questions.length) {
+      renderEls = (
+        <>
+          <h1>{resp?.name}</h1>
+          <QuestionForm
+            key={index}
+            question={resp.questions[index]}
+            onNext={onNext}
+            onBack={onBack}
+            index={index}
+            total={resp.questions.length}
+            answers={answers[`question${index}`]}
+          />
+        </>
+      );
+    } else {
+      renderEls = (
+        <ReviewAnswerForm
+          onSubmitFormAnswer={onSubmitFormAnswer}
+          answers={answers}
+          questions={resp.questions}
+          onBack={onBack}
+          isLoading={isLoading}
+        />
       );
     }
-    if (index < resp.questions.length && !_.isEmpty(person)) {
-      return (
-        <div className="h-50 row align-items-center">
-          <div className="col-md-12 text-center">
-            <h1>{resp?.name}</h1>
-            <Question
-              key={index}
-              question={resp.questions[index] || {}}
-              onNext={onNext}
-              onBack={onBack}
-              index={index}
-              total={resp.questions.length}
-              answers={answers[`question${index}`] || {}}
-            />
-          </div>
-        </div>
-      );
-    }
-    return (
-      <div className="container mb-4 mt-4">
-        <div className="row align-items-center">
-          <div className="col text-center">
-            <ReviewAnswerForm
-              onSubmitFormAnswer={onSubmitFormAnswer}
-              answers={answers}
-              questions={resp?.questions}
-              onBack={onBack}
-            />
-          </div>
-        </div>
-      </div>
-    );
+  }
+  if (answerResp) {
+    renderEls = <h1 className="mb-3">Thank you for answer the Survey!</h1>;
   }
 
-  if (errors && errors.length) {
-    const decodeCode = atob(code);
-    const [surveyId, clientId, target] = decodeCode.split('|');
-    if (errors[0].code === 'EXISTED') {
-      history.push(`${SURVEY_ROOT_PATH}/result/${target}/${surveyId}`);
-    }
-  }
   return (
-    <div className="d-flex align-items-center h-100 justify-content-center">
-      <h1>Invalid Survey</h1>
+    <div className="d-flex h-100 justify-content-center">
+      <div className="container p-4 text-center">
+        <div className="question-form">{renderEls}</div>
+      </div>
     </div>
   );
 };
-
 QuestionPage.propTypes = {};
 
 export default QuestionPage;
