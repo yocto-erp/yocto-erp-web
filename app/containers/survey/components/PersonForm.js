@@ -7,9 +7,6 @@ import FormGroup from '../../../components/Form/FormGroup';
 import useSyncForm from '../../../libs/hooks/useSyncForm';
 
 const validationPerson = Yup.object().shape({
-  email: Yup.string()
-    .email()
-    .required('This field is required.'),
   firstName: Yup.string().required('This field is required.'),
   lastName: Yup.string().required('This field is required.'),
 });
@@ -29,15 +26,6 @@ const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
   return React.useMemo(
     () => (
       <Form onSubmit={onSubmit} noValidate formNoValidate>
-        <FormGroup
-          name="email"
-          type="email"
-          error={errors.email}
-          register={register}
-          placeholder="Input your email"
-          label=""
-          iconLeft={<i className="fa fa-envelope" />}
-        />
         <FormGroup
           name="firstName"
           type="text"

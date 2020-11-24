@@ -1,6 +1,6 @@
 import React from 'react';
+import { Collapse, Button, CardBody, Card } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
 import SubmitButton from '../../../components/button/SubmitButton';
 
 const ReviewAnswerForm = ({
@@ -9,39 +9,48 @@ const ReviewAnswerForm = ({
   onBack,
   answers,
 }) => {
-  console.log('form review');
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggle = () => setIsOpen(!isOpen);
   return (
-    <div className="question-form card">
-      <h5 className="card-header">Review Answer</h5>
-      {questions.map((t, indexQ) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <div className="card-body text-left" key={indexQ}>
-          <h5 className="card-title">
-            {indexQ + 1}. {t.content}
-          </h5>
-          <div className="card-text ml-3">
-            {typeof answers[`question${indexQ}`] === 'object' ? (
-              <>
-                {answers[`question${indexQ}`].map((answer, indexA) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <div key={indexA}>
-                    {indexA + 1}. {answer}
-                  </div>
-                ))}
-              </>
-            ) : (
-              <div>1. {answers[`question${indexQ}`]}</div>
-            )}
-          </div>
+    <div className="container mt-1">
+      <div className="row align-items-center justify-content-center mh-100">
+        <div className="col-12 col-sm-10 col-md-6 col-lg-6 text-center">
+          <h1>Review Answer</h1>
+          {questions.map((t, indexQ) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <div className="mt-2" key={indexQ}>
+              <Button
+                color="secondary"
+                onClick={toggle}
+                className="result-button-question text-left"
+              >
+                {indexQ + 1}. {t.content}
+              </Button>
+              <Collapse isOpen={isOpen}>
+                <Card className="text-left">
+                  {typeof answers[`question${indexQ}`] === 'object' ? (
+                    <>
+                      {answers[`question${indexQ}`].map((answer, indexA) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <CardBody key={indexA}>
+                          {indexA + 1}. {answer}
+                        </CardBody>
+                      ))}
+                    </>
+                  ) : (
+                    <CardBody>1. {answers[`question${indexQ}`]}</CardBody>
+                  )}
+                </Card>
+              </Collapse>
+            </div>
+          ))}
         </div>
-      ))}
-      <div className="row mt-3 mb-3">
-        <div className="col">
+      </div>
+      <div className="row align-items-center justify-content-center mh-100 mt-3">
+        <div className="col-12 col-sm-10 col-md-6 col-lg-6 text-center">
           <Button type="button" outline color="primary" onClick={onBack}>
             Back
           </Button>
-        </div>
-        <div className="col">
           <SubmitButton
             type="button"
             outline

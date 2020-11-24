@@ -51,14 +51,19 @@ const VerifyCodeForm = ({ surveyId, target }) => {
           placeholder="Input Code"
           iconLeft={<i className="fa fa-code" />}
         />
-        <SubmitButton isLoading={isLoading} color="primary" />
+        <SubmitButton
+          isLoading={isLoading}
+          disabled={!isDirty || !isValid}
+          color="primary"
+        />
       </Form>
     </>
   );
 };
 
 VerifyCodeForm.propTypes = {
-  surveyId: PropTypes.string.isRequired,
+  surveyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   target: PropTypes.string.isRequired,
 };
 

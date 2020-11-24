@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
+import { useWatch } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import { Form } from 'reactstrap';
 import SubmitButton from '../../../components/button/SubmitButton';
 import useMyForm from '../../../libs/hooks/useMyForm';
@@ -9,6 +11,7 @@ import FormError from '../../../components/Form/FormError';
 import surveyApi from '../../../libs/apis/survey.api';
 import VerifyCodeForm from './VerifyCodeForm';
 import { getClientId } from '../../../libs/utils/storage';
+import { SURVEY_ROOT_PATH } from '../constants';
 
 const emailValidationSchema = Yup.object().shape({
   email: Yup.string()
@@ -18,15 +21,22 @@ const emailValidationSchema = Yup.object().shape({
 
 const EmailValidationForm = ({ surveyId = 0 }) => {
   const clientId = getClientId();
+  const history = useHistory();
   const {
     register,
     errors,
     onSubmit,
+    control,
     formState: { isDirty, isValid },
     state: { isLoading, errors: serverErrors, resp },
   } = useMyForm({
     validationSchema: emailValidationSchema,
     api: formData => surveyApi.sendCode(surveyId, clientId, formData.email),
+  });
+
+  const target = useWatch({
+    control,
+    name: 'email',
   });
 
   const form = React.useMemo(
@@ -53,6 +63,9 @@ const EmailValidationForm = ({ surveyId = 0 }) => {
     ),
     [errors, isLoading, onSubmit, register, isValid, isDirty],
   );
+  if (!resp && serverErrors && serverErrors.length) {
+    history.push(`${SURVEY_ROOT_PATH}/result/${target}/${surveyId}`);
+  }
   return !resp ? (
     form
   ) : (

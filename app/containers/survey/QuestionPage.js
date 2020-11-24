@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-import { useParams } from 'react-router-dom';
+
 import { useAsync } from '../../libs/hooks/useAsync';
 import surveyApi from '../../libs/apis/survey.api';
 import Question from './components/Question';
 import { useApi } from '../../libs/hooks/useApi';
 import PersonForm from './components/PersonForm';
 import ReviewAnswerForm from './components/ReviewAnswerForm';
+import { SURVEY_ROOT_PATH } from './constants';
 
 const QuestionPage = () => {
+  const history = useHistory();
   const [answers, setAnswers] = React.useState({});
   const [index, setIndex] = React.useState(0);
   const [person, setPerson] = React.useState({});
+  const [completed, isCompleted] = React.useState(false);
 
   const { code } = useParams();
 
@@ -26,20 +30,18 @@ const QuestionPage = () => {
   });
 
   const onSubmitFormAnswer = () => {
-    const form = [];
-    console.log(answers);
+    const formAnswer = [];
     // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (const property in answers) {
       const split = property.split('question');
-      form.push({
+      formAnswer.push({
         questionId: +split[1] + 1,
         answer: answers[property],
       });
     }
-    if (form.length) {
-      execAnswer(code, form).then(result => {
-        toast.success(`Answer success!`);
-        console.log(result);
+    if (formAnswer.length && !_.isEmpty(person)) {
+      execAnswer(code, { formAnswer, formPerson: person }).then(t => {
+        isCompleted(true);
       });
     } else {
       toast.error(`Please choose a answer !`);
@@ -76,6 +78,27 @@ const QuestionPage = () => {
     exec();
   }, []);
 
+  const formThankYou = React.useMemo(
+    () => (
+      <div className="form-person p-4">
+        <div className="container">
+          <div className="row align-items-center justify-content-center mh-100">
+            <div className="col-12 col-sm-10 col-md-6 col-lg-4 text-center">
+              <div className="question-form">
+                <h5 className="mb-3">Thank you!</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+    [completed],
+  );
+
+  if (completed) {
+    return formThankYou;
+  }
+
   if (resp) {
     if (_.isEmpty(person)) {
       return (
@@ -96,7 +119,7 @@ const QuestionPage = () => {
         </div>
       );
     }
-    if (index < resp.questions.length - 18 && !_.isEmpty(person)) {
+    if (index < resp.questions.length && !_.isEmpty(person)) {
       return (
         <div className="h-50 row align-items-center">
           <div className="col-md-12 text-center">
@@ -107,7 +130,7 @@ const QuestionPage = () => {
               onNext={onNext}
               onBack={onBack}
               index={index}
-              total={resp.questions.length - 1}
+              total={resp.questions.length}
               answers={answers[`question${index}`] || {}}
             />
           </div>
@@ -128,6 +151,14 @@ const QuestionPage = () => {
         </div>
       </div>
     );
+  }
+
+  if (errors && errors.length) {
+    const decodeCode = atob(code);
+    const [surveyId, clientId, target] = decodeCode.split('|');
+    if (errors[0].code === 'EXISTED') {
+      history.push(`${SURVEY_ROOT_PATH}/result/${target}/${surveyId}`);
+    }
   }
   return (
     <div className="d-flex align-items-center h-100 justify-content-center">

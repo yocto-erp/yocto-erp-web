@@ -10,6 +10,8 @@ const surveyApi = {
   verify: code => fetchJSON(`${API_ENDPOINT_URL}/${code}/join`),
   answerQuestion: (code, form) =>
     postJSON(`${API_ENDPOINT_URL}/${code}/answer`, form),
+  readResult: (surveyId, target) =>
+    fetchJSON(`${API_ENDPOINT_URL}/result/${surveyId}/${target}`),
 };
 
 export default surveyApi;
