@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAsync } from '../../libs/hooks/useAsync';
-import surveyApi from '../../libs/apis/survey.api';
-import './survey.scss';
+import surveyApi from '../../libs/apis/survey/survey.api';
 import EmailValidationForm from './components/EmailValidateForm';
 
 const SurveyLandingPage = props => {
   const { id } = useParams();
-  const [isLoading, exec, resp] = useAsync({
+  const [exec, resp] = useAsync({
     asyncApi: () => surveyApi.read(id),
   });
 

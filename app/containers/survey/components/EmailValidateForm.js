@@ -8,7 +8,7 @@ import SubmitButton from '../../../components/button/SubmitButton';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import FormGroup from '../../../components/Form/FormGroup';
 import FormError from '../../../components/Form/FormError';
-import surveyApi from '../../../libs/apis/survey.api';
+import surveyApi from '../../../libs/apis/survey/survey.api';
 import VerifyCodeForm from './VerifyCodeForm';
 import { getClientId } from '../../../libs/utils/storage';
 import { SURVEY_ROOT_PATH } from '../constants';

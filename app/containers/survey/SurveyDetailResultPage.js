@@ -1,13 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useApi } from '../../libs/hooks/useApi';
-import surveyApi from '../../libs/apis/survey.api';
+import surveyApi from '../../libs/apis/survey/survey.api';
 import PreviewQuestionAnswer from './components/PreviewQuestionAnswer';
 
-const ResultPage = () => {
+const SurveyDetailResultPage = () => {
   const { target, surveyId } = useParams();
   const {
-    state: { isLoading, errors, resp },
+    state: { resp },
     exec,
   } = useApi(() => surveyApi.readResult(surveyId, target));
 
@@ -92,6 +92,6 @@ const ResultPage = () => {
   ) : null;
 };
 
-ResultPage.propTypes = {};
+SurveyDetailResultPage.propTypes = {};
 
-export default ResultPage;
+export default SurveyDetailResultPage;

@@ -4,6 +4,7 @@ import forIn from 'lodash/forIn';
 import React from 'react';
 import { get, STORAGE } from '../utils/storage';
 import ErrorMessage from '../../components/Form/ErrorMessage';
+import { isFunc } from '../../utils/util';
 
 // eslint-disable-next-line no-unused-vars
 const SYSTEM_ERROR = 1;
@@ -143,7 +144,11 @@ export function createSearchApi(url) {
       sorts: mapSorts,
       ...filter,
     };
-    return fetchJSON(`${url}?${stringify(body, { arrayFormat: 'repeat' })}`);
+    return fetchJSON(
+      `${isFunc(url) ? url() : url}?${stringify(body, {
+        arrayFormat: 'repeat',
+      })}`,
+    );
   };
 }
 

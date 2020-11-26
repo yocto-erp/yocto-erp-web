@@ -26,6 +26,7 @@ const ListWidget = ({
   deleteDialog,
   enableSelectColumn = false,
   pageHeader,
+  widgetClassname = '',
   ...props
 }) => {
   const [page, setPage] = useState(initPage);
@@ -184,7 +185,7 @@ const ListWidget = ({
     <ListRefreshProvider value={refresh}>
       <ListStateProvider value={selectedList}>
         {pageHeader}
-        <Widget>
+        <Widget className={widgetClassname}>
           <div className="wrapper">
             <div className="filter">
               <ListFilterProvider value={setFilter}>
@@ -217,6 +218,7 @@ ListWidget.propTypes = {
   children: PropTypes.element,
   enableSelectColumn: PropTypes.bool,
   pageHeader: PropTypes.node,
+  widgetClassname: PropTypes.string,
 };
 
 export default ListWidget;

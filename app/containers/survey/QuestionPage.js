@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-import surveyApi from '../../libs/apis/survey.api';
+import surveyApi from '../../libs/apis/survey/survey.api';
 import QuestionForm from './components/QuestionForm';
 import { useApi } from '../../libs/hooks/useApi';
 import PersonForm from './components/PersonForm';

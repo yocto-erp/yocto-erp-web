@@ -1,7 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import GoodsReceiptForm from '../components/GoodsReceiptForm';
 import PageTitle from '../../Layout/PageTitle';
+c;
 
 const EditPageGoodsReceipt = () => {
   const { id } = useParams();

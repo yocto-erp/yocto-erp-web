@@ -1,5 +1,5 @@
-import { API_URL } from '../../constants';
-import { fetchJSON, postJSON } from './fetch';
+import { API_URL } from '../../../constants';
+import { createSearchApi, fetchJSON, postJSON } from '../fetch';
 
 const API_ENDPOINT_URL = `${API_URL}/survey`;
 const surveyApi = {
@@ -12,6 +12,8 @@ const surveyApi = {
     postJSON(`${API_ENDPOINT_URL}/${code}/answer`, form),
   readResult: (surveyId, target) =>
     fetchJSON(`${API_ENDPOINT_URL}/result/${surveyId}/${target}`),
+  results: surveyId =>
+    createSearchApi(() => `${API_ENDPOINT_URL}/${surveyId}/results`),
 };
 
 export default surveyApi;

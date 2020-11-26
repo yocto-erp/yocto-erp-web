@@ -14,9 +14,10 @@ body {
 }
 
 .option-item {
-  &:hover{
+  &:hover {
     background: lighten(#1870DC, 45%);
   }
+
   min-width: 200px;
   width: 100%;
   display: block;
@@ -55,4 +56,47 @@ body {
 
 .result-button-question {
   width: 100%;
+}
+
+.widget-custom {
+  background: white;
+  color: black;
+  margin-bottom: 0;
+
+  table {
+    border: 1px solid #f4f4f5 !important;
+  }
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  &.active {
+    background: white;
+    color: black;
+
+    &:hover {
+      background: white;
+    }
+  }
+
+  &:hover {
+    background: #dee2e6;
+    color: black;
+  }
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.tab-content {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-top-color: white;
+}
+
+.nav-tabs .nav-item {
+  margin-bottom: -2px;
 }
