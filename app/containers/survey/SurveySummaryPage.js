@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import SurveyResultPage from './SurveyResultPage';
+import QuestionSummaryPage from './QuestionSummaryPage';
 
 const SurveySummary = props => {
   const { path, url } = useRouteMatch();
@@ -62,7 +63,7 @@ const SurveySummary = props => {
                 <Route
                   exact
                   path={`${path}/question`}
-                  render={() => <h1>Question Summary</h1>}
+                  component={QuestionSummaryPage}
                 />
                 <Route path={`${path}/person`} component={SurveyResultPage} />
               </Switch>

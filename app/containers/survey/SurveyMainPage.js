@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import surveyApi from '../../libs/apis/survey.api';
+import surveyApi from '../../libs/apis/survey/survey.api';
 import { useApi } from '../../libs/hooks/useApi';
 
 const SurveyMainPage = props => {
