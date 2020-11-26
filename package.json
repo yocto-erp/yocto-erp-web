@@ -122,7 +122,9 @@
     "yup": "^0.29.3",
     "rxjs": "^6.6.3",
     "firebase": "^8.0.2",
-    "ua-parser-js": "^0.7.22"
+    "ua-parser-js": "^0.7.22",
+    "react-chartjs-2": "^2.11.1",
+    "chart.js": "^2.9.4"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
@@ -148,6 +150,7 @@
     "circular-dependency-plugin": "5.0.2",
     "compare-versions": "3.4.0",
     "compression-webpack-plugin": "2.0.0",
+    "copy-webpack-plugin": "^5.1.2",
     "coveralls": "3.0.3",
     "css-loader": "2.1.1",
     "eslint": "5.16.0",
@@ -200,8 +203,7 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "3.6.2",
     "webpack-hot-middleware": "2.24.3",
-    "webpack-pwa-manifest": "^4.2.0",
-    "whatwg-fetch": "3.0.0",
-    "copy-webpack-plugin": "^5.1.2"
+    "webpack-pwa-manifest": "^4.3.0",
+    "whatwg-fetch": "3.0.0"
   }
 }

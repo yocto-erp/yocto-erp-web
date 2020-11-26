@@ -15,7 +15,6 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import FontFaceObserver from 'fontfaceobserver';
 import OverlayScrollbars from 'overlayscrollbars';
-
 import history from 'utils/history';
 
 // Import root app
@@ -29,6 +28,7 @@ import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess'; // eslint-disable-line import/extensions
 import { SWRConfig } from 'swr';
 import { Route, Switch } from 'react-router-dom';
+import { isSafari } from './utils/util';
 import configureStore from './configureStore';
 
 // Import i18n messages
@@ -116,7 +116,7 @@ if (!window.Intl) {
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && !isSafari) {
   navigator.serviceWorker
     .register('/static/firebase-messaging-sw.js')
     .then(function done(registration) {

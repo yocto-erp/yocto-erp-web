@@ -14,9 +14,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
-
 export function getFirebaseToken(serviceWorkerRegistration) {
+  const messaging = firebase.messaging();
   return messaging.getToken({
     serviceWorkerRegistration,
     vapidKey:
