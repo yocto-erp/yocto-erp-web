@@ -6,7 +6,7 @@ import EmailValidationForm from './components/EmailValidateForm';
 
 const SurveyLandingPage = props => {
   const { id } = useParams();
-  const [exec, resp] = useAsync({
+  const [, exec, resp] = useAsync({
     asyncApi: () => surveyApi.read(id),
   });
 
