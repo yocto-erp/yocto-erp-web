@@ -97,7 +97,7 @@ const SurveySummary = props => {
                 <Route
                   exact
                   path={`${path}/question`}
-                  component={SurveyChartPage}
+                  component={QuestionSummaryPage}
                 />
                 <Route
                   path={`${path}/answer`}

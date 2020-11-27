@@ -18,7 +18,6 @@ const surveyApi = {
     fetchJSON(`${API_ENDPOINT_URL}/${surveyId}/question/${questionId}/summary`),
   personAnswer: surveyId =>
     createSearchApi(() => `${API_ENDPOINT_URL}/${surveyId}/person-answers`),
-  readAllQuestions: id => fetchJSON(`${API_ENDPOINT_URL}/${id}/questions`),
 };
 
 export default surveyApi;
