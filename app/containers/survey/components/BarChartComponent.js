@@ -33,11 +33,15 @@ const BarChartComponent = () => {
     });
   }, [setData]);
 
-  return (
-    <div>
-      <Bar data={data} />
-    </div>
+  const form = React.useMemo(
+    () => (
+      <div>
+        <Bar data={data} />
+      </div>
+    ),
+    [data],
   );
+  return data ? form : <></>;
 };
 
 export default BarChartComponent;

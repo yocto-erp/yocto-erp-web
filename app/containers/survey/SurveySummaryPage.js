@@ -11,6 +11,7 @@ import {
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import SurveyResultPage from './SurveyResultPage';
 import SurveyChartPage from './SurveyChartPage';
+import SurveyPersonAnswerPage from './SurveyPersonAnswerPage';
 
 const SurveySummary = props => {
   const { path, url } = useRouteMatch();
@@ -21,22 +22,6 @@ const SurveySummary = props => {
     <div className="m-4">
       <Nav tabs>
         <Switch>
-          <Route
-            exact
-            path={`${path}/question`}
-            render={() => (
-              <>
-                <NavItem>
-                  <NavLink onClick={() => history.push(`${url}/person`)}>
-                    Person Summary
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink className="active">Question Summary</NavLink>
-                </NavItem>
-              </>
-            )}
-          />
           <Route
             exact
             path={`${path}/person`}
@@ -50,6 +35,53 @@ const SurveySummary = props => {
                     Question Summary
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink onClick={() => history.push(`${url}/answer`)}>
+                    Person Answer Summary
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
+          />
+          <Route
+            exact
+            path={`${path}/question`}
+            render={() => (
+              <>
+                <NavItem>
+                  <NavLink onClick={() => history.push(`${url}/person`)}>
+                    Person Summary
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink className="active">Question Summary</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink onClick={() => history.push(`${url}/answer`)}>
+                    Person Answer Summary
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
+          />
+          <Route
+            exact
+            path={`${path}/answer`}
+            render={() => (
+              <>
+                <NavItem>
+                  <NavLink onClick={() => history.push(`${url}/person`)}>
+                    Person Summary
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink onClick={() => history.push(`${url}/question`)}>
+                    Question Summary
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink className="active">Person Answer Summary</NavLink>
+                </NavItem>
               </>
             )}
           />
@@ -60,12 +92,16 @@ const SurveySummary = props => {
           <Row>
             <Col xl="12" lg="12" md="12" sm="12">
               <Switch>
+                <Route path={`${path}/person`} component={SurveyResultPage} />
                 <Route
                   exact
                   path={`${path}/question`}
                   component={SurveyChartPage}
                 />
-                <Route path={`${path}/person`} component={SurveyResultPage} />
+                <Route
+                  path={`${path}/answer`}
+                  component={SurveyPersonAnswerPage}
+                />
               </Switch>
             </Col>
           </Row>
