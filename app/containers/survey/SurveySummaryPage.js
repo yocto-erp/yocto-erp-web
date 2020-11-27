@@ -11,6 +11,7 @@ import {
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import SurveyResultPage from './SurveyResultPage';
 import SurveyChartPage from './SurveyChartPage';
+import QuestionSummaryPage from './QuestionSummaryPage';
 import SurveyPersonAnswerPage from './SurveyPersonAnswerPage';
 
 const SurveySummary = props => {

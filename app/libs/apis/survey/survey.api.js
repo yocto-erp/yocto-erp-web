@@ -14,6 +14,8 @@ const surveyApi = {
     fetchJSON(`${API_ENDPOINT_URL}/result/${surveyId}/${target}`),
   results: surveyId =>
     createSearchApi(() => `${API_ENDPOINT_URL}/${surveyId}/results`),
+  questionSummary: (surveyId, questionId) =>
+    fetchJSON(`${API_ENDPOINT_URL}/${surveyId}/question/${questionId}/summary`),
   personAnswer: surveyId =>
     createSearchApi(() => `${API_ENDPOINT_URL}/${surveyId}/person-answers`),
   readAllQuestions: id => fetchJSON(`${API_ENDPOINT_URL}/${id}/questions`),
