@@ -4,6 +4,7 @@ import { Bar, HorizontalBar, Pie } from 'react-chartjs-2';
 import { Card, CardBody, CardHeader, Collapse } from 'reactstrap';
 import { useApi } from '../../../libs/hooks/useApi';
 import surveyApi from '../../../libs/apis/survey/survey.api';
+import classNames from 'classnames';
 
 const QuestionChart = ({ surveyId, questionId, type }) => {
   const {
@@ -11,7 +12,7 @@ const QuestionChart = ({ surveyId, questionId, type }) => {
     exec,
   } = useApi(() => surveyApi.questionSummary(surveyId, questionId));
   const [state, setIsOpen] = React.useState(true);
-
+  const [barType, setType] = React.useState('horizontalBar');
   useEffect(() => {
     exec();
   }, []);
@@ -70,7 +71,7 @@ const QuestionChart = ({ surveyId, questionId, type }) => {
 
   const chart = useMemo(() => {
     let rs = '';
-    switch (type) {
+    switch (barType) {
       case 'pie':
         rs = <Pie data={data} />;
         break;
@@ -82,18 +83,33 @@ const QuestionChart = ({ surveyId, questionId, type }) => {
         break;
     }
     return rs;
-  }, [type, data, options]);
+  }, [barType, data, options]);
   return (
-    <Card className="text-left mt-4">
-      <CardHeader
-        className="font-weight-bolder"
-        onClick={() => setIsOpen(!state)}
-      >
+    <Card className="text-left mt-5">
+      <CardHeader className="font-weight-bolder">
         <div className="row align-items-center">
           <div className="col">{resp ? resp.content : null}</div>
-          <div className="col-md-auto">
-            <button type="button" className="btn btn-primary">
-              <i className="fa fa-cog" />{' '}
+          <div className="col-md-auto form-inline">
+            <select
+              className="form-control mr-2"
+              value={barType}
+              onChange={e => setType(e.target.value)}
+            >
+              <option value="bar">Bar</option>
+              <option value="horizontalBar">Horizontal Bar</option>
+              <option value="pie">Pie</option>
+            </select>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => setIsOpen(!state)}
+            >
+              <i
+                className={classNames(
+                  'fa',
+                  state ? 'fa-angle-up' : 'fa-angle-down',
+                )}
+              />
             </button>
           </div>
         </div>
@@ -108,7 +124,7 @@ const QuestionChart = ({ surveyId, questionId, type }) => {
 QuestionChart.propTypes = {
   surveyId: PropTypes.number.isRequired,
   questionId: PropTypes.number.isRequired,
-  type: PropTypes.oneOfType(['pie', 'bar', 'horizontalBar']),
+  type: PropTypes.oneOf(['pie', 'bar', 'horizontalBar']),
 };
 
 export default QuestionChart;

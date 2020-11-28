@@ -1,7 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
 import surveyApi from '../../libs/apis/survey/survey.api';
@@ -24,20 +23,34 @@ const SurveyPersonAnswerPage = () => {
         key: `question${index + 1}`,
         header: (
           <div>
-            <p className="text-nowrap" id={`question${index + 1}`}>
-              question{index + 1} <i className="fa fa-info" />
+            <p className="text-nowrap mb-0" id={`question${question.id}`}>
+              Question {index + 1} <i className="la la-info-circle" />
             </p>
             <UncontrolledTooltip
               placement="right"
-              target={`question${index + 1}`}
+              target={`question${question.id}`}
             >
               {question.content}
             </UncontrolledTooltip>
           </div>
         ),
         data: `surveyPersonAnswers${index}`,
-        width: '5%',
-        render: row => row.surveyPersonAnswers[index].answer,
+        class: 'align-top',
+        render: row => {
+          const rs = row.surveyPersonAnswers
+            .filter(t => t.questionId === question.id)
+            .map(t => t.answer);
+          if (rs.length > 1) {
+            return (
+              <ul className="mb-0">
+                {rs.map(t => (
+                  <li> - {t}</li>
+                ))}
+              </ul>
+            );
+          }
+          return rs.join('');
+        },
       }));
     }
     return [];
@@ -68,14 +81,6 @@ const SurveyPersonAnswerPage = () => {
         ),
       },
       ...questionColumn,
-      {
-        header: 'Action',
-        data: 'action',
-        class: 'action',
-        render: row => (
-          <TableActionColumns onView={() => console.log('onView', row)} />
-        ),
-      },
     ],
     [resp, questionColumn],
   );
