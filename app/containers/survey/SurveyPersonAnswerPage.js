@@ -5,6 +5,7 @@ import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import { useAsync } from '../../libs/hooks/useAsync';
+import { formatDateOnly } from '../../libs/utils/date.util';
 
 const SurveyPersonAnswerPage = () => {
   const { id } = useParams();
@@ -76,6 +77,10 @@ const SurveyPersonAnswerPage = () => {
             <p className="m-0">
               <strong>Address: </strong>
               {row.person.address}
+            </p>
+            <p className="m-0">
+              <strong>Submitted Date: </strong>
+              {formatDateOnly(new Date(row.submittedDate))}
             </p>
           </div>
         ),

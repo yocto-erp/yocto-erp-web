@@ -61,25 +61,38 @@ const SurveyResultPage = () => {
         class: 'text-eclipse',
         render: row => (
           <div>
-            <span className="badge badge-success text-nowrap text-ellipsis">
-              <a
-                className="text-white"
-                href={`https://ipfs.io/ipfs/${row.ipfsId}`}
-                target="_blank"
-              >
-                IPFS:{row.ipfsId}
-              </a>
-            </span>
-            <br />
-            <span className="badge badge-primary text-nowrap text-ellipsis">
-              <a
-                className="text-white"
-                href={`https://ropsten.etherscan.io/tx/${row.blockchainId}`}
-                target="_blank"
-              >
-                Ethereum TX:&nbsp;{row.blockchainId}
-              </a>
-            </span>
+            {row.ipfsId ? (
+              <>
+                <span className="badge badge-success text-nowrap text-ellipsis">
+                  <a
+                    className="text-white"
+                    href={`https://ipfs.io/ipfs/${row.ipfsId}`}
+                    target="_blank"
+                  >
+                    IPFS:{row.ipfsId}
+                  </a>
+                </span>
+                <br />
+              </>
+            ) : (
+              <span className="badge badge-warning">IPFS: Processing ...</span>
+            )}
+
+            {row.blockchainId ? (
+              <span className="badge badge-primary text-nowrap text-ellipsis">
+                <a
+                  className="text-white"
+                  href={`https://ropsten.etherscan.io/tx/${row.blockchainId}`}
+                  target="_blank"
+                >
+                  Ethereum TX:&nbsp;{row.blockchainId}
+                </a>
+              </span>
+            ) : (
+              <span className="badge badge-warning">
+                Ethereum TX: Processing...
+              </span>
+            )}
           </div>
         ),
       },

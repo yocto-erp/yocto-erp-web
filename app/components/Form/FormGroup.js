@@ -86,7 +86,7 @@ FormGroup.propTypes = {
   iconRight: PropTypes.node,
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  register: PropTypes.any.isRequired,
+  register: PropTypes.any,
   error: PropTypes.object,
   placeholder: PropTypes.string,
   children: PropTypes.any,

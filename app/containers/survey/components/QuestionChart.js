@@ -1,16 +1,43 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Bar, HorizontalBar, Pie } from 'react-chartjs-2';
 import { Card, CardBody, CardHeader, Collapse } from 'reactstrap';
+import classNames from 'classnames';
 import { useApi } from '../../../libs/hooks/useApi';
 import surveyApi from '../../../libs/apis/survey/survey.api';
-import classNames from 'classnames';
 
-const QuestionChart = ({ surveyId, questionId, type }) => {
+const QuestionChart = ({
+  surveyId,
+  questionId,
+  type,
+  fromDate,
+  toDate,
+  filters,
+}) => {
+  console.log(filters, fromDate, toDate);
+  const search = useMemo(() => {
+    const rs = {};
+    if (fromDate) {
+      rs.fromDate = fromDate;
+    }
+    if (toDate) {
+      rs.toDate = toDate;
+    }
+    if (filters) {
+      rs.questions = Object.keys(filters).map(t => filters[t]);
+    }
+    return rs;
+  }, [filters, fromDate, toDate]);
+
+  const searchApi = useCallback(
+    () => surveyApi.questionSummary(surveyId, questionId, search),
+    [surveyId, questionId, search],
+  );
   const {
     state: { resp, isLoading, errors },
     exec,
-  } = useApi(() => surveyApi.questionSummary(surveyId, questionId));
+  } = useApi(searchApi);
+
   const [state, setIsOpen] = React.useState(true);
   const [barType, setType] = React.useState('horizontalBar');
   useEffect(() => {
@@ -125,6 +152,9 @@ QuestionChart.propTypes = {
   surveyId: PropTypes.number.isRequired,
   questionId: PropTypes.number.isRequired,
   type: PropTypes.oneOf(['pie', 'bar', 'horizontalBar']),
+  fromDate: PropTypes.instanceOf(Date),
+  toDate: PropTypes.instanceOf(Date),
+  filters: PropTypes.array,
 };
 
 export default QuestionChart;
