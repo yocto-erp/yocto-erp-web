@@ -5,7 +5,14 @@ import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
 import { FNS_DATE_FORMAT } from '../../libs/utils/date.util';
 
-const DateSelect = ({ onChange, value, invalid, onBlur, placeholder }) => {
+const DateSelect = ({
+  onChange,
+  value,
+  invalid,
+  onBlur,
+  placeholder,
+  ...props
+}) => {
   const handleDayChange = selectedDay => {
     console.log(selectedDay);
     if (isFunction(onChange)) {
@@ -26,6 +33,7 @@ const DateSelect = ({ onChange, value, invalid, onBlur, placeholder }) => {
       className={classNames('form-control', {
         'is-invalid': !!invalid,
       })}
+      {...props}
       onBlur={handleOnBlur}
       selected={value}
       onChange={handleDayChange}
