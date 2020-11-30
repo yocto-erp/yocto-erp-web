@@ -32,6 +32,8 @@ import StudentMonthlyPage from '../student/monthly-fee/Loadable';
 import { STUDENT_MONTHLY_ROOT_PATH } from '../student/monthly-fee/constants';
 import { TEMPLATE_ROOT_PATH } from '../template/constants';
 import TemplatePage from '../template/Loadable';
+import SurveyAdminPage from '../survey/Admin/Loadable';
+import { SURVEY_MANAGEMENT_ROOT_PATH } from '../survey/Admin/constants';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -136,6 +138,10 @@ class Layout extends React.Component {
                   <Route
                     path={`${TEMPLATE_ROOT_PATH}`}
                     component={TemplatePage}
+                  />
+                  <Route
+                    path={`${SURVEY_MANAGEMENT_ROOT_PATH}`}
+                    component={SurveyAdminPage}
                   />
                 </Switch>
                 <Footer />

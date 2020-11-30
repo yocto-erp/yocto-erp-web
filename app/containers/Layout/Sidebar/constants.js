@@ -62,7 +62,14 @@ export const SIDE_BAR_MENU = {
       link: '',
       children: [
         {
+          header: 'Survey',
+          isHeader: true,
+          link: '/survey-management',
+          index: 'management.survey-management',
+        },
+        {
           header: 'Kho',
+          isHeader: true,
           link: '/warehouse',
           index: 'management.warehouse',
         },
