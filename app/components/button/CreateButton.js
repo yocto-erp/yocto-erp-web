@@ -7,7 +7,7 @@ const CreateButton = props => (
   <Button {...props} color={props.color ? props.color : 'primary'}>
     <i className={props.icon ? `${props.icon} mr-2` : 'las la-plus mr-2'} />
     {/* eslint-disable-next-line react/prop-types */}
-    {props.text ? props.text : 'Create'}
+    {props.children ? props.children : 'Create'}
   </Button>
 );
 
