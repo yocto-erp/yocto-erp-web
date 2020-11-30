@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CreateButton from '../../../../components/button/CreateButton';
-import { newPage, editPage } from '../../../../libs/utils/crud.util';
+import { editPage, newPage } from '../../../../libs/utils/crud.util';
 import { useListStateContext } from '../../../../components/ListWidget/constants';
 import SendMailButton from '../../../../components/button/SendMailButton';
 import ConfigureButton from '../../../../components/button/ConfigureButton';
@@ -23,13 +23,14 @@ const Header = ({ history }) => {
 
       <CreateButton
         className="mr-2 btn-raised"
-        text="Edit"
         icon="fi flaticon-edit"
         color="warning"
         onClick={() => {
           history.push(editPage(ROOT_PATH, Object.values(getStateSelect)));
         }}
-      />
+      >
+        Edit
+      </CreateButton>
 
       <SendMailButton
         className="mr-2 btn-raised"

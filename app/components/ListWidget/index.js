@@ -98,11 +98,6 @@ const ListWidget = ({
     [setSorts],
   );
 
-  const refresh = React.useCallback(
-    () => searchApi({ page, size, filter, sorts }),
-    [searchApi, page, size, sorts, filter],
-  );
-
   const onSelectAll = React.useCallback(
     isSelectAll => {
       if (isSelectAll) {
@@ -177,6 +172,16 @@ const ListWidget = ({
     [page, size, setSize, count, setPage, isLoading],
   );
 
+  const refresh = React.useCallback(
+    () => searchApi({ page, size, filter, sorts }),
+    [searchApi, page, size, sorts, filter],
+  );
+
+  const searchByFilter = React.useCallback(par => {
+    setPage(1);
+    setFilter(par);
+  }, []);
+
   React.useEffect(() => {
     refresh();
   }, [refresh]);
@@ -188,7 +193,7 @@ const ListWidget = ({
         <Widget className={widgetClassname}>
           <div className="wrapper">
             <div className="filter">
-              <ListFilterProvider value={setFilter}>
+              <ListFilterProvider value={searchByFilter}>
                 {props.children}
               </ListFilterProvider>
             </div>
