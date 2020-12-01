@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Widget from '../../../../components/Widget/Widget';
 import TableActionColumns from '../../../../components/ListWidget/TableActionColumn';
 import inventoryApi from '../../../../libs/apis/inventory/inventory.api';
 import goodsIssuesApi from '../../../../libs/apis/inventory/goods-issue.api';

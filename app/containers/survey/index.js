@@ -9,7 +9,7 @@ import SurveySummary from './SurveySummaryPage';
 
 const MAIN_PATH = SURVEY_ROOT_PATH;
 
-function TemplatePage() {
+function TemplateSurveyPage() {
   return (
     <Switch>
       <Route
@@ -28,8 +28,8 @@ function TemplatePage() {
   );
 }
 
-TemplatePage.propTypes = {};
+TemplateSurveyPage.propTypes = {};
 
-TemplatePage.defaultProps = {};
+TemplateSurveyPage.defaultProps = {};
 
-export default TemplatePage;
+export default TemplateSurveyPage;
