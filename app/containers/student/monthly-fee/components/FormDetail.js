@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { Button, FormFeedback, Input } from 'reactstrap';
+import {
+  Button,
+  FormFeedback,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from 'reactstrap';
 import { Controller, useWatch } from 'react-hook-form';
 import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import MonthSelect from '../../../../components/date/MonthSelect';
 import StudentSelect from '../../components/StudentSelect';
 import InputNumber from '../../../../components/Form/InputNumber';
-import studentConfigurationApi from '../../../../libs/apis/student/student-config.api';
 import InputPercent from '../../../../components/Form/InputPercent';
+import Price from '../../../../components/common/Price';
 
 const FormDetail = ({
   control,
@@ -16,113 +23,137 @@ const FormDetail = ({
   register,
   setValue,
   getValues,
+  trigger,
   item,
   index,
   remove,
+  studentConfig,
+  isUpdated = false,
 }) => {
-  const [studentConfig, setStudentConfig] = React.useState(null);
-  React.useEffect(() => {
-    studentConfigurationApi.get().then(resp => {
-      if (resp) {
-        setStudentConfig(resp);
+  const {
+    absentDay,
+    student,
+    scholarShip,
+    trialDate,
+    otherFee,
+    otherDeduceFee,
+    busFee,
+    mealFee,
+  } = useWatch({
+    control,
+    name: `details[${index}]`,
+    defaultValue: item,
+  });
+
+  useEffect(() => {
+    let totalBusFee = 0;
+    let totalMealFee = 0;
+    if (studentConfig && student) {
+      totalBusFee = student.enableBus ? studentConfig.busFee : 0;
+
+      if (student.enableMeal && studentConfig.mealFeePerDay) {
+        totalMealFee =
+          (studentConfig.numberDayOfMonth - absentDay) *
+          studentConfig.mealFeePerDay;
       }
-    });
-  }, []);
+    }
+    setValue(`details[${index}].busFee`, totalBusFee);
+    setValue(`details[${index}].mealFee`, totalMealFee);
+    trigger([`details[${index}].mealFee`, `details[${index}].busFee`]);
+  }, [student, absentDay, studentConfig, index]);
 
-  const absentDay = useWatch({
-    control,
-    name: `details[${index}].absentDay`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
-    defaultValue: item.absentDay, // default value before the render
-  });
+  const scholarShipFee = useMemo(() => {
+    let rs = 0;
+    if (studentConfig) {
+      rs = (studentConfig.monthlyTuitionFee * scholarShip) / 100;
+    }
+    return rs;
+  }, [studentConfig, scholarShip]);
 
-  const student = useWatch({
-    control,
-    name: `details[${index}].student`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
-    defaultValue: item.student, // default value before the render
-  });
+  const absentDayFee = useMemo(() => {
+    let rs = 0;
+    if (studentConfig && absentDay) {
+      rs = absentDay * studentConfig.feePerDay * (1 - scholarShip / 100);
+    }
+    return rs;
+  }, [scholarShipFee, absentDay]);
+
+  const trialDateFee = useMemo(() => {
+    let rs = 0;
+    if (studentConfig) {
+      rs = trialDate * studentConfig.feePerTrialDay;
+    }
+    return rs;
+  }, [studentConfig, trialDate]);
+
+  const totalFee = useMemo(() => {
+    let rsFee = 0;
+    if (studentConfig && student) {
+      rsFee =
+        studentConfig.monthlyTuitionFee -
+        scholarShipFee -
+        absentDayFee +
+        trialDateFee +
+        busFee +
+        mealFee +
+        otherFee -
+        otherDeduceFee;
+    }
+    return rsFee;
+  }, [
+    absentDayFee,
+    trialDateFee,
+    busFee,
+    mealFee,
+    otherFee,
+    otherDeduceFee,
+    scholarShipFee,
+  ]);
 
   const columns = React.useMemo(
     () => (
-      <tr key={item.id || item.ids}>
-        {item.id ? (
-          <td>
-            <Input
-              readOnly
-              type="text"
-              invalid={!!get(errors, ['details', index, 'id'], false)}
-              name={`details[${index}].id`}
-              innerRef={register()}
-              defaultValue={item.id} // make sure to set up defaultValue
-            />
-          </td>
-        ) : (
-          <></>
-        )}
+      <tr key={item.id}>
         <td>
-          <div style={{ maxWidth: '100%' }} className="">
+          <Input
+            type="hidden"
+            name={`details[${index}].id`}
+            innerRef={register()}
+            defaultValue={item.id}
+          />
+          <div className="w-100 mb-2">
             <Controller
               defaultValue={new Date(item.monthYear)}
-              name={`details[${index}].monthYear`}
               control={control}
-              invalid={!!get(errors, ['details', index, 'monthYear'], false)}
-              as={MonthSelect}
+              name={`details[${index}].monthYear`}
+              render={({ onChange, value, onBlur }) => (
+                <MonthSelect
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  invalid={
+                    !!get(errors, ['details', index, 'monthYear'], false)
+                  }
+                />
+              )}
             />
             <FormFeedback>
               {get(errors, ['details', index, 'monthYear', 'message'], '')}
             </FormFeedback>
           </div>
-        </td>
-        <td>
-          <Controller
-            name={`details[${index}].student`}
-            defaultValue={item.student}
-            control={control}
-            render={({ onChange, ...data }) => (
-              <StudentSelect
-                id="studentId"
-                placeholder="Select Student"
-                invalid={!!get(errors, ['details', index, 'student'], false)}
-                onChange={val => {
-                  if (studentConfig && val) {
-                    if (val.enableBus && studentConfig.busFee) {
-                      setValue(
-                        `details[${index}].busFee`,
-                        studentConfig.busFee,
-                        {
-                          shouldValidate: true,
-                        },
-                      );
-                    } else {
-                      setValue(`details[${index}].busFee`, 0, {
-                        shouldValidate: true,
-                      });
-                    }
-                    if (val.enableMeal && studentConfig.mealFeePerDay) {
-                      const totalFeeMeal =
-                        studentConfig.numberDayOfMonth &&
-                        studentConfig.mealFeePerDay
-                          ? (studentConfig.numberDayOfMonth - absentDay) *
-                            studentConfig.mealFeePerDay
-                          : 0;
-                      setValue(`details[${index}].mealFee`, totalFeeMeal, {
-                        shouldValidate: true,
-                      });
-                    } else {
-                      setValue(`details[${index}].mealFee`, 0, {
-                        shouldValidate: true,
-                      });
-                    }
-                  }
-
-                  onChange(val);
-                }}
-                {...data}
-              />
-            )}
-          />
-          <FormFeedback>
-            {get(errors, ['details', index, 'student', 'message'], '')}
-          </FormFeedback>
+          <div>
+            <Controller
+              name={`details[${index}].student`}
+              defaultValue={item.student}
+              control={control}
+              as={StudentSelect}
+              id="studentId"
+              placeholder="Select Student"
+              invalid={!!get(errors, ['details', index, 'student'], false)}
+            />
+            <FormFeedback>
+              {get(errors, ['details', index, 'student', 'message'], '')}
+            </FormFeedback>
+          </div>
         </td>
         <td>
           <Controller
@@ -133,61 +164,34 @@ const FormDetail = ({
             defaultValue={item.scholarShip}
             placeholder="ScholarShip"
           />
+          <Price className="text-muted" amount={scholarShipFee} />
           <FormErrorMessage
             error={get(errors, ['details', index, 'scholarShip'])}
           />
         </td>
         <td>
           <Controller
+            invalid={!!get(errors, ['details', index, 'absentDay'], false)}
             name={`details[${index}].absentDay`}
             control={control}
+            max={studentConfig ? studentConfig.numberDayOfMonth : 30}
+            as={InputNumber}
             defaultValue={item.absentDay}
-            render={({ onChange, ...data }) => (
-              <InputNumber
-                id="absentDay"
-                placeholder="Absent Day"
-                invalid={!!get(errors, ['details', index, 'absentDay'], false)}
-                onChange={val => {
-                  if (studentConfig && val && student && student.enableBus) {
-                    if (val && studentConfig.mealFeePerDay) {
-                      const totalFeeMeal =
-                        studentConfig.numberDayOfMonth &&
-                        studentConfig.mealFeePerDay
-                          ? (studentConfig.numberDayOfMonth - val) *
-                            studentConfig.mealFeePerDay
-                          : 0;
-                      setValue(`details[${index}].mealFee`, totalFeeMeal, {
-                        shouldValidate: true,
-                      });
-                    } else {
-                      setValue(`details[${index}].mealFee`, 0, {
-                        shouldValidate: true,
-                      });
-                    }
-                  }
-
-                  onChange(val);
-                }}
-                {...data}
-              />
-            )}
+            placeholder="Absent Date"
           />
-          <FormErrorMessage
-            error={get(errors, ['details', index, 'absentDay'])}
-          />
+          <Price className="text-muted" amount={absentDayFee} />
         </td>
         <td>
           <Controller
             invalid={!!get(errors, ['details', index, 'trialDate'], false)}
             name={`details[${index}].trialDate`}
             control={control}
+            max={studentConfig ? studentConfig.numberDayOfMonth : 30}
             as={InputNumber}
             defaultValue={item.trialDate}
             placeholder="Trial Date"
           />
-          <FormErrorMessage
-            error={get(errors, ['details', index, 'trialDate'])}
-          />
+          <Price className="text-muted" amount={trialDateFee} />
         </td>
         <td>
           <Controller
@@ -216,30 +220,38 @@ const FormDetail = ({
           />
         </td>
         <td>
-          <Controller
-            invalid={!!get(errors, ['details', index, 'otherFee'], false)}
-            name={`details[${index}].otherFee`}
-            control={control}
-            as={InputNumber}
-            defaultValue={item.otherFee}
-            placeholder="Other Fee"
-          />
-          <FormErrorMessage
-            error={get(errors, ['details', index, 'otherFee'])}
-          />
-        </td>
-        <td>
-          <Controller
-            invalid={!!get(errors, ['details', index, 'otherDeduceFee'], false)}
-            name={`details[${index}].otherDeduceFee`}
-            control={control}
-            as={InputNumber}
-            defaultValue={item.otherDeduceFee}
-            placeholder="Other Deduce Fee"
-          />
-          <FormErrorMessage
-            error={get(errors, ['details', index, 'otherDeduceFee'])}
-          />
+          <InputGroup className="mb-2">
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <i className="fa fa-plus" />
+              </InputGroupText>
+            </InputGroupAddon>
+            <Controller
+              invalid={!!get(errors, ['details', index, 'otherFee'], false)}
+              name={`details[${index}].otherFee`}
+              control={control}
+              as={InputNumber}
+              defaultValue={item.otherFee}
+              placeholder="Other Fee"
+            />
+          </InputGroup>
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <i className="fa fa-minus" />
+              </InputGroupText>
+            </InputGroupAddon>
+            <Controller
+              invalid={
+                !!get(errors, ['details', index, 'otherDeduceFee'], false)
+              }
+              name={`details[${index}].otherDeduceFee`}
+              control={control}
+              as={InputNumber}
+              defaultValue={item.otherDeduceFee}
+              placeholder="Other Deduce Fee"
+            />
+          </InputGroup>
         </td>
         <td>
           <Input
@@ -247,16 +259,15 @@ const FormDetail = ({
             invalid={!!get(errors, ['details', index, 'remark'], false)}
             name={`details[${index}].remark`}
             innerRef={register()}
-            defaultValue={item.remark} // make sure to set up defaultValue
+            style={{ height: '75px' }}
+            placeholder="Remark"
+            defaultValue={item.remark}
           />
-          <FormFeedback>
-            {get(errors, ['details', index, 'remark', 'message'], '')}
-          </FormFeedback>
         </td>
-        <td>total</td>
-        {item.id ? (
-          <></>
-        ) : (
+        <td className="text-nowrap min">
+          <Price amount={totalFee} />
+        </td>
+        {isUpdated ? null : (
           <td className="action">
             <Button
               type="button"
@@ -270,7 +281,16 @@ const FormDetail = ({
         )}
       </tr>
     ),
-    [studentConfig, errors, register, control],
+    [
+      errors.details,
+      index,
+      register,
+      control,
+      scholarShipFee,
+      trialDateFee,
+      absentDayFee,
+      totalFee,
+    ],
   );
 
   return <>{columns}</>;
@@ -285,5 +305,8 @@ FormDetail.propTypes = {
   item: PropTypes.any,
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
+  studentConfig: PropTypes.object,
+  trigger: PropTypes.func,
+  isUpdated: PropTypes.bool,
 };
 export default FormDetail;

@@ -2,22 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { IMaskInput } from 'react-imask';
-import isFunction from 'lodash/isFunction';
+import { isFunc } from '../../utils/util';
 
-const InputNumber = ({ invalid, value, onChange, placeholder, ...props }) => (
-  <IMaskInput
-    className={classNames('form-control', { 'is-invalid': invalid })}
-    {...props}
-    mask={Number}
-    radix=","
-    scale={2}
-    signed={false}
-    thousandsSeparator="."
-    value={value}
-    unmask="typed" // true|false|'typed'
-    onAccept={_val => isFunction(onChange) && onChange(_val)}
-    placeholder={placeholder}
-  />
+const InputNumber = React.forwardRef(
+  // eslint-disable-next-line no-unused-vars
+  ({ invalid, value, onChange, placeholder, max, min, ...props }, ref) => (
+    <IMaskInput
+      className={classNames('form-control', { 'is-invalid': invalid })}
+      {...props}
+      mask={Number}
+      radix=","
+      scale={2}
+      signed={false}
+      thousandsSeparator="."
+      value={value}
+      unmask="typed" // true|false|'typed'
+      max={max}
+      min={min}
+      onAccept={_val => {
+        if (isFunc(onChange)) {
+          onChange(_val);
+        }
+      }}
+      placeholder={placeholder}
+    />
+  ),
 );
 
 InputNumber.propTypes = {
@@ -25,6 +34,8 @@ InputNumber.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
+  max: PropTypes.number,
+  min: PropTypes.number,
 };
 
 export default InputNumber;

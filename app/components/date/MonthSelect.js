@@ -29,10 +29,7 @@ const MonthSelect = ({ onChange, value, invalid, onBlur, placeholder }) => {
       onBlur={handleOnBlur}
       selected={value}
       onChange={handleDayChange}
-      peekNextMonth
-      showMonthDropdown
-      showYearDropdown
-      dropdownMode="select"
+      showMonthYearPicker
       placeholderText={placeholder}
       dateFormat={FNS_MONTH_FORMAT}
     />

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isFunction, isArray } from 'lodash';
+import { isArray, isFunction } from 'lodash';
 import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
 
 const TableActionColumns = ({ onEdit, onView, onDelete, buttons = [] }) => {
@@ -27,7 +27,7 @@ const TableActionColumns = ({ onEdit, onView, onDelete, buttons = [] }) => {
     );
   }
   if (isArray(buttons)) {
-    buttonEls.forEach(t => buttons.push(t));
+    buttons.forEach(t => buttonEls.push(t));
   }
   return (
     <ButtonToolbar className="">

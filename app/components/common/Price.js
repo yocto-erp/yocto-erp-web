@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import IMask from 'imask';
 
-const Price = ({ amount, currency = 'VND' }) => {
+const Price = ({ amount = 0, currency = 'VND', ...props }) => {
   const numberPipe = IMask.createPipe(
     {
       mask: Number,
@@ -14,7 +14,7 @@ const Price = ({ amount, currency = 'VND' }) => {
     IMask.PIPE_TYPE.TYPED,
   );
   return (
-    <span>
+    <span {...props}>
       {numberPipe(amount)} <strong>{currency}</strong>
     </span>
   );

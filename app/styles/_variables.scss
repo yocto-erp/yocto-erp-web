@@ -41,7 +41,7 @@ $gray-light: $gray-100 !default;
 $bg-custom-dark: #040620;
 $main-gradient: radial-gradient(farthest-side ellipse at 10% 0, #333867 20%, #17193B);
 
-$input-placeholder-color: $gray-700;
+$input-placeholder-color: $gray-600;
 
 $lime: #8cbf26 !default;
 $red: #F45722 !default;
@@ -144,22 +144,25 @@ $widget-shadow-designated: -1px 0 8px $gray-400;
 $text-transparent: opacify($widget-bg-color, .07);
 $bg-addition: darken($widget-bg-color, .07);
 
+// Form-control
+$input-bg: #040620;
+
 $input-btn-line-height: 1.5;
 
 $input-btn-padding-y: 0.5rem;
 $input-btn-padding-x: 0.75rem;
 
-$input-color: $gray-700;
-$input-border-color: $white !default;
+$input-color: white;
+$input-border-color: $gray-300 !default;
 $input-focus-border-color: #66afe9 !default;
-
+$input-border-width: 0;
 $input-btn-padding-y-sm: 0.4rem;
 $input-btn-padding-x-sm: 0.8rem;
 
-$input-group-addon-bg: $bg-addition;
-$input-group-addon-border-color: transparent;
-
-
+$input-group-addon-bg: $input-bg;
+$input-group-addon-border-color: $input-border-color;
+$input-group-addon-color: white;
+$input-border-radius: 0.25rem;
 //== Navbar
 //
 

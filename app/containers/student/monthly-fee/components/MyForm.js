@@ -1,23 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 import * as Yup from 'yup';
-import { Form, FormGroup, Table } from 'reactstrap';
+import PropTypes from 'prop-types';
+import { Form, Table } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { useFieldArray } from 'react-hook-form';
-import Widget from '../../../../components/Widget/Widget';
 import SubmitButton from '../../../../components/button/SubmitButton';
 import BackButton from '../../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
 import CreateButton from '../../../../components/button/CreateButton';
 import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
 import FormDetail from './FormDetail';
-import { ERROR } from '../../../../components/Form/messages';
 import '../../student.scss';
+import useStudentConfigure from '../../../../libs/hooks/useStudentConfigure';
+import Widget from '../../../../components/Widget/Widget';
+import Price from '../../../../components/common/Price';
 
 const { create, update, read } = studentMonthlyFeeApi;
 
+const transferUnNumber = value => (Number.isNaN(value) ? 0 : value);
+
 function MyForm({ id }) {
+  const { configure: studentConfig } = useStudentConfigure();
+
   const validationSchema = React.useMemo(
     () =>
       Yup.object().shape({
@@ -28,20 +33,13 @@ function MyForm({ id }) {
                 .required('This field is required.')
                 .nullable(true),
               student: Yup.object()
-                .required('This field is required.')
+                .required('Student is required.')
                 .nullable(true),
-              scholarShip: Yup.number()
-                .typeError(ERROR.required)
-                .moreThan(0, ERROR.numberGT0)
-                .required(ERROR.required),
-              absentDay: Yup.number()
-                .typeError(ERROR.required)
-                .moreThan(0, ERROR.numberGT0)
-                .required(ERROR.required),
-              trialDate: Yup.number()
-                .typeError(ERROR.required)
-                .moreThan(0, ERROR.numberGT0)
-                .required(ERROR.required),
+              scholarShip: Yup.number().transform(transferUnNumber),
+              absentDay: Yup.number().transform(transferUnNumber),
+              trialDate: Yup.number().transform(transferUnNumber),
+              otherFee: Yup.number().transform(transferUnNumber),
+              otherDeduceFee: Yup.number().transform(transferUnNumber),
             }),
           )
           .required('Details is required'),
@@ -55,6 +53,7 @@ function MyForm({ id }) {
     errors,
     getValues,
     setValue,
+    trigger,
     formState: { isValid, isDirty },
     state: { isLoading },
   } = useHookCRUDForm({
@@ -68,25 +67,54 @@ function MyForm({ id }) {
           : `Create Monthly ${resp.name} success`,
       );
     },
-    mappingToForm: form => ({
-      details: form.details,
-    }),
+    mappingToForm: form => {
+      console.log('from server', form);
+      return {
+        details: form.map(t => ({
+          ...t,
+          monthYear: new Date(t.yearFee, t.monthFee),
+        })),
+      };
+    },
     mappingToServer: form => {
       console.log(form);
       console.log(id);
-      const details = form.details.map(result => ({
-        id: result.id,
-        monthYear: result.monthYear,
-        studentId: result.student.id,
-        scholarShip: result.scholarShip,
-        absentDay: result.absentDay,
-        trialDate: result.trialDate,
-        busFee: result.busFee,
-        mealFee: result.mealFee,
-        otherFee: result.otherFee,
-        otherDeduceFee: result.otherDeduceFee,
-        remark: result.remark,
-      }));
+      const details = form.details.map(result => {
+        const trialDateFee = result.trialDate * studentConfig.feePerTrialDay;
+        const absentDayFee =
+          result.absentDay *
+          studentConfig.feePerDay *
+          (1 - result.scholarShip / 100);
+        const scholarFee =
+          studentConfig.monthlyTuitionFee * (result.scholarShip / 100);
+        const totalAmount =
+          studentConfig.monthlyTuitionFee -
+          scholarFee -
+          absentDayFee +
+          trialDateFee +
+          result.busFee +
+          result.mealFee +
+          result.otherFee -
+          result.otherDeduceFee;
+        return {
+          id: result.id,
+          monthYear: result.monthYear,
+          studentId: result.student.id,
+          scholarShip: result.scholarShip,
+          absentDay: result.absentDay,
+          trialDate: result.trialDate,
+          busFee: result.busFee,
+          mealFee: result.mealFee,
+          otherFee: result.otherFee,
+          otherDeduceFee: result.otherDeduceFee,
+          remark: result.remark,
+          scholarFee,
+          feePerMonth: studentConfig.monthlyTuitionFee,
+          trialDateFee,
+          absentDayFee,
+          totalAmount,
+        };
+      });
       return {
         details,
       };
@@ -95,14 +123,14 @@ function MyForm({ id }) {
     initForm: {
       details: [
         {
-          id: '',
+          id: uuidv4(),
           monthYear: new Date(),
           student: null,
           scholarShip: '',
           absentDay: '',
           trialDate: '',
-          busFee: 0,
-          mealFee: 0,
+          busFee: '',
+          mealFee: '',
           otherFee: '',
           otherDeduceFee: '',
           remark: '',
@@ -115,99 +143,151 @@ function MyForm({ id }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'details',
+    keyName: 'fId',
   });
 
-  const form = React.useMemo(() => {
-    console.log('cache');
-    return (
+  const form = React.useMemo(
+    () => (
       <Form onSubmit={submit} noValidate formNoValidate>
-        <FormGroup className="scroll-table-student">
-          <div className="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
-            <Table bordered hover striped size="sm">
-              <thead>
+        <div className="table-responsive mb-4">
+          <Table bordered striped size="sm">
+            <thead>
+              <tr>
+                <th style={{ width: '250px' }}>
+                  Month / Student<span className="text-danger">*</span>
+                </th>
+                <th className="min">Scholar Ship</th>
+                <th className="min">Absent Date</th>
+                <th className="min">Trial Date</th>
+                <th style={{ width: '100px' }}>Bus Fee</th>
+                <th style={{ width: '100px' }}>Meal Fee</th>
+                <th style={{ width: '120px' }}>Other Fee</th>
+                <th>Remark</th>
+                <th className="min text-nowrap">Total</th>
+                {id ? <></> : <th className="action">Action</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {fields.map((item, index) => (
+                <FormDetail
+                  studentConfig={studentConfig}
+                  key={item.id}
+                  control={control}
+                  errors={errors}
+                  register={register}
+                  getValues={getValues}
+                  setValue={setValue}
+                  item={item}
+                  index={index}
+                  remove={remove}
+                  trigger={trigger}
+                  isUpdated={!!id}
+                />
+              ))}
+            </tbody>
+            {id ? (
+              <></>
+            ) : (
+              <tfoot>
                 <tr>
-                  {id ? <th className="size-with-td-120">ID</th> : <></>}
-                  <th className="size-with-td-120">
-                    Month<span className="text-danger">*</span>
-                  </th>
-                  <th style={{ minWidth: '230px' }}>
-                    Student<span className="text-danger">*</span>
-                  </th>
-                  <th style={{ minWidth: '150px' }}>
-                    Scholar Ship<span className="text-danger">*</span>
-                  </th>
-                  <th style={{ minWidth: '130px' }}>
-                    Absent Date<span className="text-danger">*</span>
-                  </th>
-                  <th className="size-with-td-120">
-                    Trial Date<span className="text-danger">*</span>
-                  </th>
-                  <th className="size-with-td-120">Bus Fee</th>
-                  <th className="size-with-td-120">Meal Fee</th>
-                  <th style={{ minWidth: '150px' }}>Other Extra Fee</th>
-                  <th style={{ minWidth: '160px' }}>Other Deduct Fee</th>
-                  <th style={{ minWidth: '160px' }}>Remark</th>
-                  <th>Total</th>
-                  {id ? <></> : <th className="action">Action</th>}
+                  <td colSpan="12">
+                    <CreateButton
+                      size="sm"
+                      type="button"
+                      onClick={() => {
+                        append({
+                          id: uuidv4(),
+                          monthYear: new Date(),
+                          student: null,
+                          scholarShip: '',
+                          absentDay: '',
+                          trialDate: '',
+                          busFee: '',
+                          mealFee: '',
+                          otherFee: '',
+                          otherDeduceFee: '',
+                          remark: '',
+                        });
+                      }}
+                    >
+                      Add
+                    </CreateButton>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {fields.map((item, index) => (
-                  <FormDetail
-                    key={index.toString()}
-                    control={control}
-                    errors={errors}
-                    register={register}
-                    getValues={getValues}
-                    setValue={setValue}
-                    item={item}
-                    index={index}
-                    remove={remove}
-                  />
-                ))}
-              </tbody>
-              {id ? (
-                <></>
-              ) : (
-                <tfoot>
-                  <tr>
-                    <td colSpan="12">
-                      <CreateButton
-                        size="sm"
-                        type="button"
-                        onClick={() => {
-                          append({
-                            ids: uuidv4(),
-                            id: '',
-                            monthYear: new Date(),
-                            student: null,
-                            scholarShip: '',
-                            absentDay: '',
-                            trialDate: '',
-                            busFee: 0,
-                            mealFee: 0,
-                            otherFee: '',
-                            otherDeduceFee: '',
-                            remark: '',
-                          });
-                        }}
-                      >
-                        Add
-                      </CreateButton>
-                    </td>
-                  </tr>
-                </tfoot>
-              )}
-            </Table>
-          </div>
-        </FormGroup>
+              </tfoot>
+            )}
+          </Table>
+        </div>
+
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
-    );
-  }, [errors, isLoading, submit, register, control, isValid, isDirty]);
+    ),
+    [
+      errors,
+      isLoading,
+      submit,
+      register,
+      control,
+      isValid,
+      isDirty,
+      studentConfig,
+    ],
+  );
 
-  return <Widget>{form}</Widget>;
+  const configure = useMemo(
+    () =>
+      studentConfig ? (
+        <div className="row mb-4">
+          <div className="col-6">
+            <table className="table table-bordered table-sm">
+              <tbody>
+                <tr>
+                  <td className="min font-weight-bold">
+                    <strong>Tuition Fee Per Month</strong>
+                  </td>
+                  <td className="text-nowrap">
+                    <Price amount={studentConfig.monthlyTuitionFee} />
+                  </td>
+                  <td className="min font-weight-bold">Fee Per Day</td>
+                  <td className="text-nowrap">
+                    <Price amount={studentConfig.feePerDay} />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="min font-weight-bold">Meal Fee Per Day</td>
+                  <td className="text-nowrap">
+                    <Price amount={studentConfig.mealFeePerDay} />
+                  </td>
+                  <td className="min font-weight-bold">Trial Date Fee</td>
+                  <td className="text-nowrap">
+                    <Price amount={studentConfig.feePerTrialDay} />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="min font-weight-bold">Days Of Month</td>
+                  <td className="text-nowrap">
+                    {studentConfig.numberDayOfMonth}
+                  </td>
+                  <td className="min font-weight-bold">Bus Fee</td>
+                  <td className="text-nowrap">
+                    <Price amount={studentConfig.busFee} />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : null,
+    [studentConfig],
+  );
+
+  return (
+    <Widget>
+      {configure}
+      {form}
+    </Widget>
+  );
 }
 
 MyForm.propTypes = {

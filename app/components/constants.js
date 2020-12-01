@@ -13,4 +13,10 @@ export const REACT_SELECT_OPTION_CUSTOM_STYLE = {
       backgroundColor: background,
     };
   },
+  menuPortal: provided => ({
+    ...provided,
+    container: {
+      background: '#040620',
+    },
+  }),
 };

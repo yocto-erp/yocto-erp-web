@@ -15,3 +15,7 @@ export function formatDateOnly(dateObj) {
 export function parseDateOnly(dateString) {
   return parse(dateString, FNS_DATE_FORMAT);
 }
+
+export function formatMonth(month, year) {
+  return format(new Date(year, month - 1, 1, 0, 0, 0, 0), FNS_MONTH_FORMAT);
+}

@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import produce from 'immer';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
@@ -75,6 +75,7 @@ export const useHookCRUDForm = ({
     getValues,
     setValue,
     formState,
+    trigger,
   } = useForm({
     mode: 'all',
     reValidateMode: 'onChange',
@@ -129,5 +130,6 @@ export const useHookCRUDForm = ({
     getValues,
     setValue,
     formState,
+    trigger,
   };
 };
