@@ -2,8 +2,8 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
 import CreatedBy from '../../../components/ListWidget/CreatedBy';
-import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
 import surveyAdminApi from '../../../libs/apis/survey/survey-admin.api';
 import { SURVEY_MANAGEMENT_ROOT_PATH, SURVEY_TYPE } from './constants';
 import PageTitle from '../../Layout/PageTitle';
@@ -66,16 +66,41 @@ const ListPage = ({ history }) => {
         header: 'Action',
         data: '',
         class: 'action',
-        render: row => (
-          <TableActionColumns
-            onEdit={() => {
-              history.push(editPage(ROOT_PATH, row.id));
-            }}
-            onDelete={() => {
-              history.push(deletePage(ROOT_PATH, row.id));
-            }}
-          />
-        ),
+        render: row => {
+          const buttonEls = [];
+          buttonEls.push(
+            <Button
+              key="edit"
+              onClick={() => history.push(editPage(ROOT_PATH, row.id))}
+              color="warning"
+            >
+              <i className="fi flaticon-edit" />
+            </Button>,
+          );
+          buttonEls.push(
+            <Button
+              key="question"
+              onClick={() => history.push(`${ROOT_PATH}/${row.id}/questions`)}
+              color="info"
+            >
+              <i className="fa fa-question" />
+            </Button>,
+          );
+          buttonEls.push(
+            <Button
+              key="delete"
+              onClick={() => history.push(deletePage(ROOT_PATH, row.id))}
+              color="danger"
+            >
+              <i className="fi flaticon-trash" />
+            </Button>,
+          );
+          return (
+            <ButtonToolbar className="">
+              <ButtonGroup size="sm">{buttonEls}</ButtonGroup>
+            </ButtonToolbar>
+          );
+        },
       },
     ],
     [],
@@ -110,10 +135,10 @@ const ListPage = ({ history }) => {
             onClose={item => {
               history.goBack();
               if (item) {
-                toast.success(`Delete Product ${item.name} Success`);
+                toast.success(`Delete Survey ${item.name} Success`);
               }
             }}
-            title="Delete Product?"
+            title="Delete Survey?"
             message={row => {
               if (!row) return '';
               return `Are you sure to delete ${row.name} ?`;
