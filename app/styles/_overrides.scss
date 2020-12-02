@@ -98,12 +98,9 @@
   font-family: $font-family-base;
   // box-shadow: none;
   transition: border-color ease-in-out 0.15s, background-color ease-in-out 0.15s;
-  background: $bg-custom-dark;
-  border: none;
 
   &:focus {
     box-shadow: none;
-    background: $bg-custom-dark;
   }
 
   &.no-border {
@@ -383,6 +380,7 @@ small {
 .nav-item {
   .nav-link {
     color: $gray-600;
+
     &:hover {
       color: $gray-400;
     }

@@ -88,6 +88,10 @@ function getAuthHeader() {
   };
 }
 
+export function fetchWithAuth(pathToResource) {
+  return fetch(pathToResource, { headers: getAuthHeader() });
+}
+
 export function fetchJSON(pathToResource) {
   return fetch(pathToResource, { headers: getAuthHeader() })
     .then(validateResponse)

@@ -40,7 +40,7 @@ const VARIABLE_AUTO_COMPLETE = 'variables';
 const addSearchVariable = (editor, variables) => {
   console.log(variables);
   editor.ui.registry.addAutocompleter(VARIABLE_AUTO_COMPLETE, {
-    ch: '$', // the trigger character to open the autocompleter
+    ch: '{', // the trigger character to open the autocompleter
     minChars: 0, // lower number means searching sooner - but more lookups as we go
     columns: 1, // must be 1 for text-based results
     fetch: function fetchVaria(pattern) {

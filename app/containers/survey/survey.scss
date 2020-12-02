@@ -1,16 +1,33 @@
 @import '../../../node_modules/bootstrap/scss/bootstrap';
 
 body {
-  background: white;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
+
+  h1 {
+    color: white;
+  }
+
+  table {
+    tr {
+      td {
+        color: white;
+      }
+    }
+  }
 }
 
 .question-form {
   max-width: 600px;
   margin: 0 auto 1.5rem;
   padding: 1.5rem;
+  background: white;
+  color: black;
+
+  h1 {
+    color: black;
+  }
 }
 
 .option-item {

@@ -2,6 +2,7 @@ import { API_URL } from '../../../constants';
 import { createSearchApi, fetchJSON, postJSON } from '../fetch';
 
 const API_ENDPOINT_URL = `${API_URL}/survey`;
+
 const surveyApi = {
   read: id => fetchJSON(`${API_ENDPOINT_URL}/${id}`),
   readSurveyQuestion: id => fetchJSON(`${API_ENDPOINT_URL}/${id}/questions`),

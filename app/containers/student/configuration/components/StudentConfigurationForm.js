@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Col, Form, FormGroup, Label, Row, Table } from 'reactstrap';
+import { Col, Form, FormGroup, Input, Label, Row, Table } from 'reactstrap';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { Controller, useFieldArray } from 'react-hook-form';
@@ -16,6 +16,9 @@ import InputAmount from '../../../../components/Form/InputAmount';
 import CreateButton from '../../../../components/button/CreateButton';
 import BusRouteForm from './BusRouteForm';
 import ClassForm from './ClassForm';
+import BackButton from '../../../../components/button/BackButton';
+import { useApi } from '../../../../libs/hooks/useApi';
+import templateApi from '../../../../libs/apis/template/template.api';
 
 const StudentConfigurationForm = () => {
   const validationSchema = React.useMemo(
@@ -88,8 +91,22 @@ const StudentConfigurationForm = () => {
       busFee: 0,
       busRoutes: [{ id: '', name: '' }],
       classes: [{ id: '', name: '' }],
+      printTemplate: '',
     },
   });
+
+  const {
+    state: { resp: templates },
+    exec,
+  } = useApi(() =>
+    templateApi.search({ page: 1, size: 1000, filter: { type: 1 } }),
+  );
+
+  useEffect(() => {
+    exec().then(_resp => {
+      console.log(_resp);
+    });
+  }, []);
 
   useEffect(() => {
     studentConfigurationApi.get().then(resp => {
@@ -111,6 +128,7 @@ const StudentConfigurationForm = () => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'busRoutes',
+    keyName: 'bId',
   });
 
   const {
@@ -120,6 +138,7 @@ const StudentConfigurationForm = () => {
   } = useFieldArray({
     control,
     name: 'classes',
+    keyName: 'cId',
   });
 
   const form = React.useMemo(
@@ -231,6 +250,23 @@ const StudentConfigurationForm = () => {
           </Col>
         </Row>
         <Row>
+          <Col md={4}>
+            <FormGroup>
+              <Label for="printTemplate">Print Template</Label>
+              <Input type="select" innerRef={register()} name="printTemplateId">
+                <option value="">Select Print Template</option>
+                {templates
+                  ? templates.rows.map(t => (
+                      <option value={t.id} key={t.id}>
+                        {t.name}
+                      </option>
+                    ))
+                  : null}
+              </Input>
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
           <Col xs="12" sm="12" md="6" lg="6" xl="6">
             <FormGroup>
               <Label for="busRoutes">Bus Route</Label>
@@ -249,7 +285,7 @@ const StudentConfigurationForm = () => {
                 <tbody>
                   {fields.map((item, index) => (
                     <BusRouteForm
-                      key={item.key}
+                      key={item.id || item.key}
                       errors={errors}
                       register={register}
                       item={item}
@@ -298,7 +334,7 @@ const StudentConfigurationForm = () => {
                 <tbody>
                   {classFields.map((item, index) => (
                     <ClassForm
-                      key={item.key}
+                      key={item.id || item.key}
                       errors={errors}
                       register={register}
                       item={item}
@@ -330,10 +366,11 @@ const StudentConfigurationForm = () => {
             </FormGroup>
           </Col>
         </Row>
+        <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     ),
-    [onSubmit, errors, register, isLoading, reset],
+    [onSubmit, errors, register, isLoading, reset, templates],
   );
   return (
     <Widget>

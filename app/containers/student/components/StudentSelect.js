@@ -13,16 +13,21 @@ const formatOptionLabel = data => (
   </div>
 );
 
-const StudentSelect = ({
-  onBlur,
-  invalid,
-  name,
-  placeholder,
-  onAdded,
-  onChange,
-  value,
-  ...props
-}) => {
+const StudentSelect = React.forwardRef((
+  {
+    onBlur,
+    invalid,
+    name,
+    placeholder,
+    onAdded,
+    onFocus,
+    onChange,
+    value,
+    ...props
+  },
+  // eslint-disable-next-line no-unused-vars
+  ref,
+) => {
   const loadOptions1 = debounce((inputValue, cb) => {
     studentApi
       .search({
@@ -51,16 +56,18 @@ const StudentSelect = ({
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           onBlur={onBlur}
+          onFocus={onFocus}
           onChange={onChange}
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.id}
           name={name}
+          innerRef={ref}
           value={value}
         />
       </InputGroup>
     </>
   );
-};
+});
 
 StudentSelect.propTypes = {
   value: PropTypes.any,
@@ -71,6 +78,7 @@ StudentSelect.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   creatable: PropTypes.bool,
+  onFocus: PropTypes.func,
 };
 
 export default StudentSelect;
