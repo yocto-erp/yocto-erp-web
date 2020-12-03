@@ -15,6 +15,7 @@ const DeleteConfirmModal = ({
   message,
   title,
   onClose,
+  isReload = true,
 }) => {
   const [isLoading, exec] = useAsync({ asyncApi: deleteApi });
   const [item, setItem] = useState(null);
@@ -23,7 +24,10 @@ const DeleteConfirmModal = ({
 
   const onCloseHandle = useCallback(
     result => {
-      refresh();
+      if (isReload) {
+        refresh();
+      }
+
       setItem(null);
       if (isFunction(onClose)) {
         onClose(result);
@@ -75,6 +79,7 @@ DeleteConfirmModal.propTypes = {
   message: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
   title: PropTypes.node,
   onClose: PropTypes.func,
+  isReload: PropTypes.bool,
 };
 
 export default DeleteConfirmModal;
