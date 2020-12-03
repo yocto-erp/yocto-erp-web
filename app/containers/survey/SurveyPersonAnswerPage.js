@@ -4,24 +4,18 @@ import { UncontrolledTooltip } from 'reactstrap';
 import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
 import surveyApi from '../../libs/apis/survey/survey.api';
-import { useAsync } from '../../libs/hooks/useAsync';
 import { formatDateOnly } from '../../libs/utils/date.util';
 import { genderStr } from '../../libs/apis/person.api';
+import { useSurveyContext } from './constants';
 
 const SurveyPersonAnswerPage = () => {
   const { id } = useParams();
 
-  const [, exec, resp] = useAsync({
-    asyncApi: () => surveyApi.readSurveyQuestion(id),
-  });
-
-  React.useEffect(() => {
-    exec();
-  }, [id]);
+  const { surveyQuestions, survey } = useSurveyContext();
 
   const questionColumn = React.useMemo(() => {
-    if (resp) {
-      return resp.map((question, index) => ({
+    if (surveyQuestions) {
+      return surveyQuestions.map((question, index) => ({
         key: `question${index + 1}`,
         header: (
           <div>
@@ -56,7 +50,7 @@ const SurveyPersonAnswerPage = () => {
       }));
     }
     return [];
-  }, [resp]);
+  }, [surveyQuestions]);
 
   const columns = React.useMemo(
     () => [
@@ -96,11 +90,11 @@ const SurveyPersonAnswerPage = () => {
       },
       ...questionColumn,
     ],
-    [resp, questionColumn],
+    [questionColumn],
   );
 
   const search = { search: '' };
-
+  console.log('test time', id, surveyQuestions);
   return (
     <ListWidget
       widgetClassname="widget-custom"

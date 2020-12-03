@@ -59,26 +59,27 @@ const SurveyChartPage = props => {
     });
   }, []);
 
-  const chartEls = useMemo(() => {
-    return Object.keys(charts)
-      .filter(t => charts[t] > 0)
-      .map(t => (
-        <QuestionChart
-          key={uuidv4()}
-          surveyId={Number(id)}
-          questionId={Number(charts[t])}
-          filters={Object.keys(search).map(st => search[st])}
-          fromDate={fromDate}
-          toDate={toDate}
-        />
-      ));
-  }, [charts, search, fromDate, toDate]);
+  const chartEls = useMemo(
+    () =>
+      Object.keys(charts)
+        .filter(t => charts[t] > 0)
+        .map(t => (
+          <QuestionChart
+            key={uuidv4()}
+            surveyId={Number(id)}
+            questionId={Number(charts[t])}
+            filters={Object.keys(search).map(st => search[st])}
+            fromDate={fromDate}
+            toDate={toDate}
+          />
+        )),
+    [charts, search, fromDate, toDate],
+  );
 
   useEffect(() => {
     exec();
   }, []);
 
-  console.log('chart page');
   return (
     <div>
       {resp ? (

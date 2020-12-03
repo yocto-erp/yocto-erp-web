@@ -8,6 +8,7 @@ import useSyncForm from '../../../libs/hooks/useSyncForm';
 import { GENDER } from '../../../libs/apis/person.api';
 import { useSearchQuery } from '../../../libs/hooks/useSearchQuery';
 import { LANGUAGE } from '../constants';
+import { SURVEY_TYPE } from '../Admin/constants';
 
 const validationPerson = Yup.object().shape({
   firstName: Yup.string().required('This field is required.'),
@@ -20,7 +21,7 @@ const validationPerson = Yup.object().shape({
   address: Yup.string().required(),
 });
 
-const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
+const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
   const {
     register,
     errors,
@@ -63,6 +64,7 @@ const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
         <FormGroup
           name="email"
           type="email"
+          readOnly={surveyType === SURVEY_TYPE.EMAIL_VERIFY}
           register={register}
           error={errors.email}
           placeholder={LANGUAGE[language].email}
@@ -92,13 +94,12 @@ const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
           iconLeft={<i className="fa fa-birthday-cake" />}
         >
           <option value="">{LANGUAGE[language].age}</option>
-          <option value="Under 18">Under 18</option>
-          <option value="18-25">18-25</option>
-          <option value="26-40">26-40</option>
-          <option value="41-55">41-55</option>
-          <option value="56-65">56-65</option>
-          <option value="66-75">66-75</option>
-          <option value="Over 75">Over 75</option>
+          <option value="Under 20">Under 20</option>
+          <option value="21-30">21-30</option>
+          <option value="31-40">31-40</option>
+          <option value="41-50">41-50</option>
+          <option value="51-60">51-60</option>
+          <option value="Over 60">Over 60</option>
         </FormGroup>
         <FormGroup
           name="address"
@@ -196,6 +197,7 @@ const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
 PersonForm.propTypes = {
   onSubmitFormPerson: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  surveyType: PropTypes.number,
 };
 
 export default PersonForm;

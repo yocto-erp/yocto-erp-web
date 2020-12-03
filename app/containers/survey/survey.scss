@@ -121,3 +121,7 @@ body {
 .nav-tabs .nav-item {
   margin-bottom: -2px;
 }
+
+.form-control[disabled], .form-control[readonly] {
+  color: #5f6f7d;
+}

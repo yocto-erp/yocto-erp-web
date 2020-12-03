@@ -18,7 +18,8 @@ const QuestionPage = () => {
   const [person, setPerson] = React.useState(null);
   const { language = 'en' } = useSearchQuery();
   const { code } = useParams();
-
+  const decodeCode = atob(code);
+  const [surveyId, clientId, target] = decodeCode.split('|');
   const {
     state: { errors, resp },
     exec,
@@ -83,8 +84,6 @@ const QuestionPage = () => {
 
   useEffect(() => {
     if (errors && errors.length) {
-      const decodeCode = atob(code);
-      const [surveyId, clientId, target] = decodeCode.split('|');
       if (errors[0].code === 'EXISTED') {
         history.push(
           `${SURVEY_ROOT_PATH}/result/${target || clientId}/${surveyId}`,
@@ -99,7 +98,11 @@ const QuestionPage = () => {
       renderEls = (
         <>
           <h1 className="mb-3">{LANGUAGE[language].title}</h1>
-          <PersonForm form={{}} onSubmitFormPerson={setPerson} />
+          <PersonForm
+            form={{ email: target }}
+            onSubmitFormPerson={setPerson}
+            surveyType={resp.type}
+          />
         </>
       );
     } else if (index < resp.questions.length) {
@@ -130,7 +133,20 @@ const QuestionPage = () => {
     }
   }
   if (answerResp) {
-    renderEls = <h1 className="mb-3">Thank you for answer the Survey!</h1>;
+    renderEls = (
+      <>
+        <h1 className="mb-3">Thank you for answer the Survey!</h1>
+        <h5 className="text-muted">
+          Check your result{' '}
+          <a
+            href={`${SURVEY_ROOT_PATH}/result/${target ||
+              clientId}/${surveyId}`}
+          >
+            here
+          </a>
+        </h5>
+      </>
+    );
   }
 
   return (

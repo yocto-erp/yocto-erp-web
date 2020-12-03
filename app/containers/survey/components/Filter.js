@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useListFilter } from '../../../components/ListWidget/constants';
 import SearchButton from '../../../components/button/SearchButton';
-import { LANGUAGE } from '../constants';
+import { LANGUAGE, useSurveyContext } from '../constants';
 import { GENDER } from '../../../libs/apis/person.api';
-import { useSearchQuery } from '../../../libs/hooks/useSearchQuery';
 import FormGroup from '../../../components/Form/FormGroup';
 
 const Filter = ({ data }) => {
@@ -15,7 +14,7 @@ const Filter = ({ data }) => {
   });
   const setFilter = useListFilter();
   const onSubmit = handleSubmit(val => setFilter(val));
-  const { language = 'en' } = useSearchQuery();
+  const { language } = useSurveyContext();
   return (
     <Form inline onSubmit={onSubmit} noValidate>
       <FormGroup

@@ -14,7 +14,7 @@ const SurveyLandingPage = () => {
   const { id } = useParams();
   const history = useHistory();
   const clientId = getClientId();
-  const { language = '' } = useSearchQuery();
+  const { language = 'ja' } = useSearchQuery();
   console.log(language);
   const {
     state: { resp, errors },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { formatDateOnly } from '../../libs/utils/date.util';
 import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import ListWidget from '../../components/ListWidget';
@@ -7,9 +7,14 @@ import Filter from './components/Filter';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import { parseUserAgent } from '../../utils/client';
 import { genderStr } from '../../libs/apis/person.api';
+import { SURVEY_TYPE } from './Admin/constants';
+import { SURVEY_ROOT_PATH, useSurveyContext } from './constants';
 
 const SurveyResultPage = () => {
   const { id } = useParams();
+  const history = useHistory();
+  const { survey } = useSurveyContext();
+
   const columns = React.useMemo(
     () => [
       {
@@ -115,12 +120,22 @@ const SurveyResultPage = () => {
         header: 'Action',
         data: 'action',
         class: 'action',
-        render: row => (
-          <TableActionColumns onView={() => console.log('onView', row)} />
-        ),
+        render: row => {
+          let target = row.person.email;
+          if (survey && survey.type === SURVEY_TYPE.PUBLIC) {
+            target = row.clientId;
+          }
+          return (
+            <TableActionColumns
+              onView={() =>
+                history.push(`${SURVEY_ROOT_PATH}/result/${target}/${id}`)
+              }
+            />
+          );
+        },
       },
     ],
-    [],
+    [survey],
   );
 
   const search = { search: '' };
