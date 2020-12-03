@@ -7,21 +7,22 @@ import QuestionForm from './components/QuestionForm';
 import { useApi } from '../../libs/hooks/useApi';
 import PersonForm from './components/PersonForm';
 import ReviewAnswerForm from './components/ReviewAnswerForm';
-import { SURVEY_ROOT_PATH } from './constants';
+import { LANGUAGE, SURVEY_ROOT_PATH } from './constants';
 import { isArrayHasItem } from '../../utils/util';
+import { useSearchQuery } from '../../libs/hooks/useSearchQuery';
 
 const QuestionPage = () => {
   const history = useHistory();
   const [answers, setAnswers] = React.useState({});
   const [index, setIndex] = React.useState(0);
   const [person, setPerson] = React.useState(null);
-
+  const { language = 'en' } = useSearchQuery();
   const { code } = useParams();
 
   const {
     state: { errors, resp },
     exec,
-  } = useApi(() => surveyApi.verify(code));
+  } = useApi(() => surveyApi.verify(code, language));
 
   const {
     exec: execAnswer,
@@ -46,7 +47,11 @@ const QuestionPage = () => {
 
     console.log(formAnswer, person);
     if (formAnswer.length && !_.isEmpty(person)) {
-      execAnswer(code, { formAnswer, formPerson: person });
+      execAnswer(code, {
+        language,
+        formAnswer,
+        formPerson: person,
+      });
     } else {
       toast.error(`Please choose a answer !`);
     }
@@ -79,9 +84,11 @@ const QuestionPage = () => {
   useEffect(() => {
     if (errors && errors.length) {
       const decodeCode = atob(code);
-      const [surveyId, , target] = decodeCode.split('|');
+      const [surveyId, clientId, target] = decodeCode.split('|');
       if (errors[0].code === 'EXISTED') {
-        history.push(`${SURVEY_ROOT_PATH}/result/${target}/${surveyId}`);
+        history.push(
+          `${SURVEY_ROOT_PATH}/result/${target || clientId}/${surveyId}`,
+        );
       }
     }
   }, [errors, code]);
@@ -91,7 +98,7 @@ const QuestionPage = () => {
     if (_.isEmpty(person)) {
       renderEls = (
         <>
-          <h1 className="mb-3">Please Input Information to Survey!</h1>
+          <h1 className="mb-3">{LANGUAGE[language].title}</h1>
           <PersonForm form={{}} onSubmitFormPerson={setPerson} />
         </>
       );

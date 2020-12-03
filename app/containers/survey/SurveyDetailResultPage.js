@@ -62,28 +62,30 @@ const SurveyDetailResultPage = () => {
               )}
             </div>
             <table className="table table-bordered">
-              <tr>
-                <td>Contract Address</td>
-                <td>
-                  <a
-                    href="https://ropsten.etherscan.io/address/0x688ff2472c992f0849e765083f75e85564f86483"
-                    target="_blank"
-                  >
-                    0x688ff2472c992f0849e765083f75e85564f86483
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>Contract Source Code</td>
-                <td>
-                  <a
-                    href="https://github.com/lpcanh/vote-contract"
-                    target="_blank"
-                  >
-                    https://github.com/lpcanh/vote-contract
-                  </a>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>Contract Address</td>
+                  <td>
+                    <a
+                      href="https://ropsten.etherscan.io/address/0x688ff2472c992f0849e765083f75e85564f86483"
+                      target="_blank"
+                    >
+                      0x688ff2472c992f0849e765083f75e85564f86483
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Contract Source Code</td>
+                  <td>
+                    <a
+                      href="https://github.com/lpcanh/vote-contract"
+                      target="_blank"
+                    >
+                      https://github.com/lpcanh/vote-contract
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>

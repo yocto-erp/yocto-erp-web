@@ -5,10 +5,19 @@ import { Form } from 'reactstrap';
 import SubmitButton from '../../../components/button/SubmitButton';
 import FormGroup from '../../../components/Form/FormGroup';
 import useSyncForm from '../../../libs/hooks/useSyncForm';
+import { GENDER } from '../../../libs/apis/person.api';
+import { useSearchQuery } from '../../../libs/hooks/useSearchQuery';
+import { LANGUAGE } from '../constants';
 
 const validationPerson = Yup.object().shape({
   firstName: Yup.string().required('This field is required.'),
   lastName: Yup.string().required('This field is required.'),
+  email: Yup.string()
+    .email()
+    .required(),
+  gender: Yup.string().required(),
+  age: Yup.string().required(),
+  address: Yup.string().required(),
 });
 
 const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
@@ -23,6 +32,8 @@ const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
     api: async formData => onSubmitFormPerson(formData),
   });
 
+  const { language = 'en' } = useSearchQuery();
+
   return React.useMemo(
     () => (
       <Form onSubmit={onSubmit} noValidate formNoValidate>
@@ -33,7 +44,7 @@ const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
               type="text"
               error={errors.firstName}
               register={register}
-              placeholder="First name"
+              placeholder={LANGUAGE[language].firstName}
               label=""
               iconLeft={<i className="fa fa-user" />}
             />
@@ -44,28 +55,141 @@ const PersonForm = ({ onSubmitFormPerson, form = {} }) => {
               type="text"
               error={errors.lastName}
               register={register}
-              placeholder="Last Name"
+              placeholder={LANGUAGE[language].lastName}
               label=""
             />
           </div>
         </div>
-
+        <FormGroup
+          name="email"
+          type="email"
+          register={register}
+          error={errors.email}
+          placeholder={LANGUAGE[language].email}
+          label=""
+          iconLeft={<i className="fa fa-envelope" />}
+        />
+        <FormGroup
+          name="gender"
+          type="select"
+          register={register}
+          error={errors.gender}
+          label=""
+          iconLeft={<i className="fa fa-female" />}
+          iconRight={<i className="fa fa-male" />}
+        >
+          <option value="">{LANGUAGE[language].gender}</option>
+          <option value={GENDER.MALE}>MALE</option>
+          <option value={GENDER.FEMALE}>FEMALE</option>
+          <option value={GENDER.OTHER}>OTHER</option>
+        </FormGroup>
+        <FormGroup
+          name="age"
+          type="select"
+          register={register}
+          error={errors.age}
+          label=""
+          iconLeft={<i className="fa fa-birthday-cake" />}
+        >
+          <option value="">{LANGUAGE[language].age}</option>
+          <option value="Under 18">Under 18</option>
+          <option value="18-25">18-25</option>
+          <option value="26-40">26-40</option>
+          <option value="41-55">41-55</option>
+          <option value="56-65">56-65</option>
+          <option value="66-75">66-75</option>
+          <option value="Over 75">Over 75</option>
+        </FormGroup>
         <FormGroup
           name="address"
-          type="text"
+          type="select"
           register={register}
-          placeholder="Input your address"
           label=""
           iconLeft={<i className="fa fa-address-book-o" />}
-        />
+        >
+          <option value="">{LANGUAGE[language].location}</option>
+          <optgroup label="北海道">
+            <option value="hokkaido">Hokkaido</option>
+          </optgroup>
+          <optgroup label="東北">
+            <option value="iwate">Iwate Prefecture</option>
+            <option value="miyagi">Miyagi Prefecture</option>
+            <option value="aomori">Aomori Prefecture</option>
+            <option value="akita">Akita</option>
+            <option value="hukushima">Fukushima Prefecture</option>
+            <option value="yamagata">Yamagata Prefecture</option>
+          </optgroup>
+          <optgroup label="北関東">
+            <option value="tochigi">Tochigi Prefecture</option>
+            <option value="ibaragi">Ibaraki Prefecture</option>
+            <option value="gunma">Gunma Prefecture</option>
+          </optgroup>
+          <optgroup label="首都圏">
+            <option value="tiba">Chiba</option>
+            <option value="saitama">Saitama</option>
+            <option value="tokyo">Tokyo</option>
+            <option value="kanagawa">Kanagawa Prefecture</option>
+          </optgroup>
+          <optgroup label="甲信越">
+            <option value="niigata">Niigata Prefecture</option>
+            <option value="yamanasi">Yamanashi Prefecture</option>
+            <option value="nagano">Nagano Prefecture</option>
+          </optgroup>
+          <optgroup label="北陸">
+            <option value="toyama">Toyama Prefecture</option>
+            <option value="ishikawa">Ishikawa Prefecture</option>
+            <option value="hukui">Fukui prefecture</option>
+          </optgroup>
+          <optgroup label="東海">
+            <option value="aichi">Aichi prefecture</option>
+            <option value="mie">Mie Prefecture</option>
+            <option value="gihu">Gifu Prefecture</option>
+            <option value="shizuoka">Shizuoka Prefecture</option>
+          </optgroup>
+          <optgroup label="近畿">
+            <option value="nara">Nara Prefecture</option>
+            <option value="hyogo">Hyogo prefecture</option>
+            <option value="osaka">Osaka</option>
+            <option value="kyoto">Kyoto</option>
+            <option value="wakayama">Wakayama Prefecture</option>
+            <option value="shiga">Shiga Prefecture</option>
+          </optgroup>
+          <optgroup label="山陽・山陰">
+            <option value="okayama">Okayama Prefecture</option>
+            <option value="simane">Shimane Prefecture</option>
+            <option value="tottori">Tottori prefecture</option>
+            <option value="hiroshima">Hiroshima Prefecture</option>
+            <option value="yamaguchi">Yamaguchi Prefecture</option>
+          </optgroup>
+          <optgroup label="四国">
+            <option value="tokushima">Tokushima Prefecture</option>
+            <option value="kagawa">Kagawa Prefecture</option>
+            <option value="ehime">Ehime Prefecture</option>
+            <option value="kouchi">Kochi Prefecture</option>
+          </optgroup>
+          <optgroup label="九州">
+            <option value="hukuoka">Fukuoka Prefecture</option>
+            <option value="saga">Saga Prefecture</option>
+            <option value="nagasaki">Nagasaki Prefecture</option>
+            <option value="kumamoto">Kumamoto Prefecture</option>
+            <option value="ooita">Oita Prefecture</option>
+            <option value="miyazaki">Miyazaki prefecture</option>
+            <option value="kagoshima">Kagoshima prefecture</option>
+          </optgroup>
+          <optgroup label="沖縄">
+            <option value="okinawa">Okinawa Prefecture</option>
+          </optgroup>
+        </FormGroup>
         <SubmitButton
           className="btn-block"
           color="primary"
           disabled={!isDirty || !isValid}
-        />
+        >
+          {LANGUAGE[language].btn.submit}
+        </SubmitButton>
       </Form>
     ),
-    [errors, onSubmit, register, isValid, isDirty],
+    [errors, onSubmit, register, isValid, isDirty, language],
   );
 };
 

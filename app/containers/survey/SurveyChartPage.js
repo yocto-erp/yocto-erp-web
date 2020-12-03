@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import { useApi } from '../../libs/hooks/useApi';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import QuestionChart from './components/QuestionChart';
 import FormGroup from '../../components/Form/FormGroup';
 import DateSelect from '../../components/date/DateSelect';
-import { v4 as uuidv4 } from 'uuid';
+import Widget from '../../components/Widget/Widget';
 
 const SurveyChartPage = props => {
   const { id } = useParams();
@@ -82,72 +83,74 @@ const SurveyChartPage = props => {
     <div>
       {resp ? (
         <>
-          <div style={{ height: '400px', overflow: 'auto' }}>
-            <table className="table table-primary table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th className="text-nowrap">No</th>
-                  <th className="text-nowrap">Show Chart</th>
-                  <th className="text-nowrap">Allow Filter</th>
-                  <th>Question</th>
-                </tr>
-              </thead>
-              <tbody>
-                {resp.map((t, index) => (
-                  <tr key={t.id}>
-                    <td>{index + 1}</td>
-                    <td className="text-center">
-                      <div className="custom-control custom-checkbox">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id={`question${t.id}`}
-                          checked={
-                            !!charts[`question${t.id}`] &&
-                            charts[`question${t.id}`] > 0
-                          }
-                          value={t.id}
-                          name={`question${t.id}`}
-                          onChange={e => {
-                            console.log(t.id, e.target.checked);
-                            showChart(t.id, e.target.checked);
-                          }}
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor={`question${t.id}`}
-                        >
-                          &nbsp;
-                        </label>
-                      </div>
-                    </td>
-                    <td className="text-center">
-                      <div className="custom-control custom-checkbox">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id={`filter${t.id}`}
-                          checked={filters.indexOf(index) >= 0}
-                          value={t.id}
-                          name={`filter${t.id}`}
-                          onChange={e => {
-                            console.log(t.id, e.target.checked);
-                            allowFilter(index);
-                          }}
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor={`filter${t.id}`}
-                        >
-                          &nbsp;
-                        </label>
-                      </div>
-                    </td>
-                    <td>{t.content}</td>
+          <div style={{ maxHeight: '400px', overflow: 'auto' }}>
+            <Widget className="widget-custom">
+              <table className="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th className="text-nowrap">No</th>
+                    <th className="text-nowrap">Show Chart</th>
+                    <th className="text-nowrap">Allow Filter</th>
+                    <th>Question</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {resp.map((t, index) => (
+                    <tr key={t.id}>
+                      <td>{index + 1}</td>
+                      <td className="text-center">
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id={`question${t.id}`}
+                            checked={
+                              !!charts[`question${t.id}`] &&
+                              charts[`question${t.id}`] > 0
+                            }
+                            value={t.id}
+                            name={`question${t.id}`}
+                            onChange={e => {
+                              console.log(t.id, e.target.checked);
+                              showChart(t.id, e.target.checked);
+                            }}
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor={`question${t.id}`}
+                          >
+                            &nbsp;
+                          </label>
+                        </div>
+                      </td>
+                      <td className="text-center">
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id={`filter${t.id}`}
+                            checked={filters.indexOf(index) >= 0}
+                            value={t.id}
+                            name={`filter${t.id}`}
+                            onChange={e => {
+                              console.log(t.id, e.target.checked);
+                              allowFilter(index);
+                            }}
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor={`filter${t.id}`}
+                          >
+                            &nbsp;
+                          </label>
+                        </div>
+                      </td>
+                      <td>{t.content}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </Widget>
           </div>
           <div className="form-inline mt-4">
             <label htmlFor="fromDate" className="mr-2">

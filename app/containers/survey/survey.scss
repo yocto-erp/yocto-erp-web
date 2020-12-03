@@ -76,7 +76,7 @@ body {
 }
 
 .widget-custom {
-  background: white;
+  background: cadetblue;
   color: black;
   margin-bottom: 0;
 
@@ -99,6 +99,10 @@ body {
     background: #dee2e6;
     color: black;
   }
+}
+
+.nav-tabs {
+  border-bottom: none;
 }
 
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {

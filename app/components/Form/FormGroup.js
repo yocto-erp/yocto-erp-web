@@ -13,6 +13,7 @@ const FormGroup = ({
   children,
   iconLeft,
   iconRight,
+  className,
   ...props
 }) => {
   const input = (
@@ -30,7 +31,7 @@ const FormGroup = ({
   );
 
   return (
-    <BootStrapFormGroup>
+    <BootStrapFormGroup className={className}>
       {label ? <Label for={name}>{label}</Label> : null}
       {iconLeft || iconRight ? (
         <div className="input-group">
@@ -45,11 +46,14 @@ const FormGroup = ({
               <span className="input-group-text">{iconRight}</span>
             </div>
           ) : null}
+          <FormErrorMessage error={error} />
         </div>
       ) : (
-        input
+        <>
+          {input}
+          <FormErrorMessage error={error} />
+        </>
       )}
-      <FormErrorMessage error={error} />
     </BootStrapFormGroup>
   );
 };
@@ -90,6 +94,7 @@ FormGroup.propTypes = {
   error: PropTypes.object,
   placeholder: PropTypes.string,
   children: PropTypes.any,
+  className: PropTypes.string,
 };
 
 export default FormGroup;

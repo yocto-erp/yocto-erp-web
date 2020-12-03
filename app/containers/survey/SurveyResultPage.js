@@ -6,6 +6,7 @@ import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import { parseUserAgent } from '../../utils/client';
+import { genderStr } from '../../libs/apis/person.api';
 
 const SurveyResultPage = () => {
   const { id } = useParams();
@@ -27,7 +28,15 @@ const SurveyResultPage = () => {
               {row.person.email}
             </p>
             <p className="m-0">
-              <strong>Address: </strong>
+              <strong>Age Range: </strong>
+              {row.ageRange}
+            </p>
+            <p className="m-0">
+              <strong>Gender: </strong>
+              {genderStr(row.person.sex)}
+            </p>
+            <p className="m-0">
+              <strong>Location: </strong>
               {row.person.address}
             </p>
           </div>

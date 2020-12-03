@@ -6,6 +6,7 @@ import Filter from './components/Filter';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import { useAsync } from '../../libs/hooks/useAsync';
 import { formatDateOnly } from '../../libs/utils/date.util';
+import { genderStr } from '../../libs/apis/person.api';
 
 const SurveyPersonAnswerPage = () => {
   const { id } = useParams();
@@ -75,8 +76,16 @@ const SurveyPersonAnswerPage = () => {
               {row.person.email}
             </p>
             <p className="m-0">
-              <strong>Address: </strong>
+              <strong>Location: </strong>
               {row.person.address}
+            </p>
+            <p className="m-0">
+              <strong>Age Range: </strong>
+              {row.ageRange}
+            </p>
+            <p className="m-0">
+              <strong>Gender: </strong>
+              {genderStr(row.person.sex)}
             </p>
             <p className="m-0">
               <strong>Submitted Date: </strong>

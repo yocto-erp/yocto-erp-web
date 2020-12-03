@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Col,
   Nav,
@@ -8,16 +8,37 @@ import {
   TabContent,
   TabPane,
 } from 'reactstrap';
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
+import {
+  Route,
+  Switch,
+  useHistory,
+  useParams,
+  useRouteMatch,
+} from 'react-router-dom';
 import classNames from 'classnames';
 import SurveyResultPage from './SurveyResultPage';
 import SurveyPersonAnswerPage from './SurveyPersonAnswerPage';
 import SurveyChartPage from './SurveyChartPage';
+import surveyApi from '../../libs/apis/survey/survey.api';
+import { useApi } from '../../libs/hooks/useApi';
+import { useSearchQuery } from '../../libs/hooks/useSearchQuery';
 
-const SurveySummary = props => {
+const SurveySummary = () => {
   const { path, url } = useRouteMatch();
   const history = useHistory();
   console.log(path, url);
+
+  const { id } = useParams();
+  const { language = 'en' } = useSearchQuery();
+
+  const {
+    state: { errors, resp },
+    exec,
+  } = useApi(() => surveyApi.read(id, language));
+
+  useEffect(() => {
+    exec().then();
+  }, [id]);
 
   const PATH_SUMMARY = React.useMemo(
     () => ({
@@ -38,7 +59,7 @@ const SurveySummary = props => {
             })}
             onClick={() =>
               routeItem !== PATH_SUMMARY.PERSON_SUMMARY &&
-              history.push(`${url}/person`)
+              history.push(`${url}/person?language=${language}`)
             }
           >
             Vote Summary
@@ -51,7 +72,7 @@ const SurveySummary = props => {
             })}
             onClick={() =>
               routeItem !== PATH_SUMMARY.SURVEY_CHART &&
-              history.push(`${url}/chart`)
+              history.push(`${url}/chart?language=${language}`)
             }
           >
             Vote Chart
@@ -64,7 +85,7 @@ const SurveySummary = props => {
             })}
             onClick={() =>
               routeItem !== PATH_SUMMARY.QUESTION_SUMMARY &&
-              history.push(`${url}/question`)
+              history.push(`${url}/question?language=${language}`)
             }
           >
             Question/Answer Summary
@@ -75,8 +96,21 @@ const SurveySummary = props => {
     [PATH_SUMMARY, url],
   );
 
+  if (!resp && errors && errors.length) {
+    return <h1>Invalid Survey</h1>;
+  }
+
   return (
     <div className="m-4">
+      {resp ? (
+        <h1 className="mb-2 text-center">
+          {resp.name}
+          <br />
+          {resp.remark ? (
+            <small className="text-muted">{resp.remark}</small>
+          ) : null}
+        </h1>
+      ) : null}
       <Nav tabs>
         <Switch>
           <Route
