@@ -2,9 +2,11 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'reactstrap';
 import * as Yup from 'yup';
+import { FormattedMessage } from 'react-intl';
 import AnswerItem from './AnswerItem';
 import { SURVEY_QUESTION_TYPE } from '../constants';
 import useSyncForm from '../../../libs/hooks/useSyncForm';
+import messages from '../messages';
 
 const QuestionForm = ({ question, onBack, onNext, index, total, answers }) => {
   const schema = React.useMemo(() => {
@@ -124,14 +126,14 @@ const QuestionForm = ({ question, onBack, onNext, index, total, answers }) => {
         <div className="col-md-6">
           {index > 0 ? (
             <Button type="button" outline color="secondary" onClick={onBack}>
-              Back
+              <FormattedMessage {...messages.back} />
             </Button>
           ) : null}
         </div>
         <div className="col-md-6">
           {index <= total ? (
             <Button type="submit" disabled={!isValid} color="primary">
-              Next
+              <FormattedMessage {...messages.next} />
             </Button>
           ) : null}
         </div>

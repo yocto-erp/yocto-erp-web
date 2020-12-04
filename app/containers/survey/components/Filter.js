@@ -2,19 +2,19 @@ import React from 'react';
 import { Form } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
+import { injectIntl, intlShape } from 'react-intl';
 import { useListFilter } from '../../../components/ListWidget/constants';
 import SearchButton from '../../../components/button/SearchButton';
-import { LANGUAGE, useSurveyContext } from '../constants';
 import { GENDER } from '../../../libs/apis/person.api';
 import FormGroup from '../../../components/Form/FormGroup';
+import { personFormMessages } from '../messages';
 
-const Filter = ({ data }) => {
+const Filter = ({ data, intl }) => {
   const { handleSubmit, register } = useForm({
     defaultValues: data,
   });
   const setFilter = useListFilter();
   const onSubmit = handleSubmit(val => setFilter(val));
-  const { language } = useSurveyContext();
   return (
     <Form inline onSubmit={onSubmit} noValidate>
       <FormGroup
@@ -32,7 +32,9 @@ const Filter = ({ data }) => {
         register={register}
         label=""
       >
-        <option value="">{LANGUAGE[language].gender}</option>
+        <option value="">
+          {intl.formatMessage(personFormMessages.gender)}
+        </option>
         <option value={GENDER.MALE}>MALE</option>
         <option value={GENDER.FEMALE}>FEMALE</option>
         <option value={GENDER.OTHER}>OTHER</option>
@@ -45,14 +47,13 @@ const Filter = ({ data }) => {
         label=""
         iconLeft={<i className="fa fa-birthday-cake" />}
       >
-        <option value="">{LANGUAGE[language].age}</option>
-        <option value="Under 18">Under 18</option>
-        <option value="18-25">18-25</option>
-        <option value="26-40">26-40</option>
-        <option value="41-55">41-55</option>
-        <option value="56-65">56-65</option>
-        <option value="66-75">66-75</option>
-        <option value="Over 75">Over 75</option>
+        <option value="">{intl.formatMessage(personFormMessages.age)}</option>
+        <option value="Under 20">Under 20</option>
+        <option value="21-30">21-30</option>
+        <option value="31-40">31-40</option>
+        <option value="41-50">41-50</option>
+        <option value="51-60">51-60</option>
+        <option value="Over 60">Over 60</option>
       </FormGroup>
       <FormGroup
         name="address"
@@ -62,7 +63,9 @@ const Filter = ({ data }) => {
         label=""
         iconLeft={<i className="fa fa-address-book-o" />}
       >
-        <option value="">{LANGUAGE[language].location}</option>
+        <option value="">
+          {intl.formatMessage(personFormMessages.location)}
+        </option>
         <optgroup label="北海道">
           <option value="hokkaido">Hokkaido</option>
         </optgroup>
@@ -142,6 +145,7 @@ const Filter = ({ data }) => {
 
 Filter.propTypes = {
   data: PropTypes.object,
+  intl: intlShape.isRequired,
 };
 
-export default Filter;
+export default injectIntl(Filter);

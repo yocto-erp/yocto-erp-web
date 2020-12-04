@@ -51,5 +51,5 @@
   "app.containers.template.title": "",
   "boilerplate.components.Header.features": "",
   "boilerplate.components.Header.home": "",
-  "boilerplate.containers.NotFoundPage.header": "Seite nicht gefunden."
+  "boilerplate.containers.NotFoundPage.header": ""
 }

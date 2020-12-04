@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Button } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import EmailValidationForm from './components/EmailValidateForm';
 import { SURVEY_TYPE } from './Admin/constants';
@@ -8,13 +9,14 @@ import { SURVEY_ROOT_PATH } from './constants';
 import { getClientId } from '../../libs/utils/storage';
 import logo from '../../images/logo/logo.png';
 import { useApi } from '../../libs/hooks/useApi';
-import { useSearchQuery } from '../../libs/hooks/useSearchQuery';
+import { makeSelectLocale } from '../LanguageProvider/selectors';
 
 const SurveyLandingPage = () => {
   const { id } = useParams();
   const history = useHistory();
   const clientId = getClientId();
-  const { language = 'ja' } = useSearchQuery();
+  const language = useSelector(makeSelectLocale());
+
   console.log(language);
   const {
     state: { resp, errors },
@@ -27,7 +29,7 @@ const SurveyLandingPage = () => {
 
   const joinSurvey = useCallback(() => {
     const base64String = btoa(`${id}|${clientId}||`);
-    history.push(`${SURVEY_ROOT_PATH}/${base64String}?language=${language}`);
+    history.push(`${SURVEY_ROOT_PATH}/${base64String}`);
   }, [id]);
 
   const surveyAction = useMemo(() => {

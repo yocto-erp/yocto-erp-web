@@ -7,6 +7,7 @@ import QuestionChart from './components/QuestionChart';
 import FormGroup from '../../components/Form/FormGroup';
 import DateSelect from '../../components/date/DateSelect';
 import Widget from '../../components/Widget/Widget';
+import SurveyGlobalChart from './components/SurveyGlobalChart';
 
 const SurveyChartPage = props => {
   const { id } = useParams();
@@ -36,7 +37,7 @@ const SurveyChartPage = props => {
   );
 
   const showChart = useCallback(
-    (questionId, isShow) => {
+    questionId => {
       setCharts({
         ...charts,
         [`question${questionId}`]: charts[`question${questionId}`]
@@ -84,6 +85,9 @@ const SurveyChartPage = props => {
     <div>
       {resp ? (
         <>
+          <div className="mb-5">
+            <SurveyGlobalChart surveyId={id} />
+          </div>
           <div style={{ maxHeight: '400px', overflow: 'auto' }}>
             <Widget className="widget-custom">
               <table className="table table-hover table-bordered">

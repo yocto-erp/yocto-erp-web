@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Card, CardBody, CardHeader, Collapse } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { isArrayHasItem } from '../../../utils/util';
 
 const PreviewQuestionAnswer = ({ question, answer, isOpen }) => {
+  console.log(question);
   const [state, setIsOpen] = React.useState(false);
+
+  const getAnwserContent = useCallback(
+    key => {
+      const answers = question.questionAnswers || question.answers;
+      return answers.find(t => t.key === key).content;
+    },
+    [question],
+  );
 
   useEffect(() => {
     setIsOpen(isOpen);
@@ -23,11 +32,11 @@ const PreviewQuestionAnswer = ({ question, answer, isOpen }) => {
           {isArrayHasItem(answer) ? (
             <ul>
               {answer.map(item => (
-                <li key={item}>- {item}</li>
+                <li key={item}>- {getAnwserContent(item)}</li>
               ))}
             </ul>
           ) : (
-            answer
+            getAnwserContent(answer)
           )}
         </CardBody>
       </Collapse>

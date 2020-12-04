@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import FormGroup from '../../../components/Form/FormGroup';
 import SubmitButton from '../../../components/button/SubmitButton';
 import { getClientId } from '../../../libs/utils/storage';
 import { SURVEY_ROOT_PATH } from '../constants';
 import useSyncForm from '../../../libs/hooks/useSyncForm';
+import messages, { verifyCodeFormMessages } from '../messages';
 
 const schema = Yup.object().shape({
   code: Yup.string().required('This field is required.'),
 });
 
-const VerifyCodeForm = ({ surveyId, target }) => {
+const VerifyCodeForm = ({ surveyId, target, intl }) => {
   const history = useHistory();
   const clientId = getClientId();
   const {
@@ -35,7 +37,9 @@ const VerifyCodeForm = ({ surveyId, target }) => {
   return (
     <>
       <div className="alert alert-success" role="alert">
-        <p className="mb-0">The code has been sent to your mail box !</p>
+        <p className="mb-0">
+          <FormattedMessage {...verifyCodeFormMessages.sentMessage} />
+        </p>
       </div>
       <Form onSubmit={onSubmit} noValidate formNoValidate>
         <FormGroup
@@ -43,10 +47,12 @@ const VerifyCodeForm = ({ surveyId, target }) => {
           type="text"
           error={errors.code}
           register={register}
-          placeholder="Input Code"
+          placeholder={intl.formatMessage(verifyCodeFormMessages.code)}
           iconLeft={<i className="fa fa-code" />}
         />
-        <SubmitButton disabled={!isDirty || !isValid} color="primary" />
+        <SubmitButton disabled={!isDirty || !isValid} color="primary">
+          <FormattedMessage {...messages.submit} />
+        </SubmitButton>
       </Form>
     </>
   );
@@ -56,6 +62,7 @@ VerifyCodeForm.propTypes = {
   surveyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   target: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
 };
 
-export default VerifyCodeForm;
+export default injectIntl(VerifyCodeForm);

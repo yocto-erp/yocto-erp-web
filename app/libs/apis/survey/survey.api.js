@@ -24,6 +24,7 @@ const surveyApi = {
     ),
   personAnswer: surveyId =>
     createSearchApi(() => `${API_ENDPOINT_URL}/${surveyId}/person-answers`),
+  summary: surveyId => fetchJSON(`${API_ENDPOINT_URL}/${surveyId}/summary`),
 };
 
 export default surveyApi;

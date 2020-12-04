@@ -2,21 +2,25 @@ import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import QuestionForm from './components/QuestionForm';
 import { useApi } from '../../libs/hooks/useApi';
 import PersonForm from './components/PersonForm';
 import ReviewAnswerForm from './components/ReviewAnswerForm';
-import { LANGUAGE, SURVEY_ROOT_PATH } from './constants';
+import { SURVEY_ROOT_PATH } from './constants';
 import { isArrayHasItem } from '../../utils/util';
-import { useSearchQuery } from '../../libs/hooks/useSearchQuery';
+import { makeSelectLocale } from '../LanguageProvider/selectors';
+import messages, { personFormMessages } from './messages';
 
 const QuestionPage = () => {
   const history = useHistory();
   const [answers, setAnswers] = React.useState({});
   const [index, setIndex] = React.useState(0);
   const [person, setPerson] = React.useState(null);
-  const { language = 'en' } = useSearchQuery();
+  const language = useSelector(makeSelectLocale());
+
   const { code } = useParams();
   const decodeCode = atob(code);
   const [surveyId, clientId, target] = decodeCode.split('|');
@@ -92,12 +96,14 @@ const QuestionPage = () => {
     }
   }, [errors, code]);
 
-  let renderEls = <h1>Invalid Survey</h1>;
+  let renderEls = <h1>Loading</h1>;
   if (resp) {
     if (_.isEmpty(person)) {
       renderEls = (
         <>
-          <h1 className="mb-3">{LANGUAGE[language].title}</h1>
+          <h1 className="mb-3">
+            <FormattedMessage {...personFormMessages.title} />
+          </h1>
           <PersonForm
             form={{ email: target }}
             onSubmitFormPerson={setPerson}
@@ -135,18 +141,23 @@ const QuestionPage = () => {
   if (answerResp) {
     renderEls = (
       <>
-        <h1 className="mb-3">Thank you for answer the Survey!</h1>
+        <h1 className="mb-3">
+          <FormattedMessage {...messages.thankyou} />
+        </h1>
         <h5 className="text-muted">
-          Check your result{' '}
-          <a
-            href={`${SURVEY_ROOT_PATH}/result/${target ||
-              clientId}/${surveyId}`}
-          >
-            here
-          </a>
+          <FormattedMessage
+            {...messages.checkResult}
+            values={{
+              url: `${SURVEY_ROOT_PATH}/result/${target ||
+                clientId}/${surveyId}`,
+            }}
+          />
         </h5>
       </>
     );
+  }
+  if (errors && errors.length) {
+    renderEls = <h1>Invalid Survey</h1>;
   }
 
   return (

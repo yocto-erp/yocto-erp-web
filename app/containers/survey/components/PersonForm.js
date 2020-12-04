@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form } from 'reactstrap';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import SubmitButton from '../../../components/button/SubmitButton';
 import FormGroup from '../../../components/Form/FormGroup';
 import useSyncForm from '../../../libs/hooks/useSyncForm';
 import { GENDER } from '../../../libs/apis/person.api';
 import { useSearchQuery } from '../../../libs/hooks/useSearchQuery';
-import { LANGUAGE } from '../constants';
 import { SURVEY_TYPE } from '../Admin/constants';
+import messages, { personFormMessages } from '../messages';
 
 const validationPerson = Yup.object().shape({
   firstName: Yup.string().required('This field is required.'),
@@ -21,7 +22,7 @@ const validationPerson = Yup.object().shape({
   address: Yup.string().required(),
 });
 
-const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
+const PersonForm = ({ onSubmitFormPerson, surveyType, form = {}, intl }) => {
   const {
     register,
     errors,
@@ -45,7 +46,7 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
               type="text"
               error={errors.firstName}
               register={register}
-              placeholder={LANGUAGE[language].firstName}
+              placeholder={intl.formatMessage(personFormMessages.email)}
               label=""
               iconLeft={<i className="fa fa-user" />}
             />
@@ -56,7 +57,7 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
               type="text"
               error={errors.lastName}
               register={register}
-              placeholder={LANGUAGE[language].lastName}
+              placeholder={intl.formatMessage(personFormMessages.lastName)}
               label=""
             />
           </div>
@@ -67,7 +68,7 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
           readOnly={surveyType === SURVEY_TYPE.EMAIL_VERIFY}
           register={register}
           error={errors.email}
-          placeholder={LANGUAGE[language].email}
+          placeholder={intl.formatMessage(personFormMessages.firstName)}
           label=""
           iconLeft={<i className="fa fa-envelope" />}
         />
@@ -80,7 +81,9 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
           iconLeft={<i className="fa fa-female" />}
           iconRight={<i className="fa fa-male" />}
         >
-          <option value="">{LANGUAGE[language].gender}</option>
+          <option value="">
+            {intl.formatMessage(personFormMessages.gender)}
+          </option>
           <option value={GENDER.MALE}>MALE</option>
           <option value={GENDER.FEMALE}>FEMALE</option>
           <option value={GENDER.OTHER}>OTHER</option>
@@ -93,7 +96,7 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
           label=""
           iconLeft={<i className="fa fa-birthday-cake" />}
         >
-          <option value="">{LANGUAGE[language].age}</option>
+          <option value="">{intl.formatMessage(personFormMessages.age)}</option>
           <option value="Under 20">Under 20</option>
           <option value="21-30">21-30</option>
           <option value="31-40">31-40</option>
@@ -108,7 +111,9 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
           label=""
           iconLeft={<i className="fa fa-address-book-o" />}
         >
-          <option value="">{LANGUAGE[language].location}</option>
+          <option value="">
+            {intl.formatMessage(personFormMessages.location)}
+          </option>
           <optgroup label="北海道">
             <option value="hokkaido">Hokkaido</option>
           </optgroup>
@@ -186,7 +191,7 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {} }) => {
           color="primary"
           disabled={!isDirty || !isValid}
         >
-          {LANGUAGE[language].btn.submit}
+          <FormattedMessage {...messages.submit} />
         </SubmitButton>
       </Form>
     ),
@@ -198,6 +203,7 @@ PersonForm.propTypes = {
   onSubmitFormPerson: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   surveyType: PropTypes.number,
+  intl: intlShape.isRequired,
 };
 
-export default PersonForm;
+export default injectIntl(PersonForm);

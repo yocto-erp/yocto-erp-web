@@ -11,24 +11,24 @@ export const ERROR = {
 };
 
 export default defineMessages({
-  [ERROR.required]: {
-    id: `${scope}.${Error.required}`,
+  required: {
+    id: `${scope}.required`,
     defaultMessage: 'This field is required',
   },
-  [ERROR.email]: {
-    id: `${scope}.${Error.email}`,
+  email: {
+    id: `${scope}.email`,
     defaultMessage: 'Invalid Email',
   },
-  [ERROR.amountGT0]: {
-    id: `${scope}.${Error.amountGT0}`,
+  amountGT0: {
+    id: `${scope}.amountGT0`,
     defaultMessage: 'Amount must be greater than zero',
   },
-  [ERROR.numberGT0]: {
-    id: `${scope}.${Error.numberGT0}`,
+  numberGT0: {
+    id: `${scope}.numberGT0`,
     defaultMessage: 'Number must be greater than zero',
   },
-  [ERROR.max]: {
-    id: `${scope}.${Error.amountGT0}`,
+  max: {
+    id: `${scope}.max`,
     // eslint-disable-next-line no-template-curly-in-string
     defaultMessage: 'String with max length {max}',
   },
