@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
+import { InputGroup } from 'reactstrap';
 import AsyncSelect from 'react-select/async';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-import companyApi from '../../../libs/apis/company.api';
-import CompanyModalForm from './CompanyModalForm';
+import { templateEmailApi } from '../../../libs/apis/template/template.api';
 
 const formatOptionLabel = data => (
   <div className="text-white">
-    <span>{data.name}</span>
+    <span>{data.template ? data.template.name : ''}</span>
   </div>
 );
 
-const CompanySelect = React.forwardRef((
+const EmailTemplateSelect = React.forwardRef((
   {
     onBlur,
     invalid,
@@ -23,20 +22,20 @@ const CompanySelect = React.forwardRef((
     onAdded,
     onChange,
     value,
-    creatable = true,
+    type,
     ...props
   },
   // eslint-disable-next-line no-unused-vars
   ref,
 ) => {
-  const [isOpen, open] = useState(false);
   const loadOptions = debounce((inputValue, cb) => {
-    companyApi
+    templateEmailApi
       .search({
         page: 1,
         size: 10,
         filter: {
-          name: inputValue,
+          search: inputValue,
+          typeId: type,
         },
       })
       .then(resp => cb(resp.rows));
@@ -45,53 +44,32 @@ const CompanySelect = React.forwardRef((
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
         <AsyncSelect
-          aria-labelledby="test"
+          aria-labelledby="Email Template Select"
           className="react-select-container"
           classNamePrefix="react-select"
           placeholder={placeholder}
-          loadOptions={loadOptions}
-          styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
+          defaultOptions
           noOptionsMessage={({ inputValue }) =>
             inputValue
-              ? `Not found any Partner Company with search "${inputValue}", try to search another`
-              : 'Input and search Partner Company'
+              ? `Not found any Email Template with search "${inputValue}", try to search another`
+              : 'Input and search Email Template'
           }
+          loadOptions={loadOptions}
+          styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           onBlur={onBlur}
           onChange={onChange}
           formatOptionLabel={formatOptionLabel}
-          getOptionValue={data => data.id}
+          getOptionValue={data => data.templateId}
           name={name}
           value={value}
         />
-        {creatable ? (
-          <InputGroupAddon addonType="append">
-            <Button color="primary" type="button" onClick={() => open(true)}>
-              <i className="las la-plus" />
-            </Button>
-          </InputGroupAddon>
-        ) : (
-          ''
-        )}
       </InputGroup>
-      {creatable ? (
-        <CompanyModalForm
-          closeHandle={val => {
-            if (val && onAdded) {
-              onAdded(val);
-            }
-            open(false);
-          }}
-          isOpen={isOpen}
-        />
-      ) : (
-        ''
-      )}
     </>
   );
 });
 
-CompanySelect.propTypes = {
+EmailTemplateSelect.propTypes = {
   value: PropTypes.any,
   invalid: PropTypes.bool,
   name: PropTypes.string.isRequired,
@@ -99,7 +77,7 @@ CompanySelect.propTypes = {
   onAdded: PropTypes.func,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
-  creatable: PropTypes.bool,
+  type: PropTypes.number,
 };
 
-export default CompanySelect;
+export default EmailTemplateSelect;

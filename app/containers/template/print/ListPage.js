@@ -3,26 +3,27 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { FormattedMessage } from 'react-intl';
-import CreatedBy from '../../components/ListWidget/CreatedBy';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
-import warehouseApi from '../../libs/apis/warehouse.api';
-import { TEMPLATE_ROOT_PATH } from './constants';
+import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
+import { TEMPLATE_PRINT_ROOT_PATH } from '../constants';
 import Filter from './components/Filter';
-import PageTitle from '../Layout/PageTitle';
+import PageTitle from '../../Layout/PageTitle';
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../libs/utils/crud.util';
-import CreateButton from '../../components/button/CreateButton';
-import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../components/ListWidget';
-import messages from './messages';
-import templateApi from '../../libs/apis/template/template.api';
-import { CreatedByColumn, SORT_DIR } from "../../components/ListWidget/constants";
+} from '../../../libs/utils/crud.util';
+import CreateButton from '../../../components/button/CreateButton';
+import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
+import ListWidget from '../../../components/ListWidget';
+import messages from '../messages';
+import { templateApi } from '../../../libs/apis/template/template.api';
+import {
+  CreatedByColumn,
+  SORT_DIR,
+} from '../../../components/ListWidget/constants';
 
-const ROOT_PATH = TEMPLATE_ROOT_PATH;
+const ROOT_PATH = TEMPLATE_PRINT_ROOT_PATH;
 
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
@@ -92,19 +93,23 @@ const ListPage = ({ history }) => {
           // match === null
           <DeleteConfirmModal
             id={id}
-            deleteApi={warehouseApi.remove}
-            readApi={warehouseApi.read}
+            deleteApi={templateApi.remove}
+            readApi={templateApi.read}
             routePattern={ROOT_PATH}
             onClose={item => {
               history.goBack();
               if (item) {
-                toast.success(`Delete Warehouse ${item.name} Success`);
+                toast.success(`Delete Template ${item.name} Success`);
               }
             }}
             title="Delete Template?"
             message={row => {
               if (!row) return '';
-              return `Are you sure to delete ${row.name} ?`;
+              return (
+                <p>
+                  Are you sure to delete template <strong>{row.name}</strong> ?
+                </p>
+              );
             }}
           />
         )}

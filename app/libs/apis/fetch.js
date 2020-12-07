@@ -170,3 +170,18 @@ export function createCRUDApi(url) {
     remove,
   };
 }
+
+export const download = (url, name) =>
+  fetchWithAuth(url)
+    .then(response => response.blob())
+    .then(blobby => {
+      console.log(blobby);
+      const objectUrl = window.URL.createObjectURL(blobby);
+      const anchor = document.createElement('a');
+      anchor.href = objectUrl;
+      anchor.download = name;
+      anchor.click();
+
+      window.URL.revokeObjectURL(objectUrl);
+      return objectUrl;
+    });

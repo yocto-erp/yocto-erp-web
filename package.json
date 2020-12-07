@@ -125,7 +125,8 @@
     "ua-parser-js": "^0.7.22",
     "use-immer": "^0.4.1",
     "uuid": "^8.3.0",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "dompurify": "^2.2.2"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",

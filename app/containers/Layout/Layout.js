@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 import classNames from 'classnames';
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
-import { openSidebar, closeSidebar } from './redux/navigation';
+import { closeSidebar, openSidebar } from './redux/navigation';
 import s from './Layout.module.scss';
 import Dashboard from '../dashboard/Dashboard';
 import { WAREHOUSE_ROOT_PATH } from '../warehouse/constants';
@@ -30,8 +30,12 @@ import StudentPage from '../student/Loadable';
 import ConfigurationPage from '../configuration/Loadable';
 import StudentMonthlyPage from '../student/monthly-fee/Loadable';
 import { STUDENT_MONTHLY_ROOT_PATH } from '../student/monthly-fee/constants';
-import { TEMPLATE_ROOT_PATH } from '../template/constants';
-import TemplatePage from '../template/Loadable';
+import {
+  TEMPLATE_EMAIL_ROOT_PATH,
+  TEMPLATE_PRINT_ROOT_PATH,
+} from '../template/constants';
+import TemplatePrintPage from '../template/print/Loadable';
+import TemplateEmailPage from '../template/email/Loadable';
 import SurveyAdminPage from '../survey/Admin/Loadable';
 import { SURVEY_MANAGEMENT_ROOT_PATH } from '../survey/Admin/constants';
 
@@ -136,8 +140,12 @@ class Layout extends React.Component {
                   />
                   <Route path="/configuration" component={ConfigurationPage} />
                   <Route
-                    path={`${TEMPLATE_ROOT_PATH}`}
-                    component={TemplatePage}
+                    path={`${TEMPLATE_PRINT_ROOT_PATH}`}
+                    component={TemplatePrintPage}
+                  />
+                  <Route
+                    path={`${TEMPLATE_EMAIL_ROOT_PATH}`}
+                    component={TemplateEmailPage}
                   />
                   <Route
                     path={`${SURVEY_MANAGEMENT_ROOT_PATH}`}

@@ -20,7 +20,7 @@ const InputAmount = React.forwardRef(
         onAccept={_val => isFunction(onChange) && onChange(_val)}
         placeholder={placeholder}
       />
-      <InputGroupAddon addonType="prepend">
+      <InputGroupAddon addonType="append">
         <InputGroupText className="text-white">VND</InputGroupText>
       </InputGroupAddon>
     </InputGroup>

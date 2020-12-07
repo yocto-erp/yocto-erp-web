@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 
 export const SURVEY_ROOT_PATH = '/survey';
 
@@ -9,6 +9,15 @@ export const SURVEY_QUESTION_TYPE = {
   SELECT_MULTIPLE: 4,
   INPUT: 5,
 };
+
+export const AGE_RANGES = [
+  'Under 20',
+  '21-30',
+  '31-40',
+  '41-50',
+  '51-60',
+  'Over 60',
+];
 
 export const LANGUAGE = {
   ja: {

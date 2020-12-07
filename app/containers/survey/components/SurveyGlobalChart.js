@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { HorizontalBar, Bar } from 'react-chartjs-2';
+import { HorizontalBar } from 'react-chartjs-2';
 import { useApi } from '../../../libs/hooks/useApi';
 import surveyApi from '../../../libs/apis/survey/survey.api';
 import { genderStr } from '../../../libs/apis/person.api';
+import { AGE_RANGES } from '../constants';
 
 const SurveyGlobalChart = ({ surveyId }) => {
   const {
@@ -13,7 +14,7 @@ const SurveyGlobalChart = ({ surveyId }) => {
 
   const globalChartData = useMemo(() => {
     const rs = {
-      age: { labels: [], data: [] },
+      age: { labels: AGE_RANGES, data: AGE_RANGES.map(() => 0) },
       location: { labels: [], data: [] },
       gender: { labels: [], data: [] },
     };
@@ -21,8 +22,10 @@ const SurveyGlobalChart = ({ surveyId }) => {
       const { age, location, gender } = summary;
 
       age.forEach(t => {
-        rs.age.labels.push(t.ageRange);
-        rs.age.data.push(t.total);
+        const index = AGE_RANGES.findIndex(ageRange => t.ageRange === ageRange);
+        if (index > -1) {
+          rs.age.data[index] = t.total;
+        }
       });
 
       location.forEach(t => {
@@ -139,7 +142,7 @@ const SurveyGlobalChart = ({ surveyId }) => {
 };
 
 SurveyGlobalChart.propTypes = {
-  surveyId: PropTypes.number.isRequired,
+  surveyId: PropTypes.string.isRequired,
 };
 
 export default SurveyGlobalChart;

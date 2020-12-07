@@ -20,6 +20,7 @@ export const useApi = asyncApi => {
             resp: t,
             isLoading: false,
           });
+          return t;
         },
         err => {
           setState({
@@ -32,5 +33,6 @@ export const useApi = asyncApi => {
     },
     [asyncApi],
   );
+
   return { state, exec };
 };

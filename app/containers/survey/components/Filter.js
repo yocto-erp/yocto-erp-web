@@ -8,6 +8,7 @@ import SearchButton from '../../../components/button/SearchButton';
 import { GENDER } from '../../../libs/apis/person.api';
 import FormGroup from '../../../components/Form/FormGroup';
 import { personFormMessages } from '../messages';
+import { AGE_RANGES } from '../constants';
 
 const Filter = ({ data, intl }) => {
   const { handleSubmit, register } = useForm({
@@ -48,12 +49,9 @@ const Filter = ({ data, intl }) => {
         iconLeft={<i className="fa fa-birthday-cake" />}
       >
         <option value="">{intl.formatMessage(personFormMessages.age)}</option>
-        <option value="Under 20">Under 20</option>
-        <option value="21-30">21-30</option>
-        <option value="31-40">31-40</option>
-        <option value="41-50">41-50</option>
-        <option value="51-60">51-60</option>
-        <option value="Over 60">Over 60</option>
+        {AGE_RANGES.map(t => (
+          <option value={t}>{t}</option>
+        ))}
       </FormGroup>
       <FormGroup
         name="address"

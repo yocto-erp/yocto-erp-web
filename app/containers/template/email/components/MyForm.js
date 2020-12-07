@@ -1,28 +1,32 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form, Label } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { Controller, useWatch } from 'react-hook-form';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import templateApi from '../../../libs/apis/template/template.api';
-import Editor from '../../../components/Form/Editor';
-import FormGroup from '../../../components/Form/FormGroup';
+import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
+import Widget from '../../../../components/Widget/Widget';
+import SubmitButton from '../../../../components/button/SubmitButton';
+import BackButton from '../../../../components/button/BackButton';
+import { templateEmailApi } from '../../../../libs/apis/template/template.api';
+import Editor from '../../../../components/Form/Editor';
+import FormGroup from '../../../../components/Form/FormGroup';
 import {
   useTemplateType,
   useTemplateTypeId,
-} from '../../../libs/apis/template/templateType.api';
+} from '../../../../libs/apis/template/templateType.api';
+import { transformUnNumber } from '../../../../libs/utils/number.util';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
-  templateTypeId: Yup.number().required('Template Type is required'),
+  subject: Yup.string().required('This field is required.'),
+  templateTypeId: Yup.number()
+    .transform(transformUnNumber)
+    .required('Template Type is required'),
   content: Yup.string().required('Content is required'),
 });
 
-const { create, update, read } = templateApi;
+const { create, update, read } = templateEmailApi;
 
 function MyForm({ id }) {
   const {
@@ -39,19 +43,21 @@ function MyForm({ id }) {
     onSuccess: resp => {
       toast.success(
         id
-          ? `Update Template ${resp.name} success`
-          : `Create Template ${resp.name} success`,
+          ? `Update Template ${resp.template.name} success`
+          : `Create Template ${resp.template.name} success`,
       );
     },
     mappingToForm: form => ({
-      name: form.name,
-      content: form.content,
-      templateTypeId: String(form.templateTypeId),
-      remark: form.remark,
+      name: form.template.name,
+      subject: form.subject,
+      content: form.template.content,
+      templateTypeId: String(form.template.templateTypeId),
+      remark: form.template.remark,
     }),
     validationSchema,
     initForm: {
       name: '',
+      subject: '',
       templateTypeId: '',
       content: '',
     },
@@ -62,37 +68,59 @@ function MyForm({ id }) {
   const templateTypeId = useWatch({
     control,
     name: 'templateTypeId', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
-    defaultValue: formData.templateTypeId || '', // default value before the render
   });
   const { templateType } = useTemplateTypeId(templateTypeId);
-  useEffect(() => {
-    console.log(templateType);
-  }, [templateType]);
 
-  const editor = useMemo(
-    () =>
-      templateTypeId ? (
-        <div className="form-group">
-          <Label for="content" className="mr-sm-2">
-            Content
-          </Label>
-          <Controller
-            name="content"
-            control={control}
-            defaultValue={formData.content || ''}
-            render={({ onChange, onBlur, value }) => (
-              <Editor
-                value={value}
-                onBlur={onBlur}
-                onChange={onChange}
-                variables={templateType}
-                name="content"
-              />
-            )}
-          />
-        </div>
-      ) : null,
-    [control, templateType, templateTypeId, formData.content],
+  const contentEditor = useMemo(
+    () => (
+      <div className="form-group">
+        <Label for="content" className="mr-sm-2">
+          Content
+        </Label>
+        <Controller
+          name="content"
+          control={control}
+          defaultValue={formData.content || ''}
+          render={({ onChange, onBlur, value }) => (
+            <Editor
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              variables={templateType}
+              name="content"
+            />
+          )}
+        />
+      </div>
+    ),
+    [control, templateType, formData.content],
+  );
+
+  const subjectEditor = useMemo(
+    () => (
+      <div className="form-group">
+        <Label for="content" className="mr-sm-2">
+          Subject
+        </Label>
+        <Controller
+          name="subject"
+          control={control}
+          defaultValue={formData.subject || ''}
+          render={({ onChange, onBlur, value }) => (
+            <Editor
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              variables={templateType}
+              name="subject"
+              format="text"
+              height="80"
+            />
+          )}
+        />
+      </div>
+    ),
+    [control, templateType, formData.subject],
   );
 
   const form = React.useMemo(
@@ -134,12 +162,22 @@ function MyForm({ id }) {
               />
             </div>
           </div>
-          {editor}
+          {subjectEditor}
+          {contentEditor}
           <BackButton className="mr-2" />
           <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
         </Form>
       ) : null,
-    [errors, isLoading, submit, register, templateTypeList, editor],
+    [
+      errors,
+      isLoading,
+      submit,
+      register,
+      templateTypeList,
+      templateType,
+      templateTypeId,
+      formData.content,
+    ],
   );
   return <Widget>{form}</Widget>;
 }

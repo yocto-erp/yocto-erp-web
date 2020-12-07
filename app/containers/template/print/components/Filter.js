@@ -2,8 +2,8 @@ import React from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import { useListFilter } from '../../../components/ListWidget/constants';
-import SearchButton from '../../../components/button/SearchButton';
+import { useListFilter } from '../../../../components/ListWidget/constants';
+import SearchButton from '../../../../components/button/SearchButton';
 
 const Filter = ({ data }) => {
   const { handleSubmit, register } = useForm({

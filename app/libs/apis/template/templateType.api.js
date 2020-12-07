@@ -4,7 +4,11 @@ import { API_URL } from '../../../constants';
 
 const API_ENDPOINT_URL = `${API_URL}/template/type`;
 
-export const templateApi = {
+export const TEMPLATE_TYPE = {
+  STUDENT_FEE: 1,
+};
+
+export const templateTypeApi = {
   search: () => fetchJSON(API_ENDPOINT_URL),
   read: id => fetchJSON(`${API_ENDPOINT_URL}/${id}`),
 };
@@ -13,7 +17,7 @@ export const useTemplateType = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: templateType, error, mutate } = useSWR(
     'getTemplateType',
-    templateApi.search,
+    templateTypeApi.search,
     {
       initialData: [],
       shouldRetryOnError: true,
@@ -38,7 +42,7 @@ export const useTemplateTypeId = id => {
     (url, _id) => {
       console.log(url);
       console.log(_id);
-      return templateApi.read(_id);
+      return templateTypeApi.read(_id);
     },
     {
       initialData: [],
