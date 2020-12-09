@@ -128,9 +128,7 @@ const StudentConfigurationForm = () => {
 
   useEffect(() => {
     if (submitResp) {
-      toast.success(
-        `Configuration Student success: ${JSON.stringify(submitResp)}`,
-      );
+      toast.success(`Update student configuration success.`);
     }
   }, [submitResp]);
 
@@ -320,7 +318,6 @@ const StudentConfigurationForm = () => {
         </Row>
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
-        {JSON.stringify(errors)}
       </Form>
     ),
     [onSubmit, errors, register, isLoading, reset, templates],

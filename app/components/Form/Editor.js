@@ -120,7 +120,7 @@ const Editor = ({
         plugins:
           format === 'html'
             ? 'print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap'
-            : '',
+            : 'noneditable',
         toolbar:
           format === 'html'
             ? 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview save print | table imagetools image media template link code'

@@ -114,7 +114,7 @@ function MyForm({ id }) {
               variables={templateType}
               name="subject"
               format="text"
-              height="80"
+              height={80}
             />
           )}
         />
@@ -157,6 +157,7 @@ function MyForm({ id }) {
                 name="remark"
                 type="textarea"
                 placeholder="Remark"
+                className="h-100"
                 register={register}
                 label="Remark"
               />

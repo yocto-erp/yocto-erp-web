@@ -19,4 +19,16 @@ table {
       }
     }
   }
+
+  &.summary {
+    tr {
+      td {
+        padding: 2px;
+      }
+
+      td:last-child {
+        font-weight: bold;
+      }
+    }
+  }
 }

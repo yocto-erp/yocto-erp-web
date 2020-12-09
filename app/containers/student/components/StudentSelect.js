@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InputGroup } from 'reactstrap';
+import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
 import AsyncSelect from 'react-select/async';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import studentApi from '../../../libs/apis/student/student.api';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../../components/constants';
+import StudentInfoView from './StudentInfoView';
 
 const formatOptionLabel = data => (
   <div className="text-white">
@@ -17,6 +18,7 @@ const StudentSelect = React.forwardRef((
   {
     onBlur,
     invalid,
+    id,
     name,
     placeholder,
     onAdded,
@@ -28,6 +30,7 @@ const StudentSelect = React.forwardRef((
   // eslint-disable-next-line no-unused-vars
   ref,
 ) => {
+  const [isShowInfo, setIsShowInfo] = React.useState(false);
   const loadOptions1 = debounce((inputValue, cb) => {
     studentApi
       .search({
@@ -64,7 +67,23 @@ const StudentSelect = React.forwardRef((
           innerRef={ref}
           value={value}
         />
+        <InputGroupAddon addonType="append">
+          <Button
+            color="primary"
+            disabled={!value}
+            onClick={() => setIsShowInfo(!isShowInfo)}
+          >
+            <i className="fa fa-info" />
+          </Button>
+        </InputGroupAddon>
       </InputGroup>
+      {value ? (
+        <StudentInfoView
+          student={value}
+          isOpen={isShowInfo}
+          onClose={setIsShowInfo}
+        />
+      ) : null}
     </>
   );
 });
@@ -79,6 +98,7 @@ StudentSelect.propTypes = {
   onBlur: PropTypes.func,
   creatable: PropTypes.bool,
   onFocus: PropTypes.func,
+  id: PropTypes.string,
 };
 
 export default StudentSelect;

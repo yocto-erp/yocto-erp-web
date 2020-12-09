@@ -1,12 +1,13 @@
 import React from 'react';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
+import { Form, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useListFilter } from '../../../../components/ListWidget/constants';
 import SearchButton from '../../../../components/button/SearchButton';
+import MonthSelect from '../../../../components/date/MonthSelect';
 
 const Filter = ({ data }) => {
-  const { handleSubmit, register } = useForm({
+  const { handleSubmit, register, control } = useForm({
     defaultValues: data,
   });
   const setFilter = useListFilter();
@@ -14,21 +15,24 @@ const Filter = ({ data }) => {
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
-      <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="name" className="mr-sm-2">
-          Name
-        </Label>
-        <Input
-          type="search"
-          name="search"
-          className="mr-2"
-          style={{ width: '300px' }}
-          innerRef={register}
-          id="search"
-          placeholder="Search By Name"
-        />
-        <SearchButton />
-      </FormGroup>
+      <Input
+        type="search"
+        name="search"
+        className="mr-2"
+        style={{ width: '300px' }}
+        innerRef={register}
+        id="search"
+        placeholder="Search By Name"
+      />
+      <Controller
+        control={control}
+        name="month"
+        className="pr-2"
+        placeholder="Filter By Month"
+        defaultValue=""
+        as={MonthSelect}
+      />
+      <SearchButton className="ml-2" />
     </Form>
   );
 };

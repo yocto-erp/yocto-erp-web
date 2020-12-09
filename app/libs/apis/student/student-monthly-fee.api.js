@@ -7,12 +7,13 @@ const studentMonthlyFeeApi = {
   ...createCRUDApi(API_ENDPOINT_URL),
   pdf: (id, templateId) =>
     `${API_URL}/student-monthly-fee/${id}/pdf/${templateId}`,
-  sendEmail: (ids, emailTemplateId, isPDFAttached, printTemplateId) =>
+  sendEmail: (ids, emailTemplateId, isPDFAttached, printTemplateId, from) =>
     postJSON(`${API_ENDPOINT_URL}/send-email`, {
       listId: ids,
       emailTemplateId,
       isPDFAttached,
       printTemplateId,
+      from,
     }),
 };
 
