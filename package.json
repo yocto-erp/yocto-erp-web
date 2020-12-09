@@ -43,7 +43,9 @@
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "prettify": "prettier --write",
-    "deploy": "npm run build && tar -czvf build.tar.gz build/ && scp build.tar.gz ryu01:/usr/project/yocto-erp/yocto-erp-web"
+    "deploy": "npm run remote-clean && npm run build && tar -czvf build.tar.gz build/ && scp build.tar.gz ryu01:/usr/project/yocto-erp/yocto-erp-web && npm run remote-untar",
+    "remote-clean": "node ./internals/scripts/remote-clean.js",
+    "remote-untar": "node ./internals/scripts/remote-untar.js"
   },
   "browserslist": [
     "last 2 versions",
@@ -206,6 +208,7 @@
     "webpack-dev-middleware": "3.6.2",
     "webpack-hot-middleware": "2.24.3",
     "webpack-pwa-manifest": "^4.3.0",
-    "whatwg-fetch": "3.0.0"
+    "whatwg-fetch": "3.0.0",
+    "ssh2": "^0.8.9"
   }
 }
