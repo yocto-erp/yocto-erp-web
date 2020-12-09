@@ -55,7 +55,6 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'units',
-    // keyName: "id", default to "id", you can change the key name
   });
   const [isLoading, exec] = useAsync({ asyncApi: productApi.create });
   const onSubmit = handleSubmit(val => {

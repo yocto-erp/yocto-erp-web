@@ -10,6 +10,12 @@ export const SURVEY_QUESTION_TYPE = {
   INPUT: 5,
 };
 
+export const LANGUAGE_TYPE = [
+  { id: 1, code: 'en', name: 'English' },
+  { id: 2, code: 'ja', name: 'Japanese' },
+  { id: 3, code: 'vn', name: 'Vietnamese' },
+];
+
 export const AGE_RANGES = [
   'Under 20',
   '21-30',

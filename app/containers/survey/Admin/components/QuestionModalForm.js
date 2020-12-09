@@ -90,7 +90,7 @@ const QuestionModalForm = ({ isOpen, closeHandle, id, surveyId }) => {
     name: 'questionAnswers',
   });
   return (
-    <Modal isOpen={isOpen} style={{ width: '700px' }}>
+    <Modal isOpen={isOpen} style={{ minWidth: '1000px' }}>
       <Form onSubmit={submit} noValidate formNoValidate>
         <ModalHeader toggle={() => closeHandle(false)}>
           Question Form

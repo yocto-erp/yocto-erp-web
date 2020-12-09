@@ -46,7 +46,7 @@ const QuestionComponentForm = ({ question, isOpen, onEdit, onDelete }) => {
                 <ButtonGroup size="sm">
                   <Button
                     key="edit"
-                    onClick={() => onEdit(question)}
+                    onClick={e => onEdit(e, question)}
                     color="warning"
                   >
                     <i className="fi flaticon-edit" />
