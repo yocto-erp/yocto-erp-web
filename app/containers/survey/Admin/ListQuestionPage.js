@@ -30,14 +30,18 @@ const ListQuestionPage = ({ history }) => {
   );
 
   const onEdit = React.useCallback(
-    question => {
+    (e, question) => {
+      e.preventDefault();
+      e.stopPropagation();
       open(true);
       setQuestionId(question?.id);
     },
     [resp, questionId],
   );
   const onDelete = React.useCallback(
-    question => {
+    (e, question) => {
+      e.preventDefault();
+      e.stopPropagation();
       openDel(true);
       setQuestionId(question?.id);
     },
