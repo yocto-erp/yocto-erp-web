@@ -18,7 +18,8 @@ import BusRouteForm from './BusRouteForm';
 import ClassForm from './ClassForm';
 import BackButton from '../../../../components/button/BackButton';
 import { useApi } from '../../../../libs/hooks/useApi';
-import templateApi from '../../../../libs/apis/template/template.api';
+import { templateApi } from '../../../../libs/apis/template/template.api';
+import { transformUnNumber } from '../../../../libs/utils/number.util';
 
 const StudentConfigurationForm = () => {
   const validationSchema = React.useMemo(
@@ -27,22 +28,6 @@ const StudentConfigurationForm = () => {
         numberDayOfMonth: Yup.number()
           .typeError(ERROR.required)
           .moreThan(0, ERROR.numberGT0)
-          .required(ERROR.required),
-        monthlyTuitionFee: Yup.number()
-          .typeError(ERROR.required)
-          .positive(ERROR.amountGT0)
-          .required(ERROR.required),
-        feePerDay: Yup.number()
-          .typeError(ERROR.required)
-          .positive(ERROR.amountGT0)
-          .required(ERROR.required),
-        feePerTrialDay: Yup.number()
-          .typeError(ERROR.required)
-          .positive(ERROR.amountGT0)
-          .required(ERROR.required),
-        mealFeePerDay: Yup.number()
-          .typeError(ERROR.required)
-          .positive(ERROR.amountGT0)
           .required(ERROR.required),
         busFee: Yup.number()
           .typeError(ERROR.required)
@@ -61,6 +46,21 @@ const StudentConfigurationForm = () => {
             Yup.object().shape({
               id: Yup.string().required(ERROR.required),
               name: Yup.string().required(ERROR.required),
+              tuitionFee: Yup.number()
+                .required()
+                .transform(transformUnNumber),
+              feePerDay: Yup.number()
+                .transform(transformUnNumber)
+                .positive(ERROR.amountGT0)
+                .required(ERROR.required),
+              feePerTrialDay: Yup.number()
+                .transform(transformUnNumber)
+                .positive(ERROR.amountGT0)
+                .required(ERROR.required),
+              mealFeePerDay: Yup.number()
+                .transform(transformUnNumber)
+                .positive(ERROR.amountGT0)
+                .required(ERROR.required),
             }),
           )
           .required(ERROR.required),
@@ -90,8 +90,17 @@ const StudentConfigurationForm = () => {
       mealFeePerDay: 0,
       busFee: 0,
       busRoutes: [{ id: '', name: '' }],
-      classes: [{ id: '', name: '' }],
-      printTemplate: '',
+      classes: [
+        {
+          id: '',
+          name: '',
+          tuitionFee: 0,
+          feePerDay: 0,
+          feePerTrialDay: 0,
+          mealFeePerDay: 0,
+        },
+      ],
+      printTemplateId: '',
     },
   });
 
@@ -119,9 +128,7 @@ const StudentConfigurationForm = () => {
 
   useEffect(() => {
     if (submitResp) {
-      toast.success(
-        `Configuration Student success: ${JSON.stringify(submitResp)}`,
-      );
+      toast.success(`Update student configuration success.`);
     }
   }, [submitResp]);
 
@@ -145,7 +152,7 @@ const StudentConfigurationForm = () => {
     () => (
       <Form onSubmit={onSubmit} noValidate formNoValidate>
         <Row>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
+          <Col md={4}>
             <FormGroup>
               <Label for="numberDayOfMonth">
                 Number Day of Month <span className="text-danger">*</span>
@@ -161,77 +168,7 @@ const StudentConfigurationForm = () => {
               <FormErrorMessage error={errors.numberDayOfMonth} />
             </FormGroup>
           </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="monthlyTuitionFee">
-                Monthly Tuition Fee <span className="text-danger">*</span>
-              </Label>
-              <Controller
-                type="number"
-                name="monthlyTuitionFee"
-                invalid={!!errors.monthlyTuitionFee}
-                control={control}
-                as={InputAmount}
-                defaultValue={0}
-                placeholder="Monthly Tuition Fee"
-              />
-              <FormErrorMessage error={errors.monthlyTuitionFee} />
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="feePerDay">
-                Fee Per Day <span className="text-danger">*</span>
-              </Label>
-              <Controller
-                type="number"
-                name="feePerDay"
-                invalid={!!errors.feePerDay}
-                control={control}
-                as={InputAmount}
-                defaultValue={0}
-                placeholder="Fee Per Day"
-              />
-              <FormErrorMessage error={errors.feePerDay} />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="feePerTrialDay">
-                Fee Per Trial Day <span className="text-danger">*</span>
-              </Label>
-              <Controller
-                type="number"
-                name="feePerTrialDay"
-                invalid={!!errors.feePerTrialDay}
-                control={control}
-                as={InputAmount}
-                defaultValue={0}
-                placeholder="Fee Per Trial Day"
-              />
-              <FormErrorMessage error={errors.feePerTrialDay} />
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="mealFeePerDay">
-                Meal Fee Per Day <span className="text-danger">*</span>
-              </Label>
-              <Controller
-                type="number"
-                name="mealFeePerDay"
-                invalid={!!errors.mealFeePerDay}
-                control={control}
-                as={InputAmount}
-                defaultValue={0}
-                placeholder="Meal Fee Per Day"
-              />
-              <FormErrorMessage error={errors.mealFeePerDay} />
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
+          <Col md={4}>
             <FormGroup>
               <Label for="busFee">
                 Bus Fee<span className="text-danger">*</span>
@@ -248,8 +185,6 @@ const StudentConfigurationForm = () => {
               <FormErrorMessage error={errors.busFee} />
             </FormGroup>
           </Col>
-        </Row>
-        <Row>
           <Col md={4}>
             <FormGroup>
               <Label for="printTemplate">Print Template</Label>
@@ -267,6 +202,70 @@ const StudentConfigurationForm = () => {
           </Col>
         </Row>
         <Row>
+          <Col>
+            <FormGroup>
+              <Label for="classes">List of classes</Label>
+              <Table bordered hover striped size="sm">
+                <thead>
+                  <tr>
+                    <th style={{ width: '100px' }}>
+                      ID <span className="text-danger">*</span>
+                    </th>
+                    <th style={{ width: '250px' }}>
+                      Name <span className="text-danger">*</span>
+                    </th>
+                    <th>
+                      Fee Per Month <span className="text-danger">*</span>
+                    </th>
+                    <th>
+                      Fee Per Day <span className="text-danger">*</span>
+                    </th>
+                    <th>
+                      Fee Per Trial Date <span className="text-danger">*</span>
+                    </th>
+                    <th>
+                      Meal Fee Per Day <span className="text-danger">*</span>
+                    </th>
+                    <th className="action">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {classFields.map((item, index) => (
+                    <ClassForm
+                      key={item.id || item.key}
+                      errors={errors}
+                      register={register}
+                      item={item}
+                      index={index}
+                      remove={classRemove}
+                      control={control}
+                    />
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan="7">
+                      <CreateButton
+                        size="sm"
+                        type="button"
+                        onClick={() => {
+                          classAppend({
+                            id: '',
+                            name: '',
+                            key: uuidv4(),
+                          });
+                        }}
+                      >
+                        Add
+                      </CreateButton>
+                    </td>
+                  </tr>
+                </tfoot>
+              </Table>
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
           <Col xs="12" sm="12" md="6" lg="6" xl="6">
             <FormGroup>
               <Label for="busRoutes">Bus Route</Label>
@@ -274,10 +273,10 @@ const StudentConfigurationForm = () => {
                 <thead>
                   <tr>
                     <th style={{ width: '30%' }}>
-                      ID<span className="text-danger">*</span>
+                      ID <span className="text-danger">*</span>
                     </th>
                     <th style={{ width: '250px' }}>
-                      Name<span className="text-danger">*</span>
+                      Name <span className="text-danger">*</span>
                     </th>
                     <th className="action">Action</th>
                   </tr>
@@ -302,55 +301,6 @@ const StudentConfigurationForm = () => {
                         type="button"
                         onClick={() => {
                           append({
-                            id: '',
-                            name: '',
-                            key: uuidv4(),
-                          });
-                        }}
-                      >
-                        Add
-                      </CreateButton>
-                    </td>
-                  </tr>
-                </tfoot>
-              </Table>
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="6" xl="6">
-            <FormGroup>
-              <Label for="classes">Class</Label>
-              <Table bordered hover striped size="sm">
-                <thead>
-                  <tr>
-                    <th style={{ width: '30%' }}>
-                      ID<span className="text-danger">*</span>
-                    </th>
-                    <th style={{ width: '250px' }}>
-                      Name<span className="text-danger">*</span>
-                    </th>
-                    <th className="action">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {classFields.map((item, index) => (
-                    <ClassForm
-                      key={item.id || item.key}
-                      errors={errors}
-                      register={register}
-                      item={item}
-                      index={index}
-                      remove={classRemove}
-                    />
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan="6">
-                      <CreateButton
-                        size="sm"
-                        type="button"
-                        onClick={() => {
-                          classAppend({
                             id: '',
                             name: '',
                             key: uuidv4(),

@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form } from 'reactstrap';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import SubmitButton from '../../../components/button/SubmitButton';
 import FormGroup from '../../../components/Form/FormGroup';
 import useSyncForm from '../../../libs/hooks/useSyncForm';
 import { GENDER } from '../../../libs/apis/person.api';
-import { useSearchQuery } from '../../../libs/hooks/useSearchQuery';
 import { SURVEY_TYPE } from '../Admin/constants';
 import messages, { personFormMessages } from '../messages';
+import { AGE_RANGES } from '../constants';
 
 const validationPerson = Yup.object().shape({
   firstName: Yup.string().required('This field is required.'),
@@ -33,8 +33,6 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {}, intl }) => {
     validationSchema: validationPerson,
     api: async formData => onSubmitFormPerson(formData),
   });
-
-  const { language = 'en' } = useSearchQuery();
 
   return React.useMemo(
     () => (
@@ -97,12 +95,9 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {}, intl }) => {
           iconLeft={<i className="fa fa-birthday-cake" />}
         >
           <option value="">{intl.formatMessage(personFormMessages.age)}</option>
-          <option value="Under 20">Under 20</option>
-          <option value="21-30">21-30</option>
-          <option value="31-40">31-40</option>
-          <option value="41-50">41-50</option>
-          <option value="51-60">51-60</option>
-          <option value="Over 60">Over 60</option>
+          {AGE_RANGES.map(t => (
+            <option value={t}>{t}</option>
+          ))}
         </FormGroup>
         <FormGroup
           name="address"
@@ -195,7 +190,7 @@ const PersonForm = ({ onSubmitFormPerson, surveyType, form = {}, intl }) => {
         </SubmitButton>
       </Form>
     ),
-    [errors, onSubmit, register, isValid, isDirty, language],
+    [errors, onSubmit, register, isValid, isDirty],
   );
 };
 

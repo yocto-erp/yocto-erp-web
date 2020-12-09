@@ -5,36 +5,40 @@ import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
 import { FNS_MONTH_FORMAT } from '../../libs/utils/date.util';
 
-const MonthSelect = ({ onChange, value, invalid, onBlur, placeholder }) => {
-  const handleDayChange = selectedDay => {
-    console.log(selectedDay);
-    if (isFunction(onChange)) {
-      onChange(selectedDay);
-    }
-  };
+const MonthSelect = React.forwardRef(
+  // eslint-disable-next-line no-unused-vars
+  ({ onChange, value, invalid, onBlur, placeholder, ...props }, ref) => {
+    const handleDayChange = selectedDay => {
+      console.log(selectedDay);
+      if (isFunction(onChange)) {
+        onChange(selectedDay);
+      }
+    };
 
-  const handleOnBlur = ({ target: { val } }) => {
-    console.log(val);
+    const handleOnBlur = ({ target: { val } }) => {
+      console.log(val);
 
-    if (isFunction(onBlur)) {
-      onBlur();
-    }
-  };
+      if (isFunction(onBlur)) {
+        onBlur();
+      }
+    };
 
-  return (
-    <DatePicker
-      className={classNames('form-control', {
-        'is-invalid': !!invalid,
-      })}
-      onBlur={handleOnBlur}
-      selected={value}
-      onChange={handleDayChange}
-      showMonthYearPicker
-      placeholderText={placeholder}
-      dateFormat={FNS_MONTH_FORMAT}
-    />
-  );
-};
+    return (
+      <DatePicker
+        className={classNames('form-control', props.className, {
+          'is-invalid': !!invalid,
+        })}
+        onBlur={handleOnBlur}
+        selected={value}
+        onChange={handleDayChange}
+        isClearable
+        showMonthYearPicker
+        placeholderText={placeholder}
+        dateFormat={FNS_MONTH_FORMAT}
+      />
+    );
+  },
+);
 
 MonthSelect.propTypes = {
   onChange: PropTypes.func,
@@ -42,6 +46,7 @@ MonthSelect.propTypes = {
   invalid: PropTypes.bool,
   placeholder: PropTypes.string,
   onBlur: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default MonthSelect;

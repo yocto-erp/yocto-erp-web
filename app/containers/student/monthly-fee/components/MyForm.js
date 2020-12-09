@@ -239,36 +239,16 @@ function MyForm({ id }) {
     () =>
       studentConfig ? (
         <div className="row mb-4">
-          <div className="col-6">
+          <div className="col-4">
             <table className="table table-bordered table-sm">
               <tbody>
-                <tr>
-                  <td className="min font-weight-bold">
-                    <strong>Tuition Fee Per Month</strong>
-                  </td>
-                  <td className="text-nowrap">
-                    <Price amount={studentConfig.monthlyTuitionFee} />
-                  </td>
-                  <td className="min font-weight-bold">Fee Per Day</td>
-                  <td className="text-nowrap">
-                    <Price amount={studentConfig.feePerDay} />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="min font-weight-bold">Meal Fee Per Day</td>
-                  <td className="text-nowrap">
-                    <Price amount={studentConfig.mealFeePerDay} />
-                  </td>
-                  <td className="min font-weight-bold">Trial Date Fee</td>
-                  <td className="text-nowrap">
-                    <Price amount={studentConfig.feePerTrialDay} />
-                  </td>
-                </tr>
                 <tr>
                   <td className="min font-weight-bold">Days Of Month</td>
                   <td className="text-nowrap">
                     {studentConfig.numberDayOfMonth}
                   </td>
+                </tr>
+                <tr>
                   <td className="min font-weight-bold">Bus Fee</td>
                   <td className="text-nowrap">
                     <Price amount={studentConfig.busFee} />

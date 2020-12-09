@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { Button } from 'reactstrap';
 import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
 import studentMonthlyFeeApi from '../../../libs/apis/student/student-monthly-fee.api';
 import { STUDENT_MONTHLY_ROOT_PATH } from './constants';
@@ -15,6 +14,7 @@ import Header from './components/Header';
 import { formatMonth } from '../../../libs/utils/date.util';
 import Price from '../../../components/common/Price';
 import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
+import DownloadButton from '../../../components/button/DownloadButton';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -130,21 +130,18 @@ const ListPage = ({ history }) => {
               history.push(deletePage(ROOT_PATH, row.id));
             }}
             buttons={[
-              <Button
+              <DownloadButton
                 key="pdf"
-                color="info"
-                onClick={() =>
-                  studentMonthlyFeeApi.download(
-                    studentMonthlyFeeApi.pdf(
-                      row.id,
-                      configure.printTemplateId || 0,
-                    ),
-                    `${row.student.child.name}.pdf`,
+                link={() =>
+                  studentMonthlyFeeApi.pdf(
+                    row.id,
+                    configure.printTemplateId || 0,
                   )
                 }
+                fileName={() => `${row.student.child.name}.pdf`}
               >
                 <i className="fa fa-file-pdf-o" />
-              </Button>,
+              </DownloadButton>,
             ]}
           />
         ),

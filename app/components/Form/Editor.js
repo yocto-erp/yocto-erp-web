@@ -69,53 +69,78 @@ const addSearchVariable = (editor, variables) => {
   });
 };
 
-const Editor = ({ value, onChange, onBlur, variables }) => {
+const Editor = ({
+  value,
+  onChange,
+  onBlur,
+  variables,
+  format = 'html',
+  height = 600,
+}) => {
   const ref = useRef(null);
   const editor = useRef(null);
 
   useEffect(() => {
     if (editor.current) {
-      const newContent = editor.current.getContent({ format: 'html' });
+      const newContent = editor.current.getContent({ format });
       if (newContent !== value) {
         editor.current.setContent(value);
       }
     }
-  }, [value]);
+  }, [value, format]);
 
   const handleInit = useCallback(() => {
     const edi = editor.current;
     edi.setContent(value);
     edi.on('change keyup setcontent', () => {
-      const newContent = editor.current.getContent({ format: 'html' });
+      const newContent = editor.current.getContent({ format });
       if (isFunc(onChange)) {
         onChange(newContent);
       }
     });
     addSearchVariable(edi, variables);
-  }, [onChange, variables]);
+  }, [onChange, variables, format]);
 
   useEffect(() => {
     console.log(ref.current);
     tinymce
       .init({
         skin_url: '/static/tinymce/skins/ui/oxide',
-        content_css: '/static/tinymce/skins/content/default/content.min.css',
-        height: 800,
+        content_css:
+          format === 'html'
+            ? '/static/tinymce/skins/content/default/content.min.css'
+            : '/static/tinymce/skins/content/default/text.css',
+        height,
         setup: edi => {
           console.log(edi);
           editor.current = edi;
           edi.on('init', handleInit);
         },
         target: ref.current,
-        plugins: `print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap`,
+        plugins:
+          format === 'html'
+            ? 'print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap'
+            : 'noneditable',
         toolbar:
-          'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview save print | table imagetools image media template link code',
+          format === 'html'
+            ? 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview save print | table imagetools image media template link code'
+            : '',
         importcss_append: true,
         contextmenu: 'link image imagetools table',
         table_toolbar: '',
         toolbar_mode: 'wrap',
         image_advtab: true,
         menubar: false,
+        noneditable_regexp: /{{[^}]+}}/g,
+        content_style: `
+                .mceNonEditable {
+                    background-color: #D6F0FF;
+                    padding: 1px 0;
+                    color: #44719B;
+                    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+                    font-size: 0.9375em;
+                }
+            `,
         images_upload_handler(blobInfo, success) {
           const reader = new FileReader();
           reader.readAsDataURL(blobInfo.blob());
@@ -138,7 +163,7 @@ const Editor = ({ value, onChange, onBlur, variables }) => {
         edi.remove();
       }
     };
-  }, [variables]);
+  }, [variables, format, height]);
   return (
     <textarea
       ref={ref}
@@ -154,6 +179,8 @@ Editor.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   variables: PropTypes.array,
+  format: PropTypes.oneOf(['html', 'text']),
+  height: PropTypes.number,
 };
 
 export default Editor;

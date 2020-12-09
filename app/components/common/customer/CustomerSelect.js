@@ -14,17 +14,21 @@ const formatOptionLabel = data => (
   </div>
 );
 
-const CustomerSelect = ({
-  onBlur,
-  invalid,
-  name,
-  placeholder,
-  onAdded,
-  onChange,
-  value,
-  creatable = true,
-  ...props
-}) => {
+const CustomerSelect = React.forwardRef((
+  {
+    onBlur,
+    invalid,
+    name,
+    placeholder,
+    onAdded,
+    onChange,
+    value,
+    creatable = true,
+    ...props
+  },
+  // eslint-disable-next-line no-unused-vars
+  ref,
+) => {
   const [isOpen, open] = useState(false);
   const loadOptions = debounce((inputValue, cb) => {
     personApi
@@ -85,7 +89,7 @@ const CustomerSelect = ({
       )}
     </>
   );
-};
+});
 
 CustomerSelect.propTypes = {
   value: PropTypes.any,

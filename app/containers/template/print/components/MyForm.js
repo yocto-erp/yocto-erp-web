@@ -1,20 +1,20 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form, Label } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { Controller, useWatch } from 'react-hook-form';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import templateApi from '../../../libs/apis/template/template.api';
-import Editor from '../../../components/Form/Editor';
-import FormGroup from '../../../components/Form/FormGroup';
+import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
+import Widget from '../../../../components/Widget/Widget';
+import SubmitButton from '../../../../components/button/SubmitButton';
+import BackButton from '../../../../components/button/BackButton';
+import { templateApi } from '../../../../libs/apis/template/template.api';
+import Editor from '../../../../components/Form/Editor';
+import FormGroup from '../../../../components/Form/FormGroup';
 import {
   useTemplateType,
   useTemplateTypeId,
-} from '../../../libs/apis/template/templateType.api';
+} from '../../../../libs/apis/template/templateType.api';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -61,13 +61,9 @@ function MyForm({ id }) {
   const { templateTypeList } = useTemplateType();
   const templateTypeId = useWatch({
     control,
-    name: 'templateTypeId', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
-    defaultValue: formData.templateTypeId || '', // default value before the render
+    name: 'templateTypeId',
   });
   const { templateType } = useTemplateTypeId(templateTypeId);
-  useEffect(() => {
-    console.log(templateType);
-  }, [templateType]);
 
   const editor = useMemo(
     () =>
@@ -139,7 +135,16 @@ function MyForm({ id }) {
           <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
         </Form>
       ) : null,
-    [errors, isLoading, submit, register, templateTypeList, editor],
+    [
+      errors,
+      isLoading,
+      submit,
+      register,
+      templateTypeList,
+      templateType,
+      templateTypeId,
+      formData.content,
+    ],
   );
   return <Widget>{form}</Widget>;
 }

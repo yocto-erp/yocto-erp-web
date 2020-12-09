@@ -103,6 +103,7 @@ class Sidebar extends React.Component {
                 iconName={t.iconName}
                 link={t.link}
                 index={t.index}
+                childrenLinks={t.children}
               />
             ))}
           </ul>

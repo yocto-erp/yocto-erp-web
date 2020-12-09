@@ -41,16 +41,23 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Student',
       isHeader: true,
-      iconName: 'flaticon-network',
-      link: '/student',
+      iconName: 'flaticon-user-2',
       index: 'student',
-    },
-    {
-      header: 'Student Monthly Fee',
-      isHeader: true,
-      iconName: 'flaticon-network',
-      link: '/student-monthly-fee',
-      index: 'student.monthly-fee',
+      link: '',
+      children: [
+        {
+          header: 'List Student',
+          isHeader: true,
+          link: '/student',
+          index: 'student.list',
+        },
+        {
+          header: 'Monthly Fee',
+          isHeader: true,
+          link: '/student-monthly-fee',
+          index: 'student.monthly-fee',
+        },
+      ],
     },
   ],
   management: [
@@ -85,10 +92,24 @@ export const SIDE_BAR_MENU = {
           index: 'management.partner',
           isHeader: true,
         },
+      ],
+    },
+    {
+      header: 'Mẫu tài liệu',
+      link: '',
+      iconName: 'flaticon-folder-2',
+      isHeader: true,
+      index: 'template',
+      children: [
         {
           header: 'Mẫu in',
-          link: '/template',
-          index: 'management.template',
+          link: '/template/print',
+          index: 'template.print',
+        },
+        {
+          header: 'Mẫu Email',
+          link: '/template/email',
+          index: 'template.email',
         },
       ],
     },

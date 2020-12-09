@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import QuestionForm from './components/QuestionForm';
 import { useApi } from '../../libs/hooks/useApi';
@@ -145,7 +145,7 @@ const QuestionPage = () => {
           <FormattedMessage {...messages.thankyou} />
         </h1>
         <h5 className="text-muted">
-          <FormattedMessage
+          <FormattedHTMLMessage
             {...messages.checkResult}
             values={{
               url: `${SURVEY_ROOT_PATH}/result/${target ||

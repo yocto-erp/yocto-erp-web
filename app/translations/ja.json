@@ -32,7 +32,7 @@
   "app.containers.login.invalid.password": "",
   "app.containers.login.password": "",
   "app.containers.survey.back": "",
-  "app.containers.survey.checkResult": "<a href='{url}'>ここで調査結果を確認してください</a>",
+  "app.containers.survey.checkResult": "<a href=\"{url}\">ここで調査結果を確認してください</a>",
   "app.containers.survey.emailForm.email": "Eメール",
   "app.containers.survey.emailForm.submit": "参加する",
   "app.containers.survey.next": "",

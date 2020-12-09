@@ -130,6 +130,10 @@ legend {
   font-size: 13px;
 }
 
+.input-group-text {
+  background: $primary;
+}
+
 .alert {
   font-size: $font-size-sm;
 
@@ -959,48 +963,6 @@ div.abc-radio label {
 
 pre code {
   color: $content-color;
-}
-
-.modal {
-  .modal-content {
-    padding: 0 10px;
-    background: #1b1e3c;
-  }
-
-  .modal-body, .modal-header, .modal-footer {
-    background: #1b1e3c;
-    color: $content-color
-  }
-
-  .modal-header {
-    border-bottom: 1px solid $bg-custom-dark;
-
-    .close {
-      color: white;
-    }
-  }
-
-  .modal-footer {
-    border-top: 1px solid $bg-custom-dark;
-  }
-
-  .modal-dialog {
-    &.danger {
-      .modal-header {
-        .modal-title {
-          color: $danger;
-          font-weight: 700;
-        }
-
-        border-bottom: 1px solid $danger;
-      }
-
-      .modal-footer {
-        border-top: none;
-      }
-    }
-  }
-
 }
 
 .list-group-item.bg-warning-light, .list-group-item.bg-warning-light:hover {

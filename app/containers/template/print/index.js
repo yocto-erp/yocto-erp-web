@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { TEMPLATE_ROOT_PATH } from './constants';
-import { listPage, newPage } from '../../libs/utils/crud.util';
+import { TEMPLATE_PRINT_ROOT_PATH } from '../constants';
+import { listPage, newPage } from '../../../libs/utils/crud.util';
 import ListPage from './ListPage';
 import EditPage from './EditPage';
 import CreatePage from './CreatePage';
 
-const MAIN_PATH = TEMPLATE_ROOT_PATH;
+const MAIN_PATH = TEMPLATE_PRINT_ROOT_PATH;
 
 function TemplatePage() {
   return (
