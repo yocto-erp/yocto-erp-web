@@ -38,6 +38,9 @@ import TemplatePrintPage from '../template/print/Loadable';
 import TemplateEmailPage from '../template/email/Loadable';
 import SurveyAdminPage from '../survey/Admin/Loadable';
 import { SURVEY_MANAGEMENT_ROOT_PATH } from '../survey/Admin/constants';
+import { LOG_ROOT_PATH } from '../log/constants';
+import LogPage from '../log/Loadable';
+import { CONFIGURATION_ROOT_PATH } from '../configuration/constants';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -138,7 +141,10 @@ class Layout extends React.Component {
                     path={`${STUDENT_ROOT_PATH}`}
                     component={StudentPage}
                   />
-                  <Route path="/configuration" component={ConfigurationPage} />
+                  <Route
+                    path={`${CONFIGURATION_ROOT_PATH}`}
+                    component={ConfigurationPage}
+                  />
                   <Route
                     path={`${TEMPLATE_PRINT_ROOT_PATH}`}
                     component={TemplatePrintPage}
@@ -151,6 +157,7 @@ class Layout extends React.Component {
                     path={`${SURVEY_MANAGEMENT_ROOT_PATH}`}
                     component={SurveyAdminPage}
                   />
+                  <Route path={`${LOG_ROOT_PATH}`} component={LogPage} />
                 </Switch>
                 <Footer />
               </div>

@@ -127,5 +127,19 @@ export const SIDE_BAR_MENU = {
         },
       ],
     },
+    {
+      header: 'Log',
+      isHeader: true,
+      iconName: 'flaticon-history',
+      index: 'log',
+      link: '',
+      children: [
+        {
+          header: 'Email',
+          link: '/log/email',
+          index: 'log.email',
+        },
+      ],
+    },
   ],
 };

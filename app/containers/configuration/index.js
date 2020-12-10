@@ -1,15 +1,14 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import EmailConfigurationPage from './EmailConfigurationPage';
-
-const MAIN_PATH = '/configuration';
+import { CONFIGURATION_ROOT_PATH } from './constants';
 
 function ConfigurationPage() {
   return (
     <Switch>
       <Route
         exact
-        path={`${MAIN_PATH}/email`}
+        path={`${CONFIGURATION_ROOT_PATH}/email`}
         component={EmailConfigurationPage}
       />
     </Switch>
