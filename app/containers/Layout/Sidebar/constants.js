@@ -130,7 +130,7 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Log',
       isHeader: true,
-      iconName: 'flaticon-history',
+      iconName: 'flaticon-time',
       index: 'log',
       link: '',
       children: [
