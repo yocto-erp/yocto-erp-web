@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Button } from 'reactstrap';
 
 const MAX = 5;
 const Pagination = ({ total, pageSize, currentPage, setPage, ...props }) => {
@@ -71,9 +70,10 @@ const Pagination = ({ total, pageSize, currentPage, setPage, ...props }) => {
             key={item.page}
           >
             {item.type === -1 ? (
-              <Button color="link" className="page-link" href="#">
+              // eslint-disable-next-line jsx-a11y/anchor-is-valid
+              <a className="page-link" href="#">
                 ...
-              </Button>
+              </a>
             ) : (
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
               <a

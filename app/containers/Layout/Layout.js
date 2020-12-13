@@ -41,6 +41,8 @@ import { SURVEY_MANAGEMENT_ROOT_PATH } from '../survey/Admin/constants';
 import { LOG_ROOT_PATH } from '../log/constants';
 import LogPage from '../log/Loadable';
 import { CONFIGURATION_ROOT_PATH } from '../configuration/constants';
+import MailMerge from '../tools/mail-merge';
+import { MAIL_MERGE_ROOT_PATH } from '../tools/mail-merge/constants';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -156,6 +158,10 @@ class Layout extends React.Component {
                   <Route
                     path={`${SURVEY_MANAGEMENT_ROOT_PATH}`}
                     component={SurveyAdminPage}
+                  />
+                  <Route
+                    path={`${MAIL_MERGE_ROOT_PATH}`}
+                    component={MailMerge}
                   />
                   <Route path={`${LOG_ROOT_PATH}`} component={LogPage} />
                 </Switch>

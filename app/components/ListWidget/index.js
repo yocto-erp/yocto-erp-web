@@ -190,22 +190,24 @@ const ListWidget = ({
     <ListRefreshProvider value={refresh}>
       <ListStateProvider value={selectedList}>
         {pageHeader}
-        <Widget className={widgetClassname}>
-          <div className="wrapper">
-            <div className="filter">
-              <ListFilterProvider value={searchByFilter}>
-                {props.children}
-              </ListFilterProvider>
+        {columns.length ? (
+          <Widget className={widgetClassname}>
+            <div className="wrapper">
+              <div className="filter">
+                <ListFilterProvider value={searchByFilter}>
+                  {props.children}
+                </ListFilterProvider>
+              </div>
+              <div className="table-responsive">
+                <table className="table table-sm table-bordered table-striped">
+                  <thead>{tableHeader}</thead>
+                  <tbody>{tableBody}</tbody>
+                </table>
+              </div>
+              {pagination}
             </div>
-            <div className="table-responsive">
-              <table className="table table-sm table-bordered table-striped">
-                <thead>{tableHeader}</thead>
-                <tbody>{tableBody}</tbody>
-              </table>
-            </div>
-            {pagination}
-          </div>
-        </Widget>
+          </Widget>
+        ) : null}
         {deleteDialog}
       </ListStateProvider>
     </ListRefreshProvider>

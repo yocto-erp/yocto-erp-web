@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 import { COLUMN_PROPS } from './constants';
 import { isFunc } from '../../utils/util';
 
@@ -13,7 +14,7 @@ const TableBody = ({
 }) => (
   <>
     {rows.map(row => (
-      <tr key={row.id}>
+      <tr key={row.id || uuidv4()}>
         {enableSelectColumn ? (
           <td className="min text-center">
             <div className="form-check">

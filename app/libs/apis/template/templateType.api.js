@@ -6,6 +6,7 @@ const API_ENDPOINT_URL = `${API_URL}/template/type`;
 
 export const TEMPLATE_TYPE = {
   STUDENT_FEE: 1,
+  OTHER: 0,
 };
 
 export const templateTypeApi = {

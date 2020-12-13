@@ -128,7 +128,8 @@
     "use-immer": "^0.4.1",
     "uuid": "^8.3.0",
     "yup": "^0.29.3",
-    "dompurify": "^2.2.2"
+    "dompurify": "^2.2.2",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",

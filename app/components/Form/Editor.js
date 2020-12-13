@@ -34,6 +34,7 @@ import 'tinymce/plugins/importcss';
 import 'tinymce/plugins/help';
 
 import { isFunc } from '../../utils/util';
+import { EDITOR_TYPE } from '../constants';
 
 const VARIABLE_AUTO_COMPLETE = 'variables';
 
@@ -76,6 +77,7 @@ const Editor = ({
   variables,
   format = 'html',
   height = 600,
+  type = EDITOR_TYPE.NORMAL,
 }) => {
   const ref = useRef(null);
   const editor = useRef(null);
@@ -98,8 +100,26 @@ const Editor = ({
         onChange(newContent);
       }
     });
-    addSearchVariable(edi, variables);
+    if (variables) {
+      addSearchVariable(edi, variables);
+    }
   }, [onChange, variables, format]);
+
+  const toolbar = React.useMemo(() => {
+    let rs = '';
+    if (format === 'html') {
+      switch (type) {
+        case EDITOR_TYPE.EMAIL:
+          rs =
+            'undo redo | fontselect fontsizeselect formatselect | bold italic underline strikethrough  | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist table | forecolor backcolor removeformat | fullscreen ';
+          break;
+        default:
+          rs =
+            'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview print | table imagetools image media template link code';
+      }
+    }
+    return rs;
+  }, [format, type]);
 
   useEffect(() => {
     console.log(ref.current);
@@ -121,10 +141,7 @@ const Editor = ({
           format === 'html'
             ? 'print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap'
             : 'noneditable',
-        toolbar:
-          format === 'html'
-            ? 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview save print | table imagetools image media template link code'
-            : '',
+        toolbar,
         importcss_append: true,
         contextmenu: 'link image imagetools table',
         table_toolbar: '',
@@ -163,7 +180,7 @@ const Editor = ({
         edi.remove();
       }
     };
-  }, [variables, format, height]);
+  }, [variables, format, height, toolbar]);
   return (
     <textarea
       ref={ref}
@@ -181,6 +198,7 @@ Editor.propTypes = {
   variables: PropTypes.array,
   format: PropTypes.oneOf(['html', 'text']),
   height: PropTypes.number,
+  type: PropTypes.number,
 };
 
 export default Editor;

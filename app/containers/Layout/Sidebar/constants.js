@@ -59,6 +59,21 @@ export const SIDE_BAR_MENU = {
         },
       ],
     },
+    {
+      header: 'Công cụ',
+      isHeader: true,
+      iconName: 'flaticon-controls',
+      index: 'tools',
+      link: '',
+      children: [
+        {
+          header: 'Mail Merge',
+          isHeader: true,
+          link: '/tools/mail-merge',
+          index: 'tools.mail-merge',
+        },
+      ],
+    },
   ],
   management: [
     {
