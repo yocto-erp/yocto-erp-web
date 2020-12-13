@@ -1,5 +1,10 @@
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import {
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import PageTitle from '../Layout/PageTitle';
 import logApi from '../../libs/apis/log.api';
 import ListWidget from '../../components/ListWidget';
@@ -7,9 +12,11 @@ import { SORT_DIR } from '../../components/ListWidget/constants';
 import FilterEmail from './components/FilterEmail';
 import { formatDate } from '../../libs/utils/date.util';
 import { EMAIL_STATUS } from './constants';
-import RawHTML from '../../components/RawHtml';
+import ModalViewContentEmail from './components/ModalViewContentEmail';
 
 const ListLogEmailPage = () => {
+  const [isOpen, open] = React.useState(false);
+  const [content, setContent] = React.useState();
   const columns = React.useMemo(
     () => [
       {
@@ -28,20 +35,20 @@ const ListLogEmailPage = () => {
           </>
         ),
       },
-      {
-        header: 'Content',
-        data: 'content',
-        render: row => (
-          <RawHTML
-            style={{
-              maxWidth: '200px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-            html={row.email.content}
-          />
-        ),
-      },
+      // {
+      //   header: 'Content',
+      //   data: 'content',
+      //   render: row => (
+      //     <RawHTML
+      //       style={{
+      //         maxWidth: '200px',
+      //         overflow: 'hidden',
+      //         textOverflow: 'ellipsis',
+      //       }}
+      //       html={row.email.content}
+      //     />
+      //   ),
+      // },
       {
         header: 'From',
         data: 'from',
@@ -103,6 +110,27 @@ const ListLogEmailPage = () => {
             ? formatDate(new Date(row.email.sent_date))
             : '',
       },
+      {
+        header: 'Action',
+        data: '',
+        class: 'action',
+        render: row => (
+          <ButtonToolbar className="">
+            <ButtonGroup size="sm">
+              <Button
+                key="view"
+                onClick={() => {
+                  setContent(row.email.content);
+                  open(true);
+                }}
+                color="info"
+              >
+                <i className="fi flaticon-view" />
+              </Button>
+            </ButtonGroup>
+          </ButtonToolbar>
+        ),
+      },
     ],
     [],
   );
@@ -110,18 +138,32 @@ const ListLogEmailPage = () => {
   const search = { search: '', fromDate: null, toDate: null };
 
   return (
-    <ListWidget
-      pageHeader={<PageTitle title="Email Log" />}
-      columns={columns}
-      fetchData={logApi.searchEmail}
-      initFilter={search}
-      initPage={1}
-      initSize={10}
-      initSorts={{ createdDate: SORT_DIR.DESC }}
-      enableSelectColumn={false}
-    >
-      <FilterEmail data={search} />
-    </ListWidget>
+    <>
+      <ListWidget
+        pageHeader={<PageTitle title="Email Log" />}
+        columns={columns}
+        fetchData={logApi.searchEmail}
+        initFilter={search}
+        initPage={1}
+        initSize={10}
+        initSorts={{ createdDate: SORT_DIR.DESC }}
+        enableSelectColumn={false}
+      >
+        <FilterEmail data={search} />
+      </ListWidget>
+      {isOpen ? (
+        <ModalViewContentEmail
+          content={content}
+          closeHandle={val => {
+            console.log(val);
+            open(false);
+          }}
+          isOpen={isOpen}
+        />
+      ) : (
+        ''
+      )}
+    </>
   );
 };
 
