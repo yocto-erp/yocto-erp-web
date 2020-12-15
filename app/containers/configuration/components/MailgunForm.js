@@ -31,7 +31,6 @@ const MailgunForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
     formState: { isValid, isDirty },
     state: { isLoading, errors: serverErrors, resp: submitResp },
   } = useMyForm({
-    form,
     api: async data => {
       const submitForm = { ...data, mailProvider: EMAIL_PROVIDER.MAILGUN };
       return onUpdate(submitForm);
@@ -72,15 +71,15 @@ const MailgunForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               Mailgun API Key <span className="text-danger">*</span>
             </Label>
             <Input
-              invalid={!!errors.key}
+              invalid={!!errors?.key}
               type="text"
               name="key"
               id="mailgunApiKey"
               placeholder="Mailgun API KEY"
-              defaultValue={form.key}
+              defaultValue={form?.key}
               innerRef={register}
             />
-            <FormErrorMessage error={errors.key} />
+            <FormErrorMessage error={errors?.key} />
           </FormGroup>
         </Col>
         <Col md={6}>
@@ -94,10 +93,10 @@ const MailgunForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               placeholder="Domain"
               name="domain"
               id="mailgunDomain"
-              defaultValue={form.domain}
+              defaultValue={form?.domain}
               innerRef={register}
             />
-            <FormErrorMessage error={errors.domain} />
+            <FormErrorMessage error={errors?.domain} />
           </FormGroup>
         </Col>
       </Row>
