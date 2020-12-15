@@ -43,4 +43,7 @@ export const createCompany = ({ name, gsm, address, remark }) =>
     remark,
   });
 
+export const resendEmailActive = email =>
+  fetchJSON(`${API_URL}/resendEmailActive?email=${email}`);
+
 export const getInfo = () => fetchJSON(`${API_URL}/information`);

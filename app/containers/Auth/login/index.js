@@ -3,26 +3,27 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
-
+import { v4 as uuidv4 } from 'uuid';
 import {
+  Alert,
   Container,
+  FormFeedback,
   FormGroup,
-  Label,
+  Input,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Input,
-  FormFeedback,
+  Label,
 } from 'reactstrap';
 import { mutate } from 'swr';
+import { toast } from 'react-toastify';
 import messages from './messages';
 import Widget from '../../../components/Widget/Widget';
 import Footer from '../../Layout/Footer';
 import SubmitButton from '../../../components/button/SubmitButton';
-import { login } from '../../../libs/apis/auth.api';
+import { login, resendEmailActive } from '../../../libs/apis/auth.api';
 import { set, STORAGE } from '../../../libs/utils/storage';
 import { SWR_KEY_USER } from '../../../libs/hooks/useUser';
-import FormError from '../../../components/Form/FormError';
 import useMyForm from '../../../libs/hooks/useMyForm';
 
 const schema = yup.object().shape({
@@ -39,6 +40,7 @@ export function Login() {
     errors,
     onSubmit,
     formState,
+    getValues,
     state: { isLoading, errors: serverErrors },
   } = useMyForm({
     validationSchema: schema,
@@ -147,11 +149,38 @@ export function Login() {
           >
             <p className="widget-auth-info">Use your email to sign in.</p>
             <>
-              <FormError
-                className="mt-3"
-                errors={serverErrors}
-                item={item => [item]}
-              />
+              {serverErrors && serverErrors.length ? (
+                <Alert fade={false} color="danger" className="mt-4">
+                  <ul className="m-0">
+                    {serverErrors.map(t => (
+                      <li key={uuidv4()}>
+                        {t.message}
+                        {serverErrors[0].code === 'EMAIL_NOT_ACTIVE' ? (
+                          <>
+                            <br />
+                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                            <a
+                              href="#"
+                              className="alert-link"
+                              onClick={() => {
+                                resendEmailActive(getValues().email).then(
+                                  () => {
+                                    toast.success(
+                                      'Resend Email For activation success.',
+                                    );
+                                  },
+                                );
+                              }}
+                            >
+                              Click here for resend Email Activate
+                            </a>
+                          </>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                </Alert>
+              ) : null}
               {formEls}
             </>
           </Widget>
