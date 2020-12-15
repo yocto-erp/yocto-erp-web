@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InputGroup } from 'reactstrap';
+import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
 import AsyncSelect from 'react-select/async';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
 import { templateEmailApi } from '../../../libs/apis/template/template.api';
+import MailMergeConfigure from '../../../containers/tools/mail-merge/components/MailMergeConfigure';
 
 const formatOptionLabel = data => (
   <div className="text-white">
@@ -23,11 +24,15 @@ const EmailTemplateSelect = React.forwardRef((
     onChange,
     value,
     type,
+    enableAction = false,
+    variables,
     ...props
   },
   // eslint-disable-next-line no-unused-vars
   ref,
 ) => {
+  const [isOpenConfigure, setIsOpenConfigure] = React.useState(false);
+  const [formValue, setFormValue] = React.useState(null);
   const loadOptions = debounce((inputValue, cb) => {
     templateEmailApi
       .search({
@@ -43,6 +48,22 @@ const EmailTemplateSelect = React.forwardRef((
   return (
     <>
       <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
+        {enableAction ? (
+          <InputGroupAddon addonType="prepend">
+            <Button
+              color="primary"
+              outline
+              type="button"
+              onClick={e => {
+                setFormValue(null);
+                setIsOpenConfigure(true);
+                e.preventDefault();
+              }}
+            >
+              <i className="fa fa-plus" />
+            </Button>
+          </InputGroupAddon>
+        ) : null}
         <AsyncSelect
           aria-labelledby="Email Template Select"
           className="react-select-container"
@@ -58,13 +79,55 @@ const EmailTemplateSelect = React.forwardRef((
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           onBlur={onBlur}
-          onChange={onChange}
+          onChange={data => onChange(data)}
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.templateId}
           name={name}
           value={value}
         />
+        {enableAction ? (
+          <InputGroupAddon addonType="append">
+            <Button
+              color="warning"
+              outline
+              type="button"
+              disabled={!value}
+              onClick={e => {
+                setFormValue({
+                  id: value.templateId,
+                  name: value.template.name,
+                  content: value.template.content,
+                  subject: value.subject,
+                  from: value.from,
+                  cc:
+                    value.cc && value.cc.length
+                      ? value.cc.map(t => ({ label: t, value: t }))
+                      : [],
+                  bcc:
+                    value.bcc && value.bcc.length
+                      ? value.bcc.map(t => ({ label: t, value: t }))
+                      : [],
+                });
+                setIsOpenConfigure(true);
+                e.preventDefault();
+              }}
+            >
+              <i className="fa fa-edit" />
+            </Button>
+          </InputGroupAddon>
+        ) : null}
       </InputGroup>
+      <MailMergeConfigure
+        emailTemplateType={type}
+        onClose={() => setIsOpenConfigure(false)}
+        onDone={setting => {
+          setIsOpenConfigure(false);
+          onChange(setting);
+        }}
+        variables={variables}
+        isOpen={isOpenConfigure}
+        setting={formValue}
+      />
     </>
   );
 });
@@ -78,6 +141,8 @@ EmailTemplateSelect.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   type: PropTypes.number,
+  enableAction: PropTypes.bool,
+  variables: PropTypes.array,
 };
 
 export default EmailTemplateSelect;

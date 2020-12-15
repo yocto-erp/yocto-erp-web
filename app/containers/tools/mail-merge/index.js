@@ -1,98 +1,55 @@
-import React, { useCallback, useMemo } from 'react';
-import * as XLSX from 'xlsx';
-import { Button } from 'reactstrap';
-import { v4 as uuidv4 } from 'uuid';
-import PageTitle from '../../Layout/PageTitle';
-import FilePicker from '../../../components/FilePicker';
-import ListWidget from '../../../components/ListWidget';
-import SendMailButton from '../../../components/button/SendMailButton';
-import ConfigureButton from '../../../components/button/ConfigureButton';
-import MailMergeConfigure from './components/MailMergeConfigure';
-import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
-const MailMerge = props => {
-  const [file, setFile] = React.useState(null);
-  const [configure, setConfigure] = React.useState(null);
-  const [isOpenConfigure, setIsOpenConfigure] = React.useState(false);
+import { Button, Input, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
+import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
+import { TEMPLATE_TYPE } from '../../../libs/apis/template/templateType.api';
+import EmailTemplateSelect from '../../../components/common/template/EmailTemplateSelect';
+import { emailApi } from '../../../libs/apis/email.api';
+import { MAIL_MERGE_ROW_STATE } from './constants';
+import { useApi } from '../../../libs/hooks/useApi';
+import TextIconButton from '../../../components/button/TextIconButton';
+import MailMergeStateBtnIcon from './components/MailMergeStateBtnIcon';
+import PageTitle from '../../Layout/PageTitle';
+import { emailSchema } from '../../../libs/utils/schema.util';
+import MailMergeUpload from './components/MailMergeUpload';
+import ListWidget from '../../../components/ListWidget';
+import RawHTML from '../../../components/RawHtml';
+import ConfirmModal from '../../../components/modal/ConfirmModal';
+
+const MailMerge = () => {
+  const [emailContent, setEmailContent] = React.useState(null);
+  const [emailColumn, setEmailColumn] = React.useState('0');
   const [table, setTable] = React.useState({
     columns: [],
     rows: [],
   });
+  const [templateId, setTemplateId] = React.useState(null);
+  const [confirm, setConfirm] = React.useState(null);
 
-  const handleProcessFile = React.useCallback(selectFile => {
-    const reader = new FileReader();
+  const {
+    state: { isLoading, errors, resp },
+    exec,
+  } = useApi(emailApi.send);
 
-    reader.onload = function onLoad(e) {
-      const data = e.target.result;
-      const workbook = XLSX.read(data, {
-        type: 'binary',
+  const unsentMessages = useMemo(() => {
+    if (!table || !table.rows || !table.rows.length) return [];
+    return table.rows.filter(t => t.state === MAIL_MERGE_ROW_STATE.PENDING);
+  }, [table]);
+
+  const setRowState = React.useCallback(
+    (id, { state, message }) => {
+      const newRows = table.rows.map(t => {
+        if (t.id === id) {
+          return { ...t, state, message };
+        }
+        return t;
       });
-      const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-      const parseRows = XLSX.utils.sheet_to_json(firstSheet, {
-        range: 1,
-        header: 1,
-        defval: '',
-      });
-      console.log(parseRows);
-      const columns = parseRows.shift();
-      const rows = parseRows.map(t => ({
-        id: uuidv4(),
-        data: t,
-      }));
-      setTable({
-        columns,
-        rows,
-      });
-    };
-
-    reader.onerror = function onError(ex) {
-      console.log(ex);
-    };
-
-    reader.readAsBinaryString(selectFile);
-  }, []);
-
-  const columns = React.useMemo(() => {
-    if (!table.columns.length) return [];
-    return [
-      ...table.columns.map((col, i) => ({
-        header: String(col),
-        data: String(col),
-        render: row => String(row.data[i]),
-      })),
-      {
-        header: 'Action',
-        data: '',
-        class: 'action',
-        render: row => (
-          <TableActionColumns
-            buttons={[
-              <Button
-                key="preview"
-                color="info"
-                disabled={!configure}
-                onClick={() => {
-                  console.log(row);
-                }}
-              >
-                <i className="fa fa-eye" />
-              </Button>,
-              <Button
-                key="sendTest"
-                color="warning"
-                disabled={!configure}
-                onClick={() => {
-                  console.log(row);
-                }}
-              >
-                <i className="fa fa-send" />
-              </Button>,
-            ]}
-          />
-        ),
-      },
-    ];
-  }, [table, configure]);
+      setTable({ columns: table.columns, rows: newRows });
+    },
+    [table],
+  );
 
   const search = React.useCallback(
     params =>
@@ -113,102 +70,316 @@ const MailMerge = props => {
     [table],
   );
 
+  const variables = useMemo(() => {
+    let rs = null;
+    if (table && table.columns && table.columns.length) {
+      rs = table.columns.map((t, i) => ({
+        value: `{{column[${i}]}}`,
+        remark: String(t),
+      }));
+    }
+    return rs;
+  }, [table]);
+
+  const emailRender = useCallback(
+    row => {
+      let rs = null;
+      if (templateId && row && !Number.isNaN(emailColumn)) {
+        let {
+          subject,
+          template: { content },
+        } = templateId;
+        for (let i = 0; i < row.data.length; i += 1) {
+          subject = subject.replaceAll(`{{column[${i}]}}`, row.data[i]);
+          content = content.replaceAll(`{{column[${i}]}}`, row.data[i]);
+        }
+        rs = {
+          id: row.id,
+          ...templateId,
+          subject,
+          content,
+          to: row.data[Number(emailColumn)],
+        };
+      }
+      return rs;
+    },
+    [templateId, emailColumn],
+  );
+
+  const sendAllEmail = React.useCallback(() => {
+    setConfirm({
+      title: 'Send All Email',
+      message: `Are you sure to send total ${unsentMessages.length} email?`,
+      onClose: isConfirm => {
+        if (isConfirm) {
+          const emailMessages = unsentMessages.map(t => emailRender(t));
+          console.log(emailMessages);
+          exec(emailMessages);
+        }
+        setConfirm(null);
+      },
+    });
+  }, [unsentMessages, exec, emailRender]);
+
+  const sendEmailRow = React.useCallback(
+    row => {
+      const emailMessage = emailRender({ ...row.data, id: row.id });
+      setConfirm({
+        title: 'Send Email',
+        message: `Send email to ${emailMessage.to}`,
+        onClose: isConfirm => {
+          setConfirm(null);
+          if (isConfirm) {
+            setRowState(row.id, { state: MAIL_MERGE_ROW_STATE.PROCESSING });
+
+            emailApi.send([emailMessage]).then(
+              _resp => {
+                console.log(_resp);
+                setRowState(row.id, { state: MAIL_MERGE_ROW_STATE.DONE });
+              },
+              err => {
+                console.log(err);
+                setRowState(row.id, { state: MAIL_MERGE_ROW_STATE.FAIL });
+              },
+            );
+          }
+        },
+      });
+    },
+    [setRowState, emailRender],
+  );
+
+  const columns = React.useMemo(() => {
+    if (!table.columns.length) return [];
+    return [
+      ...table.columns.map((col, i) => ({
+        header: String(col),
+        data: String(col),
+        render: row => String(row.data[i]),
+      })),
+      {
+        header: 'Action',
+        data: '',
+        class: 'action',
+        render: row => (
+          <TableActionColumns
+            buttons={[
+              <Button
+                key="preview"
+                color="info"
+                disabled={!templateId}
+                onClick={() => {
+                  setEmailContent(emailRender(row));
+                }}
+              >
+                <i className="fa fa-eye" />
+              </Button>,
+              <MailMergeStateBtnIcon
+                key="sendTest"
+                type="button"
+                disabled={
+                  !templateId || row.state !== MAIL_MERGE_ROW_STATE.PENDING
+                }
+                onClick={() => {
+                  sendEmailRow(row);
+                }}
+                isLoading={row.state === MAIL_MERGE_ROW_STATE.PROCESSING}
+                state={row.state}
+              />,
+            ]}
+          />
+        ),
+      },
+    ];
+  }, [table, templateId, sendEmailRow]);
+
   const actions = React.useMemo(
     () =>
       table.rows.length ? (
-        <div>
+        <div className="form-inline">
+          <label htmlFor="emailColumn" className="mr-2">
+            Select Email Column
+          </label>
+          <Input
+            type="select"
+            id="emailColumn"
+            className="mr-2"
+            value={emailColumn}
+            onChange={e => {
+              setEmailColumn(e.target.value);
+            }}
+          >
+            {table.columns.map((t, i) => (
+              <option key={uuidv4()} value={i}>
+                {t}
+              </option>
+            ))}
+          </Input>
+          <label htmlFor="emailColumn" className="mr-2">
+            Select Template
+          </label>
+          <div className="d-inline mr-2">
+            <EmailTemplateSelect
+              enableAction
+              style={{ width: '300px' }}
+              name="templateId"
+              type={TEMPLATE_TYPE.MAIL_MERGE}
+              value={templateId}
+              onChange={setTemplateId}
+              variables={variables}
+            />
+          </div>
+          <TextIconButton
+            className="mr-2 btn-raised"
+            disabled={!templateId || !unsentMessages.length}
+            isLoading={isLoading}
+            icon={<i className="fa fa-send fa-fw" />}
+            onClick={e => {
+              sendAllEmail();
+              e.preventDefault();
+            }}
+          >
+            Send Mail
+          </TextIconButton>
           <Button
             className="mr-2 btn-raised"
             color="danger"
             onClick={() => {
-              setFile(null);
               setTable({ rows: [], columns: [] });
             }}
           >
             <i className="fa fa-trash-o mr-2" aria-hidden="true" />
             Reset
           </Button>
-
-          <SendMailButton
-            className="mr-2 btn-raised"
-            disabled={!configure}
-            onClick={() => {
-              console.log('Sent');
-            }}
-          />
-          <ConfigureButton
-            className="shadow btn-raised"
-            onClick={() => {
-              setIsOpenConfigure(!isOpenConfigure);
-            }}
-          />
         </div>
       ) : null,
-    [table, configure, isOpenConfigure],
+    [templateId, emailColumn, variables, isLoading, unsentMessages],
   );
 
-  const emailRender = useCallback(
-    row => {
-      let rs = null;
-      if (configure && row) {
-        let { subject, content } = configure;
-        for (let i = 0; i < row.length; i += 1) {
-          subject = subject.replaceAll(`{{column[${i}]}}`, row[i]);
-          content = content.replaceAll(`{{column[${i}]}}`, row[i]);
-        }
-        rs = { ...configure, subject, content };
+  const pageTitle = useMemo(() => <PageTitle title="Mail Merge" />, [actions]);
+
+  const onNewUploadFile = React.useCallback(newTable => {
+    setTable(newTable);
+    const { rows } = newTable;
+    if (rows.length > 0) {
+      const [{ data }] = rows;
+      for (let i = 0; i < data.length; i += 1) {
+        try {
+          emailSchema.validateSync(data[i]);
+          setEmailColumn(String(i));
+          return;
+          // eslint-disable-next-line no-empty
+        } catch (e) {}
       }
-      return rs;
-    },
-    [configure],
-  );
+    }
+    toast.warning(
+      'Can not detect any email column in upload file. Must have at least 1 column contain email',
+    );
+  }, []);
 
-  const pageTitle = useMemo(
-    () => <PageTitle title="Mail Merge" actions={actions} />,
-    [actions],
+  const mailMergeUpload = React.useMemo(
+    () => (
+      <>
+        {pageTitle}
+        <MailMergeUpload onDone={onNewUploadFile} />
+      </>
+    ),
+    [pageTitle],
   );
 
   const render = useMemo(() => {
-    let rs = null;
-    if (file) {
+    let rs;
+    if (table.columns.length) {
       rs = (
-        <ListWidget
-          fetchData={search}
-          columns={columns}
-          pageHeader={pageTitle}
-        />
+        <ListWidget fetchData={search} columns={columns} pageHeader={pageTitle}>
+          {actions}
+        </ListWidget>
       );
     } else {
-      rs = (
-        <>
-          {pageTitle}
-          <FilePicker
-            multiple={false}
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            onPicked={selectedFile => {
-              console.log(selectedFile);
-              setFile(selectedFile);
-              handleProcessFile(selectedFile[0]);
-            }}
-          />
-        </>
-      );
+      rs = mailMergeUpload;
     }
     return rs;
-  }, [file, table, columns, search, pageTitle]);
+  }, [table, columns, search, pageTitle]);
+
+  useEffect(() => {
+    if (errors && errors.length) {
+      toast.error(errors.map(t => t.message).join('\n'));
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    if (resp) {
+      const { success, fail } = resp;
+      toast.success(
+        <>
+          {success.length ? (
+            <p className="">Send success: {success.length}</p>
+          ) : null}
+          {fail.length ? (
+            <p className="text-danger">Send fail: {fail.length}</p>
+          ) : null}
+        </>,
+      );
+      const newRows = table.rows.map(t => {
+        const successItem = success.find(item => item.id === t.id);
+        if (successItem) {
+          return { ...t, state: MAIL_MERGE_ROW_STATE.DONE };
+        }
+        const failItem = fail.find(item => item.id === t.id);
+        if (failItem) {
+          return { ...t, state: MAIL_MERGE_ROW_STATE.FAIL };
+        }
+        return t;
+      });
+      setTable({ columns: table.columns, rows: newRows });
+    }
+  }, [resp]);
 
   return (
     <>
       {render}
-      <MailMergeConfigure
-        onClose={() => setIsOpenConfigure(false)}
-        onDone={setting => {
-          setConfigure(setting);
-          setIsOpenConfigure(false);
-        }}
-        columns={table.columns}
-        isOpen={isOpenConfigure}
-        setting={configure}
+      <Modal isOpen={!!emailContent} fade={false} className="info">
+        <ModalHeader toggle={() => setEmailContent(null)}>
+          Email Content
+        </ModalHeader>
+        <ModalBody>
+          <table className="table table-borderless">
+            <tbody>
+              <tr>
+                <td className="min">From:</td>
+                <td>{emailContent?.from}</td>
+              </tr>
+              <tr>
+                <td className="min">To:</td>
+                <td>{emailContent?.to}</td>
+              </tr>
+              {emailContent && emailContent.cc && emailContent.cc.length ? (
+                <tr>
+                  <td className="min">CC:</td>
+                  <td>{emailContent.cc.join(',')}</td>
+                </tr>
+              ) : null}
+              {emailContent && emailContent.bcc && emailContent.bcc.length ? (
+                <tr>
+                  <td className="min">BCC:</td>
+                  <td>{emailContent.bcc.join(',')}</td>
+                </tr>
+              ) : null}
+              <tr>
+                <td className="min">Content:</td>
+                <td>
+                  <RawHTML html={emailContent?.content} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ModalBody>
+      </Modal>
+      <ConfirmModal
+        isOpen={confirm != null}
+        title={confirm?.title}
+        message={confirm?.message}
+        onClose={confirm?.onClose}
       />
     </>
   );

@@ -58,7 +58,7 @@ const addSearchVariable = (editor, variables) => {
       });
     },
     onAction(autocompleteApi, rng, value) {
-      const els = `<span class="badge badge-info">${value}</span>`;
+      const els = `${value}`;
 
       // insert in to the editor
       editor.selection.setRng(rng);

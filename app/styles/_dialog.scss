@@ -27,7 +27,9 @@
     }
 
     &.xx-large {
-      max-width: 80%;
+      @media (min-width: 992px) {
+        max-width: 80%;
+      }
     }
 
     &.danger {
@@ -45,6 +47,21 @@
       }
     }
 
+    &.warning {
+      .modal-header {
+        .modal-title {
+          color: $warning;
+          font-weight: 700;
+        }
+
+        border-bottom: 1px solid $warning;
+      }
+
+      .modal-footer {
+        border-top: none;
+      }
+    }
+
     &.primary {
       .modal-header {
         .modal-title {
@@ -53,6 +70,21 @@
         }
 
         border-bottom: 1px solid $primary;
+      }
+
+      .modal-footer {
+        border-top: none;
+      }
+    }
+
+    &.info {
+      .modal-header {
+        .modal-title {
+          color: $info;
+          font-weight: 700;
+        }
+
+        border-bottom: 1px solid $info;
       }
 
       .modal-footer {

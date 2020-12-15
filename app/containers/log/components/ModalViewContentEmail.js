@@ -10,14 +10,7 @@ const ModalViewContentEmail = ({ isOpen, closeHandle, content }) => (
         Content Send Mail
       </ModalHeader>
       <ModalBody>
-        <RawHTML
-          style={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            color: '#1b1e3c',
-          }}
-          html={content}
-        />
+        <RawHTML html={content} />
       </ModalBody>
     </Form>
   </Modal>
@@ -26,7 +19,7 @@ const ModalViewContentEmail = ({ isOpen, closeHandle, content }) => (
 ModalViewContentEmail.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeHandle: PropTypes.func.isRequired,
-  content: PropTypes.string.isRequired,
+  content: PropTypes.string,
 };
 
 export default ModalViewContentEmail;

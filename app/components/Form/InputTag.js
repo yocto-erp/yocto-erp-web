@@ -24,16 +24,7 @@ const InputTag = React.forwardRef((
 
   const { inputValue, tags } = tagObject;
 
-  useEffect(() => {
-    if (value !== tags) {
-      setTagObject({
-        ...tagObject,
-        tags: value,
-      });
-    }
-  }, [value, tags]);
-
-  const handleChange = React.useCallback(
+  const handleInputChange = React.useCallback(
     (_value, actionMeta) => {
       setTagObject({
         ...tagObject,
@@ -67,6 +58,15 @@ const InputTag = React.forwardRef((
     [inputValue, tags],
   );
 
+  useEffect(() => {
+    if (value !== tags) {
+      setTagObject({
+        ...tagObject,
+        tags: value,
+      });
+    }
+  }, [value, tags]);
+
   return (
     <CreatableSelect
       isValidNewOption={isValidNewOption}
@@ -79,7 +79,7 @@ const InputTag = React.forwardRef((
       menuIsOpen={false}
       onChange={onChange}
       onBlur={onBlur}
-      onInputChange={handleChange}
+      onInputChange={handleInputChange}
       onKeyDown={handleKeyDown}
       placeholder={placeholder || 'Type something and press enter...'}
       value={tags}

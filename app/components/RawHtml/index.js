@@ -11,7 +11,7 @@ const RawHTML = ({ html, ...props }) => (
 );
 
 RawHTML.propTypes = {
-  html: PropTypes.string.isRequired,
+  html: PropTypes.string,
 };
 
 export default RawHTML;
