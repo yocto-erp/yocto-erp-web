@@ -16,7 +16,7 @@ import { emailSchema } from '../../../libs/utils/schema.util';
 import MailMergeUpload from './components/MailMergeUpload';
 import ListWidget from '../../../components/ListWidget';
 import RawHTML from '../../../components/RawHtml';
-import ConfirmModal from '../../../components/modal/ConfirmModal';
+import { useConfirmDialog } from '../../../libs/hooks/useConfirmDialog';
 
 const MailMerge = () => {
   const [emailContent, setEmailContent] = React.useState(null);
@@ -26,12 +26,13 @@ const MailMerge = () => {
     rows: [],
   });
   const [templateId, setTemplateId] = React.useState(null);
-  const [confirm, setConfirm] = React.useState(null);
 
   const {
     state: { isLoading, errors, resp },
     exec,
   } = useApi(emailApi.send);
+
+  const { confirmModal, openConfirm } = useConfirmDialog();
 
   const unsentMessages = useMemo(() => {
     if (!table || !table.rows || !table.rows.length) return [];
@@ -107,7 +108,7 @@ const MailMerge = () => {
   );
 
   const sendAllEmail = React.useCallback(() => {
-    setConfirm({
+    openConfirm({
       title: 'Send All Email',
       message: `Are you sure to send total ${unsentMessages.length} email?`,
       onClose: isConfirm => {
@@ -116,19 +117,17 @@ const MailMerge = () => {
           console.log(emailMessages);
           exec(emailMessages);
         }
-        setConfirm(null);
       },
     });
   }, [unsentMessages, exec, emailRender]);
 
   const sendEmailRow = React.useCallback(
     row => {
-      const emailMessage = emailRender({ ...row.data, id: row.id });
-      setConfirm({
+      const emailMessage = emailRender(row);
+      openConfirm({
         title: 'Send Email',
         message: `Send email to ${emailMessage.to}`,
         onClose: isConfirm => {
-          setConfirm(null);
           if (isConfirm) {
             setRowState(row.id, { state: MAIL_MERGE_ROW_STATE.PROCESSING });
 
@@ -375,12 +374,7 @@ const MailMerge = () => {
           </table>
         </ModalBody>
       </Modal>
-      <ConfirmModal
-        isOpen={confirm != null}
-        title={confirm?.title}
-        message={confirm?.message}
-        onClose={confirm?.onClose}
-      />
+      {confirmModal}
     </>
   );
 };
