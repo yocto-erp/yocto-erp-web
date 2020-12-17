@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'reactstrap';
 import { useGoogleApi } from '../../libs/hooks/partner/useGoogleApi';
 
@@ -12,6 +12,18 @@ const GoogleDrive = props => {
     signOut,
     signIn,
   } = useGoogleApi();
+
+  const [files, setFiles] = useState({
+    isMore: false,
+    rows: [],
+  });
+
+  useEffect(() => {
+    if (isSignIn) {
+      listFiles().then(t => setFiles(t));
+    }
+  }, [isSignIn]);
+
   if (isLoading) {
     return 'Loading';
   }
@@ -21,7 +33,13 @@ const GoogleDrive = props => {
         <>
           Signed In
           {JSON.stringify(currentUser)}
-          {JSON.stringify(listFiles())}
+          <div className="row">
+            {files.rows.map(t => (
+              <div key={t.id} className="col-3">
+                {t.name}
+              </div>
+            ))}
+          </div>
           <Button onClick={e => signOut()}>Google SignOut</Button>
         </>
       ) : (

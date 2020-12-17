@@ -64,21 +64,33 @@ export function useGoogleApi() {
     }
   }, [googleApi]);
 
-  const listFiles = useCallback(() => {
-    googleApi.client.drive.files
-      .list({
-        pageSize: 10,
-        fields: 'nextPageToken, files',
-        spaces: 'drive',
-        folderId: 'root',
-        corpora: 'user',
-        q: "trashed=false and 'root' in parents",
-      })
-      .then(function success(response) {
-        console.log('Files: ', response);
-        console.log(response.result.files);
-      });
-  }, [googleApi]);
+  const listFiles = useCallback(
+    () =>
+      googleApi.client.drive.files
+        .list({
+          pageSize: 10,
+          fields: 'nextPageToken, files',
+          spaces: 'drive',
+          folderId: 'root',
+          corpora: 'user',
+          q: "trashed=false and 'root' in parents",
+        })
+        .then(function success(response) {
+          console.log('Files: ', response);
+          console.log(response.result.files);
+          return {
+            isMore: !!response.result.nextPageToken,
+            rows: response.result.files.map(t => ({
+              id: t.id,
+              name: t.name,
+              mimeType: t.mimeType,
+              lastModifiedDate: t.modifiedTime,
+              thumbnail: t.thumbnailLink,
+            })),
+          };
+        }),
+    [googleApi],
+  );
 
   const signIn = useCallback(
     () =>
