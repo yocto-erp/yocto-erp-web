@@ -38,7 +38,6 @@ export function RestPasswordPage() {
   useEffect(() => {
     verifyToken({ token }).then(t => {
       check(true);
-      console.log(t);
     });
   }, []);
 

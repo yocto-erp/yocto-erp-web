@@ -78,7 +78,6 @@ const StudentConfigurationForm = () => {
     state: { isLoading, errors: serverErrors, resp: submitResp },
   } = useMyForm({
     api: async data => {
-      console.log(data);
       return studentConfigurationApi.save(data);
     },
     validationSchema,

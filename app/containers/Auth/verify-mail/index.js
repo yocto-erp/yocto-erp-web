@@ -17,7 +17,6 @@ export function VerifyMailPage() {
   useEffect(() => {
     verifyEmail({ email, token }).then(t => {
       check(true);
-      console.log(t);
     });
   }, []);
   return (

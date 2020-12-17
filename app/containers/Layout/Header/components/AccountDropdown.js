@@ -7,6 +7,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { mutate } from 'swr';
+import { useHistory } from 'react-router-dom';
 import s from '../Header.module.scss';
 import avatar from '../../../../images/people/a5.jpg';
 import { set, STORAGE } from '../../../../libs/utils/storage';
@@ -14,8 +15,10 @@ import useUser, { SWR_KEY_USER } from '../../../../libs/hooks/useUser';
 
 const AccountDropDown = () => {
   const { user } = useUser();
+  const history = useHistory();
   const logout = () => {
     set(STORAGE.JWT, null);
+    history.push('/');
     return mutate(SWR_KEY_USER, null);
   };
   return (

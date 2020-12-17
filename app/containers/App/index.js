@@ -34,7 +34,6 @@ export default function App() {
       if (!isAuthenticated) {
         rs = <Login />;
       } else {
-        console.log(user);
         if (user.userCompanies === null) {
           rs = <OnBoardPage />;
         } else {

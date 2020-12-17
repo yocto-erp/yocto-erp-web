@@ -120,7 +120,6 @@ function MyForm({ id }) {
   });
 
   const form = React.useMemo(() => {
-    console.log('cache');
     return (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
@@ -152,7 +151,6 @@ function MyForm({ id }) {
                     id="partnerPersonId"
                     placeholder="Choose Customer"
                     onAdded={newCustomer => {
-                      console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
                       setValue('partnerPersonId', newCustomer, {
                         shouldValidate: true,
                       });
@@ -178,7 +176,6 @@ function MyForm({ id }) {
                     id="partnerCompanyId"
                     placeholder="Choose Partner Company"
                     onAdded={newCompany => {
-                      console.log(`OnAdd: ${JSON.stringify(newCompany)}`);
                       setValue('partnerCompanyId', newCompany, {
                         shouldValidate: true,
                       });
@@ -272,7 +269,6 @@ function MyForm({ id }) {
       </Form>
     );
   }, [errors, isLoading, submit, register, control]);
-  console.log('MyForm');
 
   return <Widget>{form}</Widget>;
 }

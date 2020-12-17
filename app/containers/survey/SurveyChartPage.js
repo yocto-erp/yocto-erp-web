@@ -116,7 +116,6 @@ const SurveyChartPage = props => {
                             value={t.id}
                             name={`question${t.id}`}
                             onChange={e => {
-                              console.log(t.id, e.target.checked);
                               showChart(t.id, e.target.checked);
                             }}
                           />

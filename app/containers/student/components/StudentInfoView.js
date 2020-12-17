@@ -6,7 +6,6 @@ import ModalOKButton from '../../../components/button/ModalOKButton';
 import Price from '../../../components/common/Price';
 
 const StudentInfoView = ({ student, isOpen, onClose }) => {
-  console.log(student);
   const { configure } = useStudentConfigure();
   const studentClass = useMemo(() => {
     let rs = null;

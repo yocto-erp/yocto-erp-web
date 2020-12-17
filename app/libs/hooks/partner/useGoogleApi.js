@@ -76,8 +76,6 @@ export function useGoogleApi() {
           q: "trashed=false and 'root' in parents",
         })
         .then(function success(response) {
-          console.log('Files: ', response);
-          console.log(response.result.files);
           return {
             isMore: !!response.result.nextPageToken,
             rows: response.result.files.map(t => ({

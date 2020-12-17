@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import warehouseApi from '../../../libs/apis/warehouse.api';
 
 const WarehouseSelect = React.forwardRef(
+  // eslint-disable-next-line no-unused-vars
   ({ onChange, value, onBlur, invalid, id, placeholder }, ref) => {
     const [options, setOptions] = useState([]);
     const request = React.useRef(0);

@@ -91,14 +91,12 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  console.log('ListPage');
   const search = { search: '', partnerCompanyId: null, partnerPersonId: null };
   const action = (
     <div>
       <CreateButton
         className="mr-2 btn-raised"
         onClick={() => {
-          console.log('Create');
           history.push(newPage(ROOT_PATH));
         }}
       />

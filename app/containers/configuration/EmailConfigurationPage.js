@@ -14,7 +14,6 @@ const EmailConfigurationPage = () => {
 
   useEffect(() => {
     emailConfigurationApi.get().then(resp => {
-      console.log(resp);
       if (resp) {
         setMailProvider(resp.mailProvider);
         setMailForm(resp);
@@ -74,7 +73,6 @@ const EmailConfigurationPage = () => {
               name="mailProvider"
               value={mailProvider}
               onChange={event => {
-                console.log(event.target.value);
                 event.preventDefault();
                 setMailProvider(event.target.value);
               }}

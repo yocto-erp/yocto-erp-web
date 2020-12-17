@@ -111,9 +111,8 @@ function MyForm({ id }) {
     name: 'details',
   });
 
-  const form = React.useMemo(() => {
-    console.log('cache');
-    return (
+  const form = React.useMemo(
+    () => (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -144,7 +143,6 @@ function MyForm({ id }) {
                     id="partnerPersonId"
                     placeholder="Choose Customer"
                     onAdded={newCustomer => {
-                      console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
                       setValue('partnerPersonId', newCustomer, {
                         shouldValidate: true,
                       });
@@ -262,9 +260,9 @@ function MyForm({ id }) {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} />
       </Form>
-    );
-  }, [errors, isLoading, submit, register, control]);
-  console.log('MyForm');
+    ),
+    [errors, isLoading, submit, register, control],
+  );
 
   return <Widget>{form}</Widget>;
 }

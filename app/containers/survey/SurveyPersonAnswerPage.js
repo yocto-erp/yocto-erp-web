@@ -94,7 +94,6 @@ const SurveyPersonAnswerPage = () => {
   );
 
   const search = { search: '' };
-  console.log('test time', id, surveyQuestions);
   return (
     <ListWidget
       widgetClassname="widget-custom"
