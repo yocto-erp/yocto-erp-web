@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Nav, NavItem, NavLink, TabContent } from 'reactstrap';
 import classNames from 'classnames';
-import GoogleDrive from '../FilePicker/GoogleDrive';
+import GoogleDrive from '../google/GoogleDrive';
 
 const tabs = ['My Drive', 'Google Drive'];
 const FileBrowser = ({ onPicked, className, ...props }) => {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(1);
   return (
     <>
       <Nav tabs>

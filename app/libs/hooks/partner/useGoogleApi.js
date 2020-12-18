@@ -65,30 +65,28 @@ export function useGoogleApi() {
   }, [googleApi]);
 
   const listFiles = useCallback(
-    () =>
-      googleApi.client.drive.files
-        .list({
-          pageSize: 10,
-          fields: 'nextPageToken, files',
-          spaces: 'drive',
-          folderId: 'root',
-          corpora: 'user',
-          q: "trashed=false and 'root' in parents",
-        })
-        .then(function success(response) {
-          console.log('Files: ', response);
-          console.log(response.result.files);
-          return {
-            isMore: !!response.result.nextPageToken,
-            rows: response.result.files.map(t => ({
-              id: t.id,
-              name: t.name,
-              mimeType: t.mimeType,
-              lastModifiedDate: t.modifiedTime,
-              thumbnail: t.thumbnailLink,
-            })),
-          };
-        }),
+    ({ id, pageSize = 100, pageToken, search, mimeType }) => {
+      console.log(`PageSize: ${pageSize}`);
+      const q = ['trashed=false'];
+      if (id) {
+        q.push(`'${id}' in parents`);
+      }
+      if (search && search.length) {
+        q.push(`name contains '${search}'`);
+      }
+      if (mimeType && mimeType.leading) {
+        q.push(`mimeType = '${mimeType}`);
+      }
+      return googleApi.client.drive.files.list({
+        pageSize,
+        fields: 'nextPageToken, files',
+        spaces: 'drive',
+        corpora: 'user',
+        q: q.join(' and '),
+        pageToken,
+        orderBy: 'folder asc,name desc',
+      });
+    },
     [googleApi],
   );
 

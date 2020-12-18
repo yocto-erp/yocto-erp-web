@@ -1,0 +1,38 @@
+.asset-item-wrapper {
+  padding: 10px;
+
+  .asset-item {
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    .thumbnail {
+      height: 200px;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .title {
+      padding: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      span {
+        cursor: pointer;
+        min-width: 0;
+      }
+    }
+  }
+
+  &.active {
+    .asset-item {
+      background: #1870DC;
+    }
+  }
+}

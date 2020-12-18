@@ -148,9 +148,11 @@ $bg-addition: darken($widget-bg-color, .07);
 $input-bg: #040620;
 
 $input-btn-line-height: 1.5;
-
+$input-line-height: 1.5;
 $input-btn-padding-y: 0.5rem;
 $input-btn-padding-x: 0.75rem;
+
+$input-height: calc(1.5 + 1rem + 2px);
 
 $input-color: white;
 $input-border-color: $gray-300 !default;
