@@ -77,10 +77,7 @@ const StudentConfigurationForm = () => {
     formState: { isValid, isDirty },
     state: { isLoading, errors: serverErrors, resp: submitResp },
   } = useMyForm({
-    api: async data => {
-      console.log(data);
-      return studentConfigurationApi.save(data);
-    },
+    api: async data => studentConfigurationApi.save(data),
     validationSchema,
     defaultValues: {
       numberDayOfMonth: 0,

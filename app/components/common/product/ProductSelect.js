@@ -14,17 +14,21 @@ const formatOptionLabel = data => (
   </div>
 );
 
-const ProductSelect = ({
-  onBlur,
-  invalid,
-  name,
-  placeholder,
-  onAdded,
-  onChange,
-  value,
-  creatable = true,
-  ...props
-}) => {
+const ProductSelect = React.forwardRef((
+  {
+    onBlur,
+    invalid,
+    name,
+    placeholder,
+    onAdded,
+    onChange,
+    value,
+    creatable = true,
+    ...props
+  },
+  // eslint-disable-next-line no-unused-vars
+  ref,
+) => {
   const [isOpen, open] = useState(false);
   const loadOptions1 = debounce((inputValue, cb) => {
     productApi
@@ -86,7 +90,7 @@ const ProductSelect = ({
       )}
     </>
   );
-};
+});
 
 ProductSelect.propTypes = {
   value: PropTypes.any,

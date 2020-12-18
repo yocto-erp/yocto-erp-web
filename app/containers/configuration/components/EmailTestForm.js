@@ -29,11 +29,7 @@ const EmailTestForm = ({ configuration }) => {
     formState: { isValid, isDirty },
     state: { isLoading, errors: serverErrors, resp: submitResp },
   } = useMyForm({
-    api: async data => {
-      console.log(data);
-      console.log(configuration);
-      return emailConfigurationApi.test(configuration, data);
-    },
+    api: async data => emailConfigurationApi.test(configuration, data),
     validationSchema,
   });
 

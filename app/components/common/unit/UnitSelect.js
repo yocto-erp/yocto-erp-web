@@ -5,17 +5,21 @@ import classNames from 'classnames';
 import productApi from '../../../libs/apis/product/product.api';
 import UnitModalForm from './UnitModalForm';
 
-const UnitSelect = ({
-  onChange,
-  value,
-  onBlur,
-  invalid,
-  name,
-  placeholder,
-  onAdded,
-  productId,
-  id,
-}) => {
+const UnitSelect = React.forwardRef((
+  {
+    onChange,
+    value,
+    onBlur,
+    invalid,
+    name,
+    placeholder,
+    onAdded,
+    productId,
+    id,
+  },
+  // eslint-disable-next-line no-unused-vars
+  ref,
+) => {
   const [isOpen, open] = useState(false);
   const [options, setOptions] = useState([]);
   const request = React.useRef(0);
@@ -98,7 +102,7 @@ const UnitSelect = ({
       )}
     </>
   );
-};
+});
 UnitSelect.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   invalid: PropTypes.bool,

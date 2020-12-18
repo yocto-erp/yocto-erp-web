@@ -46,7 +46,6 @@ const FormDetail = ({
   });
 
   const classInfo = useMemo(() => {
-    console.log(student);
     let rs = null;
     if (student && studentConfig) {
       rs = studentConfig.classes.find(t => t.id === student.class);

@@ -144,7 +144,6 @@ const CreatePaymentForm = ({ id }) => {
                       placeholder="Choose Partner Company"
                       invalid={!!errors.partnerCompanyId}
                       onAdded={newCompany => {
-                        console.log(`OnAdd: ${JSON.stringify(newCompany)}`);
                         setValue('partnerCompanyId', newCompany, {
                           shouldValidate: true,
                         });
@@ -171,7 +170,6 @@ const CreatePaymentForm = ({ id }) => {
                       placeholder="Choose Partner Person"
                       invalid={!!errors.partnerPersonId}
                       onAdded={newCustomer => {
-                        console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
                         setValue('partnerPersonId', newCustomer, {
                           shouldValidate: true,
                         });

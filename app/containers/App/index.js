@@ -33,13 +33,10 @@ export default function App() {
     if (!isLoading) {
       if (!isAuthenticated) {
         rs = <Login />;
+      } else if (user.userCompanies === null) {
+        rs = <OnBoardPage />;
       } else {
-        console.log(user);
-        if (user.userCompanies === null) {
-          rs = <OnBoardPage />;
-        } else {
-          rs = <LayoutComponent />;
-        }
+        rs = <LayoutComponent />;
       }
     }
     return rs;

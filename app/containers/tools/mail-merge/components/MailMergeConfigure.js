@@ -38,7 +38,6 @@ const MailMergeConfigure = React.forwardRef(
       form: setting,
       validationSchema: schema,
       api: formData => {
-        console.log(formData);
         const serverFormData = {
           ...formData,
           cc: formData.cc ? formData.cc.map(t => t.value) : null,
@@ -53,7 +52,6 @@ const MailMergeConfigure = React.forwardRef(
     });
 
     useEffect(() => {
-      console.log('MailMergeConfigure', setting);
       if (setting) {
         reset(setting);
       } else {
