@@ -48,10 +48,9 @@ export function changeActiveSidebarMenu(activeItem) {
   };
 }
 
-export function changeSidebarVisibility(nextVisibility) {
+export function changeSidebarVisibility() {
   return {
     type: CHANGE_SIDEBAR_VISIBILITY,
-    payload: nextVisibility,
   };
 }
 
@@ -74,7 +73,8 @@ export const navigationReducer = (state = initialState, action) =>
         draft.sidebarPosition = action.payload;
         break;
       case CHANGE_SIDEBAR_VISIBILITY:
-        draft.sidebarVisibility = action.payload;
+        draft.sidebarVisibility =
+          state.sidebarVisibility === 'hide' ? 'show' : 'hide';
         break;
       case CHANGE_ACTIVE_SIDEBAR_ITEM:
         draft.activeItem = action.activeItem;
