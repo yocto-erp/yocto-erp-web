@@ -32,18 +32,28 @@ const SurveyResultPage = () => {
               <strong>Email: </strong>
               {row.person.email}
             </p>
+            {row.ageRange ? (
+              <p className="m-0">
+                <strong>Age Range: </strong>
+                {row.ageRange}
+              </p>
+            ) : null}
             <p className="m-0">
-              <strong>Age Range: </strong>
-              {row.ageRange}
+              <strong>Client ID: </strong>
+              {row.clientId}
             </p>
-            <p className="m-0">
-              <strong>Gender: </strong>
-              {genderStr(row.person.sex)}
-            </p>
-            <p className="m-0">
-              <strong>Location: </strong>
-              {row.person.address}
-            </p>
+            {row.person.sex ? (
+              <p className="m-0">
+                <strong>Gender: </strong>
+                {genderStr(row.person.sex)}
+              </p>
+            ) : null}
+            {row.person.address ? (
+              <p className="m-0">
+                <strong>Location: </strong>
+                {row.person.address}
+              </p>
+            ) : null}
           </div>
         ),
       },
@@ -86,12 +96,11 @@ const SurveyResultPage = () => {
                     IPFS:{row.ipfsId}
                   </a>
                 </span>
-                <br />
               </>
             ) : (
               <span className="badge badge-warning">IPFS: Processing ...</span>
             )}
-
+            <br />
             {row.blockchainId ? (
               <span className="badge badge-primary text-nowrap text-ellipsis">
                 <a
@@ -149,7 +158,7 @@ const SurveyResultPage = () => {
       initialPage={1}
       initialFilter={search}
     >
-      <Filter data={search} />
+      <Filter data={search} formConfig={survey?.formDetail} />
     </ListWidget>
   );
 };

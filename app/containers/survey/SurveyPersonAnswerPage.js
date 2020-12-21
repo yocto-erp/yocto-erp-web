@@ -40,7 +40,7 @@ const SurveyPersonAnswerPage = () => {
             return (
               <ul className="mb-0">
                 {rs.map(t => (
-                  <li> - {t}</li>
+                  <li key={t}> - {t}</li>
                 ))}
               </ul>
             );
@@ -69,18 +69,25 @@ const SurveyPersonAnswerPage = () => {
               <strong>Email: </strong>
               {row.person.email}
             </p>
-            <p className="m-0">
-              <strong>Location: </strong>
-              {row.person.address}
-            </p>
-            <p className="m-0">
-              <strong>Age Range: </strong>
-              {row.ageRange}
-            </p>
-            <p className="m-0">
-              <strong>Gender: </strong>
-              {genderStr(row.person.sex)}
-            </p>
+            {row.person.address ? (
+              <p className="m-0">
+                <strong>Location: </strong>
+                {row.person.address}
+              </p>
+            ) : null}
+            {row.ageRange ? (
+              <p className="m-0">
+                <strong>Age Range: </strong>
+                {row.ageRange}
+              </p>
+            ) : null}
+            {row.person.sex ? (
+              <p className="m-0">
+                <strong>Gender: </strong>
+                {genderStr(row.person.sex)}
+              </p>
+            ) : null}
+
             <p className="m-0">
               <strong>Submitted Date: </strong>
               {formatDateOnly(new Date(row.submittedDate))}
@@ -103,7 +110,7 @@ const SurveyPersonAnswerPage = () => {
       initialPage={1}
       initialFilter={search}
     >
-      <Filter data={search} />
+      <Filter data={search} formConfig={survey?.formDetail} />
     </ListWidget>
   );
 };

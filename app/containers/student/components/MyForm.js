@@ -62,8 +62,8 @@ function MyForm({ id }) {
     onSuccess: resp => {
       toast.success(
         id
-          ? `Update student ${resp.fullName} success`
-          : `Create student ${resp.fullName} success`,
+          ? `Update student ${resp.firstName} ${resp.lastName} success`
+          : `Create student ${resp.firstName} ${resp.lastName} success`,
       );
     },
     mappingToForm: form => ({

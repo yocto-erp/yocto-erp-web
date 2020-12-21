@@ -20,6 +20,7 @@ const DownloadButton = ({ link, fileName, ...props }) => {
   return (
     <Button
       color="info"
+      type="button"
       onClick={() => exec()}
       disabled={props.disabled || isLoading}
       {...props}

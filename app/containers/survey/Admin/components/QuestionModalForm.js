@@ -25,6 +25,7 @@ import CreateButton from '../../../../components/button/CreateButton';
 import FormRow from '../../../../components/Form/FormRow';
 import surveyQuestionAdminApi from '../../../../libs/apis/survey/survey-question-admin.api';
 import { SURVEY_QUESTION_TYPE } from '../../constants';
+
 const validationSchema = Yup.object().shape({
   content: Yup.string().required('This field is required.'),
   type: Yup.number().required('This field is required.'),
@@ -88,6 +89,7 @@ const QuestionModalForm = ({ isOpen, closeHandle, id, surveyId }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'questionAnswers',
+    keyName: 'qaId',
   });
   return (
     <Modal isOpen={isOpen} style={{ minWidth: '1000px' }}>

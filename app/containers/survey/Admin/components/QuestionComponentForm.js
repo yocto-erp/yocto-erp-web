@@ -36,7 +36,7 @@ const QuestionComponentForm = ({ question, isOpen, onEdit, onDelete }) => {
           className="font-weight-bolder"
           onClick={() => setIsOpen(!state)}
         >
-          <div className="row">
+          <div className="row align-items-center">
             <div className="col-9">{question?.content}</div>
             <div className="col-1">
               <div>{rs}</div>

@@ -108,6 +108,7 @@ const QuestionPage = () => {
             form={{ email: target }}
             onSubmitFormPerson={setPerson}
             surveyType={resp.type}
+            formConfig={resp.formDetail}
           />
         </>
       );

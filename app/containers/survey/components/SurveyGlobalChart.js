@@ -4,9 +4,10 @@ import { HorizontalBar } from 'react-chartjs-2';
 import { useApi } from '../../../libs/hooks/useApi';
 import surveyApi from '../../../libs/apis/survey/survey.api';
 import { genderStr } from '../../../libs/apis/person.api';
-import { AGE_RANGES } from '../constants';
+import { AGE_RANGES, useSurveyContext } from '../constants';
 
 const SurveyGlobalChart = ({ surveyId }) => {
+  const { survey } = useSurveyContext();
   const {
     state: { resp: summary },
     exec: summaryExec,
@@ -106,36 +107,42 @@ const SurveyGlobalChart = ({ surveyId }) => {
         </div>
       </div>
       <div className="row">
-        <div className="col-md-4">
-          <HorizontalBar
-            data={generateChartData(
-              '# Age Range Vote',
-              globalChartData.age.labels,
-              globalChartData.age.data,
-            )}
-            options={options}
-          />
-        </div>
-        <div className="col-md-4">
-          <HorizontalBar
-            data={generateChartData(
-              '# Location Vote',
-              globalChartData.location.labels,
-              globalChartData.location.data,
-            )}
-            options={options}
-          />
-        </div>
-        <div className="col-md-4">
-          <HorizontalBar
-            data={generateChartData(
-              '# Gender Vote',
-              globalChartData.gender.labels,
-              globalChartData.gender.data,
-            )}
-            options={options}
-          />
-        </div>
+        {survey?.formDetail.enableAge ? (
+          <div className="col-md-4">
+            <HorizontalBar
+              data={generateChartData(
+                '# Age Range Vote',
+                globalChartData.age.labels,
+                globalChartData.age.data,
+              )}
+              options={options}
+            />
+          </div>
+        ) : null}
+        {survey?.formDetail.enableAddress ? (
+          <div className="col-md-4">
+            <HorizontalBar
+              data={generateChartData(
+                '# Location Vote',
+                globalChartData.location.labels,
+                globalChartData.location.data,
+              )}
+              options={options}
+            />
+          </div>
+        ) : null}
+        {survey?.formDetail.enableGender ? (
+          <div className="col-md-4">
+            <HorizontalBar
+              data={generateChartData(
+                '# Gender Vote',
+                globalChartData.gender.labels,
+                globalChartData.gender.data,
+              )}
+              options={options}
+            />
+          </div>
+        ) : null}
       </div>
     </>
   );
