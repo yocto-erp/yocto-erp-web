@@ -25,7 +25,14 @@ const ListQuestionPage = ({ history }) => {
 
   const action = (
     <div>
-      <CreateButton onClick={() => open(true)}>Add Question</CreateButton>
+      <CreateButton
+        onClick={() => {
+          setQuestionId(null);
+          open(true);
+        }}
+      >
+        Add Question
+      </CreateButton>
     </div>
   );
 
@@ -81,7 +88,6 @@ const ListQuestionPage = ({ history }) => {
               <div className="col">
                 <QuestionComponentForm
                   question={t}
-                  isOpen
                   onDelete={onDelete}
                   onEdit={onEdit}
                 />

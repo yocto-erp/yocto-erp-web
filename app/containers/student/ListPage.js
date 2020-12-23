@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Widget from '../../components/Widget/Widget';
 import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import studentApi from '../../libs/apis/student/student.api';
 import {
@@ -128,7 +127,7 @@ const ListPage = ({ history }) => {
         data: 'enableMeal',
         width: '5%',
         render: row =>
-          row.enableMeal === 1 ? (
+          row.enableMeal ? (
             <span className="badge badge-success">YES</span>
           ) : (
             <span className="badge badge-danger">NO</span>
@@ -137,7 +136,7 @@ const ListPage = ({ history }) => {
       {
         header: 'Bus',
         data: 'bus',
-        width: '25%',
+        class: 'min no-wrap',
         render: row => {
           if (busRoute.length) {
             const toSchoolBus = busRoute.find(
@@ -147,12 +146,18 @@ const ListPage = ({ history }) => {
               value => value.id === row.toHomeBusRoute,
             );
             return (
-              <p className="m-0">
-                Bus To School From:
-                <strong>{toSchoolBus ? toSchoolBus.name : ''}</strong> <br />
-                Bus From School To:
-                <strong>{toHomeBus ? toHomeBus.name : ''}</strong>
-              </p>
+              <>
+                {toSchoolBus ? (
+                  <p className="m-0">
+                    To School From: <strong>{toSchoolBus.name}</strong>
+                  </p>
+                ) : null}
+                {toHomeBus ? (
+                  <p>
+                    From School To: <strong>{toHomeBus.name}</strong>
+                  </p>
+                ) : null}
+              </>
             );
           }
           return <></>;

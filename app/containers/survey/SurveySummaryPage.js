@@ -23,6 +23,7 @@ import surveyApi from '../../libs/apis/survey/survey.api';
 import { useApi } from '../../libs/hooks/useApi';
 import { useSearchQuery } from '../../libs/hooks/useSearchQuery';
 import { SurveyContext } from './constants';
+import SurveyImportRaw from './SurveyImportRaw';
 
 const SurveySummary = () => {
   const { path, url } = useRouteMatch();
@@ -55,6 +56,7 @@ const SurveySummary = () => {
       PERSON_SUMMARY: `${path}/person`,
       SURVEY_CHART: `${path}/chart`,
       QUESTION_SUMMARY: `${path}/question`,
+      ANSWER_IMPORT: `${path}/import`,
     }),
     [path],
   );
@@ -106,6 +108,19 @@ const SurveySummary = () => {
             Question/Answer Summary
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink
+            className={classNames({
+              active: routeItem === PATH_SUMMARY.ANSWER_IMPORT,
+            })}
+            onClick={() =>
+              routeItem !== PATH_SUMMARY.ANSWER_IMPORT &&
+              history.push(`${url}/import`)
+            }
+          >
+            Import Raw Data
+          </NavLink>
+        </NavItem>
       </>
     ),
     [PATH_SUMMARY, url],
@@ -125,6 +140,11 @@ const SurveySummary = () => {
                 exact
                 path={PATH_SUMMARY.SURVEY_CHART}
                 component={SurveyChartPage}
+              />
+              <Route
+                exact
+                path={PATH_SUMMARY.ANSWER_IMPORT}
+                component={SurveyImportRaw}
               />
               <Route
                 path={PATH_SUMMARY.QUESTION_SUMMARY}
@@ -170,6 +190,11 @@ const SurveySummary = () => {
               exact
               path={PATH_SUMMARY.QUESTION_SUMMARY}
               render={() => route(PATH_SUMMARY.QUESTION_SUMMARY)}
+            />
+            <Route
+              exact
+              path={PATH_SUMMARY.ANSWER_IMPORT}
+              render={() => route(PATH_SUMMARY.ANSWER_IMPORT)}
             />
           </Switch>
         </Nav>

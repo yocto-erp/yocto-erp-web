@@ -38,15 +38,13 @@ const validationSchema = Yup.object().shape({
     .typeError(ERROR.required)
     .moreThan(0, ERROR.numberGT0)
     .required(ERROR.required),
-  surveyI18Ns: Yup.array()
-    .of(
-      Yup.object().shape({
-        name: Yup.string()
-          .required('This field is required.')
-          .nullable(true),
-      }),
-    )
-    .required('Details is required'),
+  surveyI18Ns: Yup.array().of(
+    Yup.object().shape({
+      name: Yup.string()
+        .required('This field is required.')
+        .nullable(true),
+    }),
+  ),
 });
 
 const { create, update, read } = surveyAdminApi;
