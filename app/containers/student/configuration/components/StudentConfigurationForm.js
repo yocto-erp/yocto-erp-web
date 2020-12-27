@@ -57,6 +57,10 @@ const StudentConfigurationForm = () => {
                 .transform(transformUnNumber)
                 .positive(ERROR.amountGT0)
                 .required(ERROR.required),
+              mealFeePerMonth: Yup.number()
+                .transform(transformUnNumber)
+                .positive(ERROR.amountGT0)
+                .required(ERROR.required),
               mealFeePerDay: Yup.number()
                 .transform(transformUnNumber)
                 .positive(ERROR.amountGT0)
@@ -95,6 +99,7 @@ const StudentConfigurationForm = () => {
           feePerDay: 0,
           feePerTrialDay: 0,
           mealFeePerDay: 0,
+          mealFeePerMonth: 0,
         },
       ],
       printTemplateId: '',
@@ -212,16 +217,19 @@ const StudentConfigurationForm = () => {
                       Name <span className="text-danger">*</span>
                     </th>
                     <th>
-                      Fee Per Month <span className="text-danger">*</span>
+                      Fee / Month <span className="text-danger">*</span>
                     </th>
                     <th>
-                      Fee Per Day <span className="text-danger">*</span>
+                      Fee / Day <span className="text-danger">*</span>
                     </th>
                     <th>
                       Fee Per Trial Date <span className="text-danger">*</span>
                     </th>
                     <th>
-                      Meal Fee Per Day <span className="text-danger">*</span>
+                      Meal Fee / Months <span className="text-danger">*</span>
+                    </th>
+                    <th>
+                      Meal Fee / Day <span className="text-danger">*</span>
                     </th>
                     <th className="action">Action</th>
                   </tr>
@@ -241,7 +249,7 @@ const StudentConfigurationForm = () => {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colSpan="7">
+                    <td colSpan="8">
                       <CreateButton
                         size="sm"
                         type="button"

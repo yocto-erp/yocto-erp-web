@@ -72,6 +72,19 @@ const ClassForm = ({ errors, register, item, index, remove, control }) => (
     </td>
     <td>
       <Controller
+        name={`classes[${index}].mealFeePerMonth`}
+        invalid={!!get(errors, ['classes', index, 'mealFeePerMonth'], false)}
+        control={control}
+        as={InputAmount}
+        defaultValue={item.mealFeePerMonth || ''}
+        placeholder="Meal Fee Per Month"
+      />
+      <FormFeedback>
+        {get(errors, ['classes', index, 'mealFeePerMonth', 'message'], '')}
+      </FormFeedback>
+    </td>
+    <td>
+      <Controller
         name={`classes[${index}].mealFeePerDay`}
         invalid={!!get(errors, ['classes', index, 'mealFeePerDay'], false)}
         control={control}

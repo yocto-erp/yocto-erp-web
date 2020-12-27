@@ -37,6 +37,7 @@ function MyForm({ id }) {
                 .nullable(true),
               scholarShip: Yup.number().transform(transferUnNumber),
               absentDay: Yup.number().transform(transferUnNumber),
+              studentAbsentDay: Yup.number().transform(transferUnNumber),
               trialDate: Yup.number().transform(transferUnNumber),
               otherFee: Yup.number().transform(transferUnNumber),
               otherDeduceFee: Yup.number().transform(transferUnNumber),
@@ -80,15 +81,22 @@ function MyForm({ id }) {
       console.log(form);
       console.log(id);
       const details = form.details.map(result => {
-        const trialDateFee = result.trialDate * studentConfig.feePerTrialDay;
+        const studentClassConfigure = studentConfig.classes.find(
+          clz => clz.id === result.student.class,
+        );
+        const trialDateFee =
+          result.trialDate * studentClassConfigure.feePerTrialDay;
         const absentDayFee =
           result.absentDay *
-          studentConfig.feePerDay *
+          studentClassConfigure.feePerDay *
           (1 - result.scholarShip / 100);
+        const studentAbsentDayFee = result.student.enableMeal
+          ? studentClassConfigure.mealFeePerDay * result.studentAbsentDay
+          : 0;
         const scholarFee =
-          studentConfig.monthlyTuitionFee * (result.scholarShip / 100);
+          studentClassConfigure.tuitionFee * (result.scholarShip / 100);
         const totalAmount =
-          studentConfig.monthlyTuitionFee -
+          studentClassConfigure.tuitionFee -
           scholarFee -
           absentDayFee +
           trialDateFee +
@@ -102,6 +110,8 @@ function MyForm({ id }) {
           studentId: result.student.id,
           scholarShip: result.scholarShip,
           absentDay: result.absentDay,
+          studentAbsentDay: result.studentAbsentDay,
+          studentAbsentDayFee,
           trialDate: result.trialDate,
           busFee: result.busFee,
           mealFee: result.mealFee,
@@ -109,7 +119,7 @@ function MyForm({ id }) {
           otherDeduceFee: result.otherDeduceFee,
           remark: result.remark,
           scholarFee,
-          feePerMonth: studentConfig.monthlyTuitionFee,
+          feePerMonth: studentClassConfigure.tuitionFee,
           trialDateFee,
           absentDayFee,
           totalAmount,
@@ -128,6 +138,7 @@ function MyForm({ id }) {
           student: null,
           scholarShip: '',
           absentDay: '',
+          studentAbsentDay: '',
           trialDate: '',
           busFee: '',
           mealFee: '',
@@ -157,8 +168,8 @@ function MyForm({ id }) {
                   Month / Student<span className="text-danger">*</span>
                 </th>
                 <th className="min">Scholar Ship</th>
-                <th className="min">Absent Date</th>
-                <th className="min">Trial Date</th>
+                <th className="min">Absent Day(s)</th>
+                <th className="min">Trial Day(s)</th>
                 <th style={{ width: '100px' }}>Bus Fee</th>
                 <th style={{ width: '100px' }}>Meal Fee</th>
                 <th style={{ width: '120px' }}>Other Fee</th>
@@ -201,6 +212,7 @@ function MyForm({ id }) {
                           student: null,
                           scholarShip: '',
                           absentDay: '',
+                          studentAbsentDay: '',
                           trialDate: '',
                           busFee: '',
                           mealFee: '',

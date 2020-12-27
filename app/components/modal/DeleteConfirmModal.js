@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useAsync } from '../../libs/hooks/useAsync';
 import ModalOKButton from '../button/ModalOKButton';
 import ModalCancelButton from '../button/ModalCancelButton';
-import { useListRefreshContext } from '../ListWidget/constants';
+import { useListActionContext } from '../ListWidget/constants';
 
 const DeleteConfirmModal = ({
   id,
@@ -20,12 +20,16 @@ const DeleteConfirmModal = ({
   const [isLoading, exec] = useAsync({ asyncApi: deleteApi });
   const [item, setItem] = useState(null);
 
-  const refresh = useListRefreshContext();
+  const { onDeleted, refresh } = useListActionContext();
 
   const onCloseHandle = useCallback(
     result => {
       if (isReload) {
-        refresh();
+        if (result) {
+          onDeleted(result.id);
+        } else {
+          refresh();
+        }
       }
 
       setItem(null);
@@ -33,7 +37,7 @@ const DeleteConfirmModal = ({
         onClose(result);
       }
     },
-    [onClose, refresh],
+    [onClose, onDeleted, refresh],
   );
 
   useEffect(() => {

@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import { Input, Spinner } from 'reactstrap';
 import {
   COLUMN_PROPS,
+  ListActionProvider,
   ListFilterProvider,
-  ListRefreshProvider,
   ListStateProvider,
 } from './constants';
 import TableHeader from './TableHeader';
@@ -182,12 +182,23 @@ const ListWidget = ({
     setFilter(par);
   }, []);
 
+  const onDeleted = React.useCallback(
+    id => {
+      if (selectedList[`item${String(id)}`]) {
+        delete selectedList[`item${String(id)}`];
+        setSelectedList({ ...selectedList });
+      }
+      refresh();
+    },
+    [refresh, selectedList],
+  );
+
   React.useEffect(() => {
     refresh();
   }, [refresh]);
 
   return (
-    <ListRefreshProvider value={refresh}>
+    <ListActionProvider value={{ refresh, onDeleted }}>
       <ListStateProvider value={selectedList}>
         {pageHeader}
         {columns.length ? (
@@ -210,7 +221,7 @@ const ListWidget = ({
         ) : null}
         {deleteDialog}
       </ListStateProvider>
-    </ListRefreshProvider>
+    </ListActionProvider>
   );
 };
 
