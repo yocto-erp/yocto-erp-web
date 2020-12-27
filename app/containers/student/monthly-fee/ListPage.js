@@ -61,9 +61,16 @@ const ListPage = ({ history }) => {
           <>
             {row.absentDay ? (
               <p className="mb-0">
-                <strong>Absent Day: </strong>
+                <strong>School Absent Day: </strong>
                 {row.absentDay} (
                 <Price amount={row.absentDayFee} />)
+              </p>
+            ) : null}
+            {row.studentAbsentDay ? (
+              <p className="mb-0">
+                <strong>Student Absent Day: </strong>
+                {row.studentAbsentDay} (
+                <Price amount={row.studentAbsentDayFee} />)
               </p>
             ) : null}
             {row.trialDate ? (

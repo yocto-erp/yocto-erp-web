@@ -24,6 +24,7 @@ import { useApi } from '../../libs/hooks/useApi';
 import { useSearchQuery } from '../../libs/hooks/useSearchQuery';
 import { SurveyContext } from './constants';
 import SurveyImportRaw from './SurveyImportRaw';
+import SurveyExplorePage from './SurveyExplorePage';
 
 const SurveySummary = () => {
   const { path, url } = useRouteMatch();
@@ -53,6 +54,7 @@ const SurveySummary = () => {
 
   const PATH_SUMMARY = React.useMemo(
     () => ({
+      PERSON_EXPLORE: `${path}/explore`,
       PERSON_SUMMARY: `${path}/person`,
       SURVEY_CHART: `${path}/chart`,
       QUESTION_SUMMARY: `${path}/question`,
@@ -69,6 +71,19 @@ const SurveySummary = () => {
   const route = React.useCallback(
     routeItem => (
       <>
+        <NavItem>
+          <NavLink
+            className={classNames({
+              active: routeItem === PATH_SUMMARY.PERSON_EXPLORE,
+            })}
+            onClick={() =>
+              routeItem !== PATH_SUMMARY.PERSON_EXPLORE &&
+              history.push(`${url}/explore`)
+            }
+          >
+            Vote Explore
+          </NavLink>
+        </NavItem>
         <NavItem>
           <NavLink
             className={classNames({
@@ -133,6 +148,10 @@ const SurveySummary = () => {
           <Col xl="12" lg="12" md="12" sm="12">
             <Switch>
               <Route
+                path={PATH_SUMMARY.PERSON_EXPLORE}
+                component={SurveyExplorePage}
+              />
+              <Route
                 path={PATH_SUMMARY.PERSON_SUMMARY}
                 component={SurveyResultPage}
               />
@@ -176,6 +195,11 @@ const SurveySummary = () => {
         ) : null}
         <Nav tabs>
           <Switch>
+            <Route
+              exact
+              path={PATH_SUMMARY.PERSON_EXPLORE}
+              render={() => route(PATH_SUMMARY.PERSON_EXPLORE)}
+            />
             <Route
               exact
               path={PATH_SUMMARY.PERSON_SUMMARY}

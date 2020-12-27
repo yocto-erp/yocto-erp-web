@@ -4,15 +4,15 @@ import CreatedBy from './CreatedBy';
 import { formatDate } from '../../libs/utils/date.util';
 
 const ListFilterContext = createContext({});
-const ListRefreshContext = createContext(null);
+const ListActionContext = createContext(null);
 const ListStateContext = createContext(null);
 
 export function useListFilter() {
   return useContext(ListFilterContext);
 }
 
-export function useListRefreshContext() {
-  return useContext(ListRefreshContext);
+export function useListActionContext() {
+  return useContext(ListActionContext);
 }
 
 export function useListStateContext() {
@@ -32,7 +32,7 @@ export const COLUMN_PROPS = PropTypes.arrayOf(
 );
 
 export const ListFilterProvider = ListFilterContext.Provider;
-export const ListRefreshProvider = ListRefreshContext.Provider;
+export const ListActionProvider = ListActionContext.Provider;
 export const ListStateProvider = ListStateContext.Provider;
 
 export const CreatedByColumn = {

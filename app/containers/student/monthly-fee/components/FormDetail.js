@@ -32,6 +32,7 @@ const FormDetail = ({
 }) => {
   const {
     absentDay,
+    studentAbsentDay,
     student,
     scholarShip,
     trialDate,
@@ -59,16 +60,20 @@ const FormDetail = ({
     if (classInfo) {
       totalBusFee = student.enableBus ? studentConfig.busFee : 0;
 
-      if (student.enableMeal && classInfo.mealFeePerDay) {
+      if (
+        student.enableMeal &&
+        classInfo.mealFeePerDay &&
+        classInfo.mealFeePerMonth
+      ) {
         totalMealFee =
-          (studentConfig.numberDayOfMonth - absentDay) *
-          classInfo.mealFeePerDay;
+          classInfo.mealFeePerMonth -
+          studentAbsentDay * classInfo.mealFeePerDay;
       }
     }
     setValue(`details[${index}].busFee`, totalBusFee);
     setValue(`details[${index}].mealFee`, totalMealFee);
     trigger([`details[${index}].mealFee`, `details[${index}].busFee`]);
-  }, [student, classInfo, absentDay, index]);
+  }, [student, classInfo, studentAbsentDay, index]);
 
   const scholarShipFee = useMemo(() => {
     let rs = 0;
@@ -84,7 +89,15 @@ const FormDetail = ({
       rs = absentDay * classInfo.feePerDay * (1 - scholarShip / 100);
     }
     return rs;
-  }, [scholarShipFee, absentDay]);
+  }, [scholarShip, absentDay]);
+
+  const studentAbsentDayFee = useMemo(() => {
+    let rs = 0;
+    if (classInfo && student.enableMeal && studentAbsentDay) {
+      rs = studentAbsentDay * classInfo.mealFeePerDay;
+    }
+    return rs;
+  }, [student, studentAbsentDay, classInfo]);
 
   const trialDateFee = useMemo(() => {
     let rs = 0;
@@ -172,7 +185,7 @@ const FormDetail = ({
             defaultValue={item.scholarShip}
             placeholder="ScholarShip"
           />
-          <Price className="text-muted" amount={scholarShipFee} />
+          <Price className="text-muted small" amount={scholarShipFee} />
           <FormErrorMessage
             error={get(errors, ['details', index, 'scholarShip'])}
           />
@@ -185,9 +198,22 @@ const FormDetail = ({
             max={studentConfig ? studentConfig.numberDayOfMonth : 30}
             as={InputNumber}
             defaultValue={item.absentDay}
-            placeholder="Absent Date"
+            placeholder="School"
           />
-          <Price className="text-muted" amount={absentDayFee} />
+          <Price className="text-muted small" amount={absentDayFee} />
+          <Controller
+            invalid={!!get(errors, ['details', index, 'absentDay'], false)}
+            name={`details[${index}].studentAbsentDay`}
+            control={control}
+            max={studentConfig ? studentConfig.numberDayOfMonth : 30}
+            as={InputNumber}
+            defaultValue={item.studentAbsentDay}
+            placeholder="Student"
+          />
+          <p className="mb-0">
+            Deduce Meal Fee:{' '}
+            <Price className="text-muted small" amount={studentAbsentDayFee} />
+          </p>
         </td>
         <td>
           <Controller
@@ -199,7 +225,7 @@ const FormDetail = ({
             defaultValue={item.trialDate}
             placeholder="Trial Date"
           />
-          <Price className="text-muted" amount={trialDateFee} />
+          <Price className="text-muted small" amount={trialDateFee} />
         </td>
         <td>
           <Controller

@@ -77,7 +77,7 @@ function MyForm({ id }) {
       class: form.class,
       birthday: form.child ? new Date(form.child.birthday) : new Date(),
       sex: form.child.sex ? form.child.sex : '',
-      feePackage: form.feePackage ? form.feePackage : '',
+      feePackage: form.feePackage,
       fatherId: form.father ? form.father : null,
       motherId: form.mother ? form.mother : null,
       enableMeal: form.enableMeal,
