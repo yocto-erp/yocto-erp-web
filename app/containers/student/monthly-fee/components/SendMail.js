@@ -59,7 +59,31 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
 
   useEffect(() => {
     if (resp) {
-      toast.success('Send Email request has been success.');
+      console.log('response', resp);
+      const { success, fail } = resp;
+      const rs = [];
+      if (success.length) {
+        rs.push(
+          <p key="success" className="mb-0">
+            Send total success: {success.length}
+          </p>,
+        );
+      }
+      if (fail.length) {
+        rs.push(
+          <p key="fail" className="mt-2">
+            Send total fail: {fail.length}
+          </p>,
+        );
+        rs.push(
+          <ul key="detail" className="mt-2">
+            {fail.map(t => (
+              <li key={t.message}>{t.message}</li>
+            ))}
+          </ul>,
+        );
+      }
+      toast.success(<>{rs}</>);
       onClose(false);
     }
   }, [resp, onClose]);
@@ -87,6 +111,7 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
                 <Controller
                   control={control}
                   name="emailTemplate"
+                  defaultValue=""
                   placeholder="Select Email Template"
                   type={TEMPLATE_TYPE.STUDENT_FEE}
                   as={EmailTemplateSelect}

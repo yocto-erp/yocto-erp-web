@@ -16,6 +16,10 @@ table {
         white-space: nowrap;
         width: 1px;
         text-align: center;
+
+        .btn-toolbar {
+          flex-wrap: nowrap;
+        }
       }
     }
   }

@@ -128,9 +128,13 @@ const Editor = ({
         skin_url: '/static/tinymce/skins/ui/oxide',
         content_css:
           format === 'html'
-            ? '/static/tinymce/skins/content/default/content.min.css'
+            ? [
+                'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css',
+                '/static/tinymce/skins/content/default/content.min.css',
+              ]
             : '/static/tinymce/skins/content/default/text.css',
         height,
+        content_css_cors: true,
         setup: edi => {
           console.log(edi);
           editor.current = edi;

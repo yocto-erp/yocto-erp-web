@@ -49,7 +49,7 @@ const ListPage = ({ history }) => {
         data: 'type',
         render: row => {
           const { templateType } = row.template;
-          return templateType.name;
+          return templateType?.name;
         },
       },
       {

@@ -3,8 +3,17 @@ import PropTypes from 'prop-types';
 import { isArray, isFunction } from 'lodash';
 import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
 
-const TableActionColumns = ({ onEdit, onView, onDelete, buttons = [] }) => {
+const TableActionColumns = ({
+  onEdit,
+  onView,
+  onDelete,
+  buttons = [],
+  children,
+}) => {
   const buttonEls = [];
+  if (isArray(buttons)) {
+    buttons.forEach(t => buttonEls.push(t));
+  }
   if (isFunction(onView)) {
     buttonEls.push(
       <Button key="view" onClick={onView} color="info">
@@ -26,11 +35,10 @@ const TableActionColumns = ({ onEdit, onView, onDelete, buttons = [] }) => {
       </Button>,
     );
   }
-  if (isArray(buttons)) {
-    buttons.forEach(t => buttonEls.push(t));
-  }
+
   return (
     <ButtonToolbar className="">
+      {children}
       <ButtonGroup size="sm">{buttonEls}</ButtonGroup>
     </ButtonToolbar>
   );
@@ -41,6 +49,7 @@ TableActionColumns.propTypes = {
   onView: PropTypes.func,
   onDelete: PropTypes.func,
   buttons: PropTypes.arrayOf(PropTypes.element),
+  children: PropTypes.node,
 };
 
 export default TableActionColumns;

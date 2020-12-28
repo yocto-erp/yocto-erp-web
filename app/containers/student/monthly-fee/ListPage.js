@@ -136,7 +136,8 @@ const ListPage = ({ history }) => {
             onDelete={() => {
               history.push(deletePage(ROOT_PATH, row.id));
             }}
-            buttons={[
+          >
+            <div className="btn-group-sm btn-group">
               <DownloadButton
                 key="pdf"
                 link={() =>
@@ -148,9 +149,9 @@ const ListPage = ({ history }) => {
                 fileName={() => `${row.student.child.name}.pdf`}
               >
                 <i className="fa fa-file-pdf-o" />
-              </DownloadButton>,
-            ]}
-          />
+              </DownloadButton>
+            </div>
+          </TableActionColumns>
         ),
       },
     ],
