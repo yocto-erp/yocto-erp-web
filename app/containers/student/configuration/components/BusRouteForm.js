@@ -10,7 +10,7 @@ const BusRouteForm = ({ errors, register, item, index, remove }) => (
         type="text"
         invalid={!!get(errors, ['busRoutes', index, 'id'], false)}
         name={`busRoutes[${index}].id`}
-        innerRef={register()}
+        innerRef={register}
         defaultValue={item.id} // make sure to set up defaultValue
       />
       <FormFeedback>
@@ -22,7 +22,7 @@ const BusRouteForm = ({ errors, register, item, index, remove }) => (
         type="text"
         invalid={!!get(errors, ['busRoutes', index, 'name'], false)}
         name={`busRoutes[${index}].name`}
-        innerRef={register()}
+        innerRef={register}
         defaultValue={item.name} // make sure to set up defaultValue
       />
       <FormFeedback>

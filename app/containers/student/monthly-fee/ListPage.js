@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
@@ -15,10 +15,13 @@ import { formatMonth } from '../../../libs/utils/date.util';
 import Price from '../../../components/common/Price';
 import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
 import DownloadButton from '../../../components/button/DownloadButton';
+import IconButton from '../../../components/button/IconButton';
+import StudentFeePaid from './components/StudentFeePaid';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
   const { configure } = useStudentConfigure();
+  const [paymentStudent, setPaymentStudent] = useState(null);
   const columns = React.useMemo(
     () => [
       {
@@ -110,6 +113,12 @@ const ListPage = ({ history }) => {
                 <Price amount={row.otherDeduceFee} />
               </p>
             ) : null}
+            {row.debt ? (
+              <p className="mb-0">
+                <strong>Debt: </strong>
+                <Price amount={row.debt} />
+              </p>
+            ) : null}
           </>
         ),
       },
@@ -150,12 +159,18 @@ const ListPage = ({ history }) => {
               >
                 <i className="fa fa-file-pdf-o" />
               </DownloadButton>
+              <IconButton
+                color="warning"
+                onClick={() => setPaymentStudent(row)}
+              >
+                <i className="fa fa-money fa-fw" />{' '}
+              </IconButton>
             </div>
           </TableActionColumns>
         ),
       },
     ],
-    [configure],
+    [configure, setPaymentStudent],
   );
 
   const search = { search: '' };
@@ -225,6 +240,11 @@ const ListPage = ({ history }) => {
       enableSelectColumn
     >
       <Filter data={search} />
+      <StudentFeePaid
+        student={paymentStudent}
+        isOpen={!!paymentStudent}
+        onClose={() => setPaymentStudent(null)}
+      />
     </ListWidget>
   );
 };

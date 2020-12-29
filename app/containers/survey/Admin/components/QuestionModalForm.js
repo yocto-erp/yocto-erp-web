@@ -152,7 +152,7 @@ const QuestionModalForm = ({ isOpen, closeHandle, id, surveyId }) => {
                           )
                         }
                         name={`questionAnswers[${index}].key`}
-                        innerRef={register()}
+                        innerRef={register}
                         defaultValue={item.key}
                       />
                       <FormFeedback>
@@ -174,7 +174,7 @@ const QuestionModalForm = ({ isOpen, closeHandle, id, surveyId }) => {
                         }
                         type="textarea"
                         name={`questionAnswers[${index}].content`}
-                        innerRef={register()}
+                        innerRef={register}
                         defaultValue={item.content}
                       />
                       <FormFeedback>

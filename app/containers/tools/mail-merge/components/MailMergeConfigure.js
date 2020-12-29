@@ -219,7 +219,6 @@ const MailMergeConfigure = React.forwardRef(
               </div>
             </div>
           </form>
-          {JSON.stringify(errors)}
         </ModalBody>
         <ModalFooter>
           <ModalCancelButton onClick={() => onClose(false)} />
