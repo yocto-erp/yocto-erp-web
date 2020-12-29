@@ -130,7 +130,7 @@ const Editor = ({
           format === 'html'
             ? [
                 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css',
-                '/static/tinymce/skins/content/default/content.min.css',
+                '/static/tinymce/skins/content/default/content.css',
               ]
             : '/static/tinymce/skins/content/default/text.css',
         height,
