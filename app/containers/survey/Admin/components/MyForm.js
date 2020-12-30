@@ -198,7 +198,7 @@ function MyForm({ id }) {
                         <Input
                           type="hidden"
                           name={`surveyI18Ns[${index}].languageId`}
-                          innerRef={register()}
+                          innerRef={register}
                           id={`surveyI18Ns[${index}].languageId`}
                           defaultValue={item.languageId}
                         />
@@ -213,7 +213,7 @@ function MyForm({ id }) {
                           }
                           type="text"
                           name={`surveyI18Ns[${index}].name`}
-                          innerRef={register()}
+                          innerRef={register}
                           id={`surveyI18Ns[${index}].name`}
                           placeholder="Survey Name"
                           defaultValue={item.name}
@@ -229,7 +229,7 @@ function MyForm({ id }) {
                         <Input
                           type="textarea"
                           name={`surveyI18Ns[${index}].remark`}
-                          innerRef={register()}
+                          innerRef={register}
                           id={`surveyI18Ns[${index}].remark`}
                           placeholder="Survey remark"
                           defaultValue={item.remark}

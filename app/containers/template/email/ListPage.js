@@ -45,6 +45,29 @@ const ListPage = ({ history }) => {
         data: 'subject',
       },
       {
+        header: <strong>Send/Receive</strong>,
+        data: 'detail',
+        render: row => (
+          <>
+            {row.from ? (
+              <p>
+                From: <strong>{row.from}</strong>
+              </p>
+            ) : null}
+            {row.cc ? (
+              <p>
+                CC: <strong>{row.cc.join(', ')}</strong>
+              </p>
+            ) : null}
+            {row.bcc ? (
+              <p>
+                BCC: <strong>{row.bcc.join(', ')}</strong>
+              </p>
+            ) : null}
+          </>
+        ),
+      },
+      {
         header: 'Type',
         data: 'type',
         render: row => {

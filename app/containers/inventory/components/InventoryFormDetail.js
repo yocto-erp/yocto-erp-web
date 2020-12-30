@@ -87,7 +87,7 @@ const InventoryFormDetail = ({
           type="text"
           invalid={!!get(errors, ['details', index, 'serialCode'], false)}
           name={`details[${index}].serialCode`}
-          innerRef={register()}
+          innerRef={register}
           placeholder="Input Serial"
           defaultValue={item.serialCode} // make sure to set up defaultValue
         />
@@ -100,7 +100,7 @@ const InventoryFormDetail = ({
           type="text"
           invalid={!!get(errors, ['details', index, 'remark'], false)}
           name={`details[${index}].remark`}
-          innerRef={register()}
+          innerRef={register}
           defaultValue={item.remark} // make sure to set up defaultValue
         />
         <FormFeedback>

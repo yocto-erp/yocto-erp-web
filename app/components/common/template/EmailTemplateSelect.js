@@ -26,6 +26,7 @@ const EmailTemplateSelect = React.forwardRef((
     type,
     enableAction = false,
     variables,
+    disabled,
     ...props
   },
   // eslint-disable-next-line no-unused-vars
@@ -70,6 +71,7 @@ const EmailTemplateSelect = React.forwardRef((
           classNamePrefix="react-select"
           placeholder={placeholder}
           defaultOptions
+          isDisabled={disabled}
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any Email Template with search "${inputValue}", try to search another`
@@ -143,6 +145,7 @@ EmailTemplateSelect.propTypes = {
   type: PropTypes.number,
   enableAction: PropTypes.bool,
   variables: PropTypes.array,
+  disabled: PropTypes.bool,
 };
 
 export default EmailTemplateSelect;

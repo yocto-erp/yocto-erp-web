@@ -23,6 +23,11 @@ $borderColor: #1870DC;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     box-shadow: none;
 
+    &.react-select__control--is-disabled {
+      background-color: #495057;
+      cursor: not-allowed;
+    }
+
     &:focus, &:hover {
       border: none !important;
       box-shadow: none;

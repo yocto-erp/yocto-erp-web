@@ -12,7 +12,7 @@ const ClassForm = ({ errors, register, item, index, remove, control }) => (
         type="text"
         invalid={!!get(errors, ['classes', index, 'id'], false)}
         name={`classes[${index}].id`}
-        innerRef={register()}
+        innerRef={register}
         defaultValue={item.id} // make sure to set up defaultValue
       />
       <FormFeedback>
@@ -24,7 +24,7 @@ const ClassForm = ({ errors, register, item, index, remove, control }) => (
         type="text"
         invalid={!!get(errors, ['classes', index, 'name'], false)}
         name={`classes[${index}].name`}
-        innerRef={register()}
+        innerRef={register}
         defaultValue={item.name} // make sure to set up defaultValue
       />
       <FormFeedback>

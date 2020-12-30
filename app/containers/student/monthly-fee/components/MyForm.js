@@ -20,6 +20,22 @@ const { create, update, read } = studentMonthlyFeeApi;
 
 const transferUnNumber = value => (Number.isNaN(value) ? 0 : value);
 
+const newFee = () => ({
+  id: uuidv4(),
+  monthYear: new Date(),
+  student: null,
+  scholarShip: '',
+  absentDay: '',
+  studentAbsentDay: '',
+  trialDate: '',
+  busFee: '',
+  mealFee: '',
+  otherFee: '',
+  otherDeduceFee: '',
+  remark: '',
+  debt: '',
+});
+
 function MyForm({ id }) {
   const { configure: studentConfig } = useStudentConfigure();
 
@@ -40,6 +56,7 @@ function MyForm({ id }) {
               studentAbsentDay: Yup.number().transform(transferUnNumber),
               trialDate: Yup.number().transform(transferUnNumber),
               otherFee: Yup.number().transform(transferUnNumber),
+              debt: Yup.number().transform(transferUnNumber),
               otherDeduceFee: Yup.number().transform(transferUnNumber),
             }),
           )
@@ -103,7 +120,8 @@ function MyForm({ id }) {
           result.busFee +
           result.mealFee +
           result.otherFee -
-          result.otherDeduceFee;
+          result.otherDeduceFee +
+          result.debt;
         return {
           id: result.id,
           monthYear: result.monthYear,
@@ -118,6 +136,7 @@ function MyForm({ id }) {
           otherFee: result.otherFee,
           otherDeduceFee: result.otherDeduceFee,
           remark: result.remark,
+          debt: result.debt,
           scholarFee,
           feePerMonth: studentClassConfigure.tuitionFee,
           trialDateFee,
@@ -131,22 +150,7 @@ function MyForm({ id }) {
     },
     validationSchema,
     initForm: {
-      details: [
-        {
-          id: uuidv4(),
-          monthYear: new Date(),
-          student: null,
-          scholarShip: '',
-          absentDay: '',
-          studentAbsentDay: '',
-          trialDate: '',
-          busFee: '',
-          mealFee: '',
-          otherFee: '',
-          otherDeduceFee: '',
-          remark: '',
-        },
-      ],
+      details: [newFee()],
     },
     id,
   });
@@ -206,20 +210,7 @@ function MyForm({ id }) {
                       size="sm"
                       type="button"
                       onClick={() => {
-                        append({
-                          id: uuidv4(),
-                          monthYear: new Date(),
-                          student: null,
-                          scholarShip: '',
-                          absentDay: '',
-                          studentAbsentDay: '',
-                          trialDate: '',
-                          busFee: '',
-                          mealFee: '',
-                          otherFee: '',
-                          otherDeduceFee: '',
-                          remark: '',
-                        });
+                        append(newFee());
                       }}
                     >
                       Add

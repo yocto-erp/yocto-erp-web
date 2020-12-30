@@ -22,7 +22,6 @@ const FormDetail = ({
   errors,
   register,
   setValue,
-  getValues,
   trigger,
   item,
   index,
@@ -40,6 +39,7 @@ const FormDetail = ({
     otherDeduceFee,
     busFee,
     mealFee,
+    debt,
   } = useWatch({
     control,
     name: `details[${index}]`,
@@ -118,12 +118,14 @@ const FormDetail = ({
         busFee +
         mealFee +
         otherFee -
-        otherDeduceFee;
+        otherDeduceFee +
+        debt;
     }
     return rsFee;
   }, [
     absentDayFee,
     trialDateFee,
+    debt,
     busFee,
     mealFee,
     otherFee,
@@ -138,7 +140,7 @@ const FormDetail = ({
           <Input
             type="hidden"
             name={`details[${index}].id`}
-            innerRef={register()}
+            innerRef={register}
             defaultValue={item.id}
           />
           <div className="w-100 mb-2">
@@ -257,7 +259,7 @@ const FormDetail = ({
           <InputGroup className="mb-2">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
-                <i className="fa fa-plus" />
+                <i className="fa fa-plus fa-fw" />
               </InputGroupText>
             </InputGroupAddon>
             <Controller
@@ -269,10 +271,10 @@ const FormDetail = ({
               placeholder="Fee"
             />
           </InputGroup>
-          <InputGroup>
+          <InputGroup className="mb-2">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
-                <i className="fa fa-minus" />
+                <i className="fa fa-minus fa-fw" />
               </InputGroupText>
             </InputGroupAddon>
             <Controller
@@ -286,13 +288,28 @@ const FormDetail = ({
               placeholder="Deduce Fee"
             />
           </InputGroup>
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>
+                <i className="fa fa-money fa-fw" />
+              </InputGroupText>
+            </InputGroupAddon>
+            <Controller
+              invalid={!!get(errors, ['details', index, 'debt'], false)}
+              name={`details[${index}].debt`}
+              control={control}
+              as={InputNumber}
+              defaultValue={item.debt}
+              placeholder="Debt"
+            />
+          </InputGroup>
         </td>
         <td>
           <Input
             type="textarea"
             invalid={!!get(errors, ['details', index, 'remark'], false)}
             name={`details[${index}].remark`}
-            innerRef={register()}
+            innerRef={register}
             style={{ height: '75px' }}
             placeholder="Remark"
             defaultValue={item.remark}
@@ -334,7 +351,6 @@ FormDetail.propTypes = {
   control: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  getValues: PropTypes.func.isRequired,
   setValue: PropTypes.func.isRequired,
   item: PropTypes.any,
   index: PropTypes.number.isRequired,

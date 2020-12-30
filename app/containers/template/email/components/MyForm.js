@@ -16,10 +16,15 @@ import {
   useTemplateTypeId,
 } from '../../../../libs/apis/template/templateType.api';
 import { transformUnNumber } from '../../../../libs/utils/number.util';
+import InputTag from '../../../../components/Form/InputTag';
+import { emailSchema } from '../../../../libs/utils/schema.util';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
   subject: Yup.string().required('This field is required.'),
+  from: Yup.string().email(),
+  cc: Yup.array(),
+  bcc: Yup.array(),
   templateTypeId: Yup.number()
     .transform(transformUnNumber)
     .required('Template Type is required'),
@@ -54,6 +59,11 @@ function MyForm({ id }) {
       templateTypeId: String(form.template.templateTypeId),
       remark: form.template.remark,
     }),
+    mappingToServer: form => ({
+      ...form,
+      cc: form.cc ? form.cc.map(t => t.value) : null,
+      bcc: form.bcc ? form.bcc.map(t => t.value) : null,
+    }),
     validationSchema,
     initForm: {
       name: '',
@@ -67,7 +77,8 @@ function MyForm({ id }) {
   const { templateTypeList } = useTemplateType();
   const templateTypeId = useWatch({
     control,
-    name: 'templateTypeId', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
+    name: 'templateTypeId', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both,
+    defaultValue: formData?.templateTypeId,
   });
   const { templateType } = useTemplateTypeId(templateTypeId);
 
@@ -80,7 +91,7 @@ function MyForm({ id }) {
         <Controller
           name="content"
           control={control}
-          defaultValue={formData.content || ''}
+          defaultValue={formData?.content || ''}
           render={({ onChange, onBlur, value }) => (
             <Editor
               value={value}
@@ -93,7 +104,7 @@ function MyForm({ id }) {
         />
       </div>
     ),
-    [control, templateType, formData.content],
+    [control, templateType, formData],
   );
 
   const subjectEditor = useMemo(
@@ -105,7 +116,7 @@ function MyForm({ id }) {
         <Controller
           name="subject"
           control={control}
-          defaultValue={formData.subject || ''}
+          defaultValue={formData?.subject || ''}
           render={({ onChange, onBlur, value }) => (
             <Editor
               value={value}
@@ -120,7 +131,7 @@ function MyForm({ id }) {
         />
       </div>
     ),
-    [control, templateType, formData.subject],
+    [control, templateType, formData],
   );
 
   const form = React.useMemo(
@@ -161,6 +172,56 @@ function MyForm({ id }) {
                 register={register}
                 label="Remark"
               />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4">
+              <FormGroup
+                name="from"
+                register={register}
+                label="From"
+                error={errors.from}
+              />
+            </div>
+            <div className="col-md-4">
+              <div className="form-group">
+                <label htmlFor="emailTemplate">CC</label>
+                <Controller
+                  name="cc"
+                  isValidNewOption={inputValue => {
+                    let rs = true;
+                    try {
+                      emailSchema.validateSync(inputValue);
+                    } catch (e) {
+                      rs = false;
+                    }
+                    return rs;
+                  }}
+                  control={control}
+                  defaultValue={[]}
+                  as={InputTag}
+                />
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="form-group">
+                <label htmlFor="emailTemplate">BCC</label>
+                <Controller
+                  name="bcc"
+                  isValidNewOption={inputValue => {
+                    let rs = true;
+                    try {
+                      emailSchema.validateSync(inputValue);
+                    } catch (e) {
+                      rs = false;
+                    }
+                    return rs;
+                  }}
+                  control={control}
+                  defaultValue={[]}
+                  as={InputTag}
+                />
+              </div>
             </div>
           </div>
           {subjectEditor}

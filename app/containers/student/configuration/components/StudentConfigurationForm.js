@@ -190,7 +190,7 @@ const StudentConfigurationForm = () => {
           <Col md={4}>
             <FormGroup>
               <Label for="printTemplate">Print Template</Label>
-              <Input type="select" innerRef={register()} name="printTemplateId">
+              <Input type="select" innerRef={register} name="printTemplateId">
                 <option value="">Select Print Template</option>
                 {templates
                   ? templates.rows.map(t => (
