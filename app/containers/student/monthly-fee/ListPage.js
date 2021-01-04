@@ -11,7 +11,7 @@ import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../components/ListWidget';
 import { SORT_DIR } from '../../../components/ListWidget/constants';
 import Header from './components/Header';
-import { formatMonth } from '../../../libs/utils/date.util';
+import { formatDate, formatMonth } from '../../../libs/utils/date.util';
 import Price from '../../../components/common/Price';
 import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
 import DownloadButton from '../../../components/button/DownloadButton';
@@ -135,6 +135,30 @@ const ListPage = ({ history }) => {
       {
         header: 'Paid',
         data: 'paid',
+        class: 'min no-wrap',
+        render: row => {
+          if (!row.paidDate) {
+            return (
+              <IconButton
+                color="warning"
+                onClick={() => setPaymentStudent(row)}
+              >
+                <i className="fa fa-money fa-fw" />{' '}
+              </IconButton>
+            );
+          }
+          return (
+            <>
+              <p className="m-0">
+                Paid: <Price amount={row.paidAmount} />
+                <br />
+                On: {formatDate(new Date(row.paidDate))}
+                <br />
+                <span className="text-info small">{row.paidInformation}</span>
+              </p>
+            </>
+          );
+        },
       },
       {
         header: 'Action',
@@ -159,12 +183,6 @@ const ListPage = ({ history }) => {
               >
                 <i className="fa fa-file-pdf-o" />
               </DownloadButton>
-              <IconButton
-                color="warning"
-                onClick={() => setPaymentStudent(row)}
-              >
-                <i className="fa fa-money fa-fw" />{' '}
-              </IconButton>
             </div>
           </TableActionColumns>
         ),

@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { Controller } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { toast } from 'react-toastify';
 import { transformUnNumber } from '../../../../libs/utils/number.util';
 import { ERROR } from '../../../../components/Form/messages';
 import useMyForm from '../../../../libs/hooks/useMyForm';
@@ -43,9 +44,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
     validationSchema: schema,
     api: formData => {
       console.log(formData);
-      return new Promise((resolve, reject) => {
-        resolve(1);
-      });
+      return studentMonthlyFeeApi.pay(student.id, formData);
     },
     onConfirm: formData => ({
       title: `Confirm Paid Student Fee ${formData.amount} !`,
@@ -76,6 +75,19 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
       });
     }
   }, [student]);
+
+  useEffect(() => {
+    if (serverErrors && serverErrors.length) {
+      toast.error(serverErrors.map(t => t.message).join('\n'));
+    }
+  }, [serverErrors]);
+
+  useEffect(() => {
+    if (resp) {
+      toast.success(`Payment success !!!`);
+      onClose(true);
+    }
+  }, [resp]);
 
   const sendEmailConfirm = watch('sendEmailConfirm');
 
