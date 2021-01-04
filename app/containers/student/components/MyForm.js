@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import {
@@ -53,7 +53,7 @@ function MyForm({ id }) {
     submit,
     errors,
     setValue,
-    state: { isLoading, formData },
+    state: { isLoading, formData, errors: serverErrors },
     formState: { isDirty, isValid },
   } = useHookCRUDForm({
     create,
@@ -117,6 +117,12 @@ function MyForm({ id }) {
     },
     id,
   });
+
+  useEffect(() => {
+    if (serverErrors && serverErrors.length) {
+      toast.error(serverErrors.map(t => t.message).join('\n'));
+    }
+  }, [serverErrors]);
 
   const enableBus = useWatch({
     control,
