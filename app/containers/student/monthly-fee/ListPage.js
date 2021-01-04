@@ -228,24 +228,26 @@ const ListPage = ({ history }) => {
     [],
   );
   return (
-    <ListWidget
-      pageHeader={<Header history={history} />}
-      deleteDialog={deleteConfirmDialog}
-      columns={columns}
-      fetchData={studentMonthlyFeeApi.search}
-      initFilter={search}
-      initPage={1}
-      initSize={10}
-      initSorts={{ id: SORT_DIR.DESC }}
-      enableSelectColumn
-    >
-      <Filter data={search} />
+    <>
+      <ListWidget
+        pageHeader={<Header history={history} />}
+        deleteDialog={deleteConfirmDialog}
+        columns={columns}
+        fetchData={studentMonthlyFeeApi.search}
+        initFilter={search}
+        initPage={1}
+        initSize={10}
+        initSorts={{ id: SORT_DIR.DESC }}
+        enableSelectColumn
+      >
+        <Filter data={search} />
+      </ListWidget>
       <StudentFeePaid
         student={paymentStudent}
         isOpen={!!paymentStudent}
         onClose={() => setPaymentStudent(null)}
       />
-    </ListWidget>
+    </>
   );
 };
 ListPage.propTypes = {

@@ -135,11 +135,15 @@ const SurveyResultPage = () => {
             target = row.clientId;
           }
           return (
-            <TableActionColumns
-              onView={() =>
-                history.push(`${SURVEY_ROOT_PATH}/result/${target}/${id}`)
-              }
-            />
+            <TableActionColumns>
+              <a
+                className="btn btn-info btn-sm"
+                href={`${SURVEY_ROOT_PATH}/result/${target}/${id}`}
+                target="_blank"
+              >
+                <i className="fa fa-eye" />{' '}
+              </a>
+            </TableActionColumns>
           );
         },
       },

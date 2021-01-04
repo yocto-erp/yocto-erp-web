@@ -7,11 +7,11 @@ import {
   FormFeedback,
   FormGroup,
   Input,
-  Label,
-  Row,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  Label,
+  Row,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { Controller, useWatch } from 'react-hook-form';
@@ -60,11 +60,7 @@ function MyForm({ id }) {
     update,
     read,
     onSuccess: resp => {
-      toast.success(
-        id
-          ? `Update student ${resp.firstName} ${resp.lastName} success`
-          : `Create student ${resp.firstName} ${resp.lastName} success`,
-      );
+      toast.success(id ? `Update student success` : `Create student success`);
     },
     mappingToForm: form => ({
       studentId: form.studentId,
@@ -372,10 +368,10 @@ function MyForm({ id }) {
                   name="toSchoolBusRoute"
                   innerRef={register}
                   id="toSchoolBusRoute"
-                  placeholder="From place to School"
+                  placeholder="To school from"
                   disabled={enableBus === false}
                 >
-                  <option value="">Select From Place to School</option>
+                  <option value="">Select From Place</option>
                   {optionsBusRoute.map(t => (
                     <option key={t.id} value={t.id}>
                       {t.name}
@@ -387,10 +383,10 @@ function MyForm({ id }) {
                   name="toHomeBusRoute"
                   innerRef={register}
                   id="toHomeBusRoute"
-                  placeholder="Form school to place"
+                  placeholder="From school to"
                   disabled={enableBus === false}
                 >
-                  <option value="">Select Form school to place</option>
+                  <option value="">Select To Place</option>
                   {optionsBusRoute.map(t => (
                     <option key={t.id} value={t.id}>
                       {t.name}

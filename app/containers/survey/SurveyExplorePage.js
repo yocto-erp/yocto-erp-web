@@ -45,8 +45,10 @@ const SurveyExplorePage = () => {
           style={{ width: '300px' }}
         />
         <SearchButton
-          color="warning"
+          className="search-button"
+          color=""
           onClick={exec}
+          outline={false}
           isLoading={isLoading}
           disabled={isLoading || !(search || search.length)}
         />

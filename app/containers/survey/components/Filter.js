@@ -147,7 +147,7 @@ const Filter = ({ data, intl, formConfig = {} }) => {
           </optgroup>
         </FormGroup>
       ) : null}
-      <SearchButton color="warning" className="mb-2 mr-2" />
+      <SearchButton color="" className="search-button mb-2 mr-2" />
       <a
         className="btn btn-primary mb-2"
         href={surveyApi.downloadRawLink(id)}

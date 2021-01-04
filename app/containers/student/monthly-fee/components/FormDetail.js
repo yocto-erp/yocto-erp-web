@@ -56,10 +56,17 @@ const FormDetail = ({
 
   useEffect(() => {
     let totalBusFee = 0;
+
+    if (classInfo) {
+      totalBusFee = student.enableBus ? item.busFee || studentConfig.busFee : 0;
+    }
+    setValue(`details[${index}].busFee`, totalBusFee);
+    trigger([`details[${index}].busFee`]);
+  }, [classInfo, index, item]);
+
+  useEffect(() => {
     let totalMealFee = 0;
     if (classInfo) {
-      totalBusFee = student.enableBus ? studentConfig.busFee : 0;
-
       if (
         student.enableMeal &&
         classInfo.mealFeePerDay &&
@@ -70,10 +77,9 @@ const FormDetail = ({
           studentAbsentDay * classInfo.mealFeePerDay;
       }
     }
-    setValue(`details[${index}].busFee`, totalBusFee);
     setValue(`details[${index}].mealFee`, totalMealFee);
-    trigger([`details[${index}].mealFee`, `details[${index}].busFee`]);
-  }, [student, classInfo, studentAbsentDay, index]);
+    trigger([`details[${index}].mealFee`]);
+  }, [classInfo, index, studentAbsentDay]);
 
   const scholarShipFee = useMemo(() => {
     let rs = 0;
@@ -152,7 +158,9 @@ const FormDetail = ({
                 <MonthSelect
                   onChange={onChange}
                   onBlur={onBlur}
+                  isClearable={!isUpdated}
                   value={value}
+                  disabled={isUpdated}
                   invalid={
                     !!get(errors, ['details', index, 'monthYear'], false)
                   }
@@ -169,6 +177,7 @@ const FormDetail = ({
               defaultValue={item.student}
               control={control}
               as={StudentSelect}
+              disabled={isUpdated}
               id={`student${index}`}
               placeholder="Select Student"
               invalid={!!get(errors, ['details', index, 'student'], false)}
@@ -235,7 +244,7 @@ const FormDetail = ({
             name={`details[${index}].busFee`}
             control={control}
             as={InputNumber}
-            disabled
+            disabled={!student || !student.enableBus}
             defaultValue={item.busFee}
             placeholder="Bus Fee"
           />

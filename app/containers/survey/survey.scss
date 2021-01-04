@@ -7,6 +7,8 @@ body {
 
   h1 {
     color: white;
+    font-size: 2.5rem;
+    padding: 30px;
   }
 
   table {
@@ -15,6 +17,11 @@ body {
         color: white;
       }
     }
+  }
+
+  .text-muted {
+    color: #e9f4a4 !important;
+    font-size: 1.6rem;
   }
 }
 
@@ -76,7 +83,7 @@ body {
 }
 
 .widget-custom {
-  background: cadetblue;
+  background: #9bda77;
   color: black;
   margin-bottom: 0;
 
@@ -124,4 +131,39 @@ body {
 
 .form-control[disabled], .form-control[readonly] {
   color: #5f6f7d;
+}
+
+.search-button {
+  color: #ffffff;
+  border-color: #ffffff;
+  background: #7390ca;
+
+  &:hover {
+    color: #ffffff;
+    background-color: #3558ae;
+    border-color: #ffffff;
+  }
+}
+
+.table-bordered thead th, .table-bordered thead td {
+  color: #fff;
+  background: #1d403f;
+}
+
+.table-striped tbody tr {
+  background-color: #fff !important;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: .3rem .5rem;
+  line-height: 1;
+  height: 25px;
+  border: 1px solid #dee2e6;
+}
+
+.wrapper table tbody tr td {
+  vertical-align: middle;
+  color: #333;
 }

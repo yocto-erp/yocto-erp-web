@@ -36,7 +36,7 @@ const CustomerSelect = React.forwardRef((
         page: 1,
         size: 10,
         filter: {
-          name: inputValue,
+          search: inputValue,
         },
       })
       .then(resp => cb(resp.rows));

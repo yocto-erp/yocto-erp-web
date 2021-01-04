@@ -58,7 +58,23 @@ const ListLogEmailPage = () => {
       {
         header: 'To',
         data: 'to',
-        render: row => row.email.to,
+        render: row => (
+          <p className="p-0 m-0">
+            {row.email.to}
+            {row.email.cc ? (
+              <>
+                <br />
+                <span className="small text-muted">CC: {row.email.cc}</span>
+              </>
+            ) : null}
+            {row.email.bcc ? (
+              <>
+                <br />
+                <span className="small text-muted">BCC: {row.email.bcc}</span>
+              </>
+            ) : null}
+          </p>
+        ),
       },
       {
         header: 'Status',

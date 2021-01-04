@@ -64,7 +64,7 @@ const Header = ({ history }) => {
       />
     </div>
   );
-  return <PageTitle title="Student Monthly" actions={actions} />;
+  return <PageTitle title="Student Monthly Fee" actions={actions} />;
 };
 
 Header.propTypes = {

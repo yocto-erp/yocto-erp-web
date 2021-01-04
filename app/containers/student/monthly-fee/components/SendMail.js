@@ -13,18 +13,21 @@ import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-
 import useStudentConfigure from '../../../../libs/hooks/useStudentConfigure';
 import FormGroup from '../../../../components/Form/FormGroup';
 import useMyForm from '../../../../libs/hooks/useMyForm';
+import { isValidEmail } from '../../../../libs/utils/schema.util';
+import MultipleEmailInput from '../../../../components/Form/MultipleEmailInput';
 
 const schema = yup.object().shape({
   from: yup
     .string()
     .email('Invalid Email')
     .required(),
+  cc: yup.array(),
+  bcc: yup.array(),
   attached: yup.bool(),
   emailTemplate: yup.object().required(),
 });
 
 const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
-  console.log(fees);
   const { configure } = useStudentConfigure();
 
   const {
@@ -34,6 +37,8 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
     formState: { isValid },
     watch,
     control,
+    setValue,
+    confirmModal,
     state: { isLoading, errors: serverErrors, resp },
   } = useMyForm({
     validationSchema: schema,
@@ -45,11 +50,23 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
         formData.attached,
         configure.printTemplateId,
         formData.from,
+        formData.cc,
+        formData.bcc,
       );
     },
+    onConfirm: () => ({
+      title: `Send email to parents of total ${fees.length} students`,
+      message: 'Are you sure to send email ?',
+    }),
   });
 
   const emailTemplate = watch('emailTemplate');
+
+  useEffect(() => {
+    setValue('from', emailTemplate?.from, { shouldValidate: true });
+    setValue('cc', emailTemplate?.cc || [], { shouldValidate: true });
+    setValue('bcc', emailTemplate?.bcc || [], { shouldValidate: true });
+  }, [emailTemplate, setValue]);
 
   useEffect(() => {
     if (serverErrors && serverErrors.length) {
@@ -96,14 +113,7 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
         </ModalHeader>
         <ModalBody>
           <div className="row">
-            <div className="col-4">
-              <FormGroup
-                name="from"
-                label="Email From"
-                type="email"
-                register={register}
-                error={errors.from}
-              />
+            <div className="col-12">
               <div className="form-group">
                 <label htmlFor="emailTemplate">
                   Email Template <span className="text-danger">*</span>
@@ -117,24 +127,41 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
                   as={EmailTemplateSelect}
                 />
               </div>
-              <div className="form-group form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="attachment"
-                  name="attached"
-                  ref={register}
+              <FormGroup
+                name="from"
+                label="Email From"
+                type="email"
+                register={register}
+                error={errors.from}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="cc">CC</label>
+                <Controller
+                  name="cc"
+                  isValidNewOption={isValidEmail}
+                  control={control}
+                  defaultValue={[]}
+                  as={MultipleEmailInput}
                 />
-                <label className="form-check-label" htmlFor="attachment">
-                  Send with PDF Attachment
-                </label>
-              </div>
-              <div className="alert alert-danger" role="alert">
-                This will send email to student parent (include mother and
-                father, if got information)
               </div>
             </div>
-            <div className="col-8">
+            <div className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="bcc">BCC</label>
+                <Controller
+                  name="bcc"
+                  isValidNewOption={isValidEmail}
+                  control={control}
+                  defaultValue={[]}
+                  as={MultipleEmailInput}
+                />
+              </div>
+            </div>
+            <div className="col-md-12">
               <div className="form-group">
                 <label htmlFor="subject">Email Preview</label>
                 {emailTemplate ? (
@@ -159,6 +186,27 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
               </div>
             </div>
           </div>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="form-group form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="attachment"
+                  name="attached"
+                  ref={register}
+                />
+                <label className="form-check-label" htmlFor="attachment">
+                  Send with PDF Attachment
+                </label>
+              </div>
+              <div className="alert alert-danger" role="alert">
+                This will send email to student parent (include mother and
+                father, if got information)
+              </div>
+            </div>
+          </div>
+          {confirmModal}
         </ModalBody>
         <ModalFooter>
           <ModalCancelButton onClick={() => onClose(false)} />
