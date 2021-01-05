@@ -2,8 +2,11 @@ import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { yupResolver } from '@hookform/resolvers';
 import { useForm } from 'react-hook-form';
+import { useConfirmDialog } from './useConfirmDialog';
+import { isFunc } from '../../utils/util';
 
-const useMyForm = ({ form = {}, validationSchema, api }) => {
+const useMyForm = ({ form = {}, validationSchema, api, onConfirm = null }) => {
+  const { confirmModal, openConfirm } = useConfirmDialog();
   const [state, setState] = useState({
     isLoading: false,
     errors: [],
@@ -45,7 +48,7 @@ const useMyForm = ({ form = {}, validationSchema, api }) => {
           setState({
             isLoading: false,
             resp: null,
-            errors: err.errors,
+            errors: err?.errors || [],
           });
         },
       );
@@ -53,10 +56,28 @@ const useMyForm = ({ form = {}, validationSchema, api }) => {
     [api],
   );
 
-  const onSubmit = useCallback(handleSubmit(formData => exec(formData)), [
-    handleSubmit,
-    exec,
-  ]);
+  const execWithConfirm = useCallback(
+    (...args) => {
+      if (onConfirm && isFunc(onConfirm)) {
+        openConfirm({
+          ...onConfirm(...args),
+          onClose: isConfirmed => {
+            if (isConfirmed) {
+              exec(...args);
+            }
+          },
+        });
+      } else {
+        exec(...args);
+      }
+    },
+    [exec],
+  );
+
+  const onSubmit = useCallback(
+    handleSubmit(formData => execWithConfirm(formData)),
+    [handleSubmit, execWithConfirm],
+  );
   return {
     exec,
     register,
@@ -70,6 +91,7 @@ const useMyForm = ({ form = {}, validationSchema, api }) => {
     setValue,
     state,
     watch,
+    confirmModal,
   };
 };
 
@@ -77,6 +99,7 @@ useMyForm.propTypes = {
   form: PropTypes.object,
   validationSchema: PropTypes.any,
   api: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func,
 };
 
 export default useMyForm;

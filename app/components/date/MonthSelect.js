@@ -7,7 +7,21 @@ import { FNS_MONTH_FORMAT } from '../../libs/utils/date.util';
 
 const MonthSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ onChange, value, invalid, onBlur, placeholder, ...props }, ref) => {
+  (
+    {
+      onChange,
+      value,
+      invalid,
+      onBlur,
+      placeholder,
+      disabled,
+      className,
+      isClearable = false,
+      ...props
+    },
+    // eslint-disable-next-line no-unused-vars
+    ref,
+  ) => {
     const handleDayChange = selectedDay => {
       console.log(selectedDay);
       if (isFunction(onChange)) {
@@ -25,13 +39,15 @@ const MonthSelect = React.forwardRef(
 
     return (
       <DatePicker
-        className={classNames('form-control', props.className, {
+        className={classNames('form-control', className, {
           'is-invalid': !!invalid,
         })}
         onBlur={handleOnBlur}
         selected={value}
         onChange={handleDayChange}
-        isClearable
+        isClearable={isClearable}
+        disabled={disabled}
+        {...props}
         showMonthYearPicker
         placeholderText={placeholder}
         dateFormat={FNS_MONTH_FORMAT}
@@ -47,6 +63,8 @@ MonthSelect.propTypes = {
   placeholder: PropTypes.string,
   onBlur: PropTypes.func,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
+  isClearable: PropTypes.bool,
 };
 
 export default MonthSelect;

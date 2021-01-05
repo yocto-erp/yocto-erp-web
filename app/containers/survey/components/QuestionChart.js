@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Bar, HorizontalBar, Pie } from 'react-chartjs-2';
 import { Card, CardBody, CardHeader, Collapse } from 'reactstrap';
-import classNames from 'classnames';
 import { useApi } from '../../../libs/hooks/useApi';
 import surveyApi from '../../../libs/apis/survey/survey.api';
 
@@ -13,8 +12,13 @@ const QuestionChart = ({
   fromDate,
   toDate,
   filters,
+  index,
+  onAllowFilter,
+  isAllowFilter,
+  isOpen,
+  setOpen,
 }) => {
-  console.log(filters, fromDate, toDate);
+  console.log(questionId, fromDate, toDate, isAllowFilter);
   const search = useMemo(() => {
     const rs = {};
     if (fromDate) {
@@ -34,19 +38,15 @@ const QuestionChart = ({
     [surveyId, questionId, search],
   );
   const {
-    state: { resp, isLoading, errors },
+    state: { resp },
     exec,
   } = useApi(searchApi);
 
-  const [state, setIsOpen] = React.useState(true);
   const [barType, setType] = React.useState('horizontalBar');
+
   useEffect(() => {
     exec();
   }, []);
-
-  useEffect(() => {
-    console.log(resp);
-  }, [resp]);
 
   const data = {
     labels: resp ? resp.answers : [],
@@ -115,33 +115,58 @@ const QuestionChart = ({
     <Card className="text-left mt-5">
       <CardHeader className="font-weight-bolder">
         <div className="row align-items-center">
-          <div className="col">{resp ? resp.content : null}</div>
+          <div className="col">
+            {resp ? (
+              <>
+                Question {index} - {resp.content}
+              </>
+            ) : null}
+          </div>
           <div className="col-md-auto form-inline">
-            <select
-              className="form-control mr-2"
-              value={barType}
-              onChange={e => setType(e.target.value)}
-            >
-              <option value="bar">Bar</option>
-              <option value="horizontalBar">Horizontal Bar</option>
-              <option value="pie">Pie</option>
-            </select>
+            <div className="custom-control custom-checkbox mr-2">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id={`allowFilter${questionId}`}
+                checked={isAllowFilter}
+                name={`allowFilter${questionId}`}
+                onChange={() => {
+                  onAllowFilter();
+                }}
+              />
+              <label
+                className="custom-control-label"
+                htmlFor={`allowFilter${questionId}`}
+              >
+                Allow Filter
+              </label>
+            </div>
             <button
               type="button"
               className="btn btn-primary"
-              onClick={() => setIsOpen(!state)}
+              onClick={() => setOpen(!isOpen)}
             >
-              <i
-                className={classNames(
-                  'fa',
-                  state ? 'fa-angle-up' : 'fa-angle-down',
-                )}
-              />
+              {isOpen ? 'Close Chart' : 'Show Chart'}
             </button>
           </div>
         </div>
       </CardHeader>
-      <Collapse isOpen={state}>
+      <Collapse isOpen={isOpen}>
+        <div className="row m-2">
+          <div className="col-md-12 text-right">
+            <div className="form-inline justify-content-end">
+              <select
+                className="form-control mr-2"
+                value={barType}
+                onChange={e => setType(e.target.value)}
+              >
+                <option value="bar">Bar</option>
+                <option value="horizontalBar">Horizontal Bar</option>
+                <option value="pie">Pie</option>
+              </select>
+            </div>
+          </div>
+        </div>
         <CardBody>{chart}</CardBody>
       </Collapse>
     </Card>
@@ -155,6 +180,11 @@ QuestionChart.propTypes = {
   fromDate: PropTypes.instanceOf(Date),
   toDate: PropTypes.instanceOf(Date),
   filters: PropTypes.array,
+  index: PropTypes.number,
+  onAllowFilter: PropTypes.func,
+  isAllowFilter: PropTypes.bool,
+  isOpen: PropTypes.bool,
+  setOpen: PropTypes.func,
 };
 
 export default QuestionChart;
