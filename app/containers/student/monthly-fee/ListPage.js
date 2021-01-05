@@ -34,7 +34,7 @@ const ListPage = ({ history }) => {
             <br />
             <p className="mb-0">
               <strong>
-                {row.student.studentId} - {row.student.child.name}
+                {row.student.child.name} ({row.student.alias})
               </strong>
             </p>
           </>
@@ -92,15 +92,6 @@ const ListPage = ({ history }) => {
                 <strong>Meal Fee: </strong> <Price amount={row.mealFee} />
               </p>
             ) : null}
-          </>
-        ),
-      },
-      {
-        header: 'Other Fee',
-        data: 'otherFee',
-        class: 'text-nowrap min',
-        render: row => (
-          <>
             {row.otherFee ? (
               <p className="mb-0">
                 <strong>Extra: </strong>
@@ -140,10 +131,12 @@ const ListPage = ({ history }) => {
           if (!row.paidDate) {
             return (
               <IconButton
+                size="sm"
                 color="warning"
                 onClick={() => setPaymentStudent(row)}
+                title="Set Payment"
               >
-                <i className="fa fa-money fa-fw" />{' '}
+                <i className="fa fa-dollar" />{' '}
               </IconButton>
             );
           }
@@ -173,6 +166,7 @@ const ListPage = ({ history }) => {
             <div className="btn-group-sm btn-group">
               <DownloadButton
                 key="pdf"
+                title="Download PDF"
                 link={() =>
                   studentMonthlyFeeApi.pdf(
                     row.id,
@@ -255,7 +249,6 @@ const ListPage = ({ history }) => {
         initFilter={search}
         initPage={1}
         initSize={10}
-        initSorts={{ id: SORT_DIR.DESC }}
         enableSelectColumn
       >
         <Filter data={search} />

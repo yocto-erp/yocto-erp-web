@@ -81,8 +81,8 @@ function MyForm({ id }) {
     onSuccess: resp => {
       toast.success(
         id
-          ? `Update Student Monthly success`
-          : `Create Monthly ${resp.name} success`,
+          ? `Update Student Monthly Fees success`
+          : `Create Student Monthly Fees success`,
       );
     },
     mappingToForm: form => {

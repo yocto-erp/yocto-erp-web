@@ -30,7 +30,7 @@ const TableActionColumns = ({
   }
   if (isFunction(onDelete)) {
     buttonEls.push(
-      <Button key="delete" onClick={onDelete} color="danger">
+      <Button key="delete" onClick={onDelete} color="danger" title="Delete">
         <i className="fi flaticon-trash" />
       </Button>,
     );
