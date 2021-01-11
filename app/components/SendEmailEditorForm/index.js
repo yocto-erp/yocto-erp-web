@@ -48,14 +48,14 @@ const SendEmailEditorForm = ({
         }
         setValue('subject', subject);
         setValue('from', from, { shouldValidate: true });
-        setValue('cc', cc);
-        setValue('bcc', bcc);
+        setValue('cc', cc || []);
+        setValue('bcc', bcc || []);
         setValue('content', content);
       } else {
         setValue('subject', '');
         setValue('from', '');
-        setValue('cc', null);
-        setValue('bcc', null);
+        setValue('cc', []);
+        setValue('bcc', []);
         setValue('content', '');
       }
       setTemplate(val);

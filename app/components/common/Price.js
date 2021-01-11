@@ -1,21 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import IMask from 'imask';
+import { numberPipe } from '../../libs/utils/number.util';
 
 const Price = ({ amount = 0, currency = 'VND', ...props }) => {
-  const numberPipe = IMask.createPipe(
-    {
-      mask: Number,
-      scale: 0,
-      thousandsSeparator: '.',
-      normalizeZeros: false,
-      padFractionalZeros: false,
-    },
-    IMask.PIPE_TYPE.TYPED,
-  );
+  const numberPipeFn = numberPipe();
   return (
     <span {...props}>
-      {numberPipe(amount)} <strong>{currency}</strong>
+      {numberPipeFn(amount)} <strong>{currency}</strong>
     </span>
   );
 };

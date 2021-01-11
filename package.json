@@ -130,7 +130,8 @@
     "yup": "^0.29.3",
     "dompurify": "^2.2.2",
     "xlsx": "^0.16.9",
-    "mustache": "^4.1.0"
+    "mustache": "^4.1.0",
+    "chartjs-plugin-datalabels": "^0.7.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
