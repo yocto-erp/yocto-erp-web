@@ -16,15 +16,14 @@ import {
   useTemplateTypeId,
 } from '../../../../libs/apis/template/templateType.api';
 import { transformUnNumber } from '../../../../libs/utils/number.util';
-import InputTag from '../../../../components/Form/InputTag';
-import { emailSchema } from '../../../../libs/utils/schema.util';
+import MultipleEmailInput from '../../../../components/Form/MultipleEmailInput';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
   subject: Yup.string().required('This field is required.'),
   from: Yup.string().email(),
-  cc: Yup.array(),
-  bcc: Yup.array(),
+  cc: Yup.array().nullable(),
+  bcc: Yup.array().nullable(),
   templateTypeId: Yup.number()
     .transform(transformUnNumber)
     .required('Template Type is required'),
@@ -58,11 +57,14 @@ function MyForm({ id }) {
       content: form.template.content,
       templateTypeId: String(form.template.templateTypeId),
       remark: form.template.remark,
+      from: form.from,
+      cc: form.cc,
+      bcc: form.bcc,
     }),
     mappingToServer: form => ({
       ...form,
-      cc: form.cc ? form.cc.map(t => t.value) : null,
-      bcc: form.bcc ? form.bcc.map(t => t.value) : null,
+      cc: form.cc,
+      bcc: form.bcc,
     }),
     validationSchema,
     initForm: {
@@ -70,6 +72,9 @@ function MyForm({ id }) {
       subject: '',
       templateTypeId: '',
       content: '',
+      from: '',
+      cc: [],
+      bcc: [],
     },
     id,
   });
@@ -188,18 +193,9 @@ function MyForm({ id }) {
                 <label htmlFor="emailTemplate">CC</label>
                 <Controller
                   name="cc"
-                  isValidNewOption={inputValue => {
-                    let rs = true;
-                    try {
-                      emailSchema.validateSync(inputValue);
-                    } catch (e) {
-                      rs = false;
-                    }
-                    return rs;
-                  }}
                   control={control}
                   defaultValue={[]}
-                  as={InputTag}
+                  as={MultipleEmailInput}
                 />
               </div>
             </div>
@@ -208,18 +204,9 @@ function MyForm({ id }) {
                 <label htmlFor="emailTemplate">BCC</label>
                 <Controller
                   name="bcc"
-                  isValidNewOption={inputValue => {
-                    let rs = true;
-                    try {
-                      emailSchema.validateSync(inputValue);
-                    } catch (e) {
-                      rs = false;
-                    }
-                    return rs;
-                  }}
                   control={control}
                   defaultValue={[]}
-                  as={InputTag}
+                  as={MultipleEmailInput}
                 />
               </div>
             </div>

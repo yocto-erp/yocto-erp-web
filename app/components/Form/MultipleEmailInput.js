@@ -7,7 +7,7 @@ const MultipleEmailInput = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
   ({ invalid, onBlur, onChange, placeholder, value, ...props }, ref) => (
     <InputTag
-      value={value ? value.map(t => ({ label: t, value: t })) : null}
+      value={value ? value.map(t => ({ label: t, value: t })) : []}
       placeholder={placeholder || 'Type email and press enter'}
       onChange={val => onChange(val.map(t => t.value))}
       onBlur={onBlur}

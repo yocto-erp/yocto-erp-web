@@ -62,7 +62,7 @@ const InputTag = React.forwardRef((
     if (value !== tags) {
       setTagObject({
         ...tagObject,
-        tags: value,
+        tags: value || [],
       });
     }
   }, [value, tags]);

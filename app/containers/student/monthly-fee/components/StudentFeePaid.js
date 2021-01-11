@@ -10,11 +10,12 @@ import useMyForm from '../../../../libs/hooks/useMyForm';
 import FormGroup from '../../../../components/Form/FormGroup';
 import ModalCancelButton from '../../../../components/button/ModalCancelButton';
 import ModalOKButton from '../../../../components/button/ModalOKButton';
-import { SendEmailFormSchema } from '../../../../components/SendEmailEditorForm/constants';
 import SendEmailEditorForm from '../../../../components/SendEmailEditorForm';
 import InputAmount from '../../../../components/Form/InputAmount';
 import { useApi } from '../../../../libs/hooks/useApi';
 import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
+import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import { emailSchema } from '../../../../libs/utils/schema.util';
 
 const schema = yup.object().shape({
   amount: yup
@@ -23,9 +24,26 @@ const schema = yup.object().shape({
     .positive(ERROR.amountGT0)
     .required(ERROR.required),
   remark: yup.string(),
+  name: yup.string().when('storeCashIn', {
+    is: true,
+    then: yup.string().required(),
+  }),
   storeCashIn: yup.bool(),
   sendEmailConfirm: yup.bool(),
-  ...SendEmailFormSchema,
+  from: emailSchema.when('sendEmailConfirm', {
+    is: true,
+    then: emailSchema.required(),
+  }),
+  content: yup.string().when('sendEmailConfirm', {
+    is: true,
+    then: yup.string().required(),
+  }),
+  subject: yup.string().when('sendEmailConfirm', {
+    is: true,
+    then: yup.string().required(),
+  }),
+  cc: yup.array().nullable(),
+  bcc: yup.array().nullable(),
 });
 
 const StudentFeePaid = ({ isOpen, onClose, student }) => {
@@ -68,6 +86,11 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
       reset({
         amount: student?.totalAmount || 0,
         remark: '',
+        name: `Month ${student?.monthFee}/${
+          student?.yearFee
+        } fee payment of student ${student?.student.child.firstName} ${
+          student?.student.child.lastName
+        }`,
         storeCashIn: true,
         sendEmailConfirm: true,
         from: '',
@@ -89,7 +112,10 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
     }
   }, [resp]);
 
-  const sendEmailConfirm = watch('sendEmailConfirm');
+  const { sendEmailConfirm, storeCashIn } = watch([
+    'sendEmailConfirm',
+    'storeCashIn',
+  ]);
 
   return (
     <Modal className="primary xx-large" isOpen={isOpen} fade={false} scrollable>
@@ -113,17 +139,29 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
                   placeholder="Payment Amount"
                 />
               </div>
-              <div className="form-group form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="storeCashIn"
-                  name="storeCashIn"
-                  ref={register}
-                />
-                <label className="form-check-label" htmlFor="storeCashIn">
-                  Save Payment Cash In
-                </label>
+              <div className="form-group">
+                <label htmlFor="storeCashIn">Save Payment Cash In</label>
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <div className="input-group-text bg-gray">
+                      <input
+                        type="checkbox"
+                        className=""
+                        id="storeCashIn"
+                        name="storeCashIn"
+                        ref={register}
+                      />
+                    </div>
+                  </div>
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    disabled={!storeCashIn}
+                    ref={register}
+                  />
+                </div>
+                <FormErrorMessage error={!!errors.name} />
               </div>
               <div className="form-group form-check">
                 <input
