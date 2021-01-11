@@ -9,7 +9,6 @@ import Filter from './components/Filter';
 import { deletePage, deletePagePattern } from '../../../libs/utils/crud.util';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../components/ListWidget';
-import { SORT_DIR } from '../../../components/ListWidget/constants';
 import Header from './components/Header';
 import { formatDate, formatMonth } from '../../../libs/utils/date.util';
 import Price from '../../../components/common/Price';

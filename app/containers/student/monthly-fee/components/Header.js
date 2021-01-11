@@ -25,6 +25,17 @@ const Header = ({ history }) => {
       </div>
       <CreateButton
         className="mr-2 btn-raised"
+        icon="fa fa-clone"
+        disabled={!totalSelectedItems}
+        color="info"
+        onClick={() => {
+          history.push(editPage(ROOT_PATH, Object.values(getStateSelect)));
+        }}
+      >
+        Clone for Next Month
+      </CreateButton>
+      <CreateButton
+        className="mr-2 btn-raised"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
@@ -64,7 +75,14 @@ const Header = ({ history }) => {
       />
     </div>
   );
-  return <PageTitle title="Student Monthly Fee" actions={actions} />;
+  return (
+    <PageTitle
+      title="Student Monthly Fee"
+      actions={actions}
+      colLeft={4}
+      colRight={8}
+    />
+  );
 };
 
 Header.propTypes = {
