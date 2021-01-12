@@ -100,19 +100,21 @@ function MyForm({ id }) {
         const studentClassConfigure = studentConfig.classes.find(
           clz => clz.id === result.student.class,
         );
+
+        console.log('studentClassConfigure11', studentClassConfigure);
         const trialDateFee =
-          result.trialDate * studentClassConfigure.feePerTrialDay;
+          result.trialDate * studentClassConfigure?.feePerTrialDay;
         const absentDayFee =
           result.absentDay *
-          studentClassConfigure.feePerDay *
+          studentClassConfigure?.feePerDay *
           (1 - result.scholarShip / 100);
         const studentAbsentDayFee = result.student.enableMeal
-          ? studentClassConfigure.mealFeePerDay * result.studentAbsentDay
+          ? studentClassConfigure?.mealFeePerDay * result.studentAbsentDay
           : 0;
         const scholarFee =
-          studentClassConfigure.tuitionFee * (result.scholarShip / 100);
+          studentClassConfigure?.tuitionFee * (result.scholarShip / 100);
         const totalAmount =
-          studentClassConfigure.tuitionFee -
+          studentClassConfigure?.tuitionFee -
           scholarFee -
           absentDayFee +
           trialDateFee +
@@ -137,7 +139,7 @@ function MyForm({ id }) {
           remark: result.remark,
           debt: result.debt,
           scholarFee,
-          feePerMonth: studentClassConfigure.tuitionFee,
+          feePerMonth: studentClassConfigure?.tuitionFee,
           trialDateFee,
           absentDayFee,
           totalAmount,
