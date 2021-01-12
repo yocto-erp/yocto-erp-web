@@ -10,12 +10,14 @@ import { STUDENT_CONFIGURATION_ROOT_PATH } from '../../constants';
 import PageTitle from '../../../Layout/PageTitle';
 import { STUDENT_MONTHLY_ROOT_PATH } from '../constants';
 import SendMailStudentFee from './SendMail';
+import CloneNextMonth from './CloneNextMonth';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const Header = ({ history }) => {
   const getStateSelect = useListStateContext();
   const totalSelectedItems = Object.keys(getStateSelect).length;
   const [isOpenSendMail, setIsOpenSendMail] = React.useState(false);
+  const [isOpenCloneNextMonth, setIsOpenCloneNextMonth] = React.useState(false);
   const actions = (
     <div>
       <div className="mr-2 d-inline">
@@ -26,14 +28,22 @@ const Header = ({ history }) => {
       <CreateButton
         className="mr-2 btn-raised"
         icon="fa fa-clone"
-        disabled={!totalSelectedItems}
         color="info"
+        disabled={!totalSelectedItems}
         onClick={() => {
-          history.push(editPage(ROOT_PATH, Object.values(getStateSelect)));
+          setIsOpenCloneNextMonth(true);
         }}
       >
         Clone for Next Month
       </CreateButton>
+
+      <CloneNextMonth
+        key={uuidv4()}
+        ids={Object.values(getStateSelect)}
+        onClose={setIsOpenCloneNextMonth}
+        isOpen={isOpenCloneNextMonth}
+      />
+
       <CreateButton
         className="mr-2 btn-raised"
         onClick={() => {

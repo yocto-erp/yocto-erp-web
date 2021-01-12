@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import { Form, Table } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
@@ -38,7 +39,7 @@ const newFee = () => ({
 
 function MyForm({ id }) {
   const { configure: studentConfig } = useStudentConfigure();
-
+  const location = useLocation();
   const validationSchema = React.useMemo(
     () =>
       Yup.object().shape({
@@ -95,8 +96,6 @@ function MyForm({ id }) {
       };
     },
     mappingToServer: form => {
-      console.log(form);
-      console.log(id);
       const details = form.details.map(result => {
         const studentClassConfigure = studentConfig.classes.find(
           clz => clz.id === result.student.class,
@@ -150,7 +149,7 @@ function MyForm({ id }) {
     },
     validationSchema,
     initForm: {
-      details: [newFee()],
+      details: location && location.state ? location.state.details : [newFee()],
     },
     id,
   });
