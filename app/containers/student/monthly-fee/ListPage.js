@@ -19,7 +19,7 @@ import StudentFeePaid from './components/StudentFeePaid';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
-  const { configure } = useStudentConfigure();
+  const { configure, getClassName } = useStudentConfigure();
   const [paymentStudent, setPaymentStudent] = useState(null);
   const columns = React.useMemo(
     () => [
@@ -35,6 +35,8 @@ const ListPage = ({ history }) => {
               <strong>
                 {row.student.child.name} ({row.student.alias})
               </strong>
+              <br />
+              {getClassName(row.student.class)}
             </p>
           </>
         ),
@@ -184,7 +186,7 @@ const ListPage = ({ history }) => {
     [configure, setPaymentStudent],
   );
 
-  const search = { search: '' };
+  const search = { search: '', month: null };
 
   const deleteConfirmDialog = React.useMemo(
     () => (

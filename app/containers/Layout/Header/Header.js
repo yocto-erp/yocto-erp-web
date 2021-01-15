@@ -20,17 +20,24 @@ import {
   NavLink,
 } from 'reactstrap';
 import Notifications from '../../../components/Notifications/Notifications';
-import { changeSidebarPosition, changeSidebarVisibility, closeSidebar, openSidebar } from '../redux/navigation';
+import {
+  changeSidebarPosition,
+  changeSidebarVisibility,
+  closeSidebar,
+  openSidebar,
+} from '../redux/navigation';
 
 import s from './Header.module.scss';
 import '../../../../node_modules/animate.css/animate.css';
 import AccountDropDown from './components/AccountDropdown';
 import LanguageDropDown from './components/LanguageDropdown';
+import classNames from 'classnames';
 
 class Header extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     isSidebarOpened: PropTypes.bool,
+    sidebarVisibility: PropTypes.string,
   };
 
   constructor(props) {
@@ -95,10 +102,20 @@ class Header extends React.Component {
           <li className="nav-item active">
             <Button
               outline
-              color="primary"
+              size="xs"
+              color={
+                this.props.sidebarVisibility === 'show'
+                  ? 'primary'
+                  : 'secondary'
+              }
               onClick={() => this.toggleVisibilitySidebar('hide')}
             >
-              <i className="fa fa-list" />
+              <i
+                className={classNames('fa fa-fw', {
+                  'fa-arrow-left': this.props.sidebarVisibility === 'show',
+                  'fa-arrow-right': this.props.sidebarVisibility === 'hide',
+                })}
+              />
             </Button>
           </li>
         </ul>
@@ -114,7 +131,7 @@ class Header extends React.Component {
           >
             <InputGroupAddon addonType="prepend" className={s.inputAddon}>
               <InputGroupText>
-                <i className="fa fa-search"/>
+                <i className="fa fa-search" />
               </InputGroupText>
             </InputGroupAddon>
             <Input
@@ -131,7 +148,7 @@ class Header extends React.Component {
             <InputGroup className="input-group-no-border">
               <InputGroupAddon addonType="prepend">
                 <InputGroupText>
-                  <i className="fa fa-search text-white"/>
+                  <i className="fa fa-search text-white" />
                 </InputGroupText>
               </InputGroupAddon>
               <Input
@@ -150,10 +167,10 @@ class Header extends React.Component {
               className={s.navItem}
               href="#"
             >
-              <i className="glyphicon glyphicon-search text-white"/>
+              <i className="glyphicon glyphicon-search text-white" />
             </NavLink>
           </NavItem>
-          <AccountDropDown/>
+          <AccountDropDown />
           <Dropdown
             nav
             isOpen={this.state.messagesOpen}
@@ -161,7 +178,7 @@ class Header extends React.Component {
             className={`${s.notificationsMenu}`}
           >
             <DropdownToggle nav className={`${s.navItem} text-white`}>
-              <i className="glyphicon glyphicon-comments"/>
+              <i className="glyphicon glyphicon-comments" />
               <span className={`${s.count}`}>12</span>
             </DropdownToggle>
             <DropdownMenu
@@ -169,18 +186,18 @@ class Header extends React.Component {
                 s.notificationsWrapper
               } py-0 animate__animated animate__faster animate__fadeInUp`}
             >
-              <Notifications/>
+              <Notifications />
             </DropdownMenu>
           </Dropdown>
-          <NavItem className={`${s.divider} text-white`}/>
-          <LanguageDropDown/>
+          <NavItem className={`${s.divider} text-white`} />
+          <LanguageDropDown />
           <NavItem className="d-md-none">
             <NavLink
               onClick={this.toggleSidebar}
               className={`${s.navItem} text-white`}
               href="#"
             >
-              <i className="fa fa-bars"/>
+              <i className="fa fa-bars" />
             </NavLink>
           </NavItem>
         </Nav>

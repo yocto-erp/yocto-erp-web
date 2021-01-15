@@ -26,6 +26,7 @@ const StudentSelect = React.forwardRef((
     onChange,
     value,
     disabled = false,
+    isClearable = false,
     ...props
   },
   // eslint-disable-next-line no-unused-vars
@@ -59,7 +60,7 @@ const StudentSelect = React.forwardRef((
           loadOptions={loadOptions1}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isDisabled={disabled}
-          isClearable
+          isClearable={isClearable}
           onBlur={onBlur}
           onFocus={onFocus}
           onChange={onChange}
@@ -102,6 +103,7 @@ StudentSelect.propTypes = {
   onFocus: PropTypes.func,
   id: PropTypes.string,
   disabled: PropTypes.bool,
+  isClearable: PropTypes.bool,
 };
 
 export default StudentSelect;

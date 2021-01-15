@@ -26,6 +26,10 @@ import { SurveyContext } from './constants';
 import SurveyImportRaw from './SurveyImportRaw';
 import SurveyExplorePage from './SurveyExplorePage';
 
+const cpacImg = require('./CPAC_2020.png');
+const mnaLogo = require('./MnA_logo.jpg');
+const wat = require('./The_Washington_Times.png');
+
 const SurveySummary = () => {
   const { path, url } = useRouteMatch();
   const history = useHistory();
@@ -183,6 +187,17 @@ const SurveySummary = () => {
 
   return (
     <SurveyContext.Provider value={surveyContextValue}>
+      <div className="row justify-content-center align-content-center mt-3">
+        <div className="col-md-4 text-center">
+          <img src={cpacImg} alt="cpag" />
+        </div>
+        <div className="col-md-4 text-center">
+          <img src={mnaLogo} alt="cpag" />
+        </div>
+        <div className="col-md-4 text-center">
+          <img src={wat} alt="cpag" />
+        </div>
+      </div>
       <div className="m-4">
         {resp ? (
           <h1 className="mb-2 text-center">

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
@@ -38,8 +38,12 @@ const newFee = () => ({
 });
 
 function MyForm({ id }) {
-  const { configure: studentConfig } = useStudentConfigure();
+  const {
+    configure: studentConfig,
+    isLoading: studentLoading,
+  } = useStudentConfigure();
   const location = useLocation();
+
   const validationSchema = React.useMemo(
     () =>
       Yup.object().shape({
@@ -69,39 +73,33 @@ function MyForm({ id }) {
     control,
     register,
     submit,
-    errors,
     getValues,
     setValue,
     trigger,
-    formState: { isValid, isDirty },
-    state: { isLoading },
+    formState,
+    state: { isLoading, errors: serverErrors },
   } = useHookCRUDForm({
     create,
     update,
     read,
-    onSuccess: resp => {
+    onSuccess: () => {
       toast.success(
         id
           ? `Update Student Monthly Fees success`
           : `Create Student Monthly Fees success`,
       );
     },
-    mappingToForm: form => {
-      console.log('from server', form);
-      return {
-        details: form.map(t => ({
-          ...t,
-          monthYear: new Date(t.yearFee, t.monthFee),
-        })),
-      };
-    },
+    mappingToForm: form => ({
+      details: form.map(t => ({
+        ...t,
+        monthYear: new Date(t.yearFee, t.monthFee),
+      })),
+    }),
     mappingToServer: form => {
       const details = form.details.map(result => {
         const studentClassConfigure = studentConfig.classes.find(
           clz => clz.id === result.student.class,
         );
-
-        console.log('studentClassConfigure11', studentClassConfigure);
         const trialDateFee =
           result.trialDate * studentClassConfigure?.feePerTrialDay;
         const absentDayFee =
@@ -151,7 +149,7 @@ function MyForm({ id }) {
     },
     validationSchema,
     initForm: {
-      details: location && location.state ? location.state.details : [newFee()],
+      details: [],
     },
     id,
   });
@@ -161,6 +159,19 @@ function MyForm({ id }) {
     name: 'details',
     keyName: 'fId',
   });
+
+  useEffect(() => {
+    if (serverErrors && serverErrors.length) {
+      toast.error(serverErrors.map(t => t.message).join('<br/>'));
+    }
+  }, [serverErrors]);
+
+  useEffect(() => {
+    if (!id) {
+      const details = location?.state?.details || [newFee()];
+      setValue('details', details);
+    }
+  }, [location, id]);
 
   const form = React.useMemo(
     () => (
@@ -189,7 +200,6 @@ function MyForm({ id }) {
                   studentConfig={studentConfig}
                   key={item.id}
                   control={control}
-                  errors={errors}
                   register={register}
                   getValues={getValues}
                   setValue={setValue}
@@ -198,6 +208,7 @@ function MyForm({ id }) {
                   remove={remove}
                   trigger={trigger}
                   isUpdated={!!id}
+                  formState={formState}
                 />
               ))}
             </tbody>
@@ -224,19 +235,13 @@ function MyForm({ id }) {
         </div>
 
         <BackButton className="mr-2" />
-        <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
+        <SubmitButton
+          isLoading={isLoading}
+          disabled={!(formState.isValid && formState.isDirty)}
+        />
       </Form>
     ),
-    [
-      errors,
-      isLoading,
-      submit,
-      register,
-      control,
-      isValid,
-      isDirty,
-      studentConfig,
-    ],
+    [isLoading, studentConfig, id, fields, formState],
   );
 
   const configure = useMemo(

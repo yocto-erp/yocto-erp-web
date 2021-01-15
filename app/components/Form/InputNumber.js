@@ -6,7 +6,19 @@ import { isFunc } from '../../utils/util';
 
 const InputNumber = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ invalid, value, onChange, placeholder, max, min, ...props }, ref) => (
+  (
+    {
+      invalid,
+      value,
+      onChange,
+      placeholder,
+      max,
+      min,
+      readOnly = false,
+      ...props
+    },
+    ref,
+  ) => (
     <IMaskInput
       className={classNames('form-control', { 'is-invalid': invalid })}
       {...props}
@@ -19,6 +31,7 @@ const InputNumber = React.forwardRef(
       unmask="typed" // true|false|'typed'
       max={max}
       min={min}
+      readOnly={readOnly}
       onAccept={_val => {
         if (isFunc(onChange)) {
           onChange(_val);
@@ -36,6 +49,7 @@ InputNumber.propTypes = {
   placeholder: PropTypes.string,
   max: PropTypes.number,
   min: PropTypes.number,
+  readOnly: PropTypes.bool,
 };
 
 export default InputNumber;

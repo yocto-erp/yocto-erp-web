@@ -10,6 +10,7 @@ import {
   InputGroupText,
 } from 'reactstrap';
 import { Controller, useWatch } from 'react-hook-form';
+import classNames from 'classnames';
 import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import MonthSelect from '../../../../components/date/MonthSelect';
 import StudentSelect from '../../components/StudentSelect';
@@ -19,7 +20,6 @@ import Price from '../../../../components/common/Price';
 
 const FormDetail = ({
   control,
-  errors,
   register,
   setValue,
   trigger,
@@ -27,6 +27,7 @@ const FormDetail = ({
   index,
   remove,
   studentConfig,
+  formState,
   isUpdated = false,
 }) => {
   const {
@@ -139,48 +140,64 @@ const FormDetail = ({
     scholarShipFee,
   ]);
 
-  const columns = React.useMemo(
-    () => (
+  const columns = React.useMemo(() => {
+    const { errors } = formState;
+    return (
       <tr key={item.id}>
         <td>
           <Input
             type="hidden"
             name={`details[${index}].id`}
-            innerRef={register}
+            innerRef={register()}
             defaultValue={item.id}
           />
-          <div className="w-100 mb-2">
+          <div
+            className={classNames('w-100 mb-2', {
+              'is-invalid': !!get(
+                errors,
+                ['details', index, 'monthYear'],
+                false,
+              ),
+            })}
+          >
             <Controller
               defaultValue={new Date(item.monthYear)}
               control={control}
               name={`details[${index}].monthYear`}
-              render={({ onChange, value, onBlur }) => (
+              invalid={!!get(errors, ['details', index, 'monthYear'], false)}
+              render={({ onChange, value, onBlur }, { invalid }) => (
                 <MonthSelect
                   onChange={onChange}
                   onBlur={onBlur}
                   isClearable={!isUpdated}
                   value={value}
                   disabled={isUpdated}
-                  invalid={
-                    !!get(errors, ['details', index, 'monthYear'], false)
-                  }
+                  invalid={invalid}
                 />
               )}
             />
-            <FormFeedback>
-              {get(errors, ['details', index, 'monthYear', 'message'], '')}
-            </FormFeedback>
           </div>
-          <div>
+          <FormFeedback>
+            {get(errors, ['details', index, 'monthYear', 'message'], '')}
+          </FormFeedback>
+          <div className="mt-2">
             <Controller
-              name={`details[${index}].student`}
               defaultValue={item.student}
               control={control}
-              as={StudentSelect}
-              disabled={isUpdated}
               id={`student${index}`}
-              placeholder="Select Student"
-              invalid={!!get(errors, ['details', index, 'student'], false)}
+              name={`details[${index}].student`}
+              render={({ onChange, value, onBlur, name }) => (
+                <StudentSelect
+                  onChange={onChange}
+                  invalid={!!get(errors, ['details', index, 'student'], false)}
+                  onBlur={onBlur}
+                  isClearable={!isUpdated}
+                  value={value}
+                  disabled={isUpdated}
+                  placeholder="Select Student"
+                  name={name}
+                />
+              )}
             />
             <FormFeedback>
               {get(errors, ['details', index, 'student', 'message'], '')}
@@ -189,12 +206,21 @@ const FormDetail = ({
         </td>
         <td>
           <Controller
-            invalid={!!get(errors, ['details', index, 'scholarShip'], false)}
-            name={`details[${index}].scholarShip`}
             control={control}
-            as={InputPercent}
             defaultValue={item.scholarShip}
             placeholder="ScholarShip"
+            name={`details[${index}].scholarShip`}
+            render={({ onChange, value, onBlur, ...props }) => (
+              <InputPercent
+                {...props}
+                invalid={
+                  !!get(errors, ['details', index, 'scholarShip'], false)
+                }
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
           />
           <Price className="text-muted small" amount={scholarShipFee} />
           <FormErrorMessage
@@ -203,23 +229,37 @@ const FormDetail = ({
         </td>
         <td>
           <Controller
-            invalid={!!get(errors, ['details', index, 'absentDay'], false)}
-            name={`details[${index}].absentDay`}
             control={control}
-            max={studentConfig ? studentConfig.numberDayOfMonth : 30}
-            as={InputNumber}
             defaultValue={item.absentDay}
-            placeholder="School"
+            name={`details[${index}].absentDay`}
+            invalid={!!get(errors, ['details', index, 'absentDay'], false)}
+            render={({ onChange, value, onBlur, ...props }) => (
+              <InputNumber
+                max={studentConfig ? studentConfig.numberDayOfMonth : 30}
+                {...props}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                placeholder="School"
+              />
+            )}
           />
           <Price className="text-muted small" amount={absentDayFee} />
           <Controller
+            control={control}
+            defaultValue={item.studentAbsentDay}
             invalid={!!get(errors, ['details', index, 'absentDay'], false)}
             name={`details[${index}].studentAbsentDay`}
-            control={control}
-            max={studentConfig ? studentConfig.numberDayOfMonth : 30}
-            as={InputNumber}
-            defaultValue={item.studentAbsentDay}
-            placeholder="Student"
+            render={({ onChange, value, onBlur, ...props }) => (
+              <InputNumber
+                max={studentConfig ? studentConfig.numberDayOfMonth : 30}
+                {...props}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                placeholder="Student Absent Days"
+              />
+            )}
           />
           <p className="mb-0">
             Deduce Meal Fee:{' '}
@@ -228,37 +268,59 @@ const FormDetail = ({
         </td>
         <td>
           <Controller
+            control={control}
+            defaultValue={item.trialDate}
             invalid={!!get(errors, ['details', index, 'trialDate'], false)}
             name={`details[${index}].trialDate`}
-            control={control}
-            max={studentConfig ? studentConfig.numberDayOfMonth : 30}
-            as={InputNumber}
-            defaultValue={item.trialDate}
-            placeholder="Trial Date"
+            render={({ onChange, value, onBlur, ...props }) => (
+              <InputNumber
+                max={studentConfig ? studentConfig.numberDayOfMonth : 30}
+                {...props}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                placeholder="Trial Date"
+              />
+            )}
           />
           <Price className="text-muted small" amount={trialDateFee} />
         </td>
         <td>
           <Controller
+            control={control}
+            defaultValue={item.busFee}
             invalid={!!get(errors, ['details', index, 'busFee'], false)}
             name={`details[${index}].busFee`}
-            control={control}
-            as={InputNumber}
             disabled={!student || !student.enableBus}
-            defaultValue={item.busFee}
-            placeholder="Bus Fee"
+            render={({ onChange, value, onBlur, ...props }) => (
+              <InputNumber
+                {...props}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                placeholder="Bus Fee"
+              />
+            )}
           />
           <FormErrorMessage error={get(errors, ['details', index, 'busFee'])} />
         </td>
         <td>
           <Controller
+            control={control}
+            defaultValue={item.mealFee}
             invalid={!!get(errors, ['details', index, 'mealFee'], false)}
             name={`details[${index}].mealFee`}
-            control={control}
-            as={InputNumber}
-            disabled
-            defaultValue={item.mealFee}
-            placeholder="Meal Fee"
+            render={({ onChange, value, onBlur, ...props }, { invalid }) => (
+              <InputNumber
+                {...props}
+                invalid={invalid}
+                readOnly
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                placeholder="Meal Fee"
+              />
+            )}
           />
           <FormErrorMessage
             error={get(errors, ['details', index, 'mealFee'])}
@@ -272,12 +334,19 @@ const FormDetail = ({
               </InputGroupText>
             </InputGroupAddon>
             <Controller
+              control={control}
+              defaultValue={item.otherFee}
               invalid={!!get(errors, ['details', index, 'otherFee'], false)}
               name={`details[${index}].otherFee`}
-              control={control}
-              as={InputNumber}
-              defaultValue={item.otherFee}
-              placeholder="Fee"
+              render={({ onChange, value, onBlur, ...props }) => (
+                <InputNumber
+                  {...props}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  placeholder="Other Fee"
+                />
+              )}
             />
           </InputGroup>
           <InputGroup className="mb-2">
@@ -287,14 +356,21 @@ const FormDetail = ({
               </InputGroupText>
             </InputGroupAddon>
             <Controller
+              control={control}
+              defaultValue={item.otherDeduceFee}
               invalid={
                 !!get(errors, ['details', index, 'otherDeduceFee'], false)
               }
               name={`details[${index}].otherDeduceFee`}
-              control={control}
-              as={InputNumber}
-              defaultValue={item.otherDeduceFee}
-              placeholder="Deduce Fee"
+              render={({ onChange, value, onBlur, ...props }) => (
+                <InputNumber
+                  {...props}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  placeholder="Deduce Fee"
+                />
+              )}
             />
           </InputGroup>
           <InputGroup>
@@ -304,12 +380,19 @@ const FormDetail = ({
               </InputGroupText>
             </InputGroupAddon>
             <Controller
+              control={control}
+              defaultValue={item.debt}
               invalid={!!get(errors, ['details', index, 'debt'], false)}
               name={`details[${index}].debt`}
-              control={control}
-              as={InputNumber}
-              defaultValue={item.debt}
-              placeholder="Debt"
+              render={({ onChange, value, onBlur, ...props }) => (
+                <InputNumber
+                  {...props}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  placeholder="Debt"
+                />
+              )}
             />
           </InputGroup>
         </td>
@@ -318,7 +401,7 @@ const FormDetail = ({
             type="textarea"
             invalid={!!get(errors, ['details', index, 'remark'], false)}
             name={`details[${index}].remark`}
-            innerRef={register}
+            innerRef={register()}
             style={{ height: '75px' }}
             placeholder="Remark"
             defaultValue={item.remark}
@@ -335,23 +418,22 @@ const FormDetail = ({
               size="sm"
               onClick={() => remove(index)}
             >
-              <i className="fi flaticon-trash" />{' '}
+              <i className="fi flaticon-trash" /> {index}
             </Button>
           </td>
         )}
       </tr>
-    ),
-    [
-      errors.details,
-      index,
-      register,
-      control,
-      scholarShipFee,
-      trialDateFee,
-      absentDayFee,
-      totalFee,
-    ],
-  );
+    );
+  }, [
+    formState,
+    index,
+    register,
+    control,
+    scholarShipFee,
+    trialDateFee,
+    absentDayFee,
+    totalFee,
+  ]);
 
   return <>{columns}</>;
 };
@@ -359,7 +441,6 @@ const FormDetail = ({
 FormDetail.propTypes = {
   control: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
   setValue: PropTypes.func.isRequired,
   item: PropTypes.any,
   index: PropTypes.number.isRequired,
@@ -367,5 +448,6 @@ FormDetail.propTypes = {
   studentConfig: PropTypes.object,
   trigger: PropTypes.func,
   isUpdated: PropTypes.bool,
+  formState: PropTypes.object,
 };
 export default FormDetail;

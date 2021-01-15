@@ -84,13 +84,11 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
   useEffect(() => {
     if (student) {
       reset({
-        amount: student?.totalAmount || 0,
+        amount: student.totalAmount || 0,
         remark: '',
-        name: `Month ${student?.monthFee}/${
-          student?.yearFee
-        } fee payment of student ${student?.student.child.firstName} ${
-          student?.student.child.lastName
-        }`,
+        name: `Month ${student.monthFee}/${student.yearFee} tuition fee of ${
+          student.student.child.firstName
+        } ${student.student.child.lastName}`,
         storeCashIn: true,
         sendEmailConfirm: true,
         from: '',
@@ -161,7 +159,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
                     ref={register}
                   />
                 </div>
-                <FormErrorMessage error={!!errors.name} />
+                <FormErrorMessage error={errors.name} />
               </div>
               <div className="form-group form-check">
                 <input

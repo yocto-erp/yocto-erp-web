@@ -14,8 +14,17 @@ export default () => {
 
   const isLoading = !data && !error;
 
+  function getClassName(classId) {
+    const { classes } = data;
+    if (classes) {
+      return classes.find(t => t.id === classId).name;
+    }
+    return '';
+  }
+
   return {
     isLoading,
+    getClassName,
     configure: data,
     getStudentConfigure: mutate,
   };

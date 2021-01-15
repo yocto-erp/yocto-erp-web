@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { numberPipe } from '../../libs/utils/number.util';
 
-const Price = ({ amount = 0, currency = 'VND', ...props }) => {
+const Price = ({ amount = '', currency = 'VND', ...props }) => {
   const numberPipeFn = numberPipe();
+  if (Number.isNaN(amount)) return '';
   return (
     <span {...props}>
       {numberPipeFn(amount)} <strong>{currency}</strong>
@@ -12,7 +13,7 @@ const Price = ({ amount = 0, currency = 'VND', ...props }) => {
 };
 
 Price.propTypes = {
-  amount: PropTypes.number,
+  amount: PropTypes.any,
   currency: PropTypes.string,
 };
 

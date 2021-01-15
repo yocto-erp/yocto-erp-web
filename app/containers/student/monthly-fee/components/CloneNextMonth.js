@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import * as Yup from 'yup';
 import { Controller } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 import ModalCancelButton from '../../../../components/button/ModalCancelButton';
 import MonthSelect from '../../../../components/date/MonthSelect';
 import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
@@ -38,6 +39,7 @@ const CloneNextMonth = ({
       new Promise(resolve => {
         const details = result.map(t => ({
           ...t,
+          id: uuidv4(),
           monthYear: formData.monthYear,
         }));
         resolve(history.push('/student-monthly-fee/new', { details }));
