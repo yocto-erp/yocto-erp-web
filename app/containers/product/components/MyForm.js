@@ -79,7 +79,6 @@ function MyForm({ id }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'units',
-    // keyName: "id", default to "id", you can change the key name
   });
 
   const form = React.useMemo(
@@ -155,7 +154,7 @@ function MyForm({ id }) {
                             !!get(errors, ['units', index, 'name'], false)
                           }
                           name={`units[${index}].name`}
-                          innerRef={register}
+                          innerRef={register()}
                           defaultValue={item.name} // make sure to set up defaultValue
                         />
                         <FormFeedback>
@@ -170,7 +169,7 @@ function MyForm({ id }) {
                           type="text"
                           name={`units[${index}].rate`}
                           readOnly={item.rate === 1}
-                          innerRef={register}
+                          innerRef={register()}
                           defaultValue={item.rate} // make sure to set up defaultValue
                         />
                         <FormFeedback>
