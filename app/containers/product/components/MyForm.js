@@ -23,20 +23,24 @@ import BackButton from '../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import CreateButton from '../../../components/button/CreateButton';
 import FileUpload from '../../../components/FileUpload';
+import InputAmount from '../../../components/Form/InputAmount';
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import { ERROR } from '../../../components/Form/messages';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
+  name: Yup.string().required(ERROR.required),
   priceBaseUnit: Yup.number()
-    .moreThan(0, 'Price must larger than 0')
-    .required('This field is required.'),
+    .typeError(ERROR.required)
+    .positive(ERROR.amountGT0)
+    .required(ERROR.required),
   units: Yup.array()
     .of(
       Yup.object().shape({
-        name: Yup.string().required('Unit name is required'),
+        name: Yup.string().required(ERROR.required),
         rate: Yup.number().required('Unit rate is required'),
       }),
     )
-    .required('Product units is required'),
+    .required(ERROR.required),
 });
 
 const { create, update, read } = productApi;
@@ -101,20 +105,19 @@ function MyForm({ id }) {
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </FormGroup>
             <FormGroup>
-              <Label for="priceBaseUnit" className="required">
+              <Label for="priceBaseUnit">
                 Price<span className="text-danger">*</span>
               </Label>
-              <Input
-                invalid={!!errors.priceBaseUnit}
+              <Controller
                 type="number"
                 name="priceBaseUnit"
-                innerRef={register}
-                id="priceBaseUnit"
-                placeholder="Product Price Base Unit"
+                invalid={!!errors.priceBaseUnit}
+                control={control}
+                as={InputAmount}
+                defaultValue={0}
+                placeholder="Price"
               />
-              <FormFeedback>
-                {errors.priceBaseUnit && errors.priceBaseUnit.message}
-              </FormFeedback>
+              <FormErrorMessage error={errors.priceBaseUnit} />
             </FormGroup>
             <FormGroup>
               <Label for="remark" className="mr-sm-2">

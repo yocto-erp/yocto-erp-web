@@ -197,7 +197,7 @@ const StudentConfigurationForm = () => {
                       <option value={t.id} key={t.id}>
                         {t.name}
                       </option>
-                    ))
+                  ))
                   : null}
               </Input>
             </FormGroup>
