@@ -146,7 +146,7 @@ const ListPage = ({ history }) => {
       initialFilter={search}
       initSorts={{ createdDate: SORT_DIR.DESC }}
     >
-      <Filter data={search} />
+      <Filter />
     </ListWidget>
   );
 };

@@ -17,7 +17,7 @@ export default () => {
   function getClassName(classId) {
     const { classes } = data;
     if (classes) {
-      return classes.find(t => t.id === classId).name;
+      return classes.find(t => t.id === classId)?.name || '';
     }
     return '';
   }
@@ -25,7 +25,7 @@ export default () => {
   return {
     isLoading,
     getClassName,
-    configure: data,
+    configure: data || {},
     getStudentConfigure: mutate,
   };
 };

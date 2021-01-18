@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { useListFilter } from '../../../components/ListWidget/constants';
 import SearchButton from '../../../components/button/SearchButton';
 
-const Filter = ({ data }) => {
-  const { handleSubmit, register } = useForm({
-    defaultValues: data,
+const Filter = () => {
+  const { searchByFilter, filter } = useListFilter();
+  const { handleSubmit, register, reset } = useForm({
+    defaultValues: filter || { month: null },
   });
-  const setFilter = useListFilter();
-  const onSubmit = handleSubmit(val => setFilter(val));
+
+  const onSubmit = handleSubmit(val => searchByFilter(val));
+
+  useEffect(() => {
+    reset(filter);
+  }, [filter]);
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
@@ -31,10 +35,6 @@ const Filter = ({ data }) => {
       </FormGroup>
     </Form>
   );
-};
-
-Filter.propTypes = {
-  data: PropTypes.object,
 };
 
 export default Filter;

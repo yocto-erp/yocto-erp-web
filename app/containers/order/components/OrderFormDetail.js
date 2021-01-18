@@ -87,7 +87,7 @@ const OrderFormDetail = ({
           type="number"
           invalid={!!get(errors, ['details', index, 'price'], false)}
           name={`details[${index}].price`}
-          innerRef={register}
+          innerRef={register()}
           defaultValue={item.price} // make sure to set up defaultValue
         />
         <FormFeedback>
@@ -99,7 +99,7 @@ const OrderFormDetail = ({
           type="text"
           invalid={!!get(errors, ['details', index, 'remark'], false)}
           name={`details[${index}].remark`}
-          innerRef={register}
+          innerRef={register()}
           defaultValue={item.remark} // make sure to set up defaultValue
         />
         <FormFeedback>

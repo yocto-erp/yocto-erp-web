@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import {
+  Col,
   Form,
   FormFeedback,
   FormGroup,
   Input,
   Label,
   Row,
-  Col,
   Table,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
@@ -87,8 +87,10 @@ function MyForm({ id }) {
       }));
       return {
         name: form.name,
-        partnerCompanyId: form.partnerCompanyId.id,
-        partnerPersonId: form.partnerPersonId.id,
+        partnerCompanyId: form.partnerCompanyId
+          ? form.partnerCompanyId.id
+          : null,
+        partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
         remark: form.remark,
         details,
       };
@@ -109,6 +111,7 @@ function MyForm({ id }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'details',
+    keyName: 'fId',
   });
 
   const form = React.useMemo(

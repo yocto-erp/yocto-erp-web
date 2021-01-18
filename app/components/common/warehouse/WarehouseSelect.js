@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { CustomInput, InputGroup } from 'reactstrap';
 import classNames from 'classnames';
@@ -41,24 +41,22 @@ const WarehouseSelect = React.forwardRef(
     );
 
     return (
-      <>
-        <InputGroup className={classNames({ 'is-invalid': invalid })}>
-          <CustomInput
-            id={id}
-            type="select"
-            onChange={onChangeHandle}
-            onBlur={onBlur}
-            value={value ? value.id : '0'}
-          >
-            <option value="0">{placeholder}</option>
-            {options.map(t => (
-              <option key={t.id} value={t.id}>
-                {t.name}
-              </option>
-            ))}
-          </CustomInput>
-        </InputGroup>
-      </>
+      <InputGroup className={classNames({ 'is-invalid': invalid })}>
+        <CustomInput
+          id={id}
+          type="select"
+          onChange={onChangeHandle}
+          onBlur={onBlur}
+          value={value && value.id ? value.id : value || '0'}
+        >
+          <option value="0">{placeholder}</option>
+          {options.map(t => (
+            <option key={t.id} value={t.id}>
+              {t.name}
+            </option>
+          ))}
+        </CustomInput>
+      </InputGroup>
     );
   },
 );

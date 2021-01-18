@@ -49,7 +49,7 @@ const CloneNextMonth = ({
   const [result, setResult] = useState([]);
 
   useEffect(() => {
-    if (ids) {
+    if (ids && ids.length) {
       studentMonthlyFeeApi.read(ids.toString()).then(data => {
         setResult(data);
       });

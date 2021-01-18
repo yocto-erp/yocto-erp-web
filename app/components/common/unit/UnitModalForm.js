@@ -61,6 +61,7 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
     control,
     name: 'units',
     // keyName: "id", default to "id", you can change the key name
+    keyName: 'fId',
   });
   const [isLoading, exec] = useAsync({
     asyncApi: productUnitApi.update,
@@ -100,7 +101,7 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
                         type="text"
                         invalid={!!get(errors, ['units', index, 'name'], false)}
                         name={`units[${index}].name`}
-                        innerRef={register}
+                        innerRef={register()}
                         defaultValue={item.name} // make sure to set up defaultValue
                       />
                       <FormFeedback>
@@ -113,7 +114,7 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
                         type="text"
                         name={`units[${index}].rate`}
                         readOnly={item.rate === 1}
-                        innerRef={register}
+                        innerRef={register()}
                         defaultValue={item.rate} // make sure to set up defaultValue
                       />
                       <FormFeedback>

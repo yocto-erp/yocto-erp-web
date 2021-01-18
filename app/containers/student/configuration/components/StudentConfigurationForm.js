@@ -150,8 +150,9 @@ const StudentConfigurationForm = () => {
     keyName: 'cId',
   });
 
-  const form = React.useMemo(
-    () => (
+  const form = React.useMemo(() => {
+    if (!templates) return null;
+    return (
       <Form onSubmit={onSubmit} noValidate formNoValidate>
         <Row>
           <Col md={4}>
@@ -194,10 +195,10 @@ const StudentConfigurationForm = () => {
                 <option value="">Select Print Template</option>
                 {templates
                   ? templates.rows.map(t => (
-                      <option value={t.id} key={t.id}>
-                        {t.name}
-                      </option>
-                    ))
+                    <option value={t.id} key={t.id}>
+                      {t.name}
+                    </option>
+                  ))
                   : null}
               </Input>
             </FormGroup>
@@ -324,9 +325,8 @@ const StudentConfigurationForm = () => {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
-    ),
-    [onSubmit, errors, register, isLoading, reset, templates],
-  );
+    );
+  }, [onSubmit, errors, register, isLoading, reset, templates]);
   return (
     <Widget>
       {serverErrors && serverErrors.length ? (

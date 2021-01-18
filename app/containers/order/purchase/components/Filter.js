@@ -1,22 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useListFilter } from '../../../../components/ListWidget/constants';
 import SearchButton from '../../../../components/button/SearchButton';
 import CompanySelect from '../../../../components/common/company/CompanySelect';
 import CustomerSelect from '../../../../components/common/customer/CustomerSelect';
 
-const Filter = ({ data }) => {
-  const { handleSubmit, register, control } = useForm({
-    defaultValues: data,
+const Filter = () => {
+  const { searchByFilter, filter } = useListFilter();
+
+  const { handleSubmit, register, control, reset } = useForm({
+    defaultValues: {},
   });
-  const setFilter = useListFilter();
+  useEffect(() => {
+    reset(filter);
+  }, [filter]);
+
   const onSubmit = handleSubmit(val => {
     const partnerCompanyId = val.company ? val.company.id : null;
     const partnerPersonId = val.customer ? val.customer.id : null;
     const { search } = val;
-    setFilter({ search, partnerCompanyId, partnerPersonId });
+    searchByFilter({ search, partnerCompanyId, partnerPersonId });
   });
   return (
     <Form inline onSubmit={onSubmit} noValidate>
@@ -67,10 +71,6 @@ const Filter = ({ data }) => {
       <SearchButton />
     </Form>
   );
-};
-
-Filter.propTypes = {
-  data: PropTypes.object,
 };
 
 export default Filter;

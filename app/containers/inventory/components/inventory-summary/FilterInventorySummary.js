@@ -1,21 +1,21 @@
 import React from 'react';
 import { Form, FormGroup, Label } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useListFilter } from '../../../../components/ListWidget/constants';
 import SearchButton from '../../../../components/button/SearchButton';
 import ProductSelect from '../../../../components/common/product/ProductSelect';
 import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
 
-const FilterInventorySummary = ({ data }) => {
-  const { handleSubmit, control } = useForm({
-    defaultValues: data,
+const FilterInventorySummary = () => {
+  const { searchByFilter, filter } = useListFilter();
+  const { handleSubmit, register, control, reset } = useForm({
+    defaultValues: filter || {},
   });
-  const setFilter = useListFilter();
+
   const onSubmit = handleSubmit(val => {
     const productId = val.product ? val.product.id : null;
     const warehouseId = val.warehouse ? val.warehouse.id : null;
-    setFilter({ warehouseId, productId });
+    searchByFilter({ warehouseId, productId });
   });
 
   return (
@@ -55,10 +55,6 @@ const FilterInventorySummary = ({ data }) => {
       <SearchButton />
     </Form>
   );
-};
-
-FilterInventorySummary.propTypes = {
-  data: PropTypes.object,
 };
 
 export default FilterInventorySummary;

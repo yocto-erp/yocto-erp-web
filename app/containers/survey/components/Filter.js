@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
@@ -12,13 +12,18 @@ import { personFormMessages } from '../messages';
 import { AGE_RANGES } from '../constants';
 import surveyApi from '../../../libs/apis/survey/survey.api';
 
-const Filter = ({ data, intl, formConfig = {} }) => {
+const Filter = ({ intl, formConfig = {} }) => {
   const { id } = useParams();
-  const { handleSubmit, register } = useForm({
-    defaultValues: data,
+
+  const { searchByFilter, filter } = useListFilter();
+  const { handleSubmit, register, reset } = useForm({
+    defaultValues: filter || {},
   });
-  const setFilter = useListFilter();
-  const onSubmit = handleSubmit(val => setFilter(val));
+  const onSubmit = handleSubmit(val => searchByFilter(val));
+  useEffect(() => {
+    reset(filter);
+  }, [filter]);
+
   return (
     <Form inline onSubmit={onSubmit} noValidate>
       <FormGroup
@@ -160,7 +165,6 @@ const Filter = ({ data, intl, formConfig = {} }) => {
 };
 
 Filter.propTypes = {
-  data: PropTypes.object,
   intl: intlShape.isRequired,
   formConfig: PropTypes.object,
 };

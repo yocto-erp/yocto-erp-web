@@ -110,7 +110,7 @@ const SurveyPersonAnswerPage = () => {
       initialPage={1}
       initialFilter={search}
     >
-      <Filter data={search} formConfig={survey?.formDetail} />
+      <Filter formConfig={survey?.formDetail} />
     </ListWidget>
   );
 };

@@ -62,8 +62,6 @@ const ListInventorySummary = ({ history }) => {
     [],
   );
 
-  const search = { warehouseId: null, productId: null };
-
   const actions = (
     <>
       <CreateButton
@@ -93,10 +91,9 @@ const ListInventorySummary = ({ history }) => {
       fetchData={inventorySummaryApi.search}
       initialSize={10}
       initialPage={1}
-      initialFilter={search}
       initSorts={{ lastModifiedDate: SORT_DIR.DESC }}
     >
-      <FilterInventorySummary data={search} />
+      <FilterInventorySummary />
     </ListWidget>
   );
 };

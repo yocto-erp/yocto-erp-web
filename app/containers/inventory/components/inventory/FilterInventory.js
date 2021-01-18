@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
@@ -8,18 +8,28 @@ import SearchButton from '../../../../components/button/SearchButton';
 import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const FilterInventory = ({ data }) => {
-  const [startDate, setStartDate] = useState(data.startDate);
-  const [endDate, setEndDate] = useState(data.endDate);
-  const setFilter = useListFilter();
-  const { handleSubmit, register, control } = useForm({
-    defaultValues: data,
+const FilterInventory = () => {
+  const toDate = new Date();
+  const prevDate = new Date();
+  prevDate.setDate(new Date().getDate() - 7);
+  const [startDate, setStartDate] = useState(filter?.startDate || prevDate);
+  const [endDate, setEndDate] = useState(filter?.endDate || toDate);
+  const { searchByFilter, filter } = useListFilter();
+  const { handleSubmit, register, control, reset } = useForm({
+    defaultValues: filter || {
+      startDate: prevDate,
+      endDate: toDate,
+    },
   });
+
   const onSubmit = handleSubmit(val => {
-    const { search } = val;
-    const warehouseId = val.warehouse ? val.warehouse.id : null;
-    setFilter({ warehouseId, search, startDate, endDate });
+    const warehouseId = val.warehouseId ? val.warehouseId.id : null;
+    searchByFilter({ ...val, warehouseId });
   });
+
+  useEffect(() => {
+    reset(filter);
+  }, [filter]);
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
@@ -30,7 +40,7 @@ const FilterInventory = ({ data }) => {
         <div style={{ width: '150px' }}>
           <Controller
             defaultValue={null}
-            name="warehouse"
+            name="warehouseId"
             control={control}
             id="warehouseId"
             placeholder="Select Warehouse"
@@ -53,38 +63,57 @@ const FilterInventory = ({ data }) => {
           placeholder="Search By Inventory Name"
         />
       </FormGroup>
-      <>
-        <FormGroup>
-          <Label className="mr-2">StartDate</Label>
-          <DatePicker
-            id="startDate"
-            className="form-control mr-2"
-            selected={startDate}
-            onChange={date => setStartDate(date)}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
-          />
-          <Label className="mr-2">EndDate</Label>
-          <DatePicker
-            id="endDate"
-            className="form-control mr-2"
-            selected={endDate}
-            onChange={date => setEndDate(date)}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            minDate={startDate}
-          />
-        </FormGroup>
-      </>
+      <FormGroup className="mr-2">
+        <Label className="mr-2">StartDate</Label>
+        <Controller
+          name="startDate"
+          control={control}
+          defaultValue={filter?.startDate || null}
+          render={({ onChange, onBlur, value }) => (
+            <DatePicker
+              className="form-control pr-2"
+              onChange={val => {
+                onChange(val);
+                setStartDate(val);
+              }}
+              isClearable
+              onBlur={onBlur}
+              selected={value}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+            />
+          )}
+        />
+      </FormGroup>
+      <FormGroup className="mr-2">
+        <Label className="pr-2">EndDate</Label>
+        <Controller
+          name="endDate"
+          control={control}
+          defaultValue={filter?.endDate || null}
+          render={({ onChange, onBlur, value }) => (
+            <DatePicker
+              id="endDate"
+              className="form-control pr-2"
+              onChange={val => {
+                onChange(val);
+                setEndDate(val);
+              }}
+              isClearable
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+              onBlur={onBlur}
+              selected={value}
+            />
+          )}
+        />
+      </FormGroup>
       <SearchButton />
     </Form>
   );
-};
-
-FilterInventory.propTypes = {
-  data: PropTypes.object,
 };
 
 export default FilterInventory;

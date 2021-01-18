@@ -28,6 +28,7 @@ import {
   CreatedByColumn,
   SORT_DIR,
 } from '../../../../components/ListWidget/constants';
+import { convertQueryWithDate } from '../../../../libs/utils/query.util';
 
 const ROOT_PATH = INVENTORY_ROOT_PATH;
 const ListInventory = ({ history }) => {
@@ -210,8 +211,9 @@ const ListInventory = ({ history }) => {
       initialPage={1}
       initialFilter={search}
       initSorts={{ createdDate: SORT_DIR.DESC }}
+      mappingUrlData={convertQueryWithDate()}
     >
-      <FilterInventory data={search} />
+      <FilterInventory />
     </ListWidget>
   );
 };

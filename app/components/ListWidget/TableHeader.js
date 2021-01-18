@@ -14,7 +14,7 @@ const TableHeader = ({
 }) => {
   const onSortClick = React.useCallback(
     name => {
-      const currentDir = sorts[name];
+      const currentDir = sorts && sorts[name];
       let dirIndex = SORT_ORDER.indexOf(currentDir);
       if (dirIndex < 2) {
         dirIndex += 1;
@@ -33,7 +33,7 @@ const TableHeader = ({
       const className = [col.class];
       if (col.sort) {
         const colSortDir =
-          sorts[col.sort.name] && sorts[col.sort.name] !== ''
+          sorts && sorts[col.sort.name] && sorts[col.sort.name] !== ''
             ? `${sorts[col.sort.name]}`
             : '';
         className.push(`sorting ${colSortDir}`);
@@ -47,46 +47,44 @@ const TableHeader = ({
   );
 
   return (
-    <>
-      <tr>
-        {enableSelectColumn ? (
-          <th className="min text-center">
-            Select
-            <br />
-            <Button
-              type="button"
-              color="link"
-              size="sm"
-              className="text-success"
-              style={{ padding: '2px' }}
-              onClick={() => onSelectAll(true)}
-            >
-              ALL
-            </Button>
-            |
-            <Button
-              type="button"
-              color="link"
-              size="sm"
-              className="text-danger"
-              style={{ padding: '2px' }}
-              onClick={() => onSelectAll(false)}
-            >
-              None
-            </Button>
-          </th>
-        ) : null}
-        {columns.map(item => (
-          <th
-            key={item.data}
-            {...getSortProps(item)}
-            style={item.width ? { width: item.width } : {}}
+    <tr>
+      {enableSelectColumn ? (
+        <th className="min text-center">
+          Select
+          <br />
+          <Button
+            type="button"
+            color="link"
+            size="sm"
+            className="text-success"
+            style={{ padding: '2px' }}
+            onClick={() => onSelectAll(true)}
           >
-            {item.header}
-          </th>
-        ))}
-      </tr>
-    </>
+            ALL
+          </Button>
+          |
+          <Button
+            type="button"
+            color="link"
+            size="sm"
+            className="text-danger"
+            style={{ padding: '2px' }}
+            onClick={() => onSelectAll(false)}
+          >
+            None
+          </Button>
+        </th>
+      ) : null}
+      {columns.map(item => (
+        <th
+          key={item.data}
+          {...getSortProps(item)}
+          style={item.width ? { width: item.width } : {}}
+        >
+          {item.header}
+        </th>
+      ))}
+    </tr>
   );
 };
 

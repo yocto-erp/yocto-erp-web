@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { toast } from 'react-toastify';
@@ -15,24 +15,27 @@ import Pagination from '../Pagination';
 import './List.scss';
 import Widget from '../Widget/Widget';
 import { useIsMounted } from '../../libs/hooks/useIsMounted';
+import { useGridQueryParams } from '../../libs/hooks/useGridQueryParams';
 
 const ListWidget = ({
   columns,
   fetchData,
-  initPage = 1,
-  initSize = 10,
-  initSorts = {},
-  initFilter = {},
   deleteDialog,
   enableSelectColumn = false,
   pageHeader,
   widgetClassname = '',
+  mappingUrlData,
+  initFilter,
+  initSorts,
   ...props
 }) => {
-  const [page, setPage] = useState(initPage);
-  const [size, setSize] = useState(initSize);
-  const [sorts, setSorts] = useState(initSorts);
-  const [filter, setFilter] = useState(initFilter);
+  const {
+    queryObj,
+    setPage,
+    setSize,
+    setSorts,
+    setFilter,
+  } = useGridQueryParams(mappingUrlData, { initFilter, initSorts });
   const [isLoading, setIsLoading] = useState(false);
   const isMounted = useIsMounted();
   const [{ count, rows }, setResponse] = useState({
@@ -117,13 +120,13 @@ const ListWidget = ({
     () => (
       <TableHeader
         columns={columns}
-        sorts={sorts}
+        sorts={queryObj.sorts}
         onSort={onSort}
         enableSelectColumn={enableSelectColumn}
         onSelectAll={onSelectAll}
       />
     ),
-    [columns, sorts, enableSelectColumn, onSelectAll],
+    [columns, queryObj, enableSelectColumn, onSelectAll],
   );
 
   const tableBody = React.useMemo(
@@ -152,6 +155,7 @@ const ListWidget = ({
               setSize(Number(event.target.value));
             }}
             style={{ width: 'auto' }}
+            value={queryObj.size}
           >
             <option value={10}>10 / Page</option>
             <option value={20}>20 / Page</option>
@@ -159,8 +163,8 @@ const ListWidget = ({
             <option value={100}>100 / Page</option>
           </Input>
           <Pagination
-            currentPage={page}
-            pageSize={size}
+            currentPage={queryObj.page}
+            pageSize={queryObj.size}
             total={count}
             setPage={setPage}
           />
@@ -169,18 +173,21 @@ const ListWidget = ({
         </div>
       </div>
     ),
-    [page, size, setSize, count, setPage, isLoading],
+    [queryObj, count, isLoading],
   );
 
-  const refresh = React.useCallback(
-    () => searchApi({ page, size, filter, sorts }),
-    [searchApi, page, size, sorts, filter],
-  );
+  const refresh = React.useCallback(() => searchApi(queryObj), [
+    searchApi,
+    queryObj,
+  ]);
 
-  const searchByFilter = React.useCallback(par => {
-    setPage(1);
-    setFilter(par);
-  }, []);
+  const searchByFilter = React.useCallback(
+    par => {
+      setPage(1);
+      setFilter(par);
+    },
+    [setPage, setFilter],
+  );
 
   const onDeleted = React.useCallback(
     id => {
@@ -193,9 +200,10 @@ const ListWidget = ({
     [refresh, selectedList],
   );
 
-  React.useEffect(() => {
-    refresh();
-  }, [refresh]);
+  useEffect(() => {
+    console.log(queryObj);
+    searchApi(queryObj);
+  }, [queryObj, searchApi]);
 
   return (
     <ListActionProvider value={{ refresh, onDeleted }}>
@@ -205,7 +213,9 @@ const ListWidget = ({
           <Widget className={widgetClassname}>
             <div className="wrapper">
               <div className="filter">
-                <ListFilterProvider value={searchByFilter}>
+                <ListFilterProvider
+                  value={{ searchByFilter, filter: queryObj.filter }}
+                >
                   {props.children}
                 </ListFilterProvider>
               </div>
@@ -237,6 +247,7 @@ ListWidget.propTypes = {
   enableSelectColumn: PropTypes.bool,
   pageHeader: PropTypes.node,
   widgetClassname: PropTypes.string,
+  mappingUrlData: PropTypes.func,
 };
 
 export default ListWidget;

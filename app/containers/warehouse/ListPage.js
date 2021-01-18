@@ -117,7 +117,7 @@ const ListPage = ({ history }) => {
       initialPage={1}
       initialFilter={search}
     >
-      <Filter data={search} />
+      <Filter />
     </ListWidget>
   );
 };

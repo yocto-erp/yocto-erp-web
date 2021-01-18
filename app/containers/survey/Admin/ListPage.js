@@ -157,7 +157,7 @@ const ListPage = ({ history }) => {
       fetchData={surveyAdminApi.search}
       initialFilter={search}
     >
-      <Filter data={search} />
+      <Filter />
     </ListWidget>
   );
 };

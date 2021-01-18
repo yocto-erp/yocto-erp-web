@@ -38,10 +38,7 @@ const newFee = () => ({
 });
 
 function MyForm({ id }) {
-  const {
-    configure: studentConfig,
-    isLoading: studentLoading,
-  } = useStudentConfigure();
+  const { configure: studentConfig } = useStudentConfigure();
   const location = useLocation();
 
   const validationSchema = React.useMemo(

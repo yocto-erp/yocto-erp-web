@@ -12,9 +12,9 @@ import {
 } from '../../libs/utils/crud.util';
 import PageTitle from '../Layout/PageTitle';
 import {
-  COST_ROOT_PATH,
   COST_PAYMENT_PATH,
   COST_RECEIPT_PATH,
+  COST_ROOT_PATH,
 } from './constants';
 import apiCost from '../../libs/apis/cost.api';
 import CreateButton from '../../components/button/CreateButton';
@@ -25,6 +25,7 @@ import {
   CreatedByColumn,
   SORT_DIR,
 } from '../../components/ListWidget/constants';
+import { convertQueryWithDate } from '../../libs/utils/query.util';
 
 const ROOT_PATH = COST_ROOT_PATH;
 
@@ -157,8 +158,9 @@ const ListPage = ({ history }) => {
       initSize={10}
       initSorts={{ createdDate: SORT_DIR.DESC }}
       enableSelectColumn
+      mappingUrlData={convertQueryWithDate()}
     >
-      <Filter data={search} />
+      <Filter />
     </ListWidget>
   );
 };

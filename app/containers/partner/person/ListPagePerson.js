@@ -123,7 +123,7 @@ const ListPagePerson = ({ history }) => {
       initSize={10}
       initSorts={{ createdDate: SORT_DIR.DESC }}
     >
-      <Filter data={search} />
+      <Filter />
     </ListWidget>
   );
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Widget from '../../../components/Widget/Widget';
 import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
 import purchaseApi from '../../../libs/apis/order/purchase.api';
 import { PURCHASE_ROOT_PATH } from './constants';
@@ -149,7 +148,7 @@ const ListPage = ({ history }) => {
       initialFilter={search}
       initSorts={{ createdDate: SORT_DIR.DESC }}
     >
-      <Filter data={search} />
+      <Filter />
     </ListWidget>
   );
 };

@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { Button, Form, Input } from 'reactstrap';
 import { Controller, useForm } from 'react-hook-form';
 import { useListFilter } from '../../../../components/ListWidget/constants';
@@ -7,15 +6,19 @@ import SearchButton from '../../../../components/button/SearchButton';
 import MonthSelect from '../../../../components/date/MonthSelect';
 import useStudentConfigure from '../../../../libs/hooks/useStudentConfigure';
 
-const Filter = ({ data }) => {
+const Filter = () => {
+  const { searchByFilter, filter } = useListFilter();
   const { handleSubmit, register, control, reset } = useForm({
-    defaultValues: data,
+    defaultValues: filter || { month: null },
   });
-  const setFilter = useListFilter();
-  const onSubmit = handleSubmit(val => setFilter(val));
+  const onSubmit = handleSubmit(val => searchByFilter(val));
+
+  useEffect(() => {
+    reset(filter);
+  }, [filter]);
   const { configure } = useStudentConfigure();
 
-  return (
+  return configure && configure.classes && configure.classes.length ? (
     <Form inline onSubmit={onSubmit} noValidate>
       <Input
         type="search"
@@ -34,7 +37,7 @@ const Filter = ({ data }) => {
         id="class"
       >
         <option value="">ALL Classes</option>
-        {(configure?.classes || []).map(t => (
+        {configure.classes.map(t => (
           <option value={t.id} key={t.id}>
             {t.name}
           </option>
@@ -71,19 +74,15 @@ const Filter = ({ data }) => {
         color="danger"
         className="ml-2"
         onClick={() => {
-          reset(data);
-          setFilter(data);
+          reset({});
+          searchByFilter({});
         }}
         type="button"
       >
         Reset
       </Button>
     </Form>
-  );
-};
-
-Filter.propTypes = {
-  data: PropTypes.object,
+  ) : null;
 };
 
 export default Filter;

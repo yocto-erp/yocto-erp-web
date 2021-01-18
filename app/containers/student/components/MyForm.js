@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import {
@@ -23,8 +23,8 @@ import CustomerSelect from '../../../components/common/customer/CustomerSelect';
 import studentApi from '../../../libs/apis/student/student.api';
 import DateSelect from '../../../components/date/DateSelect';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import studentConfigurationApi from '../../../libs/apis/student/student-config.api';
 import { ERROR } from '../../../components/Form/messages';
+import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required(ERROR.required),
@@ -35,18 +35,10 @@ const validationSchema = Yup.object().shape({
 const { create, update, read } = studentApi;
 
 function MyForm({ id }) {
-  const [optionsBusRoute, setOptionsBusRoute] = React.useState([]);
-  const [optionsClass, setOptionsClass] = React.useState([]);
+  const {
+    configure: { busRoutes = null, classes = null },
+  } = useStudentConfigure();
 
-  React.useEffect(() => {
-    studentConfigurationApi.get().then(resp => {
-      console.log(resp);
-      if (resp) {
-        setOptionsBusRoute(resp.busRoutes);
-        setOptionsClass(resp.classes);
-      }
-    });
-  }, []);
   const {
     control,
     register,
@@ -59,7 +51,7 @@ function MyForm({ id }) {
     create,
     update,
     read,
-    onSuccess: resp => {
+    onSuccess: () => {
       toast.success(id ? `Update student success` : `Create student success`);
     },
     mappingToForm: form => ({
@@ -72,7 +64,7 @@ function MyForm({ id }) {
       status: form.status ? form.status : '',
       class: form.class,
       birthday: form.child ? new Date(form.child.birthday) : new Date(),
-      sex: form.child.sex ? form.child.sex : '',
+      sex: form.child.sex,
       feePackage: form.feePackage,
       fatherId: form.father ? form.father : null,
       motherId: form.mother ? form.mother : null,
@@ -129,8 +121,11 @@ function MyForm({ id }) {
     name: 'enableBus',
   });
 
-  const form = React.useMemo(
-    () => (
+  const form = React.useMemo(() => {
+    if (!busRoutes && !classes) {
+      return null;
+    }
+    return (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
@@ -231,7 +226,7 @@ function MyForm({ id }) {
                 placeholder="Choose Class"
               >
                 <option value="">Select Class</option>
-                {optionsClass.map(t => (
+                {classes.map(t => (
                   <option key={t.id} value={t.id}>
                     {t.name}
                   </option>
@@ -378,7 +373,7 @@ function MyForm({ id }) {
                   disabled={enableBus === false}
                 >
                   <option value="">Select From Place</option>
-                  {optionsBusRoute.map(t => (
+                  {busRoutes.map(t => (
                     <option key={t.id} value={t.id}>
                       {t.name}
                     </option>
@@ -393,7 +388,7 @@ function MyForm({ id }) {
                   disabled={enableBus === false}
                 >
                   <option value="">Select To Place</option>
-                  {optionsBusRoute.map(t => (
+                  {(busRoutes || []).map(t => (
                     <option key={t.id} value={t.id}>
                       {t.name}
                     </option>
@@ -428,9 +423,8 @@ function MyForm({ id }) {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
-    ),
-    [errors, isLoading, submit, register, optionsBusRoute, optionsClass],
-  );
+    );
+  }, [errors, isLoading, submit, register, busRoutes, classes]);
 
   return <Widget>{form}</Widget>;
 }
