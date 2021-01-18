@@ -16,9 +16,10 @@ import Widget from '../../../../components/Widget/Widget';
 import SubmitButton from '../../../../components/button/SubmitButton';
 import BackButton from '../../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
+import { ERROR } from '../../../../components/Form/messages';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
+  name: Yup.string().required(ERROR.required),
 });
 
 const { create, update, read } = companyApi;

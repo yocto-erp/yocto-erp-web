@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { Button, FormFeedback, Input } from 'reactstrap';
+import { Button, Input } from 'reactstrap';
 import { Controller, useWatch } from 'react-hook-form';
 import ProductSelect from '../../../components/common/product/ProductSelect';
 import UnitSelect from '../../../components/common/unit/UnitSelect';
 import InputNumber from '../../../components/Form/InputNumber';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import InputAmount from '../../../components/Form/InputAmount';
 
 const OrderFormDetail = ({
   control,
@@ -19,8 +20,8 @@ const OrderFormDetail = ({
 }) => {
   const product = useWatch({
     control,
-    name: `details[${index}].product`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
-    defaultValue: item.product, // default value before the render
+    name: `details[${index}].product`,
+    defaultValue: item.product,
   });
   return (
     <tr key={item.id}>
@@ -49,9 +50,7 @@ const OrderFormDetail = ({
             />
           )}
         />
-        <FormFeedback>
-          {get(errors, ['details', index, 'product', 'message'], '')}
-        </FormFeedback>
+        <FormErrorMessage error={get(errors, ['details', index, 'product'])} />
       </td>
       <td>
         <Controller
@@ -67,13 +66,11 @@ const OrderFormDetail = ({
           productId={product ? product.id : null}
           as={UnitSelect}
         />
-        <FormFeedback>
-          {get(errors, ['details', index, 'unit', 'message'], '')}
-        </FormFeedback>
+        <FormErrorMessage error={get(errors, ['details', index, 'unit'])} />
       </td>
       <td>
         <Controller
-          invalid={!!get(errors, ['details', index, 'quantity'], false)}
+          invalid={!!get(errors, ['details', index, 'quantity'])}
           name={`details[${index}].quantity`}
           control={control}
           as={InputNumber}
@@ -83,28 +80,26 @@ const OrderFormDetail = ({
         <FormErrorMessage error={get(errors, ['details', index, 'quantity'])} />
       </td>
       <td>
-        <Input
+        <Controller
           type="number"
-          invalid={!!get(errors, ['details', index, 'price'], false)}
           name={`details[${index}].price`}
-          innerRef={register}
-          defaultValue={item.price} // make sure to set up defaultValue
+          invalid={!!get(errors, ['details', index, 'price'], false)}
+          control={control}
+          as={InputAmount}
+          defaultValue={item.price}
+          placeholder="Price"
         />
-        <FormFeedback>
-          {get(errors, ['details', index, 'price', 'message'], '')}
-        </FormFeedback>
+        <FormErrorMessage error={get(errors, ['details', index, 'price'])} />
       </td>
       <td>
         <Input
           type="text"
           invalid={!!get(errors, ['details', index, 'remark'], false)}
           name={`details[${index}].remark`}
-          innerRef={register}
-          defaultValue={item.remark} // make sure to set up defaultValue
+          innerRef={register()}
+          defaultValue={item.remark}
         />
-        <FormFeedback>
-          {get(errors, ['details', index, 'remark', 'message'], '')}
-        </FormFeedback>
+        <FormErrorMessage error={get(errors, ['details', index, 'remark'])} />
       </td>
       <td className="action">
         <Button
