@@ -5,7 +5,6 @@ import {
   Button,
   Col,
   Form,
-  FormFeedback,
   FormGroup,
   Input,
   Label,
@@ -26,6 +25,7 @@ import FileUpload from '../../../components/FileUpload';
 import InputAmount from '../../../components/Form/InputAmount';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { ERROR } from '../../../components/Form/messages';
+import InputNumber from '../../../components/Form/InputNumber';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -37,7 +37,10 @@ const validationSchema = Yup.object().shape({
     .of(
       Yup.object().shape({
         name: Yup.string().required(ERROR.required),
-        rate: Yup.number().required('Unit rate is required'),
+        rate: Yup.number()
+          .typeError(ERROR.required)
+          .moreThan(0, ERROR.amountGT0)
+          .required(ERROR.required),
       }),
     )
     .required(ERROR.required),
@@ -102,7 +105,7 @@ function MyForm({ id }) {
                 id="name"
                 placeholder="Product Name"
               />
-              <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
+              <FormErrorMessage error={errors.name} />
             </FormGroup>
             <FormGroup>
               <Label for="priceBaseUnit">
@@ -158,26 +161,26 @@ function MyForm({ id }) {
                           }
                           name={`units[${index}].name`}
                           innerRef={register()}
-                          defaultValue={item.name} // make sure to set up defaultValue
+                          defaultValue={item.name}
                         />
-                        <FormFeedback>
-                          {get(errors, ['units', index, 'name', 'message'], '')}
-                        </FormFeedback>
+                        <FormErrorMessage
+                          error={get(errors, ['units', index, 'name'])}
+                        />
                       </td>
                       <td style={{ width: '120px' }}>
-                        <Input
+                        <Controller
                           invalid={
                             !!get(errors, ['units', index, 'rate'], false)
                           }
-                          type="text"
-                          name={`units[${index}].rate`}
                           readOnly={item.rate === 1}
-                          innerRef={register()}
-                          defaultValue={item.rate} // make sure to set up defaultValue
+                          name={`units[${index}].rate`}
+                          control={control}
+                          as={InputNumber}
+                          defaultValue={item.rate}
                         />
-                        <FormFeedback>
-                          {get(errors, ['units', index, 'rate', 'message'], '')}
-                        </FormFeedback>
+                        <FormErrorMessage
+                          error={get(errors, ['units', index, 'rate'])}
+                        />
                       </td>
                       <td className="action">
                         <Button
@@ -232,9 +235,9 @@ function MyForm({ id }) {
                 accept={['image/*']}
                 maxSize={500000}
               />
-              <FormFeedback>
-                {errors.assets && errors.assets.message}
-              </FormFeedback>
+              <FormErrorMessage
+                error={errors.assets && errors.assets.message}
+              />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6" />

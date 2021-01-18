@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { Form, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import warehouseApi from '../../../libs/apis/warehouse.api';
 import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
+import { ERROR } from '../../../components/Form/messages';
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
+  name: Yup.string().required(ERROR.required),
 });
 
 const { create, update, read } = warehouseApi;
@@ -60,7 +62,7 @@ function MyForm({ id }) {
             id="name"
             placeholder="Warehouse Name"
           />
-          <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
+          <FormErrorMessage error={errors.name} />
         </FormGroup>
         <FormGroup>
           <Label for="address" className="required">

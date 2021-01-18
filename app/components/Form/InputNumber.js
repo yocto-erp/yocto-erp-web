@@ -17,6 +17,7 @@ const InputNumber = React.forwardRef(
       readOnly = false,
       ...props
     },
+    // eslint-disable-next-line no-unused-vars
     ref,
   ) => (
     <IMaskInput
