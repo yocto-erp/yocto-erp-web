@@ -1,16 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import {
-  Col,
-  Form,
-  FormFeedback,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-  Table,
-} from 'reactstrap';
+import { Form, FormGroup, Input, Label, Row, Col, Table } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { Controller, useFieldArray } from 'react-hook-form';
@@ -24,14 +15,15 @@ import CustomerSelect from '../../../../components/common/customer/CustomerSelec
 import saleApi from '../../../../libs/apis/order/sale.api';
 import CompanySelect from '../../../../components/common/company/CompanySelect';
 import { ERROR } from '../../../../components/Form/messages';
+import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
+  name: Yup.string().required(ERROR.required),
   details: Yup.array()
     .of(
       Yup.object().shape({
         product: Yup.object()
-          .required('This field is required.')
+          .required(ERROR.required)
           .nullable(true),
         quantity: Yup.number()
           .typeError(ERROR.required)
@@ -59,6 +51,7 @@ function MyForm({ id }) {
     getValues,
     setValue,
     state: { isLoading, formData },
+    formState: { isValid, isDirty },
   } = useHookCRUDForm({
     create,
     update,
@@ -131,7 +124,7 @@ function MyForm({ id }) {
                 id="name"
                 placeholder="Name"
               />
-              <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
+              <FormErrorMessage error={errors.name} />
             </FormGroup>
             <FormGroup>
               <Label for="partnerPersonId" className="mr-sm-2">
@@ -261,7 +254,7 @@ function MyForm({ id }) {
           </Table>
         </FormGroup>
         <BackButton className="mr-2" />
-        <SubmitButton isLoading={isLoading} />
+        <SubmitButton isLoading={isLoading} disabled={!(isValid || isDirty)} />
       </Form>
     ),
     [errors, isLoading, submit, register, control],

@@ -6,6 +6,7 @@ import isFunction from 'lodash/isFunction';
 import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 
 const InputAmount = React.forwardRef(
+  // eslint-disable-next-line no-unused-vars
   ({ invalid, value, onChange, placeholder }, ref) => (
     <InputGroup className={classNames({ 'is-invalid': invalid })}>
       <IMaskInput

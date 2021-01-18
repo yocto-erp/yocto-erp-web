@@ -5,7 +5,6 @@ import {
   Button,
   Col,
   Form,
-  FormFeedback,
   FormGroup,
   Input,
   Label,
@@ -23,20 +22,28 @@ import BackButton from '../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import CreateButton from '../../../components/button/CreateButton';
 import FileUpload from '../../../components/FileUpload';
+import InputAmount from '../../../components/Form/InputAmount';
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import { ERROR } from '../../../components/Form/messages';
+import InputNumber from '../../../components/Form/InputNumber';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
+  name: Yup.string().required(ERROR.required),
   priceBaseUnit: Yup.number()
-    .moreThan(0, 'Price must larger than 0')
-    .required('This field is required.'),
+    .typeError(ERROR.required)
+    .positive(ERROR.amountGT0)
+    .required(ERROR.required),
   units: Yup.array()
     .of(
       Yup.object().shape({
-        name: Yup.string().required('Unit name is required'),
-        rate: Yup.number().required('Unit rate is required'),
+        name: Yup.string().required(ERROR.required),
+        rate: Yup.number()
+          .typeError(ERROR.required)
+          .moreThan(0, ERROR.amountGT0)
+          .required(ERROR.required),
       }),
     )
-    .required('Product units is required'),
+    .required(ERROR.required),
 });
 
 const { create, update, read } = productApi;
@@ -79,7 +86,6 @@ function MyForm({ id }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'units',
-    // keyName: "id", default to "id", you can change the key name
   });
 
   const form = React.useMemo(
@@ -99,23 +105,22 @@ function MyForm({ id }) {
                 id="name"
                 placeholder="Product Name"
               />
-              <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
+              <FormErrorMessage error={errors.name} />
             </FormGroup>
             <FormGroup>
-              <Label for="priceBaseUnit" className="required">
+              <Label for="priceBaseUnit">
                 Price<span className="text-danger">*</span>
               </Label>
-              <Input
-                invalid={!!errors.priceBaseUnit}
+              <Controller
                 type="number"
                 name="priceBaseUnit"
-                innerRef={register}
-                id="priceBaseUnit"
-                placeholder="Product Price Base Unit"
+                invalid={!!errors.priceBaseUnit}
+                control={control}
+                as={InputAmount}
+                defaultValue={0}
+                placeholder="Price"
               />
-              <FormFeedback>
-                {errors.priceBaseUnit && errors.priceBaseUnit.message}
-              </FormFeedback>
+              <FormErrorMessage error={errors.priceBaseUnit} />
             </FormGroup>
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
@@ -155,27 +160,27 @@ function MyForm({ id }) {
                             !!get(errors, ['units', index, 'name'], false)
                           }
                           name={`units[${index}].name`}
-                          innerRef={register}
-                          defaultValue={item.name} // make sure to set up defaultValue
+                          innerRef={register()}
+                          defaultValue={item.name}
                         />
-                        <FormFeedback>
-                          {get(errors, ['units', index, 'name', 'message'], '')}
-                        </FormFeedback>
+                        <FormErrorMessage
+                          error={get(errors, ['units', index, 'name'])}
+                        />
                       </td>
                       <td style={{ width: '120px' }}>
-                        <Input
+                        <Controller
                           invalid={
                             !!get(errors, ['units', index, 'rate'], false)
                           }
-                          type="text"
-                          name={`units[${index}].rate`}
                           readOnly={item.rate === 1}
-                          innerRef={register}
-                          defaultValue={item.rate} // make sure to set up defaultValue
+                          name={`units[${index}].rate`}
+                          control={control}
+                          as={InputNumber}
+                          defaultValue={item.rate}
                         />
-                        <FormFeedback>
-                          {get(errors, ['units', index, 'rate', 'message'], '')}
-                        </FormFeedback>
+                        <FormErrorMessage
+                          error={get(errors, ['units', index, 'rate'])}
+                        />
                       </td>
                       <td className="action">
                         <Button
@@ -230,9 +235,9 @@ function MyForm({ id }) {
                 accept={['image/*']}
                 maxSize={500000}
               />
-              <FormFeedback>
-                {errors.assets && errors.assets.message}
-              </FormFeedback>
+              <FormErrorMessage
+                error={errors.assets && errors.assets.message}
+              />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6" />

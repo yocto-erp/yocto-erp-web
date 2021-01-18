@@ -195,9 +195,9 @@ const StudentConfigurationForm = () => {
                 <option value="">Select Print Template</option>
                 {templates
                   ? templates.rows.map(t => (
-                    <option value={t.id} key={t.id}>
-                      {t.name}
-                    </option>
+                      <option value={t.id} key={t.id}>
+                        {t.name}
+                      </option>
                   ))
                   : null}
               </Input>
