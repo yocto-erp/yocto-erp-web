@@ -7,6 +7,7 @@ export const ERROR = {
   email: 'email',
   amountGT0: 'amountGT0',
   numberGT0: 'numberGT0',
+  priceGT0: 'priceGT0',
   max: 'max',
 };
 
@@ -26,6 +27,10 @@ export default defineMessages({
   numberGT0: {
     id: `${scope}.numberGT0`,
     defaultMessage: 'Number must be greater than zero',
+  },
+  priceGT0: {
+    id: `${scope}.priceGT0`,
+    defaultMessage: 'Price must be greater than zero',
   },
   max: {
     id: `${scope}.max`,

@@ -1,30 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
-import DatePicker from 'react-datepicker';
 import { useListFilter } from '../../../../components/ListWidget/constants';
 import SearchButton from '../../../../components/button/SearchButton';
 import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
 import 'react-datepicker/dist/react-datepicker.css';
+import DateSelect from '../../../../components/date/DateSelect';
 
 const FilterInventory = () => {
-  const toDate = new Date();
-  const prevDate = new Date();
-  prevDate.setDate(new Date().getDate() - 7);
-  const [startDate, setStartDate] = useState(filter?.startDate || prevDate);
-  const [endDate, setEndDate] = useState(filter?.endDate || toDate);
+  const [startDate, setStartDate] = useState(filter?.startDate);
+  const [endDate, setEndDate] = useState(filter?.endDate);
   const { searchByFilter, filter } = useListFilter();
   const { handleSubmit, register, control, reset } = useForm({
-    defaultValues: filter || {
-      startDate: prevDate,
-      endDate: toDate,
-    },
+    defaultValues: {},
   });
 
   const onSubmit = handleSubmit(val => {
     const warehouseId = val.warehouseId ? val.warehouseId.id : null;
-    searchByFilter({ ...val, warehouseId });
+    const { name } = val;
+    searchByFilter({ warehouseId, name, startDate, endDate });
   });
 
   useEffect(() => {
@@ -65,51 +59,28 @@ const FilterInventory = () => {
       </FormGroup>
       <FormGroup className="mr-2">
         <Label className="mr-2">StartDate</Label>
-        <Controller
-          name="startDate"
-          control={control}
-          defaultValue={filter?.startDate || null}
-          render={({ onChange, onBlur, value }) => (
-            <DatePicker
-              className="form-control pr-2"
-              onChange={val => {
-                onChange(val);
-                setStartDate(val);
-              }}
-              isClearable
-              onBlur={onBlur}
-              selected={value}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-            />
-          )}
-        />
+        <div>
+          <DateSelect
+            placeholder="Select start date"
+            id="fromDate"
+            value={startDate}
+            onChange={setStartDate}
+            isClearable
+          />
+        </div>
       </FormGroup>
       <FormGroup className="mr-2">
         <Label className="pr-2">EndDate</Label>
-        <Controller
-          name="endDate"
-          control={control}
-          defaultValue={filter?.endDate || null}
-          render={({ onChange, onBlur, value }) => (
-            <DatePicker
-              id="endDate"
-              className="form-control pr-2"
-              onChange={val => {
-                onChange(val);
-                setEndDate(val);
-              }}
-              isClearable
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-              onBlur={onBlur}
-              selected={value}
-            />
-          )}
-        />
+        <div>
+          <DateSelect
+            placeholder="Select end date"
+            id="toDate"
+            value={endDate}
+            minDate={startDate}
+            onChange={setEndDate}
+            isClearable
+          />
+        </div>
       </FormGroup>
       <SearchButton />
     </Form>

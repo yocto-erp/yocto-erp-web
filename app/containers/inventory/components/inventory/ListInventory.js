@@ -109,15 +109,7 @@ const ListInventory = ({ history }) => {
     ],
     [],
   );
-  const toDate = new Date();
-  const prevDate = new Date();
-  prevDate.setDate(new Date().getDate() - 7);
-  const search = {
-    warehouseId: null,
-    search: '',
-    startDate: prevDate,
-    endDate: toDate,
-  };
+
   const actions = (
     <>
       <CreateButton
@@ -201,6 +193,14 @@ const ListInventory = ({ history }) => {
     ),
     [],
   );
+
+  const search = {
+    warehouseId: null,
+    search: '',
+    startDate: null,
+    endDate: null,
+  };
+
   return (
     <ListWidget
       pageHeader={<PageTitle title="GOODS RECEIPT / ISSUE" actions={actions} />}

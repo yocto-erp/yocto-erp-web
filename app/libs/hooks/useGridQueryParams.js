@@ -67,7 +67,6 @@ export const useGridQueryParams = (
   const [queryObj, setQueryObj] = useState(() => parseSearch(search));
 
   useEffect(() => {
-    console.log(search);
     const rs = parseSearch(search);
     if (search === '') {
       if (!rs.sorts) {

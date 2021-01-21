@@ -201,7 +201,6 @@ const ListWidget = ({
   );
 
   useEffect(() => {
-    console.log(queryObj);
     searchApi(queryObj);
   }, [queryObj, searchApi]);
 
