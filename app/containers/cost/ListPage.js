@@ -95,10 +95,6 @@ const ListPage = ({ history }) => {
     ],
     [],
   );
-  const toDate = new Date();
-  const prevDate = new Date();
-  prevDate.setDate(new Date().getDate() - 7);
-  const search = { search: '', startDate: prevDate, endDate: toDate };
 
   const actions = (
     <>
@@ -154,6 +150,9 @@ const ListPage = ({ history }) => {
     ),
     [],
   );
+
+  const search = { search: '', startDate: null, endDate: null };
+
   return (
     <ListWidget
       pageHeader={<PageTitle title="Cost Management" actions={actions} />}

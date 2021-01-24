@@ -30,14 +30,15 @@ const validationSchema = Yup.object().shape({
           .moreThan(0, ERROR.numberGT0)
           .required(ERROR.required),
         price: Yup.number()
-          .moreThan(0, 'Price must larger than 0')
-          .required('This field is required.'),
+          .typeError(ERROR.required)
+          .moreThan(0, ERROR.priceGT0)
+          .required(ERROR.required),
         unit: Yup.object()
-          .required('This field is required.')
+          .required(ERROR.required)
           .nullable(true),
       }),
     )
-    .required('This field is required.'),
+    .required(ERROR.required),
 });
 
 const { create, update, read } = saleApi;
@@ -217,7 +218,7 @@ function MyForm({ id }) {
             <tbody>
               {fields.map((item, index) => (
                 <OrderFormDetail
-                  key={item.id}
+                  key={item.id || index}
                   control={control}
                   errors={errors}
                   register={register}

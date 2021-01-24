@@ -83,7 +83,6 @@ const OrderFormDetail = ({
         <Controller
           type="number"
           name={`details[${index}].price`}
-          invalid={!!get(errors, ['details', index, 'price'], false)}
           control={control}
           as={InputAmount}
           defaultValue={item.price}

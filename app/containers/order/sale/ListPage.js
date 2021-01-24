@@ -112,7 +112,6 @@ const ListPage = ({ history }) => {
             params: { id },
           },
         }) => (
-          // match === null
           <DeleteConfirmModal
             id={id}
             deleteApi={saleApi.remove}
