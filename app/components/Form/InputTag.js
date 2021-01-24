@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CreatableSelect from 'react-select/creatable';
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../constants";
 
 const createOption = label => ({
   label,
@@ -72,6 +73,7 @@ const InputTag = React.forwardRef((
       isValidNewOption={isValidNewOption}
       components={components}
       inputValue={inputValue}
+      styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
       className="react-select-container"
       classNamePrefix="react-select"
       isClearable

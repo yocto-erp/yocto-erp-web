@@ -24,6 +24,9 @@ import FileUpload from '../../../components/FileUpload';
 import InputAmount from '../../../components/Form/InputAmount';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { ERROR } from '../../../components/Form/messages';
+import { mappingServerTagging } from "../../../components/constants";
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../libs/apis/tagging.api";
 
 const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
@@ -33,6 +36,7 @@ const CreatePaymentForm = ({ id }) => {
       .typeError(ERROR.required)
       .positive(ERROR.amountGT0)
       .required(ERROR.required),
+    tagging: yup.array().nullable(),
   });
   const { create, read, update } = apiCost;
   const {
@@ -63,22 +67,22 @@ const CreatePaymentForm = ({ id }) => {
       partnerPersonId: form.partnerPerson,
       partnerCompanyId: form.partnerCompany,
       assets: form.assets,
+      tagging:
+        form.tagging && form.tagging.length
+          ? form.tagging.map(mappingServerTagging)
+          : [],
     }),
     mappingToServer: form => ({
-      name: form.name,
-      remark: form.remark,
-      type: form.type,
-      amount: form.amount,
-      purpose: form.purpose,
+      ...form,
       partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
       partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
-      assets: form.assets,
     }),
     initForm: {
       amount: '',
       assets: [],
       partnerPersonId: null,
       partnerCompanyId: null,
+      tagging: [],
     },
     validationSchema,
     id,
@@ -181,6 +185,24 @@ const CreatePaymentForm = ({ id }) => {
                     />
                   )}
                 />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={3}>Tagging</Label>
+              <Col sm={9}>
+                <Controller
+                  name="tagging"
+                  defaultValue={formData ? formData.tagging : []}
+                  control={control}
+                  render={({ onChange, ...data }) => (
+                    <InputAsyncTagging
+                      {...data}
+                      onChange={onChange}
+                      loadOptionApi={taggingApi.search}
+                    />
+                  )}
+                />
+                <FormErrorMessage error={errors.tagging} />
               </Col>
             </FormGroup>
           </Col>

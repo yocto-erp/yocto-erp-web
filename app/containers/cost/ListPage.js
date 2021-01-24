@@ -26,6 +26,7 @@ import {
   SORT_DIR,
 } from '../../components/ListWidget/constants';
 import { convertQueryWithDate } from '../../libs/utils/query.util';
+import Tags from '../../components/Form/tagging/ViewTags';
 
 const ROOT_PATH = COST_ROOT_PATH;
 
@@ -50,6 +51,12 @@ const ListPage = ({ history }) => {
         header: 'Name',
         data: 'name',
         width: '20%',
+        render: row => (
+          <>
+            <p>{row.name}</p>
+            <Tags item={row.tagging} />{' '}
+          </>
+        ),
       },
       {
         header: <span className="text-nowrap">Total Amount</span>,

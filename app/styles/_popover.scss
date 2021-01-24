@@ -1,0 +1,10 @@
+$info: #4ebfbb;
+
+.popover-info {
+  background: $info !important;
+}
+
+.popover-info .arrow:after, .popover-info .arrow:before {
+  border-bottom-color: $info !important;
+  border-top-color: $info !important;
+}

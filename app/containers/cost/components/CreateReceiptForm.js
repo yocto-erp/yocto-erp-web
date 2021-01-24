@@ -1,12 +1,12 @@
 import React from 'react';
 import {
+  Col,
+  Form,
   FormFeedback,
   FormGroup,
-  Form,
   Input,
   Label,
   Row,
-  Col,
 } from 'reactstrap';
 import { PropTypes } from 'prop-types';
 import { toast } from 'react-toastify';
@@ -21,6 +21,10 @@ import CompanySelect from '../../../components/common/company/CompanySelect';
 import CustomerSelect from '../../../components/common/customer/CustomerSelect';
 import FileUpload from '../../../components/FileUpload';
 import InputAmount from '../../../components/Form/InputAmount';
+import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
+import taggingApi from '../../../libs/apis/tagging.api';
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import { mappingServerTagging } from '../../../components/constants';
 
 const CreateReceiptForm = ({ id }) => {
   const validationSchema = yup.object().shape({
@@ -30,6 +34,7 @@ const CreateReceiptForm = ({ id }) => {
       .typeError('This field is required')
       .positive('Amount must be greater than zero')
       .required('This field is required'),
+    tagging: yup.array().nullable(),
   });
   const { create, read, update } = apiCost;
   const {
@@ -52,30 +57,26 @@ const CreateReceiptForm = ({ id }) => {
       );
     },
     mappingToForm: form => ({
-      name: form.name,
-      remark: form.remark,
-      type: form.type,
-      amount: form.amount,
+      ...form,
       purpose: form.costPurpose.purpose,
       partnerPersonId: form.partnerPerson,
       partnerCompanyId: form.partnerCompany,
-      assets: form.assets,
+      tagging:
+        form.tagging && form.tagging.length
+          ? form.tagging.map(mappingServerTagging)
+          : [],
     }),
     mappingToServer: form => ({
-      name: form.name,
-      remark: form.remark,
-      type: form.type,
-      amount: form.amount,
-      purpose: form.purpose,
+      ...form,
       partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
       partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
-      assets: form.assets,
     }),
     initForm: {
       amount: '',
       assets: [],
       partnerCompanyId: null,
       partnerPersonId: null,
+      tagging: [],
     },
     validationSchema,
     id,
@@ -191,13 +192,32 @@ const CreateReceiptForm = ({ id }) => {
                 </FormFeedback>
               </Col>
             </FormGroup>
+            <FormGroup row>
+              <Label sm={3}>Tagging</Label>
+              <Col sm={9}>
+                <Controller
+                  name="tagging"
+                  defaultValue={formData ? formData.tagging : []}
+                  control={control}
+                  render={({ onChange, ...data }) => (
+                    <InputAsyncTagging
+                      {...data}
+                      onChange={onChange}
+                      loadOptionApi={taggingApi.search}
+                    />
+                  )}
+                />
+                <FormErrorMessage error={errors.tagging} />
+              </Col>
+            </FormGroup>
           </Col>
           <Col md={5}>
-            <FormGroup className="costUpload">
+            <FormGroup className="pb-3 h-100">
               <Controller
                 defaultValue={formData ? formData.assets : []}
                 invalid={!!errors.assets}
                 as={FileUpload}
+                className="h-100"
                 name="assets"
                 placeholder="Upload files"
                 control={control}

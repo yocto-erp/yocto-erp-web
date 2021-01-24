@@ -131,7 +131,9 @@
     "dompurify": "^2.2.2",
     "xlsx": "^0.16.9",
     "mustache": "^4.1.0",
-    "chartjs-plugin-datalabels": "^0.7.0"
+    "chartjs-plugin-datalabels": "^0.7.0",
+    "react-color": "^2.19.3",
+    "chroma-js": "^2.1.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
