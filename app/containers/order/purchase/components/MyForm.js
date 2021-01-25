@@ -24,6 +24,10 @@ import CustomerSelect from '../../../../components/common/customer/CustomerSelec
 import purchaseApi from '../../../../libs/apis/order/purchase.api';
 import CompanySelect from '../../../../components/common/company/CompanySelect';
 import { ERROR } from '../../../../components/Form/messages';
+import { mappingServerTagging } from '../../../../components/constants';
+import InputAsyncTagging from '../../../../components/Form/InputAsyncTagging';
+import taggingApi from '../../../../libs/apis/tagging.api';
+import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -43,6 +47,7 @@ const validationSchema = Yup.object().shape({
         unit: Yup.object()
           .required('This field is required.')
           .nullable(true),
+        tagging: Yup.array().nullable(),
       }),
     )
     .required('Details is required'),
@@ -75,32 +80,31 @@ function MyForm({ id }) {
       remark: form.remark,
       partnerPersonId: form.partnerPerson,
       partnerCompanyId: form.partnerCompany,
+      tagging:
+        form.tagging && form.tagging.length
+          ? form.tagging.map(mappingServerTagging)
+          : [],
       details: form.details.map(t => ({ ...t, id: uuidv4() })),
     }),
-    mappingToServer: form => {
-      const details = form.details.map(result => ({
+    mappingToServer: form => ({
+      ...form,
+      partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
+      partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
+      details: form.details.map(result => ({
         productId: result.product.id,
         unitId: result.unit.id,
         quantity: result.quantity,
         price: result.price,
         remark: result.remark,
-      }));
-      return {
-        name: form.name,
-        partnerCompanyId: form.partnerCompanyId
-          ? form.partnerCompanyId.id
-          : null,
-        partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
-        remark: form.remark,
-        details,
-      };
-    },
+      })),
+    }),
     validationSchema,
     initForm: {
       name: '',
       remark: '',
       partnerPersonId: null,
       partnerCompanyId: null,
+      tagging: [],
       details: [
         { product: null, unit: null, quantity: 0, price: 0, remark: '' },
       ],
@@ -117,6 +121,7 @@ function MyForm({ id }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'details',
+    keyName: 'fId',
   });
 
   const form = React.useMemo(
@@ -203,6 +208,24 @@ function MyForm({ id }) {
                 placeholder="Remark"
               />
             </FormGroup>
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Tagging
+              </Label>
+              <Controller
+                name="tagging"
+                defaultValue={formData ? formData.tagging : []}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <InputAsyncTagging
+                    {...data}
+                    onChange={onChange}
+                    loadOptionApi={taggingApi.search}
+                  />
+                )}
+              />
+              <FormErrorMessage error={errors.tagging} />
+            </FormGroup>
           </Col>
         </Row>
         <FormGroup>
@@ -228,7 +251,7 @@ function MyForm({ id }) {
             <tbody>
               {fields.map((item, index) => (
                 <OrderFormDetail
-                  key={item.id}
+                  key={item.id || index}
                   control={control}
                   errors={errors}
                   register={register}

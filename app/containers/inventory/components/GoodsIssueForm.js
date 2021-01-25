@@ -25,6 +25,9 @@ import CreateButton from '../../../components/button/CreateButton';
 import DateSelect from '../../../components/date/DateSelect';
 import { ERROR } from '../../../components/Form/messages';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import { mappingServerTagging } from '../../../components/constants';
+import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
+import taggingApi from '../../../libs/apis/tagging.api';
 
 const { create, update, read } = goodsIssueApi;
 
@@ -36,6 +39,7 @@ function GoodsIssueForm({ id }) {
         warehouse: Yup.object()
           .required('This field is required.')
           .nullable(true),
+        tagging: Yup.array().nullable(),
         details: Yup.array()
           .of(
             Yup.object().shape({
@@ -64,15 +68,16 @@ function GoodsIssueForm({ id }) {
     errors,
     getValues,
     setValue,
-    state: { isLoading, formData },
+    state: { isLoading, formData, errors: serverErrors },
   } = useHookCRUDForm({
     create,
     update,
     read,
     onSuccess: resp => {
-      console.log(`Success: ${JSON.stringify(resp)}`);
       toast.success(
-        id ? 'Update Goods Issue success' : 'Create Goods Issue success',
+        id
+          ? `Update Goods Issue ${resp.name} success`
+          : `Create Goods Issue ${resp.name} success`,
       );
     },
     mappingToForm: data => ({
@@ -80,28 +85,28 @@ function GoodsIssueForm({ id }) {
       remark: data.remark,
       warehouse: data.warehouse,
       processedDate: new Date(data.processedDate),
+      tagging:
+        data.tagging && data.tagging.length
+          ? data.tagging.map(mappingServerTagging)
+          : [],
       details: data.details.map(t => {
         const { inventoryDetailId } = t;
         return { ...t, id: inventoryDetailId };
       }),
     }),
-    mappingToServer: form => {
-      const details = form.details.map(result => ({
+    mappingToServer: form => ({
+      ...form,
+      warehouseId: form.warehouse ? form.warehouse.id : null,
+      details: form.details.map(result => ({
         ...result,
         productId: result.product.id,
         unitId: result.unit.id,
-      }));
-      return {
-        name: form.name,
-        warehouseId: form.warehouse ? form.warehouse.id : null,
-        processedDate: form.processedDate,
-        remark: form.remark,
-        details,
-      };
-    },
+      })),
+    }),
     validationSchema,
     initForm: {
       warehouse: null,
+      tagging: [],
       name: '',
       remark: '',
       details: [
@@ -112,14 +117,20 @@ function GoodsIssueForm({ id }) {
     id,
   });
 
+  React.useEffect(() => {
+    if (serverErrors && serverErrors.length) {
+      toast.error(serverErrors.map(t => t.message).join('\n'));
+    }
+  }, [serverErrors]);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'details',
+    keyName: 'fId',
   });
 
-  const form = React.useMemo(() => {
-    console.log('cache');
-    return (
+  const form = React.useMemo(
+    () => (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -181,6 +192,24 @@ function GoodsIssueForm({ id }) {
                 id="remark"
                 placeholder="Product Remark"
               />
+            </FormGroup>
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Tagging
+              </Label>
+              <Controller
+                name="tagging"
+                defaultValue={formData ? formData.tagging : []}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <InputAsyncTagging
+                    {...data}
+                    onChange={onChange}
+                    loadOptionApi={taggingApi.search}
+                  />
+                )}
+              />
+              <FormErrorMessage error={errors.tagging} />
             </FormGroup>
           </Col>
         </Row>
@@ -244,10 +273,9 @@ function GoodsIssueForm({ id }) {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} />
       </Form>
-    );
-  }, [errors, isLoading, submit, register, control]);
-  console.log('MyForm');
-
+    ),
+    [errors, isLoading, submit, register, control],
+  );
   return <Widget>{form}</Widget>;
 }
 

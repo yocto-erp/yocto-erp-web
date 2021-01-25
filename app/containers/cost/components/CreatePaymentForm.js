@@ -24,9 +24,9 @@ import FileUpload from '../../../components/FileUpload';
 import InputAmount from '../../../components/Form/InputAmount';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { ERROR } from '../../../components/Form/messages';
-import { mappingServerTagging } from "../../../components/constants";
-import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
-import taggingApi from "../../../libs/apis/tagging.api";
+import { mappingServerTagging } from '../../../components/constants';
+import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
+import taggingApi from '../../../libs/apis/tagging.api';
 
 const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
