@@ -5,13 +5,13 @@ import * as yup from 'yup';
 
 import {
   Container,
+  FormFeedback,
   FormGroup,
-  Label,
+  Input,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Input,
-  FormFeedback,
+  Label,
 } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
@@ -23,14 +23,16 @@ import SubmitButton from '../../../components/button/SubmitButton';
 import { registerUser } from '../../../libs/apis/auth.api';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import FormError from '../../../components/Form/FormError';
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 
 const schema = yup.object().shape({
   email: yup
     .string()
     .email('Invalid Email')
-    .required('This field is required.'),
-  password: yup.string().required('This field is required.'),
-  displayName: yup.string().required('This field is required.'),
+    .required('Email is required.'),
+  password: yup.string().required('Password is required.'),
+  firstName: yup.string().required('First Name is required.'),
+  lastName: yup.string().required('Last Name is required.'),
 });
 
 export function RegisterPage() {
@@ -60,17 +62,25 @@ export function RegisterPage() {
                 </InputGroupText>
               </InputGroupAddon>
               <Input
-                invalid={!!errors.displayName}
-                id="displayName"
+                invalid={!!errors.firstName}
+                id="firstName"
                 className="input-transparent pl-3"
-                type="displayName"
+                type="text"
                 innerRef={register}
-                name="displayName"
-                placeholder="Display Name"
+                name="firstName"
+                placeholder="First Name"
               />
-              <FormFeedback>
-                {errors.displayName && errors.displayName.message}
-              </FormFeedback>
+              <Input
+                invalid={!!errors.lastName}
+                id="lastName"
+                className="input-transparent pl-3"
+                type="text"
+                innerRef={register}
+                name="lastName"
+                placeholder="Last Name"
+              />
+              <FormErrorMessage error={errors.lastName} />
+              <FormErrorMessage error={errors.firstName} />
             </InputGroup>
           </FormGroup>
           <FormGroup className="mt">

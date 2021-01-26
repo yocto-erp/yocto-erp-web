@@ -2,6 +2,14 @@ $info: #4ebfbb;
 
 .popover-info {
   background: $info !important;
+
+  .popover-header {
+    background-color: $info !important;
+
+    &:before {
+      border-bottom-color: $info !important;
+    }
+  }
 }
 
 .popover-info .arrow:after, .popover-info .arrow:before {

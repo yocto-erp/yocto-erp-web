@@ -44,6 +44,10 @@ import { CONFIGURATION_ROOT_PATH } from '../configuration/constants';
 import MailMerge from '../tools/mail-merge';
 import { MAIL_MERGE_ROOT_PATH } from '../tools/mail-merge/constants';
 import FileBrowser from '../../components/assets/FileBrowser';
+import { AUDIT_ROOT_PATH } from '../Audit/constants';
+import AuditPage from '../Audit/Loadable';
+import { TAGGING_ROOT_PATH } from '../tagging/constants';
+import TaggingPage from '../tagging/ListPage';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -165,6 +169,11 @@ class Layout extends React.Component {
                     component={MailMerge}
                   />
                   <Route path={`${LOG_ROOT_PATH}`} component={LogPage} />
+                  <Route path={`${AUDIT_ROOT_PATH}`} component={AuditPage} />
+                  <Route
+                    path={`${TAGGING_ROOT_PATH}`}
+                    component={TaggingPage}
+                  />
                   <Route path="/drive" component={FileBrowser} />
                 </Switch>
                 <Footer />

@@ -1,31 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import chroma from 'chroma-js';
-import { Button, Popover, PopoverBody, PopoverHeader } from 'reactstrap';
+import { Popover, PopoverBody, PopoverHeader } from 'reactstrap';
 import classnames from 'classnames';
-import { DEFAULT_TEXT_COLOR } from '../../constants';
 import { v4 as uuidv4 } from 'uuid';
-
-const formatTag = data => {
-  const color = chroma(data.color || DEFAULT_TEXT_COLOR);
-  const backgroundColor = color.alpha(0.1).css();
-  return {
-    backgroundColor,
-    color,
-  };
-};
-
-const formatTag1 = data => {
-  const color = chroma(data.color || DEFAULT_TEXT_COLOR);
-  const backgroundColor = color.alpha(0.1).css();
-  return {
-    backgroundColor: color,
-    color: chroma.contrast(color, 'white') > 2 ? 'white' : 'black',
-  };
-};
+import TagItem from './TagItem';
 
 const MAX_SHOW_ITEM = 3;
-const Tags = ({ item, className = 'mb-0 pb-0' }) => {
+const Tags = ({ item, className = 'mb-0 pb-0 mt-1' }) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
 
   const toggle = () => setPopoverOpen(!popoverOpen);
@@ -41,19 +22,19 @@ const Tags = ({ item, className = 'mb-0 pb-0' }) => {
           {item
             .filter((t, i) => i < length)
             .map(t => (
-              <li
-                className="list-inline-item badge"
-                key={t.id}
-                style={formatTag(t)}
-              >
-                {t.label}
+              <li className="list-inline-item" key={t.id}>
+                <TagItem item={t} />
               </li>
             ))}
           {item.length > MAX_SHOW_ITEM ? (
-            <li className="list-inline-item">
-              <Button color="link" onClick={toggle} id={id}>
-                <span className="badge badge-info">...</span>
-              </Button>
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+            <li
+              className="list-inline-item badge badge-info"
+              id={id}
+              style={{ cursor: 'pointer' }}
+              onClick={toggle}
+            >
+              <>+{item.length - MAX_SHOW_ITEM}</>
             </li>
           ) : null}
         </ul>
@@ -64,17 +45,14 @@ const Tags = ({ item, className = 'mb-0 pb-0' }) => {
             target={id}
             toggle={toggle}
             popperClassName="popover-info"
+            fade={false}
           >
             <PopoverHeader>Labels</PopoverHeader>
             <PopoverBody>
               <ul className={classnames('list-inline', className)}>
                 {item.map(t => (
-                  <li
-                    className="list-inline-item badge"
-                    key={t.id}
-                    style={formatTag1(t)}
-                  >
-                    {t.label}
+                  <li className="list-inline-item" key={t.id}>
+                    <TagItem item={t} background="light" />
                   </li>
                 ))}
               </ul>

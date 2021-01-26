@@ -3,7 +3,6 @@ import { Col, Row } from 'reactstrap';
 
 import classNames from 'classnames';
 import s from './Dashboard.module.scss';
-import Widget from '../../components/Widget/Widget';
 import PageTitle from '../Layout/PageTitle';
 import GlobalChart from './components/GlobalChart';
 import {
@@ -11,6 +10,7 @@ import {
   thisWeekRange,
   todayRange,
 } from '../../libs/utils/date.util';
+import LabelBubbleChart from '../tagging/components/LabelBubbleChart';
 
 function Dashboard() {
   const [dateRangeIndex, setDateRangeIndex] = useState(1);
@@ -89,7 +89,10 @@ function Dashboard() {
 
       <Row>
         <Col lg={4} xs={12}>
-            <GlobalChart dateFrom={dateRange.from} dateTo={dateRange.to} />
+          <GlobalChart dateFrom={dateRange.from} dateTo={dateRange.to} />
+        </Col>
+        <Col lg={4} xs={12}>
+          <LabelBubbleChart />
         </Col>
       </Row>
     </div>

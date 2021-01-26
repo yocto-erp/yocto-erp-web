@@ -51,6 +51,7 @@ const GlobalChart = ({ dateFrom, dateTo }) => {
   );
   return (
     <Widget
+      className=""
       title={
         <div className="d-flex justify-content-between align-items-center">
           <h6>
@@ -65,15 +66,16 @@ const GlobalChart = ({ dateFrom, dateTo }) => {
     >
       <Pie
         data={data}
+        height={250}
         options={{
+          maintainAspectRatio: false,
           tooltips: {
             callbacks: {
               label(tooltipItem, chartData) {
-                console.log(tooltipItem, chartData);
                 const value =
                   chartData.datasets[tooltipItem.datasetIndex].data[
                     tooltipItem.index
-                    ] || '';
+                  ] || '';
                 let label = chartData.labels[tooltipItem.index] || '';
                 if (label) {
                   label += ': ';

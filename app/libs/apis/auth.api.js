@@ -7,9 +7,10 @@ export const login = ({ email, password }) =>
     password,
   });
 
-export const registerUser = ({ displayName, email, password }) =>
+export const registerUser = ({ firstName, lastName, email, password }) =>
   postJSON(`${API_URL}/register`, {
-    displayName,
+    firstName,
+    lastName,
     email,
     password,
   });

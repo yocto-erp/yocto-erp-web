@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { Alert, Container } from 'reactstrap';
@@ -15,7 +15,7 @@ export function VerifyMailPage() {
   const email = params.get('email');
   const token = params.get('token');
   useEffect(() => {
-    verifyEmail({ email, token }).then(t => {
+    verifyEmail({ email, token }).then(() => {
       check(true);
     });
   }, []);
@@ -37,14 +37,17 @@ export function VerifyMailPage() {
           >
             <>
               {isCheck ? (
-                <Alert color="success">
-                  Email has been activated successful!.
-                  <Link className="text-center mb-4" to="/">
-                    Login
+                <>
+                  <h4>Email has been activated successful!.</h4>
+                  <br />
+                  <Link className="text-center mb-4 font-weight-bolder" to="/">
+                    <h4>Login</h4>
                   </Link>
-                </Alert>
+                </>
               ) : (
-                <Alert color="danger">Invalid email or activate token!</Alert>
+                <Alert color="danger">
+                  <h4>Invalid email or activate token!</h4>
+                </Alert>
               )}
             </>
           </Widget>

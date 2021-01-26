@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { PropTypes } from 'prop-types';
-import { Input, Label, FormGroup, Form } from 'reactstrap';
+import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import SearchButton from '../../../components/button/SearchButton';
 import { useListFilter } from '../../../components/ListWidget/constants';
 import DateSelect from '../../../components/date/DateSelect';
 
-const FilterEmail = ({ data }) => {
+const FilterEmail = () => {
+  const { searchByFilter, filter } = useListFilter();
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
-  const setFilter = useListFilter();
-  const { register, handleSubmit } = useForm({
-    defaultValues: data,
+
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {},
   });
   const onSubmit = handleSubmit(val => {
     const { search } = val;
-    setFilter({ search, fromDate, toDate });
+    searchByFilter({ search, fromDate, toDate });
   });
+
+  useEffect(() => {
+    reset(filter);
+  }, [filter]);
   return (
     <Form onSubmit={onSubmit} inline>
       <FormGroup>
@@ -59,9 +63,6 @@ const FilterEmail = ({ data }) => {
       <SearchButton />
     </Form>
   );
-};
-FilterEmail.propTypes = {
-  data: PropTypes.object,
 };
 
 export default FilterEmail;

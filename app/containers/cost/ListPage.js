@@ -53,7 +53,7 @@ const ListPage = ({ history }) => {
         width: '20%',
         render: row => (
           <>
-            <p>{row.name}</p>
+            <p className="mb-0">{row.name}</p>
             <Tags item={row.tagging} />{' '}
           </>
         ),

@@ -3,17 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
-import AnimateHeight from 'react-animate-height';
 import {
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
   Button,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
+  UncontrolledDropdown,
   UncontrolledTooltip,
 } from 'reactstrap';
 import s from './Widget.module.scss';
@@ -437,41 +436,40 @@ class Widget extends React.Component {
               )}
             </div>
           )}
-          <AnimateHeight duration={500} height={height}>
-            <div className={`${s.widgetBody} widget-body ${bodyClass}`}>
-              {/* eslint-disable-next-line no-nested-ternary */}
-              {reloading || fetchingData ? (
-                <Loader className={s.widgetLoader} size={40} />
-              ) : customBody ? (
-                <div className="jumbotron handle bg-default text-white mb-0">
-                  <div className="container">
-                    <h1>Draggable story!</h1>
-                    <p className="lead">
-                      <em>Build</em> your own interfaces! Sit back and relax.
-                    </p>
-                    <p className="text-center">
-                      <button
-                        type="button"
-                        onClick={this.handleFullscreen}
-                        className="btn btn-danger btn-lg"
-                      >
-                        {!fullScreened ? (
-                          <React.Fragment>
-                            Fullscreen me! &nbsp;
-                            <i className="fa fa-check" />
-                          </React.Fragment>
-                        ) : (
-                          'Go Back'
-                        )}
-                      </button>
-                    </p>
-                  </div>
+
+          <div className={`${s.widgetBody} widget-body ${bodyClass}`}>
+            {/* eslint-disable-next-line no-nested-ternary */}
+            {reloading || fetchingData ? (
+              <Loader className={s.widgetLoader} size={40} />
+            ) : customBody ? (
+              <div className="jumbotron handle bg-default text-white mb-0">
+                <div className="container">
+                  <h1>Draggable story!</h1>
+                  <p className="lead">
+                    <em>Build</em> your own interfaces! Sit back and relax.
+                  </p>
+                  <p className="text-center">
+                    <button
+                      type="button"
+                      onClick={this.handleFullscreen}
+                      className="btn btn-danger btn-lg"
+                    >
+                      {!fullScreened ? (
+                        <React.Fragment>
+                          Fullscreen me! &nbsp;
+                          <i className="fa fa-check" />
+                        </React.Fragment>
+                      ) : (
+                        'Go Back'
+                      )}
+                    </button>
+                  </p>
                 </div>
-              ) : (
-                children
-              )}
-            </div>
-          </AnimateHeight>
+              </div>
+            ) : (
+              children
+            )}
+          </div>
         </section>
         {prompt && (
           <Modal isOpen={modal} toggle={this.toggleModal} id="news-close-modal">

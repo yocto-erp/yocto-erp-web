@@ -10,7 +10,6 @@ export const PERMISSION = {
   PRODUCT: {
     CREATE: 1,
     READ: 2,
-    LIST: 2,
     UPDATE: 3,
     DELETE: 4,
   },
@@ -47,6 +46,7 @@ export const PERMISSION = {
       UPDATE: 23,
       DELETE: 24,
     },
+    READ: 38,
   },
   WAREHOUSE: {
     CREATE: 17,
@@ -82,32 +82,10 @@ export const PERMISSION = {
     UPDATE: 46,
     DELETE: 47,
   },
-};
-
-export const FORM_LAYOUT = {
-  layout: 'horizontal',
-  labelAlign: 'right',
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-export const FORM_MODAL_LAYOUT = {
-  layout: 'horizontal',
-  labelAlign: 'left',
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-export const FORM_MODAL_TAIL_LAYOUT = {
-  wrapperCol: {
-    offset: 0,
-    span: 24,
+  EMAIL: {
+    SEND: 48,
+    READ: 49,
   },
-};
-
-export const FORM_TAIL_LAYOUT = {
-  wrapperCol: {
-    offset: 8,
-    span: 24,
-  },
+  LOGIN: 50,
+  AUDIT: 51,
 };

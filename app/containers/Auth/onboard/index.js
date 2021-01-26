@@ -71,7 +71,7 @@ export function OnboardPage() {
           </FormGroup>
 
           <FormGroup className="mt">
-            <Label for="gsm">gsm</Label>
+            <Label for="gsm">Phone</Label>
             <InputGroup className="input-group-no-border">
               {/* <InputGroupAddon addonType="prepend"> */}
               {/*  <InputGroupText> */}
@@ -85,7 +85,7 @@ export function OnboardPage() {
                 type="text"
                 innerRef={register}
                 name="gsm"
-                placeholder="gsm"
+                placeholder="Phone Number"
               />
               <FormFeedback>{errors.gsm && errors.gsm.message}</FormFeedback>
             </InputGroup>

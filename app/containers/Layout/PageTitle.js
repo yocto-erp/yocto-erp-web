@@ -13,7 +13,10 @@ const PageTitle = ({ title, subtitle, actions, colLeft = 6, colRight = 6 }) => (
       </h1>
     </Col>
     {actions ? (
-      <Col sm={colRight} className="text-right d-flex justify-content-end">
+      <Col
+        sm={colRight}
+        className="text-right d-flex justify-content-md-end mt-2 mt-md-0"
+      >
         {actions}
       </Col>
     ) : (

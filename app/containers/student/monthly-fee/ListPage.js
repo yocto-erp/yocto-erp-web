@@ -250,6 +250,7 @@ const ListPage = ({ history }) => {
         fetchData={studentMonthlyFeeApi.search}
         enableSelectColumn
         mappingUrlData={convertQueryWithDate(['month'])}
+        initFilter={{ month: null }}
       >
         <Filter />
       </ListWidget>

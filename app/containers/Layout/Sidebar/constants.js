@@ -1,3 +1,6 @@
+import { AUDIT_ROOT_PATH } from '../../Audit/constants';
+import { TAGGING_ROOT_PATH } from '../../tagging/constants';
+
 export const SIDE_BAR_MENU = {
   main: [
     {
@@ -107,6 +110,12 @@ export const SIDE_BAR_MENU = {
           index: 'management.partner',
           isHeader: true,
         },
+        {
+          header: 'Labels',
+          link: TAGGING_ROOT_PATH,
+          index: 'management.label',
+          isHeader: true,
+        },
       ],
     },
     {
@@ -153,6 +162,11 @@ export const SIDE_BAR_MENU = {
           header: 'Email',
           link: '/log/email',
           index: 'log.email',
+        },
+        {
+          header: 'Audit',
+          link: AUDIT_ROOT_PATH,
+          index: 'log.audit',
         },
       ],
     },
