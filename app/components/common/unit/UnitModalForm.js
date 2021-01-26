@@ -60,7 +60,6 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'units',
-    // keyName: "id", default to "id", you can change the key name
     keyName: 'fId',
   });
   const [isLoading, exec] = useAsync({

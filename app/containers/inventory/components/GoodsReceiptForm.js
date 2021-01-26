@@ -25,12 +25,17 @@ import InventoryFormDetail from './InventoryFormDetail';
 import CreateButton from '../../../components/button/CreateButton';
 import DateSelect from '../../../components/date/DateSelect';
 import FormError from '../../../components/Form/FormError';
+import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
+import taggingApi from '../../../libs/apis/tagging.api';
+import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import { mappingServerTagging } from '../../../components/constants';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
   warehouse: Yup.object()
     .required('This field is required.')
     .nullable(true),
+  tagging: Yup.array().nullable(),
   details: Yup.array()
     .of(
       Yup.object().shape({
@@ -80,32 +85,32 @@ function GoodsReceiptForm({ id }) {
       remark: data.remark,
       warehouse: data.warehouse,
       processedDate: new Date(data.processedDate),
+      tagging:
+        data.tagging && data.tagging.length
+          ? data.tagging.map(mappingServerTagging)
+          : [],
       details: data.details.map(t => {
         const { inventoryDetailId } = t;
         return { ...t, id: inventoryDetailId };
       }),
     }),
-    mappingToServer: form => {
-      const details = form.details.map(result => ({
+    mappingToServer: form => ({
+      ...form,
+      warehouseId: form.warehouse ? form.warehouse.id : null,
+      details: form.details.map(result => ({
         productId: result.product.id,
         unitId: result.unit.id,
         quantity: result.quantity,
         remark: result.remark,
         serialCode: result.serialCode,
-      }));
-      return {
-        name: form.name,
-        warehouseId: form.warehouse ? form.warehouse.id : null,
-        remark: form.remark,
-        processedDate: form.processedDate,
-        details,
-      };
-    },
+      })),
+    }),
     validationSchema,
     initForm: {
       warehouse: null,
       name: '',
       remark: '',
+      tagging: [],
       details: [
         { product: null, unit: null, quantity: '', remark: '', serialCode: '' },
       ],
@@ -114,9 +119,16 @@ function GoodsReceiptForm({ id }) {
     id,
   });
 
+  React.useEffect(() => {
+    if (serverErrors && serverErrors.length) {
+      toast.error(serverErrors.map(t => t.message).join('\n'));
+    }
+  }, [serverErrors]);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'details',
+    keyName: 'fId',
   });
 
   const form = React.useMemo(
@@ -190,6 +202,24 @@ function GoodsReceiptForm({ id }) {
                 placeholder="Product Remark"
               />
             </FormGroup>
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Tagging
+              </Label>
+              <Controller
+                name="tagging"
+                defaultValue={formData ? formData.tagging : []}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <InputAsyncTagging
+                    {...data}
+                    onChange={onChange}
+                    loadOptionApi={taggingApi.search}
+                  />
+                )}
+              />
+              <FormErrorMessage error={errors.tagging} />
+            </FormGroup>
           </Col>
         </Row>
         <FormGroup>
@@ -213,7 +243,7 @@ function GoodsReceiptForm({ id }) {
             <tbody>
               {fields.map((item, index) => (
                 <InventoryFormDetail
-                  key={item.id}
+                  key={item.id || index}
                   control={control}
                   errors={errors}
                   register={register}

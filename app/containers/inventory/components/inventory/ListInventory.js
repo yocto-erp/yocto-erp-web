@@ -29,6 +29,7 @@ import {
   SORT_DIR,
 } from '../../../../components/ListWidget/constants';
 import { convertQueryWithDate } from '../../../../libs/utils/query.util';
+import Tags from '../../../../components/Form/tagging/ViewTags';
 
 const ROOT_PATH = INVENTORY_ROOT_PATH;
 const ListInventory = ({ history }) => {
@@ -59,12 +60,15 @@ const ListInventory = ({ history }) => {
         },
       },
       {
-        header: <strong>Name</strong>,
+        header: 'Name',
         data: 'name',
-        sort: {
-          name: 'name',
-        },
         width: '20%',
+        render: row => (
+          <>
+            <p>{row.name}</p>
+            <Tags item={row.tagging} />{' '}
+          </>
+        ),
       },
       {
         header: 'Total Product',

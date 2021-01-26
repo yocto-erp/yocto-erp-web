@@ -16,6 +16,9 @@ import saleApi from '../../../../libs/apis/order/sale.api';
 import CompanySelect from '../../../../components/common/company/CompanySelect';
 import { ERROR } from '../../../../components/Form/messages';
 import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import { mappingServerTagging } from '../../../../components/constants';
+import InputAsyncTagging from '../../../../components/Form/InputAsyncTagging';
+import taggingApi from '../../../../libs/apis/tagging.api';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -36,6 +39,7 @@ const validationSchema = Yup.object().shape({
         unit: Yup.object()
           .required(ERROR.required)
           .nullable(true),
+        tagging: Yup.array().nullable(),
       }),
     )
     .required(ERROR.required),
@@ -51,7 +55,7 @@ function MyForm({ id }) {
     errors,
     getValues,
     setValue,
-    state: { isLoading, formData },
+    state: { isLoading, formData, errors: serverErrors },
     formState: { isValid, isDirty },
   } = useHookCRUDForm({
     create,
@@ -69,38 +73,43 @@ function MyForm({ id }) {
       remark: form.remark,
       partnerPersonId: form.partnerPerson,
       partnerCompanyId: form.partnerCompany,
+      tagging:
+        form.tagging && form.tagging.length
+          ? form.tagging.map(mappingServerTagging)
+          : [],
       details: form.details.map(t => ({ ...t, id: uuidv4() })),
     }),
-    mappingToServer: form => {
-      const details = form.details.map(result => ({
+    mappingToServer: form => ({
+      ...form,
+      partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
+      partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
+      details: form.details.map(result => ({
         productId: result.product.id,
         unitId: result.unit.id,
         quantity: result.quantity,
         price: result.price,
         remark: result.remark,
-      }));
-      return {
-        name: form.name,
-        partnerCompanyId: form.partnerCompanyId
-          ? form.partnerCompanyId.id
-          : null,
-        partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
-        remark: form.remark,
-        details,
-      };
-    },
+      })),
+    }),
     validationSchema,
     initForm: {
       name: '',
       remark: '',
       partnerPersonId: null,
       partnerCompanyId: null,
+      tagging: [],
       details: [
         { product: null, unit: null, quantity: 0, price: 0, remark: '' },
       ],
     },
     id,
   });
+
+  React.useEffect(() => {
+    if (serverErrors && serverErrors.length) {
+      toast.error(serverErrors.map(t => t.message).join('\n'));
+    }
+  }, [serverErrors]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -192,6 +201,24 @@ function MyForm({ id }) {
                 id="remark"
                 placeholder="Remark"
               />
+            </FormGroup>
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Tagging
+              </Label>
+              <Controller
+                name="tagging"
+                defaultValue={formData ? formData.tagging : []}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <InputAsyncTagging
+                    {...data}
+                    onChange={onChange}
+                    loadOptionApi={taggingApi.search}
+                  />
+                )}
+              />
+              <FormErrorMessage error={errors.tagging} />
             </FormGroup>
           </Col>
         </Row>

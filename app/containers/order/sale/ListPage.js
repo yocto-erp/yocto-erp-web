@@ -21,18 +21,22 @@ import {
   SORT_DIR,
 } from '../../../components/ListWidget/constants';
 import Price from '../../../components/common/Price';
+import Tags from '../../../components/Form/tagging/ViewTags';
 
 const ROOT_PATH = SALE_ROOT_PATH;
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: <strong>Name</strong>,
+        header: 'Name',
         data: 'name',
-        sort: {
-          name: 'name',
-        },
         width: '20%',
+        render: row => (
+          <>
+            <p>{row.name}</p>
+            <Tags item={row.tagging} />{' '}
+          </>
+        ),
       },
       {
         header: 'Company',
