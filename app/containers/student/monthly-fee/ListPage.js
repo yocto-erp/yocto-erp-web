@@ -122,7 +122,16 @@ const ListPage = ({ history }) => {
         header: 'Total',
         data: 'totalAmount',
         class: 'text-nowrap min',
-        render: row => <Price amount={row.totalAmount} />,
+        render: row => (
+          <>
+            <Price amount={row.totalAmount} />
+            <br />
+            <small>
+              Updated:{' '}
+              <strong>{formatDate(new Date(row.lastUpdatedDate))}</strong>
+            </small>
+          </>
+        ),
       },
       {
         header: 'Paid',
@@ -146,7 +155,9 @@ const ListPage = ({ history }) => {
               <p className="m-0">
                 Paid: <Price amount={row.paidAmount} />
                 <br />
-                On: {formatDate(new Date(row.paidDate))}
+                <small>
+                  On: <strong>{formatDate(new Date(row.paidDate))}</strong>
+                </small>
                 <br />
                 <span className="text-info small">{row.paidInformation}</span>
               </p>
@@ -185,8 +196,6 @@ const ListPage = ({ history }) => {
     ],
     [configure, setPaymentStudent],
   );
-
-  const search = { search: '', month: null };
 
   const deleteConfirmDialog = React.useMemo(
     () => (
