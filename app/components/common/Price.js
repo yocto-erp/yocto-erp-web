@@ -1,20 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { numberPipe } from '../../libs/utils/number.util';
+import { numberPipe, roundUp } from '../../libs/utils/number.util';
 
-const Price = ({ amount = '', currency = 'VND', ...props }) => {
-  const numberPipeFn = numberPipe();
+const Price = ({ amount = 0, currency = 'VND', scale = 0, ...props }) => {
+  const numberPipeFn = numberPipe(scale);
+
   if (Number.isNaN(amount)) return '';
   return (
     <span {...props}>
-      {numberPipeFn(amount)} <strong>{currency}</strong>
+      {numberPipeFn(roundUp(amount, scale))} <strong>{currency}</strong>
     </span>
   );
 };
 
 Price.propTypes = {
-  amount: PropTypes.any,
+  amount: PropTypes.number,
   currency: PropTypes.string,
+  scale: PropTypes.number,
 };
 
 export default Price;

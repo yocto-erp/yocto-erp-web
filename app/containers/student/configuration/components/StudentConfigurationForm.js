@@ -198,7 +198,7 @@ const StudentConfigurationForm = () => {
                       <option value={t.id} key={t.id}>
                         {t.name}
                       </option>
-                  ))
+                    ))
                   : null}
               </Input>
             </FormGroup>
@@ -221,7 +221,7 @@ const StudentConfigurationForm = () => {
                       Fee / Month <span className="text-danger">*</span>
                     </th>
                     <th>
-                      Fee / Day <span className="text-danger">*</span>
+                      Fee Return / Day <span className="text-danger">*</span>
                     </th>
                     <th>
                       Fee Per Trial Date <span className="text-danger">*</span>
@@ -230,7 +230,8 @@ const StudentConfigurationForm = () => {
                       Meal Fee / Months <span className="text-danger">*</span>
                     </th>
                     <th>
-                      Meal Fee / Day <span className="text-danger">*</span>
+                      Meal Fee Return / Day
+                      <span className="text-danger">*</span>
                     </th>
                     <th className="action">Action</th>
                   </tr>

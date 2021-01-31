@@ -29,7 +29,7 @@ export function parseDateOnly(dateString) {
 }
 
 export function formatMonth(month, year) {
-  return format(new Date(year, month - 1, 1, 0, 0, 0, 0), FNS_MONTH_FORMAT);
+  return format(new Date(year, month, 1, 0, 0, 0, 0), FNS_MONTH_FORMAT);
 }
 
 export function todayRange() {

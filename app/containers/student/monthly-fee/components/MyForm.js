@@ -100,24 +100,29 @@ function MyForm({ id }) {
         const trialDateFee =
           result.trialDate * studentClassConfigure?.feePerTrialDay;
         const absentDayFee =
-          result.absentDay *
-          studentClassConfigure?.feePerDay *
-          (1 - result.scholarShip / 100);
+          result.absentDay * studentClassConfigure?.feePerDay;
+
         const studentAbsentDayFee = result.student.enableMeal
           ? studentClassConfigure?.mealFeePerDay * result.studentAbsentDay
           : 0;
-        const scholarFee =
-          studentClassConfigure?.tuitionFee * (result.scholarShip / 100);
-        const totalAmount =
+
+        const totalAmountWithoutScholarShip =
           studentClassConfigure?.tuitionFee -
-          scholarFee -
-          absentDayFee +
+          absentDayFee -
+          studentAbsentDayFee +
           trialDateFee +
           result.busFee +
           result.mealFee +
-          result.otherFee -
-          result.otherDeduceFee +
-          result.debt;
+          (result.otherFee || 0) -
+          (result.otherDeduceFee || 0) +
+          (result.debt || 0);
+
+        const scholarFee =
+          ((studentClassConfigure?.tuitionFee - absentDayFee) *
+            (result.scholarShip || 0)) /
+          100;
+        const totalAmount = totalAmountWithoutScholarShip - scholarFee;
+
         return {
           id: result.id,
           monthYear: result.monthYear,

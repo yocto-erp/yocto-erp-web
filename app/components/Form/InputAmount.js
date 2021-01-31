@@ -7,13 +7,13 @@ import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 
 const InputAmount = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ invalid, value, onChange, placeholder }, ref) => (
+  ({ invalid, value, onChange, placeholder, scale = 0 }, ref) => (
     <InputGroup className={classNames({ 'is-invalid': invalid })}>
       <IMaskInput
         className="form-control"
         mask={Number}
         radix=","
-        scale={0}
+        scale={scale}
         signed={false}
         thousandsSeparator="."
         value={value}
@@ -33,6 +33,7 @@ InputAmount.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
+  scale: PropTypes.number,
 };
 
 export default InputAmount;

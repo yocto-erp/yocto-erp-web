@@ -49,9 +49,17 @@ const ClassForm = ({ errors, register, item, index, remove, control }) => (
         name={`classes[${index}].feePerDay`}
         invalid={!!get(errors, ['classes', index, 'feePerDay'], false)}
         control={control}
-        as={InputAmount}
         defaultValue={item.feePerDay || ''}
-        placeholder="Fee Per Day"
+        placeholder="Fee Return Per Day"
+        render={({ onChange, value }, { invalid }) => (
+          <InputAmount
+            onChange={onChange}
+            value={value}
+            invalid={invalid}
+            placeholder="Fee Return Per Day"
+            scale={2}
+          />
+        )}
       />
       <FormFeedback>
         {get(errors, ['classes', index, 'feePerDay', 'message'], '')}
@@ -88,9 +96,17 @@ const ClassForm = ({ errors, register, item, index, remove, control }) => (
         name={`classes[${index}].mealFeePerDay`}
         invalid={!!get(errors, ['classes', index, 'mealFeePerDay'], false)}
         control={control}
-        as={InputAmount}
         defaultValue={item.mealFeePerDay || ''}
-        placeholder="Meal Fee Per Day"
+        placeholder="Meal Fee Return Per Day"
+        render={({ onChange, value }, { invalid }) => (
+          <InputAmount
+            onChange={onChange}
+            value={value}
+            invalid={invalid}
+            placeholder="Meal Fee Return Per Day"
+            scale={2}
+          />
+        )}
       />
       <FormFeedback>
         {get(errors, ['classes', index, 'mealFeePerDay', 'message'], '')}

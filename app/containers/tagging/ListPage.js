@@ -7,11 +7,7 @@ import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import { TAGGING_ROOT_PATH } from './constants';
 import Filter from './components/Filter';
 import PageTitle from '../Layout/PageTitle';
-import {
-  deletePage,
-  deletePagePattern,
-  editPage,
-} from '../../libs/utils/crud.util';
+import { deletePage, deletePagePattern } from '../../libs/utils/crud.util';
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../components/ListWidget';
 import taggingApi from '../../libs/apis/tagging.api';

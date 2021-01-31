@@ -53,10 +53,18 @@ const StudentInfoView = ({ student, isOpen, onClose }) => {
               </td>
             </tr>
             <tr>
-              <td>Daily Meal Fee</td>
+              <td>Daily Fee Return</td>
               <td>
                 <strong>
-                  <Price amount={studentClass?.mealFeePerDay} />
+                  <Price amount={studentClass?.feePerDay} scale={2} />
+                </strong>
+              </td>
+            </tr>
+            <tr>
+              <td>Daily Meal Fee Return</td>
+              <td>
+                <strong>
+                  <Price amount={studentClass?.mealFeePerDay} scale={2} />
                 </strong>
               </td>
             </tr>
