@@ -11,7 +11,7 @@ $borderColor: #1870DC;
   .react-select__control {
     width: 100%;
     min-height: calc(1.5em + 0.75rem + 2px);
-    padding: 0.075rem 0.5rem;
+    padding: 0;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -52,7 +52,11 @@ $borderColor: #1870DC;
     }
   }
 
-
+  &.react-select-tagging {
+    .react-select__control {
+      padding: .108rem .75rem;
+    }
+  }
   .react-select__menu {
     background-color: $primaryColor;
     border: 1px solid $borderColor;
@@ -87,8 +91,8 @@ $borderColor: #1870DC;
 
 .input-group > .react-select-container {
   position: relative;
-  -ms-flex: 1 1 0%;
-  flex: 1 1 0%;
+  -ms-flex: 1 1 0;
+  flex: 1 1 0;
   min-width: 0;
   margin-bottom: 0;
 
@@ -100,7 +104,6 @@ $borderColor: #1870DC;
     .react-select__control {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
-
     }
   }
 }

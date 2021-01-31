@@ -66,7 +66,12 @@ const CompanySelect = React.forwardRef((
         />
         {creatable ? (
           <InputGroupAddon addonType="append">
-            <Button color="primary" type="button" onClick={() => open(true)}>
+            <Button
+              color="primary"
+              type="button"
+              className="pt-0 pb-0"
+              onClick={() => open(true)}
+            >
               <i className="las la-plus" />
             </Button>
           </InputGroupAddon>
