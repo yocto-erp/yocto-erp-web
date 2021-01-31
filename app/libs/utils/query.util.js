@@ -25,6 +25,7 @@ export const convertQueryWithDate = (dateParams = ['startDate', 'endDate']) => (
   value,
 ) => {
   if (dateParams.indexOf(key) > -1) {
+    console.log(value);
     if (value) {
       return new Date(value);
     }

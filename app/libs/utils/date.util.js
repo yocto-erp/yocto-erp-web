@@ -1,8 +1,8 @@
 import {
-  formatDistance,
   endOfMonth,
   endOfWeek,
   format,
+  formatDistance,
   parse,
   startOfMonth,
   startOfWeek,
@@ -26,6 +26,19 @@ export function formatDateOnly(dateObj) {
 
 export function parseDateOnly(dateString) {
   return parse(dateString, FNS_DATE_FORMAT);
+}
+
+export function monthToLocalDateObj(month, year) {
+  return new Date(year, month, 1, 0, 0, 1, 0);
+}
+
+export function toMonthObj(date) {
+  return date
+    ? {
+        month: date.getMonth(),
+        year: date.getFullYear(),
+      }
+    : null;
 }
 
 export function formatMonth(month, year) {

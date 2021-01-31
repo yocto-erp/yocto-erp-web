@@ -16,7 +16,6 @@ import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
 import DownloadButton from '../../../components/button/DownloadButton';
 import IconButton from '../../../components/button/IconButton';
 import StudentFeePaid from './components/StudentFeePaid';
-import { convertQueryWithDate } from '../../../libs/utils/query.util';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -249,7 +248,6 @@ const ListPage = ({ history }) => {
         columns={columns}
         fetchData={studentMonthlyFeeApi.search}
         enableSelectColumn
-        mappingUrlData={convertQueryWithDate(['month'])}
         initFilter={{ month: null }}
       >
         <Filter />

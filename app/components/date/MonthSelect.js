@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import isFunction from 'lodash/isFunction';
 import DatePicker from 'react-datepicker';
 import classNames from 'classnames';
-import { FNS_MONTH_FORMAT } from '../../libs/utils/date.util';
+import {
+  FNS_MONTH_FORMAT,
+  monthToLocalDateObj,
+  toMonthObj,
+} from '../../libs/utils/date.util';
 
 const MonthSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
@@ -22,10 +26,28 @@ const MonthSelect = React.forwardRef(
     // eslint-disable-next-line no-unused-vars
     ref,
   ) => {
+    const [monthValue, setMonthValue] = useState(null);
+
+    useEffect(() => {
+      let month = null;
+      console.log(value);
+      if (value) {
+        try {
+          month = monthToLocalDateObj(value.month, value.year);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      if (month !== monthValue) {
+        setMonthValue(month);
+        onChange(value);
+      }
+    }, [value]);
+
     const handleDayChange = selectedDay => {
       console.log(selectedDay);
       if (isFunction(onChange)) {
-        onChange(selectedDay);
+        onChange(toMonthObj(selectedDay));
       }
     };
 
@@ -43,7 +65,7 @@ const MonthSelect = React.forwardRef(
           'is-invalid': !!invalid,
         })}
         onBlur={handleOnBlur}
-        selected={value}
+        selected={monthValue}
         onChange={handleDayChange}
         isClearable={isClearable}
         disabled={disabled}

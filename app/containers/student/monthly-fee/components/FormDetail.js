@@ -17,6 +17,7 @@ import StudentSelect from '../../components/StudentSelect';
 import InputNumber from '../../../../components/Form/InputNumber';
 import InputPercent from '../../../../components/Form/InputPercent';
 import Price from '../../../../components/common/Price';
+import { toMonthObj } from '../../../../libs/utils/date.util';
 
 const FormDetail = ({
   control,
@@ -165,7 +166,9 @@ const FormDetail = ({
             })}
           >
             <Controller
-              defaultValue={new Date(item.monthYear)}
+              defaultValue={
+                item.monthYear || toMonthObj(new Date(item.monthYear))
+              }
               control={control}
               name={`details[${index}].monthYear`}
               invalid={!!get(errors, ['details', index, 'monthYear'], false)}

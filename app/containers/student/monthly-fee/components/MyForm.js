@@ -16,6 +16,7 @@ import '../../student.scss';
 import useStudentConfigure from '../../../../libs/hooks/useStudentConfigure';
 import Widget from '../../../../components/Widget/Widget';
 import Price from '../../../../components/common/Price';
+import { toMonthObj } from '../../../../libs/utils/date.util';
 
 const { create, update, read } = studentMonthlyFeeApi;
 
@@ -23,7 +24,7 @@ const transferUnNumber = value => (Number.isNaN(value) ? 0 : value);
 
 const newFee = () => ({
   id: uuidv4(),
-  monthYear: new Date(),
+  monthYear: toMonthObj(new Date()),
   student: null,
   scholarShip: '',
   absentDay: '',
@@ -47,7 +48,7 @@ function MyForm({ id }) {
         details: Yup.array()
           .of(
             Yup.object().shape({
-              monthYear: Yup.date()
+              monthYear: Yup.object()
                 .required('This field is required.')
                 .nullable(true),
               student: Yup.object()
@@ -89,7 +90,10 @@ function MyForm({ id }) {
     mappingToForm: form => ({
       details: form.map(t => ({
         ...t,
-        monthYear: new Date(t.yearFee, t.monthFee),
+        monthYear: {
+          month: t.monthFee,
+          year: t.yearFee,
+        },
       })),
     }),
     mappingToServer: form => {

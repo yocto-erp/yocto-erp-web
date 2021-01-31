@@ -9,7 +9,7 @@ import useStudentConfigure from '../../../../libs/hooks/useStudentConfigure';
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
   const { handleSubmit, register, control, reset } = useForm({
-    defaultValues: filter || { month: null },
+    defaultValues: { month: null },
   });
   const onSubmit = handleSubmit(val => searchByFilter(val));
 

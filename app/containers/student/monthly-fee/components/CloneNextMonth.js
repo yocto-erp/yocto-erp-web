@@ -11,6 +11,7 @@ import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-
 import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import useSyncForm from '../../../../libs/hooks/useSyncForm';
 import SubmitButton from '../../../../components/button/SubmitButton';
+import { toMonthObj } from '../../../../libs/utils/date.util';
 
 const CloneNextMonth = ({
   isOpen = false,
@@ -22,7 +23,7 @@ const CloneNextMonth = ({
   const validationSchema = React.useMemo(
     () =>
       Yup.object().shape({
-        monthYear: Yup.date()
+        monthYear: Yup.object()
           .required('This field is required.')
           .nullable(true),
       }),
@@ -70,7 +71,7 @@ const CloneNextMonth = ({
                   Month Year
                 </label>
                 <Controller
-                  defaultValue={new Date()}
+                  defaultValue={toMonthObj(new Date())}
                   control={control}
                   name="monthYear"
                   render={({ onChange, value, onBlur }) => (
