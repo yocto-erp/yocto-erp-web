@@ -1,11 +1,4 @@
 export const API_URL = '/api';
-
-export const DEFAULT_PAGING = {
-  page: 1,
-  size: 10,
-  sorts: [],
-};
-
 export const PERMISSION = {
   PRODUCT: {
     CREATE: 1,
@@ -89,3 +82,53 @@ export const PERMISSION = {
   LOGIN: 50,
   AUDIT: 51,
 };
+
+/**
+ * enableType:
+ *  - 1: Allow User select type (OWNER/PARTIAL/FULL)
+ *  - 2: Not allow (hide) user select type.
+ * @type {{permissions: [{enableType: number, name: string, id: number}], name: string, id: number}[]}
+ */
+
+export const PERMISSION_MODULE = [
+  {
+    id: 1,
+    name: 'Product',
+    permissions: [
+      { id: PERMISSION.PRODUCT.CREATE, name: 'Create', enableType: 1 },
+      { id: PERMISSION.PRODUCT.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.PRODUCT.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.PRODUCT.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Customer',
+    permissions: [
+      { id: PERMISSION.CUSTOMER.CREATE, name: 'Create', enableType: 1 },
+      { id: PERMISSION.CUSTOMER.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.CUSTOMER.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.CUSTOMER.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 3,
+    name: 'Order Sale',
+    permissions: [
+      { id: PERMISSION.ORDER.SALE.CREATE, name: 'Create', enableType: 1 },
+      { id: PERMISSION.ORDER.SALE.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.ORDER.SALE.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.ORDER.SALE.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 4,
+    name: 'Order Purchase',
+    permissions: [
+      { id: PERMISSION.ORDER.PURCHASE.CREATE, name: 'Create', enableType: 1 },
+      { id: PERMISSION.ORDER.PURCHASE.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.ORDER.PURCHASE.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.ORDER.PURCHASE.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+];

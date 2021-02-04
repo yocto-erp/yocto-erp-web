@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import ConfirmModal from '../../components/modal/ConfirmModal';
 
 export const useConfirmDialog = () => {
@@ -31,6 +30,4 @@ export const useConfirmDialog = () => {
   return { confirmModal: modal, openConfirm };
 };
 
-useConfirmDialog.propTypes = {
-  onConfirmed: PropTypes.func.isRequired,
-};
+useConfirmDialog.propTypes = {};
