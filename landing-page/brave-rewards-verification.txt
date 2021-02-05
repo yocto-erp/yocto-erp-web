@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: yoctoerp.com
+Token: 93eaca3ce1d1ca071567115c9aab2a5d4b01b3a3927da62c5de1c5b8d1122eef

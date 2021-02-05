@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'reactstrap';
+import { Col, Nav, Row } from 'reactstrap';
 
 const PageTitle = ({ title, subtitle, actions, colLeft = 6, colRight = 6 }) => (
   <Row className="align-items-start mb-5">
