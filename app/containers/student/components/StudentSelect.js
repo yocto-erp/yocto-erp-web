@@ -73,6 +73,7 @@ const StudentSelect = React.forwardRef((
         <InputGroupAddon addonType="append">
           <Button
             color="primary"
+            className="pt-0 pb-0"
             disabled={!value}
             onClick={() => setIsShowInfo(!isShowInfo)}
           >

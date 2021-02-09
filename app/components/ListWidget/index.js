@@ -81,7 +81,12 @@ const ListWidget = ({
           err => {
             if (isMounted()) {
               setIsLoading(false);
-              toast.error(err.statusText || err.responseText);
+              const {
+                errors: [error],
+              } = err;
+              if (error) {
+                toast.error(error.message);
+              }
             }
           },
         );
@@ -190,11 +195,15 @@ const ListWidget = ({
   );
 
   const onDeleted = React.useCallback(
-    id => {
-      if (selectedList[`item${String(id)}`]) {
-        delete selectedList[`item${String(id)}`];
-        setSelectedList({ ...selectedList });
-      }
+    ids => {
+      const listId = [...ids];
+      listId.forEach(id => {
+        if (selectedList[`item${String(id)}`]) {
+          delete selectedList[`item${String(id)}`];
+        }
+      });
+
+      setSelectedList({ ...selectedList });
       refresh();
     },
     [refresh, selectedList],

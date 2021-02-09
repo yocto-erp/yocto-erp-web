@@ -168,6 +168,25 @@ function MyForm({ id }) {
                 )}
               />
             </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Remark
+              </Label>
+              <Input
+                rows={5}
+                type="textarea"
+                name="remark"
+                innerRef={register}
+                id="remark"
+                placeholder="Remark"
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" sm="12" md="6" lg="6">
             <FormGroup>
               <Label for="partnerCompanyId" className="mr-sm-2">
                 Company Partner
@@ -194,20 +213,7 @@ function MyForm({ id }) {
               />
             </FormGroup>
           </Col>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
-            <FormGroup>
-              <Label for="remark" className="mr-sm-2">
-                Remark
-              </Label>
-              <Input
-                rows={5}
-                type="textarea"
-                name="remark"
-                innerRef={register}
-                id="remark"
-                placeholder="Remark"
-              />
-            </FormGroup>
+          <Col xs="12" sm="12" md="6" lg="6">
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
                 Tagging

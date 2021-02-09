@@ -6,7 +6,7 @@ import TableActionColumns from '../../../components/ListWidget/TableActionColumn
 import studentMonthlyFeeApi from '../../../libs/apis/student/student-monthly-fee.api';
 import { STUDENT_MONTHLY_ROOT_PATH } from './constants';
 import Filter from './components/Filter';
-import { deletePage, deletePagePattern } from '../../../libs/utils/crud.util';
+import { deletePagePattern, editPage } from '../../../libs/utils/crud.util';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../../components/ListWidget';
 import Header from './components/Header';
@@ -171,8 +171,8 @@ const ListPage = ({ history }) => {
         class: 'action',
         render: row => (
           <TableActionColumns
-            onDelete={() => {
-              history.push(deletePage(ROOT_PATH, row.id));
+            onEdit={() => {
+              history.push(editPage(ROOT_PATH, [row.id]));
             }}
           >
             <div className="btn-group-sm btn-group">

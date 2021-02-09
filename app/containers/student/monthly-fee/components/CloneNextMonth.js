@@ -12,6 +12,8 @@ import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import useSyncForm from '../../../../libs/hooks/useSyncForm';
 import SubmitButton from '../../../../components/button/SubmitButton';
 import { toMonthObj } from '../../../../libs/utils/date.util';
+import { transformUnNumber } from '../../../../libs/utils/number.util';
+import InputNumber from '../../../../components/Form/InputNumber';
 
 const CloneNextMonth = ({
   isOpen = false,
@@ -26,6 +28,8 @@ const CloneNextMonth = ({
         monthYear: Yup.object()
           .required('This field is required.')
           .nullable(true),
+        absentDay: Yup.number().transform(transformUnNumber),
+        returnMealDay: Yup.number().transform(transformUnNumber),
       }),
     [],
   );
@@ -42,6 +46,8 @@ const CloneNextMonth = ({
           ...t,
           id: uuidv4(),
           monthYear: formData.monthYear,
+          absentDay: formData.absentDay || '',
+          studentAbsentDay: formData.returnMealDay || '',
         }));
         resolve(history.push('/student-monthly-fee/new', { details }));
       }),
@@ -64,29 +70,75 @@ const CloneNextMonth = ({
           Clone Student Next Month
         </ModalHeader>
         <ModalBody>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="form-group">
-                <label htmlFor="monthYear" className="mr-3">
-                  Month Year
-                </label>
-                <Controller
-                  defaultValue={toMonthObj(new Date())}
-                  control={control}
-                  name="monthYear"
-                  render={({ onChange, value, onBlur }) => (
-                    <MonthSelect
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      isClearable={!isUpdated}
-                      value={value}
-                      disabled={isUpdated}
-                      invalid={!!errors.monthYear}
-                    />
-                  )}
-                />
-                <FormErrorMessage error={errors.monthYear} />
-              </div>
+          <div className="form-group form-row">
+            <label htmlFor="monthYear" className="col-md-4 col-form-label">
+              Month Year
+            </label>
+            <div className="col-md-8">
+              <Controller
+                defaultValue={toMonthObj(new Date())}
+                control={control}
+                name="monthYear"
+                render={({ onChange, value, onBlur }) => (
+                  <MonthSelect
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    isClearable={!isUpdated}
+                    value={value}
+                    disabled={isUpdated}
+                    invalid={!!errors.monthYear}
+                  />
+                )}
+              />
+              <FormErrorMessage error={errors.monthYear} />
+            </div>
+          </div>
+          <div className="form-group form-row">
+            <label htmlFor="absentDay" className="col-md-4 col-form-label">
+              Return Day Fee
+            </label>
+            <div className="col-md-8">
+              <Controller
+                control={control}
+                defaultValue=""
+                id="absentDay"
+                name="absentDay"
+                invalid={errors.absentDay}
+                render={({ onChange, value, onBlur, ...props }) => (
+                  <InputNumber
+                    {...props}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    placeholder="Days Return Fee"
+                  />
+                )}
+              />
+              <FormErrorMessage error={errors.absentDay} />
+            </div>
+          </div>
+          <div className="form-group form-row">
+            <label htmlFor="returnMealDay" className="col-md-4  col-form-label">
+              Return Meal Day
+            </label>
+            <div className="col-md-8">
+              <Controller
+                control={control}
+                defaultValue=""
+                id="returnMealDay"
+                name="returnMealDay"
+                invalid={errors.returnMealDay}
+                render={({ onChange, value, onBlur, ...props }) => (
+                  <InputNumber
+                    {...props}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    placeholder="Meal Days Return"
+                  />
+                )}
+              />
+              <FormErrorMessage error={errors.returnMealDay} />
             </div>
           </div>
         </ModalBody>

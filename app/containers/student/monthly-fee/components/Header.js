@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
 import CreateButton from '../../../../components/button/CreateButton';
 import { editPage, newPage } from '../../../../libs/utils/crud.util';
-import { useListStateContext } from '../../../../components/ListWidget/constants';
+import {
+  useListActionContext,
+  useListStateContext,
+} from '../../../../components/ListWidget/constants';
 import SendMailButton from '../../../../components/button/SendMailButton';
 import ConfigureButton from '../../../../components/button/ConfigureButton';
 import { STUDENT_CONFIGURATION_ROOT_PATH } from '../../constants';
@@ -11,6 +15,8 @@ import PageTitle from '../../../Layout/PageTitle';
 import { STUDENT_MONTHLY_ROOT_PATH } from '../constants';
 import SendMailStudentFee from './SendMail';
 import CloneNextMonth from './CloneNextMonth';
+import { useConfirmDialog } from '../../../../libs/hooks/useConfirmDialog';
+import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const Header = ({ history }) => {
@@ -18,6 +24,8 @@ const Header = ({ history }) => {
   const totalSelectedItems = Object.keys(getStateSelect).length;
   const [isOpenSendMail, setIsOpenSendMail] = React.useState(false);
   const [isOpenCloneNextMonth, setIsOpenCloneNextMonth] = React.useState(false);
+  const { confirmModal, openConfirm } = useConfirmDialog();
+  const { onDeleted } = useListActionContext();
   const actions = (
     <div>
       <div className="mr-2 d-inline">
@@ -63,6 +71,36 @@ const Header = ({ history }) => {
         Edit
       </CreateButton>
 
+      <CreateButton
+        className="mr-2 btn-raised"
+        icon="fi flaticon-trash"
+        disabled={!totalSelectedItems}
+        color="danger"
+        onClick={() => {
+          openConfirm({
+            title: `Delete total ${totalSelectedItems} Student Monthly Fee ?`,
+            message: 'Are you sure to delete ?',
+            onClose: isConfirm => {
+              if (isConfirm) {
+                studentMonthlyFeeApi
+                  .deleteList({
+                    ids: Object.values(getStateSelect),
+                  })
+                  .then(
+                    () => {
+                      toast.success('Delete success');
+                      onDeleted(Object.values(getStateSelect));
+                    },
+                    err => toast.error(err.errors[0].message),
+                  );
+              }
+            },
+          });
+        }}
+      >
+        Delete
+      </CreateButton>
+
       <SendMailButton
         className="mr-2 btn-raised"
         disabled={!totalSelectedItems}
@@ -86,12 +124,15 @@ const Header = ({ history }) => {
     </div>
   );
   return (
-    <PageTitle
-      title="Student Monthly Fee"
-      actions={actions}
-      colLeft={4}
-      colRight={8}
-    />
+    <>
+      <PageTitle
+        title="Student Monthly Fee"
+        actions={actions}
+        colLeft={4}
+        colRight={8}
+      />
+      {confirmModal}
+    </>
   );
 };
 

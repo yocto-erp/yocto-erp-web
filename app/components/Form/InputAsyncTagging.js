@@ -90,7 +90,7 @@ const InputAsyncTagging = React.forwardRef(
     return (
       <>
         <AsyncCreatableSelect
-          className={classNames('react-select-container', {
+          className={classNames('react-select-container react-select-tagging', {
             'is-invalid': invalid,
           })}
           classNamePrefix="react-select"

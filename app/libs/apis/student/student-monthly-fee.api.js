@@ -9,6 +9,7 @@ const studentMonthlyFeeApi = {
     `${API_URL}/student-monthly-fee/${id}/pdf/${templateId}`,
   printData: id => fetchJSON(`${API_ENDPOINT_URL}/${id}/print-data`),
   pay: (id, data) => postJSON(`${API_ENDPOINT_URL}/${id}/pay`, data),
+  deleteList: ids => postJSON(`${API_ENDPOINT_URL}/list/delete`, ids),
   sendEmail: (
     ids,
     emailTemplateId,
