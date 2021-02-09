@@ -1,5 +1,6 @@
 import { AUDIT_ROOT_PATH } from '../../Audit/constants';
 import { TAGGING_ROOT_PATH } from '../../tagging/constants';
+import { USER_ROOT_PATH } from '../../user/constants';
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -169,6 +170,13 @@ export const SIDE_BAR_MENU = {
           index: 'log.audit',
         },
       ],
+    },
+    {
+      header: 'User',
+      isHeader: true,
+      iconName: 'flaticon-user',
+      link: USER_ROOT_PATH,
+      index: 'user',
     },
   ],
 };

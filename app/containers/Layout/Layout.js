@@ -48,6 +48,8 @@ import { AUDIT_ROOT_PATH } from '../Audit/constants';
 import AuditPage from '../Audit/Loadable';
 import { TAGGING_ROOT_PATH } from '../tagging/constants';
 import TaggingPage from '../tagging/ListPage';
+import { USER_ROOT_PATH } from '../user/constants';
+import UserPage from '../user/Loadable';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -175,6 +177,7 @@ class Layout extends React.Component {
                     component={TaggingPage}
                   />
                   <Route path="/drive" component={FileBrowser} />
+                  <Route path={`${USER_ROOT_PATH}`} component={UserPage} />
                 </Switch>
                 <Footer />
               </div>

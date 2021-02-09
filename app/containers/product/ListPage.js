@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import Widget from '../../components/Widget/Widget';
 import CreatedBy from '../../components/ListWidget/CreatedBy';
 import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import productApi from '../../libs/apis/product/product.api';
