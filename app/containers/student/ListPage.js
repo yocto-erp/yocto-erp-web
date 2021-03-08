@@ -65,6 +65,15 @@ const ListPage = ({ history }) => {
               <strong>
                 {row.child.name} ({row.alias})
               </strong>
+              {row.child.birthday ? (
+                <>
+                  <br />
+                  Birthday{' '}
+                  <strong>
+                    {formatDateOnly(new Date(row.child.birthday))}
+                  </strong>
+                </>
+              ) : null}
               <br />
               {getClassName(row.class)}
             </p>
