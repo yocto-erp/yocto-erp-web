@@ -20,19 +20,12 @@ import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
 import { formatDateOnly } from '../../libs/utils/date.util';
-import studentConfigurationApi from '../../libs/apis/student/student-config.api';
 import ConfigureButton from '../../components/button/ConfigureButton';
+import useStudentConfigure from '../../libs/hooks/useStudentConfigure';
 
 const ROOT_PATH = STUDENT_ROOT_PATH;
 const ListPage = ({ history }) => {
-  const [busRoute, setBusRoute] = React.useState([]);
-  React.useEffect(() => {
-    studentConfigurationApi.get().then(resp => {
-      if (resp) {
-        setBusRoute(resp.busRoutes);
-      }
-    });
-  }, []);
+  const { getClassName, getBusRoute, configure } = useStudentConfigure();
 
   const columns = React.useMemo(
     () => [
@@ -58,21 +51,25 @@ const ListPage = ({ history }) => {
         },
       },
       {
-        header: <strong>Student ID</strong>,
+        header: <strong>Student</strong>,
         data: 'studentId',
         sort: {
           name: 'name',
         },
-        width: '12%',
-      },
-      {
-        header: 'Name (Alias)',
-        data: 'alias',
-        width: '20%',
-        render: row => {
-          const { alias } = row;
-          return `${row.child.name} (${alias})`;
-        },
+        class: 'min no-wrap',
+        render: row => (
+          <>
+            <p className="mb-0">
+              <strong>{row.studentId}</strong>
+              <br />
+              <strong>
+                {row.child.name} ({row.alias})
+              </strong>
+              <br />
+              {getClassName(row.class)}
+            </p>
+          </>
+        ),
       },
       {
         header: 'parent',
@@ -138,29 +135,22 @@ const ListPage = ({ history }) => {
         data: 'bus',
         class: 'min no-wrap',
         render: row => {
-          if (busRoute.length) {
-            const toSchoolBus = busRoute.find(
-              value => value.id === row.toSchoolBusRoute,
-            );
-            const toHomeBus = busRoute.find(
-              value => value.id === row.toHomeBusRoute,
-            );
-            return (
-              <>
-                {toSchoolBus ? (
-                  <p className="m-0">
-                    To School From: <strong>{toSchoolBus.name}</strong>
-                  </p>
-                ) : null}
-                {toHomeBus ? (
-                  <p>
-                    From School To: <strong>{toHomeBus.name}</strong>
-                  </p>
-                ) : null}
-              </>
-            );
-          }
-          return <></>;
+          const toSchoolBus = getBusRoute(row.toSchoolBusRoute);
+          const toHomeBus = getBusRoute(row.toHomeBusRoute);
+          return (
+            <>
+              {toSchoolBus ? (
+                <p className="m-0">
+                  To School From: <strong>{toSchoolBus}</strong>
+                </p>
+              ) : null}
+              {toHomeBus ? (
+                <p>
+                  From School To: <strong>{toHomeBus}</strong>
+                </p>
+              ) : null}
+            </>
+          );
         },
       },
       {
@@ -185,7 +175,7 @@ const ListPage = ({ history }) => {
         ),
       },
     ],
-    [busRoute],
+    [configure],
   );
 
   const search = { search: '' };

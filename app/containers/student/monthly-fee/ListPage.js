@@ -16,6 +16,7 @@ import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
 import DownloadButton from '../../../components/button/DownloadButton';
 import IconButton from '../../../components/button/IconButton';
 import StudentFeePaid from './components/StudentFeePaid';
+import ShortText from '../../../components/ShortText';
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -159,7 +160,11 @@ const ListPage = ({ history }) => {
                   On: <strong>{formatDate(new Date(row.paidDate))}</strong>
                 </small>
                 <br />
-                <span className="text-info small">{row.paidInformation}</span>
+                <ShortText
+                  text={row.paidInformation}
+                  maxWidth={160}
+                  className="text-info small"
+                />
               </p>
             </>
           );

@@ -25,8 +25,8 @@ const DeleteConfirmModal = ({
   const onCloseHandle = useCallback(
     result => {
       if (isReload) {
-        if (result) {
-          onDeleted(result.id);
+        if (result && result.id) {
+          onDeleted([result.id]);
         } else {
           refresh();
         }

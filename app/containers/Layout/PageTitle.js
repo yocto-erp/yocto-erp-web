@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Nav, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 
 const PageTitle = ({ title, subtitle, actions, colLeft = 6, colRight = 6 }) => (
-  <Row className="align-items-start mb-5">
+  <Row className="align-items-center mb-5">
     <Col sm={colLeft} className="d-flex justify-content-start">
       <h1 className="page-title m-0">
         {title} &nbsp;
@@ -13,10 +13,7 @@ const PageTitle = ({ title, subtitle, actions, colLeft = 6, colRight = 6 }) => (
       </h1>
     </Col>
     {actions ? (
-      <Col
-        sm={colRight}
-        className="text-right d-flex justify-content-md-end mt-2 mt-md-0"
-      >
+      <Col sm={colRight} className="text-md-right mt-2 mt-md-0">
         {actions}
       </Col>
     ) : (

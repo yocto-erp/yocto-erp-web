@@ -11,12 +11,14 @@ import { Login } from '../Auth/login';
 import useUser from '../../libs/hooks/useUser';
 import RegisterPage from '../Auth/register';
 import { VerifyMailPage } from '../Auth/verify-mail';
+import { VerifyInvitationPage } from '../Auth/verify-invitation';
 import ForgotPasswordPage from '../Auth/forgot-password';
 import RestPasswordPage from '../Auth/reset-password';
 import OnBoardPage from '../Auth/onboard';
 
 import 'styles/theme.scss';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
+import CompanyChoose from '../Auth/company-choose';
 
 export default function App() {
   const { isAuthenticated, isLoading, user } = useUser();
@@ -33,8 +35,10 @@ export default function App() {
     if (!isLoading) {
       if (!isAuthenticated) {
         rs = <Login />;
-      } else if (user.userCompanies !== null || user.companyId !== null) {
+      } else if (user.companyId !== null) {
         rs = <LayoutComponent />;
+      } else if (user.userCompanies.length) {
+        rs = <CompanyChoose />;
       } else {
         rs = <OnBoardPage />;
       }
@@ -59,6 +63,7 @@ export default function App() {
           component={ForgotPasswordPage}
         />
         <Route path="/forgot-password/reset" component={RestPasswordPage} />
+        <Route path="/invite-confirm" component={VerifyInvitationPage} />
         <Route path="/">{mainPage}</Route>
         <Route path="" component={NotFoundPage} />
       </Switch>

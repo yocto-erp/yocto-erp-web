@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { Collapse, Badge, Button } from 'reactstrap';
+import { Badge, Button, Collapse } from 'reactstrap';
 import classnames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import s from './LinksGroup.module.scss';
@@ -25,6 +25,7 @@ const LinksGroup = ({
   labelColor,
   exact,
   isHeader,
+  isHasPermission,
 }) => {
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveItem);
@@ -116,18 +117,24 @@ const LinksGroup = ({
           <Collapse className={s.panel} isOpen={isOpen}>
             <ul>
               {childrenLinks &&
-                childrenLinks.map(child => (
-                  <LinksGroup
-                    activeItem={activeItem}
-                    header={child.header}
-                    isHeader={child.isHeader}
-                    link={child.link}
-                    index={child.index}
-                    childrenLinks={child.childrenLinks}
-                    deep={deep + 1}
-                    key={child.index}
-                  />
-                ))}
+                childrenLinks
+                  .filter(
+                    t =>
+                      !t.permission ||
+                      isHasPermission({ permission: t.permission }),
+                  )
+                  .map(child => (
+                    <LinksGroup
+                      activeItem={activeItem}
+                      header={child.header}
+                      isHeader={child.isHeader}
+                      link={child.link}
+                      index={child.index}
+                      childrenLinks={child.childrenLinks}
+                      deep={deep + 1}
+                      key={child.index}
+                    />
+                  ))}
             </ul>
           </Collapse>
         </li>
@@ -149,6 +156,7 @@ LinksGroup.propTypes = {
   labelColor: PropTypes.string,
   exact: PropTypes.bool,
   isHeader: PropTypes.bool,
+  isHasPermission: PropTypes.func,
 };
 
 export default LinksGroup;

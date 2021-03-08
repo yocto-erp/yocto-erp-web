@@ -47,6 +47,7 @@ const schema = yup.object().shape({
 });
 
 const StudentFeePaid = ({ isOpen, onClose, student }) => {
+  console.log(student);
   const {
     register,
     errors,
@@ -86,9 +87,11 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
       reset({
         amount: student.totalAmount || 0,
         remark: '',
-        name: `Month ${student.monthFee}/${student.yearFee} tuition fee of ${
-          student.student.child.firstName
-        } ${student.student.child.lastName}`,
+        name: `Month ${student.monthFee + 1}/${
+          student.yearFee
+        } tuition fee of ${student.student.child.firstName} ${
+          student.student.child.lastName
+        }`,
         storeCashIn: true,
         sendEmailConfirm: true,
         from: '',
@@ -138,7 +141,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="storeCashIn">Save Payment Cash In</label>
+                <label htmlFor="storeCashIn">Lưu Phiếu Thu</label>
                 <div className="input-group">
                   <div className="input-group-prepend">
                     <div className="input-group-text bg-gray">

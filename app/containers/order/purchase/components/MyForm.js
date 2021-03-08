@@ -28,6 +28,7 @@ import { mappingServerTagging } from '../../../../components/constants';
 import InputAsyncTagging from '../../../../components/Form/InputAsyncTagging';
 import taggingApi from '../../../../libs/apis/tagging.api';
 import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import { transformUnNumber } from '../../../../libs/utils/number.util';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
@@ -38,10 +39,12 @@ const validationSchema = Yup.object().shape({
           .required('This field is required.')
           .nullable(true),
         quantity: Yup.number()
+          .transform(transformUnNumber)
           .typeError(ERROR.required)
           .moreThan(0, ERROR.numberGT0)
           .required(ERROR.required),
         price: Yup.number()
+          .transform(transformUnNumber)
           .moreThan(0, 'Price must larger than 0')
           .required('This field is required.'),
         unit: Yup.object()
@@ -106,7 +109,7 @@ function MyForm({ id }) {
       partnerCompanyId: null,
       tagging: [],
       details: [
-        { product: null, unit: null, quantity: 0, price: 0, remark: '' },
+        { product: null, unit: null, quantity: '', price: '', remark: '' },
       ],
     },
     id,

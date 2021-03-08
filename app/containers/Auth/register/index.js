@@ -173,8 +173,8 @@ export function RegisterPage() {
           >
             {resp ? (
               <Alert color="info" className="mt-2">
-                Register succeed link has been send to your email. Please check
-                your mailbox.
+                Register succeed link has been send to your email{' '}
+                <strong>{resp.email}</strong>. Please check your mailbox.
               </Alert>
             ) : (
               <>

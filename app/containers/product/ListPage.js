@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import CreatedBy from '../../components/ListWidget/CreatedBy';
 import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import productApi from '../../libs/apis/product/product.api';
 import { PRODUCT_ROOT_PATH } from './constants';
@@ -17,6 +16,7 @@ import CreateButton from '../../components/button/CreateButton';
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
+import { CreatedByColumn } from '../../components/ListWidget/constants';
 
 const ROOT_PATH = PRODUCT_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -31,24 +31,10 @@ const ListPage = ({ history }) => {
         width: '20%',
       },
       {
-        header: 'Price',
-        data: 'priceBaseUnit',
-        width: '12%',
-      },
-      {
         header: 'Remark',
         data: 'remark',
-        width: '40%',
       },
-      {
-        header: 'Created By',
-        data: 'createdBy',
-        width: '1px',
-        render: row => {
-          const { createdBy, createdDate } = row;
-          return <CreatedBy user={createdBy} date={createdDate} />;
-        },
-      },
+      CreatedByColumn,
       {
         header: 'Action',
         data: '',

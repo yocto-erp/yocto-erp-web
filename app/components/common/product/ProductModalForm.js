@@ -25,10 +25,11 @@ import SubmitButton from '../../button/SubmitButton';
 import CreateButton from '../../button/CreateButton';
 import productApi from '../../../libs/apis/product/product.api';
 import { useAsync } from '../../../libs/hooks/useAsync';
+import { transformUnNumber } from '../../../libs/utils/number.util';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
-  priceBaseUnit: Yup.number(),
+  priceBaseUnit: Yup.number().transform(transformUnNumber),
   units: Yup.array()
     .of(
       Yup.object().shape({
@@ -50,7 +51,7 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
     mode: 'all',
     reValidateMode: 'onChange',
     resolver: yupResolver(validationSchema),
-    defaultValues: { name: 'test', units: [{ name: '', rate: 1 }] },
+    defaultValues: { name: '', units: [{ name: '', rate: 1 }] },
   });
   const { fields, append, remove } = useFieldArray({
     control,
@@ -83,7 +84,7 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
             register={register}
             placeholder="Product Name"
           />
-          <FormRow
+          {/* <FormRow
             label={
               <>
                 Price<span className="text-danger">*</span>
@@ -94,7 +95,7 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
             register={register}
             error={errors.priceBaseUnit}
             placeholder="Product Price Base Unit"
-          />
+          /> */}
           <FormRow
             label="Remark"
             name="remark"
@@ -125,6 +126,7 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
                         invalid={!!get(errors, ['units', index, 'name'], false)}
                         name={`units[${index}].name`}
                         innerRef={register}
+                        placeholder="Input Unit Name"
                         defaultValue={item.name} // make sure to set up defaultValue
                       />
                       <FormFeedback>

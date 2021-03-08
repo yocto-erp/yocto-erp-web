@@ -48,3 +48,6 @@ export const resendEmailActive = email =>
   fetchJSON(`${API_URL}/resendEmailActive?email=${email}`);
 
 export const getInfo = () => fetchJSON(`${API_URL}/information`);
+
+export const selectCompany = companyId =>
+  fetchJSON(`${API_URL}/select-company?id=${companyId}`);

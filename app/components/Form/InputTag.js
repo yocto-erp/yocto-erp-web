@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CreatableSelect from 'react-select/creatable';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../constants";
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../constants';
 
 const createOption = label => ({
   label,

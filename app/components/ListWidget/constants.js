@@ -41,7 +41,7 @@ export const CreatedByColumn = {
   sort: {
     name: 'createdDate',
   },
-  width: '1px',
+  class: 'min',
   render: row => {
     const { createdBy, createdDate } = row;
     return <CreatedBy user={createdBy} date={createdDate} />;

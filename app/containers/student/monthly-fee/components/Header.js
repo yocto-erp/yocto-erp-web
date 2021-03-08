@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 import CreateButton from '../../../../components/button/CreateButton';
 import { editPage, newPage } from '../../../../libs/utils/crud.util';
@@ -27,13 +26,14 @@ const Header = ({ history }) => {
   const { confirmModal, openConfirm } = useConfirmDialog();
   const { onDeleted } = useListActionContext();
   const actions = (
-    <div>
-      <div className="mr-2 d-inline">
-        {totalSelectedItems ? (
+    <>
+      {totalSelectedItems ? (
+        <div className="mr-2 d-md-inline d-sm-block">
           <span>Select: {totalSelectedItems} items</span>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
       <CreateButton
+        size="sm"
         className="mr-2 btn-raised"
         icon="fa fa-clone"
         color="info"
@@ -44,22 +44,15 @@ const Header = ({ history }) => {
       >
         Clone for Next Month
       </CreateButton>
-
-      <CloneNextMonth
-        key={uuidv4()}
-        ids={Object.values(getStateSelect)}
-        onClose={setIsOpenCloneNextMonth}
-        isOpen={isOpenCloneNextMonth}
-      />
-
       <CreateButton
+        size="sm"
         className="mr-2 btn-raised"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
       />
-
       <CreateButton
+        size="sm"
         className="mr-2 btn-raised"
         icon="fi flaticon-edit"
         disabled={!totalSelectedItems}
@@ -72,6 +65,7 @@ const Header = ({ history }) => {
       </CreateButton>
 
       <CreateButton
+        size="sm"
         className="mr-2 btn-raised"
         icon="fi flaticon-trash"
         disabled={!totalSelectedItems}
@@ -102,6 +96,7 @@ const Header = ({ history }) => {
       </CreateButton>
 
       <SendMailButton
+        size="sm"
         className="mr-2 btn-raised"
         disabled={!totalSelectedItems}
         onClick={() => {
@@ -110,18 +105,13 @@ const Header = ({ history }) => {
       />
 
       <ConfigureButton
+        size="sm"
         className="shadow btn-raised"
         onClick={() => {
           history.push(STUDENT_CONFIGURATION_ROOT_PATH);
         }}
       />
-      <SendMailStudentFee
-        key={uuidv4()}
-        fees={Object.values(getStateSelect)}
-        onClose={setIsOpenSendMail}
-        isOpen={isOpenSendMail}
-      />
-    </div>
+    </>
   );
   return (
     <>
@@ -132,6 +122,16 @@ const Header = ({ history }) => {
         colRight={8}
       />
       {confirmModal}
+      <CloneNextMonth
+        ids={Object.values(getStateSelect)}
+        onClose={setIsOpenCloneNextMonth}
+        isOpen={isOpenCloneNextMonth}
+      />
+      <SendMailStudentFee
+        fees={Object.values(getStateSelect)}
+        onClose={setIsOpenSendMail}
+        isOpen={isOpenSendMail}
+      />
     </>
   );
 };

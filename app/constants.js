@@ -81,8 +81,25 @@ export const PERMISSION = {
   },
   LOGIN: 50,
   AUDIT: 51,
+  USER: {
+    CREATE: 52,
+    READ: 53,
+    UPDATE: 54,
+    DELETE: 55,
+  },
+  SURVEY: {
+    CREATE: 56,
+    READ: 57,
+    UPDATE: 58,
+    DELETE: 59,
+  },
 };
 
+export const PERMISSION_TYPE = {
+  OWNER: 1,
+  PARTIAL: 2,
+  FULL: 3,
+};
 /**
  * enableType:
  *  - 1: Allow User select type (OWNER/PARTIAL/FULL)
@@ -129,6 +146,114 @@ export const PERMISSION_MODULE = [
       { id: PERMISSION.ORDER.PURCHASE.READ, name: 'Read', enableType: 1 },
       { id: PERMISSION.ORDER.PURCHASE.DELETE, name: 'Delete', enableType: 1 },
       { id: PERMISSION.ORDER.PURCHASE.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 5,
+    name: 'Inventory',
+    permissions: [
+      {
+        id: PERMISSION.INVENTORY.GOODS_RECEIPT.CREATE,
+        name: 'Create Good Receipt',
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.INVENTORY.GOODS_RECEIPT.READ,
+        name: 'Read Good Receipt',
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.INVENTORY.GOODS_RECEIPT.DELETE,
+        name: 'Delete Good Receipt',
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.INVENTORY.GOODS_RECEIPT.UPDATE,
+        name: 'Update Good Receipt',
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.INVENTORY.GOODS_ISSUE.CREATE,
+        name: 'Create Good Issue',
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.INVENTORY.GOODS_ISSUE.READ,
+        name: 'Read Good Issue',
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.INVENTORY.GOODS_ISSUE.DELETE,
+        name: 'Delete Good Issue',
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.INVENTORY.GOODS_ISSUE.UPDATE,
+        name: 'Update Good Issue',
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.INVENTORY.READ,
+        name: 'Read Summary',
+        enableType: 0,
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: 'Warehouse Management',
+    permissions: [
+      { id: PERMISSION.WAREHOUSE.CREATE, name: 'Create', enableType: 1 },
+      { id: PERMISSION.WAREHOUSE.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.WAREHOUSE.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.WAREHOUSE.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 7,
+    name: 'Cost Management',
+    permissions: [
+      { id: PERMISSION.COST.CREATE, name: 'Create', enableType: 1 },
+      { id: PERMISSION.COST.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.COST.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.COST.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 8,
+    name: 'Person Management',
+    permissions: [
+      { id: PERMISSION.PERSON.CREATE, name: 'Create', enableType: 1 },
+      { id: PERMISSION.PERSON.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.PERSON.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.PERSON.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 9,
+    name: 'Configuration',
+    permissions: [
+      { id: PERMISSION.CONFIGURATION, name: 'Configuration', enableType: 1 },
+    ],
+  },
+  {
+    id: 10,
+    name: 'Template',
+    permissions: [
+      { id: PERMISSION.TEMPLATE.CREATE, name: 'Create', enableType: 1 },
+      { id: PERMISSION.TEMPLATE.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.TEMPLATE.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.TEMPLATE.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 11,
+    name: 'User Management',
+    permissions: [
+      { id: PERMISSION.USER.CREATE, name: 'Invite', enableType: 1 },
+      { id: PERMISSION.USER.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.USER.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.USER.UPDATE, name: 'Update', enableType: 1 },
     ],
   },
 ];

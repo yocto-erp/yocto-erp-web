@@ -22,7 +22,6 @@ import BackButton from '../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import CreateButton from '../../../components/button/CreateButton';
 import FileUpload from '../../../components/FileUpload';
-import InputAmount from '../../../components/Form/InputAmount';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { ERROR } from '../../../components/Form/messages';
 import InputNumber from '../../../components/Form/InputNumber';
@@ -31,8 +30,7 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
   priceBaseUnit: Yup.number()
     .typeError(ERROR.required)
-    .positive(ERROR.amountGT0)
-    .required(ERROR.required),
+    .positive(ERROR.amountGT0),
   units: Yup.array()
     .of(
       Yup.object().shape({
@@ -107,7 +105,7 @@ function MyForm({ id }) {
               />
               <FormErrorMessage error={errors.name} />
             </FormGroup>
-            <FormGroup>
+            {/* <FormGroup>
               <Label for="priceBaseUnit">
                 Price<span className="text-danger">*</span>
               </Label>
@@ -121,7 +119,7 @@ function MyForm({ id }) {
                 placeholder="Price"
               />
               <FormErrorMessage error={errors.priceBaseUnit} />
-            </FormGroup>
+            </FormGroup> */}
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
                 Remark

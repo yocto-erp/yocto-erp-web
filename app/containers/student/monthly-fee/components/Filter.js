@@ -23,7 +23,7 @@ const Filter = () => {
       <Input
         type="search"
         name="search"
-        className="mr-2"
+        className="mr-2 mt-2"
         style={{ width: '300px' }}
         innerRef={register}
         id="search"
@@ -32,7 +32,7 @@ const Filter = () => {
       <Input
         type="select"
         name="class"
-        className="mr-2"
+        className="mr-2 mt-2"
         innerRef={register}
         id="class"
       >
@@ -46,7 +46,7 @@ const Filter = () => {
       <Input
         type="select"
         name="isPaid"
-        className="mr-2"
+        className="mr-2 mt-2"
         innerRef={register}
         id="isPaid"
       >
@@ -57,10 +57,11 @@ const Filter = () => {
       <Controller
         control={control}
         name="month"
-        className="pr-2"
+        className="pr-2 mt-2"
         defaultValue=""
         render={({ onChange, value, onBlur }) => (
           <MonthSelect
+            className="pr-2 mt-2"
             onChange={onChange}
             onBlur={onBlur}
             isClearable
@@ -69,10 +70,10 @@ const Filter = () => {
           />
         )}
       />
-      <SearchButton className="ml-2" />
+      <SearchButton className="ml-2 mt-2" />
       <Button
         color="danger"
-        className="ml-2"
+        className="ml-2 mt-2"
         onClick={() => {
           reset({});
           searchByFilter({});

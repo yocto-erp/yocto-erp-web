@@ -1,6 +1,7 @@
 import { AUDIT_ROOT_PATH } from '../../Audit/constants';
 import { TAGGING_ROOT_PATH } from '../../tagging/constants';
 import { USER_ROOT_PATH } from '../../user/constants';
+import { PERMISSION } from '../../../constants';
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -20,6 +21,7 @@ export const SIDE_BAR_MENU = {
       iconName: 'flaticon-network',
       link: '/sale',
       index: 'sale',
+      permission: PERMISSION.ORDER.SALE.READ,
     },
     {
       header: 'Mua hàng',
@@ -27,6 +29,7 @@ export const SIDE_BAR_MENU = {
       iconName: 'flaticon-network',
       link: '/purchase',
       index: 'purchase',
+      permission: PERMISSION.ORDER.PURCHASE.READ,
     },
     {
       header: 'Thu chi',
@@ -34,6 +37,7 @@ export const SIDE_BAR_MENU = {
       iconName: 'flaticon-network',
       link: '/cost',
       index: 'cost',
+      permission: PERMISSION.COST.READ,
     },
     {
       header: 'Nhập, xuất kho',
@@ -41,6 +45,10 @@ export const SIDE_BAR_MENU = {
       iconName: 'flaticon-network',
       link: '/inventory',
       index: 'inventory',
+      permission: [
+        PERMISSION.INVENTORY.GOODS_ISSUE.READ,
+        PERMISSION.INVENTORY.GOODS_RECEIPT.READ,
+      ],
     },
     {
       header: 'Student',
@@ -48,6 +56,7 @@ export const SIDE_BAR_MENU = {
       iconName: 'flaticon-user-2',
       index: 'student',
       link: '',
+      permission: PERMISSION.CUSTOMER.READ,
       children: [
         {
           header: 'List Student',
@@ -91,24 +100,28 @@ export const SIDE_BAR_MENU = {
           header: 'Survey',
           isHeader: true,
           link: '/survey-management',
+          permission: PERMISSION.SURVEY.READ,
           index: 'management.survey-management',
         },
         {
           header: 'Kho',
           isHeader: true,
           link: '/warehouse',
+          permission: PERMISSION.WAREHOUSE.READ,
           index: 'management.warehouse',
         },
         {
           header: 'Sản phẩm',
           link: '/product',
           index: 'management.product',
+          permission: PERMISSION.PRODUCT.READ,
           isHeader: true,
         },
         {
           header: 'Khách hàng - Company',
           link: '/partner',
           index: 'management.partner',
+          permission: [PERMISSION.CUSTOMER.READ, PERMISSION.COMPANY.READ],
           isHeader: true,
         },
         {
@@ -116,6 +129,14 @@ export const SIDE_BAR_MENU = {
           link: TAGGING_ROOT_PATH,
           index: 'management.label',
           isHeader: true,
+        },
+        {
+          header: 'User',
+          permission: PERMISSION.USER.READ,
+          isHeader: true,
+          iconName: 'flaticon-user',
+          link: USER_ROOT_PATH,
+          index: 'management.user',
         },
       ],
     },
@@ -125,6 +146,7 @@ export const SIDE_BAR_MENU = {
       iconName: 'flaticon-folder-2',
       isHeader: true,
       index: 'template',
+      permission: PERMISSION.TEMPLATE.READ,
       children: [
         {
           header: 'Mẫu in',
@@ -140,6 +162,7 @@ export const SIDE_BAR_MENU = {
     },
     {
       header: 'Cấu hình',
+      permission: PERMISSION.CONFIGURATION,
       isHeader: true,
       iconName: 'flaticon-settings-3',
       index: 'configuration',
@@ -160,23 +183,18 @@ export const SIDE_BAR_MENU = {
       link: '',
       children: [
         {
+          permission: PERMISSION.EMAIL.READ,
           header: 'Email',
           link: '/log/email',
           index: 'log.email',
         },
         {
+          permission: PERMISSION.AUDIT,
           header: 'Audit',
           link: AUDIT_ROOT_PATH,
           index: 'log.audit',
         },
       ],
-    },
-    {
-      header: 'User',
-      isHeader: true,
-      iconName: 'flaticon-user',
-      link: USER_ROOT_PATH,
-      index: 'user',
     },
   ],
 };

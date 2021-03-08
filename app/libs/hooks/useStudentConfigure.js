@@ -15,10 +15,24 @@ export default () => {
   const isLoading = !data && !error;
 
   function getClassName(classId) {
-    const { classes } = data;
-    if (classes) {
-      return classes.find(t => t.id === classId)?.name || '';
+    if (data) {
+      const { classes } = data;
+      if (classes) {
+        return classes.find(t => t.id === classId)?.name || '';
+      }
     }
+
+    return '';
+  }
+
+  function getBusRoute(busRouteId) {
+    if (data) {
+      const { busRoutes } = data;
+      if (busRoutes && busRoutes.length) {
+        return busRoutes.find(t => t.id === busRouteId)?.name || '';
+      }
+    }
+
     return '';
   }
 
@@ -27,5 +41,6 @@ export default () => {
     getClassName,
     configure: data || {},
     getStudentConfigure: mutate,
+    getBusRoute,
   };
 };

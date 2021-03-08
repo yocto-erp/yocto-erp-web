@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,129 +8,107 @@ import LinksGroup from './LinksGroup/LinksGroup';
 
 import { changeActiveSidebarItem } from '../redux/navigation';
 import { SIDE_BAR_MENU } from './constants';
+import useUser from '../../../libs/hooks/useUser';
 
-class Sidebar extends React.Component {
-  static propTypes = {
-    sidebarOpened: PropTypes.bool,
-    dispatch: PropTypes.func.isRequired,
-    activeItem: PropTypes.string,
-    location: PropTypes.shape({
-      pathname: PropTypes.string,
-    }).isRequired,
-  };
+function Sidebar({ activeItem, dispatch, sidebarOpened }) {
+  const element = React.useRef();
+  const { isHasAnyPermission } = useUser();
 
-  static defaultProps = {
-    activeItem: '',
-  };
+  const processLinkGroup = t => (
+    <LinksGroup
+      onActiveSidebarItemChange={_activeItem =>
+        dispatch(changeActiveSidebarItem(_activeItem))
+      }
+      isHasPermission={isHasAnyPermission}
+      key={t.index}
+      header={t.header}
+      isHeader={t.isHeader}
+      iconName={t.iconName}
+      exact={t.exact}
+      link={t.link}
+      index={t.index}
+      childrenLinks={t.children}
+    />
+  );
 
-  constructor(props) {
-    super(props);
+  useEffect(() => {
+    if (element.current) {
+      element.current.addEventListener(
+        'transitionend',
+        () => {
+          if (sidebarOpened) {
+            element.current.classList.add(s.sidebarOpen);
+          }
+        },
+        false,
+      );
+    }
+  }, []);
 
-    this.doLogout = this.doLogout.bind(this);
-  }
-
-  componentDidMount() {
-    this.element.addEventListener(
-      'transitionend',
-      () => {
-        if (this.props.sidebarOpened) {
-          this.element.classList.add(s.sidebarOpen);
-        }
-      },
-      false,
-    );
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.sidebarOpened !== this.props.sidebarOpened) {
-      if (nextProps.sidebarOpened) {
-        this.element.style.height = `${this.element.scrollHeight}px`;
+  useEffect(() => {
+    if (element.current) {
+      if (sidebarOpened) {
+        element.current.style.height = `${element.current.scrollHeight}px`;
       } else {
-        this.element.classList.remove(s.sidebarOpen);
+        element.current.classList.remove(s.sidebarOpen);
         setTimeout(() => {
-          this.element.style.height = '';
+          element.current.style.height = '';
         }, 0);
       }
     }
-  }
+  }, [sidebarOpened]);
 
-  doLogout() {}
+  return (
+    <nav className={cx(s.root, s.staticSidebar)} ref={element}>
+      <div>
+        <header className={s.logo}>
+          <a href="/">
+            Yocto <span className="fw-bold">ERP</span>
+          </a>
+        </header>
 
-  render() {
-    return (
-      <nav
-        className={cx(s.root, s.staticSidebar)}
-        ref={nav => {
-          this.element = nav;
-        }}
-      >
-        <div>
-          <header className={s.logo}>
-            <a href="/">
-              Yocto <span className="fw-bold">ERP</span>
-            </a>
-          </header>
-
-          <ul className={cx(s.nav)}>
-            {SIDE_BAR_MENU.main.map(t => (
-              <LinksGroup
-                onActiveSidebarItemChange={activeItem =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                key={t.index}
-                header={t.header}
-                isHeader={t.isHeader}
-                iconName={t.iconName}
-                exact={t.exact}
-                link={t.link}
-                index={t.index}
-                childrenLinks={t.children}
-              />
-            ))}
-          </ul>
-          <h5 className={s.navTitle}>Tiện ích</h5>
-          <ul>
-            {SIDE_BAR_MENU.utils.map(t => (
-              <LinksGroup
-                key={t.index}
-                onActiveSidebarItemChange={activeItem =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                exact={t.exact}
-                activeItem={this.props.activeItem}
-                header={t.header}
-                isHeader={t.isHeader}
-                iconName={t.iconName}
-                link={t.link}
-                index={t.index}
-                childrenLinks={t.children}
-              />
-            ))}
-          </ul>
-          <h5 className={s.navTitle}>Hệ thống</h5>
-          <ul>
-            {SIDE_BAR_MENU.management.map(t => (
-              <LinksGroup
-                key={t.index}
-                onActiveSidebarItemChange={activeItem =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                exact={t.exact}
-                activeItem={this.props.activeItem}
-                header={t.header}
-                isHeader={t.isHeader}
-                iconName={t.iconName}
-                link={t.link}
-                index={t.index}
-                childrenLinks={t.children}
-              />
-            ))}
-          </ul>
-        </div>
-      </nav>
-    );
-  }
+        <ul className={cx(s.nav)}>
+          {SIDE_BAR_MENU.main
+            .filter(
+              t =>
+                !t.permission ||
+                isHasAnyPermission({ permission: t.permission }),
+            )
+            .map(processLinkGroup)}
+        </ul>
+        <h5 className={s.navTitle}>Tiện ích</h5>
+        <ul>
+          {SIDE_BAR_MENU.utils
+            .filter(
+              t =>
+                !t.permission ||
+                isHasAnyPermission({ permission: t.permission }),
+            )
+            .map(processLinkGroup)}
+        </ul>
+        <h5 className={s.navTitle}>Hệ thống</h5>
+        <ul>
+          {SIDE_BAR_MENU.management
+            .filter(
+              t =>
+                !t.permission ||
+                isHasAnyPermission({ permission: t.permission }),
+            )
+            .map(processLinkGroup)}
+        </ul>
+      </div>
+    </nav>
+  );
 }
+
+Sidebar.propTypes = {
+  sidebarOpened: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
+  activeItem: PropTypes.string,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
+};
 
 function mapStateToProps(store) {
   return {

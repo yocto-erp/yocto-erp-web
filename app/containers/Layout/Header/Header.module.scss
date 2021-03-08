@@ -2,9 +2,6 @@
 
 .root {
   justify-content: flex-end !important;
-  @media (max-width: breakpoint-max(sm)) {
-    margin-bottom: 50px;
-  }
 
   ul > li > a {
     padding: 0.5rem 0.5rem
@@ -169,6 +166,12 @@
 .imageAccount {
   width: 50px;
   margin-right: 5px;
+}
+
+.rightMenu {
+  position: absolute;
+  left: 0;
+  padding-left: 25px !important;
 }
 
 .dropdownMenu {

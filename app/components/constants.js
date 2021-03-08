@@ -16,13 +16,10 @@ export const REACT_SELECT_OPTION_CUSTOM_STYLE = {
       backgroundColor: background,
     };
   },
-  multiValue: (styles, { data }) => {
-    console.log('multiValue', data);
-    return {
-      ...styles,
-      backgroundColor: '#1870DC',
-    };
-  },
+  multiValue: (styles, { data }) => ({
+    ...styles,
+    backgroundColor: '#1870DC',
+  }),
   multiValueLabel: (styles, { data }) => ({
     ...styles,
     color: data.color || DEFAULT_TEXT_COLOR,

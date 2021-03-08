@@ -5,13 +5,14 @@ import { toast } from 'react-toastify';
 import PageTitle from '../Layout/PageTitle';
 import ListWidget from '../../components/ListWidget';
 import { formatDate } from '../../libs/utils/date.util';
-import { USER_ROOT_PATH, USER_STATUS } from './constants';
-import userApi from '../../libs/apis/user.api';
+import { USER_ROOT_PATH } from './constants';
+import userApi, { USER_INVITE_STATUS } from '../../libs/apis/user.api';
 import TableActionColumns from '../../components/ListWidget/TableActionColumn';
 import {
   deletePage,
   deletePagePattern,
   editPage,
+  newPage,
   viewPage,
 } from '../../libs/utils/crud.util';
 import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
@@ -27,8 +28,12 @@ const ListPage = ({ history }) => {
         data: 'user',
         render: row => (
           <>
-            <div>Email: {row.email}</div>
-            <div>Display Name: {row.displayName}</div>
+            <div>Email: {row.user.email}</div>
+            {row.user.displayName && row.user.displayName.length ? (
+              <div>Display Name: {row.user.displayName}</div>
+            ) : (
+              ''
+            )}
           </>
         ),
       },
@@ -36,26 +41,26 @@ const ListPage = ({ history }) => {
         header: 'Permission',
         data: 'from',
         class: 'min',
-        render: row => row.email,
+        render: row => row.group.totalPermission,
       },
       {
-        header: 'Status',
-        data: 'status',
+        header: 'Invitation',
+        data: 'inviteStatus',
         class: 'min',
         render: row => {
           let rs = '';
-          switch (row.status) {
-            case USER_STATUS.BLOCKED:
+          switch (row.inviteStatus) {
+            case USER_INVITE_STATUS.INVITED:
               rs = (
                 <span className="badge badge-danger" id={`status${row.id}`}>
-                  BLOCKED
+                  SENT
                 </span>
               );
               break;
-            case USER_STATUS.ACTIVE:
+            case USER_INVITE_STATUS.CONFIRMED:
               rs = (
                 <span className="badge badge-success" id={`status${row.id}`}>
-                  ACTIVE
+                  CONFIRMED
                 </span>
               );
               break;
@@ -66,17 +71,11 @@ const ListPage = ({ history }) => {
         },
       },
       {
-        header: 'Email Confirm',
-        data: 'email_active',
-        class: 'min text-center',
-        render: row => (row.email_active ? 'true' : 'false'),
-      },
-      {
-        header: 'Created Date',
-        data: 'createdDate',
+        header: 'Sent Date',
+        data: 'invitedDate',
         class: 'min',
         render: row =>
-          row.createdDate ? formatDate(new Date(row.createdDate)) : '',
+          row.invitedDate ? formatDate(new Date(row.invitedDate)) : '',
       },
       {
         header: 'Action',
@@ -85,13 +84,13 @@ const ListPage = ({ history }) => {
         render: row => (
           <TableActionColumns
             onView={() => {
-              history.push(viewPage(USER_ROOT_PATH, row.id));
+              history.push(viewPage(USER_ROOT_PATH, row.user.id));
             }}
             onEdit={() => {
-              history.push(editPage(USER_ROOT_PATH, row.id));
+              history.push(editPage(USER_ROOT_PATH, row.user.id));
             }}
             onDelete={() => {
-              history.push(deletePage(USER_ROOT_PATH, row.id));
+              history.push(deletePage(USER_ROOT_PATH, row.user.id));
             }}
           />
         ),
@@ -105,7 +104,7 @@ const ListPage = ({ history }) => {
     <div>
       <CreateButton
         onClick={() => {
-          console.log('invite user');
+          history.push(newPage(USER_ROOT_PATH));
         }}
       >
         Invite User
@@ -130,13 +129,13 @@ const ListPage = ({ history }) => {
             onClose={item => {
               history.goBack();
               if (item) {
-                toast.success(`Delete ${item.email} Success`);
+                toast.success(`Delete ${item.user.email} Success`);
               }
             }}
             title="Delete User?"
             message={row => {
               if (!row) return '';
-              return `Are you sure to delete ${row.email} ?`;
+              return `Are you sure to delete ${row.user.email} ?`;
             }}
           />
         )}
