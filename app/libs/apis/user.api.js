@@ -16,6 +16,7 @@ const userApi = {
     ),
   confirmInvitation: form =>
     postJSON(`${API_ENDPOINT_URL}/invite/verify`, form),
+  updateUser: (id, form) => postJSON(`${API_ENDPOINT_URL}/${id}`, form),
 };
 
 export default userApi;
