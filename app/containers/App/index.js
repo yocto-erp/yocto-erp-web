@@ -1,8 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Route, Switch } from 'react-router-dom';
-
-import LayoutComponent from 'containers/Layout/Layout';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { ToastContainer } from 'react-toastify';
 
@@ -14,37 +12,14 @@ import { VerifyMailPage } from '../Auth/verify-mail';
 import { VerifyInvitationPage } from '../Auth/verify-invitation';
 import ForgotPasswordPage from '../Auth/forgot-password';
 import RestPasswordPage from '../Auth/reset-password';
-import OnBoardPage from '../Auth/onboard';
+import UserAdminDashboard from '../UserAdminDashboard';
 
 import 'styles/theme.scss';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
-import CompanyChoose from '../Auth/company-choose';
+import UserPublicHomePage from '../UserPublicHomePage';
 
 export default function App() {
-  const { isAuthenticated, isLoading, user } = useUser();
-
-  const mainPage = React.useMemo(() => {
-    let rs = (
-      <div className="container h-100 d-flex justify-content-center">
-        <div className=" my-auto animate__animated animate__pulse animate__infinite	infinite text-center">
-          <h1 className="display-4 ">Yocto ERP</h1>
-          <small>. . .</small>
-        </div>
-      </div>
-    );
-    if (!isLoading) {
-      if (!isAuthenticated) {
-        rs = <Login />;
-      } else if (user.companyId !== null) {
-        rs = <LayoutComponent />;
-      } else if (user.userCompanies.length) {
-        rs = <CompanyChoose />;
-      } else {
-        rs = <OnBoardPage />;
-      }
-    }
-    return rs;
-  }, [isAuthenticated, isLoading, user]);
+  const { isLoading } = useUser();
 
   return (
     <>
@@ -55,18 +30,39 @@ export default function App() {
         />
       </Helmet>
       <ToastContainer autoClose={5000} hideProgressBar />
-      <Switch>
-        <Route path="/register" component={RegisterPage} />
-        <Route path="/email-activate" component={VerifyMailPage} />
-        <Route
-          path="/forgot-password/send-mail"
-          component={ForgotPasswordPage}
-        />
-        <Route path="/forgot-password/reset" component={RestPasswordPage} />
-        <Route path="/invite-confirm" component={VerifyInvitationPage} />
-        <Route path="/">{mainPage}</Route>
-        <Route path="" component={NotFoundPage} />
-      </Switch>
+      {isLoading ? (
+        <div className="container h-100 d-flex justify-content-center">
+          <div className=" my-auto animate__animated animate__pulse animate__infinite	infinite text-center">
+            <h1 className="display-4 ">Yocto ERP</h1>
+            <small>. . .</small>
+          </div>
+        </div>
+      ) : (
+        <Switch>
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={RegisterPage} />
+          <Route path="/email-activate" exact component={VerifyMailPage} />
+          <Route
+            path="/forgot-password/send-mail"
+            exact
+            component={ForgotPasswordPage}
+          />
+          <Route
+            path="/forgot-password/reset"
+            exact
+            component={RestPasswordPage}
+          />
+          <Route
+            path="/invite-confirm"
+            exact
+            component={VerifyInvitationPage}
+          />
+          <Route path="/admin" component={UserAdminDashboard} />
+          <Route path="/" component={UserPublicHomePage} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+      )}
+
       <GlobalStyle />
     </>
   );

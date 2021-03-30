@@ -25,7 +25,8 @@ if (isDev) {
     createProxyMiddleware({
       target: serverURL,
       changeOrigin: true,
-      logLevel: 'debug'
+      logLevel: 'debug',
+      ws: true
     }),
   );
 }

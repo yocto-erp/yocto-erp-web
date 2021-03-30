@@ -118,21 +118,18 @@ if (!window.Intl) {
 // it's not most important operation and if main code fails,
 // we do not want it installed
 if ('serviceWorker' in navigator && !isSafari) {
+  /*
   navigator.serviceWorker
-    .register('/static/firebase-messaging-sw.js')
+    .register('/static/socket.js')
     .then(function done(registration) {
       console.log('Registration successful, scope is:', registration.scope);
-      getFirebaseToken(registration).then(
-        t => console.log(t),
-        e => console.log(`Error: ${JSON.stringify(e)}`),
-      );
     })
     .catch(function error(err) {
       console.log('Service worker registration failed, error:', err);
     });
   navigator.serviceWorker.addEventListener('message', event => {
     console.log(event.data);
-  });
+  }); */
 }
 
 if (process.env.NODE_ENV === 'production') {

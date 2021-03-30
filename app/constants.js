@@ -1,4 +1,5 @@
 export const API_URL = '/api';
+export const ADMIN_PATH = '/admin';
 export const PERMISSION = {
   PRODUCT: {
     CREATE: 1,

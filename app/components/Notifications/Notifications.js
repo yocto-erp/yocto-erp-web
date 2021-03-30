@@ -6,11 +6,11 @@ import MessagesDemo from './notifications-demo/Messages';
 import ProgressDemo from './notifications-demo/Progress';
 
 import s from './Notifications.module.scss';
-import useIpfsHttpClient from '../../libs/hooks/useIpfsHttpClient';
+import useSocketIO from '../../libs/hooks/partner/socket';
 
 const Notifications = props => {
-  const { ipfs } = useIpfsHttpClient();
-
+  // const { ipfs } = useIpfsHttpClient();
+  const { socketIO, isSocketInit } = useSocketIO();
   const [notificationsTabSelected, setNotificationsTabSelected] = useState(1);
 
   const notificationsTab = useMemo(() => {
@@ -27,11 +27,18 @@ const Notifications = props => {
   }, [notificationsTabSelected]);
 
   useEffect(() => {
+    console.log('SocketIO', socketIO);
+  }, [isSocketInit]);
+
+  /*
+  useEffect(() => {
+
     async function connectSwarm() {
       try {
-        await ipfs.pubsub.subscribe('TOPIC', msg =>
-          console.log('Message', msg),
-        );
+        await ipfs.pubsub.subscribe('TOPIC', msg => {
+          console.log('Message', msg);
+          console.log(new TextDecoder().decode(msg.data));
+        });
       } catch (err) {
         console.error('Failed to subscribe', err);
       }
@@ -47,7 +54,7 @@ const Notifications = props => {
     if (ipfs) {
       connectSwarm().then();
     }
-  }, [ipfs]);
+  }, [ipfs]); */
 
   return (
     <section className={`${s.notifications} navbar-notifications`}>

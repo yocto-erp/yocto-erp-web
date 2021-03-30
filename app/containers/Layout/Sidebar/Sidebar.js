@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import s from './Sidebar.module.scss';
 import LinksGroup from './LinksGroup/LinksGroup';
 
@@ -10,7 +10,7 @@ import { changeActiveSidebarItem } from '../redux/navigation';
 import { SIDE_BAR_MENU } from './constants';
 import useUser from '../../../libs/hooks/useUser';
 
-function Sidebar({ activeItem, dispatch, sidebarOpened }) {
+function Sidebar({ dispatch, sidebarOpened }) {
   const element = React.useRef();
   const { isHasAnyPermission } = useUser();
 
@@ -62,9 +62,9 @@ function Sidebar({ activeItem, dispatch, sidebarOpened }) {
     <nav className={cx(s.root, s.staticSidebar)} ref={element}>
       <div>
         <header className={s.logo}>
-          <a href="/">
+          <Link to="/">
             Yocto <span className="fw-bold">ERP</span>
-          </a>
+          </Link>
         </header>
 
         <ul className={cx(s.nav)}>

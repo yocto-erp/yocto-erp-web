@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row } from 'reactstrap';
-
-import classNames from 'classnames';
+import { Button, ButtonGroup, ButtonToggle, Col, Row } from 'reactstrap';
 import s from './Dashboard.module.scss';
 import PageTitle from '../Layout/PageTitle';
 import GlobalChart from './components/GlobalChart';
@@ -37,53 +35,32 @@ function Dashboard() {
       <PageTitle
         title="Dashboard"
         actions={
-          <div className="btn-group btn-group-toggle">
-            <label
-              className={classNames('btn btn-outline-primary', {
-                active: dateRangeIndex === 0,
-              })}
+          <ButtonGroup>
+            <ButtonToggle
+              color="primary"
+              outline
+              onClick={() => setDateRangeIndex(0)}
+              active={dateRangeIndex === 0}
             >
-              <input
-                type="radio"
-                name="options"
-                id="option1"
-                autoComplete="off"
-                checked={dateRangeIndex === 0}
-                onClick={() => setDateRangeIndex(0)}
-              />{' '}
               Today
-            </label>
-            <label
-              className={classNames('btn btn-outline-primary', {
-                active: dateRangeIndex === 1,
-              })}
+            </ButtonToggle>
+            <Button
+              color="primary"
+              outline
+              onClick={() => setDateRangeIndex(1)}
+              active={dateRangeIndex === 1}
             >
-              <input
-                type="radio"
-                name="options"
-                id="option2"
-                autoComplete="off"
-                checked={dateRangeIndex === 1}
-                onClick={() => setDateRangeIndex(1)}
-              />{' '}
               This Week
-            </label>
-            <label
-              className={classNames('btn btn-outline-primary', {
-                active: dateRangeIndex === 2,
-              })}
+            </Button>
+            <Button
+              color="primary"
+              outline
+              onClick={() => setDateRangeIndex(2)}
+              active={dateRangeIndex === 2}
             >
-              <input
-                type="radio"
-                name="options"
-                id="option3"
-                autoComplete="off"
-                checked={dateRangeIndex === 2}
-                onClick={() => setDateRangeIndex(2)}
-              />{' '}
               This Month
-            </label>
-          </div>
+            </Button>
+          </ButtonGroup>
         }
       />
 

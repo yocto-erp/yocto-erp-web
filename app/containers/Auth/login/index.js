@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import * as yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -23,7 +23,7 @@ import Footer from '../../Layout/Footer';
 import SubmitButton from '../../../components/button/SubmitButton';
 import { login, resendEmailActive } from '../../../libs/apis/auth.api';
 import { set, STORAGE } from '../../../libs/utils/storage';
-import { SWR_KEY_USER } from '../../../libs/hooks/useUser';
+import useUser, { SWR_KEY_USER } from '../../../libs/hooks/useUser';
 import useMyForm from '../../../libs/hooks/useMyForm';
 
 const schema = yup.object().shape({
@@ -35,21 +35,25 @@ const schema = yup.object().shape({
 });
 
 export function Login() {
+  const { isAuthenticated } = useUser();
   const {
     register,
     errors,
     onSubmit,
     formState,
     getValues,
-    state: { isLoading, errors: serverErrors },
+    state: { isLoading, errors: serverErrors, resp },
   } = useMyForm({
     validationSchema: schema,
-    api: formData =>
-      login(formData).then(async r => {
-        set(STORAGE.JWT, r.token);
-        await mutate(SWR_KEY_USER);
-      }),
+    api: formData => login(formData),
   });
+
+  useEffect(() => {
+    if (resp) {
+      set(STORAGE.JWT, resp.token);
+      mutate(SWR_KEY_USER).then();
+    }
+  }, [resp]);
 
   const formEls = useMemo(
     () => (
@@ -131,7 +135,13 @@ export function Login() {
     [onSubmit, errors, register, formState, isLoading],
   );
 
-  return (
+  return isAuthenticated ? (
+    <Redirect
+      to={{
+        pathname: '/',
+      }}
+    />
+  ) : (
     <div>
       <Helmet>
         <title>Login</title>

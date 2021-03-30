@@ -1,4 +1,6 @@
-export const SURVEY_MANAGEMENT_ROOT_PATH = '/survey-management';
+import { ADMIN_PATH } from '../../../constants';
+
+export const SURVEY_MANAGEMENT_ROOT_PATH = `${ADMIN_PATH}/survey-management`;
 
 export const SURVEY_TYPE = {
   PUBLIC: 1,
