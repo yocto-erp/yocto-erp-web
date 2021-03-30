@@ -5,6 +5,7 @@ import PermissionListForm from './PermissionListForm';
 import userApi from '../../../libs/apis/user.api';
 import { useApi } from '../../../libs/hooks/useApi';
 import SubmitButton from '../../../components/button/SubmitButton';
+import BackButton from '../../../components/button/BackButton';
 
 function MyForm({ id }) {
   const {
@@ -50,6 +51,7 @@ function MyForm({ id }) {
   return (
     <>
       <PermissionListForm value={permissions} onChange={setPermissions} />
+      <BackButton className="mr-2" />
       <SubmitButton
         onClick={() => exec2(id, Object.values(permissions))}
         isLoading={isLoadingUpdate}
