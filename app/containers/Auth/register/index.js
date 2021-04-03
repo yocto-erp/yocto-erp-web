@@ -146,7 +146,7 @@ export function RegisterPage() {
             </SubmitButton>
             <p className="widget-auth-info m-4">
               If you had account, &nbsp;
-              <Link to="/">login here</Link>
+              <Link to="/login">login here</Link>
             </p>
           </div>
         </form>

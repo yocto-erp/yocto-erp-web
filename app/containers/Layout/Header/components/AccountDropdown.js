@@ -6,8 +6,8 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
+import { Link, useHistory } from 'react-router-dom';
 import { mutate } from 'swr';
-import { useHistory } from 'react-router-dom';
 import s from '../Header.module.scss';
 import avatar from '../../../../images/people/a5.jpg';
 import { set, STORAGE } from '../../../../libs/utils/storage';
@@ -48,6 +48,22 @@ const AccountDropDown = () => {
             <i className="fi flaticon-user" />
           </Badge>
           <div className={s.details}>Profile</div>
+        </DropdownItem>
+        <DropdownItem>
+          <Link to="/orders">
+            <Badge color="primary">
+              <i className="glyphicon glyphicon-th-list" />
+            </Badge>
+            <span className={s.details}>Orders</span>
+          </Link>
+        </DropdownItem>
+        <DropdownItem>
+          <Link to="/admin">
+            <Badge color="primary">
+              <i className="glyphicon glyphicon-cog" />
+            </Badge>
+            <span className={s.details}>Administrator</span>
+          </Link>
         </DropdownItem>
         <DropdownItem onClick={logout}>
           <Badge color="secondary">

@@ -6,24 +6,30 @@ import OnBoardPage from '../Auth/onboard';
 import Login from '../Auth/login';
 
 const UserAdminDashboard = () => {
-  const { isAuthenticated, user } = useUser();
+  const { isAuthenticated, user, isLoading } = useUser();
 
-  const mainPage = React.useMemo(() => {
-    let rs;
-
-    if (!isAuthenticated) {
-      rs = <Login />;
-    } else if (user.companyId !== null) {
-      rs = <LayoutComponent />;
-    } else if (user.userCompanies.length) {
-      rs = <CompanyChoose />;
-    } else {
-      rs = <OnBoardPage />;
+  return React.useMemo(() => {
+    let rs = (
+      <div className="container h-100 d-flex justify-content-center">
+        <div className=" my-auto animate__animated animate__pulse animate__infinite	infinite text-center">
+          <h1 className="display-4 ">Yocto ERP</h1>
+          <small>. . .</small>
+        </div>
+      </div>
+    );
+    if (!isLoading) {
+      if (!isAuthenticated) {
+        rs = <Login />;
+      } else if (user.companyId !== null) {
+        rs = <LayoutComponent />;
+      } else if (user.userCompanies.length) {
+        rs = <CompanyChoose />;
+      } else {
+        rs = <OnBoardPage />;
+      }
     }
     return rs;
-  }, [isAuthenticated, user]);
-
-  return mainPage;
+  }, [isAuthenticated, user, isLoading]);
 };
 
 UserAdminDashboard.propTypes = {};
