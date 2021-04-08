@@ -93,6 +93,18 @@ export const PERMISSION = {
     UPDATE: 58,
     DELETE: 59,
   },
+  EMPLOYEE: {
+    CREATE: 60,
+    READ: 61,
+    UPDATE: 62,
+    DELETE: 63,
+  },
+  SHIFT: {
+    CREATE: 64,
+    READ: 65,
+    UPDATE: 66,
+    DELETE: 67,
+  },
 };
 
 export const PERMISSION_TYPE = {
@@ -254,6 +266,26 @@ export const PERMISSION_MODULE = [
       { id: PERMISSION.USER.READ, name: 'Read', enableType: 1 },
       { id: PERMISSION.USER.DELETE, name: 'Delete', enableType: 1 },
       { id: PERMISSION.USER.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 12,
+    name: 'Employee Management',
+    permissions: [
+      { id: PERMISSION.EMPLOYEE.CREATE, name: 'Invite', enableType: 1 },
+      { id: PERMISSION.EMPLOYEE.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.EMPLOYEE.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.EMPLOYEE.UPDATE, name: 'Update', enableType: 1 },
+    ],
+  },
+  {
+    id: 13,
+    name: 'shiftWork Management',
+    permissions: [
+      { id: PERMISSION.SHIFT.CREATE, name: 'Invite', enableType: 1 },
+      { id: PERMISSION.SHIFT.READ, name: 'Read', enableType: 1 },
+      { id: PERMISSION.SHIFT.DELETE, name: 'Delete', enableType: 1 },
+      { id: PERMISSION.SHIFT.UPDATE, name: 'Update', enableType: 1 },
     ],
   },
 ];

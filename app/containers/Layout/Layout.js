@@ -50,6 +50,10 @@ import { TAGGING_ROOT_PATH } from '../tagging/constants';
 import TaggingPage from '../tagging/ListPage';
 import { USER_ROOT_PATH } from '../user/constants';
 import UserPage from '../user/Loadable';
+import { EMPLOYEE_ROOT_PATH } from '../employee/constants';
+import EmployeePage from '../employee/Loadable';
+import shiftWorkPage from '../shiftWork';
+import { SHIFT_ROOT_PATH } from '../shiftWork/constants';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -178,6 +182,14 @@ class Layout extends React.Component {
                   />
                   <Route path="/drive" component={FileBrowser} />
                   <Route path={`${USER_ROOT_PATH}`} component={UserPage} />
+                  <Route
+                    path={`${EMPLOYEE_ROOT_PATH}`}
+                    component={EmployeePage}
+                  />
+                  <Route
+                    path={`${SHIFT_ROOT_PATH}`}
+                    component={shiftWorkPage}
+                  />
                 </Switch>
                 <Footer />
               </div>

@@ -11,6 +11,7 @@ import {
 export const FNS_DATE_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss';
 export const FNS_DATE_FORMAT = 'dd/MM/yyyy';
 export const FNS_MONTH_FORMAT = 'MM/yyyy';
+export const FNS_TIME_FORMAT = 'HH:mm:ss';
 
 export function formatDate(dateObj) {
   return format(dateObj, FNS_DATE_TIME_FORMAT);
@@ -22,6 +23,10 @@ export function ago(date1, date2) {
 
 export function formatDateOnly(dateObj) {
   return format(dateObj, FNS_DATE_FORMAT);
+}
+
+export function formatTimeOnly(dateObj) {
+  return format(dateObj, FNS_TIME_FORMAT);
 }
 
 export function parseDateOnly(dateString) {
@@ -71,4 +76,26 @@ export function thisMonthRange() {
     from: startOfMonth(new Date()),
     to: endOfMonth(new Date()),
   };
+}
+// export function timeStringToDay(timeString){
+//   // timeString: 13:30:40
+//   const myDate = new Date();
+//   const hours = timeString.split(":"); // [13, 30, 40]
+//   myDate.setHours(Number(hours[0]), Number(hours[1]), Number(hours[2]), 0)
+//   return myDate;
+// }
+export function timeStringToDay(timeString) {
+  const myDay = new Date();
+  const hours = timeString.split(':');
+  myDay.setHours(Number(hours[0]), Number(hours[1]), Number(hours[2]), 0);
+  return myDay;
+}
+
+export function dayToTimeString(day) {
+  const hr = `0${day.getHours()}`.slice(-2);
+  const min = `0${day.getMinutes()}`.slice(-2);
+  const sec = `0${day.getSeconds()}`.slice(-2);
+  const time = `${hr}:${min}:${sec}`;
+
+  return time;
 }

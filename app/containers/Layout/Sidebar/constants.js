@@ -110,6 +110,7 @@ export const SIDE_BAR_MENU = {
           permission: PERMISSION.WAREHOUSE.READ,
           index: 'management.warehouse',
         },
+
         {
           header: 'Sản phẩm',
           link: '/product',
@@ -137,6 +138,20 @@ export const SIDE_BAR_MENU = {
           iconName: 'flaticon-user',
           link: USER_ROOT_PATH,
           index: 'management.user',
+        },
+        {
+          header: 'Nhân Viên',
+          isHeader: true,
+          link: '/employee',
+          permission: PERMISSION.EMPLOYEE.READ,
+          index: 'management.employee',
+        },
+        {
+          header: 'Shift-Work',
+          isHeader: true,
+          link: '/shift-work',
+          permission: PERMISSION.SHIFT.READ,
+          index: 'management.shiftWork',
         },
       ],
     },
