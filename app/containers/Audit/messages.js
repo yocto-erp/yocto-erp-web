@@ -28,4 +28,8 @@ export default defineMessages({
     id: `${scope}.cost`,
     defaultMessage: 'phiếu thu/chi',
   },
+  product: {
+    id: `${scope}.product`,
+    defaultMessage: 'product',
+  },
 });

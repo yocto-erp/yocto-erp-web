@@ -25,12 +25,16 @@ import FileUpload from '../../../components/FileUpload';
 import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { ERROR } from '../../../components/Form/messages';
 import InputNumber from '../../../components/Form/InputNumber';
+import { mappingServerTagging } from '../../../components/constants';
+import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
+import taggingApi from '../../../libs/apis/tagging.api';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
   priceBaseUnit: Yup.number()
     .typeError(ERROR.required)
     .positive(ERROR.amountGT0),
+  tagging: Yup.array().nullable(),
   units: Yup.array()
     .of(
       Yup.object().shape({
@@ -69,14 +73,20 @@ function MyForm({ id }) {
       name: form.name,
       priceBaseUnit: form.priceBaseUnit,
       remark: form.remark,
+      productDocumentId: form.productDocumentId,
       units: form.units,
       assets: form.assets,
+      tagging:
+        form.tagging && form.tagging.length
+          ? form.tagging.map(mappingServerTagging)
+          : [],
     }),
     validationSchema,
     initForm: {
       priceBaseUnit: 0,
       units: [{ name: '', rate: 1 }],
       assets: [],
+      tagging: [],
     },
     id,
   });
@@ -105,6 +115,20 @@ function MyForm({ id }) {
               />
               <FormErrorMessage error={errors.name} />
             </FormGroup>
+            <FormGroup>
+              <Label for="productDocumentId" className="mr-sm-2 required">
+                Product Document Id
+              </Label>
+              <Input
+                invalid={!!errors.productDocumentId}
+                type="text"
+                name="productDocumentId"
+                innerRef={register}
+                id="productDocumentId"
+                placeholder="Product Document Id"
+              />
+              <FormErrorMessage error={errors.productDocumentId} />
+            </FormGroup>
             {/* <FormGroup>
               <Label for="priceBaseUnit">
                 Price<span className="text-danger">*</span>
@@ -131,6 +155,24 @@ function MyForm({ id }) {
                 id="remark"
                 placeholder="Product Remark"
               />
+            </FormGroup>
+            <FormGroup>
+              <Label for="tagging" className="mr-sm-2">
+                Tagging
+              </Label>
+              <Controller
+                name="tagging"
+                defaultValue={formData ? formData.tagging : []}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <InputAsyncTagging
+                    {...data}
+                    onChange={onChange}
+                    loadOptionApi={taggingApi.search}
+                  />
+                )}
+              />
+              <FormErrorMessage error={errors.tagging} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">

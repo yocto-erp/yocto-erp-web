@@ -43,12 +43,28 @@ const AuditItem = ({ item, intl }) => {
     ),
   };
 
+  const valuesProduct = {
+    name: <strong>{createdBy.displayName || createdBy.email}</strong>,
+    item: (
+      <strong>
+        {intl.formatMessage(messages.product)}
+        {remark && remark.length ? <>&nbsp;{remark}</> : null}
+      </strong>
+    ),
+  };
+
   switch (actionId) {
     case PERMISSION.COST.CREATE:
       rs = <FormattedMessage {...messages.create} values={values} />;
       break;
     case PERMISSION.COST.UPDATE:
       rs = <FormattedMessage {...messages.update} values={values} />;
+      break;
+    case PERMISSION.PRODUCT.CREATE:
+      rs = <FormattedMessage {...messages.create} values={valuesProduct} />;
+      break;
+    case PERMISSION.PRODUCT.UPDATE:
+      rs = <FormattedMessage {...messages.update} values={valuesProduct} />;
       break;
     default:
       break;

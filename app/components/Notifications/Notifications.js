@@ -6,11 +6,11 @@ import MessagesDemo from './notifications-demo/Messages';
 import ProgressDemo from './notifications-demo/Progress';
 
 import s from './Notifications.module.scss';
-import useSocketIO from '../../libs/hooks/partner/socket';
+// import useSocketIO from '../../libs/hooks/partner/socket';
 
 const Notifications = props => {
   // const { ipfs } = useIpfsHttpClient();
-  const { socketIO, isSocketInit } = useSocketIO();
+  // const { socketIO, isSocketInit } = useSocketIO();
   const [notificationsTabSelected, setNotificationsTabSelected] = useState(1);
 
   const notificationsTab = useMemo(() => {
@@ -26,9 +26,9 @@ const Notifications = props => {
     }
   }, [notificationsTabSelected]);
 
-  useEffect(() => {
-    console.log('SocketIO', socketIO);
-  }, [isSocketInit]);
+  // useEffect(() => {
+  //   console.log('SocketIO', socketIO);
+  // }, [isSocketInit]);
 
   /*
   useEffect(() => {

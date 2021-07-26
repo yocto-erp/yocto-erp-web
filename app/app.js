@@ -33,7 +33,6 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-import { getFirebaseToken } from './libs/3rd-party/firebase';
 import { SURVEY_ROOT_PATH } from './containers/survey/constants';
 import SurveyPage from './containers/survey/Loadable';
 
