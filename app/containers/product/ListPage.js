@@ -17,11 +17,17 @@ import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
 import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
 import { CreatedByColumn } from '../../components/ListWidget/constants';
+import Tags from '../../components/Form/tagging/ViewTags';
 
 const ROOT_PATH = PRODUCT_ROOT_PATH;
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
+      {
+        header: 'ProductDocumentID',
+        data: 'productDocumentId',
+        class: 'min',
+      },
       {
         header: <strong>Name</strong>,
         data: 'name',
@@ -29,6 +35,12 @@ const ListPage = ({ history }) => {
           name: 'name',
         },
         width: '20%',
+        render: row => (
+          <>
+            <p>{row.name}</p>
+            <Tags item={row.tagging} />{' '}
+          </>
+        ),
       },
       {
         header: 'Remark',
