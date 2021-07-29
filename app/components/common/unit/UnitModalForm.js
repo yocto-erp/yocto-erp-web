@@ -37,13 +37,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
-  useEffect(() => {
-    if (productId) {
-      productApi.read(productId).then(data => {
-        reset(data);
-      });
-    }
-  }, [reset]);
   const {
     control,
     register,
@@ -74,6 +67,14 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
       closeHandle(val);
     });
   });
+
+  useEffect(() => {
+    if (productId) {
+      productApi.read(productId).then(data => {
+        reset(data);
+      });
+    }
+  }, [reset]);
   return (
     <Modal isOpen={isOpen}>
       <Form noValidate formNoValidate>
@@ -94,7 +95,7 @@ const UnitModalForm = ({ isOpen, closeHandle, productId }) => {
               </thead>
               <tbody>
                 {fields.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={`${productId}${item.id}`}>
                     <td>
                       <Input
                         type="text"

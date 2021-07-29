@@ -24,7 +24,7 @@ const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'ProductDocumentID',
+        header: 'Document ID',
         data: 'productDocumentId',
         class: 'min',
       },

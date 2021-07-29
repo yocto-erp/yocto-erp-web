@@ -20,7 +20,7 @@ const Filter = () => {
     const partnerCompanyId = val.company ? val.company.id : null;
     const partnerPersonId = val.customer ? val.customer.id : null;
     const { search } = val;
-    searchByFilter({ search, partnerCompanyId, partnerPersonId });
+    searchByFilter(val);
   });
   return (
     <Form inline onSubmit={onSubmit} noValidate>
@@ -49,7 +49,7 @@ const Filter = () => {
           style={{ width: '250px' }}
           control={control}
           id="partnerCompanyId"
-          placeholder="Company Name"
+          placeholder="Search Company"
           as={CompanySelect}
         />
       </FormGroup>

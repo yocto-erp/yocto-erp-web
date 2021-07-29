@@ -99,7 +99,14 @@ function MyForm({ id }) {
       partnerCompanyId: null,
       tagging: [],
       details: [
-        { product: null, unit: null, quantity: 0, price: 0, remark: '' },
+        {
+          product: null,
+          unit: null,
+          quantity: '',
+          price: '',
+          remark: '',
+          id: uuidv4(),
+        },
       ],
     },
     id,
@@ -245,7 +252,7 @@ function MyForm({ id }) {
             <tbody>
               {fields.map((item, index) => (
                 <OrderFormDetail
-                  key={item.id || index}
+                  key={item.id}
                   control={control}
                   errors={errors}
                   register={register}

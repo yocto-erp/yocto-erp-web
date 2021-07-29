@@ -30,19 +30,20 @@ const CompanySelect = React.forwardRef((
   ref,
 ) => {
   const [isOpen, open] = useState(false);
+  const [newCreateId, setNewCreateId] = useState(0);
   const loadOptions = debounce((inputValue, cb) => {
     companyApi
       .search({
         page: 1,
         size: 10,
         filter: {
-          name: inputValue,
+          search: inputValue,
         },
       })
       .then(resp => cb(resp.rows));
   }, 300);
   return (
-    <>
+    <div key={`${name}_${newCreateId}`}>
       <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
         <AsyncSelect
           aria-labelledby="test"
@@ -50,15 +51,18 @@ const CompanySelect = React.forwardRef((
           classNamePrefix="react-select"
           placeholder={placeholder}
           loadOptions={loadOptions}
+          defaultOptions
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           noOptionsMessage={({ inputValue }) =>
             inputValue
-              ? `Not found any Partner Company with search "${inputValue}", try to search another`
-              : 'Input and search Partner Company'
+              ? `Not found any Company with search "${inputValue}", try to search another`
+              : 'Input and search Company'
           }
           isClearable
           onBlur={onBlur}
-          onChange={onChange}
+          onChange={val =>
+            onChange(val ? { id: val.id, name: val.name } : null)
+          }
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.id}
           name={name}
@@ -82,8 +86,11 @@ const CompanySelect = React.forwardRef((
       {creatable ? (
         <CompanyModalForm
           closeHandle={val => {
-            if (val && onAdded) {
-              onAdded(val);
+            if (val) {
+              setNewCreateId(val.id);
+              if (onAdded) {
+                onAdded(val);
+              }
             }
             open(false);
           }}
@@ -92,7 +99,7 @@ const CompanySelect = React.forwardRef((
       ) : (
         ''
       )}
-    </>
+    </div>
   );
 });
 

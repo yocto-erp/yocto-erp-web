@@ -42,7 +42,7 @@ const CustomerSelect = React.forwardRef((
       .then(resp => cb(resp.rows));
   }, 300);
   return (
-    <>
+    <div key={`${name}`}>
       <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
         <AsyncSelect
           aria-labelledby="test"
@@ -51,14 +51,17 @@ const CustomerSelect = React.forwardRef((
           placeholder={placeholder}
           noOptionsMessage={({ inputValue }) =>
             inputValue
-              ? `Not found any Partner Person with search "${inputValue}", try to search another`
-              : 'Input and search Partner Person'
+              ? `Not found any Person with search "${inputValue}", try to search another`
+              : 'Input and search Person'
           }
           loadOptions={loadOptions}
+          defaultOptions
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           onBlur={onBlur}
-          onChange={onChange}
+          onChange={val =>
+            onChange(val ? { id: val.id, name: val.name } : null)
+          }
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.id}
           name={name}
@@ -92,7 +95,7 @@ const CustomerSelect = React.forwardRef((
       ) : (
         ''
       )}
-    </>
+    </div>
   );
 });
 

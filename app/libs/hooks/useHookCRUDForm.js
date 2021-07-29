@@ -108,7 +108,8 @@ export const useHookCRUDForm = ({
       return promise
         .then(resp => {
           if (!id) {
-            reset(initForm);
+            console.log('reset', initForm);
+            reset({ ...initForm });
           }
           dispatch({ type: FORM_TYPE.SUBMIT_DONE, payload: resp });
           return onSuccess(resp);

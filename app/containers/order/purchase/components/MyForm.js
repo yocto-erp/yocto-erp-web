@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import {
+  Col,
   Form,
   FormFeedback,
   FormGroup,
   Input,
   Label,
   Row,
-  Col,
   Table,
 } from 'reactstrap';
 import { toast } from 'react-toastify';
@@ -109,7 +109,14 @@ function MyForm({ id }) {
       partnerCompanyId: null,
       tagging: [],
       details: [
-        { product: null, unit: null, quantity: '', price: '', remark: '' },
+        {
+          product: null,
+          unit: null,
+          quantity: '',
+          price: '',
+          remark: '',
+          id: uuidv4(),
+        },
       ],
     },
     id,
@@ -260,7 +267,7 @@ function MyForm({ id }) {
             <tbody>
               {fields.map((item, index) => (
                 <OrderFormDetail
-                  key={item.id || index}
+                  key={item.id}
                   control={control}
                   errors={errors}
                   register={register}

@@ -24,11 +24,11 @@ const OrderFormDetail = ({
     defaultValue: item.product,
   });
   return (
-    <tr key={item.id}>
+    <tr>
       <td>
         <Controller
           name={`details[${index}].product`}
-          defaultValue={item.product}
+          defaultValue={null}
           control={control}
           render={({ onChange, ...data }) => (
             <ProductSelect
@@ -55,7 +55,7 @@ const OrderFormDetail = ({
       <td>
         <Controller
           name={`details[${index}].unit`}
-          defaultValue={item.unit}
+          defaultValue={null}
           invalid={!!get(errors, ['details', index, 'unit'], false)}
           control={control}
           id="unitId"
@@ -85,7 +85,7 @@ const OrderFormDetail = ({
           name={`details[${index}].price`}
           control={control}
           as={InputAmount}
-          defaultValue={item.price}
+          defaultValue=""
           placeholder="Price"
         />
         <FormErrorMessage error={get(errors, ['details', index, 'price'])} />
@@ -96,7 +96,7 @@ const OrderFormDetail = ({
           invalid={!!get(errors, ['details', index, 'remark'], false)}
           name={`details[${index}].remark`}
           innerRef={register()}
-          defaultValue={item.remark}
+          defaultValue=""
         />
         <FormErrorMessage error={get(errors, ['details', index, 'remark'])} />
       </td>

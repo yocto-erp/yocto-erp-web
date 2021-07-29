@@ -7,10 +7,10 @@ import purchaseApi from '../../../libs/apis/order/purchase.api';
 import { PURCHASE_ROOT_PATH } from './constants';
 import PageTitle from '../../Layout/PageTitle';
 import {
-  deletePage,
   deletePagePattern,
   editPage,
   newPage,
+  onDelete,
 } from '../../../libs/utils/crud.util';
 import CreateButton from '../../../components/button/CreateButton';
 import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
@@ -87,9 +87,7 @@ const ListPage = ({ history }) => {
             onEdit={() => {
               history.push(editPage(ROOT_PATH, row.id));
             }}
-            onDelete={() => {
-              history.push(deletePage(ROOT_PATH, row.id));
-            }}
+            onDelete={onDelete(ROOT_PATH, row.id, history)}
           />
         ),
       },

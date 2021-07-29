@@ -25,3 +25,7 @@ export function deletePagePattern(url) {
 export function editPagePattern(url) {
   return `${url}/:id/edit`;
 }
+
+export function onDelete(url, id, history) {
+  return () => history.push(`${deletePage(url, id)}${history.location.search}`);
+}
