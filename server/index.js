@@ -26,7 +26,7 @@ if (isDev) {
       target: serverURL,
       changeOrigin: true,
       logLevel: 'debug',
-      ws: true
+      ws: true,
     }),
   );
 }

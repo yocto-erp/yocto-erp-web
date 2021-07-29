@@ -138,7 +138,7 @@ export function Login() {
   return isAuthenticated ? (
     <Redirect
       to={{
-        pathname: '/',
+        pathname: '/admin/dashboard',
       }}
     />
   ) : (
