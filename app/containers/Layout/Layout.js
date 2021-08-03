@@ -50,6 +50,8 @@ import TaggingPage from '../tagging/ListPage';
 import { USER_ROOT_PATH } from '../user/constants';
 import UserPage from '../user/Loadable';
 import { ADMIN_PATH } from '../../constants';
+import EcommercePage from '../ecommerce/Loadable';
+import { ECOMMERCE_ROOT_PATH } from '../ecommerce/constants';
 
 function Layout({ sidebarPosition, sidebarVisibility }) {
   return (
@@ -118,6 +120,7 @@ function Layout({ sidebarPosition, sidebarVisibility }) {
                   path={`${SURVEY_MANAGEMENT_ROOT_PATH}`}
                   component={SurveyAdminPage}
                 />
+                <Route path={ECOMMERCE_ROOT_PATH} component={EcommercePage} />
                 <Route path={`${MAIL_MERGE_ROOT_PATH}`} component={MailMerge} />
                 <Route path={`${LOG_ROOT_PATH}`} component={LogPage} />
                 <Route path={`${AUDIT_ROOT_PATH}`} component={AuditPage} />

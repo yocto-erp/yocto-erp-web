@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { transformUnNumber } from '../../../../libs/utils/number.util';
 import { ERROR } from '../../../../components/Form/messages';
 import useMyForm from '../../../../libs/hooks/useMyForm';
-import FormGroup from '../../../../components/Form/FormGroup';
+import FormGroupInput from '../../../../components/Form/FormGroupInput';
 import ModalCancelButton from '../../../../components/button/ModalCancelButton';
 import ModalOKButton from '../../../../components/button/ModalOKButton';
 import SendEmailEditorForm from '../../../../components/SendEmailEditorForm';
@@ -178,7 +178,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
               </div>
             </div>
             <div className="col-md-6">
-              <FormGroup
+              <FormGroupInput
                 name="remark"
                 placeholder="Remark"
                 type="textarea"

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { IMaskInput } from 'react-imask';
-import isFunction from 'lodash/isFunction';
 import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import { IMaskInput } from 'react-imask';
+import { isFunc } from '../../utils/util';
 import { roundUp } from '../../libs/utils/number.util';
 
 const InputAmount = React.forwardRef((
@@ -22,7 +22,7 @@ const InputAmount = React.forwardRef((
       mapToRadix={['.']}
       value={roundUp(value, scale)}
       unmask="typed" // true|false|'typed'
-      onAccept={_val => isFunction(onChange) && onChange(_val)}
+      onAccept={_val => isFunc(onChange) && onChange(_val)}
       placeholder={placeholder}
     />
     <InputGroupAddon addonType="append">

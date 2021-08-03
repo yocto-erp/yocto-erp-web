@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { Form } from 'reactstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import SubmitButton from '../../../components/button/SubmitButton';
-import FormGroup from '../../../components/Form/FormGroup';
+import FormGroupInput from '../../../components/Form/FormGroupInput';
 import useSyncForm from '../../../libs/hooks/useSyncForm';
 import { GENDER } from '../../../libs/apis/person.api';
 import { SURVEY_TYPE } from '../Admin/constants';
@@ -45,7 +45,7 @@ const PersonForm = ({
       <Form onSubmit={onSubmit} noValidate formNoValidate>
         <div className="row">
           <div className="col-md-6">
-            <FormGroup
+            <FormGroupInput
               name="firstName"
               type="text"
               error={errors.firstName}
@@ -56,7 +56,7 @@ const PersonForm = ({
             />
           </div>
           <div className="col-md-6">
-            <FormGroup
+            <FormGroupInput
               name="lastName"
               type="text"
               error={errors.lastName}
@@ -66,7 +66,7 @@ const PersonForm = ({
             />
           </div>
         </div>
-        <FormGroup
+        <FormGroupInput
           name="email"
           type="email"
           readOnly={surveyType === SURVEY_TYPE.EMAIL_VERIFY}
@@ -77,7 +77,7 @@ const PersonForm = ({
           iconLeft={<i className="fa fa-envelope" />}
         />
         {formConfig.enableGender ? (
-          <FormGroup
+          <FormGroupInput
             name="gender"
             type="select"
             register={register}
@@ -92,10 +92,10 @@ const PersonForm = ({
             <option value={GENDER.MALE}>MALE</option>
             <option value={GENDER.FEMALE}>FEMALE</option>
             <option value={GENDER.OTHER}>OTHER</option>
-          </FormGroup>
+          </FormGroupInput>
         ) : null}
         {formConfig.enableAge ? (
-          <FormGroup
+          <FormGroupInput
             name="age"
             type="select"
             register={register}
@@ -111,10 +111,10 @@ const PersonForm = ({
                 {t}
               </option>
             ))}
-          </FormGroup>
+          </FormGroupInput>
         ) : null}
         {formConfig.enableAddress ? (
-          <FormGroup
+          <FormGroupInput
             name="address"
             type="select"
             register={register}
@@ -195,7 +195,7 @@ const PersonForm = ({
             <optgroup label="沖縄">
               <option value="okinawa">Okinawa Prefecture</option>
             </optgroup>
-          </FormGroup>
+          </FormGroupInput>
         ) : null}
         <SubmitButton
           className="btn-block"

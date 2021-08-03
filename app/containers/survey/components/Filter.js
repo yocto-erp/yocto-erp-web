@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useListFilter } from '../../../components/ListWidget/constants';
 import SearchButton from '../../../components/button/SearchButton';
 import { GENDER } from '../../../libs/apis/person.api';
-import FormGroup from '../../../components/Form/FormGroup';
+import FormGroupInput from '../../../components/Form/FormGroupInput';
 import { personFormMessages } from '../messages';
 import { AGE_RANGES } from '../constants';
 import surveyApi from '../../../libs/apis/survey/survey.api';
@@ -26,7 +26,7 @@ const Filter = ({ intl, formConfig = {} }) => {
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
-      <FormGroup
+      <FormGroupInput
         type="text"
         register={register}
         name="search"
@@ -35,7 +35,7 @@ const Filter = ({ intl, formConfig = {} }) => {
         style={{ width: '300px' }}
       />
       {formConfig.enableGender ? (
-        <FormGroup
+        <FormGroupInput
           name="gender"
           className="mb-2 mr-2"
           type="select"
@@ -48,10 +48,10 @@ const Filter = ({ intl, formConfig = {} }) => {
           <option value={GENDER.MALE}>MALE</option>
           <option value={GENDER.FEMALE}>FEMALE</option>
           <option value={GENDER.OTHER}>OTHER</option>
-        </FormGroup>
+        </FormGroupInput>
       ) : null}
       {formConfig.enableAge ? (
-        <FormGroup
+        <FormGroupInput
           name="age"
           type="select"
           register={register}
@@ -65,10 +65,10 @@ const Filter = ({ intl, formConfig = {} }) => {
               {t}
             </option>
           ))}
-        </FormGroup>
+        </FormGroupInput>
       ) : null}
       {formConfig.enableAddress ? (
-        <FormGroup
+        <FormGroupInput
           name="address"
           type="select"
           register={register}
@@ -150,7 +150,7 @@ const Filter = ({ intl, formConfig = {} }) => {
           <optgroup label="沖縄">
             <option value="okinawa">Okinawa Prefecture</option>
           </optgroup>
-        </FormGroup>
+        </FormGroupInput>
       ) : null}
       <SearchButton color="" className="search-button mb-2 mr-2" />
       <a

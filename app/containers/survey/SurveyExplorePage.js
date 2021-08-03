@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Form } from 'reactstrap';
 import { SURVEY_ROOT_PATH, useSurveyContext } from './constants';
 import Widget from '../../components/Widget/Widget';
-import FormGroup from '../../components/Form/FormGroup';
+import FormGroupInput from '../../components/Form/FormGroupInput';
 import SearchButton from '../../components/button/SearchButton';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import { useApi } from '../../libs/hooks/useApi';
@@ -35,7 +35,7 @@ const SurveyExplorePage = () => {
   return (
     <Widget className="widget-custom">
       <Form inline className="justify-content-center">
-        <FormGroup
+        <FormGroupInput
           type="text"
           name="search"
           className="mr-2"

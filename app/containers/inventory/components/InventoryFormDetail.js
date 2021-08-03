@@ -33,7 +33,7 @@ const InventoryFormDetail = ({
             <ProductSelect
               id="productId"
               placeholder="Select Product"
-              invalid={!!get(errors, ['details', index, 'product'], false)}
+              error={get(errors, ['details', index, 'product'])}
               onAdded={newProd => {
                 setValue(`details[${index}].product`, newProd, {
                   shouldValidate: true,
@@ -49,15 +49,12 @@ const InventoryFormDetail = ({
             />
           )}
         />
-        <FormFeedback>
-          {get(errors, ['details', index, 'product', 'message'], '')}
-        </FormFeedback>
       </td>
       <td>
         <Controller
           name={`details[${index}].unit`}
           defaultValue={item.unit}
-          invalid={!!get(errors, ['details', index, 'unit'], false)}
+          error={get(errors, ['details', index, 'unit', 'message'], '')}
           control={control}
           id="unitId"
           placeholder="Unit Name"
@@ -67,9 +64,6 @@ const InventoryFormDetail = ({
           productId={product ? product.id : null}
           as={UnitSelect}
         />
-        <FormFeedback>
-          {get(errors, ['details', index, 'unit', 'message'], '')}
-        </FormFeedback>
       </td>
       <td>
         <Controller

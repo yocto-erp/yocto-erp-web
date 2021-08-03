@@ -28,9 +28,9 @@
   position: relative;
   margin: 8px;
   text-align: center;
-  cursor: pointer;
+  cursor: move;
 
-  i {
+  i.preview {
     font-size: 160px;
   }
 
@@ -38,7 +38,7 @@
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-wrap: break-spaces;
+    word-wrap: break-word;
   }
 
   .img-thumbnail {
@@ -46,9 +46,23 @@
     height: 160px;
     object-fit: cover;
     border: none;
-    border-radius: 0;
+    border-radius: 4px;
   }
 
+  .view {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    text-align: center;
+    border-radius: 50%;
+
+    &:not(:disabled):not(.disabled):hover, .close:not(:disabled):not(.disabled):focus {
+      opacity: 1;
+      color: white;
+    }
+  }
   .close {
     display: block;
     position: absolute;
@@ -72,7 +86,7 @@
 
   &:hover {
     button {
-      display: block;
+      // display: block;
     }
   }
 }

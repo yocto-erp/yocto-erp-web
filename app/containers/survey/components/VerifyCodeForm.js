@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { Form } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import FormGroup from '../../../components/Form/FormGroup';
+import FormGroupInput from '../../../components/Form/FormGroupInput';
 import SubmitButton from '../../../components/button/SubmitButton';
 import { getClientId } from '../../../libs/utils/storage';
 import { SURVEY_ROOT_PATH } from '../constants';
@@ -42,7 +42,7 @@ const VerifyCodeForm = ({ surveyId, target, intl }) => {
         </p>
       </div>
       <Form onSubmit={onSubmit} noValidate formNoValidate>
-        <FormGroup
+        <FormGroupInput
           name="code"
           type="text"
           error={errors.code}

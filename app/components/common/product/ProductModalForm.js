@@ -25,11 +25,10 @@ import SubmitButton from '../../button/SubmitButton';
 import CreateButton from '../../button/CreateButton';
 import productApi from '../../../libs/apis/product/product.api';
 import { useAsync } from '../../../libs/hooks/useAsync';
-import { transformUnNumber } from '../../../libs/utils/number.util';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('This field is required.'),
-  priceBaseUnit: Yup.number().transform(transformUnNumber),
+  // priceBaseUnit: Yup.number().transform(transformUnNumber),
   units: Yup.array()
     .of(
       Yup.object().shape({

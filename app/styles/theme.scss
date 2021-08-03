@@ -5,6 +5,7 @@
 @import '../../node_modules/bootstrap/scss/functions';
 @import 'variables';
 @import '../../node_modules/bootstrap/scss/bootstrap';
+@import '../../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 @import '../fonts/flaticon/flaticon';
 @import '../../node_modules/font-awesome/scss/font-awesome';
 @import '../../node_modules/glyphicons-halflings/scss/glyphicons-halflings';
@@ -13,7 +14,7 @@
 @import '../../node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox';
 @import '../../node_modules/react-toastify/dist/ReactToastify.css';
 @import '../../node_modules/overlayscrollbars/css/OverlayScrollbars.css';
-@import "../../node_modules/react-datepicker/dist/react-datepicker.css";
+@import '../../node_modules/react-datepicker/dist/react-datepicker.css';
 
 @import 'mixins';
 @import 'base';
@@ -21,12 +22,12 @@
 @import 'overrides';
 @import 'general';
 @import 'utils';
-@import "button";
-@import "react-select";
-@import "table";
-@import "typography";
-@import "react-date-picker";
-@import "box";
-@import "custom-select";
-@import "dialog";
-@import "popover";
+@import 'button';
+@import 'react-select';
+@import 'table';
+@import 'typography';
+@import 'react-date-picker';
+@import 'box';
+@import 'custom-select';
+@import 'dialog';
+@import 'popover';

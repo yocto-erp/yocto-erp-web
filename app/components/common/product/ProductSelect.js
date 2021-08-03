@@ -7,6 +7,7 @@ import debounce from 'lodash/debounce';
 import ProductModalForm from './ProductModalForm';
 import productApi from '../../../libs/apis/product/product.api';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
+import FormErrorMessage from '../../Form/FormHookErrorMessage';
 
 const formatOptionLabel = data => (
   <div className="text-white">
@@ -17,7 +18,7 @@ const formatOptionLabel = data => (
 const ProductSelect = React.forwardRef((
   {
     onBlur,
-    invalid,
+    error,
     name,
     placeholder,
     onAdded,
@@ -30,6 +31,7 @@ const ProductSelect = React.forwardRef((
   ref,
 ) => {
   const [isOpen, open] = useState(false);
+  const [lastId, setLastId] = useState('');
   const loadOptions1 = debounce((inputValue, cb) => {
     productApi
       .search({
@@ -41,14 +43,15 @@ const ProductSelect = React.forwardRef((
       })
       .then(resp => cb(resp.rows));
   }, 300);
+
   return (
-    <>
-      <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
+    <div key={`${name}_${lastId}`}>
+      <InputGroup className={classNames({ 'is-invalid': !!error })} {...props}>
         <AsyncSelect
           aria-labelledby="test"
           className="react-select-container"
           classNamePrefix="react-select"
-          placeholder={placeholder}
+          placeholder={placeholder || 'Search Product'}
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any Product with search "${inputValue}", try to search another`
@@ -57,8 +60,11 @@ const ProductSelect = React.forwardRef((
           loadOptions={loadOptions1}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
+          defaultOptions
           onBlur={onBlur}
-          onChange={onChange}
+          onChange={val =>
+            onChange(val ? { id: val.id, name: val.name } : null)
+          }
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.id}
           name={name}
@@ -74,12 +80,16 @@ const ProductSelect = React.forwardRef((
           ''
         )}
       </InputGroup>
+      <FormErrorMessage error={error} />
       {creatable ? (
         <ProductModalForm
           closeHandle={val => {
             console.log(val);
-            if (val && onAdded) {
-              onAdded(val);
+            if (val) {
+              setLastId(val.id);
+              if (onAdded) {
+                onAdded(val);
+              }
             }
             open(false);
           }}
@@ -88,13 +98,13 @@ const ProductSelect = React.forwardRef((
       ) : (
         ''
       )}
-    </>
+    </div>
   );
 });
 
 ProductSelect.propTypes = {
   value: PropTypes.any,
-  invalid: PropTypes.bool,
+  error: PropTypes.object,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   onAdded: PropTypes.func,

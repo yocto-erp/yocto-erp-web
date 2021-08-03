@@ -10,7 +10,7 @@ import SubmitButton from '../../../../components/button/SubmitButton';
 import BackButton from '../../../../components/button/BackButton';
 import { templateApi } from '../../../../libs/apis/template/template.api';
 import Editor from '../../../../components/Form/Editor';
-import FormGroup from '../../../../components/Form/FormGroup';
+import FormGroupInput from '../../../../components/Form/FormGroupInput';
 import {
   useTemplateType,
   useTemplateTypeId,
@@ -97,7 +97,7 @@ function MyForm({ id }) {
         <Form onSubmit={submit} noValidate formNoValidate>
           <div className="row">
             <div className="col-md-6">
-              <FormGroup
+              <FormGroupInput
                 name="name"
                 type="text"
                 error={errors.name}
@@ -105,7 +105,7 @@ function MyForm({ id }) {
                 register={register}
                 label="Name"
               />
-              <FormGroup
+              <FormGroupInput
                 name="templateTypeId"
                 type="select"
                 error={errors.templateTypeId}
@@ -118,10 +118,10 @@ function MyForm({ id }) {
                     {i.name}
                   </option>
                 ))}
-              </FormGroup>
+              </FormGroupInput>
             </div>
             <div className="col-md-6">
-              <FormGroup
+              <FormGroupInput
                 name="remark"
                 type="textarea"
                 placeholder="Remark"

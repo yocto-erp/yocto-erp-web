@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, CustomInput, InputGroup, InputGroupAddon } from 'reactstrap';
 import classNames from 'classnames';
 import productApi from '../../../libs/apis/product/product.api';
 import UnitModalForm from './UnitModalForm';
+import FormErrorMessage from '../../Form/FormHookErrorMessage';
 
 const UnitSelect = React.forwardRef((
-  {
-    onChange,
-    value,
-    onBlur,
-    invalid,
-    name,
-    placeholder,
-    onAdded,
-    productId,
-    id,
-  },
+  { onChange, value, onBlur, error, name, placeholder, onAdded, productId, id },
   // eslint-disable-next-line no-unused-vars
   ref,
 ) => {
@@ -30,10 +21,14 @@ const UnitSelect = React.forwardRef((
       productApi.read(productId).then(data => {
         if (currentRequest === request.current) {
           setOptions(data.units);
+          if (data.units.length) {
+            onChange(data.units[0]);
+          }
         }
       });
     } else {
       setOptions([]);
+      onChange(null);
     }
     return () => {
       currentRequest = 0;
@@ -55,34 +50,35 @@ const UnitSelect = React.forwardRef((
 
   return (
     <>
-      <InputGroup className={classNames({ 'is-invalid': invalid })}>
+      <InputGroup className={classNames({ 'is-invalid': !!error })}>
         <CustomInput
           id={id}
-          type="select"
+          type='select'
           name={name}
           onChange={onChangeHandle}
           onBlur={onBlur}
           disabled={!productId}
           value={value ? value.id : '0'}
         >
-          <option value="0">{placeholder}</option>
+          <option value=''>{placeholder || 'Select Unit'}</option>
           {options.map(t => (
             <option key={t.id} value={t.id}>
               {t.name}
             </option>
           ))}
         </CustomInput>
-        <InputGroupAddon addonType="append">
+        <InputGroupAddon addonType='append'>
           <Button
-            color="primary"
-            type="button"
+            color='primary'
+            type='button'
             disabled={!productId}
             onClick={() => open(true)}
           >
-            <i className="las la-plus" />
+            <i className='las la-plus' />
           </Button>
         </InputGroupAddon>
       </InputGroup>
+      <FormErrorMessage error={error} />
       {productId ? (
         <UnitModalForm
           closeHandle={val => {
@@ -105,7 +101,7 @@ const UnitSelect = React.forwardRef((
 });
 UnitSelect.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  invalid: PropTypes.bool,
+  error: PropTypes.object,
   productId: PropTypes.any,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,

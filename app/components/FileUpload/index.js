@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
+import { ReactSortable } from 'react-sortablejs';
 import {
   Modal,
   ModalBody,
@@ -55,27 +56,19 @@ const getErrorUpload = errorFile => {
 const FileUpload = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
   ({ onChange, value = [], invalid, className, ...props }, ref) => {
-    const [files, setFiles] = useState([]);
+    // const [files, setFiles] = useState([]);
     const [enlargeFile, setEnlargeFile] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
-
-    useEffect(() => {
-      setFiles([...value]);
-    }, [value]);
 
     const onDropAccepted = React.useCallback(
       acceptedFiles => {
         setIsProcessing(true);
         Promise.all(acceptedFiles.map(file => parseFile(file))).then(t => {
-          setFiles(oldFiles => {
-            const newFiles = [...oldFiles, ...t];
-            onChange(newFiles);
-            return newFiles;
-          });
+          onChange([...value, ...t]);
           setIsProcessing(false);
         });
       },
-      [onChange, setIsProcessing, setFiles],
+      [onChange, setIsProcessing, value],
     );
     const onDropRejected = React.useCallback(rejectFiles => {
       const errors = (
@@ -95,13 +88,12 @@ const FileUpload = React.forwardRef(
       onDropRejected,
       ...props,
     });
+
     const onRemoveItem = index => {
-      setFiles(oldFiles => {
-        oldFiles.splice(index, 1);
-        const newFiles = [...oldFiles];
-        onChange(newFiles);
-        return newFiles;
-      });
+      value.splice(index, 1);
+      const newFiles = [...value];
+      onChange(newFiles);
+      return newFiles;
     };
 
     const viewLarge = useCallback(
@@ -116,32 +108,26 @@ const FileUpload = React.forwardRef(
     const preview = React.useMemo(
       () => (
         <div className="previews">
-          <div className="row no-gutters">
-            {files.map((t, i) => (
-              <div
-                role="button"
-                tabIndex={i}
-                onKeyDown={e => {
-                  viewLarge(e, t);
-                }}
-                className="col-lg-3 col-md-4 col-6"
-                key={t.id}
-                onClick={e => {
-                  viewLarge(e, t);
-                }}
-              >
+          <ReactSortable
+            className="row no-gutters"
+            list={value}
+            setList={onChange}
+          >
+            {value.map((t, i) => (
+              <div tabIndex={i} className="col-lg-3 col-md-4 col-6" key={t.id}>
                 <PreviewImage
                   file={t}
                   onRemove={() => {
                     onRemoveItem(i);
                   }}
+                  onViewLarge={e => viewLarge(e, t)}
                 />
               </div>
             ))}
-          </div>
+          </ReactSortable>
         </div>
       ),
-      [files],
+      [value],
     );
 
     return (

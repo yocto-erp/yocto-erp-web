@@ -73,7 +73,8 @@
     "@tinymce/tinymce-react": "^3.8.1",
     "animate.css": "^4.1.0",
     "awesome-bootstrap-checkbox": "^1.0.1",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.0",
+    "bootstrap-icons": "^1.5.0",
     "chalk": "^2.4.2",
     "chart.js": "^2.9.4",
     "chartjs-plugin-datalabels": "^0.7.0",
@@ -137,9 +138,13 @@
     "use-immer": "^0.4.1",
     "uuid": "^8.3.0",
     "xlsx": "^0.16.9",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "sortablejs": "^1.14.0",
+    "react-sortablejs": "^6.0.0",
+    "react-number-format": "^4.6.4"
   },
   "devDependencies": {
+    "@types/sortablejs": "^1.10.7",
     "@babel/cli": "7.4.3",
     "@babel/core": "7.4.3",
     "@babel/plugin-proposal-class-properties": "7.4.0",

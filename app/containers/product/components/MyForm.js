@@ -94,6 +94,7 @@ function MyForm({ id }) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'units',
+    keyName: 'fId',
   });
 
   const form = React.useMemo(
@@ -192,7 +193,7 @@ function MyForm({ id }) {
                 </thead>
                 <tbody>
                   {fields.map((item, index) => (
-                    <tr key={item.id}>
+                    <tr key={`unit${item.id}`}>
                       <td>
                         <Input
                           type="text"

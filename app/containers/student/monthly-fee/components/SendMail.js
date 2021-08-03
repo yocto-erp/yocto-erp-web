@@ -11,7 +11,7 @@ import { TEMPLATE_TYPE } from '../../../../libs/apis/template/templateType.api';
 import RawHTML from '../../../../components/RawHtml';
 import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
 import useStudentConfigure from '../../../../libs/hooks/useStudentConfigure';
-import FormGroup from '../../../../components/Form/FormGroup';
+import FormGroupInput from '../../../../components/Form/FormGroupInput';
 import useMyForm from '../../../../libs/hooks/useMyForm';
 import { isValidEmail } from '../../../../libs/utils/schema.util';
 import MultipleEmailInput from '../../../../components/Form/MultipleEmailInput';
@@ -127,7 +127,7 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
                   as={EmailTemplateSelect}
                 />
               </div>
-              <FormGroup
+              <FormGroupInput
                 name="from"
                 label="Email From"
                 type="email"

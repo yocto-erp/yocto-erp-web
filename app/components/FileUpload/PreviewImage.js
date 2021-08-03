@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import isFunction from 'lodash/isFunction';
 import './file-upload.scss';
 import { imageUrl } from '../../libs/apis/image.api';
+import { isFunc } from '../../utils/util';
 
 const PREVIEW_FILE = {
-  doc: <i className="fa fa-file-word-o text-primary" />,
-  xls: <i className="fa fa-file-excel-o text-success" />,
-  ppt: <i className="fa fa-file-powerpoint-o text-danger" />,
-  pdf: <i className="fa fa-file-pdf-o text-danger" />,
-  zip: <i className="fa fa-file-archive-o text-muted" />,
-  htm: <i className="fa fa-file-code-o text-info" />,
-  txt: <i className="fa fa-file-text text-info" />,
-  mov: <i className="fa fa-file-video-o text-warning" />,
-  mp3: <i className="fa fa-file-audio-o text-warning" />,
-  unknown: <i className="fa fa-file" />,
+  doc: <i className="fa fa-file-word-o preview text-primary" />,
+  xls: <i className="fa fa-file-excel-o preview text-success" />,
+  ppt: <i className="fa fa-file-powerpoint-o preview text-danger" />,
+  pdf: <i className="fa fa-file-pdf-o preview text-danger" />,
+  zip: <i className="fa fa-file-archive-o preview text-muted" />,
+  htm: <i className="fa fa-file-code-o preview text-info" />,
+  txt: <i className="fa fa-file-text preview text-info" />,
+  mov: <i className="fa fa-file-video-o preview text-warning" />,
+  mp3: <i className="fa fa-file-audio-o preview text-warning" />,
+  unknown: <i className="fa preview fa-file" />,
 };
 
 const MIME_TYPE = {
@@ -31,7 +31,7 @@ const MIME_TYPE = {
   VIDEO: 'video/*',
 };
 
-const PreviewImage = ({ file, onRemove }) => {
+const PreviewImage = ({ file, onRemove, onViewLarge }) => {
   const els = useMemo(() => {
     let previewEls;
     const { type, source, fileId, data } = file;
@@ -88,22 +88,34 @@ const PreviewImage = ({ file, onRemove }) => {
 
   return (
     <div className="preview-image">
-      <button
-        type="button"
-        className="close"
-        aria-label="Close"
-        onClick={e => {
-          e.preventDefault();
-          e.stopPropagation();
-          if (isFunction(onRemove)) {
-            onRemove();
-          }
-        }}
-      >
-        <span aria-hidden="true" className="">
-          &times;
-        </span>
-      </button>
+      <div className="btn-group btn-group-sm view">
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (isFunc(onViewLarge)) {
+              onViewLarge(e);
+            }
+          }}
+        >
+          <i className="fa fa-eye" />
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (isFunc(onRemove)) {
+              onRemove();
+            }
+          }}
+        >
+          <i className="fa fa-times" />{' '}
+        </button>
+      </div>
       {els}
       <div className="title">{file.name}</div>
     </div>
@@ -113,6 +125,7 @@ const PreviewImage = ({ file, onRemove }) => {
 PreviewImage.propTypes = {
   file: PropTypes.object.isRequired,
   onRemove: PropTypes.func,
+  onViewLarge: PropTypes.func,
 };
 
 export default PreviewImage;

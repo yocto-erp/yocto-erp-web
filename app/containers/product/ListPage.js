@@ -18,16 +18,12 @@ import ListWidget from '../../components/ListWidget';
 import Filter from './components/Filter';
 import { CreatedByColumn } from '../../components/ListWidget/constants';
 import Tags from '../../components/Form/tagging/ViewTags';
+import ProductView from '../../components/common/product/ProductView';
 
 const ROOT_PATH = PRODUCT_ROOT_PATH;
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
-      {
-        header: 'Document ID',
-        data: 'productDocumentId',
-        class: 'min',
-      },
       {
         header: <strong>Name</strong>,
         data: 'name',
@@ -35,12 +31,11 @@ const ListPage = ({ history }) => {
           name: 'name',
         },
         width: '20%',
-        render: row => (
-          <>
-            <p>{row.name}</p>
-            <Tags item={row.tagging} />{' '}
-          </>
-        ),
+        render: row => <ProductView item={row} />,
+      },
+      {
+        header: 'Label',
+        render: row => <Tags item={row.tagging} />,
       },
       {
         header: 'Remark',

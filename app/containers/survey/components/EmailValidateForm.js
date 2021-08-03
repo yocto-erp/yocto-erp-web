@@ -7,7 +7,7 @@ import { Form } from 'reactstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import SubmitButton from '../../../components/button/SubmitButton';
 import useMyForm from '../../../libs/hooks/useMyForm';
-import FormGroup from '../../../components/Form/FormGroup';
+import FormGroupInput from '../../../components/Form/FormGroupInput';
 import FormError from '../../../components/Form/FormError';
 import surveyApi from '../../../libs/apis/survey/survey.api';
 import VerifyCodeForm from './VerifyCodeForm';
@@ -47,7 +47,7 @@ const EmailValidationForm = ({ surveyId = 0, intl }) => {
         {serverErrors && serverErrors.length ? (
           <FormError errors={serverErrors} />
         ) : null}
-        <FormGroup
+        <FormGroupInput
           name="email"
           type="email"
           error={errors.email}

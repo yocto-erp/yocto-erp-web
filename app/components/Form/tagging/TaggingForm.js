@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import ModalCancelButton from '../../button/ModalCancelButton';
 import ModalOKButton from '../../button/ModalOKButton';
-import FormGroup from '../FormGroup';
+import FormGroupInput from '../FormGroupInput';
 import taggingApi from '../../../libs/apis/tagging.api';
 
 const schema = yup.object().shape({
@@ -50,7 +50,7 @@ const TaggingForm = ({ initForm, onClose }) => {
       <ModalHeader toggle={() => onClose(null)}>Create New Label</ModalHeader>
       <ModalBody>
         <form onSubmit={onSubmit} noValidate>
-          <FormGroup
+          <FormGroupInput
             name="label"
             label="Label"
             placeholder="Label"

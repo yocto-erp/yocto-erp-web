@@ -4,7 +4,7 @@ import { Label, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import FormGroup from '../../../../components/Form/FormGroup';
+import FormGroupInput from '../../../../components/Form/FormGroupInput';
 import ModalCancelButton from '../../../../components/button/ModalCancelButton';
 import ModalOKButton from '../../../../components/button/ModalOKButton';
 import Editor from '../../../../components/Form/Editor';
@@ -148,7 +148,7 @@ const MailMergeConfigure = React.forwardRef(
           <form onSubmit={onSubmit} noValidate>
             <div className="row">
               <div className="col-md-6">
-                <FormGroup
+                <FormGroupInput
                   name="name"
                   label="Name"
                   type="text"
@@ -160,7 +160,7 @@ const MailMergeConfigure = React.forwardRef(
             </div>
             <div className="row">
               <div className="col-md-6">
-                <FormGroup
+                <FormGroupInput
                   name="from"
                   label="From"
                   type="email"

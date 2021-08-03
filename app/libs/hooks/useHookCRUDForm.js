@@ -74,6 +74,7 @@ export const useHookCRUDForm = ({
     control,
     getValues,
     setValue,
+    watch,
     formState,
     trigger,
   } = useForm({
@@ -131,5 +132,6 @@ export const useHookCRUDForm = ({
     setValue,
     formState,
     trigger,
+    watch
   };
 };

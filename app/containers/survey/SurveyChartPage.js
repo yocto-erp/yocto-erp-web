@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useApi } from '../../libs/hooks/useApi';
 import surveyApi from '../../libs/apis/survey/survey.api';
 import QuestionChart from './components/QuestionChart';
-import FormGroup from '../../components/Form/FormGroup';
+import FormGroupInput from '../../components/Form/FormGroupInput';
 import DateSelect from '../../components/date/DateSelect';
 import SurveyGlobalChart from './components/SurveyGlobalChart';
 
@@ -147,7 +147,7 @@ const SurveyChartPage = props => {
               const item = resp[t];
               return (
                 <div className="col-3" key={item.id}>
-                  <FormGroup
+                  <FormGroupInput
                     name={`question${t}`}
                     type="select"
                     label={`Question ${t + 1}`}
@@ -163,7 +163,7 @@ const SurveyChartPage = props => {
                         {opt.content}
                       </option>
                     ))}
-                  </FormGroup>
+                  </FormGroupInput>
                 </div>
               );
             })}

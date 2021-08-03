@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
   Collapse,
   Dropdown,
@@ -30,6 +30,7 @@ import '../../../../node_modules/animate.css/animate.css';
 import AccountDropDown from './components/AccountDropdown';
 import LanguageDropDown from './components/LanguageDropdown';
 import useUser from '../../../libs/hooks/useUser';
+import { CONFIGURATION_COMPANY_ROOT_PATH } from '../../configuration/constants';
 
 function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
   const [messagesOpen, setMessagesOpen] = useState(false);
@@ -81,13 +82,13 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink
-            onClick={toggleVisibilitySidebar}
-            className={`${s.navItem} text-white`}
-            href="#"
+          <Link
+            className={`${s.navItem} text-white nav-link company`}
+            to={CONFIGURATION_COMPANY_ROOT_PATH}
           >
-            {user?.company?.name}
-          </NavLink>
+            {user?.company?.name}{' '}
+            <i className="ml-2 fi flaticon-edit" style={{ fontSize: '1rem' }} />
+          </Link>
         </NavItem>
       </Nav>
 

@@ -54,7 +54,7 @@ const LinksGroup = ({
         style={headingStyle}
       >
         <span className={s.icon}>
-          <i className={`fi ${iconName}`} />
+          <i className={`${iconName}`} />
         </span>
         {header}{' '}
         {label && (
@@ -99,7 +99,7 @@ const LinksGroup = ({
           >
             {isHeader ? (
               <span className={s.icon}>
-                <i className={`fi ${iconName}`} />
+                <i className={iconName} />
               </span>
             ) : null}
             {header}{' '}

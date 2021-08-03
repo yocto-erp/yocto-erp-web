@@ -29,7 +29,7 @@ const Filter = () => {
           style={{ width: '300px' }}
           innerRef={register}
           id="search"
-          placeholder="Search By Product Name"
+          placeholder="Search By Product Name, ID"
         />
         <SearchButton />
       </FormGroup>

@@ -13,19 +13,20 @@ import { WAREHOUSE_ROOT_PATH } from '../../warehouse/constants';
 import { PRODUCT_ROOT_PATH } from '../../product/constants';
 import { PARTNER_ROOT_PATH } from '../../partner/constants';
 import { LOG_EMAIL_ROOT_PATH } from '../../log/constants';
-import { CONFIGURATION_EMAIL_ROOT_PATH } from '../../configuration/constants';
+import { CONFIGURATION_COMPANY_ROOT_PATH, CONFIGURATION_EMAIL_ROOT_PATH } from '../../configuration/constants';
 import {
   TEMPLATE_EMAIL_ROOT_PATH,
   TEMPLATE_PRINT_ROOT_PATH,
 } from '../../template/constants';
 import { MAIL_MERGE_ROOT_PATH } from '../../tools/mail-merge/constants';
+import { ECOMMERCE_PRODUCT_ROOT_PATH } from '../../ecommerce/constants';
 
 export const SIDE_BAR_MENU = {
   main: [
     {
       header: 'Dashboard',
       isHeader: true,
-      iconName: 'flaticon-home',
+      iconName: 'fi flaticon-home',
       link: `${ADMIN_PATH}/dashboard`,
       index: 'dashboard',
       exact: true,
@@ -35,7 +36,7 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Bán hàng',
       isHeader: true,
-      iconName: 'flaticon-network',
+      iconName: 'fi flaticon-network',
       link: SALE_ROOT_PATH,
       index: 'sale',
       permission: PERMISSION.ORDER.SALE.READ,
@@ -43,7 +44,7 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Mua hàng',
       isHeader: true,
-      iconName: 'flaticon-network',
+      iconName: 'fi flaticon-network',
       link: PURCHASE_ROOT_PATH,
       index: 'purchase',
       permission: PERMISSION.ORDER.PURCHASE.READ,
@@ -51,7 +52,7 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Thu chi',
       isHeader: true,
-      iconName: 'flaticon-network',
+      iconName: 'fi flaticon-network',
       link: COST_ROOT_PATH,
       index: 'cost',
       permission: PERMISSION.COST.READ,
@@ -59,7 +60,7 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Nhập, xuất kho',
       isHeader: true,
-      iconName: 'flaticon-network',
+      iconName: 'fi flaticon-network',
       link: INVENTORY_ROOT_PATH,
       index: 'inventory',
       permission: [
@@ -70,7 +71,7 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Student',
       isHeader: true,
-      iconName: 'flaticon-user-2',
+      iconName: 'fi flaticon-user-2',
       index: 'student',
       link: '',
       permission: PERMISSION.CUSTOMER.READ,
@@ -92,7 +93,7 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Công cụ',
       isHeader: true,
-      iconName: 'flaticon-controls',
+      iconName: 'fi flaticon-controls',
       index: 'tools',
       link: '',
       children: [
@@ -109,7 +110,7 @@ export const SIDE_BAR_MENU = {
     {
       header: 'Quản lý',
       isHeader: true,
-      iconName: 'flaticon-list',
+      iconName: 'fi flaticon-list',
       index: 'management',
       link: '',
       children: [
@@ -151,16 +152,36 @@ export const SIDE_BAR_MENU = {
           header: 'User',
           permission: PERMISSION.USER.READ,
           isHeader: true,
-          iconName: 'flaticon-user',
+          iconName: 'fi flaticon-user',
           link: USER_ROOT_PATH,
           index: 'management.user',
         },
       ],
     },
     {
+      header: 'Ecommerce',
+      link: '',
+      iconName: 'fa fa-shopping-basket',
+      isHeader: true,
+      index: 'ecommerce',
+      permission: PERMISSION.TEMPLATE.READ,
+      children: [
+        {
+          header: 'Product',
+          link: ECOMMERCE_PRODUCT_ROOT_PATH,
+          index: 'ecommerce.product',
+        },
+        {
+          header: 'Order',
+          link: TEMPLATE_EMAIL_ROOT_PATH,
+          index: 'ecommerce.order',
+        },
+      ],
+    },
+    {
       header: 'Mẫu tài liệu',
       link: '',
-      iconName: 'flaticon-folder-2',
+      iconName: 'fi flaticon-folder-2',
       isHeader: true,
       index: 'template',
       permission: PERMISSION.TEMPLATE.READ,
@@ -181,7 +202,7 @@ export const SIDE_BAR_MENU = {
       header: 'Cấu hình',
       permission: PERMISSION.CONFIGURATION,
       isHeader: true,
-      iconName: 'flaticon-settings-3',
+      iconName: 'fi flaticon-settings-3',
       index: 'configuration',
       link: '',
       children: [
@@ -190,12 +211,17 @@ export const SIDE_BAR_MENU = {
           link: CONFIGURATION_EMAIL_ROOT_PATH,
           index: 'configuration.email',
         },
+        {
+          header: 'Company',
+          link: CONFIGURATION_COMPANY_ROOT_PATH,
+          index: 'configuration.company',
+        },
       ],
     },
     {
       header: 'Log',
       isHeader: true,
-      iconName: 'flaticon-time',
+      iconName: 'fi flaticon-time',
       index: 'log',
       link: '',
       permission: [PERMISSION.EMAIL.READ, PERMISSION.AUDIT],

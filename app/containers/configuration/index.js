@@ -1,7 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import EmailConfigurationPage from './EmailConfigurationPage';
-import { CONFIGURATION_EMAIL_ROOT_PATH } from './constants';
+import {
+  CONFIGURATION_COMPANY_ROOT_PATH,
+  CONFIGURATION_EMAIL_ROOT_PATH,
+} from './constants';
+import SettingCompany from './SettingCompany';
 
 function ConfigurationPage() {
   return (
@@ -10,6 +14,11 @@ function ConfigurationPage() {
         exact
         path={CONFIGURATION_EMAIL_ROOT_PATH}
         component={EmailConfigurationPage}
+      />
+      <Route
+        exact
+        path={CONFIGURATION_COMPANY_ROOT_PATH}
+        component={SettingCompany}
       />
     </Switch>
   );

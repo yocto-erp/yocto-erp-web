@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Label } from 'reactstrap';
 import { Controller } from 'react-hook-form';
-import FormGroup from '../Form/FormGroup';
+import FormGroupInput from '../Form/FormGroupInput';
 import { isValidEmail } from '../../libs/utils/schema.util';
 import Editor from '../Form/Editor';
 import { EDITOR_TYPE } from '../constants';
@@ -132,7 +132,7 @@ const SendEmailEditorForm = ({
       </div>
       <div className="row">
         <div className="col-md-6">
-          <FormGroup
+          <FormGroupInput
             name="from"
             label="From"
             type="email"

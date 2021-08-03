@@ -12,11 +12,12 @@ const FormRow = ({
   valueCol = 10,
   error,
   placeholder,
+  isRequired = false,
   ...props
 }) => (
   <FormGroup row>
     <Label sm={labelCol} for={name}>
-      {label}
+      {label} {isRequired ? <span className="text-danger">*</span> : null}
     </Label>
     <Col sm={valueCol}>
       <Input
@@ -68,6 +69,7 @@ FormRow.propTypes = {
   valueCol: PropTypes.number,
   error: PropTypes.object,
   placeholder: PropTypes.string,
+  isRequired: PropTypes.bool,
 };
 
 export default FormRow;
