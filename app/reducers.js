@@ -9,6 +9,7 @@ import history from 'utils/history';
 import globalReducer from 'containers/App/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import { navigationReducer } from './containers/Layout/redux/navigation';
+import { shopReducer } from './containers/public/shop/redux/shopping';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -18,6 +19,7 @@ export default function createReducer(injectedReducers = {}) {
     global: globalReducer,
     language: languageProviderReducer,
     navigation: navigationReducer,
+    shop: shopReducer,
     router: connectRouter(history),
     ...injectedReducers,
   });
