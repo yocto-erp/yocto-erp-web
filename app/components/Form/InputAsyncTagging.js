@@ -76,7 +76,12 @@ const InputAsyncTagging = React.forwardRef(
       );
 
     const handleChange = newValue => {
-      onChange(newValue);
+      console.log('handleChange', newValue);
+      onChange(
+        newValue
+          ? newValue.map(t => ({ id: t.id, label: t.label, color: t.color }))
+          : null,
+      );
     };
 
     const handleCreate = inputValue => {
@@ -104,6 +109,7 @@ const InputAsyncTagging = React.forwardRef(
           onChange={handleChange}
           placeholder={placeholder || 'Search and select labels'}
           onCreateOption={handleCreate}
+          getOptionValue={data => data.id}
           value={value}
         />
         <TaggingForm

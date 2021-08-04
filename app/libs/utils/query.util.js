@@ -6,7 +6,7 @@ export function stringifySearchObject(params) {
   const mapSorts = [];
   forIn(sorts, function mapItem(val, key) {
     if (val && val.length && key && key.length) {
-      mapSorts.push([`${key}:${val}`]);
+      mapSorts.push(`${key}:${val}`);
     }
   });
   const body = {
@@ -16,7 +16,7 @@ export function stringifySearchObject(params) {
     ...filter,
   };
   return stringify(body, {
-    arrayFormat: 'repeat',
+    arrayFormat: 'indices',
   });
 }
 

@@ -35,6 +35,7 @@ const ListPage = ({ history }) => {
       },
       {
         header: 'Label',
+        data: 'tagging',
         render: row => <Tags item={row.tagging} />,
       },
       {
