@@ -8,7 +8,7 @@ import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSe
 
 const FilterInventorySummary = () => {
   const { searchByFilter, filter } = useListFilter();
-  const { handleSubmit, register, control, reset } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: filter || {},
   });
 
