@@ -12,3 +12,5 @@ export const isSafari =
     !window.safari ||
       (typeof window.safari !== 'undefined' && window.safari.pushNotification),
   );
+
+export const hasText = str => str && str.length && str.trim().length;
