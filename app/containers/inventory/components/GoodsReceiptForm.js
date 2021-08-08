@@ -27,7 +27,7 @@ import DateSelect from '../../../components/date/DateSelect';
 import FormError from '../../../components/Form/FormError';
 import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
 import taggingApi from '../../../libs/apis/tagging.api';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { mappingServerTagging } from '../../../components/constants';
 
 const validationSchema = Yup.object().shape({
@@ -218,7 +218,7 @@ function GoodsReceiptForm({ id }) {
                   />
                 )}
               />
-              <FormErrorMessage error={errors.tagging} />
+              <FormHookErrorMessage error={errors.tagging} />
             </FormGroup>
           </Col>
         </Row>

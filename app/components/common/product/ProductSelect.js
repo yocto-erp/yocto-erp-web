@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 import ProductModalForm from './ProductModalForm';
 import productApi from '../../../libs/apis/product/product.api';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-import FormErrorMessage from '../../Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../Form/FormHookErrorMessage';
 
 const formatOptionLabel = data => (
   <div className="text-white">
@@ -80,7 +80,7 @@ const ProductSelect = React.forwardRef((
           ''
         )}
       </InputGroup>
-      <FormErrorMessage error={error} />
+      <FormHookErrorMessage error={error} />
       {creatable ? (
         <ProductModalForm
           closeHandle={val => {

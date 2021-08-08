@@ -6,7 +6,7 @@ import { Controller, useWatch } from 'react-hook-form';
 import ProductSelect from '../../../components/common/product/ProductSelect';
 import UnitSelect from '../../../components/common/unit/UnitSelect';
 import InputNumber from '../../../components/Form/InputNumber';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import InputAmount from '../../../components/Form/InputAmount';
 
 const OrderFormDetail = ({
@@ -75,7 +75,9 @@ const OrderFormDetail = ({
           defaultValue={item.quantity}
           placeholder="Quantity"
         />
-        <FormErrorMessage error={get(errors, ['details', index, 'quantity'])} />
+        <FormHookErrorMessage
+          error={get(errors, ['details', index, 'quantity'])}
+        />
       </td>
       <td>
         <Controller
@@ -86,7 +88,9 @@ const OrderFormDetail = ({
           defaultValue=""
           placeholder="Price"
         />
-        <FormErrorMessage error={get(errors, ['details', index, 'price'])} />
+        <FormHookErrorMessage
+          error={get(errors, ['details', index, 'price'])}
+        />
       </td>
       <td>
         <Input
@@ -96,7 +100,9 @@ const OrderFormDetail = ({
           innerRef={register()}
           defaultValue=""
         />
-        <FormErrorMessage error={get(errors, ['details', index, 'remark'])} />
+        <FormHookErrorMessage
+          error={get(errors, ['details', index, 'remark'])}
+        />
       </td>
       <td className="action">
         <Button

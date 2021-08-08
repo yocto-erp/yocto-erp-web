@@ -49,6 +49,7 @@ class Widget extends React.Component {
     customDropDown: PropTypes.any,
     customBody: PropTypes.any,
     prompt: PropTypes.any,
+    controls: PropTypes.any,
   };
 
   static defaultProps = {
@@ -76,6 +77,7 @@ class Widget extends React.Component {
     options: {},
     fetchingData: false,
     widgetType: '',
+    controls: null,
   };
 
   constructor(props) {
@@ -168,6 +170,7 @@ class Widget extends React.Component {
       widgetType,
       updateWidgetData,
       options, //eslint-disable-line
+      controls,
       ...attributes
     } = this.props;
     const mainControls = !!(
@@ -434,6 +437,12 @@ class Widget extends React.Component {
                   <i title="I am spinning!" className="fa fa-refresh" />
                 </button>
               )}
+            </div>
+          )}
+
+          {controls && (
+            <div className={`${s.widgetControls} widget-controls`}>
+              {controls}
             </div>
           )}
 

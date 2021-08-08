@@ -22,7 +22,7 @@ import CompanySelect from '../../../components/common/company/CompanySelect';
 import CustomerSelect from '../../../components/common/customer/CustomerSelect';
 import FileUpload from '../../../components/FileUpload';
 import InputAmount from '../../../components/Form/InputAmount';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { ERROR } from '../../../components/Form/messages';
 import { mappingServerTagging } from '../../../components/constants';
 import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
@@ -104,7 +104,7 @@ const CreatePaymentForm = ({ id }) => {
                   placeholder="Enter title"
                   innerRef={register}
                 />
-                <FormErrorMessage error={errors.name} />
+                <FormHookErrorMessage error={errors.name} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -121,7 +121,7 @@ const CreatePaymentForm = ({ id }) => {
                   defaultValue={formData.amount}
                   placeholder="Enter Amount here"
                 />
-                <FormErrorMessage error={errors.amount} />
+                <FormHookErrorMessage error={errors.amount} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -202,7 +202,7 @@ const CreatePaymentForm = ({ id }) => {
                     />
                   )}
                 />
-                <FormErrorMessage error={errors.tagging} />
+                <FormHookErrorMessage error={errors.tagging} />
               </Col>
             </FormGroup>
           </Col>

@@ -13,13 +13,20 @@ import { WAREHOUSE_ROOT_PATH } from '../../warehouse/constants';
 import { PRODUCT_ROOT_PATH } from '../../product/constants';
 import { PARTNER_ROOT_PATH } from '../../partner/constants';
 import { LOG_EMAIL_ROOT_PATH } from '../../log/constants';
-import { CONFIGURATION_COMPANY_ROOT_PATH, CONFIGURATION_EMAIL_ROOT_PATH } from '../../configuration/constants';
+import {
+  CONFIGURATION_COMPANY_ROOT_PATH,
+  CONFIGURATION_EMAIL_ROOT_PATH,
+} from '../../configuration/constants';
 import {
   TEMPLATE_EMAIL_ROOT_PATH,
   TEMPLATE_PRINT_ROOT_PATH,
 } from '../../template/constants';
 import { MAIL_MERGE_ROOT_PATH } from '../../tools/mail-merge/constants';
-import { ECOMMERCE_PRODUCT_ROOT_PATH } from '../../ecommerce/constants';
+import {
+  ECOMMERCE_CONFIGURATION_ROOT_PATH,
+  ECOMMERCE_PRODUCT_ROOT_PATH,
+  ECOMMERCE_ROOT_PATH,
+} from '../../ecommerce/constants';
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -175,6 +182,11 @@ export const SIDE_BAR_MENU = {
           header: 'Order',
           link: TEMPLATE_EMAIL_ROOT_PATH,
           index: 'ecommerce.order',
+        },
+        {
+          header: 'Setting',
+          link: ECOMMERCE_CONFIGURATION_ROOT_PATH,
+          index: 'ecommerce.setting',
         },
       ],
     },

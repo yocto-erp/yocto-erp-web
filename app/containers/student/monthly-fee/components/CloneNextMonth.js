@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ModalCancelButton from '../../../../components/button/ModalCancelButton';
 import MonthSelect from '../../../../components/date/MonthSelect';
 import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
-import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import useSyncForm from '../../../../libs/hooks/useSyncForm';
 import SubmitButton from '../../../../components/button/SubmitButton';
 import { toMonthObj } from '../../../../libs/utils/date.util';
@@ -90,7 +90,7 @@ const CloneNextMonth = ({
                   />
                 )}
               />
-              <FormErrorMessage error={errors.monthYear} />
+              <FormHookErrorMessage error={errors.monthYear} />
             </div>
           </div>
           <div className="form-group form-row">
@@ -114,7 +114,7 @@ const CloneNextMonth = ({
                   />
                 )}
               />
-              <FormErrorMessage error={errors.absentDay} />
+              <FormHookErrorMessage error={errors.absentDay} />
             </div>
           </div>
           <div className="form-group form-row">
@@ -138,7 +138,7 @@ const CloneNextMonth = ({
                   />
                 )}
               />
-              <FormErrorMessage error={errors.returnMealDay} />
+              <FormHookErrorMessage error={errors.returnMealDay} />
             </div>
           </div>
         </ModalBody>

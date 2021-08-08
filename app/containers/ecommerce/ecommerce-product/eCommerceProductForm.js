@@ -12,7 +12,7 @@ import UnitSelect from '../../../components/common/unit/UnitSelect';
 import Widget from '../../../components/Widget/Widget';
 import FormGroupInput from '../../../components/Form/FormGroupInput';
 import InputAmount from '../../../components/Form/InputAmount';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import Editor from '../../../components/Form/Editor';
 import BackButton from '../../../components/button/BackButton';
 import SubmitButton from '../../../components/button/SubmitButton';
@@ -157,7 +157,7 @@ const ECommerceProductForm = ({ id }) => {
               );
             }}
           />
-          <FormErrorMessage error={errors.price} />
+          <FormHookErrorMessage error={errors.price} />
         </FormGroup>
         <FormGroup label="Description">
           <Controller

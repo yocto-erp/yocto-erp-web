@@ -23,7 +23,7 @@ import FileUpload from '../../../components/FileUpload';
 import InputAmount from '../../../components/Form/InputAmount';
 import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
 import taggingApi from '../../../libs/apis/tagging.api';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { mappingServerTagging } from '../../../components/constants';
 
 const CreateReceiptForm = ({ id }) => {
@@ -207,7 +207,7 @@ const CreateReceiptForm = ({ id }) => {
                     />
                   )}
                 />
-                <FormErrorMessage error={errors.tagging} />
+                <FormHookErrorMessage error={errors.tagging} />
               </Col>
             </FormGroup>
           </Col>

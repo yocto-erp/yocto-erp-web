@@ -135,7 +135,12 @@ export function createSearchApi(url) {
    * }
    */
   return params => {
-    const { page, size, sorts, filter } = params;
+    const { page, size, sorts, filter } = params || {
+      page: 1,
+      size: 10,
+      sorts: [],
+      filter: {},
+    };
     const mapSorts = [];
     forIn(sorts, function mapItem(val, key) {
       if (val && val.length && key && key.length) {

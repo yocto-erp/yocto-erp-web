@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import SubmitButton from '../../../components/button/SubmitButton';
 import { EMAIL_PROVIDER } from '../constants';
@@ -79,7 +79,7 @@ const MailgunForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               defaultValue={form?.key}
               innerRef={register}
             />
-            <FormErrorMessage error={errors?.key} />
+            <FormHookErrorMessage error={errors?.key} />
           </FormGroup>
         </Col>
         <Col md={6}>
@@ -96,7 +96,7 @@ const MailgunForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               defaultValue={form?.domain}
               innerRef={register}
             />
-            <FormErrorMessage error={errors?.domain} />
+            <FormHookErrorMessage error={errors?.domain} />
           </FormGroup>
         </Col>
       </Row>

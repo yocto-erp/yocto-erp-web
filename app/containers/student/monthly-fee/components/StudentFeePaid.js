@@ -14,7 +14,7 @@ import SendEmailEditorForm from '../../../../components/SendEmailEditorForm';
 import InputAmount from '../../../../components/Form/InputAmount';
 import { useApi } from '../../../../libs/hooks/useApi';
 import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
-import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import { emailSchema } from '../../../../libs/utils/schema.util';
 
 const schema = yup.object().shape({
@@ -162,7 +162,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
                     ref={register}
                   />
                 </div>
-                <FormErrorMessage error={errors.name} />
+                <FormHookErrorMessage error={errors.name} />
               </div>
               <div className="form-group form-check">
                 <input

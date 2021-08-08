@@ -9,7 +9,7 @@ export const isNumber = value =>
 export const transformUnNumber = value => (!isNumber(value) ? 0 : value);
 
 export const transformUnNumberToNull = value =>
-  !isNumber(value) ? '' : value;
+  !isNumber(value) ? null : value;
 
 export const numberPipe = (scale = 2, thousandsSeparator = '.') =>
   IMask.createPipe(

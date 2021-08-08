@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { FormFeedback } from 'reactstrap';
 import messages from './messages';
 
-const FormErrorMessage = ({ error }) => {
+const FormHookErrorMessage = ({ error }) => {
   const errorMessage = useMemo(() => {
     if (!error) {
       return '';
@@ -21,8 +21,8 @@ const FormErrorMessage = ({ error }) => {
 
   return <>{errorMessage}</>;
 };
-FormErrorMessage.propTypes = {
+FormHookErrorMessage.propTypes = {
   error: PropTypes.object,
 };
 
-export default FormErrorMessage;
+export default FormHookErrorMessage;

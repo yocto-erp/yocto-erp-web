@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import SubmitButton from '../../../components/button/SubmitButton';
 import { EMAIL_PROVIDER } from '../constants';
@@ -109,7 +109,7 @@ const SMTPForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               placeholder="Enter SMTP URL"
               innerRef={register}
             />
-            <FormErrorMessage error={errors.url} />
+            <FormHookErrorMessage error={errors.url} />
           </FormGroup>
         </Col>
         <Col md={3}>
@@ -128,7 +128,7 @@ const SMTPForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               <option value="TLS">TLS</option>
               <option value="SSL">SSL</option>
             </Input>
-            <FormErrorMessage error={errors.encryption} />
+            <FormHookErrorMessage error={errors.encryption} />
           </FormGroup>
         </Col>
         <Col md={3}>
@@ -144,7 +144,7 @@ const SMTPForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               placeholder="Enter SMTP PORT"
               innerRef={register}
             />
-            <FormErrorMessage error={errors.port} />
+            <FormHookErrorMessage error={errors.port} />
           </FormGroup>
         </Col>
         <Col md={6}>
@@ -160,7 +160,7 @@ const SMTPForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               placeholder="Enter SMTP UserName"
               innerRef={register}
             />
-            <FormErrorMessage error={errors.username} />
+            <FormHookErrorMessage error={errors.username} />
           </FormGroup>
         </Col>
         <Col md={6}>
@@ -176,7 +176,7 @@ const SMTPForm = ({ form = {}, onUpdate, onConfigurationChange }) => {
               placeholder="Enter SMTP Password"
               innerRef={register}
             />
-            <FormErrorMessage error={errors.password} />
+            <FormHookErrorMessage error={errors.password} />
           </FormGroup>
         </Col>
       </Row>
