@@ -7,21 +7,32 @@ import { isFunc } from '../../utils/util';
 import { roundUp } from '../../libs/utils/number.util';
 
 const InputAmount = React.forwardRef((
-  { invalid, value, onChange, placeholder, scale = 0, currency = 'VND' },
+  {
+    invalid,
+    value,
+    onChange,
+    placeholder,
+    scale = 0,
+    currency = 'VND',
+    prepend,
+    ...props
+  },
   // eslint-disable-next-line no-unused-vars
   ref,
 ) => (
   <InputGroup className={classNames({ 'is-invalid': invalid })}>
+    {prepend}
     <IMaskInput
       className="form-control"
       mask={Number}
       radix=","
       scale={scale}
       signed={false}
+      {...props}
       thousandsSeparator="."
       mapToRadix={['.']}
       value={roundUp(value, scale)}
-      unmask="typed" // true|false|'typed'
+      unmask // true|false|'typed'
       onAccept={_val => isFunc(onChange) && onChange(_val)}
       placeholder={placeholder}
     />
@@ -32,6 +43,7 @@ const InputAmount = React.forwardRef((
 ));
 
 InputAmount.propTypes = {
+  prepend: PropTypes.any,
   invalid: PropTypes.bool,
   value: PropTypes.any,
   onChange: PropTypes.func,

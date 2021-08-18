@@ -24,8 +24,8 @@ import {
 import { MAIL_MERGE_ROOT_PATH } from '../../tools/mail-merge/constants';
 import {
   ECOMMERCE_CONFIGURATION_ROOT_PATH,
+  ECOMMERCE_POS_PATH,
   ECOMMERCE_PRODUCT_ROOT_PATH,
-  ECOMMERCE_ROOT_PATH,
 } from '../../ecommerce/constants';
 
 export const SIDE_BAR_MENU = {
@@ -36,6 +36,14 @@ export const SIDE_BAR_MENU = {
       iconName: 'fi flaticon-home',
       link: `${ADMIN_PATH}/dashboard`,
       index: 'dashboard',
+      exact: true,
+    },
+    {
+      header: 'POS',
+      isHeader: true,
+      iconName: 'fi flaticon-home',
+      link: `${ECOMMERCE_POS_PATH}`,
+      index: 'pos',
       exact: true,
     },
   ],
