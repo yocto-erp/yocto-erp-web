@@ -140,7 +140,7 @@
     "ua-parser-js": "^0.7.22",
     "use-immer": "^0.4.1",
     "uuid": "^8.3.0",
-    "xlsx": "^0.16.9",
+    "xlsx": "^0.17.0",
     "yup": "^0.32.9",
     "react-sticky-table": "^5.1.11"
   },
