@@ -8,13 +8,14 @@ import {
   Navbar,
 } from 'reactstrap';
 import '../../../../node_modules/animate.css/animate.css';
+import { PropTypes } from 'prop-types';
 import AccountDropDown from '../../Layout/Header/components/AccountDropdown';
 import LanguageDropDown from '../../Layout/Header/components/LanguageDropdown';
 import useUser from '../../../libs/hooks/useUser';
 import s from '../../Layout/Header/Header.module.scss';
 import Notifications from '../../../components/Notifications/Notifications';
 
-function Header() {
+function Header({ companyName }) {
   const { user } = useUser();
   const [messagesOpen, setMessagesOpen] = useState(false);
   const toggleMessagesDropdown = useCallback(() => {
@@ -26,7 +27,13 @@ function Header() {
         <Link to="/" className="navbar-brand text-white mr-1">
           Yocto <span className="fw-bold">ERP</span>
         </Link>
+        <h4 className="navbar-brand text-white mr-1 mt-2 ml-5">
+          {companyName || ''}
+        </h4>
         <div className="collapse navbar-collapse justify-content-end">
+          <h4 className="navbar-brand text-white mr-5 mt-2">
+            User Cart (total)
+          </h4>
           <Nav className="nav navbar-nav navbar-right">
             {user ? (
               <AccountDropDown />
@@ -70,6 +77,8 @@ function Header() {
   );
 }
 
-Header.propTypes = {};
+Header.propTypes = {
+  companyName: PropTypes.any,
+};
 
 export default Header;

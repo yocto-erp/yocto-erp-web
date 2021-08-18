@@ -126,9 +126,7 @@ const ListPage = ({ history }) => {
 
   return (
     <ListWidget
-      pageHeader={
-        <PageTitle title="Ecommerce Product" actions={actions} />
-      }
+      pageHeader={<PageTitle title="Ecommerce Product" actions={actions} />}
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={EcommerceProductApi.search}
