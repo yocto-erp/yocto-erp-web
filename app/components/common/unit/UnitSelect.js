@@ -4,7 +4,7 @@ import { Button, CustomInput, InputGroup, InputGroupAddon } from 'reactstrap';
 import classNames from 'classnames';
 import productApi from '../../../libs/apis/product/product.api';
 import UnitModalForm from './UnitModalForm';
-import FormErrorMessage from '../../Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../Form/FormHookErrorMessage';
 
 const UnitSelect = React.forwardRef((
   { onChange, value, onBlur, error, name, placeholder, onAdded, productId, id },
@@ -53,32 +53,32 @@ const UnitSelect = React.forwardRef((
       <InputGroup className={classNames({ 'is-invalid': !!error })}>
         <CustomInput
           id={id}
-          type='select'
+          type="select"
           name={name}
           onChange={onChangeHandle}
           onBlur={onBlur}
           disabled={!productId}
           value={value ? value.id : '0'}
         >
-          <option value=''>{placeholder || 'Select Unit'}</option>
+          <option value="">{placeholder || 'Select Unit'}</option>
           {options.map(t => (
             <option key={t.id} value={t.id}>
               {t.name}
             </option>
           ))}
         </CustomInput>
-        <InputGroupAddon addonType='append'>
+        <InputGroupAddon addonType="append">
           <Button
-            color='primary'
-            type='button'
+            color="primary"
+            type="button"
             disabled={!productId}
             onClick={() => open(true)}
           >
-            <i className='las la-plus' />
+            <i className="las la-plus" />
           </Button>
         </InputGroupAddon>
       </InputGroup>
-      <FormErrorMessage error={error} />
+      <FormHookErrorMessage error={error} />
       {productId ? (
         <UnitModalForm
           closeHandle={val => {

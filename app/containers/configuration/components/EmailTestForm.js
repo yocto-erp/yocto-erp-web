@@ -7,7 +7,7 @@ import Widget from '../../../components/Widget/Widget';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import FormError from '../../../components/Form/FormError';
 import { ERROR } from '../../../components/Form/messages';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import SubmitButton from '../../../components/button/SubmitButton';
 import emailConfigurationApi from '../../../libs/apis/configuration/email.api';
 
@@ -57,7 +57,7 @@ const EmailTestForm = ({ configuration }) => {
             placeholder="From Email Address"
             innerRef={register}
           />
-          <FormErrorMessage error={errors.from} />
+          <FormHookErrorMessage error={errors.from} />
         </FormGroup>
         <FormGroup>
           <Label className="">To</Label>
@@ -69,7 +69,7 @@ const EmailTestForm = ({ configuration }) => {
             placeholder="To Email Address"
             innerRef={register}
           />
-          <FormErrorMessage error={errors.to} />
+          <FormHookErrorMessage error={errors.to} />
         </FormGroup>
         <SubmitButton
           color="primary"

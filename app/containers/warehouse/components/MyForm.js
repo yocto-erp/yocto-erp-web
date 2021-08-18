@@ -9,7 +9,7 @@ import Widget from '../../../components/Widget/Widget';
 import SubmitButton from '../../../components/button/SubmitButton';
 import BackButton from '../../../components/button/BackButton';
 import { ERROR } from '../../../components/Form/messages';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -62,7 +62,7 @@ function MyForm({ id }) {
             id="name"
             placeholder="Warehouse Name"
           />
-          <FormErrorMessage error={errors.name} />
+          <FormHookErrorMessage error={errors.name} />
         </FormGroup>
         <FormGroup>
           <Label for="address" className="required">

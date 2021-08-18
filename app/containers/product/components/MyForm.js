@@ -22,7 +22,7 @@ import BackButton from '../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import CreateButton from '../../../components/button/CreateButton';
 import FileUpload from '../../../components/FileUpload';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { ERROR } from '../../../components/Form/messages';
 import InputNumber from '../../../components/Form/InputNumber';
 import { mappingServerTagging } from '../../../components/constants';
@@ -114,7 +114,7 @@ function MyForm({ id }) {
                 id="name"
                 placeholder="Product Name"
               />
-              <FormErrorMessage error={errors.name} />
+              <FormHookErrorMessage error={errors.name} />
             </FormGroup>
             <FormGroup>
               <Label for="productDocumentId" className="mr-sm-2 required">
@@ -128,7 +128,7 @@ function MyForm({ id }) {
                 id="productDocumentId"
                 placeholder="Product Document Id"
               />
-              <FormErrorMessage error={errors.productDocumentId} />
+              <FormHookErrorMessage error={errors.productDocumentId} />
             </FormGroup>
             {/* <FormGroup>
               <Label for="priceBaseUnit">
@@ -173,7 +173,7 @@ function MyForm({ id }) {
                   />
                 )}
               />
-              <FormErrorMessage error={errors.tagging} />
+              <FormHookErrorMessage error={errors.tagging} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -204,7 +204,7 @@ function MyForm({ id }) {
                           innerRef={register()}
                           defaultValue={item.name}
                         />
-                        <FormErrorMessage
+                        <FormHookErrorMessage
                           error={get(errors, ['units', index, 'name'])}
                         />
                       </td>
@@ -219,7 +219,7 @@ function MyForm({ id }) {
                           as={InputNumber}
                           defaultValue={item.rate}
                         />
-                        <FormErrorMessage
+                        <FormHookErrorMessage
                           error={get(errors, ['units', index, 'rate'])}
                         />
                       </td>
@@ -276,7 +276,7 @@ function MyForm({ id }) {
                 accept={['image/*']}
                 maxSize={500000}
               />
-              <FormErrorMessage
+              <FormHookErrorMessage
                 error={errors.assets && errors.assets.message}
               />
             </FormGroup>

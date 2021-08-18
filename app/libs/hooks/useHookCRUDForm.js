@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers';
 import isFunction from 'lodash/isFunction';
 
 const FORM_TYPE = {
+  PENDING: 'PENDING',
   LOAD_DATA: 'LOAD_DATA',
   FINISH_LOAD_DATA: 'FINISH_LOAD_DATA',
   SUBMIT: 'SUBMIT',
@@ -13,6 +14,7 @@ const FORM_TYPE = {
 };
 
 const STATE = {
+  status: FORM_TYPE.PENDING,
   formData: {},
   isLoading: false,
   errors: [],
@@ -23,6 +25,7 @@ const STATE = {
 /* eslint-disable default-case, no-param-reassign */
 const formReducer = (state, action) =>
   produce(state, draft => {
+    draft.status = action.type;
     switch (action.type) {
       case FORM_TYPE.LOAD_DATA:
         draft.errors = [];
@@ -95,6 +98,8 @@ export const useHookCRUDForm = ({
         });
         reset(localFormData);
       });
+    } else {
+      reset(initForm);
     }
   }, [read, id]);
 
@@ -132,6 +137,6 @@ export const useHookCRUDForm = ({
     setValue,
     formState,
     trigger,
-    watch
+    watch,
   };
 };

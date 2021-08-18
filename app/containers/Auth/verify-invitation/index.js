@@ -23,7 +23,7 @@ import { useApi } from '../../../libs/hooks/useApi';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import SubmitButton from '../../../components/button/SubmitButton';
 import FormError from '../../../components/Form/FormError';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 
 export function VerifyInvitationPage() {
   const [isShowPassword, setShowPassword] = useState(false);
@@ -120,8 +120,8 @@ export function VerifyInvitationPage() {
                     name="lastName"
                     placeholder="Last Name"
                   />
-                  <FormErrorMessage error={errors.lastName} />
-                  <FormErrorMessage error={errors.firstName} />
+                  <FormHookErrorMessage error={errors.lastName} />
+                  <FormHookErrorMessage error={errors.firstName} />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -145,7 +145,7 @@ export function VerifyInvitationPage() {
                     placeholder="Password"
                     hidden={false}
                   />
-                  <FormErrorMessage error={errors.password} />
+                  <FormHookErrorMessage error={errors.password} />
                   <InputGroupAddon addonType="append">
                     <Button
                       type="button"

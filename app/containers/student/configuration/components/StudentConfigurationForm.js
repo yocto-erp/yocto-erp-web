@@ -9,7 +9,7 @@ import studentConfigurationApi from '../../../../libs/apis/student/student-confi
 import { ERROR } from '../../../../components/Form/messages';
 import useMyForm from '../../../../libs/hooks/useMyForm';
 import FormError from '../../../../components/Form/FormError';
-import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import SubmitButton from '../../../../components/button/SubmitButton';
 import InputNumber from '../../../../components/Form/InputNumber';
 import InputAmount from '../../../../components/Form/InputAmount';
@@ -168,7 +168,7 @@ const StudentConfigurationForm = () => {
                 defaultValue={0}
                 placeholder="Number Day of Month"
               />
-              <FormErrorMessage error={errors.numberDayOfMonth} />
+              <FormHookErrorMessage error={errors.numberDayOfMonth} />
             </FormGroup>
           </Col>
           <Col md={4}>
@@ -185,7 +185,7 @@ const StudentConfigurationForm = () => {
                 defaultValue={0}
                 placeholder="Bus Fee"
               />
-              <FormErrorMessage error={errors.busFee} />
+              <FormHookErrorMessage error={errors.busFee} />
             </FormGroup>
           </Col>
           <Col md={4}>

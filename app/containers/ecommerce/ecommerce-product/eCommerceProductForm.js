@@ -12,11 +12,13 @@ import UnitSelect from '../../../components/common/unit/UnitSelect';
 import Widget from '../../../components/Widget/Widget';
 import FormGroupInput from '../../../components/Form/FormGroupInput';
 import InputAmount from '../../../components/Form/InputAmount';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import Editor from '../../../components/Form/Editor';
 import BackButton from '../../../components/button/BackButton';
 import SubmitButton from '../../../components/button/SubmitButton';
 import { transformUnNumber } from '../../../libs/utils/number.util';
+import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
+import Input from '../../../components/Form/Input';
 
 const validationSchema = yup.object().shape({
   product: yup
@@ -69,13 +71,14 @@ const ECommerceProductForm = ({ id }) => {
       webDisplayName: '',
       shortName: '',
       price: '',
+      isWarehouse: false,
+      warehouse: null,
     },
     id,
   });
 
   console.log('formData', formData);
-
-  const product = watch('product');
+  const { product, isWarehouse } = watch(['product', 'isWarehouse']);
   return (
     <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
@@ -118,6 +121,26 @@ const ECommerceProductForm = ({ id }) => {
               />
             </FormGroup>
           </div>
+          <div className="col">
+            <FormGroup label="Price" id="price" isRequired>
+              <Controller
+                name="price"
+                control={control}
+                defaultValue=""
+                render={({ onChange, value }, { invalid }) => {
+                  console.log('Value change', value);
+                  return (
+                    <InputAmount
+                      onChange={onChange}
+                      value={value}
+                      invalid={invalid}
+                    />
+                  );
+                }}
+              />
+              <FormHookErrorMessage error={errors.price} />
+            </FormGroup>
+          </div>
         </div>
         <div className="row">
           <div className="col-md-6">
@@ -141,23 +164,28 @@ const ECommerceProductForm = ({ id }) => {
             />
           </div>
         </div>
-        <FormGroup label="Price" id="price" isRequired>
-          <Controller
-            name="price"
-            control={control}
-            defaultValue=""
-            render={({ onChange, value }, { invalid }) => {
-              console.log('Value change', value);
-              return (
-                <InputAmount
-                  onChange={onChange}
+        <FormGroup label="Warehouse">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <div className="input-group-text">
+                <Input name="isWarehouse" type="checkbox" register={register} />
+              </div>
+            </div>
+            <Controller
+              name="warehouse"
+              control={control}
+              defaultValue=""
+              render={({ onChange, onBlur, value, name }) => (
+                <WarehouseSelect
+                  disabled={!isWarehouse}
                   value={value}
-                  invalid={invalid}
+                  onBlur={onBlur}
+                  onChange={onChange}
+                  name={name}
                 />
-              );
-            }}
-          />
-          <FormErrorMessage error={errors.price} />
+              )}
+            />
+          </div>
         </FormGroup>
         <FormGroup label="Description">
           <Controller

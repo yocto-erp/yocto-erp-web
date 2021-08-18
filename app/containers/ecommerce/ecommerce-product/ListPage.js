@@ -21,6 +21,7 @@ import {
 } from '../../../components/ListWidget/constants';
 import { ECOMMERCE_PRODUCT_ROOT_PATH } from '../constants';
 import ProductView from '../../../components/common/product/ProductView';
+import EnableDisable from '../../../components/ListWidget/EnableDisable';
 
 const ROOT_PATH = ECOMMERCE_PRODUCT_ROOT_PATH;
 
@@ -38,11 +39,15 @@ const ListPage = ({ history }) => {
       {
         header: 'Web Name',
         data: 'webDisplayName',
-        width: '20%',
-      },
-      {
-        header: 'Short Name',
-        data: 'shortName',
+        render: row => (
+          <>
+            <p className="mb-0">
+              {row.webDisplayName}
+              <br />
+              <small className="text-info">({row.shortName})</small>
+            </p>
+          </>
+        ),
         width: '20%',
       },
       {
@@ -53,6 +58,18 @@ const ListPage = ({ history }) => {
           name: 'price',
         },
         class: 'min text-right',
+      },
+      {
+        header: <span className="text-nowrap">Warehouse</span>,
+        data: 'warehouse',
+        render: row => (
+          <>
+            <EnableDisable value={row.isWarehouse} />
+            <br />
+            {row.isWarehouse && row.warehouse?.name}
+          </>
+        ),
+        class: 'min text-center',
       },
       {
         header: 'Remark',

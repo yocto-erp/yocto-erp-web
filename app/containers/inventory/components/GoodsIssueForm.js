@@ -24,7 +24,7 @@ import InventoryFormDetail from './InventoryFormDetail';
 import CreateButton from '../../../components/button/CreateButton';
 import DateSelect from '../../../components/date/DateSelect';
 import { ERROR } from '../../../components/Form/messages';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { mappingServerTagging } from '../../../components/constants';
 import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
 import taggingApi from '../../../libs/apis/tagging.api';
@@ -147,7 +147,7 @@ function GoodsIssueForm({ id }) {
                 placeholder="Select Warehouse"
                 as={WarehouseSelect}
               />
-              <FormErrorMessage error={errors.warehouse} />
+              <FormHookErrorMessage error={errors.warehouse} />
             </FormGroup>
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
@@ -176,7 +176,7 @@ function GoodsIssueForm({ id }) {
                   as={DateSelect}
                 />
               </div>
-              <FormErrorMessage error={errors.processedDate} />
+              <FormHookErrorMessage error={errors.processedDate} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -209,7 +209,7 @@ function GoodsIssueForm({ id }) {
                   />
                 )}
               />
-              <FormErrorMessage error={errors.tagging} />
+              <FormHookErrorMessage error={errors.tagging} />
             </FormGroup>
           </Col>
         </Row>

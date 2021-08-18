@@ -27,7 +27,7 @@ import { ERROR } from '../../../../components/Form/messages';
 import { mappingServerTagging } from '../../../../components/constants';
 import InputAsyncTagging from '../../../../components/Form/InputAsyncTagging';
 import taggingApi from '../../../../libs/apis/tagging.api';
-import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import { transformUnNumber } from '../../../../libs/utils/number.util';
 
 const validationSchema = Yup.object().shape({
@@ -240,7 +240,7 @@ function MyForm({ id }) {
                   />
                 )}
               />
-              <FormErrorMessage error={errors.tagging} />
+              <FormHookErrorMessage error={errors.tagging} />
             </FormGroup>
           </Col>
         </Row>

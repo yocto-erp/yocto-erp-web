@@ -26,7 +26,7 @@ import SubmitButton from '../../../../components/button/SubmitButton';
 import Widget from '../../../../components/Widget/Widget';
 import surveyAdminApi from '../../../../libs/apis/survey/survey-admin.api';
 import TypeSelect from '../../../../components/Select/TypeSelect';
-import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import { SURVEY_TYPE_OPTION } from '../constants';
 import { ERROR } from '../../../../components/Form/messages';
 import AddLanguageModal from './AddLanguageModal';
@@ -121,7 +121,7 @@ function MyForm({ id }) {
               />
             )}
           />
-          <FormErrorMessage error={errors.type} />
+          <FormHookErrorMessage error={errors.type} />
         </FormGroup>
         <FormGroup>
           <Label for="type" className="mr-sm-2">
@@ -218,7 +218,7 @@ function MyForm({ id }) {
                           placeholder="Survey Name"
                           defaultValue={item.name}
                         />
-                        <FormErrorMessage
+                        <FormHookErrorMessage
                           error={get(errors, ['surveyI18Ns', index, 'name'])}
                         />
                       </FormGroup>

@@ -18,6 +18,22 @@ export const genderStr = value => {
   }
 };
 
+export function mappingPerson(val) {
+  if (val) {
+    return {
+      id: val.id,
+      name: val.name,
+      firstName: val.firstName,
+      lastName: val.lastName,
+      gsm: val.gsm,
+      email: val.email,
+      address: val.address,
+    };
+  }
+
+  return null;
+}
+
 const API_ENDPOINT_URL = `${API_URL}/person`;
 
 const personApi = createCRUDApi(API_ENDPOINT_URL);

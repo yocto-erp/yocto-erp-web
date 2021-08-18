@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CustomInput, InputGroup } from 'reactstrap';
 import classNames from 'classnames';
 import warehouseApi from '../../../libs/apis/warehouse.api';
 
 const WarehouseSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ onChange, value, onBlur, invalid, id, placeholder }, ref) => {
+  (
+    { onChange, value, onBlur, invalid, id, placeholder, className, ...props },
+    ref,
+  ) => {
     const [options, setOptions] = useState([]);
     const request = React.useRef(0);
     useEffect(() => {
@@ -41,22 +43,23 @@ const WarehouseSelect = React.forwardRef(
     );
 
     return (
-      <InputGroup className={classNames({ 'is-invalid': invalid })}>
-        <CustomInput
-          id={id}
-          type="select"
-          onChange={onChangeHandle}
-          onBlur={onBlur}
-          value={value && value.id ? value.id : value || '0'}
-        >
-          <option value="0">{placeholder}</option>
-          {options.map(t => (
-            <option key={t.id} value={t.id}>
-              {t.name}
-            </option>
-          ))}
-        </CustomInput>
-      </InputGroup>
+      <select
+        id={id}
+        {...props}
+        className={classNames('custom-select', className, {
+          'is-invalid': invalid,
+        })}
+        onChange={onChangeHandle}
+        onBlur={onBlur}
+        value={value && value.id ? value.id : value || '0'}
+      >
+        <option value="0">{placeholder || 'Select Warehouse'}</option>
+        {options.map(t => (
+          <option key={t.id} value={t.id}>
+            {t.name}
+          </option>
+        ))}
+      </select>
     );
   },
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormGroup as BootStrapFormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
-import FormErrorMessage from './FormHookErrorMessage';
+import FormHookErrorMessage from './FormHookErrorMessage';
 
 const FormGroupInput = ({
   name,
@@ -51,12 +51,12 @@ const FormGroupInput = ({
               <span className="input-group-text">{iconRight}</span>
             </div>
           ) : null}
-          <FormErrorMessage error={error} />
+          <FormHookErrorMessage error={error} />
         </div>
       ) : (
         <>
           {input}
-          <FormErrorMessage error={error} />
+          <FormHookErrorMessage error={error} />
         </>
       )}
     </BootStrapFormGroup>

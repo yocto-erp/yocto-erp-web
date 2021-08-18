@@ -9,7 +9,7 @@ import SubmitButton from '../../../../components/button/SubmitButton';
 import BackButton from '../../../../components/button/BackButton';
 import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
 import { ERROR } from '../../../../components/Form/messages';
-import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required(ERROR.required),
@@ -76,7 +76,7 @@ function MyForm({ id }) {
                 id="firstName"
                 placeholder="First Name"
               />
-              <FormErrorMessage error={errors.firstName} />
+              <FormHookErrorMessage error={errors.firstName} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -92,7 +92,7 @@ function MyForm({ id }) {
                 id="lastName"
                 placeholder="Last Name"
               />
-              <FormErrorMessage error={errors.lastName} />
+              <FormHookErrorMessage error={errors.lastName} />
             </FormGroup>
           </Col>
         </Row>
@@ -110,7 +110,7 @@ function MyForm({ id }) {
                 id="email"
                 placeholder="Email"
               />
-              <FormErrorMessage error={errors.email} />
+              <FormHookErrorMessage error={errors.email} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">

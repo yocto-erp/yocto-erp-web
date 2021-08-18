@@ -52,7 +52,9 @@ function Sidebar({ dispatch, sidebarOpened }) {
       } else {
         element.current.classList.remove(s.sidebarOpen);
         setTimeout(() => {
-          element.current.style.height = '';
+          if (element.current) {
+            element.current.style.height = '';
+          }
         }, 0);
       }
     }

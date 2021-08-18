@@ -15,7 +15,7 @@ import CustomerSelect from '../../../../components/common/customer/CustomerSelec
 import saleApi from '../../../../libs/apis/order/sale.api';
 import CompanySelect from '../../../../components/common/company/CompanySelect';
 import { ERROR } from '../../../../components/Form/messages';
-import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import { mappingServerTagging } from '../../../../components/constants';
 import InputAsyncTagging from '../../../../components/Form/InputAsyncTagging';
 import taggingApi from '../../../../libs/apis/tagging.api';
@@ -141,7 +141,7 @@ function MyForm({ id }) {
                 id="name"
                 placeholder="Name"
               />
-              <FormErrorMessage error={errors.name} />
+              <FormHookErrorMessage error={errors.name} />
             </FormGroup>
             <FormGroup>
               <Label for="partnerPersonId" className="mr-sm-2">
@@ -225,7 +225,7 @@ function MyForm({ id }) {
                   />
                 )}
               />
-              <FormErrorMessage error={errors.tagging} />
+              <FormHookErrorMessage error={errors.tagging} />
             </FormGroup>
           </Col>
         </Row>

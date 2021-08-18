@@ -23,7 +23,7 @@ import SubmitButton from '../../../components/button/SubmitButton';
 import { registerUser } from '../../../libs/apis/auth.api';
 import useMyForm from '../../../libs/hooks/useMyForm';
 import FormError from '../../../components/Form/FormError';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 
 const schema = yup.object().shape({
   email: yup
@@ -79,8 +79,8 @@ export function RegisterPage() {
                 name="lastName"
                 placeholder="Last Name"
               />
-              <FormErrorMessage error={errors.lastName} />
-              <FormErrorMessage error={errors.firstName} />
+              <FormHookErrorMessage error={errors.lastName} />
+              <FormHookErrorMessage error={errors.firstName} />
             </InputGroup>
           </FormGroup>
           <FormGroup className="mt">

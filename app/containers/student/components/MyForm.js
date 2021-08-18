@@ -22,7 +22,7 @@ import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
 import CustomerSelect from '../../../components/common/customer/CustomerSelect';
 import studentApi from '../../../libs/apis/student/student.api';
 import DateSelect from '../../../components/date/DateSelect';
-import FormErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
 import { ERROR } from '../../../components/Form/messages';
 import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
 
@@ -141,7 +141,7 @@ function MyForm({ id }) {
                 id="studentId"
                 placeholder="Student ID"
               />
-              <FormErrorMessage error={errors.studentId} />
+              <FormHookErrorMessage error={errors.studentId} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
@@ -157,7 +157,7 @@ function MyForm({ id }) {
                 id="fullName"
                 placeholder="FullName Student"
               />
-              <FormErrorMessage error={errors.fullName} />
+              <FormHookErrorMessage error={errors.fullName} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
@@ -173,7 +173,7 @@ function MyForm({ id }) {
                 id="alias"
                 placeholder="Alias"
               />
-              <FormErrorMessage error={errors.alias} />
+              <FormHookErrorMessage error={errors.alias} />
             </FormGroup>
           </Col>
         </Row>
@@ -210,7 +210,7 @@ function MyForm({ id }) {
                   as={DateSelect}
                 />
               </div>
-              <FormErrorMessage error={errors.birthday} />
+              <FormHookErrorMessage error={errors.birthday} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
@@ -285,7 +285,7 @@ function MyForm({ id }) {
                   as={DateSelect}
                 />
               </div>
-              <FormErrorMessage error={errors.joinDate} />
+              <FormHookErrorMessage error={errors.joinDate} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">

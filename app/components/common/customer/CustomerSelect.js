@@ -4,13 +4,28 @@ import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
 import AsyncSelect from 'react-select/async';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
+import { v4 as uuidv4 } from 'uuid';
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-import personApi from '../../../libs/apis/person.api';
+import personApi, { mappingPerson } from '../../../libs/apis/person.api';
 import CustomerModalForm from './CustomerModalForm';
 
-const formatOptionLabel = data => (
+const formatOptionLabel = (data, { context }) => (
   <div className="text-white">
-    <span>{data.name ? data.name : `${data.firstName} ${data.lastName}`}</span>
+    <span>
+      {data.name ? data.name : `${data.firstName} ${data.lastName}`}
+      {context === 'menu' && (
+        <>
+          <br />
+          {data.gsm}
+          {data.email && (
+            <>
+              <br />
+              {data.email}
+            </>
+          )}
+        </>
+      )}
+    </span>
   </div>
 );
 
@@ -42,7 +57,7 @@ const CustomerSelect = React.forwardRef((
       .then(resp => cb(resp.rows));
   }, 300);
   return (
-    <div key={`${name}`}>
+    <div key={`${name || uuidv4()}`}>
       <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
         <AsyncSelect
           aria-labelledby="test"
@@ -59,9 +74,7 @@ const CustomerSelect = React.forwardRef((
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           onBlur={onBlur}
-          onChange={val =>
-            onChange(val ? { id: val.id, name: val.name } : null)
-          }
+          onChange={val => onChange(mappingPerson(val))}
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.id}
           name={name}
@@ -102,7 +115,7 @@ const CustomerSelect = React.forwardRef((
 CustomerSelect.propTypes = {
   value: PropTypes.any,
   invalid: PropTypes.bool,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   placeholder: PropTypes.string,
   onAdded: PropTypes.func,
   onChange: PropTypes.func,

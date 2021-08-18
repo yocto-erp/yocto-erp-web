@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { Controller, useWatch } from 'react-hook-form';
 import classNames from 'classnames';
-import FormErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
 import MonthSelect from '../../../../components/date/MonthSelect';
 import StudentSelect from '../../components/StudentSelect';
 import InputNumber from '../../../../components/Form/InputNumber';
@@ -230,7 +230,7 @@ const FormDetail = ({
             )}
           />
           <Price className="text-muted small" amount={scholarShipFee} />
-          <FormErrorMessage
+          <FormHookErrorMessage
             error={get(errors, ['details', index, 'scholarShip'])}
           />
         </td>
@@ -312,7 +312,9 @@ const FormDetail = ({
               />
             )}
           />
-          <FormErrorMessage error={get(errors, ['details', index, 'busFee'])} />
+          <FormHookErrorMessage
+            error={get(errors, ['details', index, 'busFee'])}
+          />
         </td>
         <td>
           <Controller
@@ -332,7 +334,7 @@ const FormDetail = ({
               />
             )}
           />
-          <FormErrorMessage
+          <FormHookErrorMessage
             error={get(errors, ['details', index, 'mealFee'])}
           />
         </td>

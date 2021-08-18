@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import tinymce from 'tinymce/tinymce';
 import 'tinymce/icons/default';
@@ -93,7 +93,7 @@ const Editor = ({
 
   const handleInit = useCallback(() => {
     const edi = editor.current;
-    edi.setContent(value);
+    // edi.setContent(value);
     edi.on('change keyup setcontent', () => {
       const newContent = editor.current.getContent({ format });
       if (isFunc(onChange)) {
@@ -103,7 +103,7 @@ const Editor = ({
     if (variables) {
       addSearchVariable(edi, variables);
     }
-  }, [onChange, variables, format]);
+  }, [onChange, variables, format, value]);
 
   const toolbar = React.useMemo(() => {
     let rs = '';
@@ -121,7 +121,7 @@ const Editor = ({
     return rs;
   }, [format, type]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     console.log(ref.current);
     tinymce
       .init({
