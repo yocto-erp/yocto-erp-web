@@ -20,9 +20,9 @@ const UserAdminDashboard = () => {
     if (!isLoading) {
       if (!isAuthenticated) {
         rs = <Login />;
-      } else if (user.companyId !== null) {
+      } else if (user && user.companyId !== null) {
         rs = <LayoutComponent />;
-      } else if (user.userCompanies.length) {
+      } else if (user && user.userCompanies && user.userCompanies.length) {
         rs = <CompanyChoose />;
       } else {
         rs = <OnBoardPage />;
