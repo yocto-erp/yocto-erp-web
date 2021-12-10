@@ -103,6 +103,19 @@ export const useHookCRUDForm = ({
     }
   }, [read, id]);
 
+  const handleError = error => {
+    let listError = [];
+    if (error.errors && error.errors.length) {
+      // eslint-disable-next-line prefer-destructuring
+      listError = error.errors;
+    } else if (error.error) {
+      listError.push({ code: 'BAD_REQUEST', message: error.error });
+    } else {
+      listError.push({ code: 'BAD_REQUEST', message: error.message });
+    }
+    dispatch({ type: FORM_TYPE.SUBMIT_ERROR, payload: listError });
+  };
+
   const submit = useCallback(
     handleSubmit(values => {
       let form = values;
@@ -119,10 +132,8 @@ export const useHookCRUDForm = ({
           }
           dispatch({ type: FORM_TYPE.SUBMIT_DONE, payload: resp });
           return onSuccess(resp);
-        })
-        .catch(error =>
-          dispatch({ type: FORM_TYPE.SUBMIT_ERROR, payload: error.errors }),
-        );
+        }, handleError)
+        .catch(handleError);
     }),
     [update, create, onSuccess, dispatch, initForm, handleSubmit],
   );

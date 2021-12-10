@@ -29,6 +29,7 @@ const initOrder = index => ({
   customer: null,
   products: [],
   total: 0,
+  tax: 0,
   email: '',
   phone: '',
   address: '',
