@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   Dropdown,
@@ -21,6 +22,7 @@ function Header({ companyName }) {
   const toggleMessagesDropdown = useCallback(() => {
     setMessagesOpen(previousState => !previousState);
   }, []);
+  const { products } = useSelector(state => state.shop);
   return (
     <div className="container-fluid">
       <Navbar className="d-print-none navbar-expand-lg ">
@@ -31,9 +33,6 @@ function Header({ companyName }) {
           {companyName || ''}
         </h4>
         <div className="collapse navbar-collapse justify-content-end">
-          <h4 className="navbar-brand text-white mr-5 mt-2">
-            User Cart (total)
-          </h4>
           <Nav className="nav navbar-nav navbar-right">
             {user ? (
               <AccountDropDown />
@@ -59,7 +58,7 @@ function Header({ companyName }) {
             >
               <DropdownToggle nav className={`${s.navItem} text-white`}>
                 <i className="glyphicon glyphicon-shopping-cart" />
-                <span className={`${s.count}`}>12</span>
+                <span className={`${s.count}`}>{products?.length}</span>
               </DropdownToggle>
               <DropdownMenu
                 className={`${

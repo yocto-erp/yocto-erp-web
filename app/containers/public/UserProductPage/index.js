@@ -154,7 +154,7 @@ const UserProductPage = () => {
             </div>
             <div className="row mt-5">
               {option?.rows?.map((item, index) => (
-                <CardShop index={index} item={item} />
+                <CardShop index={index} item={item} key={item.id} />
               ))}
             </div>
             {pagination}

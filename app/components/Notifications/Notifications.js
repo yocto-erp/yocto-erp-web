@@ -6,15 +6,18 @@ import MessagesDemo from './notifications-demo/Messages';
 import ProgressDemo from './notifications-demo/Progress';
 
 import s from './Notifications.module.scss';
+import OrderProduct from './notifications-demo/OrderProduct';
 // import useSocketIO from '../../libs/hooks/partner/socket';
 
 const Notifications = props => {
   // const { ipfs } = useIpfsHttpClient();
   // const { socketIO, isSocketInit } = useSocketIO();
-  const [notificationsTabSelected, setNotificationsTabSelected] = useState(1);
+  const [notificationsTabSelected, setNotificationsTabSelected] = useState(0);
 
   const notificationsTab = useMemo(() => {
     switch (notificationsTabSelected) {
+      case 0:
+        return <OrderProduct/>;
       case 1:
         return <NotificationsDemo />;
       case 2:
@@ -63,6 +66,16 @@ const Notifications = props => {
           <strong>You have 13 notifications</strong>
         </div>
         <ButtonGroup className={s.notificationButtons}>
+          <Button
+            outline
+            color="default"
+            size="sm"
+            className={s.notificationButton}
+            onClick={() => setNotificationsTabSelected(0)}
+            active={notificationsTabSelected === 0}
+          >
+            Product
+          </Button>
           <Button
             outline
             color="default"
