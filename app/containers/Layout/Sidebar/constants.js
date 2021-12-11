@@ -27,6 +27,7 @@ import {
   ECOMMERCE_POS_PATH,
   ECOMMERCE_PRODUCT_ROOT_PATH,
 } from '../../ecommerce/constants';
+import { SHOP_ROOT_PATH } from '../../shop/constants';
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -129,6 +130,13 @@ export const SIDE_BAR_MENU = {
       index: 'management',
       link: '',
       children: [
+        {
+          header: 'Shop',
+          link: SHOP_ROOT_PATH,
+          index: 'management.shop',
+          permission: PERMISSION.SURVEY.READ,
+          isHeader: true,
+        },
         {
           header: 'Survey',
           isHeader: true,

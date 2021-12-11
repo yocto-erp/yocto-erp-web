@@ -52,6 +52,8 @@ import UserPage from '../user/Loadable';
 import { ADMIN_PATH } from '../../constants';
 import EcommercePage from '../ecommerce/Loadable';
 import { ECOMMERCE_ROOT_PATH } from '../ecommerce/constants';
+import { SHOP_ROOT_PATH } from '../shop/constants';
+import ShopPage from '../shop/Loadable';
 
 function Layout({ sidebarPosition, sidebarVisibility }) {
   return (
@@ -127,6 +129,7 @@ function Layout({ sidebarPosition, sidebarVisibility }) {
                 <Route path={`${TAGGING_ROOT_PATH}`} component={TaggingPage} />
                 <Route path="/drive" component={FileBrowser} />
                 <Route path={`${USER_ROOT_PATH}`} component={UserPage} />
+                <Route path={`${SHOP_ROOT_PATH}`} component={ShopPage} />
               </Switch>
               <Footer />
             </div>
