@@ -28,6 +28,7 @@ import InputNumber from '../../../components/Form/InputNumber';
 import { mappingServerTagging } from '../../../components/constants';
 import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
 import taggingApi from '../../../libs/apis/tagging.api';
+import FormError from '../../../components/Form/FormError';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -56,7 +57,7 @@ function MyForm({ id }) {
     register,
     submit,
     errors,
-    state: { isLoading, formData },
+    state: { isLoading, formData, errors: serverErrors },
     formState: { isDirty, isValid },
   } = useHookCRUDForm({
     create,
@@ -100,6 +101,7 @@ function MyForm({ id }) {
   const form = React.useMemo(
     () => (
       <Form onSubmit={submit} noValidate formNoValidate>
+        <FormError errors={serverErrors} />
         <Row>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
