@@ -1,22 +1,22 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Form, Input, Spinner } from 'reactstrap';
-import { Controller, useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
-import debounce from 'lodash/debounce';
-import Header from '../components/Header';
-import '../index.scss';
-import { useApi } from '../../../libs/hooks/useApi';
-import ecommerceShopApi from '../../../libs/apis/public/ecommerce-shop';
-import CardShop from '../../../components/Card';
-import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
-import SearchButton from '../../../components/button/SearchButton';
-import Pagination from '../../../components/Pagination';
+import React, { useEffect, useState, useCallback } from "react";
+import { Form, Input, Spinner } from "reactstrap";
+import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import debounce from "lodash/debounce";
+import Header from "../components/Header";
+import "../index.scss";
+import { useApi } from "../../../libs/hooks/useApi";
+import ecommerceShopApi from "../../../libs/apis/public/ecommerce-shop";
+import CardShop from "../../../components/Card";
+import SearchButton from "../../../components/button/SearchButton";
+import Pagination from "../../../components/Pagination";
 
 const UserProductPage = () => {
+  console.log("Company Product page");
   const { publicId } = useParams();
-  const { handleSubmit, register, control } = useForm({});
+  const { handleSubmit, register } = useForm({});
   const [searchObject, setSearchObject] = useState({
-    search: '',
+    search: "",
     tagging: null,
     page: 1,
     size: 2,
@@ -56,7 +56,7 @@ const UserProductPage = () => {
     } else {
       setSearchObject(prev => ({
         ...prev,
-        search: '',
+        search: "",
         tagging: null,
       }));
     }
@@ -86,8 +86,8 @@ const UserProductPage = () => {
 
   const pagination = React.useMemo(
     () => (
-      <div className="w-100 mt-2">
-        <div className="d-flex align-items-center">
+      <div className="w-100 mt-4">
+        <div className="d-flex align-items-center justify-content-center">
           <Input
             type="select"
             name="pageSize"
@@ -96,7 +96,7 @@ const UserProductPage = () => {
             onChange={event => {
               setSize(Number(event.target.value));
             }}
-            style={{ width: 'auto' }}
+            style={{ width: "auto" }}
             value={searchObject.size}
           >
             <option value={10}>10 / Page</option>
@@ -111,7 +111,7 @@ const UserProductPage = () => {
             setPage={setPage}
           />
           <div className="ml-2">Total: {option?.count} records</div>
-          {isLoading ? <Spinner className="ml-auto" /> : ''}
+          {isLoading ? <Spinner className="ml-auto" /> : ""}
         </div>
       </div>
     ),
@@ -121,36 +121,29 @@ const UserProductPage = () => {
   return (
     <div className="public-page">
       <div className="background">
-        <Header companyName="test" />
+        <Header companyName="Company Name" />
         <main>
-          <div className="container">
-            <div>
-              <Form inline onSubmit={onSubmit} noValidate>
-                <Input
-                  type="search"
-                  name="search"
-                  className="mr-2"
-                  style={{ width: '300px' }}
-                  innerRef={register}
-                  id="search"
-                  placeholder="Search By Product Name, ID"
-                />
-                <div style={{ width: '300px' }} className="mr-2">
-                  <Controller
-                    name="tagging"
-                    defaultValue={[]}
-                    control={control}
-                    render={({ onChange, ...data }) => (
-                      <InputAsyncTagging
-                        {...data}
-                        onChange={onChange}
-                        loadOptionApi={ecommerceShopApi.search}
-                      />
-                    )}
+          <div className="container-fluid mt-5">
+            <div className="row">
+              <div className="col-6 offset-3">
+                <Form
+                  inline
+                  onSubmit={onSubmit}
+                  noValidate
+                  className="justify-content-center"
+                >
+                  <Input
+                    type="search"
+                    name="search"
+                    className="mr-2"
+                    style={{ width: "300px" }}
+                    innerRef={register}
+                    id="search"
+                    placeholder="Search by product name"
                   />
-                </div>
-                <SearchButton />
-              </Form>
+                  <SearchButton />
+                </Form>
+              </div>
             </div>
             <div className="row mt-5">
               {option?.rows?.map((item, index) => (

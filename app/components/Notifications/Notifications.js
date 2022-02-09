@@ -1,23 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
-import classnames from 'classnames';
-import NotificationsDemo from './notifications-demo/Notifications';
-import MessagesDemo from './notifications-demo/Messages';
-import ProgressDemo from './notifications-demo/Progress';
+import React, { useMemo, useState } from "react";
+import { Button, ButtonGroup } from "reactstrap";
+import classnames from "classnames";
+import NotificationsDemo from "./notifications-demo/Notifications";
+import MessagesDemo from "./notifications-demo/Messages";
+import ProgressDemo from "./notifications-demo/Progress";
 
-import s from './Notifications.module.scss';
-import OrderProduct from './notifications-demo/OrderProduct';
+import s from "./Notifications.module.scss";
 // import useSocketIO from '../../libs/hooks/partner/socket';
 
-const Notifications = props => {
+const Notifications = () => {
   // const { ipfs } = useIpfsHttpClient();
   // const { socketIO, isSocketInit } = useSocketIO();
-  const [notificationsTabSelected, setNotificationsTabSelected] = useState(0);
+  const [notificationsTabSelected, setNotificationsTabSelected] = useState(1);
 
   const notificationsTab = useMemo(() => {
     switch (notificationsTabSelected) {
-      case 0:
-        return <OrderProduct/>;
       case 1:
         return <NotificationsDemo />;
       case 2:
@@ -61,21 +58,11 @@ const Notifications = props => {
 
   return (
     <section className={`${s.notifications} navbar-notifications`}>
-      <header className={[s.cardHeader, 'card-header'].join(' ')}>
+      <header className={[s.cardHeader, "card-header"].join(" ")}>
         <div className="text-center mb-sm">
           <strong>You have 13 notifications</strong>
         </div>
         <ButtonGroup className={s.notificationButtons}>
-          <Button
-            outline
-            color="default"
-            size="sm"
-            className={s.notificationButton}
-            onClick={() => setNotificationsTabSelected(0)}
-            active={notificationsTabSelected === 0}
-          >
-            Product
-          </Button>
           <Button
             outline
             color="default"
@@ -109,14 +96,14 @@ const Notifications = props => {
         </ButtonGroup>
       </header>
       {notificationsTab}
-      <footer className={[s.cardFooter, 'text-sm', 'card-footer'].join(' ')}>
+      <footer className={[s.cardFooter, "text-sm", "card-footer"].join(" ")}>
         <Button
           color="link"
           className={classnames(
             s.btnNotificationsReload,
-            'btn-xs',
-            'float-right',
-            'py-0',
+            "btn-xs",
+            "float-right",
+            "py-0",
           )}
           id="load-notifications-btn"
         >

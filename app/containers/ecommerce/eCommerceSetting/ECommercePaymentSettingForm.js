@@ -1,26 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Controller } from 'react-hook-form';
-import * as yup from 'yup';
-import { toast } from 'react-toastify';
-import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import SubmitButton from '../../../components/button/SubmitButton';
-import { transformUnNumberToNull } from '../../../libs/utils/number.util';
+import React from "react";
+import PropTypes from "prop-types";
+import { Controller } from "react-hook-form";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import SubmitButton from "../../../components/button/SubmitButton";
+import { transformUnNumberToNull } from "../../../libs/utils/number.util";
 import {
   ECOMMERCE_PAYMENT_METHOD,
   ECOMMERCE_PAYMENT_METHOD_LIST,
-} from '../constants';
-import FormGroupInput from '../../../components/Form/FormGroupInput';
-import FormGroup from '../../../components/Form/FormGroup';
-import Editor from '../../../components/Form/Editor';
-import { EcommerceSettingApi } from '../../../libs/apis/ecommerce/ecommerce-setting.api';
-import ModalCancelButton from '../../../components/button/ModalCancelButton';
-import FormError from '../../../components/Form/FormError';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
+} from "../constants";
+import FormGroupInput from "../../../components/Form/FormGroupInput";
+import FormGroup from "../../../components/Form/FormGroup";
+import Editor from "../../../components/Form/Editor";
+import { EcommerceSettingApi } from "../../../libs/apis/ecommerce/ecommerce-setting.api";
+import ModalCancelButton from "../../../components/button/ModalCancelButton";
+import FormError from "../../../components/Form/FormError";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
 
 const { create, read, update } = EcommerceSettingApi.payment;
 const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
   const schema = yup.object().shape({
+    name: yup.string().required(),
     paymentMethodId: yup
       .number()
       .transform(transformUnNumberToNull)
@@ -41,7 +42,7 @@ const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
     read,
     update,
     validationSchema: schema,
-    initForm: { paymentMethodId: '', setting: '' },
+    initForm: { paymentMethodId: "", setting: "" },
     onSuccess: resp => {
       toast.success(
         id ? `Update Payment Method success` : `Add Payment Method success`,
@@ -50,7 +51,7 @@ const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
     },
   });
 
-  const paymentMethodId = watch('paymentMethodId');
+  const paymentMethodId = watch("paymentMethodId");
 
   return (
     <Modal isOpen={isOpen} size="lg">
@@ -60,6 +61,14 @@ const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
       <ModalBody>
         <FormError errors={serverErrors} />
         <Form noValidate formNoValidate onSubmit={submit}>
+          <FormGroupInput
+            label="Name"
+            isRequired
+            name="name"
+            type="text"
+            error={errors.name}
+            register={register}
+          />
           <FormGroupInput
             label="Payment Method"
             isRequired
@@ -75,8 +84,7 @@ const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
               </option>
             ))}
           </FormGroupInput>
-          {Number(paymentMethodId) ===
-            ECOMMERCE_PAYMENT_METHOD.DIRECT_TRANSFER && (
+          {Number(paymentMethodId) === ECOMMERCE_PAYMENT_METHOD.BANK && (
             <FormGroup label="Transfer Information">
               <Controller
                 name="setting"

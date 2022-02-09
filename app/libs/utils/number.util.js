@@ -1,9 +1,9 @@
-import IMask from 'imask';
+import IMask from "imask";
 
 export const isNumber = value =>
   value !== undefined &&
   value !== null &&
-  value !== '' &&
+  value !== "" &&
   !Number.isNaN(Number(value));
 
 export const transformUnNumber = value => (!isNumber(value) ? 0 : value);
@@ -11,7 +11,7 @@ export const transformUnNumber = value => (!isNumber(value) ? 0 : value);
 export const transformUnNumberToNull = value =>
   !isNumber(value) ? null : value;
 
-export const numberPipe = (scale = 2, thousandsSeparator = '.') =>
+export const numberPipe = (scale = 2, thousandsSeparator = ".") =>
   IMask.createPipe(
     {
       mask: Number,
@@ -32,5 +32,5 @@ export function roundUp(num, precision) {
     const scale = 10 ** precision;
     return String(Math.ceil(num * scale) / scale);
   }
-  return '';
+  return "";
 }

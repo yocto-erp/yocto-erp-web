@@ -1,20 +1,20 @@
-import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Dropdown,
   DropdownMenu,
   DropdownToggle,
   Nav,
   Navbar,
-} from 'reactstrap';
-import '../../../../node_modules/animate.css/animate.css';
-import { PropTypes } from 'prop-types';
-import AccountDropDown from '../../Layout/Header/components/AccountDropdown';
-import LanguageDropDown from '../../Layout/Header/components/LanguageDropdown';
-import useUser from '../../../libs/hooks/useUser';
-import s from '../../Layout/Header/Header.module.scss';
-import Notifications from '../../../components/Notifications/Notifications';
+} from "reactstrap";
+import "../../../../node_modules/animate.css/animate.css";
+import { PropTypes } from "prop-types";
+import AccountDropDown from "../../Layout/Header/components/AccountDropdown";
+import LanguageDropDown from "../../Layout/Header/components/LanguageDropdown";
+import useUser from "../../../libs/hooks/useUser";
+import s from "../../Layout/Header/Header.module.scss";
+import CartNotification from "./CartNotification/CartNotification";
 
 function Header({ companyName }) {
   const { user } = useUser();
@@ -30,7 +30,7 @@ function Header({ companyName }) {
           Yocto <span className="fw-bold">ERP</span>
         </Link>
         <h4 className="navbar-brand text-white mr-1 mt-2 ml-5">
-          {companyName || ''}
+          {companyName || ""}
         </h4>
         <div className="collapse navbar-collapse justify-content-end">
           <Nav className="nav navbar-nav navbar-right">
@@ -65,7 +65,7 @@ function Header({ companyName }) {
                   s.notificationsWrapper
                 } py-0 animate__animated animate__faster animate__fadeInUp`}
               >
-                <Notifications />
+                <CartNotification />
               </DropdownMenu>
             </Dropdown>
             <LanguageDropDown />

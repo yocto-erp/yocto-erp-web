@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 const MAX = 5;
 const Pagination = ({ total, pageSize, currentPage, setPage, ...props }) => {
@@ -61,10 +61,10 @@ const Pagination = ({ total, pageSize, currentPage, setPage, ...props }) => {
 
   return (
     <nav aria-label="Page navigation" {...props}>
-      <ul className="pagination">
+      <ul className="pagination mb-0">
         {pages.map(item => (
           <li
-            className={classNames('page-item', {
+            className={classNames("page-item", {
               active: item.page === currentPage,
             })}
             key={item.page}
