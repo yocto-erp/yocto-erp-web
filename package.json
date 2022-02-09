@@ -126,6 +126,7 @@
     "react-sortablejs": "^6.0.0",
     "react-sticky": "^6.0.3",
     "react-sticky-el": "^2.0.5",
+    "react-sticky-table": "^5.1.11",
     "react-toastify": "^6.0.8",
     "reactstrap": "^8.5.1",
     "redux": "^4.0.5",
@@ -141,8 +142,7 @@
     "use-immer": "^0.4.1",
     "uuid": "^8.3.0",
     "xlsx": "^0.17.5",
-    "yup": "^0.32.9",
-    "react-sticky-table": "^5.1.11"
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
