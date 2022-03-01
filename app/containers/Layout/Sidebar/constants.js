@@ -1,270 +1,277 @@
-import { AUDIT_ROOT_PATH } from '../../Audit/constants';
-import { TAGGING_ROOT_PATH } from '../../tagging/constants';
-import { USER_ROOT_PATH } from '../../user/constants';
-import { ADMIN_PATH, PERMISSION } from '../../../constants';
-import { SALE_ROOT_PATH } from '../../order/sale/constants';
-import { PURCHASE_ROOT_PATH } from '../../order/purchase/constants';
-import { COST_ROOT_PATH } from '../../cost/constants';
-import { INVENTORY_ROOT_PATH } from '../../inventory/constants';
-import { STUDENT_ROOT_PATH } from '../../student/constants';
-import { STUDENT_MONTHLY_ROOT_PATH } from '../../student/monthly-fee/constants';
-import { SURVEY_MANAGEMENT_ROOT_PATH } from '../../survey/Admin/constants';
-import { WAREHOUSE_ROOT_PATH } from '../../warehouse/constants';
-import { PRODUCT_ROOT_PATH } from '../../product/constants';
-import { PARTNER_ROOT_PATH } from '../../partner/constants';
-import { LOG_EMAIL_ROOT_PATH } from '../../log/constants';
+import { AUDIT_ROOT_PATH } from "../../Audit/constants";
+import { TAGGING_ROOT_PATH } from "../../tagging/constants";
+import { USER_ROOT_PATH } from "../../user/constants";
+import { ADMIN_PATH, PERMISSION } from "../../../constants";
+import { SALE_ROOT_PATH } from "../../order/sale/constants";
+import { PURCHASE_ROOT_PATH } from "../../order/purchase/constants";
+import { COST_ROOT_PATH } from "../../cost/constants";
+import { INVENTORY_ROOT_PATH } from "../../inventory/constants";
+import { STUDENT_ROOT_PATH } from "../../student/constants";
+import { STUDENT_MONTHLY_ROOT_PATH } from "../../student/monthly-fee/constants";
+import { SURVEY_MANAGEMENT_ROOT_PATH } from "../../survey/Admin/constants";
+import { WAREHOUSE_ROOT_PATH } from "../../warehouse/constants";
+import { PRODUCT_ROOT_PATH } from "../../product/constants";
+import { PARTNER_ROOT_PATH } from "../../partner/constants";
+import { LOG_EMAIL_ROOT_PATH } from "../../log/constants";
 import {
   CONFIGURATION_COMPANY_ROOT_PATH,
   CONFIGURATION_EMAIL_ROOT_PATH,
-} from '../../configuration/constants';
+} from "../../configuration/constants";
 import {
   TEMPLATE_EMAIL_ROOT_PATH,
   TEMPLATE_PRINT_ROOT_PATH,
-} from '../../template/constants';
-import { MAIL_MERGE_ROOT_PATH } from '../../tools/mail-merge/constants';
+} from "../../template/constants";
+import { MAIL_MERGE_ROOT_PATH } from "../../tools/mail-merge/constants";
 import {
   ECOMMERCE_CONFIGURATION_ROOT_PATH,
   ECOMMERCE_POS_PATH,
   ECOMMERCE_PRODUCT_ROOT_PATH,
-} from '../../ecommerce/constants';
-import { SHOP_ROOT_PATH } from '../../shop/constants';
+} from "../../ecommerce/constants";
+import { SHOP_ROOT_PATH } from "../../shop/constants";
+import { STUDENT_CLASS_ROOT_PATH } from "../../student/student-class/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
     {
-      header: 'Dashboard',
+      header: "Dashboard",
       isHeader: true,
-      iconName: 'fi flaticon-home',
+      iconName: "fi flaticon-home",
       link: `${ADMIN_PATH}/dashboard`,
-      index: 'dashboard',
+      index: "dashboard",
       exact: true,
     },
     {
-      header: 'POS',
+      header: "POS",
       isHeader: true,
-      iconName: 'fi flaticon-home',
+      iconName: "fi flaticon-home",
       link: `${ECOMMERCE_POS_PATH}`,
-      index: 'pos',
+      index: "pos",
       exact: true,
     },
   ],
   utils: [
     {
-      header: 'Bán hàng',
+      header: "Bán hàng",
       isHeader: true,
-      iconName: 'fi flaticon-network',
+      iconName: "fi flaticon-network",
       link: SALE_ROOT_PATH,
-      index: 'sale',
+      index: "sale",
       permission: PERMISSION.ORDER.SALE.READ,
     },
     {
-      header: 'Mua hàng',
+      header: "Mua hàng",
       isHeader: true,
-      iconName: 'fi flaticon-network',
+      iconName: "fi flaticon-network",
       link: PURCHASE_ROOT_PATH,
-      index: 'purchase',
+      index: "purchase",
       permission: PERMISSION.ORDER.PURCHASE.READ,
     },
     {
-      header: 'Thu chi',
+      header: "Thu chi",
       isHeader: true,
-      iconName: 'fi flaticon-network',
+      iconName: "fi flaticon-network",
       link: COST_ROOT_PATH,
-      index: 'cost',
+      index: "cost",
       permission: PERMISSION.COST.READ,
     },
     {
-      header: 'Nhập, xuất kho',
+      header: "Nhập, xuất kho",
       isHeader: true,
-      iconName: 'fi flaticon-network',
+      iconName: "fi flaticon-network",
       link: INVENTORY_ROOT_PATH,
-      index: 'inventory',
+      index: "inventory",
       permission: [
         PERMISSION.INVENTORY.GOODS_ISSUE.READ,
         PERMISSION.INVENTORY.GOODS_RECEIPT.READ,
       ],
     },
     {
-      header: 'Student',
+      header: "Student",
       isHeader: true,
-      iconName: 'fi flaticon-user-2',
-      index: 'student',
-      link: '',
+      iconName: "fi flaticon-user-2",
+      index: "student",
+      link: "",
       permission: PERMISSION.CUSTOMER.READ,
       children: [
         {
-          header: 'List Student',
+          header: "Student Class",
           isHeader: true,
-          link: STUDENT_ROOT_PATH,
-          index: 'student.list',
+          link: STUDENT_CLASS_ROOT_PATH,
+          index: "student.class",
         },
         {
-          header: 'Monthly Fee',
+          header: "List Student",
+          isHeader: true,
+          link: STUDENT_ROOT_PATH,
+          index: "student.list",
+        },
+        {
+          header: "Monthly Fee",
           isHeader: true,
           link: STUDENT_MONTHLY_ROOT_PATH,
-          index: 'student.monthly-fee',
+          index: "student.monthly-fee",
         },
       ],
     },
     {
-      header: 'Công cụ',
+      header: "Công cụ",
       isHeader: true,
-      iconName: 'fi flaticon-controls',
-      index: 'tools',
-      link: '',
+      iconName: "fi flaticon-controls",
+      index: "tools",
+      link: "",
       children: [
         {
-          header: 'Mail Merge',
+          header: "Mail Merge",
           isHeader: true,
           link: MAIL_MERGE_ROOT_PATH,
-          index: 'tools.mail-merge',
+          index: "tools.mail-merge",
         },
       ],
     },
   ],
   management: [
     {
-      header: 'Quản lý',
+      header: "Quản lý",
       isHeader: true,
-      iconName: 'fi flaticon-list',
-      index: 'management',
-      link: '',
+      iconName: "fi flaticon-list",
+      index: "management",
+      link: "",
       children: [
         {
-          header: 'Shop',
+          header: "Shop",
           link: SHOP_ROOT_PATH,
-          index: 'management.shop',
+          index: "management.shop",
           permission: PERMISSION.SURVEY.READ,
           isHeader: true,
         },
         {
-          header: 'Survey',
+          header: "Survey",
           isHeader: true,
           link: SURVEY_MANAGEMENT_ROOT_PATH,
           permission: PERMISSION.SURVEY.READ,
-          index: 'management.survey-management',
+          index: "management.survey-management",
         },
         {
-          header: 'Kho',
+          header: "Kho",
           isHeader: true,
           link: WAREHOUSE_ROOT_PATH,
           permission: PERMISSION.WAREHOUSE.READ,
-          index: 'management.warehouse',
+          index: "management.warehouse",
         },
         {
-          header: 'Sản phẩm',
+          header: "Sản phẩm",
           link: PRODUCT_ROOT_PATH,
-          index: 'management.product',
+          index: "management.product",
           permission: PERMISSION.PRODUCT.READ,
           isHeader: true,
         },
         {
-          header: 'Khách hàng - Company',
+          header: "Khách hàng - Company",
           link: PARTNER_ROOT_PATH,
-          index: 'management.partner',
+          index: "management.partner",
           permission: [PERMISSION.CUSTOMER.READ, PERMISSION.COMPANY.READ],
           isHeader: true,
         },
         {
-          header: 'Labels',
+          header: "Labels",
           link: TAGGING_ROOT_PATH,
-          index: 'management.label',
+          index: "management.label",
           isHeader: true,
         },
         {
-          header: 'User',
+          header: "User",
           permission: PERMISSION.USER.READ,
           isHeader: true,
-          iconName: 'fi flaticon-user',
+          iconName: "fi flaticon-user",
           link: USER_ROOT_PATH,
-          index: 'management.user',
+          index: "management.user",
         },
       ],
     },
     {
-      header: 'Ecommerce',
-      link: '',
-      iconName: 'fa fa-shopping-basket',
+      header: "Ecommerce",
+      link: "",
+      iconName: "fa fa-shopping-basket",
       isHeader: true,
-      index: 'ecommerce',
+      index: "ecommerce",
       permission: PERMISSION.TEMPLATE.READ,
       children: [
         {
-          header: 'Product',
+          header: "Product",
           link: ECOMMERCE_PRODUCT_ROOT_PATH,
-          index: 'ecommerce.product',
+          index: "ecommerce.product",
         },
         {
-          header: 'Order',
+          header: "Order",
           link: TEMPLATE_EMAIL_ROOT_PATH,
-          index: 'ecommerce.order',
+          index: "ecommerce.order",
         },
         {
-          header: 'Setting',
+          header: "Setting",
           link: ECOMMERCE_CONFIGURATION_ROOT_PATH,
-          index: 'ecommerce.setting',
+          index: "ecommerce.setting",
         },
       ],
     },
     {
-      header: 'Mẫu tài liệu',
-      link: '',
-      iconName: 'fi flaticon-folder-2',
+      header: "Mẫu tài liệu",
+      link: "",
+      iconName: "fi flaticon-folder-2",
       isHeader: true,
-      index: 'template',
+      index: "template",
       permission: PERMISSION.TEMPLATE.READ,
       children: [
         {
-          header: 'Mẫu in',
+          header: "Mẫu in",
           link: TEMPLATE_PRINT_ROOT_PATH,
-          index: 'template.print',
+          index: "template.print",
         },
         {
-          header: 'Mẫu Email',
+          header: "Mẫu Email",
           link: TEMPLATE_EMAIL_ROOT_PATH,
-          index: 'template.email',
+          index: "template.email",
         },
       ],
     },
     {
-      header: 'Cấu hình',
+      header: "Cấu hình",
       permission: PERMISSION.CONFIGURATION,
       isHeader: true,
-      iconName: 'fi flaticon-settings-3',
-      index: 'configuration',
-      link: '',
+      iconName: "fi flaticon-settings-3",
+      index: "configuration",
+      link: "",
       children: [
         {
-          header: 'Email',
+          header: "Email",
           link: CONFIGURATION_EMAIL_ROOT_PATH,
-          index: 'configuration.email',
+          index: "configuration.email",
         },
         {
-          header: 'Company',
+          header: "Company",
           link: CONFIGURATION_COMPANY_ROOT_PATH,
-          index: 'configuration.company',
+          index: "configuration.company",
         },
       ],
     },
     {
-      header: 'Log',
+      header: "Log",
       isHeader: true,
-      iconName: 'fi flaticon-time',
-      index: 'log',
-      link: '',
+      iconName: "fi flaticon-time",
+      index: "log",
+      link: "",
       permission: [PERMISSION.EMAIL.READ, PERMISSION.AUDIT],
       children: [
         {
           permission: PERMISSION.EMAIL.READ,
-          header: 'Email',
+          header: "Email",
           link: LOG_EMAIL_ROOT_PATH,
-          index: 'log.email',
+          index: "log.email",
         },
         {
           permission: PERMISSION.AUDIT,
-          header: 'Audit',
+          header: "Audit",
           link: AUDIT_ROOT_PATH,
-          index: 'log.audit',
+          index: "log.audit",
         },
       ],
     },

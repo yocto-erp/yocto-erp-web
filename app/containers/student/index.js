@@ -1,11 +1,14 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { STUDENT_CONFIGURATION_ROOT_PATH, STUDENT_ROOT_PATH } from './constants';
-import { listPage, newPage } from '../../libs/utils/crud.util';
-import CreatePage from './CreatePage';
-import EditPage from './EditPage';
-import ListPage from './ListPage';
-import ConfigurationPage from './configuration/ConfigurationPage';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import {
+  STUDENT_CONFIGURATION_ROOT_PATH,
+  STUDENT_ROOT_PATH,
+} from "./constants";
+import { listPage, newPage } from "../../libs/utils/crud.util";
+import CreatePage from "./CreatePage";
+import EditPage from "./EditPage";
+import ListPage from "./ListPage";
+import ConfigurationPage from "./configuration/ConfigurationPage";
 
 const MAIN_PATH = STUDENT_ROOT_PATH;
 

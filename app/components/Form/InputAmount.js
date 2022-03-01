@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
-import { IMaskInput } from 'react-imask';
-import { isFunc } from '../../utils/util';
-import { roundUp } from '../../libs/utils/number.util';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
+import { IMaskInput } from "react-imask";
+import { isFunc } from "../../utils/util";
+import { roundUp } from "../../libs/utils/number.util";
 
 const InputAmount = React.forwardRef((
   {
@@ -13,14 +13,14 @@ const InputAmount = React.forwardRef((
     onChange,
     placeholder,
     scale = 0,
-    currency = 'VND',
+    currency = "VND",
     prepend,
     ...props
   },
   // eslint-disable-next-line no-unused-vars
   ref,
 ) => (
-  <InputGroup className={classNames({ 'is-invalid': invalid })}>
+  <InputGroup className={classNames({ "is-invalid": invalid })}>
     {prepend}
     <IMaskInput
       className="form-control"
@@ -30,7 +30,7 @@ const InputAmount = React.forwardRef((
       signed={false}
       {...props}
       thousandsSeparator="."
-      mapToRadix={['.']}
+      mapToRadix={["."]}
       value={roundUp(value, scale)}
       unmask // true|false|'typed'
       onAccept={_val => isFunc(onChange) && onChange(_val)}

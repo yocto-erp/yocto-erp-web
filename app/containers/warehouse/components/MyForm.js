@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import warehouseApi from '../../../libs/apis/warehouse.api';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import { ERROR } from '../../../components/Form/messages';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import React from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Form, FormGroup, Input, Label } from "reactstrap";
+import { toast } from "react-toastify";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
+import warehouseApi from "../../../libs/apis/warehouse.api";
+import Widget from "../../../components/Widget/Widget";
+import SubmitButton from "../../../components/button/SubmitButton";
+import BackButton from "../../../components/button/BackButton";
+import { ERROR } from "../../../components/Form/messages";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -41,8 +41,8 @@ function MyForm({ id }) {
     }),
     validationSchema,
     initForm: {
-      name: '',
-      address: '',
+      name: "",
+      address: "",
     },
     id,
   });

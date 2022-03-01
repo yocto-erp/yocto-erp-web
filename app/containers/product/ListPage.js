@@ -1,24 +1,24 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
-import productApi from '../../libs/apis/product/product.api';
-import { PRODUCT_ROOT_PATH } from './constants';
-import PageTitle from '../Layout/PageTitle';
+import React from "react";
+import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import TableActionColumns from "../../components/ListWidget/TableActionColumn";
+import productApi from "../../libs/apis/product/product.api";
+import { PRODUCT_ROOT_PATH } from "./constants";
+import PageTitle from "../Layout/PageTitle";
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../libs/utils/crud.util';
-import CreateButton from '../../components/button/CreateButton';
-import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../components/ListWidget';
-import Filter from './components/Filter';
-import { CreatedByColumn } from '../../components/ListWidget/constants';
-import Tags from '../../components/Form/tagging/ViewTags';
-import ProductView from '../../components/common/product/ProductView';
+} from "../../libs/utils/crud.util";
+import CreateButton from "../../components/button/CreateButton";
+import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
+import ListWidget from "../../components/ListWidget";
+import Filter from "./components/Filter";
+import { CreatedByColumn } from "../../components/ListWidget/constants";
+import Tags from "../../components/Form/tagging/ViewTags";
+import ProductView from "../../components/common/product/ProductView";
 
 const ROOT_PATH = PRODUCT_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -26,27 +26,27 @@ const ListPage = ({ history }) => {
     () => [
       {
         header: <strong>Name</strong>,
-        data: 'name',
+        data: "name",
         sort: {
-          name: 'name',
+          name: "name",
         },
-        width: '20%',
+        width: "20%",
         render: row => <ProductView item={row} />,
       },
       {
-        header: 'Label',
-        data: 'tagging',
+        header: "Label",
+        data: "tagging",
         render: row => <Tags item={row.tagging} />,
       },
       {
-        header: 'Remark',
-        data: 'remark',
+        header: "Remark",
+        data: "remark",
       },
       CreatedByColumn,
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -62,7 +62,7 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  const search = { search: '' };
+  const search = { search: "" };
   const action = (
     <div>
       <CreateButton
@@ -96,7 +96,7 @@ const ListPage = ({ history }) => {
             }}
             title="Delete Product?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return `Are you sure to delete ${row.name} ?`;
             }}
           />

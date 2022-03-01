@@ -1,42 +1,42 @@
-import React from 'react';
-import * as yup from 'yup';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import { Controller } from 'react-hook-form';
-import { Form } from 'reactstrap';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import EcommerceProductApi from '../../../libs/apis/ecommerce/ecommerce-product.api';
-import ProductSelect from '../../../components/common/product/ProductSelect';
-import FormGroup from '../../../components/Form/FormGroup';
-import UnitSelect from '../../../components/common/unit/UnitSelect';
-import Widget from '../../../components/Widget/Widget';
-import FormGroupInput from '../../../components/Form/FormGroupInput';
-import InputAmount from '../../../components/Form/InputAmount';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import Editor from '../../../components/Form/Editor';
-import BackButton from '../../../components/button/BackButton';
-import SubmitButton from '../../../components/button/SubmitButton';
-import { transformUnNumber } from '../../../libs/utils/number.util';
-import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
-import Input from '../../../components/Form/Input';
+import React from "react";
+import * as yup from "yup";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import { Controller } from "react-hook-form";
+import { Form } from "reactstrap";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
+import EcommerceProductApi from "../../../libs/apis/ecommerce/ecommerce-product.api";
+import ProductSelect from "../../../components/common/product/ProductSelect";
+import FormGroup from "../../../components/Form/FormGroup";
+import UnitSelect from "../../../components/common/unit/UnitSelect";
+import Widget from "../../../components/Widget/Widget";
+import FormGroupInput from "../../../components/Form/FormGroupInput";
+import InputAmount from "../../../components/Form/InputAmount";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import Editor from "../../../components/Form/Editor";
+import BackButton from "../../../components/button/BackButton";
+import SubmitButton from "../../../components/button/SubmitButton";
+import { transformUnNumber } from "../../../libs/utils/number.util";
+import WarehouseSelect from "../../../components/common/warehouse/WarehouseSelect";
+import Input from "../../../components/Form/Input";
 
 const validationSchema = yup.object().shape({
   product: yup
     .object()
     .nullable()
-    .required('Product is required.'),
+    .required("Product is required."),
   unit: yup
     .object()
     .nullable()
-    .required('Unit is required.'),
+    .required("Unit is required."),
   webDisplayName: yup
     .string()
     .max(250)
-    .required('Web display name is required.'),
+    .required("Web display name is required."),
   shortName: yup
     .string()
     .max(64)
-    .required('Short name is required'),
+    .required("Short name is required"),
   price: yup
     .number()
     .transform(transformUnNumber)
@@ -68,17 +68,17 @@ const ECommerceProductForm = ({ id }) => {
     initForm: {
       product: null,
       unit: null,
-      webDisplayName: '',
-      shortName: '',
-      price: '',
+      webDisplayName: "",
+      shortName: "",
+      price: "",
       isWarehouse: false,
       warehouse: null,
     },
     id,
   });
 
-  console.log('formData', formData);
-  const { product, isWarehouse } = watch(['product', 'isWarehouse']);
+  console.log("formData", formData);
+  const { product, isWarehouse } = watch(["product", "isWarehouse"]);
   return (
     <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
@@ -128,7 +128,7 @@ const ECommerceProductForm = ({ id }) => {
                 control={control}
                 defaultValue=""
                 render={({ onChange, value }, { invalid }) => {
-                  console.log('Value change', value);
+                  console.log("Value change", value);
                   return (
                     <InputAmount
                       onChange={onChange}

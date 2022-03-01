@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormGroup as BootStrapFormGroup, Label } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { FormGroup as BootStrapFormGroup, Label } from "reactstrap";
 
 const FormGroup = ({ id, label, children, className, isRequired }) => (
   <BootStrapFormGroup className={className}>

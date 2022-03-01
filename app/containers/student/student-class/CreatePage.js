@@ -1,12 +1,12 @@
 import React from "react";
 import MyForm from "./components/MyForm";
-import PageTitle from "../Layout/PageTitle";
+import PageTitle from "../../Layout/PageTitle";
 
 const CreatePage = () => (
   <>
-    <PageTitle title="Create Product" />
+    <PageTitle title="Create Student Class" />
     <div className="row">
-      <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div className="col-md-6">
         <MyForm />
       </div>
     </div>

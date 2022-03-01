@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react';
-import { Col, Form, FormGroup, Input, Label, Row, Table } from 'reactstrap';
-import * as Yup from 'yup';
-import { toast } from 'react-toastify';
-import { Controller, useFieldArray } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
-import Widget from '../../../../components/Widget/Widget';
-import studentConfigurationApi from '../../../../libs/apis/student/student-config.api';
-import { ERROR } from '../../../../components/Form/messages';
-import useMyForm from '../../../../libs/hooks/useMyForm';
-import FormError from '../../../../components/Form/FormError';
-import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
-import SubmitButton from '../../../../components/button/SubmitButton';
-import InputNumber from '../../../../components/Form/InputNumber';
-import InputAmount from '../../../../components/Form/InputAmount';
-import CreateButton from '../../../../components/button/CreateButton';
-import BusRouteForm from './BusRouteForm';
-import ClassForm from './ClassForm';
-import BackButton from '../../../../components/button/BackButton';
-import { useApi } from '../../../../libs/hooks/useApi';
-import { templateApi } from '../../../../libs/apis/template/template.api';
-import { transformUnNumber } from '../../../../libs/utils/number.util';
+import React, { useEffect } from "react";
+import { Col, Form, FormGroup, Input, Label, Row, Table } from "reactstrap";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { Controller, useFieldArray } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
+import Widget from "../../../../components/Widget/Widget";
+import studentConfigurationApi from "../../../../libs/apis/student/student-config.api";
+import { ERROR } from "../../../../components/Form/messages";
+import useMyForm from "../../../../libs/hooks/useMyForm";
+import FormError from "../../../../components/Form/FormError";
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
+import SubmitButton from "../../../../components/button/SubmitButton";
+import InputNumber from "../../../../components/Form/InputNumber";
+import InputAmount from "../../../../components/Form/InputAmount";
+import CreateButton from "../../../../components/button/CreateButton";
+import BusRouteForm from "./BusRouteForm";
+import ClassForm from "./ClassForm";
+import BackButton from "../../../../components/button/BackButton";
+import { useApi } from "../../../../libs/hooks/useApi";
+import { templateApi } from "../../../../libs/apis/template/template.api";
+import { transformUnNumber } from "../../../../libs/utils/number.util";
 
 const StudentConfigurationForm = () => {
   const validationSchema = React.useMemo(
@@ -90,11 +90,11 @@ const StudentConfigurationForm = () => {
       feePerTrialDay: 0,
       mealFeePerDay: 0,
       busFee: 0,
-      busRoutes: [{ id: '', name: '' }],
+      busRoutes: [{ id: "", name: "" }],
       classes: [
         {
-          id: '',
-          name: '',
+          id: "",
+          name: "",
           tuitionFee: 0,
           feePerDay: 0,
           feePerTrialDay: 0,
@@ -102,7 +102,7 @@ const StudentConfigurationForm = () => {
           mealFeePerMonth: 0,
         },
       ],
-      printTemplateId: '',
+      printTemplateId: "",
     },
   });
 
@@ -136,8 +136,8 @@ const StudentConfigurationForm = () => {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'busRoutes',
-    keyName: 'bId',
+    name: "busRoutes",
+    keyName: "bId",
   });
 
   const {
@@ -146,8 +146,8 @@ const StudentConfigurationForm = () => {
     remove: classRemove,
   } = useFieldArray({
     control,
-    name: 'classes',
-    keyName: 'cId',
+    name: "classes",
+    keyName: "cId",
   });
 
   const form = React.useMemo(() => {
@@ -193,13 +193,11 @@ const StudentConfigurationForm = () => {
               <Label for="printTemplate">Print Template</Label>
               <Input type="select" innerRef={register} name="printTemplateId">
                 <option value="">Select Print Template</option>
-                {templates
-                  ? templates.rows.map(t => (
-                      <option value={t.id} key={t.id}>
-                        {t.name}
-                      </option>
-                    ))
-                  : null}
+                {templates?.rows.map(t => (
+                  <option value={t.id} key={t.id}>
+                    {t.name}
+                  </option>
+                ))}
               </Input>
             </FormGroup>
           </Col>
@@ -211,10 +209,10 @@ const StudentConfigurationForm = () => {
               <Table bordered hover striped size="sm">
                 <thead>
                   <tr>
-                    <th style={{ width: '100px' }}>
+                    <th style={{ width: "100px" }}>
                       ID <span className="text-danger">*</span>
                     </th>
-                    <th style={{ width: '250px' }}>
+                    <th style={{ width: "250px" }}>
                       Name <span className="text-danger">*</span>
                     </th>
                     <th>
@@ -257,8 +255,8 @@ const StudentConfigurationForm = () => {
                         type="button"
                         onClick={() => {
                           classAppend({
-                            id: '',
-                            name: '',
+                            id: "",
+                            name: "",
                             key: uuidv4(),
                           });
                         }}
@@ -279,10 +277,10 @@ const StudentConfigurationForm = () => {
               <Table bordered hover striped size="sm">
                 <thead>
                   <tr>
-                    <th style={{ width: '30%' }}>
+                    <th style={{ width: "30%" }}>
                       ID <span className="text-danger">*</span>
                     </th>
-                    <th style={{ width: '250px' }}>
+                    <th style={{ width: "250px" }}>
                       Name <span className="text-danger">*</span>
                     </th>
                     <th className="action">Action</th>
@@ -308,8 +306,8 @@ const StudentConfigurationForm = () => {
                         type="button"
                         onClick={() => {
                           append({
-                            id: '',
-                            name: '',
+                            id: "",
+                            name: "",
                             key: uuidv4(),
                           });
                         }}
@@ -333,7 +331,7 @@ const StudentConfigurationForm = () => {
       {serverErrors && serverErrors.length ? (
         <FormError errors={serverErrors} />
       ) : (
-        ''
+        ""
       )}
       {form}
     </Widget>

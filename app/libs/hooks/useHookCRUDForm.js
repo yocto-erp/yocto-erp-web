@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useReducer } from 'react';
-import produce from 'immer';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers';
-import isFunction from 'lodash/isFunction';
+import { useCallback, useEffect, useReducer } from "react";
+import produce from "immer";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers";
+import isFunction from "lodash/isFunction";
 
 const FORM_TYPE = {
-  PENDING: 'PENDING',
-  LOAD_DATA: 'LOAD_DATA',
-  FINISH_LOAD_DATA: 'FINISH_LOAD_DATA',
-  SUBMIT: 'SUBMIT',
-  SUBMIT_ERROR: 'SUBMIT_ERROR',
-  SUBMIT_DONE: 'SUBMIT_DONE',
+  PENDING: "PENDING",
+  LOAD_DATA: "LOAD_DATA",
+  FINISH_LOAD_DATA: "FINISH_LOAD_DATA",
+  SUBMIT: "SUBMIT",
+  SUBMIT_ERROR: "SUBMIT_ERROR",
+  SUBMIT_DONE: "SUBMIT_DONE",
 };
 
 const STATE = {
@@ -81,8 +81,8 @@ export const useHookCRUDForm = ({
     formState,
     trigger,
   } = useForm({
-    mode: 'all',
-    reValidateMode: 'onChange',
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: initForm,
   });
@@ -109,9 +109,9 @@ export const useHookCRUDForm = ({
       // eslint-disable-next-line prefer-destructuring
       listError = error.errors;
     } else if (error.error) {
-      listError.push({ code: 'BAD_REQUEST', message: error.error });
+      listError.push({ code: "BAD_REQUEST", message: error.error });
     } else {
-      listError.push({ code: 'BAD_REQUEST', message: error.message });
+      listError.push({ code: "BAD_REQUEST", message: error.message });
     }
     dispatch({ type: FORM_TYPE.SUBMIT_ERROR, payload: listError });
   };
@@ -127,7 +127,7 @@ export const useHookCRUDForm = ({
       return promise
         .then(resp => {
           if (!id) {
-            console.log('reset', initForm);
+            console.log("reset", initForm);
             reset({ ...initForm });
           }
           dispatch({ type: FORM_TYPE.SUBMIT_DONE, payload: resp });

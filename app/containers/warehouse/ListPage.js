@@ -1,23 +1,22 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import Widget from '../../components/Widget/Widget';
-import CreatedBy from '../../components/ListWidget/CreatedBy';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
-import warehouseApi from '../../libs/apis/warehouse.api';
-import { WAREHOUSE_ROOT_PATH } from './constants';
-import Filter from './components/Filter';
-import PageTitle from '../Layout/PageTitle';
+import React from "react";
+import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import CreatedBy from "../../components/ListWidget/CreatedBy";
+import TableActionColumns from "../../components/ListWidget/TableActionColumn";
+import warehouseApi from "../../libs/apis/warehouse.api";
+import { WAREHOUSE_ROOT_PATH } from "./constants";
+import Filter from "./components/Filter";
+import PageTitle from "../Layout/PageTitle";
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../libs/utils/crud.util';
-import CreateButton from '../../components/button/CreateButton';
-import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../components/ListWidget';
+} from "../../libs/utils/crud.util";
+import CreateButton from "../../components/button/CreateButton";
+import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
+import ListWidget from "../../components/ListWidget";
 
 const ROOT_PATH = WAREHOUSE_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -25,29 +24,29 @@ const ListPage = ({ history }) => {
     () => [
       {
         header: <strong>Warehouse</strong>,
-        data: 'name',
+        data: "name",
         sort: {
-          name: 'name',
+          name: "name",
         },
       },
       {
-        header: 'Address',
-        data: 'address',
-        width: '40%',
+        header: "Address",
+        data: "address",
+        width: "40%",
       },
       {
-        header: 'Created By',
-        data: 'createdBy',
-        class: 'min-width',
+        header: "Created By",
+        data: "createdBy",
+        class: "min-width",
         render: row => {
           const { createdBy, createdDate } = row;
           return <CreatedBy user={createdBy} date={createdDate} />;
         },
       },
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -63,7 +62,7 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  const search = { search: '' };
+  const search = { search: "" };
   const action = (
     <div>
       <CreateButton
@@ -98,7 +97,7 @@ const ListPage = ({ history }) => {
             }}
             title="Delete Warehouse?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return `Are you sure to delete ${row.name} ?`;
             }}
           />

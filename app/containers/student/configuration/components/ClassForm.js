@@ -1,55 +1,55 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import { Button, FormFeedback, Input } from 'reactstrap';
-import { Controller } from 'react-hook-form';
-import InputAmount from '../../../../components/Form/InputAmount';
+import React from "react";
+import PropTypes from "prop-types";
+import get from "lodash/get";
+import { Button, FormFeedback, Input } from "reactstrap";
+import { Controller } from "react-hook-form";
+import InputAmount from "../../../../components/Form/InputAmount";
 
 const ClassForm = ({ errors, register, item, index, remove, control }) => (
   <tr key={item.key}>
     <td>
       <Input
         type="text"
-        invalid={!!get(errors, ['classes', index, 'id'], false)}
+        invalid={!!get(errors, ["classes", index, "id"], false)}
         name={`classes[${index}].id`}
         innerRef={register}
         defaultValue={item.id} // make sure to set up defaultValue
       />
       <FormFeedback>
-        {get(errors, ['classes', index, 'id', 'message'], '')}
+        {get(errors, ["classes", index, "id", "message"], "")}
       </FormFeedback>
     </td>
     <td>
       <Input
         type="text"
-        invalid={!!get(errors, ['classes', index, 'name'], false)}
+        invalid={!!get(errors, ["classes", index, "name"], false)}
         name={`classes[${index}].name`}
         innerRef={register}
         defaultValue={item.name} // make sure to set up defaultValue
       />
       <FormFeedback>
-        {get(errors, ['classes', index, 'name', 'message'], '')}
+        {get(errors, ["classes", index, "name", "message"], "")}
       </FormFeedback>
     </td>
     <td>
       <Controller
         name={`classes[${index}].tuitionFee`}
-        invalid={!!get(errors, ['classes', index, 'tuitionFee'], false)}
+        invalid={!!get(errors, ["classes", index, "tuitionFee"], false)}
         control={control}
         as={InputAmount}
         defaultValue={item.tuitionFee}
         placeholder="Tuition Fee"
       />
       <FormFeedback>
-        {get(errors, ['classes', index, 'tuitionFee', 'message'], '')}
+        {get(errors, ["classes", index, "tuitionFee", "message"], "")}
       </FormFeedback>
     </td>
     <td>
       <Controller
         name={`classes[${index}].feePerDay`}
-        invalid={!!get(errors, ['classes', index, 'feePerDay'], false)}
+        invalid={!!get(errors, ["classes", index, "feePerDay"], false)}
         control={control}
-        defaultValue={item.feePerDay || ''}
+        defaultValue={item.feePerDay || ""}
         placeholder="Fee Return Per Day"
         render={({ onChange, value }, { invalid }) => (
           <InputAmount
@@ -62,41 +62,41 @@ const ClassForm = ({ errors, register, item, index, remove, control }) => (
         )}
       />
       <FormFeedback>
-        {get(errors, ['classes', index, 'feePerDay', 'message'], '')}
+        {get(errors, ["classes", index, "feePerDay", "message"], "")}
       </FormFeedback>
     </td>
     <td>
       <Controller
         name={`classes[${index}].feePerTrialDay`}
-        invalid={!!get(errors, ['classes', index, 'feePerTrialDay'], false)}
+        invalid={!!get(errors, ["classes", index, "feePerTrialDay"], false)}
         control={control}
         as={InputAmount}
-        defaultValue={item.feePerTrialDay || ''}
+        defaultValue={item.feePerTrialDay || ""}
         placeholder="Fee Per Trial Day"
       />
       <FormFeedback>
-        {get(errors, ['classes', index, 'feePerTrialDay', 'message'], '')}
+        {get(errors, ["classes", index, "feePerTrialDay", "message"], "")}
       </FormFeedback>
     </td>
     <td>
       <Controller
         name={`classes[${index}].mealFeePerMonth`}
-        invalid={!!get(errors, ['classes', index, 'mealFeePerMonth'], false)}
+        invalid={!!get(errors, ["classes", index, "mealFeePerMonth"], false)}
         control={control}
         as={InputAmount}
-        defaultValue={item.mealFeePerMonth || ''}
+        defaultValue={item.mealFeePerMonth || ""}
         placeholder="Meal Fee Per Month"
       />
       <FormFeedback>
-        {get(errors, ['classes', index, 'mealFeePerMonth', 'message'], '')}
+        {get(errors, ["classes", index, "mealFeePerMonth", "message"], "")}
       </FormFeedback>
     </td>
     <td>
       <Controller
         name={`classes[${index}].mealFeePerDay`}
-        invalid={!!get(errors, ['classes', index, 'mealFeePerDay'], false)}
+        invalid={!!get(errors, ["classes", index, "mealFeePerDay"], false)}
         control={control}
-        defaultValue={item.mealFeePerDay || ''}
+        defaultValue={item.mealFeePerDay || ""}
         placeholder="Meal Fee Return Per Day"
         render={({ onChange, value }, { invalid }) => (
           <InputAmount
@@ -109,7 +109,7 @@ const ClassForm = ({ errors, register, item, index, remove, control }) => (
         )}
       />
       <FormFeedback>
-        {get(errors, ['classes', index, 'mealFeePerDay', 'message'], '')}
+        {get(errors, ["classes", index, "mealFeePerDay", "message"], "")}
       </FormFeedback>
     </td>
     <td className="action">
@@ -119,7 +119,7 @@ const ClassForm = ({ errors, register, item, index, remove, control }) => (
         size="sm"
         onClick={() => remove(index)}
       >
-        <i className="fi flaticon-trash" />{' '}
+        <i className="fi flaticon-trash" />{" "}
       </Button>
     </td>
   </tr>

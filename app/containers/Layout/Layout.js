@@ -1,68 +1,77 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Route, Switch, withRouter } from "react-router-dom";
 
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import classNames from 'classnames';
-import Header from './Header/Header';
-import Sidebar from './Sidebar/Sidebar';
-import s from './Layout.module.scss';
-import Dashboard from '../dashboard/Dashboard';
-import { WAREHOUSE_ROOT_PATH } from '../warehouse/constants';
-import WarehousePage from '../warehouse/Loadable';
-import Footer from './Footer';
-import { PRODUCT_ROOT_PATH } from '../product/constants';
-import ProductPage from '../product/Loadable';
-import InventoryPage from '../inventory/Loadable';
-import { INVENTORY_ROOT_PATH } from '../inventory/constants';
-import { PURCHASE_ROOT_PATH } from '../order/purchase/constants';
-import PurchasePage from '../order/purchase/Loadable';
-import { COST_ROOT_PATH } from '../cost/constants';
-import CostPage from '../cost';
-import { SALE_ROOT_PATH } from '../order/sale/constants';
-import SalePage from '../order/sale/Loadable';
-import { PARTNER_ROOT_PATH } from '../partner/constants';
-import PartnerPage from '../partner/Loadable';
-import { STUDENT_ROOT_PATH } from '../student/constants';
-import StudentPage from '../student/Loadable';
-import ConfigurationPage from '../configuration/Loadable';
-import StudentMonthlyPage from '../student/monthly-fee/Loadable';
-import { STUDENT_MONTHLY_ROOT_PATH } from '../student/monthly-fee/constants';
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import classNames from "classnames";
+import Header from "./Header/Header";
+import Sidebar from "./Sidebar/Sidebar";
+import s from "./Layout.module.scss";
+import Dashboard from "../dashboard/Dashboard";
+import { WAREHOUSE_ROOT_PATH } from "../warehouse/constants";
+import WarehousePage from "../warehouse/Loadable";
+import Footer from "./Footer";
+import { PRODUCT_ROOT_PATH } from "../product/constants";
+import ProductPage from "../product/Loadable";
+import InventoryPage from "../inventory/Loadable";
+import { INVENTORY_ROOT_PATH } from "../inventory/constants";
+import { PURCHASE_ROOT_PATH } from "../order/purchase/constants";
+import PurchasePage from "../order/purchase/Loadable";
+import { COST_ROOT_PATH } from "../cost/constants";
+import CostPage from "../cost";
+import { SALE_ROOT_PATH } from "../order/sale/constants";
+import SalePage from "../order/sale/Loadable";
+import { PARTNER_ROOT_PATH } from "../partner/constants";
+import PartnerPage from "../partner/Loadable";
+import { STUDENT_ROOT_PATH } from "../student/constants";
+import StudentPage from "../student/Loadable";
+import StudentClassPage from "../student/student-class/Loadable";
+import ConfigurationPage from "../configuration/Loadable";
+import StudentMonthlyPage from "../student/monthly-fee/Loadable";
+import { STUDENT_MONTHLY_ROOT_PATH } from "../student/monthly-fee/constants";
 import {
   TEMPLATE_EMAIL_ROOT_PATH,
   TEMPLATE_PRINT_ROOT_PATH,
-} from '../template/constants';
-import TemplatePrintPage from '../template/print/Loadable';
-import TemplateEmailPage from '../template/email/Loadable';
-import SurveyAdminPage from '../survey/Admin/Loadable';
-import { SURVEY_MANAGEMENT_ROOT_PATH } from '../survey/Admin/constants';
-import { LOG_ROOT_PATH } from '../log/constants';
-import LogPage from '../log/Loadable';
-import { CONFIGURATION_ROOT_PATH } from '../configuration/constants';
-import MailMerge from '../tools/mail-merge';
-import { MAIL_MERGE_ROOT_PATH } from '../tools/mail-merge/constants';
-import FileBrowser from '../../components/assets/FileBrowser';
-import { AUDIT_ROOT_PATH } from '../Audit/constants';
-import AuditPage from '../Audit/Loadable';
-import { TAGGING_ROOT_PATH } from '../tagging/constants';
-import TaggingPage from '../tagging/ListPage';
-import { USER_ROOT_PATH } from '../user/constants';
-import UserPage from '../user/Loadable';
-import { ADMIN_PATH } from '../../constants';
-import EcommercePage from '../ecommerce/Loadable';
-import { ECOMMERCE_ROOT_PATH } from '../ecommerce/constants';
-import { SHOP_ROOT_PATH } from '../shop/constants';
-import ShopPage from '../shop/Loadable';
+} from "../template/constants";
+import TemplatePrintPage from "../template/print/Loadable";
+import TemplateEmailPage from "../template/email/Loadable";
+import SurveyAdminPage from "../survey/Admin/Loadable";
+import { SURVEY_MANAGEMENT_ROOT_PATH } from "../survey/Admin/constants";
+import { LOG_ROOT_PATH } from "../log/constants";
+import LogPage from "../log/Loadable";
+import { CONFIGURATION_ROOT_PATH } from "../configuration/constants";
+import MailMerge from "../tools/mail-merge";
+import { MAIL_MERGE_ROOT_PATH } from "../tools/mail-merge/constants";
+import FileBrowser from "../../components/assets/FileBrowser";
+import { AUDIT_ROOT_PATH } from "../Audit/constants";
+import AuditPage from "../Audit/Loadable";
+import { TAGGING_ROOT_PATH } from "../tagging/constants";
+import TaggingPage from "../tagging/ListPage";
+import { USER_ROOT_PATH } from "../user/constants";
+import UserPage from "../user/Loadable";
+import { ADMIN_PATH } from "../../constants";
+import EcommercePage from "../ecommerce/Loadable";
+import { ECOMMERCE_ROOT_PATH } from "../ecommerce/constants";
+import { SHOP_ROOT_PATH } from "../shop/constants";
+import ShopPage from "../shop/Loadable";
+import { STUDENT_CLASS_ROOT_PATH } from "../student/student-class/constants";
 
-function Layout({ sidebarPosition, sidebarVisibility }) {
+function Layout({
+  sidebarPosition,
+  sidebarVisibility,
+  // eslint-disable-next-line no-unused-vars
+  sidebarOpened,
+  // eslint-disable-next-line no-unused-vars
+  dispatch,
+}) {
   return (
     <div
       className={[
         s.root,
         `sidebar-${sidebarPosition}`,
         `sidebar-${sidebarVisibility}`,
-      ].join(' ')}
+      ].join(" ")}
     >
       <div className={s.wrap}>
         <Header />
@@ -72,13 +81,13 @@ function Layout({ sidebarPosition, sidebarVisibility }) {
         <main>
           <OverlayScrollbarsComponent
             options={{
-              resize: 'both',
+              resize: "both",
               scrollbars: {
-                autoHide: 'scroll',
+                autoHide: "scroll",
               },
               paddingAbsolute: false,
             }}
-            className={classNames(s.contentWrapper, 'os-theme-light')}
+            className={classNames(s.contentWrapper, "os-theme-light")}
           >
             <div className="content">
               <Switch>
@@ -106,6 +115,10 @@ function Layout({ sidebarPosition, sidebarVisibility }) {
                 />
                 <Route path={`${COST_ROOT_PATH}`} component={CostPage} />
                 <Route path={`${STUDENT_ROOT_PATH}`} component={StudentPage} />
+                <Route
+                  path={`${STUDENT_CLASS_ROOT_PATH}`}
+                  component={StudentClassPage}
+                />
                 <Route
                   path={`${CONFIGURATION_ROOT_PATH}`}
                   component={ConfigurationPage}
