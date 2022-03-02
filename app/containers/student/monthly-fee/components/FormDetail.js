@@ -133,7 +133,7 @@ const FormDetail = ({
     scholarShipFee,
   ]);
 
-  const columns = React.useMemo(() => {
+  return React.useMemo(() => {
     const { errors } = formState;
     return (
       <tr key={item.id}>
@@ -435,8 +435,6 @@ const FormDetail = ({
     totalFee,
     studentAbsentDayDeductMealFee,
   ]);
-
-  return columns;
 };
 
 FormDetail.propTypes = {

@@ -20,7 +20,7 @@ import ShortText from "../../../components/ShortText";
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
-  const { configure, getClassName } = useStudentConfigure();
+  const { configure } = useStudentConfigure();
   const [paymentStudent, setPaymentStudent] = useState(null);
   const columns = React.useMemo(
     () => [
@@ -37,7 +37,7 @@ const ListPage = ({ history }) => {
                 {row.student.child.name} ({row.student.alias})
               </strong>
               <br />
-              {getClassName(row.student.class)}
+              {row.student.class?.name}
             </p>
           </>
         ),
