@@ -1,21 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import CreateButton from '../../../../components/button/CreateButton';
-import { editPage, newPage } from '../../../../libs/utils/crud.util';
+import React from "react";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import CreateButton from "../../../../components/button/CreateButton";
+import { editPage, newPage } from "../../../../libs/utils/crud.util";
 import {
   useListActionContext,
   useListStateContext,
-} from '../../../../components/ListWidget/constants';
-import SendMailButton from '../../../../components/button/SendMailButton';
-import ConfigureButton from '../../../../components/button/ConfigureButton';
-import { STUDENT_CONFIGURATION_ROOT_PATH } from '../../constants';
-import PageTitle from '../../../Layout/PageTitle';
-import { STUDENT_MONTHLY_ROOT_PATH } from '../constants';
-import SendMailStudentFee from './SendMail';
-import CloneNextMonth from './CloneNextMonth';
-import { useConfirmDialog } from '../../../../libs/hooks/useConfirmDialog';
-import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
+} from "../../../../components/ListWidget/constants";
+import SendMailButton from "../../../../components/button/SendMailButton";
+import PageTitle from "../../../Layout/PageTitle";
+import { STUDENT_MONTHLY_ROOT_PATH } from "../constants";
+import SendMailStudentFee from "./SendMail";
+import CloneNextMonth from "./CloneNextMonth";
+import { useConfirmDialog } from "../../../../libs/hooks/useConfirmDialog";
+import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api";
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const Header = ({ history }) => {
@@ -73,7 +71,7 @@ const Header = ({ history }) => {
         onClick={() => {
           openConfirm({
             title: `Delete total ${totalSelectedItems} Student Monthly Fee ?`,
-            message: 'Are you sure to delete ?',
+            message: "Are you sure to delete ?",
             onClose: isConfirm => {
               if (isConfirm) {
                 studentMonthlyFeeApi
@@ -82,7 +80,7 @@ const Header = ({ history }) => {
                   })
                   .then(
                     () => {
-                      toast.success('Delete success');
+                      toast.success("Delete success");
                       onDeleted(Object.values(getStateSelect));
                     },
                     err => toast.error(err.errors[0].message),
@@ -101,14 +99,6 @@ const Header = ({ history }) => {
         disabled={!totalSelectedItems}
         onClick={() => {
           setIsOpenSendMail(true);
-        }}
-      />
-
-      <ConfigureButton
-        size="sm"
-        className="shadow btn-raised"
-        onClick={() => {
-          history.push(STUDENT_CONFIGURATION_ROOT_PATH);
         }}
       />
     </>

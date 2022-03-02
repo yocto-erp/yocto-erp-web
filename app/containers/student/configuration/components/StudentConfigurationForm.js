@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import { Col, Form, FormGroup, Input, Label, Row, Table } from "reactstrap";
+import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { Controller, useFieldArray } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
+import { Controller } from "react-hook-form";
 import Widget from "../../../../components/Widget/Widget";
 import studentConfigurationApi from "../../../../libs/apis/student/student-config.api";
 import { ERROR } from "../../../../components/Form/messages";
@@ -13,13 +12,8 @@ import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessa
 import SubmitButton from "../../../../components/button/SubmitButton";
 import InputNumber from "../../../../components/Form/InputNumber";
 import InputAmount from "../../../../components/Form/InputAmount";
-import CreateButton from "../../../../components/button/CreateButton";
-import BusRouteForm from "./BusRouteForm";
-import ClassForm from "./ClassForm";
-import BackButton from "../../../../components/button/BackButton";
 import { useApi } from "../../../../libs/hooks/useApi";
 import { templateApi } from "../../../../libs/apis/template/template.api";
-import { transformUnNumber } from "../../../../libs/utils/number.util";
 
 const StudentConfigurationForm = () => {
   const validationSchema = React.useMemo(
@@ -33,6 +27,7 @@ const StudentConfigurationForm = () => {
           .typeError(ERROR.required)
           .positive(ERROR.amountGT0)
           .required(ERROR.required),
+        /*
         busRoutes: Yup.array()
           .of(
             Yup.object().shape({
@@ -68,6 +63,8 @@ const StudentConfigurationForm = () => {
             }),
           )
           .required(ERROR.required),
+
+         */
       }),
     [],
   );
@@ -134,6 +131,7 @@ const StudentConfigurationForm = () => {
     }
   }, [submitResp]);
 
+  /*
   const { fields, append, remove } = useFieldArray({
     control,
     name: "busRoutes",
@@ -149,7 +147,7 @@ const StudentConfigurationForm = () => {
     name: "classes",
     keyName: "cId",
   });
-
+  */
   const form = React.useMemo(() => {
     if (!templates) return null;
     return (
@@ -202,6 +200,7 @@ const StudentConfigurationForm = () => {
             </FormGroup>
           </Col>
         </Row>
+        {/*
         <Row>
           <Col>
             <FormGroup>
@@ -321,7 +320,7 @@ const StudentConfigurationForm = () => {
             </FormGroup>
           </Col>
         </Row>
-        <BackButton className="mr-2" />
+        */}
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     );

@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
+import React, { useEffect, useMemo } from "react";
+import PropTypes from "prop-types";
+import get from "lodash/get";
 import {
   Button,
   FormFeedback,
@@ -8,16 +8,16 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-} from 'reactstrap';
-import { Controller, useWatch } from 'react-hook-form';
-import classNames from 'classnames';
-import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
-import MonthSelect from '../../../../components/date/MonthSelect';
-import StudentSelect from '../../components/StudentSelect';
-import InputNumber from '../../../../components/Form/InputNumber';
-import InputPercent from '../../../../components/Form/InputPercent';
-import Price from '../../../../components/common/Price';
-import { toMonthObj } from '../../../../libs/utils/date.util';
+} from "reactstrap";
+import { Controller, useWatch } from "react-hook-form";
+import classNames from "classnames";
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
+import MonthSelect from "../../../../components/date/MonthSelect";
+import StudentSelect from "../../components/StudentSelect";
+import InputNumber from "../../../../components/Form/InputNumber";
+import InputPercent from "../../../../components/Form/InputPercent";
+import Price from "../../../../components/common/Price";
+import { toMonthObj } from "../../../../libs/utils/date.util";
 
 const FormDetail = ({
   control,
@@ -48,69 +48,55 @@ const FormDetail = ({
     defaultValue: item,
   });
 
-  const classInfo = useMemo(() => {
-    let rs = null;
-    if (student && studentConfig) {
-      rs = studentConfig.classes.find(t => t.id === student.class);
-    }
-    return rs;
-  }, [student, studentConfig]);
-
   useEffect(() => {
     let totalBusFee = 0;
 
-    if (classInfo) {
+    if (student) {
       totalBusFee = student.enableBus ? item.busFee || studentConfig.busFee : 0;
     }
     setValue(`details[${index}].busFee`, totalBusFee);
     trigger([`details[${index}].busFee`]);
-  }, [classInfo, index, item]);
+  }, [student, index, item]);
 
   useEffect(() => {
     let totalMealFee = 0;
-    if (classInfo) {
-      if (
-        student.enableMeal &&
-        classInfo.mealFeePerDay &&
-        classInfo.mealFeePerMonth
-      ) {
-        totalMealFee = classInfo.mealFeePerMonth;
-      }
+    if (student && student.enableMeal) {
+      totalMealFee = item.mealFee || student.class.mealFeePerMonth;
     }
     setValue(`details[${index}].mealFee`, totalMealFee);
     trigger([`details[${index}].mealFee`]);
-  }, [classInfo, index]);
+  }, [student, item, index]);
 
   const absentDayFee = useMemo(() => {
     let rs = 0;
-    if (classInfo && absentDay) {
-      rs = absentDay * classInfo.feePerDay;
+    if (student && absentDay) {
+      rs = absentDay * student.class.absentFeeReturnPerDay;
     }
     return rs;
-  }, [classInfo, absentDay]);
+  }, [student, absentDay]);
 
   const studentAbsentDayDeductMealFee = useMemo(() => {
-    console.log(studentAbsentDay, absentDay);
+    console.log(studentAbsentDay);
     let rs = 0;
-    if (classInfo && student.enableMeal && studentAbsentDay) {
-      rs = studentAbsentDay * classInfo.mealFeePerDay;
+    if (student && student.enableMeal && studentAbsentDay) {
+      rs = studentAbsentDay * student.class.mealFeeReturnPerDay;
     }
     return rs;
-  }, [student, studentAbsentDay, classInfo]);
+  }, [student, studentAbsentDay]);
 
   const trialDateFee = useMemo(() => {
     let rs = 0;
-    if (classInfo) {
-      rs = trialDate * classInfo.feePerTrialDay;
+    if (student) {
+      rs = trialDate * student.class.feePerTrialDay;
     }
     return rs;
-  }, [classInfo, trialDate]);
+  }, [student, trialDate]);
 
   const totalFeeWithoutScholarShip = useMemo(() => {
     let rsFee = 0;
-    if (classInfo && student) {
+    if (student) {
       rsFee =
-        classInfo.tuitionFee -
+        student.class.tuitionFeePerMonth -
         absentDayFee -
         studentAbsentDayDeductMealFee +
         trialDateFee +
@@ -122,6 +108,7 @@ const FormDetail = ({
     }
     return rsFee;
   }, [
+    student,
     absentDayFee,
     trialDateFee,
     debt,
@@ -134,11 +121,12 @@ const FormDetail = ({
 
   const scholarShipFee = useMemo(() => {
     let rs = 0;
-    if (classInfo) {
-      rs = ((classInfo.tuitionFee - absentDayFee) * scholarShip) / 100;
+    if (student) {
+      rs =
+        ((student.class.tuitionFeePerMonth - absentDayFee) * scholarShip) / 100;
     }
     return rs;
-  }, [classInfo, absentDayFee, scholarShip]);
+  }, [student, absentDayFee, scholarShip]);
 
   const totalFee = useMemo(() => totalFeeWithoutScholarShip - scholarShipFee, [
     totalFeeWithoutScholarShip,
@@ -157,10 +145,10 @@ const FormDetail = ({
             defaultValue={item.id}
           />
           <div
-            className={classNames('w-100 mb-2', {
-              'is-invalid': !!get(
+            className={classNames("w-100 mb-2", {
+              "is-invalid": !!get(
                 errors,
-                ['details', index, 'monthYear'],
+                ["details", index, "monthYear"],
                 false,
               ),
             })}
@@ -171,7 +159,7 @@ const FormDetail = ({
               }
               control={control}
               name={`details[${index}].monthYear`}
-              invalid={!!get(errors, ['details', index, 'monthYear'], false)}
+              invalid={!!get(errors, ["details", index, "monthYear"], false)}
               render={({ onChange, value, onBlur }, { invalid }) => (
                 <MonthSelect
                   onChange={onChange}
@@ -185,7 +173,7 @@ const FormDetail = ({
             />
           </div>
           <FormFeedback>
-            {get(errors, ['details', index, 'monthYear', 'message'], '')}
+            {get(errors, ["details", index, "monthYear", "message"], "")}
           </FormFeedback>
           <div className="mt-2">
             <Controller
@@ -196,7 +184,7 @@ const FormDetail = ({
               render={({ onChange, value, onBlur, name }) => (
                 <StudentSelect
                   onChange={onChange}
-                  invalid={!!get(errors, ['details', index, 'student'], false)}
+                  invalid={!!get(errors, ["details", index, "student"], false)}
                   onBlur={onBlur}
                   isClearable={!isUpdated}
                   value={value}
@@ -207,7 +195,7 @@ const FormDetail = ({
               )}
             />
             <FormFeedback>
-              {get(errors, ['details', index, 'student', 'message'], '')}
+              {get(errors, ["details", index, "student", "message"], "")}
             </FormFeedback>
           </div>
         </td>
@@ -221,7 +209,7 @@ const FormDetail = ({
               <InputPercent
                 {...props}
                 invalid={
-                  !!get(errors, ['details', index, 'scholarShip'], false)
+                  !!get(errors, ["details", index, "scholarShip"], false)
                 }
                 onChange={onChange}
                 onBlur={onBlur}
@@ -231,7 +219,7 @@ const FormDetail = ({
           />
           <Price className="text-muted small" amount={scholarShipFee} />
           <FormHookErrorMessage
-            error={get(errors, ['details', index, 'scholarShip'])}
+            error={get(errors, ["details", index, "scholarShip"])}
           />
         </td>
         <td>
@@ -239,7 +227,7 @@ const FormDetail = ({
             control={control}
             defaultValue={item.absentDay}
             name={`details[${index}].absentDay`}
-            invalid={!!get(errors, ['details', index, 'absentDay'], false)}
+            invalid={!!get(errors, ["details", index, "absentDay"], false)}
             render={({ onChange, value, onBlur, ...props }) => (
               <InputNumber
                 max={studentConfig ? studentConfig.numberDayOfMonth : 30}
@@ -247,15 +235,15 @@ const FormDetail = ({
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
-                placeholder="Days Return Fee"
+                placeholder="Return Fee"
               />
             )}
           />
           <Price className="text-muted small" amount={absentDayFee} />
           <Controller
             control={control}
-            defaultValue={item.studentAbsentDay || ''}
-            invalid={!!get(errors, ['details', index, 'absentDay'], false)}
+            defaultValue={item.studentAbsentDay || ""}
+            invalid={!!get(errors, ["details", index, "absentDay"], false)}
             name={`details[${index}].studentAbsentDay`}
             render={({ onChange, value, onBlur, ...props }) => (
               <InputNumber
@@ -264,12 +252,12 @@ const FormDetail = ({
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
-                placeholder="Days Return Meal"
+                placeholder="Return Meal Fee"
               />
             )}
           />
           <p className="mb-0">
-            Deduce Meal Fee:{' '}
+            Deduce Meal Fee:{" "}
             <Price
               className="text-muted small"
               amount={studentAbsentDayDeductMealFee}
@@ -280,7 +268,7 @@ const FormDetail = ({
           <Controller
             control={control}
             defaultValue={item.trialDate}
-            invalid={!!get(errors, ['details', index, 'trialDate'], false)}
+            invalid={!!get(errors, ["details", index, "trialDate"], false)}
             name={`details[${index}].trialDate`}
             render={({ onChange, value, onBlur, ...props }) => (
               <InputNumber
@@ -299,7 +287,7 @@ const FormDetail = ({
           <Controller
             control={control}
             defaultValue={item.busFee}
-            invalid={!!get(errors, ['details', index, 'busFee'], false)}
+            invalid={!!get(errors, ["details", index, "busFee"], false)}
             name={`details[${index}].busFee`}
             disabled={!student || !student.enableBus}
             render={({ onChange, value, onBlur, ...props }) => (
@@ -313,14 +301,14 @@ const FormDetail = ({
             )}
           />
           <FormHookErrorMessage
-            error={get(errors, ['details', index, 'busFee'])}
+            error={get(errors, ["details", index, "busFee"])}
           />
         </td>
         <td>
           <Controller
             control={control}
             defaultValue={item.mealFee}
-            invalid={!!get(errors, ['details', index, 'mealFee'], false)}
+            invalid={!!get(errors, ["details", index, "mealFee"], false)}
             name={`details[${index}].mealFee`}
             render={({ onChange, value, onBlur, ...props }, { invalid }) => (
               <InputNumber
@@ -335,7 +323,7 @@ const FormDetail = ({
             )}
           />
           <FormHookErrorMessage
-            error={get(errors, ['details', index, 'mealFee'])}
+            error={get(errors, ["details", index, "mealFee"])}
           />
         </td>
         <td>
@@ -348,7 +336,7 @@ const FormDetail = ({
             <Controller
               control={control}
               defaultValue={item.otherFee}
-              invalid={!!get(errors, ['details', index, 'otherFee'], false)}
+              invalid={!!get(errors, ["details", index, "otherFee"], false)}
               name={`details[${index}].otherFee`}
               render={({ onChange, value, onBlur, ...props }) => (
                 <InputNumber
@@ -371,7 +359,7 @@ const FormDetail = ({
               control={control}
               defaultValue={item.otherDeduceFee}
               invalid={
-                !!get(errors, ['details', index, 'otherDeduceFee'], false)
+                !!get(errors, ["details", index, "otherDeduceFee"], false)
               }
               name={`details[${index}].otherDeduceFee`}
               render={({ onChange, value, onBlur, ...props }) => (
@@ -394,7 +382,7 @@ const FormDetail = ({
             <Controller
               control={control}
               defaultValue={item.debt}
-              invalid={!!get(errors, ['details', index, 'debt'], false)}
+              invalid={!!get(errors, ["details", index, "debt"], false)}
               name={`details[${index}].debt`}
               render={({ onChange, value, onBlur, ...props }) => (
                 <InputNumber
@@ -411,10 +399,10 @@ const FormDetail = ({
         <td>
           <Input
             type="textarea"
-            invalid={!!get(errors, ['details', index, 'remark'], false)}
+            invalid={!!get(errors, ["details", index, "remark"], false)}
             name={`details[${index}].remark`}
             innerRef={register()}
-            style={{ height: '75px' }}
+            style={{ height: "75px" }}
             placeholder="Remark"
             defaultValue={item.remark}
           />
@@ -448,7 +436,7 @@ const FormDetail = ({
     studentAbsentDayDeductMealFee,
   ]);
 
-  return <>{columns}</>;
+  return columns;
 };
 
 FormDetail.propTypes = {

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
-import AsyncSelect from 'react-select/async';
-import classNames from 'classnames';
-import debounce from 'lodash/debounce';
-import { v4 as uuidv4 } from 'uuid';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-import personApi, { mappingPerson } from '../../../libs/apis/person.api';
-import CustomerModalForm from './CustomerModalForm';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { Button, InputGroup, InputGroupAddon } from "reactstrap";
+import AsyncSelect from "react-select/async";
+import classNames from "classnames";
+import debounce from "lodash/debounce";
+import { v4 as uuidv4 } from "uuid";
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../constants";
+import personApi, { mappingPerson } from "../../../libs/apis/person.api";
+import CustomerModalForm from "./CustomerModalForm";
 
 const formatOptionLabel = (data, { context }) => (
   <div className="text-white">
     <span>
       {data.name ? data.name : `${data.firstName} ${data.lastName}`}
-      {context === 'menu' && (
+      {context === "menu" && (
         <>
           <br />
           {data.gsm}
@@ -58,7 +58,7 @@ const CustomerSelect = React.forwardRef((
   }, 300);
   return (
     <div key={`${name || uuidv4()}`}>
-      <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
+      <InputGroup className={classNames({ "is-invalid": invalid })} {...props}>
         <AsyncSelect
           aria-labelledby="test"
           className="react-select-container"
@@ -67,7 +67,7 @@ const CustomerSelect = React.forwardRef((
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any Person with search "${inputValue}", try to search another`
-              : 'Input and search Person'
+              : "Input and search Person"
           }
           loadOptions={loadOptions}
           defaultOptions
@@ -92,7 +92,7 @@ const CustomerSelect = React.forwardRef((
             </Button>
           </InputGroupAddon>
         ) : (
-          ''
+          ""
         )}
       </InputGroup>
       {creatable ? (
@@ -106,7 +106,7 @@ const CustomerSelect = React.forwardRef((
           isOpen={isOpen}
         />
       ) : (
-        ''
+        ""
       )}
     </div>
   );

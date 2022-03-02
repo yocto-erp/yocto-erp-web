@@ -1,52 +1,51 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
-import { toast } from 'react-toastify';
-import Filter from './components/Filter';
-import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
+import React from "react";
+import { Route } from "react-router-dom";
+import { PropTypes } from "prop-types";
+import { toast } from "react-toastify";
+import Filter from "./components/Filter";
+import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../../libs/utils/crud.util';
-import PageTitle from '../../Layout/PageTitle';
-import { PERSON_ROOT_PATH } from '../constants';
-import personApi from '../../../libs/apis/person.api';
-import CreateButton from '../../../components/button/CreateButton';
-import ListWidget from '../../../components/ListWidget';
-import Widget from '../../../components/Widget/Widget';
-import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
+} from "../../../libs/utils/crud.util";
+import PageTitle from "../../Layout/PageTitle";
+import { PERSON_ROOT_PATH } from "../constants";
+import personApi from "../../../libs/apis/person.api";
+import CreateButton from "../../../components/button/CreateButton";
+import ListWidget from "../../../components/ListWidget";
+import DeleteConfirmModal from "../../../components/modal/DeleteConfirmModal";
 import {
   CreatedByColumn,
   SORT_DIR,
-} from '../../../components/ListWidget/constants';
+} from "../../../components/ListWidget/constants";
 
 const ListPagePerson = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'FullName',
-        width: '20%',
-        data: 'name',
+        header: "FullName",
+        width: "20%",
+        data: "name",
       },
       {
-        header: 'Phone',
-        data: 'gsm',
+        header: "Phone",
+        data: "gsm",
       },
       {
-        header: 'email',
-        data: 'email',
+        header: "email",
+        data: "email",
       },
       {
-        header: 'Remark',
-        data: 'remark',
+        header: "Remark",
+        data: "remark",
       },
       CreatedByColumn,
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -62,7 +61,7 @@ const ListPagePerson = ({ history }) => {
     [],
   );
 
-  const search = { search: '' };
+  const search = { search: "" };
 
   const actions = (
     <>
@@ -101,7 +100,7 @@ const ListPagePerson = ({ history }) => {
             }}
             title="Delete Customer?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return `Are you sure to delete ${row.firstName} ${
                 row.lastName
               } ?`;

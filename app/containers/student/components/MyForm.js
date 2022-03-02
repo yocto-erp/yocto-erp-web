@@ -1,30 +1,31 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
 import {
   Col,
   Form,
   FormFeedback,
   FormGroup,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
   Row,
-} from 'reactstrap';
-import { toast } from 'react-toastify';
-import { Controller, useWatch } from 'react-hook-form';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import CustomerSelect from '../../../components/common/customer/CustomerSelect';
-import studentApi from '../../../libs/apis/student/student.api';
-import DateSelect from '../../../components/date/DateSelect';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import { ERROR } from '../../../components/Form/messages';
-import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
+} from "reactstrap";
+import { toast } from "react-toastify";
+import { Controller, useWatch } from "react-hook-form";
+import Widget from "../../../components/Widget/Widget";
+import SubmitButton from "../../../components/button/SubmitButton";
+import BackButton from "../../../components/button/BackButton";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
+import CustomerSelect from "../../../components/common/customer/CustomerSelect";
+import studentApi from "../../../libs/apis/student/student.api";
+import DateSelect from "../../../components/date/DateSelect";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import { ERROR } from "../../../components/Form/messages";
+import useStudentConfigure from "../../../libs/hooks/useStudentConfigure";
+import BusStopSelect from "../student-bus-stop/components/BusStopSelect";
+import StudentClassSelect from "../student-class/components/StudentClassSelect";
+import { parseIso } from "../../../libs/utils/date.util";
+import { STUDENT_STATUS_LIST } from "../constants";
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required(ERROR.required),
@@ -55,56 +56,29 @@ function MyForm({ id }) {
       toast.success(id ? `Update student success` : `Create student success`);
     },
     mappingToForm: form => ({
-      studentId: form.studentId,
+      ...form,
       fullName: form.child
         ? `${form.child.firstName} ${form.child.lastName}`
-        : '',
-      alias: form.alias,
+        : "",
       joinDate: form.joinDate ? new Date(form.joinDate) : new Date(),
-      status: form.status ? form.status : '',
-      class: form.class,
-      birthday: form.child ? new Date(form.child.birthday) : new Date(),
+      birthday: form.child ? parseIso(form.child.birthday) : null,
       sex: form.child.sex,
-      feePackage: form.feePackage,
-      fatherId: form.father ? form.father : null,
-      motherId: form.mother ? form.mother : null,
-      enableMeal: form.enableMeal,
-      enableBus: form.enableBus,
-      toSchoolBusRoute: form.toSchoolBusRoute,
-      toHomeBusRoute: form.toHomeBusRoute,
-    }),
-    mappingToServer: form => ({
-      studentId: form.studentId,
-      fullName: form.fullName,
-      alias: form.alias,
-      joinDate: form.joinDate,
-      status: form.status,
-      birthday: form.birthday,
-      sex: form.sex,
-      class: form.class,
-      feePackage: form.feePackage,
-      fatherId: form.fatherId ? form.fatherId.id : null,
-      motherId: form.motherId ? form.motherId.id : null,
-      enableBus: form.enableBus,
-      toSchoolBusRoute: form.toSchoolBusRoute,
-      toHomeBusRoute: form.toHomeBusRoute,
-      enableMeal: form.enableMeal,
     }),
     validationSchema,
     initForm: {
-      studentId: '',
-      fullName: '',
-      sex: '',
-      class: '',
+      studentId: "",
+      fullName: "",
+      sex: "",
+      class: "",
       birthday: new Date(),
       joinDate: new Date(),
-      status: '',
-      feePackage: '',
-      fatherId: null,
-      motherId: null,
+      status: "",
+      feePackage: "",
+      father: null,
+      mother: null,
       enableBus: false,
-      toSchoolBusRoute: '',
-      toHomeBusRoute: '',
+      toSchoolBusRoute: "",
+      toHomeBusRoute: "",
       enableMeal: false,
     },
     id,
@@ -112,13 +86,13 @@ function MyForm({ id }) {
 
   useEffect(() => {
     if (serverErrors && serverErrors.length) {
-      toast.error(serverErrors.map(t => t.message).join('\n'));
+      toast.error(serverErrors.map(t => t.message).join("\n"));
     }
   }, [serverErrors]);
 
   const enableBus = useWatch({
     control,
-    name: 'enableBus',
+    name: "enableBus",
   });
 
   const form = React.useMemo(() => {
@@ -216,22 +190,21 @@ function MyForm({ id }) {
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
             <FormGroup>
               <Label for="class" className="mr-sm-2 required">
-                Class
+                Lớp học
               </Label>
-              <Input
+              <Controller
                 name="class"
-                type="select"
-                innerRef={register}
-                id="class"
-                placeholder="Choose Class"
-              >
-                <option value="">Select Class</option>
-                {classes.map(t => (
-                  <option key={t.id} value={t.id}>
-                    {t.name}
-                  </option>
-                ))}
-              </Input>
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <StudentClassSelect
+                    id="class"
+                    placeholder="Chọn lớp học"
+                    invalid={!!errors.class}
+                    onChange={onChange}
+                    {...data}
+                  />
+                )}
+              />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
@@ -265,9 +238,11 @@ function MyForm({ id }) {
               </Label>
               <Input name="status" type="select" innerRef={register}>
                 <option value="">Select Status</option>
-                <option value={1}>PENDING</option>
-                <option value={2}>ACTIVE</option>
-                <option value={3}>LEAVE</option>
+                {STUDENT_STATUS_LIST.map(t => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
               </Input>
             </FormGroup>
           </Col>
@@ -290,20 +265,20 @@ function MyForm({ id }) {
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
             <FormGroup>
-              <Label for="fatherId" className="mr-sm-2">
+              <Label for="father" className="mr-sm-2">
                 Father
               </Label>
               <Controller
-                name="fatherId"
-                defaultValue={formData ? formData.fatherId : null}
+                name="father"
+                defaultValue={formData ? formData.father : null}
                 control={control}
                 render={({ onChange, ...data }) => (
                   <CustomerSelect
-                    id="fatherId"
+                    id="father"
                     placeholder="Choose Father"
                     onAdded={newCustomer => {
                       console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
-                      setValue('fatherId', newCustomer, {
+                      setValue("father", newCustomer, {
                         shouldValidate: true,
                       });
                     }}
@@ -318,20 +293,19 @@ function MyForm({ id }) {
           </Col>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
             <FormGroup>
-              <Label for="motherId" className="mr-sm-2">
+              <Label for="mother" className="mr-sm-2">
                 Mother
               </Label>
               <Controller
-                name="motherId"
-                defaultValue={formData ? formData.motherId : null}
+                name="mother"
+                defaultValue={formData ? formData.mother : null}
                 control={control}
                 render={({ onChange, ...data }) => (
                   <CustomerSelect
-                    id="motherId"
+                    id="mother"
                     placeholder="Choose Mother"
                     onAdded={newCustomer => {
-                      console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
-                      setValue('motherId', newCustomer, {
+                      setValue("mother", newCustomer, {
                         shouldValidate: true,
                       });
                     }}
@@ -345,69 +319,69 @@ function MyForm({ id }) {
             </FormGroup>
           </Col>
         </Row>
-        <Row>
-          <Col xs="12" sm="12" md="12" lg="12" xl="12">
-            <FormGroup>
-              <Label for="enableBus" className="mr-sm-2">
-                Đi xe bus (Chiều đi từ / Chiều về đến)
-              </Label>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>
-                    <Input
-                      addon
-                      type="checkbox"
-                      name="enableBus"
-                      innerRef={register}
-                      id="enableBus"
-                    />
-                  </InputGroupText>
-                </InputGroupAddon>
-                <Input
-                  className="form-control"
-                  type="select"
-                  name="toSchoolBusRoute"
-                  innerRef={register}
-                  id="toSchoolBusRoute"
-                  placeholder="To school from"
+        <div className="align-items-center row">
+          <div className="col-auto">
+            <div className="checkbox abc-checkbox pl-0">
+              <Input
+                type="checkbox"
+                name="enableBus"
+                innerRef={register}
+                id="enableBus"
+              />{" "}
+              <Label for="enableBus">Đi xe bus</Label>
+            </div>
+          </div>
+          <div className="col">
+            <Label for="toSchoolBusStop" className="sr-only mr-sm-2">
+              Chiều đi từ
+            </Label>
+            <Controller
+              name="toSchoolBusStop"
+              defaultValue={null}
+              control={control}
+              render={({ onChange, ...data }) => (
+                <BusStopSelect
                   disabled={enableBus === false}
-                >
-                  <option value="">Select From Place</option>
-                  {busRoutes.map(t => (
-                    <option key={t.id} value={t.id}>
-                      {t.name}
-                    </option>
-                  ))}
-                </Input>
-                <Input
-                  type="select"
-                  name="toHomeBusRoute"
-                  innerRef={register}
-                  id="toHomeBusRoute"
-                  placeholder="From school to"
+                  id="toSchoolBusStop"
+                  placeholder="Đến trường từ địa điểm"
+                  invalid={!!errors.toSchoolBusRoute}
+                  onChange={onChange}
+                  {...data}
+                />
+              )}
+            />
+          </div>
+          <div className="col">
+            <Label for="toHomeBusStop" className="sr-only mr-sm-2">
+              Chiều về đến
+            </Label>
+            <Controller
+              name="toHomeBusStop"
+              defaultValue={null}
+              control={control}
+              render={({ onChange, ...data }) => (
+                <BusStopSelect
                   disabled={enableBus === false}
-                >
-                  <option value="">Select To Place</option>
-                  {(busRoutes || []).map(t => (
-                    <option key={t.id} value={t.id}>
-                      {t.name}
-                    </option>
-                  ))}
-                </Input>
-              </InputGroup>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
+                  id="toHomeBusStop"
+                  placeholder="Về nhà đến địa điểm"
+                  invalid={!!errors.toHomeBusStop}
+                  onChange={onChange}
+                  {...data}
+                />
+              )}
+            />
+          </div>
+        </div>
+        <Row className="mt-3">
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
-              <div className="checkbox abc-checkbox">
+              <div className="checkbox abc-checkbox pl-0">
                 <Input
                   type="checkbox"
                   name="enableMeal"
                   innerRef={register}
                   id="enableMeal"
-                />{' '}
+                />{" "}
                 <Label for="enableMeal" className="required">
                   Meal
                 </Label>

@@ -27,6 +27,7 @@ import PartnerPage from "../partner/Loadable";
 import { STUDENT_ROOT_PATH } from "../student/constants";
 import StudentPage from "../student/Loadable";
 import StudentClassPage from "../student/student-class/Loadable";
+import StudentBusStopPage from "../student/student-bus-stop/Loadable";
 import ConfigurationPage from "../configuration/Loadable";
 import StudentMonthlyPage from "../student/monthly-fee/Loadable";
 import { STUDENT_MONTHLY_ROOT_PATH } from "../student/monthly-fee/constants";
@@ -56,6 +57,7 @@ import { ECOMMERCE_ROOT_PATH } from "../ecommerce/constants";
 import { SHOP_ROOT_PATH } from "../shop/constants";
 import ShopPage from "../shop/Loadable";
 import { STUDENT_CLASS_ROOT_PATH } from "../student/student-class/constants";
+import { STUDENT_BUS_STOP_ROOT_PATH } from "../student/student-bus-stop/constants";
 
 function Layout({
   sidebarPosition,
@@ -118,6 +120,10 @@ function Layout({
                 <Route
                   path={`${STUDENT_CLASS_ROOT_PATH}`}
                   component={StudentClassPage}
+                />
+                <Route
+                  path={STUDENT_BUS_STOP_ROOT_PATH}
+                  component={StudentBusStopPage}
                 />
                 <Route
                   path={`${CONFIGURATION_ROOT_PATH}`}

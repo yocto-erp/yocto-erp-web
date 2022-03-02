@@ -1,32 +1,32 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
-import { toast } from 'react-toastify';
-import Filter from './components/Filter';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
+import React from "react";
+import { Route } from "react-router-dom";
+import { PropTypes } from "prop-types";
+import { toast } from "react-toastify";
+import Filter from "./components/Filter";
+import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../libs/utils/crud.util';
-import PageTitle from '../Layout/PageTitle';
+} from "../../libs/utils/crud.util";
+import PageTitle from "../Layout/PageTitle";
 import {
   COST_PAYMENT_PATH,
   COST_RECEIPT_PATH,
   COST_ROOT_PATH,
-} from './constants';
-import apiCost from '../../libs/apis/cost.api';
-import CreateButton from '../../components/button/CreateButton';
-import ListWidget from '../../components/ListWidget';
-import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
-import Price from '../../components/common/Price';
+} from "./constants";
+import apiCost from "../../libs/apis/cost.api";
+import CreateButton from "../../components/button/CreateButton";
+import ListWidget from "../../components/ListWidget";
+import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
+import Price from "../../components/common/Price";
 import {
   CreatedByColumn,
   SORT_DIR,
-} from '../../components/ListWidget/constants';
-import { convertQueryWithDate } from '../../libs/utils/query.util';
-import Tags from '../../components/Form/tagging/ViewTags';
+} from "../../components/ListWidget/constants";
+import { convertQueryWithDate } from "../../libs/utils/query.util";
+import Tags from "../../components/Form/tagging/ViewTags";
 
 const ROOT_PATH = COST_ROOT_PATH;
 
@@ -34,12 +34,12 @@ const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'Type',
-        data: 'type',
+        header: "Type",
+        data: "type",
         sort: {
-          name: 'type',
+          name: "type",
         },
-        width: '1px',
+        width: "1px",
         render: row =>
           row.type === 1 ? (
             <span className="badge badge-success">RECEIPT</span>
@@ -48,34 +48,34 @@ const ListPage = ({ history }) => {
           ),
       },
       {
-        header: 'Name',
-        data: 'name',
-        width: '20%',
+        header: "Name",
+        data: "name",
+        width: "20%",
         render: row => (
           <>
             <p className="mb-0">{row.name}</p>
-            <Tags item={row.tagging} />{' '}
+            <Tags item={row.tagging} />{" "}
           </>
         ),
       },
       {
         header: <span className="text-nowrap">Total Amount</span>,
-        data: 'amount',
+        data: "amount",
         render: row => <Price amount={row.amount} />,
         sort: {
-          name: 'amount',
+          name: "amount",
         },
-        class: 'min text-right',
+        class: "min text-right",
       },
       {
-        header: 'Remark',
-        data: 'remark',
+        header: "Remark",
+        data: "remark",
       },
       CreatedByColumn,
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -141,7 +141,7 @@ const ListPage = ({ history }) => {
             }}
             title="Delete Cost?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return `Are you sure to delete ${row.name} ?`;
             }}
           />
@@ -151,7 +151,7 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  const search = { search: '', startDate: null, endDate: null };
+  const search = { search: "", startDate: null, endDate: null };
 
   return (
     <ListWidget

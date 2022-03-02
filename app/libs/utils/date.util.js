@@ -6,11 +6,12 @@ import {
   parse,
   startOfMonth,
   startOfWeek,
-} from 'date-fns';
+  parseISO,
+} from "date-fns";
 
-export const FNS_DATE_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss';
-export const FNS_DATE_FORMAT = 'dd/MM/yyyy';
-export const FNS_MONTH_FORMAT = 'MM/yyyy';
+export const FNS_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
+export const FNS_DATE_FORMAT = "dd/MM/yyyy";
+export const FNS_MONTH_FORMAT = "MM/yyyy";
 
 export function formatDate(dateObj) {
   return format(dateObj, FNS_DATE_TIME_FORMAT);
@@ -25,7 +26,11 @@ export function formatDateOnly(dateObj) {
 }
 
 export function parseDateOnly(dateString) {
-  return parse(dateString, FNS_DATE_FORMAT);
+  return parse(dateString, FNS_DATE_FORMAT, null);
+}
+
+export function parseIso(dateString) {
+  return parseISO(dateString);
 }
 
 export function monthToLocalDateObj(month, year) {
@@ -33,12 +38,7 @@ export function monthToLocalDateObj(month, year) {
 }
 
 export function toMonthObj(date) {
-  return date
-    ? {
-        month: date.getMonth(),
-        year: date.getFullYear(),
-      }
-    : null;
+  return date ? { month: date.getMonth(), year: date.getFullYear() } : null;
 }
 
 export function formatMonth(month, year) {

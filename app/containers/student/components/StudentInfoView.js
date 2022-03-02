@@ -1,16 +1,16 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
-import ModalOKButton from '../../../components/button/ModalOKButton';
-import Price from '../../../components/common/Price';
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import useStudentConfigure from "../../../libs/hooks/useStudentConfigure";
+import ModalOKButton from "../../../components/button/ModalOKButton";
+import Price from "../../../components/common/Price";
 
 const StudentInfoView = ({ student, isOpen, onClose }) => {
   const { configure } = useStudentConfigure();
   const studentClass = useMemo(() => {
     let rs = null;
-    if (student && configure) {
-      rs = configure.classes.find(t => t.id === student.class);
+    if (student) {
+      rs = student.class;
     }
     return rs;
   }, [student, configure]);
@@ -48,7 +48,7 @@ const StudentInfoView = ({ student, isOpen, onClose }) => {
               <td>Monthly Tuition Fee</td>
               <td>
                 <strong>
-                  <Price amount={studentClass?.tuitionFee} />
+                  <Price amount={studentClass?.tuitionFeePerMonth} />
                 </strong>
               </td>
             </tr>
@@ -56,7 +56,18 @@ const StudentInfoView = ({ student, isOpen, onClose }) => {
               <td>Daily Fee Return</td>
               <td>
                 <strong>
-                  <Price amount={studentClass?.feePerDay} scale={2} />
+                  <Price
+                    amount={studentClass?.absentFeeReturnPerDay}
+                    scale={2}
+                  />
+                </strong>
+              </td>
+            </tr>
+            <tr>
+              <td>Monthly Meal Fee</td>
+              <td>
+                <strong>
+                  <Price amount={studentClass?.mealFeePerMonth} />
                 </strong>
               </td>
             </tr>
@@ -64,7 +75,7 @@ const StudentInfoView = ({ student, isOpen, onClose }) => {
               <td>Daily Meal Fee Return</td>
               <td>
                 <strong>
-                  <Price amount={studentClass?.mealFeePerDay} scale={2} />
+                  <Price amount={studentClass?.mealFeeReturnPerDay} scale={2} />
                 </strong>
               </td>
             </tr>

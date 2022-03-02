@@ -1,22 +1,22 @@
-import React, { useEffect, useMemo } from 'react';
-import * as Yup from 'yup';
-import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
-import { Form, Table } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
-import { useFieldArray } from 'react-hook-form';
-import SubmitButton from '../../../../components/button/SubmitButton';
-import BackButton from '../../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
-import CreateButton from '../../../../components/button/CreateButton';
-import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
-import FormDetail from './FormDetail';
-import '../../student.scss';
-import useStudentConfigure from '../../../../libs/hooks/useStudentConfigure';
-import Widget from '../../../../components/Widget/Widget';
-import Price from '../../../../components/common/Price';
-import { toMonthObj } from '../../../../libs/utils/date.util';
+import React, { useEffect, useMemo } from "react";
+import * as Yup from "yup";
+import PropTypes from "prop-types";
+import { useLocation } from "react-router-dom";
+import { Form, Table } from "reactstrap";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import { useFieldArray } from "react-hook-form";
+import SubmitButton from "../../../../components/button/SubmitButton";
+import BackButton from "../../../../components/button/BackButton";
+import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
+import CreateButton from "../../../../components/button/CreateButton";
+import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api";
+import FormDetail from "./FormDetail";
+import "../../student.scss";
+import useStudentConfigure from "../../../../libs/hooks/useStudentConfigure";
+import Widget from "../../../../components/Widget/Widget";
+import Price from "../../../../components/common/Price";
+import { toMonthObj } from "../../../../libs/utils/date.util";
 
 const { create, update, read } = studentMonthlyFeeApi;
 
@@ -26,16 +26,16 @@ const newFee = () => ({
   id: uuidv4(),
   monthYear: toMonthObj(new Date()),
   student: null,
-  scholarShip: '',
-  absentDay: '',
-  studentAbsentDay: '',
-  trialDate: '',
-  busFee: '',
-  mealFee: '',
-  otherFee: '',
-  otherDeduceFee: '',
-  remark: '',
-  debt: '',
+  scholarShip: "",
+  absentDay: "",
+  studentAbsentDay: "",
+  trialDate: "",
+  busFee: "",
+  mealFee: "",
+  otherFee: "",
+  otherDeduceFee: "",
+  remark: "",
+  debt: "",
 });
 
 function MyForm({ id }) {
@@ -49,10 +49,10 @@ function MyForm({ id }) {
           .of(
             Yup.object().shape({
               monthYear: Yup.object()
-                .required('This field is required.')
+                .required("This field is required.")
                 .nullable(true),
               student: Yup.object()
-                .required('Student is required.')
+                .required("Student is required.")
                 .nullable(true),
               scholarShip: Yup.number().transform(transferUnNumber),
               absentDay: Yup.number().transform(transferUnNumber),
@@ -63,7 +63,7 @@ function MyForm({ id }) {
               otherDeduceFee: Yup.number().transform(transferUnNumber),
             }),
           )
-          .required('Details is required'),
+          .required("Details is required"),
       }),
     [],
   );
@@ -162,20 +162,20 @@ function MyForm({ id }) {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'details',
-    keyName: 'fId',
+    name: "details",
+    keyName: "fId",
   });
 
   useEffect(() => {
     if (serverErrors && serverErrors.length) {
-      toast.error(serverErrors.map(t => t.message).join('<br/>'));
+      toast.error(serverErrors.map(t => t.message).join("<br/>"));
     }
   }, [serverErrors]);
 
   useEffect(() => {
     if (!id) {
       const details = location?.state?.details || [newFee()];
-      setValue('details', details);
+      setValue("details", details);
     }
   }, [location, id]);
 
@@ -186,15 +186,15 @@ function MyForm({ id }) {
           <Table bordered striped size="sm">
             <thead>
               <tr>
-                <th style={{ width: '250px' }}>
+                <th style={{ width: "250px" }}>
                   Month / Student<span className="text-danger">*</span>
                 </th>
                 <th className="min">Scholar Ship</th>
                 <th className="min">Absent Day(s)</th>
                 <th className="min">Trial Day(s)</th>
-                <th style={{ width: '100px' }}>Bus Fee</th>
-                <th style={{ width: '100px' }}>Meal Fee</th>
-                <th style={{ width: '120px' }}>Other Fee</th>
+                <th style={{ width: "100px" }}>Bus Fee</th>
+                <th style={{ width: "100px" }}>Meal Fee</th>
+                <th style={{ width: "120px" }}>Other Fee</th>
                 <th>Remark</th>
                 <th className="min text-nowrap">Total</th>
                 {id ? <></> : <th className="action">Action</th>}

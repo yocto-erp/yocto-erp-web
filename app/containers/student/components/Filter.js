@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
-import { Button, Form, Input } from 'reactstrap';
-import { useForm } from 'react-hook-form';
-import { useListFilter } from '../../../components/ListWidget/constants';
-import SearchButton from '../../../components/button/SearchButton';
-import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
+import React, { useEffect } from "react";
+import { Button, Form, Input } from "reactstrap";
+import { Controller, useForm } from "react-hook-form";
+import { useListFilter } from "../../../components/ListWidget/constants";
+import SearchButton from "../../../components/button/SearchButton";
+import StudentClassSelect from "../student-class/components/StudentClassSelect";
+import { STUDENT_STATUS_LIST } from "../constants";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
   console.log(filter);
-  const { handleSubmit, register, reset } = useForm({
+  const { handleSubmit, register, reset, control } = useForm({
     defaultValues: filter || {},
   });
 
   useEffect(() => {
     reset(filter || {});
   }, [filter]);
-  const { configure } = useStudentConfigure();
   const onSubmit = handleSubmit(val => searchByFilter(val));
 
   return (
@@ -23,30 +23,38 @@ const Filter = () => {
       <Input
         type="search"
         name="search"
-        className="mr-2 mt-2"
-        style={{ width: '300px' }}
+        className="mr-2"
+        style={{ width: "300px" }}
         innerRef={register}
         id="search"
-        placeholder="Search By student Name"
+        placeholder="Search Name, ID"
       />
-      <Input
-        type="select"
-        name="class"
-        className="mr-2 mt-2"
-        innerRef={register}
-        id="class"
-      >
-        <option value="">ALL Classes</option>
-        {configure?.classes?.map(t => (
-          <option value={t.id} key={t.id}>
+      <Input name="status" type="select" innerRef={register} className="mr-2">
+        <option value="">ALL STATUS</option>
+        {STUDENT_STATUS_LIST.map(t => (
+          <option key={t.id} value={t.id}>
             {t.name}
           </option>
         ))}
       </Input>
-      <SearchButton className="ml-2 mt-2" />
+      <div style={{ width: "300px" }}>
+        <Controller
+          name="class"
+          control={control}
+          render={({ onChange, ...data }) => (
+            <StudentClassSelect
+              id="class"
+              placeholder="Chọn lớp học"
+              onChange={onChange}
+              {...data}
+            />
+          )}
+        />
+      </div>
+      <SearchButton className="ml-2" />
       <Button
         color="danger"
-        className="ml-2 mt-2"
+        className="ml-2"
         onClick={() => {
           reset({});
           searchByFilter({});

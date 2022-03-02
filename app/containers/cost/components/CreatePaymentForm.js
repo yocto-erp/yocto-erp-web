@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   FormFeedback,
   FormGroup,
@@ -7,26 +7,26 @@ import {
   Label,
   Row,
   Col,
-} from 'reactstrap';
-import { PropTypes } from 'prop-types';
-import { toast } from 'react-toastify';
-import * as yup from 'yup';
-import { Controller } from 'react-hook-form';
+} from "reactstrap";
+import { PropTypes } from "prop-types";
+import { toast } from "react-toastify";
+import * as yup from "yup";
+import { Controller } from "react-hook-form";
 
-import apiCost from '../../../libs/apis/cost.api';
-import Widget from '../../../components/Widget/Widget';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import CompanySelect from '../../../components/common/company/CompanySelect';
-import CustomerSelect from '../../../components/common/customer/CustomerSelect';
-import FileUpload from '../../../components/FileUpload';
-import InputAmount from '../../../components/Form/InputAmount';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import { ERROR } from '../../../components/Form/messages';
-import { mappingServerTagging } from '../../../components/constants';
-import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
-import taggingApi from '../../../libs/apis/tagging.api';
+import apiCost from "../../../libs/apis/cost.api";
+import Widget from "../../../components/Widget/Widget";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
+import SubmitButton from "../../../components/button/SubmitButton";
+import BackButton from "../../../components/button/BackButton";
+import CompanySelect from "../../../components/common/company/CompanySelect";
+import CustomerSelect from "../../../components/common/customer/CustomerSelect";
+import FileUpload from "../../../components/FileUpload";
+import InputAmount from "../../../components/Form/InputAmount";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import { ERROR } from "../../../components/Form/messages";
+import { mappingServerTagging } from "../../../components/constants";
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../libs/apis/tagging.api";
 
 const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
@@ -78,7 +78,7 @@ const CreatePaymentForm = ({ id }) => {
       partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
     }),
     initForm: {
-      amount: '',
+      amount: "",
       assets: [],
       partnerPersonId: null,
       partnerCompanyId: null,
@@ -148,7 +148,7 @@ const CreatePaymentForm = ({ id }) => {
                       placeholder="Choose Partner Company"
                       invalid={!!errors.partnerCompanyId}
                       onAdded={newCompany => {
-                        setValue('partnerCompanyId', newCompany, {
+                        setValue("partnerCompanyId", newCompany, {
                           shouldValidate: true,
                         });
                       }}
@@ -174,7 +174,7 @@ const CreatePaymentForm = ({ id }) => {
                       placeholder="Choose Partner Person"
                       invalid={!!errors.partnerPersonId}
                       onAdded={newCustomer => {
-                        setValue('partnerPersonId', newCustomer, {
+                        setValue("partnerPersonId", newCustomer, {
                           shouldValidate: true,
                         });
                       }}
@@ -216,7 +216,7 @@ const CreatePaymentForm = ({ id }) => {
                 name="assets"
                 placeholder="Upload files"
                 control={control}
-                accept={['image/*']}
+                accept={["image/*"]}
                 maxSize={500000}
               />
               <FormFeedback>

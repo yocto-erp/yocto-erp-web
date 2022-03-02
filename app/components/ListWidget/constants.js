@@ -1,7 +1,7 @@
-import React, { createContext, useContext } from 'react';
-import PropTypes from 'prop-types';
-import CreatedBy from './CreatedBy';
-import { formatDate } from '../../libs/utils/date.util';
+import React, { createContext, useContext } from "react";
+import PropTypes from "prop-types";
+import CreatedBy from "./CreatedBy";
+import { formatDate } from "../../libs/utils/date.util";
 
 const ListFilterContext = createContext({});
 const ListActionContext = createContext(null);
@@ -37,11 +37,11 @@ export const ListStateProvider = ListStateContext.Provider;
 
 export const CreatedByColumn = {
   header: <span className="text-nowrap">Created By</span>,
-  data: 'createdBy',
+  data: "createdBy",
   sort: {
-    name: 'createdDate',
+    name: "createdDate",
   },
-  class: 'min',
+  class: "min",
   render: row => {
     const { createdBy, createdDate } = row;
     return <CreatedBy user={createdBy} date={createdDate} />;
@@ -50,11 +50,11 @@ export const CreatedByColumn = {
 
 export const LastUpdatedByColumn = {
   header: <span className="text-nowrap">Last Updated</span>,
-  data: 'lastUpdatedBy',
+  data: "lastUpdatedBy",
   sort: {
-    name: 'lastUpdatedDate',
+    name: "lastUpdatedDate",
   },
-  class: 'min',
+  class: "min",
   render: row => {
     const { lastUpdatedBy, lastUpdatedDate } = row;
     return <CreatedBy user={lastUpdatedBy} date={lastUpdatedDate} />;
@@ -62,8 +62,8 @@ export const LastUpdatedByColumn = {
 };
 
 export const SORT_DIR = Object.freeze({
-  DESC: 'desc',
-  ASC: 'asc',
+  DESC: "desc",
+  ASC: "asc",
 });
 
 export const dateRender = date => {

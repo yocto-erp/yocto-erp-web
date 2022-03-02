@@ -1,41 +1,38 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
-import studentApi from '../../libs/apis/student/student.api';
-import {
-  STUDENT_CONFIGURATION_ROOT_PATH,
-  STUDENT_ROOT_PATH,
-} from './constants';
-import PageTitle from '../Layout/PageTitle';
+import React from "react";
+import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import TableActionColumns from "../../components/ListWidget/TableActionColumn";
+import studentApi from "../../libs/apis/student/student.api";
+import { STUDENT_ROOT_PATH } from "./constants";
+import PageTitle from "../Layout/PageTitle";
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../libs/utils/crud.util';
-import CreateButton from '../../components/button/CreateButton';
-import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../components/ListWidget';
-import Filter from './components/Filter';
-import { formatDateOnly } from '../../libs/utils/date.util';
-import ConfigureButton from '../../components/button/ConfigureButton';
-import useStudentConfigure from '../../libs/hooks/useStudentConfigure';
+} from "../../libs/utils/crud.util";
+import CreateButton from "../../components/button/CreateButton";
+import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
+import ListWidget from "../../components/ListWidget";
+import Filter from "./components/Filter";
+import { formatDateOnly } from "../../libs/utils/date.util";
+import useStudentConfigure from "../../libs/hooks/useStudentConfigure";
+import { CreatedByColumn } from "../../components/ListWidget/constants";
 
 const ROOT_PATH = STUDENT_ROOT_PATH;
 const ListPage = ({ history }) => {
-  const { getClassName, getBusRoute, configure } = useStudentConfigure();
+  const { configure } = useStudentConfigure();
 
   const columns = React.useMemo(
     () => [
       {
-        key: 'status',
-        header: 'Status',
-        data: 'status',
-        width: '5%',
+        key: "status",
+        header: "Status",
+        data: "status",
+        width: "5%",
         sort: {
-          name: 'status',
+          name: "status",
         },
         render: row => {
           if (row.status === 1) {
@@ -52,11 +49,11 @@ const ListPage = ({ history }) => {
       },
       {
         header: <strong>Student</strong>,
-        data: 'studentId',
+        data: "studentId",
         sort: {
-          name: 'name',
+          name: "name",
         },
-        class: 'min no-wrap',
+        class: "min no-wrap",
         render: row => (
           <>
             <p className="mb-0">
@@ -68,22 +65,22 @@ const ListPage = ({ history }) => {
               {row.child.birthday ? (
                 <>
                   <br />
-                  Birthday{' '}
+                  Birthday{" "}
                   <strong>
                     {formatDateOnly(new Date(row.child.birthday))}
                   </strong>
                 </>
               ) : null}
               <br />
-              {getClassName(row.class)}
+              {row.class?.name}
             </p>
           </>
         ),
       },
       {
-        header: 'parent',
-        data: 'father',
-        width: '15%',
+        header: "parent",
+        data: "father",
+        width: "15%",
         render: row => (
           <>
             <p className="m-0">
@@ -95,7 +92,7 @@ const ListPage = ({ history }) => {
                   <br />
                 </>
               ) : (
-                ''
+                ""
               )}
               {row.mother ? (
                 <>
@@ -105,16 +102,16 @@ const ListPage = ({ history }) => {
                   <br />
                 </>
               ) : (
-                ''
+                ""
               )}
             </p>
           </>
         ),
       },
       {
-        header: 'Fee information',
-        data: 'feePackage',
-        width: '5%',
+        header: "Fee information",
+        data: "feePackage",
+        width: "5%",
         render: row => {
           if (row.feePackage === 0) {
             return <span className="badge badge-success">Monthly</span>;
@@ -129,9 +126,9 @@ const ListPage = ({ history }) => {
         },
       },
       {
-        header: 'Meal',
-        data: 'enableMeal',
-        width: '5%',
+        header: "Meal",
+        data: "enableMeal",
+        width: "5%",
         render: row =>
           row.enableMeal ? (
             <span className="badge badge-success">YES</span>
@@ -140,38 +137,32 @@ const ListPage = ({ history }) => {
           ),
       },
       {
-        header: 'Bus',
-        data: 'bus',
-        class: 'min no-wrap',
+        header: "Bus",
+        data: "bus",
+        class: "min no-wrap",
         render: row => {
-          const toSchoolBus = getBusRoute(row.toSchoolBusRoute);
-          const toHomeBus = getBusRoute(row.toHomeBusRoute);
-          return (
+          const { toSchoolBusStop, toHomeBusStop } = row;
+          return row.enableBus ? (
             <>
-              {toSchoolBus ? (
+              {toSchoolBusStop ? (
                 <p className="m-0">
-                  To School From: <strong>{toSchoolBus}</strong>
+                  To School From: <strong>{toSchoolBusStop.name}</strong>
                 </p>
               ) : null}
-              {toHomeBus ? (
+              {toHomeBusStop ? (
                 <p>
-                  From School To: <strong>{toHomeBus}</strong>
+                  From School To: <strong>{toHomeBusStop.name}</strong>
                 </p>
               ) : null}
             </>
-          );
+          ) : null;
         },
       },
+      CreatedByColumn,
       {
-        header: 'Start Date',
-        data: 'joinDate',
-        class: 'min',
-        render: row => formatDateOnly(new Date(row.joinDate)),
-      },
-      {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -187,7 +178,7 @@ const ListPage = ({ history }) => {
     [configure],
   );
 
-  const search = { search: '' };
+  const search = { search: "" };
 
   const actions = (
     <>
@@ -195,12 +186,6 @@ const ListPage = ({ history }) => {
         className="mr-2 btn-raised"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
-        }}
-      />
-      <ConfigureButton
-        className="shadow btn-raised"
-        onClick={() => {
-          history.push(STUDENT_CONFIGURATION_ROOT_PATH);
         }}
       />
     </>
@@ -229,7 +214,7 @@ const ListPage = ({ history }) => {
             }}
             title="Delete Student?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return `Are you sure to delete ${row.child.name} ?`;
             }}
           />

@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
-import studentMonthlyFeeApi from '../../../libs/apis/student/student-monthly-fee.api';
-import { STUDENT_MONTHLY_ROOT_PATH } from './constants';
-import Filter from './components/Filter';
-import { deletePagePattern, editPage } from '../../../libs/utils/crud.util';
-import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../../components/ListWidget';
-import Header from './components/Header';
-import { formatDate, formatMonth } from '../../../libs/utils/date.util';
-import Price from '../../../components/common/Price';
-import useStudentConfigure from '../../../libs/hooks/useStudentConfigure';
-import DownloadButton from '../../../components/button/DownloadButton';
-import IconButton from '../../../components/button/IconButton';
-import StudentFeePaid from './components/StudentFeePaid';
-import ShortText from '../../../components/ShortText';
+import React, { useState } from "react";
+import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
+import studentMonthlyFeeApi from "../../../libs/apis/student/student-monthly-fee.api";
+import { STUDENT_MONTHLY_ROOT_PATH } from "./constants";
+import Filter from "./components/Filter";
+import { deletePagePattern, editPage } from "../../../libs/utils/crud.util";
+import DeleteConfirmModal from "../../../components/modal/DeleteConfirmModal";
+import ListWidget from "../../../components/ListWidget";
+import Header from "./components/Header";
+import { formatDate, formatMonth } from "../../../libs/utils/date.util";
+import Price from "../../../components/common/Price";
+import useStudentConfigure from "../../../libs/hooks/useStudentConfigure";
+import DownloadButton from "../../../components/button/DownloadButton";
+import IconButton from "../../../components/button/IconButton";
+import StudentFeePaid from "./components/StudentFeePaid";
+import ShortText from "../../../components/ShortText";
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -25,9 +25,9 @@ const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'Month / Student',
-        data: 'monthYear',
-        class: 'text-nowrap min',
+        header: "Month / Student",
+        data: "monthYear",
+        class: "text-nowrap min",
         render: row => (
           <>
             <span>{formatMonth(row.monthFee, row.yearFee)}</span>
@@ -43,9 +43,9 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: 'Tuition Fee',
-        data: 'tuitionFee',
-        class: 'text-nowrap min',
+        header: "Tuition Fee",
+        data: "tuitionFee",
+        class: "text-nowrap min",
         render: row => (
           <>
             <Price amount={row.feePerMonth} />
@@ -59,9 +59,9 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: 'Detail Fees',
-        data: 'absentDay',
-        class: 'text-nowrap min',
+        header: "Detail Fees",
+        data: "absentDay",
+        class: "text-nowrap min",
         render: row => (
           <>
             {row.absentDay ? (
@@ -116,28 +116,28 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: 'Remark',
-        data: 'remark',
+        header: "Remark",
+        data: "remark",
       },
       {
-        header: 'Total',
-        data: 'totalAmount',
-        class: 'text-nowrap min',
+        header: "Total",
+        data: "totalAmount",
+        class: "text-nowrap min",
         render: row => (
           <>
             <Price amount={row.totalAmount} />
             <br />
             <small>
-              Updated:{' '}
+              Updated:{" "}
               <strong>{formatDate(new Date(row.lastUpdatedDate))}</strong>
             </small>
           </>
         ),
       },
       {
-        header: 'Paid',
-        data: 'paid',
-        class: 'min no-wrap',
+        header: "Paid",
+        data: "paid",
+        class: "min no-wrap",
         render: row => {
           if (!row.paidDate) {
             return (
@@ -147,7 +147,7 @@ const ListPage = ({ history }) => {
                 onClick={() => setPaymentStudent(row)}
                 title="Set Payment"
               >
-                <i className="fa fa-dollar" />{' '}
+                <i className="fa fa-dollar" />{" "}
               </IconButton>
             );
           }
@@ -171,9 +171,9 @@ const ListPage = ({ history }) => {
         },
       },
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -223,12 +223,12 @@ const ListPage = ({ history }) => {
               if (item) {
                 toast.success(
                   <span>
-                    Delete Student Fee{' '}
+                    Delete Student Fee{" "}
                     <strong>
                       {item.student.studentId} - {item.student.child.name}
-                    </strong>{' '}
-                    at month{' '}
-                    <strong>{formatMonth(item.monthFee, item.yearFee)}</strong>{' '}
+                    </strong>{" "}
+                    at month{" "}
+                    <strong>{formatMonth(item.monthFee, item.yearFee)}</strong>{" "}
                     Success
                   </span>,
                 );
@@ -236,14 +236,14 @@ const ListPage = ({ history }) => {
             }}
             title="Delete Student Fee?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return (
                 <span>
-                  Are you sure to delete fee of student{' '}
+                  Are you sure to delete fee of student{" "}
                   <strong>
                     {row.student.studentId} - {row.student.child.name}
-                  </strong>{' '}
-                  at month{' '}
+                  </strong>{" "}
+                  at month{" "}
                   <strong>{formatMonth(row.monthFee, row.yearFee)}</strong> ?
                 </span>
               );
