@@ -13,7 +13,6 @@ import {
 } from "../../../libs/utils/crud.util";
 import DeleteConfirmModal from "../../../components/modal/DeleteConfirmModal";
 import ListWidget from "../../../components/ListWidget";
-import studentClassApi from "../../../libs/apis/student/student-class.api";
 import CreateButton from "../../../components/button/CreateButton";
 import PageTitle from "../../Layout/PageTitle";
 import CreatedBy from "../../../components/ListWidget/CreatedBy";
@@ -67,8 +66,8 @@ const ListPage = ({ history }) => {
         }) => (
           <DeleteConfirmModal
             id={id}
-            deleteApi={studentClassApi.remove}
-            readApi={studentClassApi.read}
+            deleteApi={studentBusStopApi.remove}
+            readApi={studentBusStopApi.read}
             routePattern={ROOT_PATH}
             onClose={item => {
               history.goBack();
@@ -80,7 +79,7 @@ const ListPage = ({ history }) => {
                 );
               }
             }}
-            title="Delete Student Class?"
+            title="Delete Bus Stop?"
             message={row => {
               if (!row) return "";
               return (
@@ -109,7 +108,7 @@ const ListPage = ({ history }) => {
   return (
     <>
       <ListWidget
-        pageHeader={<PageTitle title="Class Management" actions={action} />}
+        pageHeader={<PageTitle title="Bus Stop Management" actions={action} />}
         deleteDialog={deleteConfirmDialog}
         columns={columns}
         fetchData={studentBusStopApi.search}
