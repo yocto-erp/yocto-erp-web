@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { IMaskInput } from 'react-imask';
-import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
-import { isFunc } from '../../utils/util';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { IMaskInput } from "react-imask";
+import { InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
+import { isFunc } from "../../utils/util";
 
 const InputPercent = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ invalid, value, onChange, placeholder, ...props }, ref) => (
-    <InputGroup className={classNames({ 'is-invalid': invalid })}>
+  ({ invalid, value, onChange, placeholder, size = "md", ...props }, ref) => (
+    <InputGroup className={classNames({ "is-invalid": invalid })} size={size}>
       <IMaskInput
-        className={classNames('form-control', { 'is-invalid': invalid })}
+        className={classNames("form-control", { "is-invalid": invalid })}
         {...props}
         mask={Number}
         radix=","
@@ -40,6 +40,7 @@ InputPercent.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
+  size: PropTypes.string,
 };
 
 export default InputPercent;

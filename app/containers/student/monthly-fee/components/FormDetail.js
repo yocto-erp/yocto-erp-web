@@ -51,8 +51,12 @@ const FormDetail = ({
   useEffect(() => {
     let totalBusFee = 0;
 
-    if (student) {
-      totalBusFee = student.enableBus ? item.busFee || studentConfig.busFee : 0;
+    if (student && student.enableBus) {
+      if (isUpdated) {
+        totalBusFee = item.busFee || studentConfig.busFee;
+      } else {
+        totalBusFee = studentConfig.busFee;
+      }
     }
     setValue(`details[${index}].busFee`, totalBusFee);
     trigger([`details[${index}].busFee`]);
@@ -207,6 +211,7 @@ const FormDetail = ({
             name={`details[${index}].scholarShip`}
             render={({ onChange, value, onBlur, ...props }) => (
               <InputPercent
+                size="sm"
                 {...props}
                 invalid={
                   !!get(errors, ["details", index, "scholarShip"], false)
@@ -327,7 +332,7 @@ const FormDetail = ({
           />
         </td>
         <td>
-          <InputGroup className="mb-2">
+          <InputGroup className="mb-2" size="sm">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
                 <i className="fa fa-plus fa-fw" />
@@ -349,7 +354,7 @@ const FormDetail = ({
               )}
             />
           </InputGroup>
-          <InputGroup className="mb-2">
+          <InputGroup className="mb-2" size="sm">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
                 <i className="fa fa-minus fa-fw" />
@@ -373,7 +378,7 @@ const FormDetail = ({
               )}
             />
           </InputGroup>
-          <InputGroup>
+          <InputGroup size="sm">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
                 <i className="fa fa-money fa-fw" />

@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import * as Yup from 'yup';
-import { Controller } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
-import ModalCancelButton from '../../../../components/button/ModalCancelButton';
-import MonthSelect from '../../../../components/date/MonthSelect';
-import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
-import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
-import useSyncForm from '../../../../libs/hooks/useSyncForm';
-import SubmitButton from '../../../../components/button/SubmitButton';
-import { toMonthObj } from '../../../../libs/utils/date.util';
-import { transformUnNumber } from '../../../../libs/utils/number.util';
-import InputNumber from '../../../../components/Form/InputNumber';
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import * as Yup from "yup";
+import { Controller } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
+import ModalCancelButton from "../../../../components/button/ModalCancelButton";
+import MonthSelect from "../../../../components/date/MonthSelect";
+import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api";
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
+import useSyncForm from "../../../../libs/hooks/useSyncForm";
+import SubmitButton from "../../../../components/button/SubmitButton";
+import { toMonthObj } from "../../../../libs/utils/date.util";
+import { transformUnNumber } from "../../../../libs/utils/number.util";
+import InputNumber from "../../../../components/Form/InputNumber";
+import { STUDENT_MONTHLY_ROOT_PATH } from "../constants";
+import { newPage } from "../../../../libs/utils/crud.util";
 
 const CloneNextMonth = ({
   isOpen = false,
@@ -26,7 +28,7 @@ const CloneNextMonth = ({
     () =>
       Yup.object().shape({
         monthYear: Yup.object()
-          .required('This field is required.')
+          .required("This field is required.")
           .nullable(true),
         absentDay: Yup.number().transform(transformUnNumber),
         returnMealDay: Yup.number().transform(transformUnNumber),
@@ -46,10 +48,11 @@ const CloneNextMonth = ({
           ...t,
           id: uuidv4(),
           monthYear: formData.monthYear,
-          absentDay: formData.absentDay || '',
-          studentAbsentDay: formData.returnMealDay || '',
+          absentDay: formData.absentDay || "",
+          studentAbsentDay: formData.returnMealDay || "",
         }));
-        resolve(history.push('/student-monthly-fee/new', { details }));
+        history.push(newPage(STUDENT_MONTHLY_ROOT_PATH), { details });
+        resolve(true);
       }),
   });
 
