@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { IMaskInput } from 'react-imask';
-import { isFunc } from '../../utils/util';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { IMaskInput } from "react-imask";
+import { isFunc } from "../../utils/util";
 
 const InputNumber = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
@@ -21,7 +21,7 @@ const InputNumber = React.forwardRef(
     ref,
   ) => (
     <IMaskInput
-      className={classNames('form-control', { 'is-invalid': invalid })}
+      className={classNames("form-control", { "is-invalid": invalid })}
       {...props}
       mask={Number}
       radix=","

@@ -175,7 +175,6 @@ const StudentConfigurationForm = () => {
                 Bus Fee<span className="text-danger">*</span>
               </Label>
               <Controller
-                type="number"
                 name="busFee"
                 invalid={!!errors.busFee}
                 control={control}

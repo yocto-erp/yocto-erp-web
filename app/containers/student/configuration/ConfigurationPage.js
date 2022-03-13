@@ -1,6 +1,6 @@
-import React from 'react';
-import PageTitle from '../../Layout/PageTitle';
-import StudentConfigurationForm from './components/StudentConfigurationForm';
+import React from "react";
+import PageTitle from "../../Layout/PageTitle";
+import StudentConfigurationForm from "./components/StudentConfigurationForm";
 
 const ConfigurationPage = () => (
   <>
