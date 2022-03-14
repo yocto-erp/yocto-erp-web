@@ -176,9 +176,11 @@ const ListPage = ({ history }) => {
         class: "action",
         render: row => (
           <TableActionColumns
-            onEdit={() => {
-              history.push(editPage(ROOT_PATH, [row.id]));
-            }}
+            onEdit={
+              !row.paidDate
+                ? () => history.push(editPage(ROOT_PATH, [row.id]))
+                : null
+            }
           >
             <div className="btn-group-sm btn-group">
               <DownloadButton

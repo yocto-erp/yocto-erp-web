@@ -21,7 +21,6 @@ import studentApi from "../../../libs/apis/student/student.api";
 import DateSelect from "../../../components/date/DateSelect";
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
 import { ERROR } from "../../../components/Form/messages";
-import useStudentConfigure from "../../../libs/hooks/useStudentConfigure";
 import BusStopSelect from "../student-bus-stop/components/BusStopSelect";
 import StudentClassSelect from "../student-class/components/StudentClassSelect";
 import { parseIso } from "../../../libs/utils/date.util";
@@ -36,10 +35,6 @@ const validationSchema = Yup.object().shape({
 const { create, update, read } = studentApi;
 
 function MyForm({ id }) {
-  const {
-    configure: { busRoutes = null, classes = null },
-  } = useStudentConfigure();
-
   const {
     control,
     register,
@@ -95,11 +90,8 @@ function MyForm({ id }) {
     name: "enableBus",
   });
 
-  const form = React.useMemo(() => {
-    if (!busRoutes && !classes) {
-      return null;
-    }
-    return (
+  const form = React.useMemo(
+    () => (
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
           <Col xs="12" sm="12" md="6" lg="4" xl="4">
@@ -397,8 +389,9 @@ function MyForm({ id }) {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
-    );
-  }, [errors, isLoading, submit, register, busRoutes, classes]);
+    ),
+    [errors, isLoading, submit, register],
+  );
 
   return <Widget>{form}</Widget>;
 }

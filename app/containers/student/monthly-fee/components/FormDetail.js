@@ -65,7 +65,11 @@ const FormDetail = ({
   useEffect(() => {
     let totalMealFee = 0;
     if (student && student.enableMeal) {
-      totalMealFee = item.mealFee || student.class.mealFeePerMonth;
+      if (isUpdated) {
+        totalMealFee = item.mealFee;
+      } else {
+        totalMealFee = student.class.mealFeePerMonth;
+      }
     }
     setValue(`details[${index}].mealFee`, totalMealFee);
     trigger([`details[${index}].mealFee`]);
@@ -90,7 +94,7 @@ const FormDetail = ({
 
   const trialDateFee = useMemo(() => {
     let rs = 0;
-    if (student) {
+    if (student && student.class) {
       rs = trialDate * student.class.feePerTrialDay;
     }
     return rs;

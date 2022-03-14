@@ -98,20 +98,21 @@ function MyForm({ id }) {
     }),
     mappingToServer: form => {
       const details = form.details.map(result => {
-        const studentClassConfigure = studentConfig.classes.find(
+        /* const studentClassConfigure = studentConfig.classes.find(
           clz => clz.id === result.student.class,
-        );
+        ); */
+        const studentClassConfigure = result.student.class;
         const trialDateFee =
           result.trialDate * studentClassConfigure?.feePerTrialDay;
         const absentDayFee =
-          result.absentDay * studentClassConfigure?.feePerDay;
+          result.absentDay * studentClassConfigure?.absentFeeReturnPerDay;
 
         const studentAbsentDayFee = result.student.enableMeal
-          ? studentClassConfigure?.mealFeePerDay * result.studentAbsentDay
+          ? studentClassConfigure?.mealFeeReturnPerDay * result.studentAbsentDay
           : 0;
 
         const totalAmountWithoutScholarShip =
-          studentClassConfigure?.tuitionFee -
+          studentClassConfigure?.tuitionFeePerMonth -
           absentDayFee -
           studentAbsentDayFee +
           trialDateFee +
@@ -122,7 +123,7 @@ function MyForm({ id }) {
           (result.debt || 0);
 
         const scholarFee =
-          ((studentClassConfigure?.tuitionFee - absentDayFee) *
+          ((studentClassConfigure?.tuitionFeePerMonth - absentDayFee) *
             (result.scholarShip || 0)) /
           100;
         const totalAmount = totalAmountWithoutScholarShip - scholarFee;
@@ -143,7 +144,7 @@ function MyForm({ id }) {
           remark: result.remark,
           debt: result.debt,
           scholarFee,
-          feePerMonth: studentClassConfigure?.tuitionFee,
+          feePerMonth: studentClassConfigure?.tuitionFeePerMonth,
           trialDateFee,
           absentDayFee,
           totalAmount,
