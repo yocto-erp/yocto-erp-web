@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import isFunction from 'lodash/isFunction';
-import DatePicker from 'react-datepicker';
-import classNames from 'classnames';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import isFunction from "lodash/isFunction";
+import DatePicker from "react-datepicker";
+import classNames from "classnames";
 import {
   FNS_MONTH_FORMAT,
   monthToLocalDateObj,
   toMonthObj,
-} from '../../libs/utils/date.util';
+} from "../../libs/utils/date.util";
 
 const MonthSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
@@ -61,8 +61,8 @@ const MonthSelect = React.forwardRef(
 
     return (
       <DatePicker
-        className={classNames('form-control', className, {
-          'is-invalid': !!invalid,
+        className={classNames("form-control", className, {
+          "is-invalid": !!invalid,
         })}
         onBlur={handleOnBlur}
         selected={monthValue}

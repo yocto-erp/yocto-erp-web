@@ -1,7 +1,7 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import MyForm from './components/MyForm';
-import PageTitle from '../../Layout/PageTitle';
+import React from "react";
+import { useParams } from "react-router-dom";
+import MyForm from "./components/MyForm";
+import PageTitle from "../../Layout/PageTitle";
 
 const EditPage = () => {
   const { id } = useParams();

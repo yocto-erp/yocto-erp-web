@@ -31,6 +31,16 @@ const ListPage = ({ history }) => {
         render: row => (
           <>
             <span>{formatMonth(row.monthFee, row.yearFee)}</span>
+            {row.toMonth > 0 && row.toYear > 0 ? (
+              <>
+                {" "}
+                -{" "}
+                <span>
+                  {formatMonth(row.toMonth, row.toYear)}{" "}
+                  <strong>({row.numberOfMonths}M)</strong>
+                </span>
+              </>
+            ) : null}
             <br />
             <p className="mb-0">
               <strong>
@@ -43,7 +53,7 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: "Tuition Fee",
+        header: "Tuition Fee (1 Month)",
         data: "tuitionFee",
         class: "text-nowrap min",
         render: row => (

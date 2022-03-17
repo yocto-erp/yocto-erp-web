@@ -38,7 +38,17 @@ export function monthToLocalDateObj(month, year) {
 }
 
 export function toMonthObj(date) {
-  return date ? { month: date.getMonth(), year: date.getFullYear() } : null;
+  if (date) {
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    return {
+      month,
+      year,
+      absolute: year * 12 + month,
+    };
+  }
+
+  return null;
 }
 
 export function formatMonth(month, year) {

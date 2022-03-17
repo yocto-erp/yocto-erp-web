@@ -16,7 +16,6 @@ import "../../student.scss";
 import useStudentConfigure from "../../../../libs/hooks/useStudentConfigure";
 import Widget from "../../../../components/Widget/Widget";
 import Price from "../../../../components/common/Price";
-import { toMonthObj } from "../../../../libs/utils/date.util";
 
 const { create, update, read } = studentMonthlyFeeApi;
 
@@ -24,7 +23,8 @@ const transferUnNumber = value => (Number.isNaN(value) ? 0 : value);
 
 const newFee = () => ({
   id: uuidv4(),
-  monthYear: toMonthObj(new Date()),
+  monthYear: null,
+  toMonthYear: null,
   student: null,
   scholarShip: "",
   absentDay: "",
@@ -88,13 +88,26 @@ function MyForm({ id }) {
       );
     },
     mappingToForm: form => ({
-      details: form.map(t => ({
-        ...t,
-        monthYear: {
-          month: t.monthFee,
-          year: t.yearFee,
-        },
-      })),
+      details: form.map(t => {
+        const monthYear = {
+          from: {
+            month: t.monthFee,
+            year: t.yearFee,
+          },
+          to: null,
+          numberOfMonths: t.numberOfMonths || 1,
+        };
+        if (t.numberOfMonths > 1) {
+          monthYear.to = {
+            month: t.toMonth,
+            year: t.toYear,
+          };
+        }
+        return {
+          ...t,
+          monthYear,
+        };
+      }),
     }),
     mappingToServer: form => {
       const details = form.details.map(result => {
@@ -112,7 +125,8 @@ function MyForm({ id }) {
           : 0;
 
         const totalAmountWithoutScholarShip =
-          studentClassConfigure?.tuitionFeePerMonth -
+          studentClassConfigure?.tuitionFeePerMonth *
+            result.monthYear.numberOfMonths -
           absentDayFee -
           studentAbsentDayFee +
           trialDateFee +
@@ -123,7 +137,9 @@ function MyForm({ id }) {
           (result.debt || 0);
 
         const scholarFee =
-          ((studentClassConfigure?.tuitionFeePerMonth - absentDayFee) *
+          ((studentClassConfigure?.tuitionFeePerMonth *
+            result.monthYear.numberOfMonths -
+            absentDayFee) *
             (result.scholarShip || 0)) /
           100;
         const totalAmount = totalAmountWithoutScholarShip - scholarFee;

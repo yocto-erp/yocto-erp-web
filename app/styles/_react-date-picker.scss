@@ -19,3 +19,7 @@ $borderColor: #1870DC;
     color: white;
   }
 }
+
+.react-datepicker-popper {
+  z-index: 3;
+}

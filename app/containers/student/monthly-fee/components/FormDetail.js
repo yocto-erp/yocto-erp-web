@@ -12,12 +12,11 @@ import {
 import { Controller, useWatch } from "react-hook-form";
 import classNames from "classnames";
 import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
-import MonthSelect from "../../../../components/date/MonthSelect";
 import StudentSelect from "../../components/StudentSelect";
 import InputNumber from "../../../../components/Form/InputNumber";
 import InputPercent from "../../../../components/Form/InputPercent";
 import Price from "../../../../components/common/Price";
-import { toMonthObj } from "../../../../libs/utils/date.util";
+import MonthRangeSelect from "../../../../components/date/MonthRangeSelect";
 
 const FormDetail = ({
   control,
@@ -32,6 +31,7 @@ const FormDetail = ({
   isUpdated = false,
 }) => {
   const {
+    monthYear,
     absentDay,
     studentAbsentDay,
     student,
@@ -48,32 +48,35 @@ const FormDetail = ({
     defaultValue: item,
   });
 
+  console.log("monthYear", monthYear);
+
   useEffect(() => {
     let totalBusFee = 0;
 
-    if (student && student.enableBus) {
+    if (student && student.enableBus && monthYear) {
       if (isUpdated) {
-        totalBusFee = item.busFee || studentConfig.busFee;
+        totalBusFee =
+          item.busFee || studentConfig.busFee * monthYear.numberOfMonths;
       } else {
-        totalBusFee = studentConfig.busFee;
+        totalBusFee = studentConfig.busFee * monthYear.numberOfMonths;
       }
     }
     setValue(`details[${index}].busFee`, totalBusFee);
     trigger([`details[${index}].busFee`]);
-  }, [student, index, item]);
+  }, [student, index, item, monthYear]);
 
   useEffect(() => {
     let totalMealFee = 0;
-    if (student && student.enableMeal) {
+    if (student && student.enableMeal && monthYear) {
       if (isUpdated) {
         totalMealFee = item.mealFee;
       } else {
-        totalMealFee = student.class.mealFeePerMonth;
+        totalMealFee = student.class.mealFeePerMonth * monthYear.numberOfMonths;
       }
     }
     setValue(`details[${index}].mealFee`, totalMealFee);
     trigger([`details[${index}].mealFee`]);
-  }, [student, item, index]);
+  }, [student, item, index, monthYear]);
 
   const absentDayFee = useMemo(() => {
     let rs = 0;
@@ -102,9 +105,9 @@ const FormDetail = ({
 
   const totalFeeWithoutScholarShip = useMemo(() => {
     let rsFee = 0;
-    if (student) {
+    if (student && monthYear) {
       rsFee =
-        student.class.tuitionFeePerMonth -
+        student.class.tuitionFeePerMonth * monthYear.numberOfMonths -
         absentDayFee -
         studentAbsentDayDeductMealFee +
         trialDateFee +
@@ -125,16 +128,20 @@ const FormDetail = ({
     otherFee,
     otherDeduceFee,
     studentAbsentDayDeductMealFee,
+    monthYear,
   ]);
 
   const scholarShipFee = useMemo(() => {
     let rs = 0;
-    if (student) {
+    if (student && monthYear) {
       rs =
-        ((student.class.tuitionFeePerMonth - absentDayFee) * scholarShip) / 100;
+        ((student.class.tuitionFeePerMonth * monthYear.numberOfMonths -
+          absentDayFee) *
+          scholarShip) /
+        100;
     }
     return rs;
-  }, [student, absentDayFee, scholarShip]);
+  }, [student, absentDayFee, scholarShip, monthYear]);
 
   const totalFee = useMemo(() => totalFeeWithoutScholarShip - scholarShipFee, [
     totalFeeWithoutScholarShip,
@@ -162,14 +169,11 @@ const FormDetail = ({
             })}
           >
             <Controller
-              defaultValue={
-                item.monthYear || toMonthObj(new Date(item.monthYear))
-              }
+              defaultValue={item.monthYear}
               control={control}
               name={`details[${index}].monthYear`}
-              invalid={!!get(errors, ["details", index, "monthYear"], false)}
               render={({ onChange, value, onBlur }, { invalid }) => (
-                <MonthSelect
+                <MonthRangeSelect
                   onChange={onChange}
                   onBlur={onBlur}
                   isClearable={!isUpdated}
@@ -296,11 +300,10 @@ const FormDetail = ({
           <Controller
             control={control}
             defaultValue={item.busFee}
-            invalid={!!get(errors, ["details", index, "busFee"], false)}
             name={`details[${index}].busFee`}
-            disabled={!student || !student.enableBus}
             render={({ onChange, value, onBlur, ...props }) => (
               <InputNumber
+                disabled={!student || !student.enableBus}
                 {...props}
                 onChange={onChange}
                 onBlur={onBlur}

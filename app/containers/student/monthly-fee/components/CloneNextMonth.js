@@ -6,16 +6,15 @@ import * as Yup from "yup";
 import { Controller } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import ModalCancelButton from "../../../../components/button/ModalCancelButton";
-import MonthSelect from "../../../../components/date/MonthSelect";
 import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api";
 import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
 import useSyncForm from "../../../../libs/hooks/useSyncForm";
 import SubmitButton from "../../../../components/button/SubmitButton";
-import { toMonthObj } from "../../../../libs/utils/date.util";
 import { transformUnNumber } from "../../../../libs/utils/number.util";
 import InputNumber from "../../../../components/Form/InputNumber";
 import { STUDENT_MONTHLY_ROOT_PATH } from "../constants";
 import { newPage } from "../../../../libs/utils/crud.util";
+import MonthRangeSelect from "../../../../components/date/MonthRangeSelect";
 
 const CloneNextMonth = ({
   isOpen = false,
@@ -79,17 +78,17 @@ const CloneNextMonth = ({
             </label>
             <div className="col-md-8">
               <Controller
-                defaultValue={toMonthObj(new Date())}
+                defaultValue={null}
                 control={control}
                 name="monthYear"
-                render={({ onChange, value, onBlur }) => (
-                  <MonthSelect
+                render={({ onChange, value, onBlur }, { invalid }) => (
+                  <MonthRangeSelect
                     onChange={onChange}
                     onBlur={onBlur}
                     isClearable={!isUpdated}
                     value={value}
                     disabled={isUpdated}
-                    invalid={!!errors.monthYear}
+                    invalid={invalid}
                   />
                 )}
               />
@@ -98,7 +97,7 @@ const CloneNextMonth = ({
           </div>
           <div className="form-group form-row">
             <label htmlFor="absentDay" className="col-md-4 col-form-label">
-              Return Day Fee
+              Days Return Fee
             </label>
             <div className="col-md-8">
               <Controller
@@ -122,7 +121,7 @@ const CloneNextMonth = ({
           </div>
           <div className="form-group form-row">
             <label htmlFor="returnMealDay" className="col-md-4  col-form-label">
-              Return Meal Day
+              Meal days return
             </label>
             <div className="col-md-8">
               <Controller
