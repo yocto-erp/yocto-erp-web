@@ -52,7 +52,10 @@ export function toMonthObj(date) {
 }
 
 export function formatMonth(month, year) {
-  return format(new Date(year, month, 1, 0, 0, 0, 0), FNS_MONTH_FORMAT);
+  if (month >= 0 && year > 0) {
+    return format(new Date(year, month, 1, 0, 0, 0, 0), FNS_MONTH_FORMAT);
+  }
+  return "";
 }
 
 export function todayRange() {

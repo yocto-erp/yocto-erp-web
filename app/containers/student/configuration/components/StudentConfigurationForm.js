@@ -14,6 +14,8 @@ import InputNumber from "../../../../components/Form/InputNumber";
 import InputAmount from "../../../../components/Form/InputAmount";
 import { useApi } from "../../../../libs/hooks/useApi";
 import { templateApi } from "../../../../libs/apis/template/template.api";
+import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../../libs/apis/tagging.api";
 
 const StudentConfigurationForm = () => {
   const validationSchema = React.useMemo(
@@ -162,9 +164,16 @@ const StudentConfigurationForm = () => {
                 invalid={!!errors.numberDayOfMonth}
                 name="numberDayOfMonth"
                 control={control}
-                as={InputNumber}
                 defaultValue={0}
-                placeholder="Number Day of Month"
+                render={({ onChange, value, onBlur }, { invalid }) => (
+                  <InputNumber
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    placeholder="Number Day of Month"
+                    value={value}
+                    invalid={invalid}
+                  />
+                )}
               />
               <FormHookErrorMessage error={errors.numberDayOfMonth} />
             </FormGroup>
@@ -176,11 +185,17 @@ const StudentConfigurationForm = () => {
               </Label>
               <Controller
                 name="busFee"
-                invalid={!!errors.busFee}
                 control={control}
-                as={InputAmount}
                 defaultValue={0}
-                placeholder="Bus Fee"
+                render={({ onChange, value, onBlur }, { invalid }) => (
+                  <InputAmount
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    placeholder="Bus Fee"
+                    value={value}
+                    invalid={invalid}
+                  />
+                )}
               />
               <FormHookErrorMessage error={errors.busFee} />
             </FormGroup>
@@ -199,6 +214,64 @@ const StudentConfigurationForm = () => {
             </FormGroup>
           </Col>
         </Row>
+        <p className="h3">Phiếu thu</p>
+        <div className="form-group row">
+          <label htmlFor="taggingTuition" className="col-md-3 col-form-label">
+            Tagging phiếu thu học phí
+          </label>
+          <div className="col-md-9">
+            <Controller
+              name="taggingTuition"
+              defaultValue={null}
+              control={control}
+              render={({ onChange, ...data }) => (
+                <InputAsyncTagging
+                  {...data}
+                  onChange={onChange}
+                  loadOptionApi={taggingApi.search}
+                />
+              )}
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="taggingBusFee" className="col-md-3 col-form-label">
+            Tagging phiếu thu tiền xe
+          </label>
+          <div className="col-md-9">
+            <Controller
+              name="taggingBusFee"
+              defaultValue={null}
+              control={control}
+              render={({ onChange, ...data }) => (
+                <InputAsyncTagging
+                  {...data}
+                  onChange={onChange}
+                  loadOptionApi={taggingApi.search}
+                />
+              )}
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="taggingMealFee" className="col-md-3 col-form-label">
+            Tagging phiếu thu tiền ăn
+          </label>
+          <div className="col-md-9">
+            <Controller
+              name="taggingMealFee"
+              defaultValue={null}
+              control={control}
+              render={({ onChange, ...data }) => (
+                <InputAsyncTagging
+                  {...data}
+                  onChange={onChange}
+                  loadOptionApi={taggingApi.search}
+                />
+              )}
+            />
+          </div>
+        </div>
         {/*
         <Row>
           <Col>

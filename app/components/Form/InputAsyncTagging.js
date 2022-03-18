@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import AsyncCreatableSelect from 'react-select/async-creatable';
-import chroma from 'chroma-js';
-import classNames from 'classnames';
-import TaggingForm from './tagging/TaggingForm';
-import { mappingServerTagging } from '../constants';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import AsyncCreatableSelect from "react-select/async-creatable";
+import chroma from "chroma-js";
+import classNames from "classnames";
+import TaggingForm from "./tagging/TaggingForm";
+import { mappingServerTagging } from "../constants";
 
 const components = {
   DropdownIndicator: null,
 };
 
-const DEFAULT_TEXT_COLOR = '#ffffff';
-const DEFAULT_BACKGROUND_COLOR = '#040620';
+const DEFAULT_TEXT_COLOR = "#ffffff";
+const DEFAULT_BACKGROUND_COLOR = "#040620";
 
 const colourStyles = {
-  control: styles => ({ ...styles, backgroundColor: 'white' }),
+  control: styles => ({ ...styles, backgroundColor: "white" }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma(data.color || DEFAULT_TEXT_COLOR);
     let backgroundColor = null;
     let textColor = data.color;
     if (isDisabled) {
       backgroundColor = null;
-      textColor = '#ccc';
+      textColor = "#ccc";
     } else if (isSelected) {
       backgroundColor = data.color;
-      textColor = chroma.contrast(color, 'white') > 2 ? 'white' : 'black';
+      textColor = chroma.contrast(color, "white") > 2 ? "white" : "black";
     } else if (isFocused) {
       backgroundColor = color.alpha(0.1).css();
     }
@@ -32,9 +32,9 @@ const colourStyles = {
       ...styles,
       backgroundColor,
       color: textColor,
-      cursor: isDisabled ? 'not-allowed' : 'default',
-      ':active': {
-        ...styles[':active'],
+      cursor: isDisabled ? "not-allowed" : "default",
+      ":active": {
+        ...styles[":active"],
         backgroundColor:
           !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
       },
@@ -56,9 +56,9 @@ const colourStyles = {
       return {
         ...styles,
         color: data.color || DEFAULT_TEXT_COLOR,
-        ':hover': {
+        ":hover": {
           backgroundColor: data.color || DEFAULT_BACKGROUND_COLOR,
-          color: 'white',
+          color: "white",
         },
       };
     }
@@ -66,65 +66,76 @@ const colourStyles = {
   },
 };
 
-const InputAsyncTagging = React.forwardRef(
-  ({ value, invalid, placeholder, onChange, onBlur, loadOptionApi }, ref) => {
-    const [newLabel, setNewLabel] = useState(null);
-
-    const loadOptions = inputValue =>
-      loadOptionApi({ filter: { search: inputValue }, page: 1, size: 10 }).then(
-        t => t.rows.map(mappingServerTagging),
-      );
-
-    const handleChange = newValue => {
-      console.log('handleChange', newValue);
-      onChange(
-        newValue
-          ? newValue.map(t => ({ id: t.id, label: t.label, color: t.color }))
-          : null,
-      );
-    };
-
-    const handleCreate = inputValue => {
-      setNewLabel({
-        id: null,
-        label: inputValue,
-        color: DEFAULT_TEXT_COLOR,
-      });
-    };
-
-    return (
-      <>
-        <AsyncCreatableSelect
-          className={classNames('react-select-container react-select-tagging', {
-            'is-invalid': invalid,
-          })}
-          classNamePrefix="react-select"
-          components={components}
-          styles={colourStyles}
-          defaultOptions
-          loadOptions={loadOptions}
-          isClearable
-          onBlur={onBlur}
-          isMulti
-          onChange={handleChange}
-          placeholder={placeholder || 'Search and select labels'}
-          onCreateOption={handleCreate}
-          getOptionValue={data => data.id}
-          value={value}
-        />
-        <TaggingForm
-          onClose={data => {
-            setNewLabel(null);
-            if (data) {
-              onChange([...(value || []), mappingServerTagging(data)]);
-            }
-          }}
-          initForm={newLabel}
-        />
-      </>
-    );
+const InputAsyncTagging = React.forwardRef((
+  {
+    value,
+    invalid,
+    placeholder,
+    onChange,
+    onBlur,
+    loadOptionApi,
+    isDisabled = false,
   },
-);
+  // eslint-disable-next-line no-unused-vars
+  ref,
+) => {
+  const [newLabel, setNewLabel] = useState(null);
+
+  const loadOptions = inputValue =>
+    loadOptionApi({ filter: { search: inputValue }, page: 1, size: 10 }).then(
+      t => t.rows.map(mappingServerTagging),
+    );
+
+  const handleChange = newValue => {
+    console.log("handleChange", newValue);
+    onChange(
+      newValue
+        ? newValue.map(t => ({ id: t.id, label: t.label, color: t.color }))
+        : null,
+    );
+  };
+
+  const handleCreate = inputValue => {
+    setNewLabel({
+      id: null,
+      label: inputValue,
+      color: DEFAULT_TEXT_COLOR,
+    });
+  };
+
+  return (
+    <>
+      <AsyncCreatableSelect
+        className={classNames("react-select-container react-select-tagging", {
+          "is-invalid": invalid,
+        })}
+        classNamePrefix="react-select"
+        components={components}
+        styles={colourStyles}
+        defaultOptions
+        loadOptions={loadOptions}
+        isClearable
+        onBlur={onBlur}
+        isMulti
+        isDisabled={isDisabled}
+        onChange={handleChange}
+        placeholder={placeholder || "Search and select labels"}
+        onCreateOption={handleCreate}
+        getOptionValue={data => data.id}
+        value={value}
+      />
+      <TaggingForm
+        onClose={data => {
+          setNewLabel(null);
+          if (data) {
+            onChange([...(value || []), mappingServerTagging(data)]);
+          }
+        }}
+        initForm={newLabel}
+      />
+    </>
+  );
+});
 
 InputAsyncTagging.propTypes = {
   value: PropTypes.any,
@@ -133,6 +144,7 @@ InputAsyncTagging.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   loadOptionApi: PropTypes.func,
+  isDisabled: PropTypes.bool,
 };
 
 export default InputAsyncTagging;

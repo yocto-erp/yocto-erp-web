@@ -1,5 +1,5 @@
-import { createCRUDApi } from './fetch';
-import { API_URL } from '../../constants';
+import { createCRUDApi } from "./fetch";
+import { API_URL } from "../../constants";
 
 export const TAGGING_TYPE = {
   PURCHASE_ORDER: 1,

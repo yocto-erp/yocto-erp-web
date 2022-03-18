@@ -1,10 +1,10 @@
-import { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { yupResolver } from '@hookform/resolvers';
-import { useForm } from 'react-hook-form';
-import { useConfirmDialog } from './useConfirmDialog';
-import { isFunc } from '../../utils/util';
-import { API_STATE } from './useApi';
+import { useCallback, useState } from "react";
+import PropTypes from "prop-types";
+import { yupResolver } from "@hookform/resolvers";
+import { useForm } from "react-hook-form";
+import { useConfirmDialog } from "./useConfirmDialog";
+import { isFunc } from "../../utils/util";
+import { API_STATE } from "./useApi";
 
 const useMyForm = ({ form = {}, validationSchema, api, onConfirm = null }) => {
   const { confirmModal, openConfirm } = useConfirmDialog();
@@ -12,7 +12,7 @@ const useMyForm = ({ form = {}, validationSchema, api, onConfirm = null }) => {
     isLoading: false,
     errors: [],
     resp: null,
-    status: API_STATE.PENDING
+    status: API_STATE.PENDING,
   });
   const {
     register,
@@ -25,8 +25,8 @@ const useMyForm = ({ form = {}, validationSchema, api, onConfirm = null }) => {
     formState,
     watch,
   } = useForm({
-    mode: 'all',
-    reValidateMode: 'onChange',
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: form,
   });
@@ -36,7 +36,7 @@ const useMyForm = ({ form = {}, validationSchema, api, onConfirm = null }) => {
         isLoading: true,
         errors: [],
         resp: null,
-        status: API_STATE.LOADING
+        status: API_STATE.LOADING,
       });
       return api(...args).then(
         t => {
@@ -44,7 +44,7 @@ const useMyForm = ({ form = {}, validationSchema, api, onConfirm = null }) => {
             isLoading: false,
             resp: t,
             errors: [],
-            status: API_STATE.SUCCESS
+            status: API_STATE.SUCCESS,
           });
           return t;
         },

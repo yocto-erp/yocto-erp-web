@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Col, Row } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { Col, Row } from "reactstrap";
 
 const PageTitle = ({ title, subtitle, actions, colLeft = 6, colRight = 6 }) => (
   <Row className="align-items-center mb-5">
@@ -17,7 +17,7 @@ const PageTitle = ({ title, subtitle, actions, colLeft = 6, colRight = 6 }) => (
         {actions}
       </Col>
     ) : (
-      ''
+      ""
     )}
   </Row>
 );

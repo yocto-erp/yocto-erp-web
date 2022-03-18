@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Label } from 'reactstrap';
-import { Controller } from 'react-hook-form';
-import FormGroupInput from '../Form/FormGroupInput';
-import { isValidEmail } from '../../libs/utils/schema.util';
-import Editor from '../Form/Editor';
-import { EDITOR_TYPE } from '../constants';
-import { renderTemplate } from '../../libs/utils/template.util';
-import { TEMPLATE_TYPE } from '../../libs/apis/template/templateType.api';
-import EmailTemplateSelect from '../common/template/EmailTemplateSelect';
-import MultipleEmailInput from '../Form/MultipleEmailInput';
+import React, { useEffect, useMemo } from "react";
+import PropTypes from "prop-types";
+import { Label } from "reactstrap";
+import { Controller } from "react-hook-form";
+import FormGroupInput from "../Form/FormGroupInput";
+import { isValidEmail } from "../../libs/utils/schema.util";
+import Editor from "../Form/Editor";
+import { EDITOR_TYPE } from "../constants";
+import { renderTemplate } from "../../libs/utils/template.util";
+import { TEMPLATE_TYPE } from "../../libs/apis/template/templateType.api";
+import EmailTemplateSelect from "../common/template/EmailTemplateSelect";
+import MultipleEmailInput from "../Form/MultipleEmailInput";
 
 /**
  * Always using with HookForm
@@ -46,17 +46,17 @@ const SendEmailEditorForm = ({
           subject = renderTemplate(subject, values);
           content = renderTemplate(content, values);
         }
-        setValue('subject', subject);
-        setValue('from', from, { shouldValidate: true });
-        setValue('cc', cc || []);
-        setValue('bcc', bcc || []);
-        setValue('content', content);
+        setValue("subject", subject);
+        setValue("from", from, { shouldValidate: true });
+        setValue("cc", cc || []);
+        setValue("bcc", bcc || []);
+        setValue("content", content);
       } else {
-        setValue('subject', '');
-        setValue('from', '');
-        setValue('cc', []);
-        setValue('bcc', []);
-        setValue('content', '');
+        setValue("subject", "");
+        setValue("from", "");
+        setValue("cc", []);
+        setValue("bcc", []);
+        setValue("content", "");
       }
       setTemplate(val);
     },
@@ -76,6 +76,7 @@ const SendEmailEditorForm = ({
           defaultValue=""
           render={({ onChange, onBlur, value }) => (
             <Editor
+              height={300}
               value={value}
               onBlur={onBlur}
               onChange={onChange}
@@ -121,7 +122,7 @@ const SendEmailEditorForm = ({
           <div className="form-group">
             <label htmlFor="template">Choose Email Template</label>
             <EmailTemplateSelect
-              style={{ width: '300px' }}
+              style={{ width: "300px" }}
               name="template"
               type={TEMPLATE_TYPE.STUDENT_FEE}
               value={template}
@@ -131,7 +132,7 @@ const SendEmailEditorForm = ({
         </div>
       </div>
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-4">
           <FormGroupInput
             name="from"
             label="From"
@@ -141,9 +142,7 @@ const SendEmailEditorForm = ({
             placeholder="From"
           />
         </div>
-      </div>
-      <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-4">
           <div className="form-group">
             <label htmlFor="cc">CC</label>
             <Controller
@@ -155,7 +154,7 @@ const SendEmailEditorForm = ({
             />
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-4">
           <div className="form-group">
             <label htmlFor="bcc">BCC</label>
             <Controller

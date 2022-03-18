@@ -1,10 +1,10 @@
-import { stringify } from 'qs';
-import { toast } from 'react-toastify';
-import forIn from 'lodash/forIn';
-import React from 'react';
-import { get, STORAGE } from '../utils/storage';
-import ErrorMessage from '../../components/Form/ErrorMessage';
-import { isFunc } from '../../utils/util';
+import { stringify } from "qs";
+import { toast } from "react-toastify";
+import forIn from "lodash/forIn";
+import React from "react";
+import { get, STORAGE } from "../utils/storage";
+import ErrorMessage from "../../components/Form/ErrorMessage";
+import { isFunc } from "../../utils/util";
 
 // eslint-disable-next-line no-unused-vars
 const SYSTEM_ERROR = 1;
@@ -20,10 +20,10 @@ class ApiError extends Error {
 
 function logError(error) {
   // eslint-disable-next-line no-console
-  console.error('Looks like there was a problem: \n', error);
+  console.error("Looks like there was a problem: \n", error);
   if (!(error instanceof ApiError)) {
     toast.error(<ErrorMessage errors={error.errors} />, {
-      toastId: error.errors.join(''),
+      toastId: error.errors.join(""),
       position: toast.POSITION.TOP_CENTER,
     });
   }
@@ -49,9 +49,9 @@ async function validateResponse(response) {
       case 403:
         errors = [
           {
-            name: 'path',
-            code: 'ACCESS_DENIED',
-            message: 'You have no right to access.',
+            name: "path",
+            code: "ACCESS_DENIED",
+            message: "You have no right to access.",
           },
         ];
         break;
@@ -59,8 +59,8 @@ async function validateResponse(response) {
         type = 1;
         errors = [
           {
-            name: 'path',
-            code: 'INTERNAL_ERROR',
+            name: "path",
+            code: "INTERNAL_ERROR",
             message: response.statusText,
           },
         ];
@@ -83,8 +83,8 @@ function getAuthHeader() {
   const token = get(STORAGE.JWT);
   return {
     Authorization: `Bearer ${encodeURIComponent(token)}`,
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
+    "Content-Type": "application/json",
+    Accept: "application/json",
   };
 }
 
@@ -101,7 +101,7 @@ export function fetchJSON(pathToResource) {
 
 export function postJSON(pathToResource, body) {
   return fetch(pathToResource, {
-    method: 'POST',
+    method: "POST",
     headers: getAuthHeader(),
     body: JSON.stringify(body),
   })
@@ -112,7 +112,7 @@ export function postJSON(pathToResource, body) {
 
 export function deleteRequest(pathToResource) {
   return fetch(pathToResource, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: getAuthHeader(),
   })
     .then(validateResponse)
@@ -155,7 +155,7 @@ export function createSearchApi(url) {
     };
     return fetchJSON(
       `${isFunc(url) ? url() : url}?${stringify(body, {
-        arrayFormat: 'repeat',
+        arrayFormat: "repeat",
       })}`,
     );
   };
@@ -181,7 +181,7 @@ export const download = (url, name) =>
     .then(response => response.blob())
     .then(blobby => {
       const objectUrl = window.URL.createObjectURL(blobby);
-      const anchor = document.createElement('a');
+      const anchor = document.createElement("a");
       anchor.href = objectUrl;
       anchor.download = name;
       anchor.click();

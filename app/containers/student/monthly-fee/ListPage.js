@@ -154,7 +154,10 @@ const ListPage = ({ history }) => {
               <IconButton
                 size="sm"
                 color="warning"
-                onClick={() => setPaymentStudent(row)}
+                onClick={() => {
+                  history.push(`${ROOT_PATH}/${row.id}/paid`);
+                  // setPaymentStudent(row);
+                }}
                 title="Set Payment"
               >
                 <i className="fa fa-dollar" />{" "}

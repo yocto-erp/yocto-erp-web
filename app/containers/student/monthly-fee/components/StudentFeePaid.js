@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
-import * as yup from 'yup';
-import { Controller } from 'react-hook-form';
-import PropTypes from 'prop-types';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { transformUnNumber } from '../../../../libs/utils/number.util';
-import { ERROR } from '../../../../components/Form/messages';
-import useMyForm from '../../../../libs/hooks/useMyForm';
-import FormGroupInput from '../../../../components/Form/FormGroupInput';
-import ModalCancelButton from '../../../../components/button/ModalCancelButton';
-import ModalOKButton from '../../../../components/button/ModalOKButton';
-import SendEmailEditorForm from '../../../../components/SendEmailEditorForm';
-import InputAmount from '../../../../components/Form/InputAmount';
-import { useApi } from '../../../../libs/hooks/useApi';
-import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
-import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
-import { emailSchema } from '../../../../libs/utils/schema.util';
+import React, { useEffect } from "react";
+import * as yup from "yup";
+import { Controller } from "react-hook-form";
+import PropTypes from "prop-types";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { toast } from "react-toastify";
+import { transformUnNumber } from "../../../../libs/utils/number.util";
+import { ERROR } from "../../../../components/Form/messages";
+import useMyForm from "../../../../libs/hooks/useMyForm";
+import FormGroupInput from "../../../../components/Form/FormGroupInput";
+import ModalCancelButton from "../../../../components/button/ModalCancelButton";
+import ModalOKButton from "../../../../components/button/ModalOKButton";
+import SendEmailEditorForm from "../../../../components/SendEmailEditorForm";
+import InputAmount from "../../../../components/Form/InputAmount";
+import { useApi } from "../../../../libs/hooks/useApi";
+import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api";
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
+import { emailSchema } from "../../../../libs/utils/schema.util";
 
 const schema = yup.object().shape({
   amount: yup
@@ -24,21 +24,21 @@ const schema = yup.object().shape({
     .positive(ERROR.amountGT0)
     .required(ERROR.required),
   remark: yup.string(),
-  name: yup.string().when('storeCashIn', {
+  name: yup.string().when("storeCashIn", {
     is: true,
     then: yup.string().required(),
   }),
   storeCashIn: yup.bool(),
   sendEmailConfirm: yup.bool(),
-  from: emailSchema.when('sendEmailConfirm', {
+  from: emailSchema.when("sendEmailConfirm", {
     is: true,
     then: emailSchema.required(),
   }),
-  content: yup.string().when('sendEmailConfirm', {
+  content: yup.string().when("sendEmailConfirm", {
     is: true,
     then: yup.string().required(),
   }),
-  subject: yup.string().when('sendEmailConfirm', {
+  subject: yup.string().when("sendEmailConfirm", {
     is: true,
     then: yup.string().required(),
   }),
@@ -67,7 +67,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
     },
     onConfirm: formData => ({
       title: `Confirm Paid Student Fee ${formData.amount} !`,
-      message: 'Are you sure to confirm payment student fee?',
+      message: "Are you sure to confirm payment student fee?",
     }),
   });
 
@@ -86,7 +86,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
     if (student) {
       reset({
         amount: student.totalAmount || 0,
-        remark: '',
+        remark: "",
         name: `Month ${student.monthFee + 1}/${
           student.yearFee
         } tuition fee of ${student.student.child.firstName} ${
@@ -94,7 +94,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
         }`,
         storeCashIn: true,
         sendEmailConfirm: true,
-        from: '',
+        from: "",
         emailTemplate: null,
       });
     }
@@ -102,7 +102,7 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
 
   useEffect(() => {
     if (serverErrors && serverErrors.length) {
-      toast.error(serverErrors.map(t => t.message).join('\n'));
+      toast.error(serverErrors.map(t => t.message).join("\n"));
     }
   }, [serverErrors]);
 
@@ -114,14 +114,14 @@ const StudentFeePaid = ({ isOpen, onClose, student }) => {
   }, [resp]);
 
   const { sendEmailConfirm, storeCashIn } = watch([
-    'sendEmailConfirm',
-    'storeCashIn',
+    "sendEmailConfirm",
+    "storeCashIn",
   ]);
 
   return (
     <Modal className="primary xx-large" isOpen={isOpen} fade={false} scrollable>
       <ModalHeader toggle={() => onClose(false)}>
-        Set Payment for student {student?.student.child.firstName}{' '}
+        Set Payment for student {student?.student.child.firstName}{" "}
         {student?.student.child.lastName} on {student?.monthFee}-
         {student?.yearFee}
       </ModalHeader>

@@ -1,10 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
 export const API_STATE = {
-  PENDING: 'PENDING',
-  LOADING: 'LOADING',
-  SUCCESS: 'SUCCESS',
-  FAIL: 'FAIL',
+  PENDING: "PENDING",
+  LOADING: "LOADING",
+  SUCCESS: "SUCCESS",
+  FAIL: "FAIL",
 };
 
 export const useApi = asyncApi => {
