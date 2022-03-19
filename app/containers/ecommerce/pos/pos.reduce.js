@@ -1,14 +1,14 @@
 const POS_ACTION = {
-  ADD_ORDER: 'ADD_ORDER',
-  REMOVE_ORDER: 'REMOVE_ORDER',
-  REMOVE_CURRENT_ORDER: 'REMOVE_CURRENT_ORDER',
-  SELECT_ORDER: 'SELECT_ORDER',
-  ADD_PRODUCT: 'ADD_PRODUCT',
-  REMOVE_PRODUCT: 'REMOVE_PRODUCT',
-  CHANGE_QTY: 'CHANGE_QTY',
-  INCREASE: 'INCREASE',
-  DECREASE: 'DECREASE',
-  SELECT_CUSTOMER: 'SELECT_CUSTOMER',
+  ADD_ORDER: "ADD_ORDER",
+  REMOVE_ORDER: "REMOVE_ORDER",
+  REMOVE_CURRENT_ORDER: "REMOVE_CURRENT_ORDER",
+  SELECT_ORDER: "SELECT_ORDER",
+  ADD_PRODUCT: "ADD_PRODUCT",
+  REMOVE_PRODUCT: "REMOVE_PRODUCT",
+  CHANGE_QTY: "CHANGE_QTY",
+  INCREASE: "INCREASE",
+  DECREASE: "DECREASE",
+  SELECT_CUSTOMER: "SELECT_CUSTOMER",
 };
 
 export const posInitialState = {
@@ -30,9 +30,9 @@ const initOrder = index => ({
   products: [],
   total: 0,
   tax: 0,
-  email: '',
-  phone: '',
-  address: '',
+  email: "",
+  phone: "",
+  address: "",
 });
 
 export function addOrder() {
@@ -190,7 +190,7 @@ export function posReducer(state, action) {
       return { ...state, orders: [...state.orders] };
     }
     case POS_ACTION.SELECT_CUSTOMER: {
-      console.log('onselect customer', action);
+      console.log("onselect customer", action);
       const { orders } = state;
       const { data: customer } = action;
       const order = orders[state.currentOrder];

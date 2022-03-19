@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import ModalCancelButton from '../../../components/button/ModalCancelButton';
-import ModalOKButton from '../../../components/button/ModalOKButton';
-import Price from '../../../components/common/Price';
-import { calculateOrder } from './pos.reduce';
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import ModalCancelButton from "../../../components/button/ModalCancelButton";
+import ModalOKButton from "../../../components/button/ModalOKButton";
+import Price from "../../../components/common/Price";
+import { calculateOrder } from "./pos.reduce";
 
 const PosCheckOut = ({
   order: {
     order,
-    form: { payAmount, isDebt, isShipping, address },
+    form: { payAmount, isShipping, address },
   },
   onClose,
 }) => {
@@ -59,7 +59,7 @@ const PosCheckOut = ({
                 Shipping
               </label>
               <div className="col align-self-center">
-                {isShipping ? address : 'No'}
+                {isShipping ? address : "No"}
               </div>
             </div>
           </div>

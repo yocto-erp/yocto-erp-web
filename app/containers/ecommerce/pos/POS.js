@@ -4,24 +4,24 @@ import React, {
   useMemo,
   useReducer,
   useState,
-} from 'react';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import debounce from 'lodash/debounce';
-import { API_STATE, useApi } from '../../../libs/hooks/useApi';
-import EcommerceProductApi from '../../../libs/apis/ecommerce/ecommerce-product.api';
-import Price from '../../../components/common/Price';
-import { imagePath } from '../../../libs/apis/image.api';
-import './pos.scss';
-import { addProduct, posInitialState, posReducer } from './pos.reduce';
+} from "react";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import debounce from "lodash/debounce";
+import { API_STATE, useApi } from "../../../libs/hooks/useApi";
+import EcommerceProductApi from "../../../libs/apis/ecommerce/ecommerce-product.api";
+import Price from "../../../components/common/Price";
+import { imagePath } from "../../../libs/apis/image.api";
+import "./pos.scss";
+import { addProduct, posInitialState, posReducer } from "./pos.reduce";
 import {
   PosDispatchContext,
   PosListOrderContext,
   PosOrderContext,
-} from './pos.context';
-import PosListOrder from './pos-list-order';
-import PosOrderForm from './pos-order.form';
+} from "./pos.context";
+import PosListOrder from "./pos-list-order";
+import PosOrderForm from "./pos-order.form";
 
-const POS = props => {
+const POS = () => {
   const { state: productListState, exec: listProductExec } = useApi(
     EcommerceProductApi.search,
   );
@@ -29,7 +29,7 @@ const POS = props => {
     page: 1,
     size: 12,
     filter: {
-      search: '',
+      search: "",
     },
   });
 
@@ -83,7 +83,7 @@ const POS = props => {
     if (productListState.status === API_STATE.FAIL) {
       return (
         <div className="alert alert-danger">
-          {productListState.errors.map(t => t.message || t.code).join('\n')}
+          {productListState.errors.map(t => t.message || t.code).join("\n")}
         </div>
       );
     }
@@ -97,7 +97,7 @@ const POS = props => {
 
   const scrollOptions = {
     scrollbars: {
-      autoHide: 'scroll',
+      autoHide: "scroll",
     },
     paddingAbsolute: true,
   };

@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers';
-import * as Yup from 'yup';
-import CustomerSelect from '../../../components/common/customer/CustomerSelect';
-import { usePosDispatch, usePosOrderContext } from './pos.context';
-import { calculateOrder, onSelectCustomer } from './pos.reduce';
-import Price from '../../../components/common/Price';
-import { PosScrollOptions } from './constants';
-import Input from '../../../components/Form/Input';
-import InputAmount from '../../../components/Form/InputAmount';
-import { hasText } from '../../../utils/util';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import { transformUnNumber } from '../../../libs/utils/number.util';
-import PosCheckOut from './ check-out.modal';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers";
+import * as Yup from "yup";
+import CustomerSelect from "../../../components/common/customer/CustomerSelect";
+import { usePosDispatch, usePosOrderContext } from "./pos.context";
+import { calculateOrder, onSelectCustomer } from "./pos.reduce";
+import Price from "../../../components/common/Price";
+import { PosScrollOptions } from "./constants";
+import Input from "../../../components/Form/Input";
+import InputAmount from "../../../components/Form/InputAmount";
+import { hasText } from "../../../utils/util";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import { transformUnNumber } from "../../../libs/utils/number.util";
+import PosCheckOut from "./check-out.modal";
 
 const PosOrderForm = () => {
   const order = usePosOrderContext();
@@ -39,13 +39,13 @@ const PosOrderForm = () => {
     watch,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'all',
-    reValidateMode: 'onChange',
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
       isShipping: false,
-      address: '',
-      payAmount: '',
+      address: "",
+      payAmount: "",
       isDebt: false,
     },
   });
@@ -58,7 +58,7 @@ const PosOrderForm = () => {
   const onCustomerChange = useCallback(
     customer => {
       dispatch(onSelectCustomer(customer));
-      setValue('address', customer.address);
+      setValue("address", customer.address);
     },
     [dispatch, setValue],
   );
@@ -85,14 +85,14 @@ const PosOrderForm = () => {
     return rs;
   }, [order]);
 
-  const { isShipping, payAmount } = watch(['isShipping', 'payAmount']);
+  const { isShipping, payAmount } = watch(["isShipping", "payAmount"]);
 
   useEffect(() => {
     console.log(payAmount);
     if (payAmount < summary.total) {
-      setValue('isDebt', true);
+      setValue("isDebt", true);
     } else {
-      setValue('isDebt', false);
+      setValue("isDebt", false);
     }
   }, [payAmount]);
 
@@ -107,13 +107,13 @@ const PosOrderForm = () => {
                 {hasText(order.phone) && (
                   <span>
                     <i className="fa fa-phone fa-fw" />
-                    &nbsp;{order.phone}{' '}
+                    &nbsp;{order.phone}{" "}
                   </span>
                 )}
                 {hasText(order.email) && (
                   <span className="ml-3 text-nowrap">
                     <i className="fa fa-envelope fa-fw" />
-                    &nbsp;{order.email}{' '}
+                    &nbsp;{order.email}{" "}
                   </span>
                 )}
                 {hasText(order.address) && (
@@ -121,7 +121,7 @@ const PosOrderForm = () => {
                     <br />
                     <span>
                       <i className="fa fa-location-arrow fa-fw" />
-                      &nbsp;{order.address}{' '}
+                      &nbsp;{order.address}{" "}
                     </span>
                   </>
                 )}
@@ -168,7 +168,7 @@ const PosOrderForm = () => {
                   <tr>
                     <td />
                     <td className="text-right">
-                      Tax: <Price amount={order.tax} />{' '}
+                      Tax: <Price amount={order.tax} />{" "}
                     </td>
                   </tr>
                   <tr>
@@ -191,7 +191,7 @@ const PosOrderForm = () => {
                     <div className="input-group-prepend">
                       <div
                         className="input-group-text"
-                        style={{ width: '70px' }}
+                        style={{ width: "70px" }}
                       >
                         <Input
                           id="isShipping"
@@ -222,7 +222,7 @@ const PosOrderForm = () => {
                     control={control}
                     defaultValue=""
                     render={({ onChange, value }, { invalid }) => {
-                      console.log('Value change', value);
+                      console.log("Value change", value);
                       return (
                         <>
                           <InputAmount
@@ -230,7 +230,7 @@ const PosOrderForm = () => {
                               <div className="input-group-prepend">
                                 <div
                                   className="input-group-text"
-                                  style={{ width: '70px' }}
+                                  style={{ width: "70px" }}
                                 >
                                   <Input
                                     disabled={payAmount >= summary.total}
@@ -256,12 +256,12 @@ const PosOrderForm = () => {
                           <p className="help-block">
                             {payAmount >= summary.total ? (
                               <span className="text-success">
-                                Return:{' '}
-                                <Price amount={payAmount - summary.total} />{' '}
+                                Return:{" "}
+                                <Price amount={payAmount - summary.total} />{" "}
                               </span>
                             ) : (
                               <span className="text-danger">
-                                Debt:{' '}
+                                Debt:{" "}
                                 <Price amount={summary.total - payAmount} />
                               </span>
                             )}

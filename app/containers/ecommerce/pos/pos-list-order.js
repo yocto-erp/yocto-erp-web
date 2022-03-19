@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
-import classNames from 'classnames';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import { addOrder, removeOrder, selectOrder } from './pos.reduce';
-import { usePosDispatch, usePosListOrderContext } from './pos.context';
-import { PosScrollOptions } from './constants';
-import { useConfirmDialog } from '../../../libs/hooks/useConfirmDialog';
+import React, { useMemo } from "react";
+import classNames from "classnames";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { addOrder, removeOrder, selectOrder } from "./pos.reduce";
+import { usePosDispatch, usePosListOrderContext } from "./pos.context";
+import { PosScrollOptions } from "./constants";
+import { useConfirmDialog } from "../../../libs/hooks/useConfirmDialog";
 
 const PosListOrder = () => {
   const dispatch = usePosDispatch();
@@ -19,7 +19,7 @@ const PosListOrder = () => {
             role="button"
             tabIndex={i}
             className={classNames(
-              'list-group-item list-group-item-action p-2 d-flex justify-content-between align-items-center',
+              "list-group-item list-group-item-action p-2 d-flex justify-content-between align-items-center",
               {
                 active: i === currentOrder,
               },
@@ -32,7 +32,7 @@ const PosListOrder = () => {
               {t.name}
               <br />
               <span className="badge badge-info badge-pill">
-                {t.products.map(it => it.qty).reduce((a, b) => a + b, 0)} /{' '}
+                {t.products.map(it => it.qty).reduce((a, b) => a + b, 0)} /{" "}
                 {t.products.length}
               </span>
             </p>
@@ -53,7 +53,7 @@ const PosListOrder = () => {
                   });
                 }}
               >
-                <i className="fa fa-trash" />{' '}
+                <i className="fa fa-trash" />{" "}
               </button>
             </div>
           </div>
