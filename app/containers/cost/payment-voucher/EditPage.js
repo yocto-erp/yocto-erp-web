@@ -1,7 +1,8 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import PageTitle from '../../Layout/PageTitle';
-import CreatePaymentForm from '../components/CreatePaymentForm';
+import React from "react";
+import { useParams } from "react-router-dom";
+import PageTitle from "../../Layout/PageTitle";
+import CreatePaymentForm from "../components/CreatePaymentForm";
+
 const EditPage = () => {
   const { id } = useParams();
   return (

@@ -1,11 +1,11 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import ListPage from './ListPage';
-import { USER_ROOT_PATH } from './constants';
-import DetailPage from './DetailPage';
-import EditPage from './EditPage';
-import { newPage } from '../../libs/utils/crud.util';
-import InvitePage from './InvitePage';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import ListPage from "./ListPage";
+import { USER_ROOT_PATH } from "./constants";
+import DetailPage from "./DetailPage";
+import EditPage from "./EditPage";
+import { newPage } from "../../libs/utils/crud.util";
+import InvitePage from "./InvitePage";
 
 const MAIN_PATH = USER_ROOT_PATH;
 

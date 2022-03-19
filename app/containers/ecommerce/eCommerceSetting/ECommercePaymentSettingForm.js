@@ -22,12 +22,11 @@ const { create, read, update } = EcommerceSettingApi.payment;
 const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
   const schema = yup.object().shape({
     name: yup.string().required(),
-    paymentMethodId: yup
+    paymentTypeId: yup
       .number()
       .transform(transformUnNumberToNull)
       .nullable()
       .required(),
-    setting: yup.string().required(),
   });
   const {
     register,
@@ -42,7 +41,7 @@ const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
     read,
     update,
     validationSchema: schema,
-    initForm: { paymentMethodId: "", setting: "" },
+    initForm: { paymentTypeId: "", setting: "" },
     onSuccess: resp => {
       toast.success(
         id ? `Update Payment Method success` : `Add Payment Method success`,
@@ -51,7 +50,7 @@ const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
     },
   });
 
-  const paymentMethodId = watch("paymentMethodId");
+  const paymentTypeId = watch("paymentTypeId");
 
   return (
     <Modal isOpen={isOpen} size="lg">
@@ -72,9 +71,9 @@ const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
           <FormGroupInput
             label="Payment Method"
             isRequired
-            name="paymentMethodId"
+            name="paymentTypeId"
             type="select"
-            error={errors.paymentMethodId}
+            error={errors.paymentTypeId}
             register={register}
           >
             <option value="">Select Payment Method</option>
@@ -84,7 +83,7 @@ const ECommercePaymentSettingForm = ({ isOpen, onClose, id }) => {
               </option>
             ))}
           </FormGroupInput>
-          {Number(paymentMethodId) === ECOMMERCE_PAYMENT_METHOD.BANK && (
+          {Number(paymentTypeId) === ECOMMERCE_PAYMENT_METHOD.BANK && (
             <FormGroup label="Transfer Information">
               <Controller
                 name="setting"

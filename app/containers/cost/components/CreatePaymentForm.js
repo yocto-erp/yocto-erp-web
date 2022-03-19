@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FormFeedback,
   FormGroup,
@@ -27,6 +27,8 @@ import { ERROR } from "../../../components/Form/messages";
 import { mappingServerTagging } from "../../../components/constants";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
+import PaymentSelect from "../../payment/components/PaymentSelect";
+import FormError from "../../../components/Form/FormError";
 
 const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
@@ -45,8 +47,8 @@ const CreatePaymentForm = ({ id }) => {
     submit,
     errors,
     setValue,
-    formState: { isValid, isDirty },
-    state: { isLoading, formData },
+    formState,
+    state,
   } = useHookCRUDForm({
     create,
     update,
@@ -83,13 +85,21 @@ const CreatePaymentForm = ({ id }) => {
       partnerPersonId: null,
       partnerCompanyId: null,
       tagging: [],
+      paymentMethod: null,
     },
     validationSchema,
     id,
   });
+
+  console.log("CreatePaymentForm");
+  useEffect(() => {
+    console.log("ServerErrors", state);
+  }, [state]);
+
   const form = React.useMemo(
     () => (
       <Form onSubmit={submit} noValidate formNoValidate>
+        <FormError errors={state.errors} />
         <Row>
           <Col md={7}>
             <FormGroup row>
@@ -113,15 +123,41 @@ const CreatePaymentForm = ({ id }) => {
               </Label>
               <Col sm={9}>
                 <Controller
-                  type="number"
                   name="amount"
-                  invalid={!!errors.amount}
                   control={control}
-                  as={InputAmount}
-                  defaultValue={formData.amount}
-                  placeholder="Enter Amount here"
+                  defaultValue={state.formData.amount}
+                  render={({ onChange, value }, { invalid }) => {
+                    console.log("Value change", value);
+                    return (
+                      <InputAmount
+                        placeholder="Enter Amount here"
+                        onChange={onChange}
+                        value={value}
+                        invalid={invalid}
+                      />
+                    );
+                  }}
                 />
                 <FormHookErrorMessage error={errors.amount} />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={3}>Payment Method</Label>
+              <Col sm={9}>
+                <Controller
+                  name="paymentMethod"
+                  control={control}
+                  defaultValue={null}
+                  render={({ onChange, value }, { invalid }) => (
+                    <PaymentSelect
+                      placeholder="Payment Method"
+                      onChange={onChange}
+                      value={value}
+                      invalid={invalid}
+                    />
+                  )}
+                />
+                <FormHookErrorMessage error={errors.paymentMethod} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -140,7 +176,9 @@ const CreatePaymentForm = ({ id }) => {
               <Col sm={9}>
                 <Controller
                   name="partnerCompanyId"
-                  defaultValue={formData ? formData.partnerCompanyId : null}
+                  defaultValue={
+                    state.formData ? state.formData.partnerCompanyId : null
+                  }
                   control={control}
                   render={({ onChange, ...data }) => (
                     <CompanySelect
@@ -166,7 +204,9 @@ const CreatePaymentForm = ({ id }) => {
               <Col sm={9}>
                 <Controller
                   name="partnerPersonId"
-                  defaultValue={formData ? formData.partnerPersonId : null}
+                  defaultValue={
+                    state.formData ? state.formData.partnerPersonId : null
+                  }
                   control={control}
                   render={({ onChange, ...data }) => (
                     <CustomerSelect
@@ -192,7 +232,7 @@ const CreatePaymentForm = ({ id }) => {
               <Col sm={9}>
                 <Controller
                   name="tagging"
-                  defaultValue={formData ? formData.tagging : []}
+                  defaultValue={state.formData ? state.formData.tagging : []}
                   control={control}
                   render={({ onChange, ...data }) => (
                     <InputAsyncTagging
@@ -209,15 +249,20 @@ const CreatePaymentForm = ({ id }) => {
           <Col md={5}>
             <FormGroup className="pb-3 h-100">
               <Controller
-                defaultValue={formData ? formData.assets : []}
-                invalid={!!errors.assets}
-                as={FileUpload}
-                className="h-100"
+                defaultValue={state.formData ? state.formData.assets : []}
                 name="assets"
-                placeholder="Upload files"
                 control={control}
-                accept={["image/*"]}
-                maxSize={500000}
+                render={({ onChange, ...data }, { invalid }) => (
+                  <FileUpload
+                    accept={["image/*"]}
+                    placeholder="Upload files"
+                    maxSize={500000}
+                    {...data}
+                    onChange={onChange}
+                    className="h-100"
+                    invalid={invalid}
+                  />
+                )}
               />
               <FormFeedback>
                 {errors.assets && errors.assets.message}
@@ -228,10 +273,13 @@ const CreatePaymentForm = ({ id }) => {
         </Row>
 
         <BackButton className="mr-2" />
-        <SubmitButton isLoading={isLoading} disabled={!isValid || !isDirty} />
+        <SubmitButton
+          isLoading={state.isLoading}
+          disabled={!formState.isValid || !formState.isDirty}
+        />
       </Form>
     ),
-    [submit, errors, isLoading, register],
+    [submit, errors, state, formState, register],
   );
 
   return <Widget>{form}</Widget>;

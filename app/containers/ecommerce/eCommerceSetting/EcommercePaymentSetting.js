@@ -90,7 +90,7 @@ const EcommercePaymentSetting = () => {
               <td>{t.id}</td>
               <td>{t.name || ""}</td>
               <td id={`paymentMethod${t.id}`}>
-                {ecommercePaymentMethodStr(t.paymentMethodId)}
+                {ecommercePaymentMethodStr(t.paymentTypeId)}
               </td>
               <td>
                 <RawHTML html={t.setting} />

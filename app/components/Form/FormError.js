@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Alert } from 'reactstrap';
-import { v4 as uuidv4 } from 'uuid';
+import React from "react";
+import PropTypes from "prop-types";
+import { Alert } from "reactstrap";
+import { v4 as uuidv4 } from "uuid";
 
 const FormError = ({ errors, item, ...props }) =>
   errors && errors.length ? (
@@ -13,7 +13,7 @@ const FormError = ({ errors, item, ...props }) =>
       </ul>
     </Alert>
   ) : (
-    ''
+    ""
   );
 
 FormError.propTypes = {

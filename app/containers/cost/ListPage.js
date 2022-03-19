@@ -68,6 +68,12 @@ const ListPage = ({ history }) => {
         class: "min text-right",
       },
       {
+        header: <span className="text-nowrap">Payment Method</span>,
+        data: "paymentMethod",
+        render: row => row.paymentMethod?.name,
+        class: "min text-center",
+      },
+      {
         header: "Remark",
         data: "remark",
       },

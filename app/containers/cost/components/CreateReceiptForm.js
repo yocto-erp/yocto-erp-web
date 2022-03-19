@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Col,
   Form,
@@ -7,33 +7,35 @@ import {
   Input,
   Label,
   Row,
-} from 'reactstrap';
-import { PropTypes } from 'prop-types';
-import { toast } from 'react-toastify';
-import * as yup from 'yup';
-import { Controller } from 'react-hook-form';
-import apiCost from '../../../libs/apis/cost.api';
-import Widget from '../../../components/Widget/Widget';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import CompanySelect from '../../../components/common/company/CompanySelect';
-import CustomerSelect from '../../../components/common/customer/CustomerSelect';
-import FileUpload from '../../../components/FileUpload';
-import InputAmount from '../../../components/Form/InputAmount';
-import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
-import taggingApi from '../../../libs/apis/tagging.api';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import { mappingServerTagging } from '../../../components/constants';
+} from "reactstrap";
+import { PropTypes } from "prop-types";
+import { toast } from "react-toastify";
+import * as yup from "yup";
+import { Controller } from "react-hook-form";
+import apiCost from "../../../libs/apis/cost.api";
+import Widget from "../../../components/Widget/Widget";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
+import SubmitButton from "../../../components/button/SubmitButton";
+import BackButton from "../../../components/button/BackButton";
+import CompanySelect from "../../../components/common/company/CompanySelect";
+import CustomerSelect from "../../../components/common/customer/CustomerSelect";
+import FileUpload from "../../../components/FileUpload";
+import InputAmount from "../../../components/Form/InputAmount";
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../libs/apis/tagging.api";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import { mappingServerTagging } from "../../../components/constants";
+import PaymentSelect from "../../payment/components/PaymentSelect";
+import FormError from "../../../components/Form/FormError";
 
 const CreateReceiptForm = ({ id }) => {
   const validationSchema = yup.object().shape({
-    name: yup.string().required('this field is required'),
+    name: yup.string().required("this field is required"),
     amount: yup
       .number()
-      .typeError('This field is required')
-      .positive('Amount must be greater than zero')
-      .required('This field is required'),
+      .typeError("This field is required")
+      .positive("Amount must be greater than zero")
+      .required("This field is required"),
     tagging: yup.array().nullable(),
   });
   const { create, read, update } = apiCost;
@@ -44,7 +46,7 @@ const CreateReceiptForm = ({ id }) => {
     errors,
     setValue,
     formState: { isValid, isDirty },
-    state: { isLoading, formData },
+    state: { isLoading, formData, errors: serverErrors },
   } = useHookCRUDForm({
     create,
     update,
@@ -72,7 +74,7 @@ const CreateReceiptForm = ({ id }) => {
       partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
     }),
     initForm: {
-      amount: '',
+      amount: "",
       assets: [],
       partnerCompanyId: null,
       partnerPersonId: null,
@@ -84,6 +86,7 @@ const CreateReceiptForm = ({ id }) => {
   const form = React.useMemo(
     () => (
       <Form onSubmit={submit} noValidate formNoValidate>
+        <FormError errors={serverErrors} />
         <Row>
           <Col md={7}>
             <FormGroup row>
@@ -110,17 +113,40 @@ const CreateReceiptForm = ({ id }) => {
               </Label>
               <Col sm={9}>
                 <Controller
-                  type="number"
                   name="amount"
-                  invalid={!!errors.amount}
                   control={control}
-                  as={InputAmount}
                   defaultValue={formData.amount}
-                  placeholder="Enter Amount here"
+                  render={({ onChange, value }, { invalid }) => (
+                    <InputAmount
+                      placeholder="Enter Amount here"
+                      onChange={onChange}
+                      value={value}
+                      invalid={invalid}
+                    />
+                  )}
                 />
                 <FormFeedback>
                   {errors.amount && errors.amount.message}
                 </FormFeedback>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={3}>Payment Method</Label>
+              <Col sm={9}>
+                <Controller
+                  name="paymentMethod"
+                  control={control}
+                  defaultValue={null}
+                  render={({ onChange, value }, { invalid }) => (
+                    <PaymentSelect
+                      placeholder="Payment Method"
+                      onChange={onChange}
+                      value={value}
+                      invalid={invalid}
+                    />
+                  )}
+                />
+                <FormHookErrorMessage error={errors.paymentMethod} />
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -147,7 +173,7 @@ const CreateReceiptForm = ({ id }) => {
                       placeholder="Choose Partner Company"
                       invalid={!!errors.partnerCompanyId}
                       onAdded={newCompany => {
-                        setValue('partnerCompanyId', newCompany, {
+                        setValue("partnerCompanyId", newCompany, {
                           shouldValidate: true,
                         });
                       }}
@@ -176,7 +202,7 @@ const CreateReceiptForm = ({ id }) => {
                       placeholder="Choose Partner Person"
                       invalid={!!errors.partnerPersonId}
                       onAdded={newCustomer => {
-                        setValue('partnerPersonId', newCustomer, {
+                        setValue("partnerPersonId", newCustomer, {
                           shouldValidate: true,
                         });
                       }}
@@ -221,7 +247,7 @@ const CreateReceiptForm = ({ id }) => {
                 name="assets"
                 placeholder="Upload files"
                 control={control}
-                accept={['image/*']}
+                accept={["image/*"]}
                 maxSize={500000}
               />
               <FormFeedback>

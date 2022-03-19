@@ -1,54 +1,54 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import PageTitle from '../Layout/PageTitle';
-import ListWidget from '../../components/ListWidget';
-import { formatDate } from '../../libs/utils/date.util';
-import { USER_ROOT_PATH } from './constants';
-import userApi, { USER_INVITE_STATUS } from '../../libs/apis/user.api';
-import TableActionColumns from '../../components/ListWidget/TableActionColumn';
+import React from "react";
+import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import PageTitle from "../Layout/PageTitle";
+import ListWidget from "../../components/ListWidget";
+import { formatDate } from "../../libs/utils/date.util";
+import { USER_ROOT_PATH } from "./constants";
+import userApi, { USER_INVITE_STATUS } from "../../libs/apis/user.api";
+import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
   viewPage,
-} from '../../libs/utils/crud.util';
-import DeleteConfirmModal from '../../components/modal/DeleteConfirmModal';
-import CreateButton from '../../components/button/CreateButton';
-import FilterUser from './components/FilterUser';
-import { SORT_DIR } from '../../components/ListWidget/constants';
+} from "../../libs/utils/crud.util";
+import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
+import CreateButton from "../../components/button/CreateButton";
+import FilterUser from "./components/FilterUser";
+import { SORT_DIR } from "../../components/ListWidget/constants";
 
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'User',
-        data: 'user',
+        header: "User",
+        data: "user",
         render: row => (
           <>
             <div>Email: {row.user.email}</div>
             {row.user.displayName && row.user.displayName.length ? (
               <div>Display Name: {row.user.displayName}</div>
             ) : (
-              ''
+              ""
             )}
           </>
         ),
       },
       {
-        header: 'Permission',
-        data: 'from',
-        class: 'min',
+        header: "Permission",
+        data: "from",
+        class: "min",
         render: row => row.group.totalPermission,
       },
       {
-        header: 'Invitation',
-        data: 'inviteStatus',
-        class: 'min',
+        header: "Invitation",
+        data: "inviteStatus",
+        class: "min",
         render: row => {
-          let rs = '';
+          let rs = "";
           switch (row.inviteStatus) {
             case USER_INVITE_STATUS.INVITED:
               rs = (
@@ -71,16 +71,16 @@ const ListPage = ({ history }) => {
         },
       },
       {
-        header: 'Sent Date',
-        data: 'invitedDate',
-        class: 'min',
+        header: "Sent Date",
+        data: "invitedDate",
+        class: "min",
         render: row =>
-          row.invitedDate ? formatDate(new Date(row.invitedDate)) : '',
+          row.invitedDate ? formatDate(new Date(row.invitedDate)) : "",
       },
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onView={() => {
@@ -99,7 +99,7 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  const search = { search: '' };
+  const search = { search: "" };
   const action = (
     <div>
       <CreateButton
@@ -134,7 +134,7 @@ const ListPage = ({ history }) => {
             }}
             title="Delete User?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return `Are you sure to delete ${row.user.email} ?`;
             }}
           />

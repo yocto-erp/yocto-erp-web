@@ -1,4 +1,4 @@
-import { ADMIN_PATH } from '../../constants';
+import { ADMIN_PATH } from "../../constants";
 
 export const USER_ROOT_PATH = `${ADMIN_PATH}/user`;
 
