@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Input } from 'reactstrap';
-import { PERMISSION_TYPE } from '../../../constants';
-import Widget from '../../../components/Widget/Widget';
+import React from "react";
+import PropTypes from "prop-types";
+import { Input } from "reactstrap";
+import { PERMISSION_TYPE } from "../../../constants";
+import Widget from "../../../components/Widget/Widget";
 
 const PermissionForm = ({ onChange, value, module }) => {
   const { permissions } = module;
@@ -70,7 +70,7 @@ const PermissionForm = ({ onChange, value, module }) => {
                     value={1}
                     id={`action${t.id}`}
                     onChange={e => onInputChange(e, t.id)}
-                  />{' '}
+                  />{" "}
                   <label className="form-check-label" htmlFor={`action${t.id}`}>
                     {t.name}
                   </label>
@@ -93,7 +93,7 @@ const PermissionForm = ({ onChange, value, module }) => {
                     <option value={PERMISSION_TYPE.OWNER}>OWNER</option>
                   </Input>
                 ) : (
-                  ''
+                  ""
                 )}
               </td>
             </tr>

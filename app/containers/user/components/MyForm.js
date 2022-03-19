@@ -1,26 +1,19 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import PermissionListForm from './PermissionListForm';
-import userApi from '../../../libs/apis/user.api';
-import { useApi } from '../../../libs/hooks/useApi';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import PermissionListForm from "./PermissionListForm";
+import userApi from "../../../libs/apis/user.api";
+import { API_STATE, useApi } from "../../../libs/hooks/useApi";
+import SubmitButton from "../../../components/button/SubmitButton";
+import BackButton from "../../../components/button/BackButton";
 
 function MyForm({ id }) {
   const {
-    state: { resp, errors, isLoading },
+    state: { resp },
     exec,
   } = useApi(userApi.read);
 
-  const {
-    state: {
-      resp: respUpdate,
-      errors: errorsUpdate,
-      isLoading: isLoadingUpdate,
-    },
-    exec: exec2,
-  } = useApi(userApi.updateUser);
+  const { state, exec: exec2 } = useApi(userApi.updateUser);
 
   const [permissions, setPermissions] = useState({});
 
@@ -44,9 +37,13 @@ function MyForm({ id }) {
     }
   }, [resp]);
 
-  if (respUpdate) {
-    toast.success('Update permission Success!');
-  }
+  useEffect(() => {
+    if (state.status === API_STATE.SUCCESS) {
+      toast.success("Update user permission success");
+    } else if (state.status === API_STATE.FAIL) {
+      toast.error(state.errors.map(t => t.message || t.code).join("\n"));
+    }
+  }, [state]);
 
   return (
     <>
@@ -54,7 +51,7 @@ function MyForm({ id }) {
       <BackButton className="mr-2" />
       <SubmitButton
         onClick={() => exec2(id, Object.values(permissions))}
-        isLoading={isLoadingUpdate}
+        isLoading={state.status === API_STATE.LOADING}
       />
     </>
   );
