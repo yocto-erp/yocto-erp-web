@@ -1,27 +1,27 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
-import { toast } from 'react-toastify';
-import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
+import React from "react";
+import { Route } from "react-router-dom";
+import { PropTypes } from "prop-types";
+import { toast } from "react-toastify";
+import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
 import {
   deletePagePattern,
   editPage,
   newPage,
   onDelete,
-} from '../../../libs/utils/crud.util';
-import PageTitle from '../../Layout/PageTitle';
-import EcommerceProductApi from '../../../libs/apis/ecommerce/ecommerce-product.api';
-import CreateButton from '../../../components/button/CreateButton';
-import ListWidget from '../../../components/ListWidget';
-import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
-import Price from '../../../components/common/Price';
+} from "../../../libs/utils/crud.util";
+import PageTitle from "../../Layout/PageTitle";
+import EcommerceProductApi from "../../../libs/apis/ecommerce/ecommerce-product.api";
+import CreateButton from "../../../components/button/CreateButton";
+import ListWidget from "../../../components/ListWidget";
+import DeleteConfirmModal from "../../../components/modal/DeleteConfirmModal";
+import Price from "../../../components/common/Price";
 import {
   LastUpdatedByColumn,
   SORT_DIR,
-} from '../../../components/ListWidget/constants';
-import { ECOMMERCE_PRODUCT_ROOT_PATH } from '../constants';
-import ProductView from '../../../components/common/product/ProductView';
-import EnableDisable from '../../../components/ListWidget/EnableDisable';
+} from "../../../components/ListWidget/constants";
+import { ECOMMERCE_PRODUCT_ROOT_PATH } from "../constants";
+import ProductView from "../../../components/common/product/ProductView";
+import EnableDisable from "../../../components/ListWidget/EnableDisable";
 
 const ROOT_PATH = ECOMMERCE_PRODUCT_ROOT_PATH;
 
@@ -29,16 +29,16 @@ const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'Product',
-        data: 'type',
+        header: "Product",
+        data: "type",
         sort: {
-          name: 'type',
+          name: "type",
         },
         render: row => <ProductView item={row.product} />,
       },
       {
-        header: 'Web Name',
-        data: 'webDisplayName',
+        header: "Web Name",
+        data: "webDisplayName",
         render: row => (
           <>
             <p className="mb-0">
@@ -48,20 +48,20 @@ const ListPage = ({ history }) => {
             </p>
           </>
         ),
-        width: '20%',
+        width: "20%",
       },
       {
         header: <span className="text-nowrap">Price</span>,
-        data: 'amount',
+        data: "amount",
         render: row => <Price amount={row.price} />,
         sort: {
-          name: 'price',
+          name: "price",
         },
-        class: 'min text-right',
+        class: "min text-right",
       },
       {
         header: <span className="text-nowrap">Warehouse</span>,
-        data: 'warehouse',
+        data: "warehouse",
         render: row => (
           <>
             <EnableDisable value={row.isWarehouse} />
@@ -69,17 +69,17 @@ const ListPage = ({ history }) => {
             {row.isWarehouse && row.warehouse?.name}
           </>
         ),
-        class: 'min text-center',
+        class: "min text-center",
       },
       {
-        header: 'Remark',
-        data: 'description',
+        header: "Remark",
+        data: "description",
       },
       LastUpdatedByColumn,
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -129,7 +129,7 @@ const ListPage = ({ history }) => {
             }}
             title="Delete Cost?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return `Are you sure to delete ${row.name} ?`;
             }}
           />
@@ -139,7 +139,7 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  const search = { search: '', startDate: null, endDate: null };
+  const search = { search: "", startDate: null, endDate: null };
 
   return (
     <ListWidget
@@ -150,7 +150,7 @@ const ListPage = ({ history }) => {
       initFilter={search}
       initPage={1}
       initSize={10}
-      initSorts={{ createdDate: SORT_DIR.DESC }}
+      initSorts={{ lastUpdatedDate: SORT_DIR.DESC }}
       enableSelectColumn
     />
   );
