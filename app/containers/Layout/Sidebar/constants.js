@@ -27,12 +27,12 @@ import {
 import { MAIL_MERGE_ROOT_PATH } from "../../tools/mail-merge/constants";
 import {
   ECOMMERCE_CONFIGURATION_ROOT_PATH,
-  ECOMMERCE_POS_PATH,
   ECOMMERCE_PRODUCT_ROOT_PATH,
 } from "../../ecommerce/constants";
 import { SHOP_ROOT_PATH } from "../../shop/constants";
 import { STUDENT_CLASS_ROOT_PATH } from "../../student/student-class/constants";
 import { STUDENT_BUS_STOP_ROOT_PATH } from "../../student/student-bus-stop/constants";
+import { POS_ROOT_PATH } from "../../pos/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -48,9 +48,10 @@ export const SIDE_BAR_MENU = {
       header: "POS",
       isHeader: true,
       iconName: "fi flaticon-home",
-      link: `${ECOMMERCE_POS_PATH}`,
-      index: "pos",
+      link: `${POS_ROOT_PATH}/list`,
+      index: "pos-list",
       exact: true,
+      permission: PERMISSION.POS.ORDER,
     },
   ],
   utils: [
@@ -157,7 +158,14 @@ export const SIDE_BAR_MENU = {
           header: "Shop",
           link: SHOP_ROOT_PATH,
           index: "management.shop",
-          permission: PERMISSION.SURVEY.READ,
+          permission: PERMISSION.SHOP.READ,
+          isHeader: true,
+        },
+        {
+          header: "POS",
+          link: POS_ROOT_PATH,
+          index: "management.pos",
+          permission: PERMISSION.POS.READ,
           isHeader: true,
         },
         {
@@ -182,7 +190,7 @@ export const SIDE_BAR_MENU = {
           isHeader: true,
         },
         {
-          header: "Khách hàng - Company",
+          header: "Khách hàng - Công ty",
           link: PARTNER_ROOT_PATH,
           index: "management.partner",
           permission: [PERMISSION.CUSTOMER.READ, PERMISSION.COMPANY.READ],

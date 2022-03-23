@@ -96,6 +96,7 @@ export const useHookCRUDForm = ({
           type: FORM_TYPE.FINISH_LOAD_DATA,
           payload: localFormData,
         });
+        console.log("Init form", localFormData);
         reset(localFormData);
       });
     } else {

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Button, CustomInput, InputGroup, InputGroupAddon } from 'reactstrap';
-import classNames from 'classnames';
-import productApi from '../../../libs/apis/product/product.api';
-import UnitModalForm from './UnitModalForm';
-import FormHookErrorMessage from '../../Form/FormHookErrorMessage';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { Button, CustomInput, InputGroup, InputGroupAddon } from "reactstrap";
+import classNames from "classnames";
+import productApi from "../../../libs/apis/product/product.api";
+import UnitModalForm from "./UnitModalForm";
+import FormHookErrorMessage from "../../Form/FormHookErrorMessage";
 
 const UnitSelect = React.forwardRef((
   { onChange, value, onBlur, error, name, placeholder, onAdded, productId, id },
@@ -14,6 +14,7 @@ const UnitSelect = React.forwardRef((
   const [isOpen, open] = useState(false);
   const [options, setOptions] = useState([]);
   const request = React.useRef(0);
+
   useEffect(() => {
     request.current += 1;
     let currentRequest = request.current;
@@ -21,9 +22,6 @@ const UnitSelect = React.forwardRef((
       productApi.read(productId).then(data => {
         if (currentRequest === request.current) {
           setOptions(data.units);
-          if (data.units.length) {
-            onChange(data.units[0]);
-          }
         }
       });
     } else {
@@ -50,7 +48,7 @@ const UnitSelect = React.forwardRef((
 
   return (
     <>
-      <InputGroup className={classNames({ 'is-invalid': !!error })}>
+      <InputGroup className={classNames({ "is-invalid": !!error })}>
         <CustomInput
           id={id}
           type="select"
@@ -58,9 +56,9 @@ const UnitSelect = React.forwardRef((
           onChange={onChangeHandle}
           onBlur={onBlur}
           disabled={!productId}
-          value={value ? value.id : '0'}
+          value={value ? value.id : "0"}
         >
-          <option value="">{placeholder || 'Select Unit'}</option>
+          <option value="">{placeholder || "Select Unit"}</option>
           {options.map(t => (
             <option key={t.id} value={t.id}>
               {t.name}
@@ -82,11 +80,14 @@ const UnitSelect = React.forwardRef((
       {productId ? (
         <UnitModalForm
           closeHandle={val => {
-            if (val && onAdded) {
+            if (val) {
               productApi.read(productId).then(data => {
+                console.log("Load new units", data.units);
                 setOptions(data.units);
               });
-              onAdded(val);
+              if (onAdded) {
+                onAdded(val);
+              }
             }
             open(false);
           }}
@@ -94,7 +95,7 @@ const UnitSelect = React.forwardRef((
           productId={productId}
         />
       ) : (
-        ''
+        ""
       )}
     </>
   );

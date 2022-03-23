@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
-import AsyncSelect from 'react-select/async';
-import classNames from 'classnames';
-import debounce from 'lodash/debounce';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-import companyApi from '../../../libs/apis/company.api';
-import CompanyModalForm from './CompanyModalForm';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { Button, InputGroup, InputGroupAddon } from "reactstrap";
+import AsyncSelect from "react-select/async";
+import classNames from "classnames";
+import debounce from "lodash/debounce";
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../constants";
+import companyApi from "../../../libs/apis/company.api";
+import CompanyModalForm from "./CompanyModalForm";
 
 const formatOptionLabel = data => (
   <div className="text-white">
@@ -44,7 +44,7 @@ const CompanySelect = React.forwardRef((
   }, 300);
   return (
     <div key={`${name}_${newCreateId}`}>
-      <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
+      <InputGroup className={classNames({ "is-invalid": invalid })} {...props}>
         <AsyncSelect
           aria-labelledby="test"
           className="react-select-container"
@@ -56,7 +56,7 @@ const CompanySelect = React.forwardRef((
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any Company with search "${inputValue}", try to search another`
-              : 'Input and search Company'
+              : "Input and search Company"
           }
           isClearable
           onBlur={onBlur}
@@ -80,7 +80,7 @@ const CompanySelect = React.forwardRef((
             </Button>
           </InputGroupAddon>
         ) : (
-          ''
+          ""
         )}
       </InputGroup>
       {creatable ? (
@@ -97,7 +97,7 @@ const CompanySelect = React.forwardRef((
           isOpen={isOpen}
         />
       ) : (
-        ''
+        ""
       )}
     </div>
   );

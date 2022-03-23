@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import warehouseApi from '../../../libs/apis/warehouse.api';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import warehouseApi from "../../../libs/apis/warehouse.api";
 
 const WarehouseSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
   (
     { onChange, value, onBlur, invalid, id, placeholder, className, ...props },
+    // eslint-disable-next-line no-unused-vars
     ref,
   ) => {
     const [options, setOptions] = useState([]);
@@ -34,7 +35,11 @@ const WarehouseSelect = React.forwardRef(
         console.log(event.target.value);
         const idSelect = Number(event.target.value);
         if (idSelect > 0) {
-          onChange(options.find(t => t.id === idSelect));
+          onChange(
+            options
+              .map(t => ({ id: t.id, name: t.name }))
+              .find(t => t.id === idSelect),
+          );
         } else {
           onChange(null);
         }
@@ -46,14 +51,14 @@ const WarehouseSelect = React.forwardRef(
       <select
         id={id}
         {...props}
-        className={classNames('custom-select', className, {
-          'is-invalid': invalid,
+        className={classNames("custom-select", className, {
+          "is-invalid": invalid,
         })}
         onChange={onChangeHandle}
         onBlur={onBlur}
-        value={value && value.id ? value.id : value || '0'}
+        value={value && value.id ? value.id : value || "0"}
       >
-        <option value="0">{placeholder || 'Select Warehouse'}</option>
+        <option value="0">{placeholder || "Select Warehouse"}</option>
         {options.map(t => (
           <option key={t.id} value={t.id}>
             {t.name}
@@ -70,6 +75,7 @@ WarehouseSelect.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   value: PropTypes.any,
+  className: PropTypes.any,
 };
 
 export default WarehouseSelect;

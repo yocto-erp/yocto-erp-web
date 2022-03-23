@@ -1,8 +1,8 @@
 /* eslint-disable react/default-props-match-prop-types */
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { v4 as uuidv4 } from "uuid";
 import {
   Button,
   DropdownItem,
@@ -14,9 +14,9 @@ import {
   ModalHeader,
   UncontrolledDropdown,
   UncontrolledTooltip,
-} from 'reactstrap';
-import s from './Widget.module.scss';
-import Loader from '../Loader/Loader'; // eslint-disable-line css-modules/no-unused-class
+} from "reactstrap";
+import s from "./Widget.module.scss";
+import Loader from "../Loader/Loader"; // eslint-disable-line css-modules/no-unused-class
 
 class Widget extends React.Component {
   static propTypes = {
@@ -54,7 +54,7 @@ class Widget extends React.Component {
 
   static defaultProps = {
     title: null,
-    className: '',
+    className: "",
     children: [],
     close: false,
     fullscreen: false,
@@ -62,9 +62,9 @@ class Widget extends React.Component {
     refresh: false,
     settings: false,
     settingsInverse: false,
-    tooltipPlacement: 'bottom',
+    tooltipPlacement: "bottom",
     showTooltip: false,
-    bodyClass: '',
+    bodyClass: "",
     customControls: false,
     customClose: null,
     customExpand: null,
@@ -76,7 +76,7 @@ class Widget extends React.Component {
     collapsed: false,
     options: {},
     fetchingData: false,
-    widgetType: '',
+    widgetType: "",
     controls: null,
   };
 
@@ -87,7 +87,7 @@ class Widget extends React.Component {
       randomId: uuidv4(),
       hideWidget: false,
       collapseWidget: !!props.collapsed,
-      height: props.collapsed ? 0 : 'auto',
+      height: props.collapsed ? 0 : "auto",
       fullScreened: false,
       reloading: false,
       modal: false,
@@ -103,7 +103,7 @@ class Widget extends React.Component {
   };
 
   handleCollapse = () => {
-    const heightValue = this.state.collapseWidget ? 'auto' : 0;
+    const heightValue = this.state.collapseWidget ? "auto" : 0;
     this.setState(prev => ({
       height: heightValue,
       collapseWidget: !prev.collapseWidget,
@@ -118,7 +118,7 @@ class Widget extends React.Component {
 
   handleExpand = () => {
     this.setState({
-      height: 'auto',
+      height: "auto",
       collapseWidget: false,
     });
   };
@@ -186,6 +186,7 @@ class Widget extends React.Component {
       reloading,
       fullScreened,
       randomId,
+      // eslint-disable-next-line no-unused-vars
       height,
       hideWidget,
       collapseWidget,
@@ -195,21 +196,21 @@ class Widget extends React.Component {
     return (
       <React.Fragment>
         <section
-          style={{ display: hideWidget ? 'none' : '' }}
+          style={{ display: hideWidget ? "none" : "" }}
           className={classNames(
-            'widget',
+            "widget",
             {
               fullScreened: !!fullScreened,
               collapsed: !!collapseWidget,
             },
             s.widget,
             className,
-            reloading || fetchingData ? s.reloading : '',
+            reloading || fetchingData ? s.reloading : "",
           )}
           {...attributes}
         >
           {title &&
-            (typeof title === 'string' ? (
+            (typeof title === "string" ? (
               <h5 className={s.title}>{title}</h5>
             ) : (
               <header className={s.title}>{title}</header>
@@ -236,7 +237,7 @@ class Widget extends React.Component {
                   onClick={this.handleReload}
                   id={`reloadId-${randomId}`}
                 >
-                  {typeof refresh === 'string' ? (
+                  {typeof refresh === "string" ? (
                     <strong className="text-gray-light">{refresh}</strong>
                   ) : (
                     <i className="la la-refresh" />
@@ -259,7 +260,7 @@ class Widget extends React.Component {
                 >
                   <i
                     className={`glyphicon glyphicon-resize-${
-                      fullScreened ? 'small' : 'full'
+                      fullScreened ? "small" : "full"
                     }`}
                   />
                   {showTooltip && (
@@ -281,7 +282,7 @@ class Widget extends React.Component {
                   >
                     <i
                       className={`la la-angle-${
-                        !collapseWidget ? 'down' : 'up'
+                        !collapseWidget ? "down" : "up"
                       }`}
                     />
                     {showTooltip && (
@@ -302,7 +303,7 @@ class Widget extends React.Component {
                     onClick={this.handleClose}
                     id={`closeId-${randomId}`}
                   >
-                    {typeof close === 'string' ? (
+                    {typeof close === "string" ? (
                       <strong className="text-gray-light">{close}</strong>
                     ) : (
                       <i className="la la-remove" />
@@ -322,7 +323,7 @@ class Widget extends React.Component {
                     onClick={this.toggleModal}
                     id={`closeId-${randomId}`}
                   >
-                    {typeof close === 'string' ? (
+                    {typeof close === "string" ? (
                       <strong className="text-gray-light">{close}</strong>
                     ) : (
                       <i className="la la-remove" />
@@ -355,9 +356,9 @@ class Widget extends React.Component {
 
                   <DropdownItem
                     onClick={this.handleFullscreen}
-                    title={!fullScreened ? 'Full Screen' : 'Restore'}
+                    title={!fullScreened ? "Full Screen" : "Restore"}
                   >
-                    {!fullScreened ? 'Fullscreen' : 'Restore'}{' '}
+                    {!fullScreened ? "Fullscreen" : "Restore"}{" "}
                   </DropdownItem>
                   <DropdownItem divider />
                   {!fullScreened &&
@@ -407,7 +408,7 @@ class Widget extends React.Component {
                     <i
                       title="Collapse"
                       className={`glyphicon glyphicon-chevron-${
-                        !collapseWidget ? 'down' : 'up'
+                        !collapseWidget ? "down" : "up"
                       }`}
                     />
                   </button>
@@ -422,7 +423,7 @@ class Widget extends React.Component {
                   <i
                     title="Fullscreen"
                     className={`glyphicon glyphicon-resize-${
-                      fullScreened ? 'small' : 'full'
+                      fullScreened ? "small" : "full"
                     }`}
                   />
                 </button>
@@ -469,7 +470,7 @@ class Widget extends React.Component {
                           <i className="fa fa-check" />
                         </React.Fragment>
                       ) : (
-                        'Go Back'
+                        "Go Back"
                       )}
                     </button>
                   </p>
@@ -495,7 +496,7 @@ class Widget extends React.Component {
                 data-dismiss="modal"
               >
                 No
-              </Button>{' '}
+              </Button>{" "}
               <Button
                 color="danger"
                 onClick={this.closeWithModal}
@@ -507,7 +508,7 @@ class Widget extends React.Component {
           </Modal>
         )}
         <div
-          style={{ display: fullScreened ? 'block' : 'none' }}
+          style={{ display: fullScreened ? "block" : "none" }}
           className={s.widgetBackground}
         />
       </React.Fragment>

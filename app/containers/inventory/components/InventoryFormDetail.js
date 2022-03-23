@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import { Button, FormFeedback, Input } from 'reactstrap';
-import { Controller, useWatch } from 'react-hook-form';
-import ProductSelect from '../../../components/common/product/ProductSelect';
-import UnitSelect from '../../../components/common/unit/UnitSelect';
-import InputNumber from '../../../components/Form/InputNumber';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import React from "react";
+import PropTypes from "prop-types";
+import get from "lodash/get";
+import { Button, FormFeedback, Input } from "reactstrap";
+import { Controller, useWatch } from "react-hook-form";
+import ProductSelect from "../../../components/common/product/ProductSelect";
+import UnitSelect from "../../../components/common/unit/UnitSelect";
+import InputNumber from "../../../components/Form/InputNumber";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
 
 const InventoryFormDetail = ({
   control,
@@ -33,7 +33,7 @@ const InventoryFormDetail = ({
             <ProductSelect
               id="productId"
               placeholder="Select Product"
-              error={get(errors, ['details', index, 'product'])}
+              error={get(errors, ["details", index, "product"])}
               onAdded={newProd => {
                 setValue(`details[${index}].product`, newProd, {
                   shouldValidate: true,
@@ -54,20 +54,24 @@ const InventoryFormDetail = ({
         <Controller
           name={`details[${index}].unit`}
           defaultValue={item.unit}
-          error={get(errors, ['details', index, 'unit', 'message'], '')}
           control={control}
           id="unitId"
-          placeholder="Unit Name"
-          onAdded={newUnit => {
-            console.log(`Added unit ${JSON.stringify(newUnit)}`);
-          }}
-          productId={product ? product.id : null}
-          as={UnitSelect}
+          render={({ onChange, onBlur, value }) => (
+            <UnitSelect
+              name={`details[${index}].unit`}
+              error={get(errors, ["details", index, "unit", "message"], "")}
+              productId={product ? product.id : null}
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              placeholder="Unit Name"
+            />
+          )}
         />
       </td>
       <td>
         <Controller
-          invalid={!!get(errors, ['details', index, 'quantity'], false)}
+          invalid={!!get(errors, ["details", index, "quantity"], false)}
           name={`details[${index}].quantity`}
           control={control}
           as={InputNumber}
@@ -75,32 +79,32 @@ const InventoryFormDetail = ({
           placeholder="Amount"
         />
         <FormHookErrorMessage
-          error={get(errors, ['details', index, 'quantity'])}
+          error={get(errors, ["details", index, "quantity"])}
         />
       </td>
       <td>
         <Input
           type="text"
-          invalid={!!get(errors, ['details', index, 'serialCode'], false)}
+          invalid={!!get(errors, ["details", index, "serialCode"], false)}
           name={`details[${index}].serialCode`}
           innerRef={register}
           placeholder="Input Serial"
           defaultValue={item.serialCode} // make sure to set up defaultValue
         />
         <FormHookErrorMessage
-          error={get(errors, ['details', index, 'serialCode'])}
+          error={get(errors, ["details", index, "serialCode"])}
         />
       </td>
       <td>
         <Input
           type="text"
-          invalid={!!get(errors, ['details', index, 'remark'], false)}
+          invalid={!!get(errors, ["details", index, "remark"], false)}
           name={`details[${index}].remark`}
           innerRef={register}
           defaultValue={item.remark} // make sure to set up defaultValue
         />
         <FormFeedback>
-          {get(errors, ['details', index, 'remark', 'message'], '')}
+          {get(errors, ["details", index, "remark", "message"], "")}
         </FormFeedback>
       </td>
       <td className="action">
@@ -110,7 +114,7 @@ const InventoryFormDetail = ({
           size="sm"
           onClick={() => remove(index)}
         >
-          <i className="fi flaticon-trash" />{' '}
+          <i className="fi flaticon-trash" />{" "}
         </Button>
       </td>
     </tr>

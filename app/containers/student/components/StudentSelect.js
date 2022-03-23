@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
-import AsyncSelect from 'react-select/async';
-import classNames from 'classnames';
-import debounce from 'lodash/debounce';
-import studentApi from '../../../libs/apis/student/student.api';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../../components/constants';
-import StudentInfoView from './StudentInfoView';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button, InputGroup, InputGroupAddon } from "reactstrap";
+import AsyncSelect from "react-select/async";
+import classNames from "classnames";
+import debounce from "lodash/debounce";
+import studentApi from "../../../libs/apis/student/student.api";
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../components/constants";
+import StudentInfoView from "./StudentInfoView";
 
 const formatOptionLabel = data => (
   <div className="text-white">
@@ -46,7 +46,7 @@ const StudentSelect = React.forwardRef((
   }, 300);
   return (
     <>
-      <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
+      <InputGroup className={classNames({ "is-invalid": invalid })} {...props}>
         <AsyncSelect
           aria-labelledby="test"
           className="react-select-container"
@@ -55,7 +55,7 @@ const StudentSelect = React.forwardRef((
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any student with search "${inputValue}", try to search another`
-              : 'Input and search student'
+              : "Input and search student"
           }
           loadOptions={loadOptions1}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { isArray, isFunction } from 'lodash';
-import { Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { isArray, isFunction } from "lodash";
+import { Button, ButtonGroup, ButtonToolbar } from "reactstrap";
 
 const TableActionColumns = ({
   onEdit,

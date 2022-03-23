@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Col, FormGroup, Input, Label } from 'reactstrap';
-import FormHookErrorMessage from './FormHookErrorMessage';
+import React from "react";
+import PropTypes from "prop-types";
+import { Col, FormGroup, Input, Label } from "reactstrap";
+import FormHookErrorMessage from "./FormHookErrorMessage";
 
 const FormRow = ({
   name,
@@ -36,31 +36,31 @@ const FormRow = ({
 
 FormRow.propTypes = {
   type: PropTypes.oneOf([
-    'text',
-    'email',
-    'select',
-    'file',
-    'radio',
-    'checkbox',
-    'textarea',
-    'button',
-    'reset',
-    'submit',
-    'date',
-    'datetime-local',
-    'hidden',
-    'image',
-    'month',
-    'number',
-    'range',
-    'search',
-    'tel',
-    'url',
-    'week',
-    'password',
-    'datetime',
-    'time',
-    'color',
+    "text",
+    "email",
+    "select",
+    "file",
+    "radio",
+    "checkbox",
+    "textarea",
+    "button",
+    "reset",
+    "submit",
+    "date",
+    "datetime-local",
+    "hidden",
+    "image",
+    "month",
+    "number",
+    "range",
+    "search",
+    "tel",
+    "url",
+    "week",
+    "password",
+    "datetime",
+    "time",
+    "color",
   ]),
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,

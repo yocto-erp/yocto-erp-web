@@ -326,7 +326,6 @@ const FormDetail = ({
               <InputNumber
                 {...props}
                 invalid={invalid}
-                readOnly
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}

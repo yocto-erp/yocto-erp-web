@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
-import AsyncSelect from 'react-select/async';
-import classNames from 'classnames';
-import debounce from 'lodash/debounce';
-import ProductModalForm from './ProductModalForm';
-import productApi from '../../../libs/apis/product/product.api';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-import FormHookErrorMessage from '../../Form/FormHookErrorMessage';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { Button, InputGroup, InputGroupAddon } from "reactstrap";
+import AsyncSelect from "react-select/async";
+import classNames from "classnames";
+import debounce from "lodash/debounce";
+import ProductModalForm from "./ProductModalForm";
+import productApi from "../../../libs/apis/product/product.api";
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../constants";
+import FormHookErrorMessage from "../../Form/FormHookErrorMessage";
 
 const formatOptionLabel = data => (
   <div className="text-white">
@@ -31,7 +31,7 @@ const ProductSelect = React.forwardRef((
   ref,
 ) => {
   const [isOpen, open] = useState(false);
-  const [lastId, setLastId] = useState('');
+  const [lastId, setLastId] = useState("");
   const loadOptions1 = debounce((inputValue, cb) => {
     productApi
       .search({
@@ -46,16 +46,16 @@ const ProductSelect = React.forwardRef((
 
   return (
     <div key={`${name}_${lastId}`}>
-      <InputGroup className={classNames({ 'is-invalid': !!error })} {...props}>
+      <InputGroup className={classNames({ "is-invalid": !!error })} {...props}>
         <AsyncSelect
           aria-labelledby="test"
           className="react-select-container"
           classNamePrefix="react-select"
-          placeholder={placeholder || 'Search Product'}
+          placeholder={placeholder || "Search Product"}
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any Product with search "${inputValue}", try to search another`
-              : 'Input and search product'
+              : "Input and search product"
           }
           loadOptions={loadOptions1}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
@@ -77,7 +77,7 @@ const ProductSelect = React.forwardRef((
             </Button>
           </InputGroupAddon>
         ) : (
-          ''
+          ""
         )}
       </InputGroup>
       <FormHookErrorMessage error={error} />
@@ -96,7 +96,7 @@ const ProductSelect = React.forwardRef((
           isOpen={isOpen}
         />
       ) : (
-        ''
+        ""
       )}
     </div>
   );

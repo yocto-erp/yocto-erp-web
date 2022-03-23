@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import isFunction from 'lodash/isFunction';
-import { toast } from 'react-toastify';
-import { useAsync } from '../../libs/hooks/useAsync';
-import ModalOKButton from '../button/ModalOKButton';
-import ModalCancelButton from '../button/ModalCancelButton';
-import { useListActionContext } from '../ListWidget/constants';
+import React, { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import isFunction from "lodash/isFunction";
+import { toast } from "react-toastify";
+import { useAsync } from "../../libs/hooks/useAsync";
+import ModalOKButton from "../button/ModalOKButton";
+import ModalCancelButton from "../button/ModalCancelButton";
+import { useListActionContext } from "../ListWidget/constants";
 
 const DeleteConfirmModal = ({
   id,
@@ -63,7 +63,7 @@ const DeleteConfirmModal = ({
   return (
     <Modal className="danger" isOpen={id != null && item != null} fade={false}>
       <ModalHeader toggle={() => onCloseHandle(false)}>
-        {title || 'Confirmation ?'}
+        {title || "Confirmation ?"}
       </ModalHeader>
       <ModalBody>{isFunction(message) ? message(item) : message}</ModalBody>
       <ModalFooter>

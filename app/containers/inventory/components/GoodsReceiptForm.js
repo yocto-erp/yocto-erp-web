@@ -1,61 +1,47 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import {
-  Form,
-  FormFeedback,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-  Col,
-  Table,
-} from 'reactstrap';
-import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
-import { Controller, useFieldArray } from 'react-hook-form';
-import classNames from 'classnames';
-import goodsReceiptApi from '../../../libs/apis/inventory/goods-receipt.api';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
-import InventoryFormDetail from './InventoryFormDetail';
-import CreateButton from '../../../components/button/CreateButton';
-import DateSelect from '../../../components/date/DateSelect';
-import FormError from '../../../components/Form/FormError';
-import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
-import taggingApi from '../../../libs/apis/tagging.api';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import { mappingServerTagging } from '../../../components/constants';
+import React from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Form, FormGroup, Input, Label, Row, Col, Table } from "reactstrap";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import { Controller, useFieldArray } from "react-hook-form";
+import goodsReceiptApi from "../../../libs/apis/inventory/goods-receipt.api";
+import Widget from "../../../components/Widget/Widget";
+import SubmitButton from "../../../components/button/SubmitButton";
+import BackButton from "../../../components/button/BackButton";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
+import WarehouseSelect from "../../../components/common/warehouse/WarehouseSelect";
+import InventoryFormDetail from "./InventoryFormDetail";
+import CreateButton from "../../../components/button/CreateButton";
+import FormError from "../../../components/Form/FormError";
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../libs/apis/tagging.api";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import { mappingServerTagging } from "../../../components/constants";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
+  name: Yup.string().required("This field is required."),
   warehouse: Yup.object()
-    .required('This field is required.')
+    .required("This field is required.")
     .nullable(true),
   tagging: Yup.array().nullable(),
   details: Yup.array()
     .of(
       Yup.object().shape({
         product: Yup.object()
-          .required('This field is required.')
+          .required("This field is required.")
           .nullable(true),
         quantity: Yup.number()
-          .typeError('This field is required.')
-          .moreThan(0, 'Quantity must larger than 0')
-          .required('This field is required.'),
+          .typeError("This field is required.")
+          .moreThan(0, "Quantity must larger than 0")
+          .required("This field is required."),
         unit: Yup.object()
-          .required('This field is required.')
+          .required("This field is required.")
           .nullable(true),
         serialCode: Yup.string(),
       }),
     )
-    .required('This field is required.'),
-  processedDate: Yup.date()
-    .required('This field is required.')
-    .nullable(),
+    .required("This field is required."),
 });
 
 const { create, update, read } = goodsReceiptApi;
@@ -108,31 +94,31 @@ function GoodsReceiptForm({ id }) {
     validationSchema,
     initForm: {
       warehouse: null,
-      name: '',
-      remark: '',
+      name: "",
+      remark: "",
       tagging: [],
       details: [
-        { product: null, unit: null, quantity: '', remark: '', serialCode: '' },
+        { product: null, unit: null, quantity: "", remark: "", serialCode: "" },
       ],
-      processedDate: new Date(),
     },
     id,
   });
 
   React.useEffect(() => {
     if (serverErrors && serverErrors.length) {
-      toast.error(serverErrors.map(t => t.message).join('\n'));
+      toast.error(serverErrors.map(t => t.message).join("\n"));
     }
   }, [serverErrors]);
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'details',
-    keyName: 'fId',
+    name: "details",
+    keyName: "fId",
   });
 
-  const form = React.useMemo(
-    () => (
+  return (
+    <Widget>
+      <FormError className="mt-3" errors={serverErrors} item={item => [item]} />
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -141,17 +127,21 @@ function GoodsReceiptForm({ id }) {
                 Warehouse<span className="text-danger">*</span>
               </Label>
               <Controller
-                invalid={!!errors.warehouse}
-                defaultValue={formData ? formData.warehouse : null}
+                defaultValue={null}
                 name="warehouse"
                 control={control}
                 id="warehouseId"
                 placeholder="Select Warehouse"
-                as={WarehouseSelect}
+                render={({ onChange, value }, { invalid }) => (
+                  <WarehouseSelect
+                    placeholder="Select Warehouse"
+                    onChange={onChange}
+                    value={value}
+                    invalid={invalid}
+                  />
+                )}
               />
-              <FormFeedback>
-                {errors.warehouse && errors.warehouse.message}
-              </FormFeedback>
+              <FormHookErrorMessage error={errors.warehouse} />
             </FormGroup>
             <FormGroup>
               <Label for="name" className="mr-sm-2 required">
@@ -163,29 +153,9 @@ function GoodsReceiptForm({ id }) {
                 name="name"
                 innerRef={register}
                 id="name"
-                placeholder="Inventory Name"
+                placeholder="Tên phiếu thu"
               />
-              <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
-            </FormGroup>
-            <FormGroup>
-              <Label for="birthday" className="mr-sm-2">
-                Process Date<span className="text-danger">*</span>
-              </Label>
-              <div
-                style={{ width: '250px' }}
-                className={classNames({ 'is-invalid': !!errors.processedDate })}
-              >
-                <Controller
-                  defaultValue={formData ? formData.processedDate : null}
-                  name="processedDate"
-                  control={control}
-                  invalid={!!errors.processedDate}
-                  as={DateSelect}
-                />
-              </div>
-              <FormFeedback>
-                {errors.processedDate && errors.processedDate.message}
-              </FormFeedback>
+              <FormHookErrorMessage error={errors.name} />
             </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
@@ -226,16 +196,16 @@ function GoodsReceiptForm({ id }) {
           <Table bordered hover striped>
             <thead>
               <tr>
-                <th style={{ width: '30%' }}>
+                <th style={{ width: "30%" }}>
                   Product<span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '250px' }}>
+                <th style={{ width: "250px" }}>
                   Unit<span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '150px' }}>
+                <th style={{ width: "150px" }}>
                   Quantity<span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '350px' }}>Serials</th>
+                <th style={{ width: "350px" }}>Serials</th>
                 <th>Remark</th>
                 <th className="action">Action</th>
               </tr>
@@ -266,9 +236,9 @@ function GoodsReceiptForm({ id }) {
                         id: uuidv4(),
                         product: null,
                         unit: null,
-                        quantity: '',
-                        serialCode: '',
-                        remark: '',
+                        quantity: "",
+                        serialCode: "",
+                        remark: "",
                       });
                     }}
                   >
@@ -282,14 +252,6 @@ function GoodsReceiptForm({ id }) {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} />
       </Form>
-    ),
-    [errors, isLoading, submit, register, control],
-  );
-
-  return (
-    <Widget>
-      <FormError className="mt-3" errors={serverErrors} item={item => [item]} />
-      {form}
     </Widget>
   );
 }

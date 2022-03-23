@@ -1,11 +1,12 @@
-import forIn from 'lodash/forIn';
-import { stringify } from 'qs';
+import forIn from "lodash/forIn";
+import { stringify } from "qs";
+import { hasText } from "../../utils/util";
 
 export function stringifySearchObject(params) {
   const { page, size, sorts, filter } = params;
   const mapSorts = [];
   forIn(sorts, function mapItem(val, key) {
-    if (val && val.length && key && key.length) {
+    if (hasText(String(val)) && hasText(String(key))) {
       mapSorts.push(`${key}:${val}`);
     }
   });
@@ -16,11 +17,11 @@ export function stringifySearchObject(params) {
     ...filter,
   };
   return stringify(body, {
-    arrayFormat: 'indices',
+    arrayFormat: "indices",
   });
 }
 
-export const convertQueryWithDate = (dateParams = ['startDate', 'endDate']) => (
+export const convertQueryWithDate = (dateParams = ["startDate", "endDate"]) => (
   key,
   value,
 ) => {

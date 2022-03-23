@@ -1,7 +1,7 @@
-import { useHistory, useLocation } from 'react-router-dom';
-import { parse } from 'qs';
-import { useCallback, useEffect, useState } from 'react';
-import { stringifySearchObject } from '../utils/query.util';
+import { useHistory, useLocation } from "react-router-dom";
+import { parse } from "qs";
+import { useCallback, useEffect, useState } from "react";
+import { stringifySearchObject } from "../utils/query.util";
 
 export const useGridQueryParams = (
   mappingUrlData,
@@ -25,13 +25,13 @@ export const useGridQueryParams = (
         const key = Object.keys(parseObj)[i];
         const value = parseObj[key];
         switch (key) {
-          case 'page':
+          case "page":
             rs.page = Number(value);
             break;
-          case 'size':
+          case "size":
             rs.size = Number(value);
             break;
-          case 'sorts': {
+          case "sorts": {
             if (!rs.sorts) {
               rs.sorts = {};
             }
@@ -42,7 +42,7 @@ export const useGridQueryParams = (
               listSorts = [value];
             }
             listSorts.forEach(t => {
-              const [field, dir] = t.split(':');
+              const [field, dir] = t.split(":");
               if (field && dir) {
                 rs.sorts[field] = dir;
               }
@@ -68,7 +68,7 @@ export const useGridQueryParams = (
 
   useEffect(() => {
     const rs = parseSearch(search);
-    if (search === '') {
+    if (search === "") {
       if (!rs.sorts) {
         rs.sorts = initSorts;
       }

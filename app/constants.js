@@ -106,16 +106,26 @@ export const PERMISSION = {
       UPDATE: 65,
       DELETE: 66,
     },
-    POS: {
-      CREATE: 77,
-    },
     SETTING: 67,
+  },
+  SHOP: {
+    READ: 69,
+    CREATE: 70,
+    UPDATE: 71,
+    DELETE: 72,
   },
   PAYMENT: {
     READ: 73,
     CREATE: 74,
     UPDATE: 75,
     DELETE: 76,
+  },
+  POS: {
+    READ: 77,
+    CREATE: 78,
+    UPDATE: 79,
+    DELETE: 80,
+    ORDER: 81,
   },
 };
 
@@ -321,13 +331,65 @@ export const PERMISSION_MODULE = [
   },
   {
     id: 14,
-    name: "Ecommerce",
+    name: "POS",
     permissions: [
       {
-        id: PERMISSION.ECOMMERCE.POS.CREATE,
-        name: "POS",
-        enableType: 0,
+        id: PERMISSION.POS.CREATE,
+        name: "CREATE",
+        enableType: 1,
       },
+      {
+        id: PERMISSION.POS.UPDATE,
+        name: "UPDATE",
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.POS.READ,
+        name: "READ",
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.POS.DELETE,
+        name: "DELETE",
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.POS.ORDER,
+        name: "POS Order",
+        enableType: 1,
+      },
+    ],
+  },
+  {
+    id: 16,
+    name: "Shop",
+    permissions: [
+      {
+        id: PERMISSION.SHOP.CREATE,
+        name: "CREATE",
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.SHOP.UPDATE,
+        name: "UPDATE",
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.SHOP.READ,
+        name: "READ",
+        enableType: 1,
+      },
+      {
+        id: PERMISSION.SHOP.DELETE,
+        name: "DELETE",
+        enableType: 1,
+      },
+    ],
+  },
+  {
+    id: 17,
+    name: "Ecommerce Setting",
+    permissions: [
       { id: PERMISSION.ECOMMERCE.SETTING, name: "Setting", enableType: 0 },
     ],
   },

@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
-import { toast } from 'react-toastify';
-import { Input, Spinner } from 'reactstrap';
+import React, { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import debounce from "lodash/debounce";
+import { toast } from "react-toastify";
+import { Input, Spinner } from "reactstrap";
 import {
   COLUMN_PROPS,
   ListActionProvider,
   ListFilterProvider,
   ListStateProvider,
-} from './constants';
-import TableHeader from './TableHeader';
-import TableBody from './TableBody';
-import Pagination from '../Pagination';
-import './List.scss';
-import Widget from '../Widget/Widget';
-import { useIsMounted } from '../../libs/hooks/useIsMounted';
-import { useGridQueryParams } from '../../libs/hooks/useGridQueryParams';
+} from "./constants";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
+import Pagination from "../Pagination";
+import "./List.scss";
+import Widget from "../Widget/Widget";
+import { useIsMounted } from "../../libs/hooks/useIsMounted";
+import { useGridQueryParams } from "../../libs/hooks/useGridQueryParams";
 
 const ListWidget = ({
   columns,
@@ -23,7 +23,7 @@ const ListWidget = ({
   deleteDialog,
   enableSelectColumn = false,
   pageHeader,
-  widgetClassname = '',
+  widgetClassname = "",
   mappingUrlData,
   initFilter,
   initSorts,
@@ -159,7 +159,7 @@ const ListWidget = ({
             onChange={event => {
               setSize(Number(event.target.value));
             }}
-            style={{ width: 'auto' }}
+            style={{ width: "auto" }}
             value={queryObj.size}
           >
             <option value={10}>10 / Page</option>
@@ -174,7 +174,7 @@ const ListWidget = ({
             setPage={setPage}
           />
           <div className="ml-2">Total: {count} records</div>
-          {isLoading ? <Spinner className="ml-auto" /> : ''}
+          {isLoading ? <Spinner className="ml-auto" /> : ""}
         </div>
       </div>
     ),

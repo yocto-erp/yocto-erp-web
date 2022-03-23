@@ -1,47 +1,49 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import TableActionColumns from '../../../../components/ListWidget/TableActionColumn';
-import inventoryApi from '../../../../libs/apis/inventory/inventory.api';
-import goodsIssuesApi from '../../../../libs/apis/inventory/goods-issue.api';
-import goodsReceiptApi from '../../../../libs/apis/inventory/goods-receipt.api';
+import React from "react";
+import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
+import TableActionColumns from "../../../../components/ListWidget/TableActionColumn";
+import inventoryApi from "../../../../libs/apis/inventory/inventory.api";
+import goodsIssuesApi from "../../../../libs/apis/inventory/goods-issue.api";
+import goodsReceiptApi from "../../../../libs/apis/inventory/goods-receipt.api";
 import {
   INVENTORY_ROOT_PATH,
   INVENTORY_TYPE,
   PATH_GOODS_RECEIPT,
   PATH_GOODS_ISSUE,
-} from '../../constants';
-import PageTitle from '../../../Layout/PageTitle';
+} from "../../constants";
+import PageTitle from "../../../Layout/PageTitle";
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../../../libs/utils/crud.util';
-import CreateButton from '../../../../components/button/CreateButton';
-import DeleteConfirmModal from '../../../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../../../components/ListWidget';
-import FilterInventory from './FilterInventory';
-import { formatDate } from '../../../../libs/utils/date.util';
+} from "../../../../libs/utils/crud.util";
+import CreateButton from "../../../../components/button/CreateButton";
+import DeleteConfirmModal from "../../../../components/modal/DeleteConfirmModal";
+import ListWidget from "../../../../components/ListWidget";
+import FilterInventory from "./FilterInventory";
+
 import {
   CreatedByColumn,
   SORT_DIR,
-} from '../../../../components/ListWidget/constants';
-import { convertQueryWithDate } from '../../../../libs/utils/query.util';
-import Tags from '../../../../components/Form/tagging/ViewTags';
+} from "../../../../components/ListWidget/constants";
+import { convertQueryWithDate } from "../../../../libs/utils/query.util";
+import Tags from "../../../../components/Form/tagging/ViewTags";
+import { inventoryMessages } from "../../messages";
 
 const ROOT_PATH = INVENTORY_ROOT_PATH;
 const ListInventory = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        key: 'type',
-        header: 'Type',
-        data: 'type',
-        width: '5%',
+        key: "type",
+        header: "Type",
+        data: "type",
+        width: "5%",
         sort: {
-          name: 'type',
+          name: "type",
         },
         render: row =>
           row.type === 1 ? (
@@ -52,45 +54,39 @@ const ListInventory = ({ history }) => {
       },
       {
         header: <strong>Warehouse</strong>,
-        data: 'warehouse',
-        width: '20%',
+        data: "warehouse",
+        width: "20%",
         render: row => {
           const { warehouse } = row;
-          return warehouse ? warehouse.name : '';
+          return warehouse ? warehouse.name : "";
         },
       },
       {
-        header: 'Name',
-        data: 'name',
-        width: '20%',
+        header: "Name",
+        data: "name",
+        width: "20%",
         render: row => (
           <>
             <p>{row.name}</p>
-            <Tags item={row.tagging} />{' '}
+            <Tags item={row.tagging} />{" "}
           </>
         ),
       },
       {
-        header: 'Total Product',
-        data: 'totalProduct',
-        width: '12%',
+        header: "Total Product",
+        data: "totalProduct",
+        width: "12%",
       },
       {
-        header: 'Remark',
-        data: 'remark',
-        width: '20%',
-      },
-      {
-        header: <span className="text-nowrap">Processed Date</span>,
-        data: 'processedDate',
-        class: 'min',
-        render: row => formatDate(new Date(row.processedDate)),
+        header: "Remark",
+        data: "remark",
+        width: "20%",
       },
       CreatedByColumn,
       {
-        header: 'Action',
-        data: 'action',
-        class: 'action',
+        header: "Action",
+        data: "action",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -122,7 +118,7 @@ const ListInventory = ({ history }) => {
           history.push(newPage(PATH_GOODS_RECEIPT));
         }}
       >
-        Goods Receipt
+        <FormattedMessage {...inventoryMessages.btnCreateGoodReceipt} />
       </CreateButton>
       <CreateButton
         className="shadow btn-raised"
@@ -131,7 +127,7 @@ const ListInventory = ({ history }) => {
         }}
         color="warning"
       >
-        Goods Issue
+        <FormattedMessage {...inventoryMessages.btnCreateGoodIssue} />
       </CreateButton>
     </>
   );
@@ -160,7 +156,7 @@ const ListInventory = ({ history }) => {
               }}
               title="Delete Goods Issue?"
               message={row => {
-                if (!row) return '';
+                if (!row) return "";
                 return `Are you sure to delete ${row.name} ?`;
               }}
             />
@@ -187,7 +183,7 @@ const ListInventory = ({ history }) => {
               }}
               title="Delete goods receipt?"
               message={row => {
-                if (!row) return '';
+                if (!row) return "";
                 return `Are you sure to delete ${row.name} ?`;
               }}
             />
@@ -200,14 +196,19 @@ const ListInventory = ({ history }) => {
 
   const search = {
     warehouseId: null,
-    search: '',
+    search: "",
     startDate: null,
     endDate: null,
   };
 
   return (
     <ListWidget
-      pageHeader={<PageTitle title="GOODS RECEIPT / ISSUE" actions={actions} />}
+      pageHeader={
+        <PageTitle
+          title={<FormattedMessage {...inventoryMessages.title} />}
+          actions={actions}
+        />
+      }
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={inventoryApi.search}

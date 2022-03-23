@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import CreatableSelect from 'react-select/creatable';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../constants';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import CreatableSelect from "react-select/creatable";
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../constants";
 
 const createOption = label => ({
   label,
@@ -19,14 +19,14 @@ const InputTag = React.forwardRef((
   ref,
 ) => {
   const [tagObject, setTagObject] = React.useState({
-    inputValue: '',
+    inputValue: "",
     tags: [],
   });
 
   const { inputValue, tags } = tagObject;
 
   const handleInputChange = React.useCallback(
-    (_value, actionMeta) => {
+    _value => {
       setTagObject({
         ...tagObject,
         inputValue: _value,
@@ -40,17 +40,17 @@ const InputTag = React.forwardRef((
       if (!inputValue) return;
       // eslint-disable-next-line default-case
       switch (event.key) {
-        case 'Enter':
-        case 'Tab': {
+        case "Enter":
+        case "Tab": {
           if (isValidNewOption(inputValue)) {
             const newTags = [...tags, createOption(inputValue)];
             setTagObject({
-              inputValue: '',
+              inputValue: "",
               tags: newTags,
             });
             onChange(newTags);
           } else {
-            console.log('Invalid', inputValue);
+            console.log("Invalid", inputValue);
           }
           event.preventDefault();
         }
@@ -83,7 +83,7 @@ const InputTag = React.forwardRef((
       onBlur={onBlur}
       onInputChange={handleInputChange}
       onKeyDown={handleKeyDown}
-      placeholder={placeholder || 'Type something and press enter...'}
+      placeholder={placeholder || "Type something and press enter..."}
       value={tags}
     />
   );
