@@ -84,6 +84,7 @@ function GoodsReceiptForm({ id }) {
       ...form,
       warehouseId: form.warehouse ? form.warehouse.id : null,
       details: form.details.map(result => ({
+        product: result.product,
         productId: result.product.id,
         unitId: result.unit.id,
         quantity: result.quantity,
@@ -131,7 +132,6 @@ function GoodsReceiptForm({ id }) {
                 name="warehouse"
                 control={control}
                 id="warehouseId"
-                placeholder="Select Warehouse"
                 render={({ onChange, value }, { invalid }) => (
                   <WarehouseSelect
                     placeholder="Select Warehouse"
@@ -157,8 +157,6 @@ function GoodsReceiptForm({ id }) {
               />
               <FormHookErrorMessage error={errors.name} />
             </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
                 Remark
@@ -169,15 +167,18 @@ function GoodsReceiptForm({ id }) {
                 name="remark"
                 innerRef={register}
                 id="remark"
-                placeholder="Product Remark"
+                placeholder="Remark"
               />
             </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
-              <Label for="remark" className="mr-sm-2">
+              <Label for="tagging" className="mr-sm-2">
                 Tagging
               </Label>
               <Controller
                 name="tagging"
+                id="tagging"
                 defaultValue={formData ? formData.tagging : []}
                 control={control}
                 render={({ onChange, ...data }) => (

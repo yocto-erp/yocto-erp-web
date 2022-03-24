@@ -7,6 +7,10 @@ export const inventoryMessages = defineMessages({
     id: `${scope}.listPage.title`,
     defaultMessage: "Nhập xuất kho",
   },
+  inventoryTitle: {
+    id: `${scope}.listPage.title`,
+    defaultMessage: "Chi tiết mặt hàng kho",
+  },
   btnCreateGoodReceipt: {
     id: `${scope}.listPage.btn.goodReceipt`,
     defaultMessage: "Phiếu nhập kho",

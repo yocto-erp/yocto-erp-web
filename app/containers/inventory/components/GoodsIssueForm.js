@@ -1,33 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import {
-  Form,
-  FormFeedback,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-  Col,
-  Table,
-} from 'reactstrap';
-import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
-import { Controller, useFieldArray } from 'react-hook-form';
-import goodsIssueApi from '../../../libs/apis/inventory/goods-issue.api';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import WarehouseSelect from '../../../components/common/warehouse/WarehouseSelect';
-import InventoryFormDetail from './InventoryFormDetail';
-import CreateButton from '../../../components/button/CreateButton';
-import DateSelect from '../../../components/date/DateSelect';
-import { ERROR } from '../../../components/Form/messages';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import { mappingServerTagging } from '../../../components/constants';
-import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
-import taggingApi from '../../../libs/apis/tagging.api';
+import React from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Form, FormGroup, Input, Label, Row, Col, Table } from "reactstrap";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import { Controller, useFieldArray } from "react-hook-form";
+import goodsIssueApi from "../../../libs/apis/inventory/goods-issue.api";
+import Widget from "../../../components/Widget/Widget";
+import SubmitButton from "../../../components/button/SubmitButton";
+import BackButton from "../../../components/button/BackButton";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
+import WarehouseSelect from "../../../components/common/warehouse/WarehouseSelect";
+import InventoryFormDetail from "./InventoryFormDetail";
+import CreateButton from "../../../components/button/CreateButton";
+import { ERROR } from "../../../components/Form/messages";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import { mappingServerTagging } from "../../../components/constants";
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../libs/apis/tagging.api";
 
 const { create, update, read } = goodsIssueApi;
 
@@ -35,16 +25,16 @@ function GoodsIssueForm({ id }) {
   const validationSchema = React.useMemo(
     () =>
       Yup.object().shape({
-        name: Yup.string().required('This field is required.'),
+        name: Yup.string().required("This field is required."),
         warehouse: Yup.object()
-          .required('This field is required.')
+          .required("This field is required.")
           .nullable(true),
         tagging: Yup.array().nullable(),
         details: Yup.array()
           .of(
             Yup.object().shape({
               product: Yup.object()
-                .required('This field is required.')
+                .required("This field is required.")
                 .nullable(true),
               quantity: Yup.number()
                 .typeError(ERROR.required)
@@ -56,8 +46,7 @@ function GoodsIssueForm({ id }) {
               serialCode: Yup.string().max(64, ERROR.max),
             }),
           )
-          .required('This field is required.'),
-        processedDate: Yup.date().required('This field is required.'),
+          .required("This field is required."),
       }),
     [],
   );
@@ -107,26 +96,25 @@ function GoodsIssueForm({ id }) {
     initForm: {
       warehouse: null,
       tagging: [],
-      name: '',
-      remark: '',
+      name: "",
+      remark: "",
       details: [
-        { product: null, unit: null, quantity: '', remark: '', serialCode: '' },
+        { product: null, unit: null, quantity: "", remark: "", serialCode: "" },
       ],
-      processedDate: new Date(),
     },
     id,
   });
 
   React.useEffect(() => {
     if (serverErrors && serverErrors.length) {
-      toast.error(serverErrors.map(t => t.message).join('\n'));
+      toast.error(serverErrors.map(t => t.message).join("\n"));
     }
   }, [serverErrors]);
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'details',
-    keyName: 'fId',
+    name: "details",
+    keyName: "fId",
   });
 
   const form = React.useMemo(
@@ -139,13 +127,18 @@ function GoodsIssueForm({ id }) {
                 Warehouse<span className="text-danger">*</span>
               </Label>
               <Controller
-                invalid={!!errors.warehouse}
-                defaultValue={formData ? formData.warehouse : null}
+                defaultValue={null}
                 name="warehouse"
                 control={control}
                 id="warehouseId"
-                placeholder="Select Warehouse"
-                as={WarehouseSelect}
+                render={({ onChange, value }, { invalid }) => (
+                  <WarehouseSelect
+                    placeholder="Select Warehouse"
+                    onChange={onChange}
+                    value={value}
+                    invalid={invalid}
+                  />
+                )}
               />
               <FormHookErrorMessage error={errors.warehouse} />
             </FormGroup>
@@ -161,25 +154,8 @@ function GoodsIssueForm({ id }) {
                 id="name"
                 placeholder="Inventory Name"
               />
-              <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
+              <FormHookErrorMessage error={errors.name} />
             </FormGroup>
-            <FormGroup>
-              <Label for="birthday" className="mr-sm-2">
-                Process Date<span className="text-danger">*</span>
-              </Label>
-              <div style={{ width: '250px' }} className="">
-                <Controller
-                  defaultValue={formData ? formData.processedDate : null}
-                  name="processedDate"
-                  control={control}
-                  invalid={!!errors.processedDate}
-                  as={DateSelect}
-                />
-              </div>
-              <FormHookErrorMessage error={errors.processedDate} />
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <Label for="remark" className="mr-sm-2">
                 Remark
@@ -190,15 +166,18 @@ function GoodsIssueForm({ id }) {
                 name="remark"
                 innerRef={register}
                 id="remark"
-                placeholder="Product Remark"
+                placeholder="Remark"
               />
             </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
-              <Label for="remark" className="mr-sm-2">
+              <Label for="tagging" className="mr-sm-2">
                 Tagging
               </Label>
               <Controller
                 name="tagging"
+                id="tagging"
                 defaultValue={formData ? formData.tagging : []}
                 control={control}
                 render={({ onChange, ...data }) => (
@@ -217,16 +196,16 @@ function GoodsIssueForm({ id }) {
           <Table bordered hover striped>
             <thead>
               <tr>
-                <th style={{ width: '300px' }}>
+                <th style={{ width: "300px" }}>
                   Product <span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '180px' }}>
+                <th style={{ width: "180px" }}>
                   Unit <span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '150px' }}>
+                <th style={{ width: "150px" }}>
                   Quantity <span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '350px' }}>Serials</th>
+                <th style={{ width: "350px" }}>Serials</th>
                 <th>Remark</th>
                 <th className="action">Action</th>
               </tr>
@@ -257,9 +236,9 @@ function GoodsIssueForm({ id }) {
                         id: uuidv4(),
                         product: null,
                         unit: null,
-                        quantity: '',
-                        remark: '',
-                        serialCode: '',
+                        quantity: "",
+                        remark: "",
+                        serialCode: "",
                       });
                     }}
                   >
