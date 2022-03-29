@@ -24,7 +24,7 @@ const FormGroupInput = ({
       innerRef={register}
       name={name}
       invalid={!!error}
-      placeholder={placeholder || label}
+      placeholder={placeholder}
       {...props}
     >
       {children}

@@ -17,8 +17,7 @@ import Editor from "../../../components/Form/Editor";
 import BackButton from "../../../components/button/BackButton";
 import SubmitButton from "../../../components/button/SubmitButton";
 import { transformUnNumber } from "../../../libs/utils/number.util";
-import WarehouseSelect from "../../../components/common/warehouse/WarehouseSelect";
-import Input from "../../../components/Form/Input";
+import TaxSetSelect from "../../tax/tax-set/components/TaxSetSelect";
 
 const validationSchema = yup.object().shape({
   product: yup
@@ -60,8 +59,8 @@ const ECommerceProductForm = ({ id }) => {
     onSuccess: resp => {
       toast.success(
         id
-          ? `Update eCommerce Product ${resp.webDisplayName} success`
-          : `Create eCommerce Product ${resp.webDisplayName} success`,
+          ? `Update Sale Product ${resp.webDisplayName} success`
+          : `Create Sale Product ${resp.webDisplayName} success`,
       );
     },
     validationSchema,
@@ -71,14 +70,12 @@ const ECommerceProductForm = ({ id }) => {
       webDisplayName: "",
       shortName: "",
       price: "",
-      isWarehouse: false,
-      warehouse: null,
     },
     id,
   });
 
   console.log("formData", formData);
-  const { product, isWarehouse } = watch(["product", "isWarehouse"]);
+  const { product } = watch(["product"]);
   return (
     <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
@@ -127,18 +124,33 @@ const ECommerceProductForm = ({ id }) => {
                 name="price"
                 control={control}
                 defaultValue=""
-                render={({ onChange, value }, { invalid }) => {
-                  console.log("Value change", value);
-                  return (
-                    <InputAmount
-                      onChange={onChange}
-                      value={value}
-                      invalid={invalid}
-                    />
-                  );
-                }}
+                render={({ onChange, value }, { invalid }) => (
+                  <InputAmount
+                    onChange={onChange}
+                    value={value}
+                    invalid={invalid}
+                  />
+                )}
               />
               <FormHookErrorMessage error={errors.price} />
+            </FormGroup>
+          </div>
+          <div className="col">
+            <FormGroup label="Tax Set">
+              <Controller
+                name="taxSet"
+                control={control}
+                defaultValue={formData.taxSet}
+                render={({ onChange, name, value, onBlur }, { invalid }) => (
+                  <TaxSetSelect
+                    invalid={invalid}
+                    value={value}
+                    name={name}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
+              />
             </FormGroup>
           </div>
         </div>
@@ -164,32 +176,9 @@ const ECommerceProductForm = ({ id }) => {
             />
           </div>
         </div>
-        <FormGroup label="Warehouse">
-          <div className="input-group mb-3">
-            <div className="input-group-prepend">
-              <div className="input-group-text">
-                <Input name="isWarehouse" type="checkbox" register={register} />
-              </div>
-            </div>
-            <Controller
-              name="warehouse"
-              control={control}
-              defaultValue=""
-              render={({ onChange, onBlur, value, name }) => (
-                <WarehouseSelect
-                  disabled={!isWarehouse}
-                  value={value}
-                  onBlur={onBlur}
-                  onChange={onChange}
-                  name={name}
-                />
-              )}
-            />
-          </div>
-        </FormGroup>
-        <FormGroup label="Description">
+        <FormGroup label="Remark">
           <Controller
-            name="description"
+            name="remark"
             control={control}
             defaultValue=""
             render={({ onChange, onBlur, value }) => (

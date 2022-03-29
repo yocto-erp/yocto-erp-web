@@ -1,30 +1,30 @@
-import { defineMessages } from 'react-intl';
+import { defineMessages } from "react-intl";
 
-export const scope = 'app.containers.Onboard';
+export const scope = "app.containers.Onboard";
 
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'Create Company',
+    defaultMessage: "Create Company",
   },
   name: {
     id: `${scope}.name`,
-    defaultMessage: 'Name',
+    defaultMessage: "Name",
   },
   remark: {
     id: `${scope}.remark`,
-    defaultMessage: 'Remark',
+    defaultMessage: "Remark",
   },
   gsm: {
     id: `${scope}.gsm`,
-    defaultMessage: 'gsm',
+    defaultMessage: "gsm",
   },
   address: {
     id: `${scope}.address`,
-    defaultMessage: 'Address',
+    defaultMessage: "Address",
   },
   createCompanyButton: {
     id: `${scope}.button.createCompany`,
-    defaultMessage: 'Create Company',
+    defaultMessage: "Create Company",
   },
 });

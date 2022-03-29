@@ -127,6 +127,12 @@ export const PERMISSION = {
     DELETE: 80,
     ORDER: 81,
   },
+  TAX: {
+    READ: 82,
+    CREATE: 83,
+    UPDATE: 84,
+    DELETE: 85,
+  },
 };
 
 export const PERMISSION_TYPE = {
@@ -391,6 +397,16 @@ export const PERMISSION_MODULE = [
     name: "Ecommerce Setting",
     permissions: [
       { id: PERMISSION.ECOMMERCE.SETTING, name: "Setting", enableType: 0 },
+    ],
+  },
+  {
+    id: 18,
+    name: "Tax",
+    permissions: [
+      { id: PERMISSION.TAX.CREATE, name: "CREATE", enableType: 0 },
+      { id: PERMISSION.TAX.READ, name: "READ", enableType: 0 },
+      { id: PERMISSION.TAX.UPDATE, name: "UPDATE", enableType: 0 },
+      { id: PERMISSION.TAX.DELETE, name: "DELETE", enableType: 0 },
     ],
   },
 ];

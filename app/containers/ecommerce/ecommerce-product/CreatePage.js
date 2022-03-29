@@ -1,10 +1,10 @@
-import React from 'react';
-import PageTitle from '../../Layout/PageTitle';
-import ECommerceProductForm from './eCommerceProductForm';
+import React from "react";
+import PageTitle from "../../Layout/PageTitle";
+import ECommerceProductForm from "./eCommerceProductForm";
 
 const CreatePage = () => (
   <>
-    <PageTitle title="New ecommerce Product" />
+    <PageTitle title="New Sale Product" />
     <div className="row">
       <div className="col-md-12">
         <ECommerceProductForm />

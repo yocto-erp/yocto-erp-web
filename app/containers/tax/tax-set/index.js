@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { WAREHOUSE_ROOT_PATH } from "./constants";
-import { listPage, newPage } from "../../libs/utils/crud.util";
+import { TAX_SET_ROOT_PATH } from "./constants";
+import { listPage, newPage } from "../../../libs/utils/crud.util";
 import ListPage from "./ListPage";
 import EditPage from "./EditPage";
 import CreatePage from "./CreatePage";
 
-const MAIN_PATH = WAREHOUSE_ROOT_PATH;
+const MAIN_PATH = TAX_SET_ROOT_PATH;
 
-function WarehousePage() {
+function MainPage() {
   return (
     <Switch>
       <Route exact path={`${newPage(MAIN_PATH)}`} component={CreatePage} />
@@ -18,8 +18,8 @@ function WarehousePage() {
   );
 }
 
-WarehousePage.propTypes = {};
+MainPage.propTypes = {};
 
-WarehousePage.defaultProps = {};
+MainPage.defaultProps = {};
 
-export default WarehousePage;
+export default MainPage;

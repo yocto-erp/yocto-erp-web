@@ -61,6 +61,19 @@ export const LastUpdatedByColumn = {
   },
 };
 
+export const LastModifiedByColumn = {
+  header: <span className="text-nowrap">Last Modified</span>,
+  data: "lastModifiedBy",
+  sort: {
+    name: "lastModifiedDate",
+  },
+  class: "min",
+  render: row => {
+    const { lastModifiedBy, lastModifiedDate } = row;
+    return <CreatedBy user={lastModifiedBy} date={lastModifiedDate} />;
+  },
+};
+
 export const SORT_DIR = Object.freeze({
   DESC: "desc",
   ASC: "asc",

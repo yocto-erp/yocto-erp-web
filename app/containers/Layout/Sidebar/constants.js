@@ -33,6 +33,8 @@ import { SHOP_ROOT_PATH } from "../../shop/constants";
 import { STUDENT_CLASS_ROOT_PATH } from "../../student/student-class/constants";
 import { STUDENT_BUS_STOP_ROOT_PATH } from "../../student/student-bus-stop/constants";
 import { POS_ROOT_PATH } from "../../pos/constants";
+import { TAX_ROOT_PATH } from "../../tax/tax/constants";
+import { TAX_SET_ROOT_PATH } from "../../tax/tax-set/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -209,6 +211,30 @@ export const SIDE_BAR_MENU = {
           iconName: "fi flaticon-user",
           link: USER_ROOT_PATH,
           index: "management.user",
+        },
+      ],
+    },
+    {
+      header: "Tài chính",
+      link: "",
+      index: "finance",
+      iconName: "fi flaticon-list",
+      isHeader: true,
+      permission: [PERMISSION.TAX.READ],
+      children: [
+        {
+          header: "Danh sách thuế",
+          link: TAX_ROOT_PATH,
+          index: "finance.tax",
+          permission: [PERMISSION.TAX.READ],
+          isHeader: true,
+        },
+        {
+          header: "Danh sách nhóm thuế",
+          link: TAX_SET_ROOT_PATH,
+          index: "finance.taxSet",
+          permission: [PERMISSION.TAX.READ],
+          isHeader: true,
         },
       ],
     },

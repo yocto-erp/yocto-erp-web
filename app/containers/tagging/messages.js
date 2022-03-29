@@ -1,6 +1,6 @@
 import { defineMessages } from "react-intl";
 
-export const scope = "app.containers.ecommerce";
+const scope = "app.containers.tagging";
 
 export default defineMessages({
   header: {

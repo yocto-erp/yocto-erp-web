@@ -16,12 +16,11 @@ import ListWidget from "../../../components/ListWidget";
 import DeleteConfirmModal from "../../../components/modal/DeleteConfirmModal";
 import Price from "../../../components/common/Price";
 import {
-  LastUpdatedByColumn,
+  LastModifiedByColumn,
   SORT_DIR,
 } from "../../../components/ListWidget/constants";
 import { ECOMMERCE_PRODUCT_ROOT_PATH } from "../constants";
 import ProductView from "../../../components/common/product/ProductView";
-import EnableDisable from "../../../components/ListWidget/EnableDisable";
 
 const ROOT_PATH = ECOMMERCE_PRODUCT_ROOT_PATH;
 
@@ -60,22 +59,16 @@ const ListPage = ({ history }) => {
         class: "min text-right",
       },
       {
-        header: <span className="text-nowrap">Warehouse</span>,
-        data: "warehouse",
-        render: row => (
-          <>
-            <EnableDisable value={row.isWarehouse} />
-            <br />
-            {row.isWarehouse && row.warehouse?.name}
-          </>
-        ),
+        header: <span className="text-nowrap">Tax Set</span>,
+        data: "taxSet",
+        render: row => row.taxSet?.name,
         class: "min text-center",
       },
       {
         header: "Remark",
-        data: "description",
+        data: "remark",
       },
-      LastUpdatedByColumn,
+      LastModifiedByColumn,
       {
         header: "Action",
         data: "",
@@ -150,7 +143,7 @@ const ListPage = ({ history }) => {
       initFilter={search}
       initPage={1}
       initSize={10}
-      initSorts={{ lastUpdatedDate: SORT_DIR.DESC }}
+      initSorts={{ lastModifiedDate: SORT_DIR.DESC }}
       enableSelectColumn
     />
   );

@@ -8,7 +8,9 @@ const FormError = ({ errors, item, ...props }) =>
     <Alert fade={false} color="danger" {...props}>
       <ul className="m-0">
         {errors.map(t => (
-          <li key={uuidv4()}>{item ? item(t.message) : t.message}</li>
+          <li key={uuidv4()}>
+            {t?.name} - {item ? item(t.message) : t.message}
+          </li>
         ))}
       </ul>
     </Alert>
