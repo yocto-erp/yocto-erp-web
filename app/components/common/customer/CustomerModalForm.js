@@ -1,17 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { yupResolver } from '@hookform/resolvers';
-import * as Yup from 'yup';
-import { toast } from 'react-toastify';
-import { useForm } from 'react-hook-form';
-import FormRow from '../../Form/FormRow';
-import ModalCancelButton from '../../button/ModalCancelButton';
-import SubmitButton from '../../button/SubmitButton';
-import { useAsync } from '../../../libs/hooks/useAsync';
-import personApi from '../../../libs/apis/person.api';
-import Label from '../../Form/Label';
-import { ERROR } from '../../Form/messages';
+import React from "react";
+import PropTypes from "prop-types";
+import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { yupResolver } from "@hookform/resolvers";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import FormRow from "../../Form/FormRow";
+import ModalCancelButton from "../../button/ModalCancelButton";
+import SubmitButton from "../../button/SubmitButton";
+import { useAsync } from "../../../libs/hooks/useAsync";
+import personApi from "../../../libs/apis/person.api";
+import Label from "../../Form/Label";
+import { ERROR } from "../../Form/messages";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required(ERROR.required),
@@ -25,17 +25,17 @@ const CustomerModalForm = ({ isOpen, closeHandle }) => {
     errors,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'all',
-    reValidateMode: 'onChange',
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      gsm: '',
-      address: '',
-      sex: '',
-      remark: '',
+      firstName: "",
+      lastName: "",
+      email: "",
+      gsm: "",
+      address: "",
+      sex: "",
+      remark: "",
     },
   });
 

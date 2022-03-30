@@ -8,6 +8,11 @@ export const STORAGE_PROVIDER = {
 
 export const ASSET_ROOT_PATH = `${ADMIN_PATH}/asset`;
 
+export const ASSET_TYPE = {
+  FILE: 1,
+  FOLDER: 2,
+};
+
 export const FILE_ICON = {
   doc: <i className="fa fa-file-word-o text-primary" />,
   xls: <i className="fa fa-file-excel-o text-success" />,

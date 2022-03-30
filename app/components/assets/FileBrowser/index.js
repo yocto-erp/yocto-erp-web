@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import { Nav, NavItem, NavLink, TabContent } from "reactstrap";
 import classNames from "classnames";
 import GoogleDrive from "../google/GoogleDrive";
+import LocalDrive from "../LocalDrive";
 
 const tabs = ["My Drive", "Google Drive"];
 // eslint-disable-next-line no-unused-vars
-const FileBrowser = ({ onPicked, className, multiple }) => {
-  const [tab, setTab] = useState(1);
+const FileBrowser = ({ onPicked, className, multiple = false }) => {
+  const [tab, setTab] = useState(0);
   return (
     <>
       <Nav tabs>
@@ -24,7 +25,21 @@ const FileBrowser = ({ onPicked, className, multiple }) => {
           </NavItem>
         ))}
       </Nav>
-      <TabContent>{tab === 1 ? <GoogleDrive /> : tab}</TabContent>
+      <TabContent>
+        {tab === 1 ? (
+          <GoogleDrive
+            multiple={multiple}
+            className={className}
+            onPicked={onPicked}
+          />
+        ) : (
+          <LocalDrive
+            multiple={multiple}
+            className={className}
+            onPicked={onPicked}
+          />
+        )}
+      </TabContent>
     </>
   );
 };

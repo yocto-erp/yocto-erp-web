@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
-import { PERMISSION } from '../../../constants';
-import messages from '../messages';
+import React from "react";
+import PropTypes from "prop-types";
+import { FormattedMessage, intlShape, injectIntl } from "react-intl";
+import { PERMISSION } from "../../../constants";
+import messages from "../messages";
 
 /**
  * actionId: 29
@@ -26,13 +26,16 @@ const AuditItem = ({ item, intl }) => {
   const {
     actionId,
     createdBy,
+    // eslint-disable-next-line no-unused-vars
     partnerPerson,
+    // eslint-disable-next-line no-unused-vars
     partnerCompany,
+    // eslint-disable-next-line no-unused-vars
     relativeId,
     remark,
   } = item;
 
-  let rs = 'Unknown';
+  let rs = "Unknown";
   const values = {
     name: <strong>{createdBy.displayName || createdBy.email}</strong>,
     item: (

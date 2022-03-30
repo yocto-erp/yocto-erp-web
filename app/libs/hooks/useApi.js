@@ -33,9 +33,17 @@ export const useApi = asyncApi => {
           return t;
         },
         err => {
-          console.error("useApi", err);
+          let errors = [];
+          if (err.error) {
+            errors = [{ message: err.error, code: "INVALID", name: "Unknown" }];
+          } else if (err.errors && err.errors.length) {
+            // eslint-disable-next-line prefer-destructuring
+            errors = err.errors;
+          } else if (err.message) {
+            errors = [{ message: err.message, code: "INVALID" }];
+          }
           setState({
-            errors: err.errors,
+            errors,
             resp: null,
             isLoading: false,
             status: API_STATE.FAIL,

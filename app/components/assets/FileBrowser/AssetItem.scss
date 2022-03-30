@@ -7,13 +7,15 @@
     padding: 0;
     overflow: hidden;
     cursor: pointer;
+
     .thumbnail {
       height: 200px;
+      padding: 0.2rem;
 
       img {
         height: 100%;
         width: 100%;
-        object-fit: cover;
+        object-fit: contain;
       }
     }
 
@@ -23,6 +25,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       cursor: pointer;
+
       span {
         cursor: pointer;
         min-width: 0;

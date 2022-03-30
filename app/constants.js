@@ -66,8 +66,10 @@ export const PERMISSION = {
     UPDATE: 41,
     DELETE: 42,
   },
-  IMAGE: {
+  ASSET: {
     READ: 37,
+    CREATE: 86,
+    DELETE: 87,
   },
   CONFIGURATION: 43,
   TEMPLATE: {
@@ -407,6 +409,15 @@ export const PERMISSION_MODULE = [
       { id: PERMISSION.TAX.READ, name: "READ", enableType: 0 },
       { id: PERMISSION.TAX.UPDATE, name: "UPDATE", enableType: 0 },
       { id: PERMISSION.TAX.DELETE, name: "DELETE", enableType: 0 },
+    ],
+  },
+  {
+    id: 19,
+    name: "Asset",
+    permissions: [
+      { id: PERMISSION.ASSET.CREATE, name: "CREATE", enableType: 1 },
+      { id: PERMISSION.ASSET.READ, name: "READ", enableType: 1 },
+      { id: PERMISSION.ASSET.DELETE, name: "DELETE", enableType: 1 },
     ],
   },
 ];

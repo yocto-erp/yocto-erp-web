@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { FaFolderPlus, FaFileUpload, FaTrashAlt } from "react-icons/fa";
+
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
@@ -6,19 +8,31 @@ import { API_STATE, useApi } from "../../../libs/hooks/useApi";
 import "./FileBrowser.scss";
 import TextIconButton from "../../button/TextIconButton";
 import AssetItem from "./AssetItem";
-import { MIME_TYPE, STORAGE_PROVIDER } from "../constants";
+import { ASSET_TYPE, STORAGE_PROVIDER } from "../constants";
 import IconButton from "../../button/IconButton";
 import LoadingIndicator from "../../LoadingIndicator";
+import { isFunc } from "../../../utils/util";
+import NewFolderModal from "./NewFolderModal";
+import { assetApi } from "../../../libs/apis/image.api";
 
 export const ROOT_FOLDER = "root";
 const SEARCH_FOLDER = "search";
 
-const FileBrowserView = ({ list, drive = "My Drive" }) => {
+const FileBrowserView = ({
+  list,
+  drive = "My Drive",
+  onAssetSelect,
+  // eslint-disable-next-line no-unused-vars
+  fileTypes = ["*"],
+  isMulti = true,
+}) => {
   const driverRoot = { id: ROOT_FOLDER, name: drive };
   const [assets, setAssets] = useState({
     isMore: false,
     rows: [],
   });
+  const [isCreateNewFolder, setCreateNewFolder] = useState(false);
+
   const [searchInput, setSearchInput] = useState("");
 
   const [selectAssets, setSelectAssets] = useState({});
@@ -38,8 +52,8 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
   } = useApi((item, isNext) => list(item, isNext));
 
   const search = useCallback(
-    debounce((isMore = false) => {
-      exec(searchObject, isMore).then(
+    debounce((obj, isMore = false) => {
+      exec(obj, isMore).then(
         t => {
           if (isMore) {
             setAssets(oldAssets => ({
@@ -55,7 +69,7 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
         },
       );
     }, 300),
-    [exec, searchObject],
+    [exec],
   );
 
   const onAssetSelected = useCallback(
@@ -66,17 +80,35 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
       } else if (e.metaKey) {
         rs = 0;
       }
-      if (e.metaKey) {
-        setSelectAssets({ ...selectAssets, [`item${index}`]: rs });
+
+      let newAssetSel = {};
+      if (e.metaKey && isMulti) {
+        newAssetSel = { ...selectAssets, [`item${index}`]: rs };
       } else {
-        setSelectAssets({ [`item${index}`]: rs });
+        newAssetSel = { [`item${index}`]: rs };
+      }
+      setSelectAssets(newAssetSel);
+      const listSelectAsset = [];
+      const keys = Object.keys(newAssetSel);
+
+      for (let i = 0; i < keys.length; i += 1) {
+        const selectItem = newAssetSel[keys[i]];
+        console.log("Select Item", selectItem, assets);
+        if (selectItem > 0) {
+          listSelectAsset.push(assets.rows[selectItem - 1]);
+        }
+      }
+
+      console.log("On List SelectAsset", listSelectAsset);
+      if (isFunc(onAssetSelect)) {
+        onAssetSelect(listSelectAsset);
       }
     },
-    [selectAssets],
+    [selectAssets, assets, isMulti, onAssetSelect],
   );
 
   const onDoubleClick = useCallback((e, item) => {
-    if (item.mimeType === MIME_TYPE.FOLDER) {
+    if (item.type === ASSET_TYPE.FOLDER) {
       setBreadCrumbs(prev => [...prev, item]);
       setSearchObject(prev => ({
         size: prev.size,
@@ -128,6 +160,7 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
               index={i}
               lastModifiedDate={t.lastModifiedDate}
               mimeType={t.mimeType}
+              type={t.type}
               name={t.name}
               size={t.size}
               className={classnames({ active: selectAssets[`item${i}`] })}
@@ -137,7 +170,7 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
             />
           </div>
         );
-        if (t.mimeType === MIME_TYPE.FOLDER) {
+        if (t.type === ASSET_TYPE.FOLDER) {
           folders.push(itemView);
         } else {
           files.push(itemView);
@@ -198,7 +231,7 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
   }, [searchInput]);
 
   useEffect(() => {
-    search();
+    search(searchObject);
   }, [searchObject]);
 
   const notFoundHtml = useMemo(() => {
@@ -214,7 +247,7 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
     <div className="asset-browser-wrapper">
       <div className="asset-browser-header">
         <div
-          className="btn-toolbar mb-3"
+          className="btn-toolbar mb-3 justify-content-between"
           role="toolbar"
           aria-label="File actions"
         >
@@ -241,6 +274,21 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
                 <i className="fa fa-search fa-fw" />{" "}
               </IconButton>
             </div>
+          </div>
+          <div className="btn-group" role="group" aria-label="First group">
+            <button
+              type="button"
+              className="btn btn-primary btn-icon"
+              onClick={() => setCreateNewFolder(true)}
+            >
+              <FaFolderPlus />
+            </button>
+            <button type="button" className="btn btn-primary btn-icon">
+              <FaFileUpload />
+            </button>
+            <button type="button" className="btn btn-danger btn-icon">
+              <FaTrashAlt />
+            </button>
           </div>
         </div>
         {breadCrumbView}
@@ -272,7 +320,7 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
             <TextIconButton
               isLoading={isLoading}
               onClick={() => {
-                search(true);
+                search(searchObject, true);
               }}
             >
               Load More
@@ -280,6 +328,28 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
           </div>
         ) : null}
       </div>
+      <NewFolderModal
+        newFolderApi={assetApi.create}
+        parentId={
+          searchObject.assetId !== SEARCH_FOLDER &&
+          searchObject.assetId !== ROOT_FOLDER
+            ? searchObject.assetId
+            : ""
+        }
+        closeHandle={result => {
+          if (result) {
+            search(
+              {
+                ...searchObject,
+                size: Math.max(assets.rows.length + 1, 10),
+              },
+              false,
+            );
+          }
+          setCreateNewFolder(false);
+        }}
+        isOpen={isCreateNewFolder}
+      />
     </div>
   );
 };
@@ -287,6 +357,9 @@ const FileBrowserView = ({ list, drive = "My Drive" }) => {
 FileBrowserView.propTypes = {
   list: PropTypes.func.isRequired,
   drive: PropTypes.string,
+  onAssetSelect: PropTypes.func,
+  fileTypes: PropTypes.arrayOf(PropTypes.string),
+  isMulti: PropTypes.bool,
 };
 
 export default FileBrowserView;

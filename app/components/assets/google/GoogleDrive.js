@@ -1,11 +1,14 @@
 import React, { useCallback, useState } from "react";
 import { Button } from "reactstrap";
+import PropTypes from "prop-types";
 import { useGoogleApi } from "../../../libs/hooks/partner/useGoogleApi";
 import FileBrowserView from "../FileBrowser/FileBrowserView";
-import { googleMappingType } from "./constants";
-import { STORAGE_PROVIDER } from "../constants";
+import { GOOGLE_MIME_TYPE, googleMappingType } from "./constants";
+import { ASSET_TYPE, STORAGE_PROVIDER } from "../constants";
+import noImage from "../../../images/No_image_available.svg";
 
-const GoogleDrive = () => {
+// eslint-disable-next-line no-unused-vars
+const GoogleDrive = ({ className, multiple, onPicked }) => {
   const { isSignIn, isLoading, listFiles, signOut, signIn } = useGoogleApi();
 
   const [lastSearch, setLastSearch] = useState({});
@@ -39,8 +42,12 @@ const GoogleDrive = () => {
               id: t.id,
               name: t.name,
               mimeType: googleMappingType(t.mimeType),
+              type:
+                t.mimeType === GOOGLE_MIME_TYPE.FOLDER
+                  ? ASSET_TYPE.FOLDER
+                  : ASSET_TYPE.FILE,
               lastModifiedDate: t.modifiedTime,
-              thumbnail: t.thumbnailLink,
+              thumbnail: t.thumbnailLink || noImage,
               url: t.webViewLink,
               provider: STORAGE_PROVIDER.GOOGLE,
             })),
@@ -61,7 +68,11 @@ const GoogleDrive = () => {
     <div>
       {isSignIn ? (
         <>
-          <FileBrowserView list={list} />
+          <FileBrowserView
+            list={list}
+            onAssetSelect={onPicked}
+            isMulti={multiple}
+          />
           <div className="d-flex justify-content-end p-2">
             <div className="btn-toolbar align-right">
               <Button onClick={() => signOut()} size="sm">
@@ -81,6 +92,10 @@ const GoogleDrive = () => {
   );
 };
 
-GoogleDrive.propTypes = {};
+GoogleDrive.propTypes = {
+  onPicked: PropTypes.func,
+  className: PropTypes.string,
+  multiple: PropTypes.bool,
+};
 
 export default GoogleDrive;
