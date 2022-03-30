@@ -33,12 +33,14 @@ export const useApi = asyncApi => {
           return t;
         },
         err => {
+          console.error("useApi", err);
           setState({
             errors: err.errors,
             resp: null,
             isLoading: false,
             status: API_STATE.FAIL,
           });
+          return err;
         },
       );
     },

@@ -64,6 +64,7 @@ import { STUDENT_BUS_STOP_ROOT_PATH } from "../student/student-bus-stop/constant
 import { POS_ROOT_PATH } from "../pos/constants";
 import { TAX_ROOT_PATH } from "../tax/tax/constants";
 import { TAX_SET_ROOT_PATH } from "../tax/tax-set/constants";
+import { ASSET_ROOT_PATH } from "../../components/assets/constants";
 
 function Layout({
   sidebarPosition,
@@ -152,7 +153,7 @@ function Layout({
                 <Route path={`${LOG_ROOT_PATH}`} component={LogPage} />
                 <Route path={`${AUDIT_ROOT_PATH}`} component={AuditPage} />
                 <Route path={`${TAGGING_ROOT_PATH}`} component={TaggingPage} />
-                <Route path="/drive" component={FileBrowser} />
+                <Route path={ASSET_ROOT_PATH} component={FileBrowser} />
                 <Route path={`${USER_ROOT_PATH}`} component={UserPage} />
                 <Route path={`${SHOP_ROOT_PATH}`} component={ShopPage} />
                 <Route path={POS_ROOT_PATH} component={POSPage} />

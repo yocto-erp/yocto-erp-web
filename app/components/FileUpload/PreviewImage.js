@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import './file-upload.scss';
-import { imageUrl } from '../../libs/apis/image.api';
-import { isFunc } from '../../utils/util';
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import "./file-upload.scss";
+import { imageUrl } from "../../libs/apis/image.api";
+import { isFunc } from "../../utils/util";
 
 const PREVIEW_FILE = {
   doc: <i className="fa fa-file-word-o preview text-primary" />,
@@ -18,17 +18,17 @@ const PREVIEW_FILE = {
 };
 
 const MIME_TYPE = {
-  PDF: 'application/pdf',
-  XLS: 'application/vnd.ms-excel',
-  XLSX: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  DOC: 'application/msword',
+  PDF: "application/pdf",
+  XLS: "application/vnd.ms-excel",
+  XLSX: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  DOC: "application/msword",
   DOCX:
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  AUDIO: 'audio/*',
-  IMAGE: 'image/*',
-  TEXT: 'text/*',
-  ZIP: 'application/zip',
-  VIDEO: 'video/*',
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  AUDIO: "audio/*",
+  IMAGE: "image/*",
+  TEXT: "text/*",
+  ZIP: "application/zip",
+  VIDEO: "video/*",
 };
 
 const PreviewImage = ({ file, onRemove, onViewLarge }) => {
@@ -61,7 +61,7 @@ const PreviewImage = ({ file, onRemove, onViewLarge }) => {
           );
         }
         if (type.match(MIME_TYPE.IMAGE)) {
-          if (source === 'server') {
+          if (source === "server") {
             previewEls = (
               <img
                 className="img-fluid img-thumbnail "
@@ -113,7 +113,7 @@ const PreviewImage = ({ file, onRemove, onViewLarge }) => {
             }
           }}
         >
-          <i className="fa fa-times" />{' '}
+          <i className="fa fa-times" />{" "}
         </button>
       </div>
       {els}

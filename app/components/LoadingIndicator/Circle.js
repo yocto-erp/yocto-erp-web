@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import React from "react";
+import PropTypes from "prop-types";
+import styled, { keyframes } from "styled-components";
 
 const circleFadeDelay = keyframes`
   0%,
@@ -21,13 +21,14 @@ const Circle = props => {
     position: absolute;
     left: 0;
     top: 0;
+
     ${props.rotate &&
       `
       -webkit-transform: rotate(${props.rotate}deg);
       -ms-transform: rotate(${props.rotate}deg);
       transform: rotate(${props.rotate}deg);
     `} &:before {
-      content: '';
+      content: "";
       display: block;
       margin: 0 auto;
       width: 15%;

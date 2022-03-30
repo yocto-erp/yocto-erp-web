@@ -35,6 +35,7 @@ import { STUDENT_BUS_STOP_ROOT_PATH } from "../../student/student-bus-stop/const
 import { POS_ROOT_PATH } from "../../pos/constants";
 import { TAX_ROOT_PATH } from "../../tax/tax/constants";
 import { TAX_SET_ROOT_PATH } from "../../tax/tax-set/constants";
+import { ASSET_ROOT_PATH } from "../../../components/assets/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -202,6 +203,12 @@ export const SIDE_BAR_MENU = {
           header: "Labels",
           link: TAGGING_ROOT_PATH,
           index: "management.label",
+          isHeader: true,
+        },
+        {
+          header: "Asset Management",
+          link: ASSET_ROOT_PATH,
+          index: "management.asset",
           isHeader: true,
         },
         {

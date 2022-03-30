@@ -1,20 +1,20 @@
-import { MIME_TYPE } from '../constants';
+import { MIME_TYPE } from "../constants";
 
 export const GOOGLE_MIME_TYPE = {
-  AUDIO: 'application/vnd.google-apps.audio',
-  DOCX: 'application/vnd.google-apps.document',
-  IMAGE: 'application/vnd.google-apps.drawing',
-  FILE: 'application/vnd.google-apps.file',
-  FOLDER: 'application/vnd.google-apps.folder',
-  FORM: 'application/vnd.google-apps.form',
-  MAP: 'application/vnd.google-apps.map',
-  PHOTO: 'application/vnd.google-apps.photo',
-  PPT: 'application/vnd.google-apps.presentation',
-  SCRIPT: 'application/vnd.google-apps.script',
-  WEB: 'application/vnd.google-apps.site',
-  XLSX: 'application/vnd.google-apps.spreadsheet',
-  UNKNOWN: 'application/vnd.google-apps.unknown',
-  VIDEO: 'application/vnd.google-apps.video',
+  AUDIO: "application/vnd.google-apps.audio",
+  DOCX: "application/vnd.google-apps.document",
+  IMAGE: "application/vnd.google-apps.drawing",
+  FILE: "application/vnd.google-apps.file",
+  FOLDER: "application/vnd.google-apps.folder",
+  FORM: "application/vnd.google-apps.form",
+  MAP: "application/vnd.google-apps.map",
+  PHOTO: "application/vnd.google-apps.photo",
+  PPT: "application/vnd.google-apps.presentation",
+  SCRIPT: "application/vnd.google-apps.script",
+  WEB: "application/vnd.google-apps.site",
+  XLSX: "application/vnd.google-apps.spreadsheet",
+  UNKNOWN: "application/vnd.google-apps.unknown",
+  VIDEO: "application/vnd.google-apps.video",
 };
 
 export function googleMappingType(type) {

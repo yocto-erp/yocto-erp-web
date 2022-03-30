@@ -3,10 +3,29 @@
   padding: 20px;
 
   .asset-browser-header {
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
   }
 
   .asset-browser-body {
-
+    .heading {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
   }
+
+  .breadcrumb {
+    margin-bottom: 0rem;
+
+    .breadcrumb-item {
+      cursor: pointer;
+      text-decoration-line: underline;
+      font-size: 0.8rem;
+
+      &.active {
+        cursor: default;
+        text-decoration-line: none;
+      }
+    }
+  }
+
 }

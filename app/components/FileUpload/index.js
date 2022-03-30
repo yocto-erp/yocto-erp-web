@@ -1,26 +1,27 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useDropzone } from 'react-dropzone';
-import { v4 as uuidv4 } from 'uuid';
-import classNames from 'classnames';
-import { ReactSortable } from 'react-sortablejs';
+import React, { useCallback, useState } from "react";
+import PropTypes from "prop-types";
+import { useDropzone } from "react-dropzone";
+import { v4 as uuidv4 } from "uuid";
+import classNames from "classnames";
+import { ReactSortable } from "react-sortablejs";
 import {
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
   Spinner,
-} from 'reactstrap';
-import { toast } from 'react-toastify';
-import PreviewImage from './PreviewImage';
-import ModalOKButton from '../button/ModalOKButton';
-import { imageUrl } from '../../libs/apis/image.api';
+} from "reactstrap";
+import { toast } from "react-toastify";
+import PreviewImage from "./PreviewImage";
+import ModalOKButton from "../button/ModalOKButton";
+import { imageUrl } from "../../libs/apis/image.api";
 
 const parseFile = file =>
   new Promise(resolve => {
+    console.log(file);
     const reader = new FileReader();
-    reader.onabort = () => console.log('file reading was aborted');
-    reader.onerror = () => console.log('file reading has failed');
+    reader.onabort = () => console.log("file reading was aborted");
+    reader.onerror = () => console.log("file reading has failed");
     reader.onload = () => {
       const base64Data = reader.result;
 
@@ -38,7 +39,7 @@ const parseFile = file =>
 
 const getFileUrl = file => {
   const { source, data, fileId } = file;
-  if (source === 'server') {
+  if (source === "server") {
     return imageUrl(fileId);
   }
   return data;
@@ -134,8 +135,8 @@ const FileUpload = React.forwardRef(
       <div
         {...getRootProps()}
         className={classNames(
-          'upload-zone-wrapper',
-          { 'is-invalid': invalid },
+          "upload-zone-wrapper",
+          { "is-invalid": invalid },
           className,
         )}
       >
@@ -145,16 +146,16 @@ const FileUpload = React.forwardRef(
             <p className="mr-2 text-white">
               {props.placeholder}&nbsp;-&nbsp;
               {isDragActive
-                ? 'Drop the files here ...'
-                : 'Drag & drop some files here, or click to select files'}
+                ? "Drop the files here ..."
+                : "Drag & drop some files here, or click to select files"}
             </p>
-            {isProcessing ? <Spinner color="info" /> : ''}
+            {isProcessing ? <Spinner color="info" /> : ""}
           </div>
         </div>
         {preview}
         <Modal scrollable size="xl" isOpen={enlargeFile != null} fade={false}>
           <ModalHeader toggle={() => setEnlargeFile(null)}>
-            {enlargeFile != null ? enlargeFile.name : ''}
+            {enlargeFile != null ? enlargeFile.name : ""}
           </ModalHeader>
           <ModalBody>
             <figure className="figure">
@@ -165,10 +166,10 @@ const FileUpload = React.forwardRef(
                   alt=""
                 />
               ) : (
-                ''
+                ""
               )}
               <figcaption className="figure-caption">
-                {enlargeFile != null ? enlargeFile.name : ''}
+                {enlargeFile != null ? enlargeFile.name : ""}
               </figcaption>
             </figure>
           </ModalBody>

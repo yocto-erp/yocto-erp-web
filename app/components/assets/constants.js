@@ -1,4 +1,12 @@
-import React from 'react';
+import React from "react";
+import { ADMIN_PATH } from "../../constants";
+
+export const STORAGE_PROVIDER = {
+  LOCAL: 1,
+  GOOGLE: 2,
+};
+
+export const ASSET_ROOT_PATH = `${ADMIN_PATH}/asset`;
 
 export const FILE_ICON = {
   doc: <i className="fa fa-file-word-o text-primary" />,
@@ -16,21 +24,22 @@ export const FILE_ICON = {
 };
 
 export const MIME_TYPE = {
-  PDF: 'application/pdf',
-  XLS: 'application/vnd.ms-excel',
-  XLSX: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  DOC: 'application/msword',
+  PDF: "application/pdf",
+  XLS: "application/vnd.ms-excel",
+  XLSX: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  DOC: "application/msword",
   DOCX:
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  AUDIO: 'audio/*',
-  IMAGE: 'image/*',
-  TEXT: 'text/*',
-  ZIP: 'application/zip',
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  AUDIO: "audio/*",
+  IMAGE: "image/*",
+  TEXT: "text/*",
+  ZIP: "application/zip",
   PPTX:
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-  VIDEO: 'video/*',
-  FILE: 'file',
-  FOLDER: 'folder',
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  PPT: "application/vnd.ms-powerpoint",
+  VIDEO: "video/*",
+  FILE: "file",
+  FOLDER: "folder",
 };
 
 export function getMineTypeIcon(type) {
