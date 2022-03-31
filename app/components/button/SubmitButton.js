@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button } from "reactstrap";
 
 const SubmitButton = ({
   isLoading,
   children,
   disabled,
-  type = 'submit',
-  color = 'info',
+  type = "submit",
+  color = "info",
   ...props
 }) => {
   const isDisabled = isLoading || disabled;
   return (
     <Button color={color} disabled={isDisabled} type={type} {...props}>
-      {isLoading ? <i className="fa fa-spinner fa-spin fa-fw" /> : ''}&nbsp;
-      {children || 'Submit'}
+      {isLoading ? <i className="fa fa-spinner fa-spin fa-fw" /> : ""}&nbsp;
+      {children || "Submit"}
     </Button>
   );
 };

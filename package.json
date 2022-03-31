@@ -145,6 +145,9 @@
     "yup": "^0.32.9",
     "react-filepond": "^7.1.1",
     "filepond": "^4.30.3",
+    "filepond-plugin-image-resize": "^2.0.10",
+    "filepond-plugin-image-exif-orientation": "^1.0.11",
+    "filepond-plugin-image-preview": "^4.6.11",
     "react-icons": "^4.3.1"
   },
   "devDependencies": {

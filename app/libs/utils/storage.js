@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export const STORAGE = {
-  JWT: 'JWT',
-  CLIENT_ID: 'CLIENT_ID',
+  JWT: "JWT",
+  CLIENT_ID: "CLIENT_ID",
 };
 
 export function get(key) {
@@ -14,7 +14,7 @@ export function set(key, value) {
 }
 
 export function getClientId() {
-  let rs = '';
+  let rs = "";
   rs = get(STORAGE.CLIENT_ID);
   if (!rs) {
     rs = uuidv4();

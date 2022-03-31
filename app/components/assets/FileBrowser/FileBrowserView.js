@@ -14,6 +14,7 @@ import LoadingIndicator from "../../LoadingIndicator";
 import { isFunc } from "../../../utils/util";
 import NewFolderModal from "./NewFolderModal";
 import { assetApi } from "../../../libs/apis/image.api";
+import UploadFileModal from "./UploadFileModal";
 
 export const ROOT_FOLDER = "root";
 const SEARCH_FOLDER = "search";
@@ -32,6 +33,7 @@ const FileBrowserView = ({
     rows: [],
   });
   const [isCreateNewFolder, setCreateNewFolder] = useState(false);
+  const [isUploadFile, setIsUploadFile] = useState(false);
 
   const [searchInput, setSearchInput] = useState("");
 
@@ -49,11 +51,11 @@ const FileBrowserView = ({
   const {
     exec,
     state: { isLoading, status },
-  } = useApi((item, isNext) => list(item, isNext));
+  } = useApi(list);
 
   const search = useCallback(
-    debounce((obj, isMore = false) => {
-      exec(obj, isMore).then(
+    debounce((obj, isMore = false, isReload = false) => {
+      exec(obj, isMore, isReload).then(
         t => {
           if (isMore) {
             setAssets(oldAssets => ({
@@ -81,7 +83,7 @@ const FileBrowserView = ({
         rs = 0;
       }
 
-      let newAssetSel = {};
+      let newAssetSel;
       if (e.metaKey && isMulti) {
         newAssetSel = { ...selectAssets, [`item${index}`]: rs };
       } else {
@@ -283,7 +285,11 @@ const FileBrowserView = ({
             >
               <FaFolderPlus />
             </button>
-            <button type="button" className="btn btn-primary btn-icon">
+            <button
+              type="button"
+              className="btn btn-primary btn-icon"
+              onClick={() => setIsUploadFile(true)}
+            >
               <FaFileUpload />
             </button>
             <button type="button" className="btn btn-danger btn-icon">
@@ -338,17 +344,24 @@ const FileBrowserView = ({
         }
         closeHandle={result => {
           if (result) {
-            search(
-              {
-                ...searchObject,
-                size: Math.max(assets.rows.length + 1, 10),
-              },
-              false,
-            );
+            search(searchObject, false, true);
           }
           setCreateNewFolder(false);
         }}
         isOpen={isCreateNewFolder}
+      />
+      <UploadFileModal
+        closeHandle={() => {
+          search(searchObject, false, true);
+          setIsUploadFile(false);
+        }}
+        isOpen={isUploadFile}
+        parentId={
+          searchObject.assetId !== SEARCH_FOLDER &&
+          searchObject.assetId !== ROOT_FOLDER
+            ? searchObject.assetId
+            : ""
+        }
       />
     </div>
   );

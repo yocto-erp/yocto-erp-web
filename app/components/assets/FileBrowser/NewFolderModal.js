@@ -71,7 +71,7 @@ const NewFolderModal = ({ isOpen, closeHandle, parentId, newFolderApi }) => {
           <ModalCancelButton onClick={() => closeHandle(false)} />
           <SubmitButton
             disabled={!isValid || !isDirty}
-            type="button"
+            type="submit"
             isLoading={state.status === API_STATE.LOADING}
             onClick={onSubmit}
           />
