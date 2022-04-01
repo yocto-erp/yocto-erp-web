@@ -7,11 +7,10 @@ import PreviewImage from "./PreviewImage";
 import ModalOKButton from "../../button/ModalOKButton";
 import { imageUrl } from "../../../libs/apis/image.api";
 import FilePickerModal from "../FileBrowser/FilePickerModal";
-import { MIME_TYPE } from "../constants";
 
 const AssetSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ onChange, value = [], invalid, className, ...props }, ref) => {
+  ({ onChange, value = [], invalid, className, fileTypes, ...props }, ref) => {
     // const [files, setFiles] = useState([]);
     const [isOpenPickerFile, setIsOpenPickerFile] = useState(false);
     const [enlargeFile, setEnlargeFile] = useState(null);
@@ -69,7 +68,7 @@ const AssetSelect = React.forwardRef(
           <div className="d-flex justify-content-center align-items-center">
             <button
               type="button"
-              className="mr-2 text-white btn btn-link"
+              className="mr-2 text-white btn btn-outline-primary"
               onClick={() => setIsOpenPickerFile(true)}
             >
               {props.placeholder}
@@ -79,21 +78,27 @@ const AssetSelect = React.forwardRef(
         {preview}
         <FilePickerModal
           closeHandle={listSelect => {
+            console.log("onListSelect", listSelect);
             if (listSelect && listSelect.length) {
-              onChange([...value, ...listSelect]);
+              const newList = [...value];
+              for (let i = 0; i < listSelect.length; i += 1) {
+                if (!value.find(t => t.id === listSelect[i].id)) {
+                  newList.push(listSelect[i]);
+                }
+              }
+              onChange(newList);
             }
-
             setIsOpenPickerFile(false);
           }}
           isOpen={isOpenPickerFile}
-          fileTypes={[MIME_TYPE.IMAGE, MIME_TYPE.PDF]}
+          fileTypes={fileTypes}
           isMulti
         />
         <Modal scrollable size="xl" isOpen={enlargeFile != null} fade={false}>
           <ModalHeader toggle={() => setEnlargeFile(null)}>
             {enlargeFile != null ? enlargeFile.name : ""}
           </ModalHeader>
-          <ModalBody>
+          <ModalBody className="text-center">
             <figure className="figure">
               {enlargeFile != null ? (
                 <img
@@ -127,6 +132,7 @@ AssetSelect.propTypes = {
   placeholder: PropTypes.any,
   name: PropTypes.string,
   className: PropTypes.any,
+  fileTypes: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default AssetSelect;

@@ -254,8 +254,8 @@ const CreatePaymentForm = ({ id }) => {
                 control={control}
                 render={({ onChange, ...data }, { invalid }) => (
                   <AssetSelect
-                    accept={["image/*"]}
-                    placeholder="Upload files"
+                    fileTypes={["image/*"]}
+                    placeholder="Select files"
                     maxSize={500000}
                     {...data}
                     onChange={onChange}

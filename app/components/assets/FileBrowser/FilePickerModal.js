@@ -46,7 +46,8 @@ const FilePickerModal = ({ isOpen, closeHandle, fileTypes, isMulti }) => {
         <SubmitButton
           type="submit"
           onClick={() => {
-            closeHandle(files);
+            closeHandle([...files]);
+            setFiles([]);
           }}
         >
           Select

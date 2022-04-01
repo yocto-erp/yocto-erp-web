@@ -39,7 +39,11 @@ const AssetItem = ({
         </div>
       </div>
     </div>
-    <UncontrolledTooltip target={`asset${id}`} placement="top">
+    <UncontrolledTooltip
+      target={`asset${id}`}
+      placement="top"
+      className="tooltip-purple"
+    >
       <div className="text-left">
         <strong>{name}</strong>
         <br />

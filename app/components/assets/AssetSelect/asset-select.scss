@@ -3,10 +3,10 @@
   background: #040620;
   padding: .5rem .75rem;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 0.25rem;
 
   .upload-zone {
-    padding: 15px;
+    padding: 0.5rem;
     color: #495057;
 
     p {
@@ -22,31 +22,40 @@
   div[role=button] {
     outline: none;
   }
+
+  .btn-group-sm > .btn {
+    padding: 0.2rem 0.4rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+  }
 }
 
 .preview-image {
   position: relative;
-  margin: 8px;
+  margin: 4px;
   text-align: center;
   cursor: move;
+  border: 1px solid #cccccc;
+  border-radius: 0.25rem;
+  padding: 4px;
 
-  i.preview {
-    font-size: 160px;
-  }
 
   div.title {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-wrap: break-word;
+    white-space: nowrap;
   }
 
-  .img-thumbnail {
-    padding: 0;
-    height: 160px;
-    object-fit: cover;
-    border: none;
-    border-radius: 4px;
+  div.thumbnail {
+    height: 100%;
+    width: 100%;
+
+    svg, img {
+      height: 100%;
+      width: 100%
+    }
   }
 
   .view {
@@ -63,6 +72,7 @@
       color: white;
     }
   }
+
   .close {
     display: block;
     position: absolute;
@@ -84,9 +94,34 @@
     }
   }
 
+  .btn {
+    opacity: 0.4;
+  }
+
   &:hover {
-    button {
+    .btn {
       // display: block;
+      opacity: 1;
     }
   }
+}
+
+.tooltip-purple .tooltip-inner {
+  background-color: #5b2da3;
+}
+
+.tooltip-purple .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-tooltip-bottom .arrow::before {
+  border-bottom-color: #5b2da3 !important;
+}
+
+.tooltip-purple .bs-tooltip-auto[x-placement^=top] .arrow::before, .bs-tooltip-top .arrow::before {
+  border-top-color: #5b2da3 !important;
+}
+
+.tooltip-purple .bs-tooltip-auto[x-placement^=left] .arrow::before, .bs-tooltip-left .arrow::before {
+  border-left-color: #5b2da3 !important;
+}
+
+.tooltip-purple .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
+  border-right-color: #5b2da3 !important;
 }
