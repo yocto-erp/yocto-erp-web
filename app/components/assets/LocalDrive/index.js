@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-import FileBrowserView, { ROOT_FOLDER } from "../FileBrowser/FileBrowserView";
+import FileBrowserView from "../FileBrowser/FileBrowserView";
 import { assetApi, thumbnail } from "../../../libs/apis/image.api";
 import { hasText } from "../../../utils/util";
+import { ROOT_FOLDER } from "../constants";
 
 // eslint-disable-next-line no-unused-vars
-const LocalDrive = ({ className, multiple, onPicked }) => {
+const LocalDrive = ({ className, multiple, onPicked, fileTypes = ["*"] }) => {
   const [page, setPage] = useState(1);
   const list = useCallback(
     (searchObj, isNext, isReload = false) => {
@@ -35,6 +36,7 @@ const LocalDrive = ({ className, multiple, onPicked }) => {
           rows: t.rows.map(item => ({
             ...item,
             thumbnail: thumbnail(item.fileId),
+            lastModifiedDate: item.createdDate,
           })),
           isMore: t.rows.length === size,
         }));
@@ -43,7 +45,13 @@ const LocalDrive = ({ className, multiple, onPicked }) => {
   );
 
   return (
-    <FileBrowserView list={list} onAssetSelect={onPicked} isMulti={multiple} />
+    <FileBrowserView
+      list={list}
+      onAssetSelect={onPicked}
+      isMulti={multiple}
+      fileTypes={fileTypes}
+      className={className}
+    />
   );
 };
 
@@ -51,6 +59,7 @@ LocalDrive.propTypes = {
   onPicked: PropTypes.func,
   className: PropTypes.string,
   multiple: PropTypes.bool,
+  fileTypes: PropTypes.array,
 };
 
 export default LocalDrive;

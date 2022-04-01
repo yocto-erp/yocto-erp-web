@@ -1,31 +1,31 @@
 import React from "react";
+import {
+  FaFile,
+  FaFileArchive,
+  FaFileAudio,
+  FaFileCsv,
+  FaFileExcel,
+  FaFilePdf,
+  FaFilePowerpoint,
+  FaFileVideo,
+  FaFileWord,
+} from "react-icons/all";
 import { ADMIN_PATH } from "../../constants";
+import noImage from "../../images/No_image_available.svg";
 
 export const STORAGE_PROVIDER = {
   LOCAL: 1,
   GOOGLE: 2,
 };
 
+export const ROOT_FOLDER = "root";
+export const SEARCH_FOLDER = "search";
+
 export const ASSET_ROOT_PATH = `${ADMIN_PATH}/asset`;
 
 export const ASSET_TYPE = {
   FILE: 1,
   FOLDER: 2,
-};
-
-export const FILE_ICON = {
-  doc: <i className="fa fa-file-word-o text-primary" />,
-  xls: <i className="fa fa-file-excel-o text-success" />,
-  ppt: <i className="fa fa-file-powerpoint-o text-danger" />,
-  pdf: <i className="fa fa-file-pdf-o text-danger" />,
-  zip: <i className="fa fa-file-archive-o text-muted" />,
-  htm: <i className="fa fa-file-code-o text-info" />,
-  txt: <i className="fa fa-file-text text-info" />,
-  mov: <i className="fa fa-file-video-o text-warning" />,
-  mp3: <i className="fa fa-file-audio-o text-warning" />,
-  img: <i className="fa fa-file-image-o text-warning" />,
-  folder: <i className="fa fa-folder text-info" />,
-  unknown: <i className="fa fa-file" />,
 };
 
 export const MIME_TYPE = {
@@ -39,6 +39,7 @@ export const MIME_TYPE = {
   IMAGE: "image/*",
   TEXT: "text/*",
   ZIP: "application/zip",
+  CSV: "text/csv",
   PPTX:
     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
   PPT: "application/vnd.ms-powerpoint",
@@ -47,29 +48,90 @@ export const MIME_TYPE = {
   FOLDER: "folder",
 };
 
-export function getMineTypeIcon(type) {
-  switch (type) {
-    case MIME_TYPE.PDF:
-      return FILE_ICON.pdf;
-    case MIME_TYPE.XLS:
-    case MIME_TYPE.XLSX:
-      return FILE_ICON.xls;
-    case MIME_TYPE.DOC:
-    case MIME_TYPE.DOCX:
-      return FILE_ICON.doc;
-    case MIME_TYPE.AUDIO:
-      return FILE_ICON.mp3;
-    case MIME_TYPE.IMAGE:
-      return FILE_ICON.img;
-    case MIME_TYPE.TEXT:
-      return FILE_ICON.txt;
-    case MIME_TYPE.ZIP:
-      return FILE_ICON.zip;
-    case MIME_TYPE.VIDEO:
-      return FILE_ICON.mov;
-    case MIME_TYPE.FOLDER:
-      return FILE_ICON.folder;
-    default:
-      return FILE_ICON.unknown;
+export function isVideoMimeType(str) {
+  const regex = new RegExp(/^video+\/[-\w.]+$/, "gm");
+  return regex.test(str);
+}
+
+export function isAudioMimeType(str) {
+  const regex = new RegExp(/^audio+\/[-\w.]+$/, "gm");
+  return regex.test(str);
+}
+
+export function isImageMimeType(str) {
+  const regex = new RegExp(/^image+\/[-\w.]+$/, "gm");
+  return regex.test(str);
+}
+
+export const getLocalFileThumbnail = file => {
+  if (isImageMimeType(file.mimeType)) {
+    return (
+      <div className="thumbnail">
+        <img
+          src={file.thumbnail || noImage}
+          alt="thumbnail"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+    );
   }
+  let mimeTypeIcon;
+  if (isVideoMimeType(file.mimeType)) {
+    mimeTypeIcon = <FaFileVideo />;
+  } else if (isAudioMimeType(file.mimeType)) {
+    mimeTypeIcon = <FaFileAudio />;
+  } else {
+    switch (file.mimeType) {
+      case MIME_TYPE.DOCX:
+        mimeTypeIcon = <FaFileWord />;
+        break;
+      case MIME_TYPE.PDF:
+        mimeTypeIcon = <FaFilePdf />;
+        break;
+      case MIME_TYPE.PPT:
+      case MIME_TYPE.PPTX:
+        mimeTypeIcon = <FaFilePowerpoint />;
+        break;
+      case MIME_TYPE.XLS:
+      case MIME_TYPE.XLSX:
+        mimeTypeIcon = <FaFileExcel />;
+        break;
+      case MIME_TYPE.CSV:
+        mimeTypeIcon = <FaFileCsv />;
+        break;
+      case MIME_TYPE.ZIP:
+        mimeTypeIcon = <FaFileArchive />;
+        break;
+      default:
+        mimeTypeIcon = <FaFile />;
+        break;
+    }
+  }
+
+  return <div className="thumbnail">{mimeTypeIcon}</div>;
+};
+
+function matchRuleShort(rule) {
+  const escapeRegex = objStr =>
+    objStr.replace(/([.*+?^=!:${}()|[]\/\\])/g, "\\$1");
+  return new RegExp(
+    `^${rule
+      .split("*")
+      .map(escapeRegex)
+      .join(".*")}$`,
+    "gm",
+  );
+}
+
+export function isValidMimeType(str, listMimeType) {
+  let rs = false;
+  for (let i = 0; i < listMimeType.length; i += 1) {
+    const regex = matchRuleShort(listMimeType[i]);
+    rs = regex.test(str);
+    if (rs) {
+      break;
+    }
+  }
+
+  return rs;
 }

@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import "./AssetItem.scss";
 import classnames from "classnames";
 import { UncontrolledTooltip } from "reactstrap";
-import { ASSET_TYPE } from "../constants";
+import fileSize from "filesize";
+import { ASSET_TYPE, getLocalFileThumbnail } from "../constants";
 import MimeTypeIcon from "./MimeTypeIcon";
-import noImage from "../../../images/No_image_available.svg";
+import { formatDate } from "../../../libs/utils/date.util";
 
 const AssetItem = ({
   id,
@@ -25,15 +26,9 @@ const AssetItem = ({
       id={`asset${id}`}
     >
       <div className="asset-item">
-        {type !== ASSET_TYPE.FOLDER ? (
-          <div className="thumbnail">
-            <img
-              src={thumbnail || noImage}
-              alt="thumbnail"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-        ) : null}
+        {type !== ASSET_TYPE.FOLDER
+          ? getLocalFileThumbnail({ mimeType, thumbnail })
+          : null}
         <div className="title" title={name}>
           {type !== ASSET_TYPE.FOLDER ? (
             <MimeTypeIcon mimeType={mimeType} className="mr-2" />
@@ -45,7 +40,20 @@ const AssetItem = ({
       </div>
     </div>
     <UncontrolledTooltip target={`asset${id}`} placement="top">
-      {name}
+      <div className="text-left">
+        <strong>{name}</strong>
+        <br />
+        <span className="text-nowrap">
+          <i className="fi flaticon-time" />{" "}
+          {formatDate(new Date(lastModifiedDate))}
+        </span>
+        <br />
+        {type === ASSET_TYPE.FILE ? (
+          <>
+            <i className="fi flaticon-file" /> {fileSize(size)}
+          </>
+        ) : null}
+      </div>
     </UncontrolledTooltip>
   </>
 );

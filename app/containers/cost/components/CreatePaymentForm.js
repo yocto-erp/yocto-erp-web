@@ -20,7 +20,6 @@ import SubmitButton from "../../../components/button/SubmitButton";
 import BackButton from "../../../components/button/BackButton";
 import CompanySelect from "../../../components/common/company/CompanySelect";
 import CustomerSelect from "../../../components/common/customer/CustomerSelect";
-import FileUpload from "../../../components/FileUpload";
 import InputAmount from "../../../components/Form/InputAmount";
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
 import { ERROR } from "../../../components/Form/messages";
@@ -29,6 +28,7 @@ import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
 import PaymentSelect from "../../payment/components/PaymentSelect";
 import FormError from "../../../components/Form/FormError";
+import AssetSelect from "../../../components/assets/AssetSelect";
 
 const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
@@ -253,7 +253,7 @@ const CreatePaymentForm = ({ id }) => {
                 name="assets"
                 control={control}
                 render={({ onChange, ...data }, { invalid }) => (
-                  <FileUpload
+                  <AssetSelect
                     accept={["image/*"]}
                     placeholder="Upload files"
                     maxSize={500000}

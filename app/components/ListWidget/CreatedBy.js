@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { formatDate } from '../../libs/utils/date.util';
+import PropTypes from "prop-types";
+import React from "react";
+import { formatDate } from "../../libs/utils/date.util";
 
 const CreatedBy = ({ user, date }) => {
   const userDisplay = user ? (
@@ -8,9 +8,9 @@ const CreatedBy = ({ user, date }) => {
       <i className="fi flaticon-user" /> {user.displayName || user.email}
     </span>
   ) : (
-    'Unknown'
+    "Unknown"
   );
-  let dateDisplay = '';
+  let dateDisplay = "";
   if (date && date.length) {
     dateDisplay = (
       <>

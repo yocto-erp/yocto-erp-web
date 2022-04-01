@@ -17,6 +17,13 @@
         width: 100%;
         object-fit: contain;
       }
+
+      svg {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        padding: 10px;
+      }
     }
 
     .title {
@@ -36,6 +43,13 @@
   &.active {
     .asset-item {
       background: #1870DC;
+    }
+  }
+
+  &.disabled {
+    .asset-item {
+      opacity: 0.25;
+      cursor: not-allowed;
     }
   }
 }

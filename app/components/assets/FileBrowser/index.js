@@ -7,7 +7,12 @@ import LocalDrive from "../LocalDrive";
 
 const tabs = ["My Drive", "Google Drive"];
 // eslint-disable-next-line no-unused-vars
-const FileBrowser = ({ onPicked, className, multiple = false }) => {
+const FileBrowser = ({
+  onPicked,
+  className,
+  multiple = true,
+  fileTypes = ["*"],
+}) => {
   const [tab, setTab] = useState(0);
   return (
     <>
@@ -37,6 +42,7 @@ const FileBrowser = ({ onPicked, className, multiple = false }) => {
             multiple={multiple}
             className={className}
             onPicked={onPicked}
+            fileTypes={fileTypes}
           />
         )}
       </TabContent>
@@ -48,6 +54,7 @@ FileBrowser.propTypes = {
   onPicked: PropTypes.func,
   className: PropTypes.string,
   multiple: PropTypes.bool,
+  fileTypes: PropTypes.array,
 };
 
 export default FileBrowser;

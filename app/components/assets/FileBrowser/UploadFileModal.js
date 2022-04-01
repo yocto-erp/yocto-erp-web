@@ -1,28 +1,74 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { FilePond, FileStatus, registerPlugin } from "react-filepond";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+
 import ModalCancelButton from "../../button/ModalCancelButton";
 import SubmitButton from "../../button/SubmitButton";
-import "filepond/dist/filepond.min.css";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { ASSET_API_ENDPOINT_URL } from "../../../libs/apis/image.api";
 import { get, STORAGE } from "../../../libs/utils/storage";
+import { ROOT_FOLDER, SEARCH_FOLDER } from "../constants";
 
-registerPlugin(FilePondPluginImageResize, FilePondPluginImagePreview);
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import "./UploadFileModal.scss";
 
-const UploadFileModal = ({ isOpen, closeHandle, parentId }) => {
+registerPlugin(
+  FilePondPluginImageResize,
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateType,
+);
+
+const UploadFileModal = ({
+  isOpen,
+  closeHandle,
+  drivers,
+  fileTypes = ["*"],
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const pondFl = useRef(null);
 
+  const parent = useMemo(() => {
+    if (drivers && drivers.length) {
+      const currentParent = drivers[drivers.length - 1];
+      if (
+        currentParent &&
+        (currentParent.id !== ROOT_FOLDER && currentParent.id !== SEARCH_FOLDER)
+      ) {
+        return currentParent.id;
+      }
+    }
+    return null;
+  }, [drivers]);
+
   return (
     <Modal isOpen={isOpen}>
-      <ModalHeader toggle={() => closeHandle(false)}>Upload Files</ModalHeader>
+      <ModalHeader toggle={() => closeHandle(false)}>
+        <>
+          Upload Files
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              {(drivers || []).map((t, i) => (
+                <li
+                  key={t.id}
+                  data-index={i}
+                  className="breadcrumb-item"
+                  aria-current="page"
+                >
+                  {t.id !== SEARCH_FOLDER ? t.name : `Search (${t.name})`}
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </>
+      </ModalHeader>
       <ModalBody>
         <FilePond
+          acceptedFileTypes={fileTypes}
           ref={pondFl}
           instantUpload={false}
           allowMultiple
@@ -31,6 +77,10 @@ const UploadFileModal = ({ isOpen, closeHandle, parentId }) => {
           maxFiles={10}
           onerror={(error, file, status) => {
             console.log(error, file, status);
+            if (error) {
+              toast.error(error.body);
+            }
+            setIsLoading(false);
           }}
           onprocessfiles={(error, file) => {
             console.log("onprocessfile", file);
@@ -52,7 +102,10 @@ const UploadFileModal = ({ isOpen, closeHandle, parentId }) => {
               onload: null,
               onerror: null,
               ondata: formData => {
-                formData.append("parentId", parentId);
+                if (parent) {
+                  formData.append("parentId", parent);
+                }
+
                 return formData;
               },
             },
@@ -73,7 +126,7 @@ const UploadFileModal = ({ isOpen, closeHandle, parentId }) => {
               .getFiles()
               .filter(t => t.status !== FileStatus.PROCESSING_COMPLETE).length;
             if (totalFileNotYetProcess > 0) {
-              pondFl.current.processFiles();
+              pondFl.current.processFiles().then();
               setIsLoading(true);
             }
           }}
@@ -89,7 +142,8 @@ const UploadFileModal = ({ isOpen, closeHandle, parentId }) => {
 UploadFileModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeHandle: PropTypes.func.isRequired,
-  parentId: PropTypes.any,
+  drivers: PropTypes.any,
+  fileTypes: PropTypes.array,
 };
 
 export default UploadFileModal;
