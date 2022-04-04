@@ -1,44 +1,69 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { NavLink, Redirect, Route, Switch } from "react-router-dom";
+import { Col, Nav, NavItem, Row, TabContent, TabPane } from "reactstrap";
 import {
   COMPANY_ROOT_PATH,
   PARTNER_ROOT_PATH,
   PERSON_ROOT_PATH,
+  SUBJECT_ROOT_PATH,
 } from "./constants";
-import { listPage, newPage } from "../../libs/utils/crud.util";
-import ListPage from "./ListPage";
-import CreatePagePerson from "./person/CreatePagePerson";
-import EditPagePerson from "./person/EditPagePerson";
-import EditPageCompany from "./company/EditPageCompany";
-import CreatePageCompany from "./company/CreatePageCompany";
-
-const MAIN_PATH = PARTNER_ROOT_PATH;
+import ListPagePerson from "./person/Loadable";
+import ListPageCompany from "./company/Loadable";
+import SubjectPage from "./subject/Loadable";
 
 function PartnerPage() {
   return (
-    <Switch>
-      <Route
-        exact
-        path={`${PERSON_ROOT_PATH}/:id/edit`}
-        component={EditPagePerson}
-      />
-      <Route
-        exact
-        path={`${newPage(PERSON_ROOT_PATH)}`}
-        component={CreatePagePerson}
-      />
-      <Route
-        exact
-        path={`${COMPANY_ROOT_PATH}/:id/edit`}
-        component={EditPageCompany}
-      />
-      <Route
-        exact
-        path={`${newPage(COMPANY_ROOT_PATH)}`}
-        component={CreatePageCompany}
-      />
-      <Route path={`${listPage(MAIN_PATH)}`} component={ListPage} />
-    </Switch>
+    <div>
+      <Nav tabs>
+        <>
+          <NavItem>
+            <NavLink
+              activeClassName="active"
+              to={SUBJECT_ROOT_PATH}
+              className="nav-link"
+            >
+              Đối tác
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              activeClassName="active"
+              to={PERSON_ROOT_PATH}
+              className="nav-link"
+            >
+              Cá nhân
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              activeClassName="active"
+              to={COMPANY_ROOT_PATH}
+              className="nav-link"
+            >
+              Công ty
+            </NavLink>
+          </NavItem>
+        </>
+      </Nav>
+      <TabContent>
+        <TabPane>
+          <Row>
+            <Col xl="12" lg="12" md="12" sm="12">
+              <Switch>
+                <Redirect
+                  exact
+                  from={PARTNER_ROOT_PATH}
+                  to={SUBJECT_ROOT_PATH}
+                />
+                <Route component={ListPagePerson} path={PERSON_ROOT_PATH} />
+                <Route component={ListPageCompany} path={COMPANY_ROOT_PATH} />
+                <Route component={SubjectPage} path={SUBJECT_ROOT_PATH} />
+              </Switch>
+            </Col>
+          </Row>
+        </TabPane>
+      </TabContent>
+    </div>
   );
 }
 

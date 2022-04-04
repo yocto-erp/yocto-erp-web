@@ -3,6 +3,11 @@ import { ADMIN_PATH } from "../../constants";
 export const STUDENT_ROOT_PATH = `${ADMIN_PATH}/student`;
 export const STUDENT_CONFIGURATION_ROOT_PATH = `${STUDENT_ROOT_PATH}/configure`;
 
+export const MAIN_CONTACT_TYPE = {
+  MOTHER: 1,
+  FATHER: 2,
+};
+
 export const STUDENT_STATUS = {
   PENDING: 1,
   ACTIVE: 2,

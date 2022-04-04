@@ -57,8 +57,11 @@ const CustomerSelect = React.forwardRef((
       .then(resp => cb(resp.rows));
   }, 300);
   return (
-    <div key={`${name || uuidv4()}`}>
-      <InputGroup className={classNames({ "is-invalid": invalid })} {...props}>
+    <div
+      key={`${name || uuidv4()}`}
+      className={classNames({ "is-invalid": invalid })}
+    >
+      <InputGroup {...props}>
         <AsyncSelect
           aria-labelledby="test"
           className="react-select-container"

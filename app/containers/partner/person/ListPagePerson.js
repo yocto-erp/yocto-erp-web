@@ -26,16 +26,19 @@ const ListPagePerson = ({ history }) => {
     () => [
       {
         header: "FullName",
-        width: "20%",
         data: "name",
+        class: "min",
+        render: row => row.fullName || `${row.firstName} ${row.lastName}`,
       },
       {
         header: "Phone",
         data: "gsm",
+        class: "min",
       },
       {
         header: "email",
         data: "email",
+        class: "min",
       },
       {
         header: "Remark",

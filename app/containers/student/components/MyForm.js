@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import { toast } from "react-toastify";
 import { Controller, useWatch } from "react-hook-form";
+import { FormattedMessage } from "react-intl";
 import Widget from "../../../components/Widget/Widget";
 import SubmitButton from "../../../components/button/SubmitButton";
 import BackButton from "../../../components/button/BackButton";
@@ -24,12 +25,32 @@ import { ERROR } from "../../../components/Form/messages";
 import BusStopSelect from "../student-bus-stop/components/BusStopSelect";
 import StudentClassSelect from "../student-class/components/StudentClassSelect";
 import { parseIso } from "../../../libs/utils/date.util";
-import { STUDENT_STATUS_LIST } from "../constants";
+import { MAIN_CONTACT_TYPE, STUDENT_STATUS_LIST } from "../constants";
+import FormGroupInput from "../../../components/Form/FormGroupInput";
+import { studentFormMessage } from "../messages";
+import { LIST_GENDER } from "../../../libs/apis/person.api";
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required(ERROR.required),
   studentId: Yup.string().required(ERROR.required),
-  alias: Yup.string().required(ERROR.required),
+  sex: Yup.string().required(),
+  mainContact: Yup.string().required(),
+  mother: Yup.object()
+    .nullable()
+    .when("mainContact", {
+      is: val => Number(val) === MAIN_CONTACT_TYPE.MOTHER,
+      then: Yup.object()
+        .nullable()
+        .required(),
+    }),
+  father: Yup.object()
+    .nullable()
+    .when("mainContact", {
+      is: val => Number(val) === MAIN_CONTACT_TYPE.FATHER,
+      then: Yup.object()
+        .nullable()
+        .required(),
+    }),
 });
 
 const { create, update, read } = studentApi;
@@ -52,6 +73,7 @@ function MyForm({ id }) {
     },
     mappingToForm: form => ({
       ...form,
+      mainContact: form.mainContact ? Number(form.mainContact) : null,
       fullName: form.child
         ? `${form.child.firstName} ${form.child.lastName}`
         : "",
@@ -75,6 +97,7 @@ function MyForm({ id }) {
       toSchoolBusRoute: "",
       toHomeBusRoute: "",
       enableMeal: false,
+      mainContact: "",
     },
     id,
   });
@@ -90,101 +113,220 @@ function MyForm({ id }) {
     name: "enableBus",
   });
 
-  const form = React.useMemo(
-    () => (
+  return (
+    <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
         <Row>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="studentId" className="mr-sm-2 required">
-                StudentId <span className="text-danger">*</span>
-              </Label>
-              <Input
-                invalid={!!errors.studentId}
-                type="text"
-                name="studentId"
-                innerRef={register}
-                id="studentId"
-                placeholder="Student ID"
-              />
-              <FormHookErrorMessage error={errors.studentId} />
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="fullName" className="mr-sm-2 required">
-                FullName <span className="text-danger">*</span>
-              </Label>
-              <Input
-                invalid={!!errors.fullName}
-                type="text"
-                name="fullName"
-                innerRef={register}
-                id="fullName"
-                placeholder="FullName Student"
-              />
-              <FormHookErrorMessage error={errors.fullName} />
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="alias" className="mr-sm-2 required">
-                Alias <span className="text-danger">*</span>
-              </Label>
-              <Input
-                invalid={!!errors.alias}
-                type="text"
-                name="alias"
-                innerRef={register}
-                id="alias"
-                placeholder="Alias"
-              />
-              <FormHookErrorMessage error={errors.alias} />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" sm="12" md="6" lg="2" xl="2">
-            <FormGroup>
-              <Label for="sex" className="mr-sm-2 required">
-                Gender
-              </Label>
-              <Input
-                name="sex"
-                type="select"
-                innerRef={register}
-                placeholder="Choose Gender"
-              >
-                <option value="">Select Gender</option>
-                <option value={0}>MALE</option>
-                <option value={1}>FEMALE</option>
-                <option value={2}>OTHER</option>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="2" xl="2">
-            <FormGroup>
-              <Label for="birthday" className="mr-sm-2">
-                Birthday
-              </Label>
-              <div>
-                <Controller
-                  defaultValue={formData ? formData.birthday : null}
-                  name="birthday"
-                  control={control}
-                  render={({ value, onChange }, { invalid }) => (
-                    <DateSelect
-                      value={value}
-                      onChange={onChange}
-                      invalid={invalid}
+          <Col md={6}>
+            <p className="form-heading">
+              <i className="fa fa-home fa-fw" /> Thông tin gia đình
+            </p>
+            <FormGroupInput
+              name="studentId"
+              error={errors.studentId}
+              type="text"
+              register={register}
+              label="Mã số học sinh"
+              isRequired
+              placeholder="Mã số"
+            />
+            <Row>
+              <Col md={6}>
+                <FormattedMessage {...studentFormMessage.fullName}>
+                  {msg => (
+                    <FormGroupInput
+                      name="fullName"
+                      error={errors.fullName}
+                      type="text"
+                      register={register}
+                      label={msg}
+                      isRequired
+                      placeholder={msg}
                     />
                   )}
-                />
+                </FormattedMessage>
+              </Col>
+              <Col md={6}>
+                <FormattedMessage {...studentFormMessage.alias}>
+                  {msg => (
+                    <FormGroupInput
+                      name="alias"
+                      error={errors.alias}
+                      type="text"
+                      register={register}
+                      label={msg}
+                      placeholder={msg}
+                    />
+                  )}
+                </FormattedMessage>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <FormattedMessage
+                  {...studentFormMessage.formGenderSelectDefault}
+                >
+                  {msg => (
+                    <FormGroupInput
+                      name="sex"
+                      error={errors.sex}
+                      type="select"
+                      register={register}
+                      label={msg}
+                      placeholder={msg}
+                      isRequired
+                    >
+                      <option value="">{msg}</option>
+                      {LIST_GENDER.map(t => (
+                        <FormattedMessage
+                          {...studentFormMessage[`formGender${t.id}`]}
+                          key={t.id}
+                        >
+                          {msg1 => <option value={t.id}>{msg1}</option>}
+                        </FormattedMessage>
+                      ))}
+                    </FormGroupInput>
+                  )}
+                </FormattedMessage>
+              </Col>
+              <Col md={6}>
+                <FormGroup>
+                  <Label for="birthday" className="mr-sm-2">
+                    <FormattedMessage {...studentFormMessage.birthday} />
+                  </Label>
+                  <Controller
+                    defaultValue={formData.birthday}
+                    name="birthday"
+                    control={control}
+                    render={({ value, onChange }, { invalid }) => (
+                      <DateSelect
+                        value={value}
+                        onChange={onChange}
+                        invalid={invalid}
+                      />
+                    )}
+                  />
+                  <FormHookErrorMessage error={errors.birthday} />
+                </FormGroup>
+              </Col>
+            </Row>
+            <div className="row align-items-center">
+              <div className="col">
+                <FormattedMessage {...studentFormMessage.father}>
+                  {msg => (
+                    <FormGroup>
+                      <Label for="father" className="mr-sm-2">
+                        {msg}
+                      </Label>
+                      <Controller
+                        name="father"
+                        defaultValue={formData.father}
+                        control={control}
+                        render={({ onChange, ...data }, { invalid }) => (
+                          <CustomerSelect
+                            id="father"
+                            placeholder={msg}
+                            invalid={invalid}
+                            onAdded={newCustomer => {
+                              setValue("father", newCustomer, {
+                                shouldValidate: true,
+                              });
+                            }}
+                            onChange={val => {
+                              onChange(val);
+                            }}
+                            {...data}
+                          />
+                        )}
+                      />
+                      <FormHookErrorMessage error={errors.father} />
+                    </FormGroup>
+                  )}
+                </FormattedMessage>
               </div>
-              <FormHookErrorMessage error={errors.birthday} />
-            </FormGroup>
+              <div className="col-auto">
+                <FormGroup>
+                  <Label for="father" className="mr-sm-2">
+                    &nbsp;
+                  </Label>
+                  <div className="radio abc-radio abc-radio-success pl-0">
+                    <Input
+                      type="radio"
+                      name="mainContact"
+                      innerRef={register}
+                      id="fatherMainContact"
+                      checked={
+                        formData.mainContact === MAIN_CONTACT_TYPE.FATHER
+                      }
+                      value={MAIN_CONTACT_TYPE.FATHER}
+                    />{" "}
+                    <Label for="fatherMainContact">
+                      <FormattedMessage {...studentFormMessage.fatherContact} />
+                    </Label>
+                  </div>
+                </FormGroup>
+              </div>
+            </div>
+            <div className="row align-items-center">
+              <div className="col">
+                <FormattedMessage {...studentFormMessage.mother}>
+                  {msg => (
+                    <FormGroup>
+                      <Label for="mother" className="mr-sm-2">
+                        {msg}
+                      </Label>
+                      <Controller
+                        name="mother"
+                        defaultValue={formData.mother}
+                        control={control}
+                        render={({ onChange, ...data }, { invalid }) => (
+                          <CustomerSelect
+                            id="mother"
+                            invalid={invalid}
+                            placeholder={msg}
+                            onAdded={newCustomer => {
+                              setValue("mother", newCustomer, {
+                                shouldValidate: true,
+                              });
+                            }}
+                            onChange={val => {
+                              onChange(val);
+                            }}
+                            {...data}
+                          />
+                        )}
+                      />
+                      <FormHookErrorMessage error={errors.mother} />
+                    </FormGroup>
+                  )}
+                </FormattedMessage>
+              </div>
+              <div className="col-auto">
+                <FormGroup>
+                  <Label className="mr-sm-2">&nbsp;</Label>
+                  <div className="radio abc-radio  abc-radio-danger pl-0">
+                    <Input
+                      type="radio"
+                      name="mainContact"
+                      innerRef={register}
+                      id="motherMainContact"
+                      checked={
+                        formData.mainContact === MAIN_CONTACT_TYPE.MOTHER
+                      }
+                      value={MAIN_CONTACT_TYPE.MOTHER}
+                    />{" "}
+                    <Label for="motherMainContact">
+                      <FormattedMessage {...studentFormMessage.motherContact} />
+                    </Label>
+                  </div>
+                </FormGroup>
+              </div>
+            </div>
           </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
+          <Col md={6}>
+            <p className="form-heading">
+              <i className="fa fa-university fa-fw" /> Thông tin trường học
+            </p>
             <FormGroup>
               <Label for="class" className="mr-sm-2 required">
                 Lớp học
@@ -203,179 +345,108 @@ function MyForm({ id }) {
                 )}
               />
             </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="feePackage" className="required">
-                Fee Package
-              </Label>
-              <Input
-                type="select"
-                name="feePackage"
-                innerRef={register}
-                id="feePackage"
-                placeholder="Choose Package"
-              >
-                <option value="">Select Package</option>
-                <option value={0}>Monthly</option>
-                <option value={1}>Quarterly</option>
-                <option value={2}>Yearly</option>
-              </Input>
-              <FormFeedback>
-                {errors.feePackage && errors.feePackage.message}
-              </FormFeedback>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" sm="12" md="6" lg="2" xl="2">
-            <FormGroup>
-              <Label for="status" className="mr-sm-2 required">
-                Status
-              </Label>
-              <Input name="status" type="select" innerRef={register}>
-                <option value="">Select Status</option>
-                {STUDENT_STATUS_LIST.map(t => (
-                  <option key={t.id} value={t.id}>
-                    {t.name}
-                  </option>
-                ))}
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="2" xl="2">
-            <FormGroup>
-              <Label for="joinDate" className="mr-sm-2">
-                Join Date
-              </Label>
-              <div>
-                <Controller
-                  defaultValue={formData ? formData.joinDate : null}
-                  name="joinDate"
-                  control={control}
-                  render={({ value, onChange }, { invalid }) => (
-                    <DateSelect
-                      value={value}
-                      onChange={onChange}
-                      invalid={invalid}
+            <Row>
+              <Col md="6">
+                <FormGroupInput
+                  label="Status"
+                  isRequired
+                  name="status"
+                  type="select"
+                  register={register}
+                >
+                  <option value="">Select Status</option>
+                  {STUDENT_STATUS_LIST.map(t => (
+                    <option key={t.id} value={t.id}>
+                      {t.name}
+                    </option>
+                  ))}
+                </FormGroupInput>
+              </Col>
+              <Col md="6">
+                <FormGroup>
+                  <Label for="joinDate" className="mr-sm-2">
+                    Join Date
+                  </Label>
+                  <div>
+                    <Controller
+                      defaultValue={formData ? formData.joinDate : null}
+                      name="joinDate"
+                      control={control}
+                      render={({ value, onChange }, { invalid }) => (
+                        <DateSelect
+                          value={value}
+                          onChange={onChange}
+                          invalid={invalid}
+                        />
+                      )}
                     />
-                  )}
-                />
+                  </div>
+                  <FormHookErrorMessage error={errors.joinDate} />
+                </FormGroup>
+              </Col>
+            </Row>
+            <div className="align-items-center row">
+              <div className="col-auto">
+                <FormGroup>
+                  <Label for="enableBus" className=" mr-sm-2">
+                    &nbsp;
+                  </Label>
+                  <div className="checkbox abc-checkbox pl-0">
+                    <Input
+                      type="checkbox"
+                      name="enableBus"
+                      innerRef={register}
+                      id="enableBus"
+                    />{" "}
+                    <Label for="enableBus">Đi xe bus</Label>
+                  </div>
+                </FormGroup>
               </div>
-              <FormHookErrorMessage error={errors.joinDate} />
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="father" className="mr-sm-2">
-                Father
-              </Label>
-              <Controller
-                name="father"
-                defaultValue={formData ? formData.father : null}
-                control={control}
-                render={({ onChange, ...data }) => (
-                  <CustomerSelect
-                    id="father"
-                    placeholder="Choose Father"
-                    onAdded={newCustomer => {
-                      console.log(`OnAdd: ${JSON.stringify(newCustomer)}`);
-                      setValue("father", newCustomer, {
-                        shouldValidate: true,
-                      });
-                    }}
-                    onChange={val => {
-                      onChange(val);
-                    }}
-                    {...data}
+              <div className="col">
+                <FormGroup>
+                  <Label for="toSchoolBusStop" className=" mr-sm-2">
+                    Chiều đi từ
+                  </Label>
+                  <Controller
+                    name="toSchoolBusStop"
+                    defaultValue={null}
+                    control={control}
+                    render={({ onChange, ...data }) => (
+                      <BusStopSelect
+                        disabled={enableBus === false}
+                        id="toSchoolBusStop"
+                        placeholder="Đến trường từ địa điểm"
+                        invalid={!!errors.toSchoolBusRoute}
+                        onChange={onChange}
+                        {...data}
+                      />
+                    )}
                   />
-                )}
-              />
-            </FormGroup>
-          </Col>
-          <Col xs="12" sm="12" md="6" lg="4" xl="4">
-            <FormGroup>
-              <Label for="mother" className="mr-sm-2">
-                Mother
-              </Label>
-              <Controller
-                name="mother"
-                defaultValue={formData ? formData.mother : null}
-                control={control}
-                render={({ onChange, ...data }) => (
-                  <CustomerSelect
-                    id="mother"
-                    placeholder="Choose Mother"
-                    onAdded={newCustomer => {
-                      setValue("mother", newCustomer, {
-                        shouldValidate: true,
-                      });
-                    }}
-                    onChange={val => {
-                      onChange(val);
-                    }}
-                    {...data}
+                </FormGroup>
+              </div>
+              <div className="col">
+                <FormGroup>
+                  <Label for="toHomeBusStop" className=" mr-sm-2">
+                    Chiều về đến
+                  </Label>
+                  <Controller
+                    name="toHomeBusStop"
+                    defaultValue={null}
+                    control={control}
+                    render={({ onChange, ...data }) => (
+                      <BusStopSelect
+                        disabled={enableBus === false}
+                        id="toHomeBusStop"
+                        placeholder="Về nhà đến địa điểm"
+                        invalid={!!errors.toHomeBusStop}
+                        onChange={onChange}
+                        {...data}
+                      />
+                    )}
                   />
-                )}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <div className="align-items-center row">
-          <div className="col-auto">
-            <div className="checkbox abc-checkbox pl-0">
-              <Input
-                type="checkbox"
-                name="enableBus"
-                innerRef={register}
-                id="enableBus"
-              />{" "}
-              <Label for="enableBus">Đi xe bus</Label>
+                </FormGroup>
+              </div>
             </div>
-          </div>
-          <div className="col">
-            <Label for="toSchoolBusStop" className="sr-only mr-sm-2">
-              Chiều đi từ
-            </Label>
-            <Controller
-              name="toSchoolBusStop"
-              defaultValue={null}
-              control={control}
-              render={({ onChange, ...data }) => (
-                <BusStopSelect
-                  disabled={enableBus === false}
-                  id="toSchoolBusStop"
-                  placeholder="Đến trường từ địa điểm"
-                  invalid={!!errors.toSchoolBusRoute}
-                  onChange={onChange}
-                  {...data}
-                />
-              )}
-            />
-          </div>
-          <div className="col">
-            <Label for="toHomeBusStop" className="sr-only mr-sm-2">
-              Chiều về đến
-            </Label>
-            <Controller
-              name="toHomeBusStop"
-              defaultValue={null}
-              control={control}
-              render={({ onChange, ...data }) => (
-                <BusStopSelect
-                  disabled={enableBus === false}
-                  id="toHomeBusStop"
-                  placeholder="Về nhà đến địa điểm"
-                  invalid={!!errors.toHomeBusStop}
-                  onChange={onChange}
-                  {...data}
-                />
-              )}
-            />
-          </div>
-        </div>
-        <Row className="mt-3">
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
               <div className="checkbox abc-checkbox pl-0">
                 <Input
@@ -385,7 +456,7 @@ function MyForm({ id }) {
                   id="enableMeal"
                 />{" "}
                 <Label for="enableMeal" className="required">
-                  Meal
+                  <FormattedMessage {...studentFormMessage.meal} />
                 </Label>
               </div>
               <FormFeedback>
@@ -393,17 +464,13 @@ function MyForm({ id }) {
               </FormFeedback>
             </FormGroup>
           </Col>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6" />
         </Row>
 
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
-    ),
-    [errors, isLoading, submit, register],
+    </Widget>
   );
-
-  return <Widget>{form}</Widget>;
 }
 
 MyForm.propTypes = {

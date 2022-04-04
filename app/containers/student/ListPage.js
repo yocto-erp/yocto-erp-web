@@ -2,15 +2,17 @@ import React from "react";
 import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import classNames from "classnames";
+import { Button, UncontrolledTooltip } from "reactstrap";
 import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import studentApi from "../../libs/apis/student/student.api";
-import { STUDENT_ROOT_PATH } from "./constants";
+import { MAIN_CONTACT_TYPE, STUDENT_ROOT_PATH } from "./constants";
 import PageTitle from "../Layout/PageTitle";
 import {
-  deletePage,
   deletePagePattern,
   editPage,
   newPage,
+  onDelete,
 } from "../../libs/utils/crud.util";
 import CreateButton from "../../components/button/CreateButton";
 import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
@@ -19,6 +21,8 @@ import Filter from "./components/Filter";
 import { formatDateOnly } from "../../libs/utils/date.util";
 import useStudentConfigure from "../../libs/hooks/useStudentConfigure";
 import { CreatedByColumn } from "../../components/ListWidget/constants";
+import PersonView from "../partner/person/components/PersonView";
+import { GENDER } from "../../libs/apis/person.api";
 
 const ROOT_PATH = STUDENT_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -57,21 +61,31 @@ const ListPage = ({ history }) => {
         render: row => (
           <>
             <p className="mb-0">
-              <strong>{row.studentId}</strong>
+              <strong className="text-danger">{row.studentId}</strong>
               <br />
+              <i
+                className={classNames("fa fa-fw", {
+                  "fa-female": row.child.sex === GENDER.FEMALE,
+                  "fa-male": row.child.sex === GENDER.MALE,
+                  "fa-user": !row.child.sex,
+                })}
+              />
+              &nbsp;
               <strong>
                 {row.child.name} ({row.alias})
               </strong>
               {row.child.birthday ? (
                 <>
                   <br />
-                  Birthday{" "}
+                  <i className="fa fa-birthday-cake fa-fw" />{" "}
                   <strong>
                     {formatDateOnly(new Date(row.child.birthday))}
                   </strong>
                 </>
               ) : null}
               <br />
+              <i className="fa fa-universal-access fa-fw" />
+              &nbsp;
               {row.class?.name}
             </p>
           </>
@@ -83,47 +97,34 @@ const ListPage = ({ history }) => {
         width: "15%",
         render: row => (
           <>
-            <p className="m-0">
-              {row.father ? (
-                <>
-                  <span>
-                    Father: <strong>{row.father.name}</strong>
-                  </span>
-                  <br />
-                </>
-              ) : (
-                ""
-              )}
-              {row.mother ? (
-                <>
-                  <span>
-                    Mother: <strong>{row.mother.name}</strong>
-                  </span>
-                  <br />
-                </>
-              ) : (
-                ""
-              )}
+            <p className="m-0 text-nowrap">
+              <PersonView item={row.father} />
+              {row.mainContact === MAIN_CONTACT_TYPE.FATHER ? (
+                <Button color="link" id={`mainContact${row?.id}`}>
+                  <i
+                    className="fa fa-phone-square fa-fw"
+                    title="Liên lạc chính"
+                  />
+                </Button>
+              ) : null}
+              <br />
+              <PersonView item={row.mother} />
+              {row.mainContact === MAIN_CONTACT_TYPE.MOTHER ? (
+                <Button color="link" id={`mainContact${row?.id}`}>
+                  <i
+                    className="fa fa-phone-square fa-fw"
+                    title="Liên lạc chính"
+                  />
+                </Button>
+              ) : null}
+              {row.mainContact ? (
+                <UncontrolledTooltip target={`mainContact${row?.id}`}>
+                  Liên lạc chính
+                </UncontrolledTooltip>
+              ) : null}
             </p>
           </>
         ),
-      },
-      {
-        header: "Fee information",
-        data: "feePackage",
-        width: "5%",
-        render: row => {
-          if (row.feePackage === 0) {
-            return <span className="badge badge-success">Monthly</span>;
-          }
-          if (row.feePackage === 1) {
-            return <span className="badge badge-success">Quarterly</span>;
-          }
-          if (row.feePackage === 2) {
-            return <span className="badge badge-success">Yearly</span>;
-          }
-          return <></>;
-        },
       },
       {
         header: "Meal",
@@ -168,9 +169,7 @@ const ListPage = ({ history }) => {
             onEdit={() => {
               history.push(editPage(ROOT_PATH, row.id));
             }}
-            onDelete={() => {
-              history.push(deletePage(ROOT_PATH, row.id));
-            }}
+            onDelete={onDelete(ROOT_PATH, row.id, history)}
           />
         ),
       },
