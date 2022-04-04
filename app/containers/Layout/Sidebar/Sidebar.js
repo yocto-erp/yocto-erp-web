@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import cx from 'classnames';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import s from './Sidebar.module.scss';
-import LinksGroup from './LinksGroup/LinksGroup';
+import React, { useEffect } from "react";
+import cx from "classnames";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import s from "./Sidebar.module.scss";
+import LinksGroup from "./LinksGroup/LinksGroup";
 
-import { changeActiveSidebarItem } from '../redux/navigation';
-import { SIDE_BAR_MENU } from './constants';
-import useUser from '../../../libs/hooks/useUser';
+import { changeActiveSidebarItem } from "../redux/navigation";
+import { SIDE_BAR_MENU } from "./constants";
+import useUser from "../../../libs/hooks/useUser";
 
 function Sidebar({ dispatch, sidebarOpened }) {
   const element = React.useRef();
@@ -34,7 +34,7 @@ function Sidebar({ dispatch, sidebarOpened }) {
   useEffect(() => {
     if (element.current) {
       element.current.addEventListener(
-        'transitionend',
+        "transitionend",
         () => {
           if (sidebarOpened) {
             element.current.classList.add(s.sidebarOpen);
@@ -53,7 +53,7 @@ function Sidebar({ dispatch, sidebarOpened }) {
         element.current.classList.remove(s.sidebarOpen);
         setTimeout(() => {
           if (element.current) {
-            element.current.style.height = '';
+            element.current.style.height = "";
           }
         }, 0);
       }
@@ -106,7 +106,7 @@ function Sidebar({ dispatch, sidebarOpened }) {
 Sidebar.propTypes = {
   sidebarOpened: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
-  activeItem: PropTypes.string,
+  // activeItem: PropTypes.string,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }).isRequired,

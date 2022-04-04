@@ -1,0 +1,20 @@
+.asset-single-wrapper {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  width: fit-content;
+
+  img {
+    cursor: pointer;
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .button {
+    position: absolute;
+    top: 0;
+    right: 0
+  }
+}

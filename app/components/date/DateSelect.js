@@ -1,11 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import isFunction from 'lodash/isFunction';
-import DatePicker from 'react-datepicker';
-import classNames from 'classnames';
-import { FNS_DATE_FORMAT } from '../../libs/utils/date.util';
+import React from "react";
+import PropTypes from "prop-types";
+import isFunction from "lodash/isFunction";
+import DatePicker from "react-datepicker";
+import classNames from "classnames";
+import { FNS_DATE_FORMAT } from "../../libs/utils/date.util";
 
 const DateSelect = React.forwardRef(
+  // eslint-disable-next-line no-unused-vars
   ({ onChange, value, invalid, onBlur, placeholder, ...props }, ref) => {
     const handleDayChange = selectedDay => {
       console.log(selectedDay);
@@ -24,8 +25,8 @@ const DateSelect = React.forwardRef(
 
     return (
       <DatePicker
-        className={classNames('form-control', {
-          'is-invalid': !!invalid,
+        className={classNames("form-control", {
+          "is-invalid": !!invalid,
         })}
         {...props}
         onBlur={handleOnBlur}

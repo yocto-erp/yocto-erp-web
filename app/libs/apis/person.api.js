@@ -1,5 +1,5 @@
-import { createCRUDApi } from './fetch';
-import { API_URL } from '../../constants';
+import { createCRUDApi } from "./fetch";
+import { API_URL } from "../../constants";
 
 export const GENDER = {
   MALE: 0,
@@ -10,13 +10,18 @@ export const GENDER = {
 export const genderStr = value => {
   switch (value) {
     case GENDER.FEMALE:
-      return 'FEMALE';
+      return "FEMALE";
     case GENDER.MALE:
-      return 'MALE';
+      return "MALE";
     default:
-      return 'OTHER';
+      return "OTHER";
   }
 };
+
+export const LIST_GENDER = [
+  { id: GENDER.MALE, name: genderStr(GENDER.MALE) },
+  { id: GENDER.FEMALE, name: genderStr(GENDER.FEMALE) },
+];
 
 export function mappingPerson(val) {
   if (val) {

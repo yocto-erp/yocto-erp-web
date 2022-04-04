@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
-import { toast } from 'react-toastify';
-import personApi from '../../../../libs/apis/person.api';
-import Widget from '../../../../components/Widget/Widget';
-import SubmitButton from '../../../../components/button/SubmitButton';
-import BackButton from '../../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
-import { ERROR } from '../../../../components/Form/messages';
-import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
+import React from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import { toast } from "react-toastify";
+import personApi from "../../../../libs/apis/person.api";
+import Widget from "../../../../components/Widget/Widget";
+import SubmitButton from "../../../../components/button/SubmitButton";
+import BackButton from "../../../../components/button/BackButton";
+import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
+import { ERROR } from "../../../../components/Form/messages";
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required(ERROR.required),
@@ -48,13 +48,13 @@ function MyForm({ id }) {
     }),
     validationSchema,
     initForm: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      gsm: '',
-      address: '',
-      sex: '',
-      remark: '',
+      firstName: "",
+      lastName: "",
+      email: "",
+      gsm: "",
+      address: "",
+      sex: "",
+      remark: "",
     },
     id,
   });

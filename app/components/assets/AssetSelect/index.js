@@ -2,11 +2,9 @@ import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { ReactSortable } from "react-sortablejs";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import PreviewImage from "./PreviewImage";
-import ModalOKButton from "../../button/ModalOKButton";
-import { imageUrl } from "../../../libs/apis/image.api";
 import FilePickerModal from "../FileBrowser/FilePickerModal";
+import ViewLargeAssetModal from "../ViewLargeAssetModal";
 
 const AssetSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
@@ -94,32 +92,10 @@ const AssetSelect = React.forwardRef(
           fileTypes={fileTypes}
           isMulti
         />
-        <Modal scrollable size="xl" isOpen={enlargeFile != null} fade={false}>
-          <ModalHeader toggle={() => setEnlargeFile(null)}>
-            {enlargeFile != null ? enlargeFile.name : ""}
-          </ModalHeader>
-          <ModalBody className="text-center">
-            <figure className="figure">
-              {enlargeFile != null ? (
-                <img
-                  src={imageUrl(enlargeFile?.fileId)}
-                  className="figure-img img-fluid rounded"
-                  alt=""
-                />
-              ) : (
-                ""
-              )}
-              <figcaption className="figure-caption">
-                {enlargeFile != null ? enlargeFile.name : ""}
-              </figcaption>
-            </figure>
-          </ModalBody>
-          <ModalFooter>
-            <ModalOKButton type="button" onClick={() => setEnlargeFile(null)}>
-              Close
-            </ModalOKButton>
-          </ModalFooter>
-        </Modal>
+        <ViewLargeAssetModal
+          file={enlargeFile}
+          onClose={() => setEnlargeFile(null)}
+        />
       </div>
     );
   },

@@ -22,8 +22,8 @@ import { COST_ROOT_PATH } from "../cost/constants";
 import CostPage from "../cost";
 import { SALE_ROOT_PATH } from "../order/sale/constants";
 import SalePage from "../order/sale/Loadable";
-import { PARTNER_ROOT_PATH } from "../partner/constants";
-import PartnerPage from "../partner/Loadable";
+import { SUBJECT_ROOT_PATH } from "../partner/constants";
+import PartnerPage from "../partner/subject/Loadable";
 import { STUDENT_ROOT_PATH } from "../student/constants";
 import StudentPage from "../student/Loadable";
 import StudentClassPage from "../student/student-class/Loadable";
@@ -117,7 +117,7 @@ function Layout({
                   path={`${INVENTORY_ROOT_PATH}`}
                   component={InventoryPage}
                 />
-                <Route path={`${PARTNER_ROOT_PATH}`} component={PartnerPage} />
+                <Route path={`${SUBJECT_ROOT_PATH}`} component={PartnerPage} />
                 <Route
                   path={`${STUDENT_MONTHLY_ROOT_PATH}`}
                   component={StudentMonthlyPage}

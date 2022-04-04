@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Popover, PopoverBody, PopoverHeader } from 'reactstrap';
-import classnames from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
-import TagItem from './TagItem';
+import React from "react";
+import PropTypes from "prop-types";
+import { Popover, PopoverBody, PopoverHeader } from "reactstrap";
+import classnames from "classnames";
+import { v4 as uuidv4 } from "uuid";
+import TagItem from "./TagItem";
 
 const MAX_SHOW_ITEM = 3;
-const Tags = ({ item, className = 'mb-0 pb-0 mt-1' }) => {
+const Tags = ({ item, className = "mb-0 pb-0 mt-1" }) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
 
   const toggle = () => setPopoverOpen(!popoverOpen);
@@ -18,7 +18,7 @@ const Tags = ({ item, className = 'mb-0 pb-0 mt-1' }) => {
     const length = Math.min(item.length, MAX_SHOW_ITEM);
     return (
       <>
-        <ul className={classnames('list-inline', className)}>
+        <ul className={classnames("list-inline", className)}>
           {item
             .filter((t, i) => i < length)
             .map(t => (
@@ -31,7 +31,7 @@ const Tags = ({ item, className = 'mb-0 pb-0 mt-1' }) => {
             <li
               className="list-inline-item badge badge-info"
               id={id}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
               onClick={toggle}
             >
               <>+{item.length - MAX_SHOW_ITEM}</>
@@ -49,7 +49,7 @@ const Tags = ({ item, className = 'mb-0 pb-0 mt-1' }) => {
           >
             <PopoverHeader>Labels</PopoverHeader>
             <PopoverBody>
-              <ul className={classnames('list-inline', className)}>
+              <ul className={classnames("list-inline", className)}>
                 {item.map(t => (
                   <li className="list-inline-item" key={t.id}>
                     <TagItem item={t} background="light" />

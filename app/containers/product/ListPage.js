@@ -16,7 +16,10 @@ import CreateButton from "../../components/button/CreateButton";
 import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
 import ListWidget from "../../components/ListWidget";
 import Filter from "./components/Filter";
-import { CreatedByColumn } from "../../components/ListWidget/constants";
+import {
+  CreatedByColumn,
+  SORT_DIR,
+} from "../../components/ListWidget/constants";
 import Tags from "../../components/Form/tagging/ViewTags";
 import ProductView from "../../components/common/product/ProductView";
 
@@ -114,6 +117,7 @@ const ListPage = ({ history }) => {
       initialSize={10}
       initialPage={1}
       initialFilter={search}
+      initSorts={{ createdDate: SORT_DIR.DESC }}
     >
       <Filter />
     </ListWidget>

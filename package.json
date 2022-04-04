@@ -128,7 +128,7 @@
     "react-sticky-el": "^2.0.5",
     "react-sticky-table": "^5.1.11",
     "react-toastify": "^6.0.8",
-    "reactstrap": "^8.5.1",
+    "reactstrap": "^8.10.1",
     "redux": "^4.0.5",
     "redux-saga": "1.0.2",
     "reselect": "^4.0.0",

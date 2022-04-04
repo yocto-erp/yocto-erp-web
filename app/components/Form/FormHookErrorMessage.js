@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { FormFeedback } from 'reactstrap';
-import messages from './messages';
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
+import { FormFeedback } from "reactstrap";
+import messages from "./messages";
 
 const FormHookErrorMessage = ({ error }) => {
   const errorMessage = useMemo(() => {
     if (!error) {
-      return '';
+      return "";
     }
     if (messages[error.message]) {
       return (

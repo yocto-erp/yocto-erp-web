@@ -2,7 +2,6 @@ import { AUDIT_ROOT_PATH } from "../../Audit/constants";
 import { TAGGING_ROOT_PATH } from "../../tagging/constants";
 import { USER_ROOT_PATH } from "../../user/constants";
 import { ADMIN_PATH, PERMISSION } from "../../../constants";
-import { SALE_ROOT_PATH } from "../../order/sale/constants";
 import { PURCHASE_ROOT_PATH } from "../../order/purchase/constants";
 import { COST_ROOT_PATH } from "../../cost/constants";
 import { INVENTORY_ROOT_PATH } from "../../inventory/constants";
@@ -14,7 +13,7 @@ import { STUDENT_MONTHLY_ROOT_PATH } from "../../student/monthly-fee/constants";
 import { SURVEY_MANAGEMENT_ROOT_PATH } from "../../survey/Admin/constants";
 import { WAREHOUSE_ROOT_PATH } from "../../warehouse/constants";
 import { PRODUCT_ROOT_PATH } from "../../product/constants";
-import { PARTNER_ROOT_PATH } from "../../partner/constants";
+import { SUBJECT_ROOT_PATH } from "../../partner/constants";
 import { LOG_EMAIL_ROOT_PATH } from "../../log/constants";
 import {
   CONFIGURATION_COMPANY_ROOT_PATH,
@@ -24,7 +23,6 @@ import {
   TEMPLATE_EMAIL_ROOT_PATH,
   TEMPLATE_PRINT_ROOT_PATH,
 } from "../../template/constants";
-import { MAIL_MERGE_ROOT_PATH } from "../../tools/mail-merge/constants";
 import {
   ECOMMERCE_CONFIGURATION_ROOT_PATH,
   ECOMMERCE_PRODUCT_ROOT_PATH,
@@ -58,14 +56,6 @@ export const SIDE_BAR_MENU = {
     },
   ],
   utils: [
-    {
-      header: "Bán hàng",
-      isHeader: true,
-      iconName: "fi flaticon-network",
-      link: SALE_ROOT_PATH,
-      index: "sale",
-      permission: PERMISSION.ORDER.SALE.READ,
-    },
     {
       header: "Mua hàng",
       isHeader: true,
@@ -133,21 +123,6 @@ export const SIDE_BAR_MENU = {
         },
       ],
     },
-    {
-      header: "Công cụ",
-      isHeader: true,
-      iconName: "fi flaticon-controls",
-      index: "tools",
-      link: "",
-      children: [
-        {
-          header: "Mail Merge",
-          isHeader: true,
-          link: MAIL_MERGE_ROOT_PATH,
-          index: "tools.mail-merge",
-        },
-      ],
-    },
   ],
   management: [
     {
@@ -169,7 +144,8 @@ export const SIDE_BAR_MENU = {
           link: POS_ROOT_PATH,
           index: "management.pos",
           permission: PERMISSION.POS.READ,
-          isHeader: true,
+          isHeader: false,
+          exact: true,
         },
         {
           header: "Survey",
@@ -194,8 +170,8 @@ export const SIDE_BAR_MENU = {
         },
         {
           header: "Khách hàng - Công ty",
-          link: PARTNER_ROOT_PATH,
-          index: "management.partner",
+          link: SUBJECT_ROOT_PATH,
+          index: "management.subject",
           permission: [PERMISSION.CUSTOMER.READ, PERMISSION.COMPANY.READ],
           isHeader: true,
         },

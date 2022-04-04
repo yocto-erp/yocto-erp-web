@@ -172,8 +172,13 @@ function MyForm({ id }) {
                   defaultValue={formData ? formData.birthday : null}
                   name="birthday"
                   control={control}
-                  invalid={!!errors.birthday}
-                  as={DateSelect}
+                  render={({ value, onChange }, { invalid }) => (
+                    <DateSelect
+                      value={value}
+                      onChange={onChange}
+                      invalid={invalid}
+                    />
+                  )}
                 />
               </div>
               <FormHookErrorMessage error={errors.birthday} />
@@ -248,8 +253,13 @@ function MyForm({ id }) {
                   defaultValue={formData ? formData.joinDate : null}
                   name="joinDate"
                   control={control}
-                  invalid={!!errors.joinDate}
-                  as={DateSelect}
+                  render={({ value, onChange }, { invalid }) => (
+                    <DateSelect
+                      value={value}
+                      onChange={onChange}
+                      invalid={invalid}
+                    />
+                  )}
                 />
               </div>
               <FormHookErrorMessage error={errors.joinDate} />

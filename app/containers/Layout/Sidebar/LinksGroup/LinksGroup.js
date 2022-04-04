@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import { Badge, Button, Collapse } from 'reactstrap';
-import classnames from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
-import s from './LinksGroup.module.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+import { Badge, Button, Collapse } from "reactstrap";
+import classnames from "classnames";
+import { useDispatch, useSelector } from "react-redux";
+import s from "./LinksGroup.module.scss";
 import {
   changeActiveSidebarItem,
   changeActiveSidebarMenu,
   selectActiveItem,
   selectActiveMenu,
-} from '../../redux/navigation';
+} from "../../redux/navigation";
 
 const LinksGroup = ({
   header,
@@ -39,13 +39,14 @@ const LinksGroup = ({
     dispatch(changeActiveSidebarMenu(item));
     e.preventDefault();
   };
+
   const isOpen = !!activeMenu && activeMenu.includes(index);
   const headingStyle = isHeader
     ? {}
     : { paddingLeft: `${36 + 10 * (deep - 1)}px` };
 
   const menuItem = (
-    <li className={[s.headerLink, className].join(' ')}>
+    <li className={[s.headerLink, className].join(" ")}>
       <NavLink
         to={link}
         activeClassName={s.headerLinkActive}
@@ -56,9 +57,9 @@ const LinksGroup = ({
         <span className={s.icon}>
           <i className={`${iconName}`} />
         </span>
-        {header}{' '}
+        {header}{" "}
         {label && (
-          <sup className={`${s.headerLabel} text-${labelColor || 'warning'}`}>
+          <sup className={`${s.headerLabel} text-${labelColor || "warning"}`}>
             {label}
           </sup>
         )}
@@ -86,10 +87,10 @@ const LinksGroup = ({
             className={classnames(
               s.accordionToggle,
               {
-                [s.headerLinkActive]: activeItem.includes(index),
+                [s.headerLinkActive]: activeItem.startsWith(index),
               },
               { [s.collapsed]: isOpen },
-              'd-flex link',
+              "d-flex link",
             )}
             style={{
               paddingLeft: `${deep === 0 ? 20 : 35 + 10 * (deep - 1)}px`,
@@ -102,16 +103,16 @@ const LinksGroup = ({
                 <i className={iconName} />
               </span>
             ) : null}
-            {header}{' '}
+            {header}{" "}
             {label && (
               <sup
                 className={`${s.headerLabel} text-${labelColor ||
-                  'warning'} ml-1`}
+                  "warning"} ml-1`}
               >
                 {label}
               </sup>
             )}
-            <b className={['fa fa-angle-left', s.caret].join(' ')} />
+            <b className={["fa fa-angle-left", s.caret].join(" ")} />
           </Button>
           {/* eslint-enable */}
           <Collapse className={s.panel} isOpen={isOpen}>
@@ -125,7 +126,6 @@ const LinksGroup = ({
                   )
                   .map(child => (
                     <LinksGroup
-                      activeItem={activeItem}
                       header={child.header}
                       isHeader={child.isHeader}
                       link={child.link}
@@ -133,6 +133,7 @@ const LinksGroup = ({
                       childrenLinks={child.childrenLinks}
                       deep={deep + 1}
                       key={child.index}
+                      exact={child.exact}
                     />
                   ))}
             </ul>

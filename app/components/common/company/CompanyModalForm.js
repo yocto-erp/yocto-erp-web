@@ -5,15 +5,20 @@ import { yupResolver } from "@hookform/resolvers";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
 import FormRow from "../../Form/FormRow";
 import ModalCancelButton from "../../button/ModalCancelButton";
 import SubmitButton from "../../button/SubmitButton";
 import companyApi from "../../../libs/apis/company.api";
 import { useAsync } from "../../../libs/hooks/useAsync";
+import messages from "./messages";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("This field is required."),
 });
+
+const TITLE_COL = 4;
+const INPUT_COL = 8;
 
 const CompanyModalForm = ({ isOpen, closeHandle }) => {
   const {
@@ -39,42 +44,77 @@ const CompanyModalForm = ({ isOpen, closeHandle }) => {
     <Modal isOpen={isOpen}>
       <Form noValidate formNoValidate>
         <ModalHeader toggle={() => closeHandle(false)}>
-          Company Form
+          <FormattedMessage {...messages.modalTitle} />
         </ModalHeader>
         <ModalBody>
-          <FormRow
-            label={
-              <span className="text-nowrap">
-                Name<span className="text-danger">*</span>
-              </span>
-            }
-            name="name"
-            type="text"
-            error={errors.name}
-            register={register}
-            placeholder="Company Name"
-          />
-          <FormRow
-            label={<span>Phone</span>}
-            name="gsm"
-            type="text"
-            register={register}
-            placeholder="gsm"
-          />
-          <FormRow
-            label="Address"
-            name="address"
-            type="text"
-            register={register}
-            placeholder="Address"
-          />
-          <FormRow
-            label="Remark"
-            name="remark"
-            type="textarea"
-            register={register}
-            placeholder="Remark"
-          />
+          <FormattedMessage {...messages.formName}>
+            {msg => (
+              <FormRow
+                labelCol={TITLE_COL}
+                valueCol={INPUT_COL}
+                label={msg}
+                isRequired
+                name="name"
+                type="text"
+                error={errors.name}
+                register={register}
+                placeholder={msg}
+              />
+            )}
+          </FormattedMessage>
+          <FormattedMessage {...messages.formGSM}>
+            {msg => (
+              <FormRow
+                labelCol={TITLE_COL}
+                valueCol={INPUT_COL}
+                label={msg}
+                name="gsm"
+                type="tel"
+                register={register}
+                placeholder={msg}
+              />
+            )}
+          </FormattedMessage>
+          <FormattedMessage {...messages.formEmail}>
+            {msg => (
+              <FormRow
+                labelCol={TITLE_COL}
+                valueCol={INPUT_COL}
+                label={msg}
+                name="email"
+                type="email"
+                register={register}
+                placeholder={msg}
+              />
+            )}
+          </FormattedMessage>
+          <FormattedMessage {...messages.formAddress}>
+            {msg => (
+              <FormRow
+                labelCol={TITLE_COL}
+                valueCol={INPUT_COL}
+                label={msg}
+                name="address"
+                type="text"
+                register={register}
+                placeholder={msg}
+              />
+            )}
+          </FormattedMessage>
+          <FormattedMessage {...messages.formRemark}>
+            {msg => (
+              <FormRow
+                labelCol={TITLE_COL}
+                valueCol={INPUT_COL}
+                label={msg}
+                name="remark"
+                rows={4}
+                type="textarea"
+                register={register}
+                placeholder={msg}
+              />
+            )}
+          </FormattedMessage>
         </ModalBody>
         <ModalFooter>
           <ModalCancelButton onClick={() => closeHandle(false)} />

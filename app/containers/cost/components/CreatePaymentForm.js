@@ -61,14 +61,10 @@ const CreatePaymentForm = ({ id }) => {
       );
     },
     mappingToForm: form => ({
-      name: form.name,
-      remark: form.remark,
-      type: form.type,
-      amount: form.amount,
+      ...form,
       purpose: form.costPurpose.purpose,
       partnerPersonId: form.partnerPerson,
       partnerCompanyId: form.partnerCompany,
-      assets: form.assets,
       tagging:
         form.tagging && form.tagging.length
           ? form.tagging.map(mappingServerTagging)

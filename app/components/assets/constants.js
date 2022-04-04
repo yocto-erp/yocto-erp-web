@@ -12,6 +12,7 @@ import {
 } from "react-icons/all";
 import { ADMIN_PATH } from "../../constants";
 import noImage from "../../images/No_image_available.svg";
+import { thumbnail } from "../../libs/apis/image.api";
 
 export const STORAGE_PROVIDER = {
   LOCAL: 1,
@@ -68,7 +69,7 @@ export const getLocalFileThumbnail = file => {
     return (
       <div className="thumbnail">
         <img
-          src={file.thumbnail || noImage}
+          src={file.thumbnail || thumbnail(file.fileId) || noImage}
           alt="thumbnail"
           referrerPolicy="no-referrer"
         />

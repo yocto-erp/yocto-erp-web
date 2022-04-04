@@ -1,19 +1,19 @@
-import produce from 'immer';
+import produce from "immer";
 
 const initialState = {
   sidebarOpened: false,
   activeItem: window.location.pathname,
-  activeMenu: '',
-  sidebarPosition: 'left',
-  sidebarVisibility: 'show',
+  activeMenu: "",
+  sidebarPosition: "left",
+  sidebarVisibility: "show",
 };
 
-export const OPEN_SIDEBAR = 'OPEN_SIDEBAR';
-export const CLOSE_SIDEBAR = 'CLOSE_SIDEBAR';
-export const CHANGE_ACTIVE_SIDEBAR_ITEM = 'CHANGE_ACTIVE_SIDEBAR_ITEM';
-export const CHANGE_ACTIVE_MENU_ITEM = 'CHANGE_ACTIVE_MENU_ITEM';
-export const CHANGE_SIDEBAR_POSITION = 'CHANGE_SIDEBAR_POSITION';
-export const CHANGE_SIDEBAR_VISIBILITY = 'CHANGE_SIDEBAR_VISIBILITY';
+export const OPEN_SIDEBAR = "OPEN_SIDEBAR";
+export const CLOSE_SIDEBAR = "CLOSE_SIDEBAR";
+export const CHANGE_ACTIVE_SIDEBAR_ITEM = "CHANGE_ACTIVE_SIDEBAR_ITEM";
+export const CHANGE_ACTIVE_MENU_ITEM = "CHANGE_ACTIVE_MENU_ITEM";
+export const CHANGE_SIDEBAR_POSITION = "CHANGE_SIDEBAR_POSITION";
+export const CHANGE_SIDEBAR_VISIBILITY = "CHANGE_SIDEBAR_VISIBILITY";
 
 export function openSidebar() {
   return {
@@ -74,7 +74,7 @@ export const navigationReducer = (state = initialState, action) =>
         break;
       case CHANGE_SIDEBAR_VISIBILITY:
         draft.sidebarVisibility =
-          state.sidebarVisibility === 'hide' ? 'show' : 'hide';
+          state.sidebarVisibility === "hide" ? "show" : "hide";
         break;
       case CHANGE_ACTIVE_SIDEBAR_ITEM:
         draft.activeItem = action.activeItem;
@@ -82,7 +82,7 @@ export const navigationReducer = (state = initialState, action) =>
         break;
       case CHANGE_ACTIVE_MENU_ITEM:
         if (state.activeMenu === action.payload) {
-          draft.activeMenu = '';
+          draft.activeMenu = "";
         } else {
           draft.activeMenu = action.payload;
         }

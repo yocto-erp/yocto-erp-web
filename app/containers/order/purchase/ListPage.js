@@ -1,87 +1,87 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
-import purchaseApi from '../../../libs/apis/order/purchase.api';
-import { PURCHASE_ROOT_PATH } from './constants';
-import PageTitle from '../../Layout/PageTitle';
+import React from "react";
+import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
+import purchaseApi from "../../../libs/apis/order/purchase.api";
+import { PURCHASE_ROOT_PATH } from "./constants";
+import PageTitle from "../../Layout/PageTitle";
 import {
   deletePagePattern,
   editPage,
   newPage,
   onDelete,
-} from '../../../libs/utils/crud.util';
-import CreateButton from '../../../components/button/CreateButton';
-import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../../components/ListWidget';
-import Filter from './components/Filter';
+} from "../../../libs/utils/crud.util";
+import CreateButton from "../../../components/button/CreateButton";
+import DeleteConfirmModal from "../../../components/modal/DeleteConfirmModal";
+import ListWidget from "../../../components/ListWidget";
+import Filter from "./components/Filter";
 import {
   CreatedByColumn,
   dateRender,
   SORT_DIR,
-} from '../../../components/ListWidget/constants';
-import Price from '../../../components/common/Price';
-import Tags from '../../../components/Form/tagging/ViewTags';
+} from "../../../components/ListWidget/constants";
+import Price from "../../../components/common/Price";
+import Tags from "../../../components/Form/tagging/ViewTags";
 
 const ROOT_PATH = PURCHASE_ROOT_PATH;
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'Name',
-        data: 'name',
-        width: '20%',
+        header: "Name",
+        data: "name",
+        width: "20%",
         render: row => (
           <>
             <p>{row.name}</p>
-            <Tags item={row.tagging} />{' '}
+            <Tags item={row.tagging} />{" "}
           </>
         ),
       },
       {
-        header: 'Company',
-        data: 'partnerCompany',
-        width: '12%',
+        header: "Company",
+        data: "partnerCompany",
+        width: "12%",
         render: row => {
           const { partnerCompany } = row;
-          return partnerCompany ? partnerCompany.name : '';
+          return partnerCompany ? partnerCompany.name : "";
         },
       },
       {
-        header: 'Customer',
-        data: 'partnerPerson',
-        width: '12%',
+        header: "Customer",
+        data: "partnerPerson",
+        width: "12%",
         render: row => {
           const { partnerPerson } = row;
-          return partnerPerson ? partnerPerson.name : '';
+          return partnerPerson ? partnerPerson.fullName : "";
         },
       },
       {
-        header: 'Total Amount',
-        data: 'totalAmount',
+        header: "Total Amount",
+        data: "totalAmount",
         render: row => <Price amount={row.totalAmount} />,
         sort: {
-          name: 'totalAmount',
+          name: "totalAmount",
         },
-        class: 'min text-right',
+        class: "min text-right",
       },
       {
-        header: 'Remark',
-        data: 'remark',
-        width: '40%',
+        header: "Remark",
+        data: "remark",
+        width: "40%",
       },
       {
         header: <span className="text-nowrap">Processed Date</span>,
-        data: 'processedDate',
+        data: "processedDate",
         render: row => dateRender(row.processedDate),
-        class: 'min',
+        class: "min",
       },
       CreatedByColumn,
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -95,7 +95,7 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  const search = { search: '', partnerCompanyId: null, partnerPersonId: null };
+  const search = { search: "", partnerCompanyId: null, partnerPersonId: null };
   const action = (
     <div>
       <CreateButton
@@ -130,7 +130,7 @@ const ListPage = ({ history }) => {
             }}
             title="Delete Product?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return `Are you sure to delete ${row.name} ?`;
             }}
           />

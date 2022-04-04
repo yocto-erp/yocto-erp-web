@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useState } from "react";
+import PropTypes from "prop-types";
 
-import noImage from '../../../images/No_image_available.svg';
-import { imagePath } from '../../../libs/apis/image.api';
-import ProductImageView from './ProductImageView';
-import { hasText } from '../../../utils/util';
+import noImage from "../../../images/No_image_available.svg";
+import { thumbnail } from "../../../libs/apis/image.api";
+import ProductImageView from "./ProductImageView";
+import { hasText } from "../../../utils/util";
 
 const ProductView = ({ item }) => {
   const [isViewImage, setIsViewImage] = useState(false);
@@ -18,8 +18,8 @@ const ProductView = ({ item }) => {
       <div className="media">
         <img
           role="presentation"
-          src={item.thumbnail ? imagePath(item.thumbnail) : noImage}
-          style={{ width: 48, height: 48, cursor: 'pointer' }}
+          src={item.thumbnail ? thumbnail(item.thumbnail) : noImage}
+          style={{ width: 48, height: 48, cursor: "pointer" }}
           title="Click to view all image"
           className="mr-3"
           alt="..."

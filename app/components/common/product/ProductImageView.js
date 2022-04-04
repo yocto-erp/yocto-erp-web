@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
 import {
   Carousel,
   CarouselCaption,
@@ -10,11 +10,11 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-} from 'reactstrap';
-import { API_STATE, useApi } from '../../../libs/hooks/useApi';
-import productApi from '../../../libs/apis/product/product.api';
-import ModalOKButton from '../../button/ModalOKButton';
-import { imageUrl } from '../../../libs/apis/image.api';
+} from "reactstrap";
+import { API_STATE, useApi } from "../../../libs/hooks/useApi";
+import productApi from "../../../libs/apis/product/product.api";
+import ModalOKButton from "../../button/ModalOKButton";
+import { imageUrl } from "../../../libs/apis/image.api";
 
 const ProductImageView = ({ id, isOpen, onClose }) => {
   const { exec, state } = useApi(productApi.assets);
@@ -65,7 +65,7 @@ const ProductImageView = ({ id, isOpen, onClose }) => {
             <img
               src={imageUrl(item.fileId)}
               alt="asset"
-              style={{ height: '600px', width: '800px', objectFit: 'contain' }}
+              style={{ height: "600px", width: "800px", objectFit: "contain" }}
             />
             <CarouselCaption captionText={item.name} />
           </CarouselItem>

@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
+import React from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
 import {
   Button,
   Col,
@@ -10,25 +10,26 @@ import {
   Label,
   Row,
   Table,
-} from 'reactstrap';
-import { toast } from 'react-toastify';
-import get from 'lodash/get';
-import { v4 as uuidv4 } from 'uuid';
-import { Controller, useFieldArray } from 'react-hook-form';
-import productApi from '../../../libs/apis/product/product.api';
-import Widget from '../../../components/Widget/Widget';
-import SubmitButton from '../../../components/button/SubmitButton';
-import BackButton from '../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../libs/hooks/useHookCRUDForm';
-import CreateButton from '../../../components/button/CreateButton';
-import FileUpload from '../../../components/FileUpload';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import { ERROR } from '../../../components/Form/messages';
-import InputNumber from '../../../components/Form/InputNumber';
-import { mappingServerTagging } from '../../../components/constants';
-import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
-import taggingApi from '../../../libs/apis/tagging.api';
-import FormError from '../../../components/Form/FormError';
+} from "reactstrap";
+import { toast } from "react-toastify";
+import get from "lodash/get";
+import { v4 as uuidv4 } from "uuid";
+import { Controller, useFieldArray } from "react-hook-form";
+import productApi from "../../../libs/apis/product/product.api";
+import Widget from "../../../components/Widget/Widget";
+import SubmitButton from "../../../components/button/SubmitButton";
+import BackButton from "../../../components/button/BackButton";
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
+import CreateButton from "../../../components/button/CreateButton";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import { ERROR } from "../../../components/Form/messages";
+import InputNumber from "../../../components/Form/InputNumber";
+import { mappingServerTagging } from "../../../components/constants";
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../libs/apis/tagging.api";
+import FormError from "../../../components/Form/FormError";
+import AssetSelect from "../../../components/assets/AssetSelect";
+import { MIME_TYPE } from "../../../components/assets/constants";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -85,7 +86,7 @@ function MyForm({ id }) {
     validationSchema,
     initForm: {
       priceBaseUnit: 0,
-      units: [{ name: '', rate: 1 }],
+      units: [{ name: "", rate: 1 }],
       assets: [],
       tagging: [],
     },
@@ -94,12 +95,12 @@ function MyForm({ id }) {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'units',
-    keyName: 'fId',
+    name: "units",
+    keyName: "fId",
   });
 
-  const form = React.useMemo(
-    () => (
+  return (
+    <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
         <FormError errors={serverErrors} />
         <Row>
@@ -132,33 +133,6 @@ function MyForm({ id }) {
               />
               <FormHookErrorMessage error={errors.productDocumentId} />
             </FormGroup>
-            {/* <FormGroup>
-              <Label for="priceBaseUnit">
-                Price<span className="text-danger">*</span>
-              </Label>
-              <Controller
-                type="number"
-                name="priceBaseUnit"
-                invalid={!!errors.priceBaseUnit}
-                control={control}
-                as={InputAmount}
-                defaultValue={0}
-                placeholder="Price"
-              />
-              <FormErrorMessage error={errors.priceBaseUnit} />
-            </FormGroup> */}
-            <FormGroup>
-              <Label for="remark" className="mr-sm-2">
-                Remark
-              </Label>
-              <Input
-                type="textarea"
-                name="remark"
-                innerRef={register}
-                id="remark"
-                placeholder="Product Remark"
-              />
-            </FormGroup>
             <FormGroup>
               <Label for="tagging" className="mr-sm-2">
                 Tagging
@@ -177,6 +151,19 @@ function MyForm({ id }) {
               />
               <FormHookErrorMessage error={errors.tagging} />
             </FormGroup>
+            <FormGroup>
+              <Label for="remark" className="mr-sm-2">
+                Remark
+              </Label>
+              <Input
+                type="textarea"
+                name="remark"
+                cols={20}
+                innerRef={register}
+                id="remark"
+                placeholder="Product Remark"
+              />
+            </FormGroup>
           </Col>
           <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
@@ -187,7 +174,7 @@ function MyForm({ id }) {
                     <th>
                       Unit Name <span className="text-danger">*</span>
                     </th>
-                    <th style={{ width: '120px' }}>
+                    <th style={{ width: "120px" }}>
                       Rate <span className="text-danger">*</span>
                     </th>
                     <th className="action">Action</th>
@@ -200,20 +187,20 @@ function MyForm({ id }) {
                         <Input
                           type="text"
                           invalid={
-                            !!get(errors, ['units', index, 'name'], false)
+                            !!get(errors, ["units", index, "name"], false)
                           }
                           name={`units[${index}].name`}
                           innerRef={register()}
                           defaultValue={item.name}
                         />
                         <FormHookErrorMessage
-                          error={get(errors, ['units', index, 'name'])}
+                          error={get(errors, ["units", index, "name"])}
                         />
                       </td>
-                      <td style={{ width: '120px' }}>
+                      <td style={{ width: "120px" }}>
                         <Controller
                           invalid={
-                            !!get(errors, ['units', index, 'rate'], false)
+                            !!get(errors, ["units", index, "rate"], false)
                           }
                           readOnly={item.rate === 1}
                           name={`units[${index}].rate`}
@@ -222,7 +209,7 @@ function MyForm({ id }) {
                           defaultValue={item.rate}
                         />
                         <FormHookErrorMessage
-                          error={get(errors, ['units', index, 'rate'])}
+                          error={get(errors, ["units", index, "rate"])}
                         />
                       </td>
                       <td className="action">
@@ -232,7 +219,7 @@ function MyForm({ id }) {
                           size="sm"
                           onClick={() => remove(index)}
                         >
-                          <i className="fi flaticon-trash" />{' '}
+                          <i className="fi flaticon-trash" />{" "}
                         </Button>
                       </td>
                     </tr>
@@ -247,8 +234,8 @@ function MyForm({ id }) {
                         onClick={() =>
                           append({
                             id: uuidv4(),
-                            name: '',
-                            rate: fields && fields.length === 0 ? 1 : '',
+                            name: "",
+                            rate: fields && fields.length === 0 ? 1 : "",
                           })
                         }
                       >
@@ -259,40 +246,35 @@ function MyForm({ id }) {
                 </tfoot>
               </Table>
             </FormGroup>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6">
             <FormGroup>
-              <Label for="files" className="required">
+              <Label for="files" className="sr-only">
                 Files
               </Label>
               <Controller
-                defaultValue={formData ? formData.assets : []}
-                invalid={!!errors.assets}
-                as={FileUpload}
+                defaultValue={formData?.assets}
                 name="assets"
-                placeholder="Upload files"
                 control={control}
-                accept={['image/*']}
-                maxSize={500000}
+                render={({ onChange, ...data }, { invalid }) => (
+                  <AssetSelect
+                    fileTypes={[MIME_TYPE.IMAGE]}
+                    placeholder="Select Images"
+                    {...data}
+                    onChange={onChange}
+                    className="h-100"
+                    invalid={invalid}
+                  />
+                )}
               />
-              <FormHookErrorMessage
-                error={errors.assets && errors.assets.message}
-              />
+              <FormHookErrorMessage error={errors.assets} />
             </FormGroup>
           </Col>
-          <Col xs="12" sm="12" md="12" lg="6" xl="6" />
         </Row>
+
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
-    ),
-    [errors, isLoading, submit, register],
+    </Widget>
   );
-
-  return <Widget>{form}</Widget>;
 }
 
 MyForm.propTypes = {
