@@ -126,6 +126,9 @@ function matchRuleShort(rule) {
 
 export function isValidMimeType(str, listMimeType) {
   let rs = false;
+  if (!listMimeType || !listMimeType.length) {
+    return true;
+  }
   for (let i = 0; i < listMimeType.length; i += 1) {
     const regex = matchRuleShort(listMimeType[i]);
     rs = regex.test(str);

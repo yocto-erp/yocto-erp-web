@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import FileBrowserView from "../FileBrowser/FileBrowserView";
 import { assetApi, thumbnail } from "../../../libs/apis/image.api";
 import { hasText } from "../../../utils/util";
-import { ROOT_FOLDER } from "../constants";
+import { MIME_TYPE, ROOT_FOLDER } from "../constants";
 
 // eslint-disable-next-line no-unused-vars
-const LocalDrive = ({ className, multiple, onPicked, fileTypes = ["*"] }) => {
+const LocalDrive = ({ className, multiple, onPicked }) => {
   const [page, setPage] = useState(1);
   const list = useCallback(
     (searchObj, isNext, isReload = false) => {
@@ -49,7 +49,21 @@ const LocalDrive = ({ className, multiple, onPicked, fileTypes = ["*"] }) => {
       list={list}
       onAssetSelect={onPicked}
       isMulti={multiple}
-      fileTypes={fileTypes}
+      fileTypes={[
+        "image/*",
+        "video/*",
+        "audio/*",
+        MIME_TYPE.PDF,
+        MIME_TYPE.XLS,
+        MIME_TYPE.CSV,
+        MIME_TYPE.DOCX,
+        MIME_TYPE.DOC,
+        MIME_TYPE.XLS,
+        MIME_TYPE.XLSX,
+        MIME_TYPE.PPT,
+        MIME_TYPE.PPTX,
+        MIME_TYPE.ZIP,
+      ]}
       className={className}
     />
   );
@@ -59,7 +73,6 @@ LocalDrive.propTypes = {
   onPicked: PropTypes.func,
   className: PropTypes.string,
   multiple: PropTypes.bool,
-  fileTypes: PropTypes.array,
 };
 
 export default LocalDrive;

@@ -27,7 +27,7 @@ const FileBrowserView = ({
   drive = "My Drive",
   onAssetSelect,
   // eslint-disable-next-line no-unused-vars
-  fileTypes = ["*"],
+  fileTypes = [],
   isMulti = true,
   className,
 }) => {

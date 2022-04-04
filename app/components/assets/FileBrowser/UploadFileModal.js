@@ -23,12 +23,7 @@ registerPlugin(
   FilePondPluginFileValidateType,
 );
 
-const UploadFileModal = ({
-  isOpen,
-  closeHandle,
-  drivers,
-  fileTypes = ["*"],
-}) => {
+const UploadFileModal = ({ isOpen, closeHandle, drivers, fileTypes = [] }) => {
   const [isLoading, setIsLoading] = useState(false);
   const pondFl = useRef(null);
 
