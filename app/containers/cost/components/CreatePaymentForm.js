@@ -18,17 +18,15 @@ import Widget from "../../../components/Widget/Widget";
 import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
 import SubmitButton from "../../../components/button/SubmitButton";
 import BackButton from "../../../components/button/BackButton";
-import CompanySelect from "../../../components/common/company/CompanySelect";
-import CustomerSelect from "../../../components/common/customer/CustomerSelect";
 import InputAmount from "../../../components/Form/InputAmount";
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
 import { ERROR } from "../../../components/Form/messages";
-import { mappingServerTagging } from "../../../components/constants";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
 import PaymentSelect from "../../payment/components/PaymentSelect";
 import FormError from "../../../components/Form/FormError";
 import AssetSelect from "../../../components/assets/AssetSelect";
+import SelectSubject from "../../partner/subject/components/SelectSubject";
 
 const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
@@ -63,17 +61,6 @@ const CreatePaymentForm = ({ id }) => {
     mappingToForm: form => ({
       ...form,
       purpose: form.costPurpose.purpose,
-      partnerPersonId: form.partnerPerson,
-      partnerCompanyId: form.partnerCompany,
-      tagging:
-        form.tagging && form.tagging.length
-          ? form.tagging.map(mappingServerTagging)
-          : [],
-    }),
-    mappingToServer: form => ({
-      ...form,
-      partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
-      partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
     }),
     initForm: {
       amount: "",
@@ -168,49 +155,19 @@ const CreatePaymentForm = ({ id }) => {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={3}>Partner Company</Label>
+              <Label sm={3}>Partner</Label>
               <Col sm={9}>
                 <Controller
-                  name="partnerCompanyId"
-                  defaultValue={
-                    state.formData ? state.formData.partnerCompanyId : null
-                  }
+                  name="subject"
+                  defaultValue={state.formData.subject}
                   control={control}
-                  render={({ onChange, ...data }) => (
-                    <CompanySelect
-                      id="partnerCompanyId"
-                      placeholder="Choose Partner Company"
-                      invalid={!!errors.partnerCompanyId}
+                  render={({ onChange, ...data }, { invalid }) => (
+                    <SelectSubject
+                      id="subject"
+                      placeholder="Choose Partner"
+                      invalid={invalid}
                       onAdded={newCompany => {
-                        setValue("partnerCompanyId", newCompany, {
-                          shouldValidate: true,
-                        });
-                      }}
-                      onChange={val => {
-                        onChange(val);
-                      }}
-                      {...data}
-                    />
-                  )}
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label sm={3}>Partner Person</Label>
-              <Col sm={9}>
-                <Controller
-                  name="partnerPersonId"
-                  defaultValue={
-                    state.formData ? state.formData.partnerPersonId : null
-                  }
-                  control={control}
-                  render={({ onChange, ...data }) => (
-                    <CustomerSelect
-                      id="partnerPersonId"
-                      placeholder="Choose Partner Person"
-                      invalid={!!errors.partnerPersonId}
-                      onAdded={newCustomer => {
-                        setValue("partnerPersonId", newCustomer, {
+                        setValue("subject", newCompany, {
                           shouldValidate: true,
                         });
                       }}

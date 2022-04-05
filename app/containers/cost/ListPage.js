@@ -27,12 +27,24 @@ import {
 } from "../../components/ListWidget/constants";
 import { convertQueryWithDate } from "../../libs/utils/query.util";
 import Tags from "../../components/Form/tagging/ViewTags";
+import SubjectView from "../partner/subject/components/SubjectView";
 
 const ROOT_PATH = COST_ROOT_PATH;
 
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
+      {
+        header: "Name",
+        data: "name",
+        width: "20%",
+        render: row => (
+          <>
+            <p className="mb-0">{row.name}</p>
+            <Tags item={row.tagging} />{" "}
+          </>
+        ),
+      },
       {
         header: "Type",
         data: "type",
@@ -48,15 +60,10 @@ const ListPage = ({ history }) => {
           ),
       },
       {
-        header: "Name",
-        data: "name",
-        width: "20%",
-        render: row => (
-          <>
-            <p className="mb-0">{row.name}</p>
-            <Tags item={row.tagging} />{" "}
-          </>
-        ),
+        header: "Đối tác",
+        data: "subject",
+        width: "1px",
+        render: row => <SubjectView item={row.subject} isShowTagging={false} />,
       },
       {
         header: <span className="text-nowrap">Total Amount</span>,

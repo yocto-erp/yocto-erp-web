@@ -1,21 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { mappingSubject } from "../constants";
+import classnames from "classnames";
+import { mappingSubject, SUBJECT_TYPE } from "../constants";
 import { hasText } from "../../../../utils/util";
 import Tags from "../../../../components/Form/tagging/ViewTags";
-
 import "./SubjectView.scss";
 import PersonView from "../../person/components/PersonView";
 
 const SubjectView = ({ item, isShowTagging = true }) => {
+  if (!item) return null;
   const rs = mappingSubject(item);
   return (
     <div>
-      <strong>{rs.name}</strong>
+      <strong>
+        <i
+          className={classnames("fa fa-fw", {
+            "fa-user-o": Number(item.type) === SUBJECT_TYPE.PERSONAL,
+            "fa-building-o": Number(item.type) === SUBJECT_TYPE.COMPANY,
+          })}
+        />{" "}
+        {rs.name}
+      </strong>
       <br />
       {hasText(rs.gsm) ? (
         <>
-          <span>
+          <span className="text-nowrap">
             <i className="fa fa-phone fa-fw" />
             &nbsp;{rs.gsm}{" "}
           </span>
@@ -24,7 +33,7 @@ const SubjectView = ({ item, isShowTagging = true }) => {
       ) : null}
       {hasText(rs.email) ? (
         <>
-          <span>
+          <span className="text-nowrap">
             <i className="fa fa-envelope fa-fw" />
             &nbsp;{rs.email}{" "}
           </span>
@@ -33,7 +42,7 @@ const SubjectView = ({ item, isShowTagging = true }) => {
       ) : null}
       {hasText(rs.address) ? (
         <>
-          <span>
+          <span className="text-nowrap">
             <i className="fa fa-map-marker fa-fw" />
             &nbsp;{rs.address}{" "}
           </span>

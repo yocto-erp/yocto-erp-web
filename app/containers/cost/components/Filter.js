@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
-import { useForm } from 'react-hook-form';
-import SearchButton from '../../../components/button/SearchButton';
-import { useListFilter } from '../../../components/ListWidget/constants';
-import DateSelect from '../../../components/date/DateSelect';
+import React, { useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import { Form, FormGroup, Input, Label } from "reactstrap";
+import { Controller, useForm } from "react-hook-form";
+import SearchButton from "../../../components/button/SearchButton";
+import { useListFilter } from "../../../components/ListWidget/constants";
+import DateSelect from "../../../components/date/DateSelect";
+import SelectSubject from "../../partner/subject/components/SelectSubject";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
   const [startDate, setStartDate] = useState(filter?.startDate);
   const [endDate, setEndDate] = useState(filter?.endDate);
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset, control } = useForm({
     defaultValues: {},
   });
 
@@ -18,24 +19,45 @@ const Filter = () => {
     reset(filter);
   }, [filter]);
   const onSubmit = handleSubmit(val => {
-    const { name } = val;
-    searchByFilter({ name, startDate, endDate });
+    searchByFilter({ ...val, startDate, endDate });
   });
   return (
     <Form onSubmit={onSubmit} inline>
       <FormGroup>
-        <Label className="mr-2">Name</Label>
+        <Label className="mr-2 sr-only">Name</Label>
         <Input
           type="text"
           name="search"
           className="mr-2"
           placeholder="Search By Name"
-          style={{ width: '250px' }}
+          style={{ width: "250px" }}
           innerRef={register}
         />
       </FormGroup>
       <FormGroup className="mr-2">
-        <Label className="mr-2">StartDate</Label>
+        <Label className="mr-2 sr-only">Name</Label>
+        <div style={{ width: "250px" }}>
+          <Controller
+            name="subject"
+            defaultValue={null}
+            control={control}
+            render={({ onChange, ...data }, { invalid }) => (
+              <SelectSubject
+                id="subject"
+                placeholder="Choose Partner"
+                creatable={false}
+                invalid={invalid}
+                onChange={val => {
+                  onChange(val);
+                }}
+                {...data}
+              />
+            )}
+          />
+        </div>
+      </FormGroup>
+      <FormGroup className="mr-2">
+        <Label className="mr-2 sr-only">StartDate</Label>
         <div>
           <DateSelect
             placeholder="Select start date"
@@ -47,7 +69,7 @@ const Filter = () => {
         </div>
       </FormGroup>
       <FormGroup className="mr-2">
-        <Label className="pr-2">EndDate</Label>
+        <Label className="pr-2 sr-only">EndDate</Label>
         <div>
           <DateSelect
             placeholder="Select end date"

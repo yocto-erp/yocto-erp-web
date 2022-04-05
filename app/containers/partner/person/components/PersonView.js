@@ -14,7 +14,7 @@ const PersonView = ({ item, title = "Thông tin chi tiết" }) => {
         type="button"
         color="link"
         id={`contactPerson${item.id}`}
-        className="contact-person text-decoration-none"
+        className="contact-person text-decoration-none text-warning"
       >
         <i
           className={classNames("fa fa-fw", {

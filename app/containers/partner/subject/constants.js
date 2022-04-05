@@ -54,3 +54,15 @@ export const mappingSubject = sub => {
   }
   return rs;
 };
+
+export function mappingOptionSubject(val) {
+  if (val) {
+    return {
+      id: val.id,
+      name: val.name,
+      type: val.type,
+    };
+  }
+
+  return null;
+}
