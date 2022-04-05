@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import { Button, Input } from 'reactstrap';
-import { Controller, useWatch } from 'react-hook-form';
-import ProductSelect from '../../../components/common/product/ProductSelect';
-import UnitSelect from '../../../components/common/unit/UnitSelect';
-import InputNumber from '../../../components/Form/InputNumber';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
-import InputAmount from '../../../components/Form/InputAmount';
+import React from "react";
+import PropTypes from "prop-types";
+import get from "lodash/get";
+import { Button, Input } from "reactstrap";
+import { Controller, useWatch } from "react-hook-form";
+import ProductSelect from "../../../components/common/product/ProductSelect";
+import UnitSelect from "../../../components/common/unit/UnitSelect";
+import InputNumber from "../../../components/Form/InputNumber";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import InputAmount from "../../../components/Form/InputAmount";
 
 const OrderFormDetail = ({
   control,
@@ -28,13 +28,13 @@ const OrderFormDetail = ({
       <td>
         <Controller
           name={`details[${index}].product`}
-          defaultValue={null}
+          defaultValue={item.product}
           control={control}
           render={({ onChange, ...data }) => (
             <ProductSelect
-              id="productId"
+              id="product"
               placeholder="Select Product"
-              error={get(errors, ['details', index, 'product'])}
+              error={get(errors, ["details", index, "product"])}
               onAdded={newProd => {
                 setValue(`details[${index}].product`, newProd, {
                   shouldValidate: true,
@@ -54,54 +54,78 @@ const OrderFormDetail = ({
       <td>
         <Controller
           name={`details[${index}].unit`}
-          defaultValue={null}
-          error={get(errors, ['details', index, 'unit'])}
+          defaultValue={item.unit}
           control={control}
-          id="unitId"
-          placeholder="Unit Name"
-          onAdded={newUnit => {
-            console.log(`Added unit ${JSON.stringify(newUnit)}`);
-          }}
-          productId={product ? product.id : null}
-          as={UnitSelect}
+          render={({ onChange, ...data }) => (
+            <UnitSelect
+              id="unitId"
+              productId={product ? product.id : null}
+              error={get(errors, ["details", index, "unit"])}
+              placeholder="Unit Name"
+              onAdded={newItem => {
+                setValue(`details[${index}].unit`, newItem, {
+                  shouldValidate: true,
+                });
+              }}
+              onChange={val => {
+                setValue(`details[${index}].unit`, null, {
+                  shouldValidate: true,
+                });
+                onChange(val);
+              }}
+              {...data}
+            />
+          )}
         />
       </td>
       <td>
         <Controller
-          invalid={!!get(errors, ['details', index, 'quantity'])}
           name={`details[${index}].quantity`}
           control={control}
-          as={InputNumber}
           defaultValue={item.quantity}
-          placeholder="Quantity"
+          render={({ onChange, value, onBlur, ...props }, { invalid }) => (
+            <InputNumber
+              invalid={invalid}
+              {...props}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              placeholder="Quantity"
+            />
+          )}
         />
         <FormHookErrorMessage
-          error={get(errors, ['details', index, 'quantity'])}
+          error={get(errors, ["details", index, "quantity"])}
         />
       </td>
       <td>
         <Controller
-          type="number"
           name={`details[${index}].price`}
           control={control}
-          as={InputAmount}
-          defaultValue=""
-          placeholder="Price"
+          defaultValue={item.price}
+          render={({ onChange, value }, { invalid }) => (
+            <InputAmount
+              placeholder="Price"
+              onChange={onChange}
+              value={value}
+              invalid={invalid}
+            />
+          )}
         />
         <FormHookErrorMessage
-          error={get(errors, ['details', index, 'price'])}
+          error={get(errors, ["details", index, "price"])}
         />
       </td>
       <td>
         <Input
           type="text"
-          invalid={!!get(errors, ['details', index, 'remark'], false)}
+          invalid={!!get(errors, ["details", index, "remark"], false)}
           name={`details[${index}].remark`}
           innerRef={register()}
-          defaultValue=""
+          defaultValue={item.remark}
         />
         <FormHookErrorMessage
-          error={get(errors, ['details', index, 'remark'])}
+          error={get(errors, ["details", index, "remark"])}
         />
       </td>
       <td className="action">
@@ -111,7 +135,7 @@ const OrderFormDetail = ({
           size="sm"
           onClick={() => remove(index)}
         >
-          <i className="fi flaticon-trash" />{' '}
+          <i className="fi flaticon-trash" />{" "}
         </Button>
       </td>
     </tr>

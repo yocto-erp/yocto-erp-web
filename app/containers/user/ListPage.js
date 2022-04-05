@@ -38,12 +38,6 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: "Permission",
-        data: "from",
-        class: "min",
-        render: row => row.group.totalPermission,
-      },
-      {
         header: "Invitation",
         data: "inviteStatus",
         class: "min",

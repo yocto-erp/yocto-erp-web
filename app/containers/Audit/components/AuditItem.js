@@ -18,6 +18,7 @@ import messages from "../messages";
  remark: ""
  userId: 2
  * @param item
+ * @param intl
  * @returns {JSX.Element}
  * @constructor
  */

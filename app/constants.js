@@ -273,9 +273,15 @@ export const PERMISSION_MODULE = [
   },
   {
     id: 9,
-    name: "Configuration",
+    name: "Thiết lập hệ thống",
     permissions: [
-      { id: PERMISSION.CONFIGURATION, name: "Configuration", enableType: 1 },
+      {
+        id: PERMISSION.CONFIGURATION,
+        name: "Thiết lập hệ thống",
+        enableType: 0,
+      },
+      { id: PERMISSION.AUDIT, name: "Lịch sử hoạt động", enableType: 0 },
+      { id: PERMISSION.EMAIL.READ, name: "Xem log email", enableType: 0 },
     ],
   },
   {

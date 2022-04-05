@@ -176,7 +176,6 @@ const ListPage = ({ history }) => {
       initPage={1}
       initSize={10}
       initSorts={{ createdDate: SORT_DIR.DESC }}
-      enableSelectColumn
       mappingUrlData={convertQueryWithDate()}
     >
       <Filter />

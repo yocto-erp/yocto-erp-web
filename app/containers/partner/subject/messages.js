@@ -8,6 +8,10 @@ import { defineMessages } from "react-intl";
 export const scope = "containers.partner.subject";
 
 export default defineMessages({
+  modalTitle: {
+    id: `${scope}.modalTitle`,
+    defaultMessage: "Thông tin đối tác",
+  },
   header: {
     id: `${scope}.header`,
     defaultMessage: "Thông tin đối tác",
