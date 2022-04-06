@@ -49,6 +49,22 @@ export const MIME_TYPE = {
   FOLDER: "folder",
 };
 
+export const ALL_MIME_TYPE = [
+  MIME_TYPE.IMAGE,
+  MIME_TYPE.VIDEO,
+  MIME_TYPE.AUDIO,
+  MIME_TYPE.PDF,
+  MIME_TYPE.XLS,
+  MIME_TYPE.CSV,
+  MIME_TYPE.DOCX,
+  MIME_TYPE.DOC,
+  MIME_TYPE.XLS,
+  MIME_TYPE.XLSX,
+  MIME_TYPE.PPT,
+  MIME_TYPE.PPTX,
+  MIME_TYPE.ZIP,
+];
+
 export function isVideoMimeType(str) {
   const regex = new RegExp(/^video+\/[-\w.]+$/, "gm");
   return regex.test(str);

@@ -1,15 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
-import {
-  Col,
-  Form,
-  FormFeedback,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-} from "reactstrap";
+import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { toast } from "react-toastify";
 import { Controller, useWatch } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
@@ -62,6 +54,7 @@ function MyForm({ id }) {
     submit,
     errors,
     setValue,
+    watch,
     state: { isLoading, formData, errors: serverErrors },
     formState: { isDirty, isValid },
   } = useHookCRUDForm({
@@ -73,7 +66,6 @@ function MyForm({ id }) {
     },
     mappingToForm: form => ({
       ...form,
-      mainContact: form.mainContact ? Number(form.mainContact) : null,
       fullName: form.child
         ? `${form.child.firstName} ${form.child.lastName}`
         : "",
@@ -97,7 +89,7 @@ function MyForm({ id }) {
       toSchoolBusRoute: "",
       toHomeBusRoute: "",
       enableMeal: false,
-      mainContact: "",
+      mainContact: MAIN_CONTACT_TYPE.MOTHER,
     },
     id,
   });
@@ -113,6 +105,8 @@ function MyForm({ id }) {
     name: "enableBus",
   });
 
+  const mainContact = watch("mainContact");
+  console.log(mainContact);
   return (
     <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
@@ -250,14 +244,20 @@ function MyForm({ id }) {
                     &nbsp;
                   </Label>
                   <div className="radio abc-radio abc-radio-success pl-0">
-                    <Input
-                      type="radio"
-                      name="mainContact"
-                      innerRef={register}
-                      id="fatherMainContact"
-                      checked={
+                    <input
+                      defaultChecked={
                         formData.mainContact === MAIN_CONTACT_TYPE.FATHER
                       }
+                      type="radio"
+                      className="form-check-input"
+                      name="mainContact"
+                      onClick={e => {
+                        console.log("setFATHERvalue", e.currentTarget.value);
+                        setValue("mainContact", e.currentTarget.value, {
+                          shouldDirty: true,
+                        });
+                      }}
+                      id="fatherMainContact"
                       value={MAIN_CONTACT_TYPE.FATHER}
                     />{" "}
                     <Label for="fatherMainContact">
@@ -289,9 +289,7 @@ function MyForm({ id }) {
                                 shouldValidate: true,
                               });
                             }}
-                            onChange={val => {
-                              onChange(val);
-                            }}
+                            onChange={onChange}
                             {...data}
                           />
                         )}
@@ -305,15 +303,33 @@ function MyForm({ id }) {
                 <FormGroup>
                   <Label className="mr-sm-2">&nbsp;</Label>
                   <div className="radio abc-radio  abc-radio-danger pl-0">
-                    <Input
-                      type="radio"
+                    {/**
+                     * không hiểu vì sao đặt trong controller thì render và setValue ok, còn ko cần thì lại không setValue được
+                     */}
+                    <Controller
                       name="mainContact"
-                      innerRef={register}
-                      id="motherMainContact"
-                      checked={
-                        formData.mainContact === MAIN_CONTACT_TYPE.MOTHER
-                      }
-                      value={MAIN_CONTACT_TYPE.MOTHER}
+                      control={control}
+                      render={() => (
+                        <input
+                          defaultChecked={
+                            formData.mainContact === MAIN_CONTACT_TYPE.MOTHER
+                          }
+                          type="radio"
+                          className="form-check-input"
+                          name="mainContact"
+                          onClick={e => {
+                            console.log(
+                              "Set Mother Value",
+                              e.currentTarget.value,
+                            );
+                            setValue("mainContact", e.currentTarget.value, {
+                              shouldDirty: true,
+                            });
+                          }}
+                          id="motherMainContact"
+                          value={MAIN_CONTACT_TYPE.MOTHER}
+                        />
+                      )}
                     />{" "}
                     <Label for="motherMainContact">
                       <FormattedMessage {...studentFormMessage.motherContact} />
@@ -334,11 +350,11 @@ function MyForm({ id }) {
               <Controller
                 name="class"
                 control={control}
-                render={({ onChange, ...data }) => (
+                render={({ onChange, ...data }, { invalid }) => (
                   <StudentClassSelect
                     id="class"
                     placeholder="Chọn lớp học"
-                    invalid={!!errors.class}
+                    invalid={invalid}
                     onChange={onChange}
                     {...data}
                   />
@@ -411,12 +427,12 @@ function MyForm({ id }) {
                     name="toSchoolBusStop"
                     defaultValue={null}
                     control={control}
-                    render={({ onChange, ...data }) => (
+                    render={({ onChange, ...data }, { invalid }) => (
                       <BusStopSelect
                         disabled={enableBus === false}
                         id="toSchoolBusStop"
                         placeholder="Đến trường từ địa điểm"
-                        invalid={!!errors.toSchoolBusRoute}
+                        invalid={invalid}
                         onChange={onChange}
                         {...data}
                       />
@@ -459,9 +475,6 @@ function MyForm({ id }) {
                   <FormattedMessage {...studentFormMessage.meal} />
                 </Label>
               </div>
-              <FormFeedback>
-                {errors.enableMeal && errors.enableMeal.message}
-              </FormFeedback>
             </FormGroup>
           </Col>
         </Row>

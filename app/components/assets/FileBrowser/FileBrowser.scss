@@ -1,9 +1,18 @@
 .asset-browser-wrapper {
   min-height: 400px;
-  padding: 20px;
+  padding: 0;
 
-  .asset-browser-header {
+
+  .asset-browser-header-wrapper {
     margin-bottom: 1em;
+    padding: 10px;
+    background: transparent;
+
+    .asset-browser-header {
+      padding: 1em;
+      background-color: #663399;
+      border-radius: 4px;
+    }
   }
 
   .asset-browser-body {
@@ -11,6 +20,8 @@
       font-size: 1.2rem;
       font-weight: bold;
     }
+
+    padding: 1em;
   }
 
   .breadcrumb {

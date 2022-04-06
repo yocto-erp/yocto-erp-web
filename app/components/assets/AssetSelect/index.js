@@ -37,17 +37,23 @@ const AssetSelect = React.forwardRef(
             list={value}
             setList={onChange}
           >
-            {value.map((t, i) => (
-              <div tabIndex={i} className="col-lg-3 col-md-4 col-6" key={t.id}>
-                <PreviewImage
-                  file={t}
-                  onRemove={() => {
-                    onRemoveItem(i);
-                  }}
-                  onViewLarge={e => viewLarge(e, t)}
-                />
-              </div>
-            ))}
+            {(value || [])
+              .filter(t => t !== null)
+              .map((t, i) => (
+                <div
+                  tabIndex={i}
+                  className="col-lg-3 col-md-4 col-6"
+                  key={t.id}
+                >
+                  <PreviewImage
+                    file={t}
+                    onRemove={() => {
+                      onRemoveItem(i);
+                    }}
+                    onViewLarge={e => viewLarge(e, t)}
+                  />
+                </div>
+              ))}
           </ReactSortable>
         </div>
       ),
@@ -76,7 +82,6 @@ const AssetSelect = React.forwardRef(
         {preview}
         <FilePickerModal
           closeHandle={listSelect => {
-            console.log("onListSelect", listSelect);
             if (listSelect && listSelect.length) {
               const newList = [...value];
               for (let i = 0; i < listSelect.length; i += 1) {

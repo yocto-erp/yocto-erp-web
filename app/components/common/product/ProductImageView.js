@@ -14,7 +14,7 @@ import {
 import { API_STATE, useApi } from "../../../libs/hooks/useApi";
 import productApi from "../../../libs/apis/product/product.api";
 import ModalOKButton from "../../button/ModalOKButton";
-import { imageUrl } from "../../../libs/apis/image.api";
+import { cloudImageUrl } from "../../../libs/apis/image.api";
 
 const ProductImageView = ({ id, isOpen, onClose }) => {
   const { exec, state } = useApi(productApi.assets);
@@ -47,29 +47,27 @@ const ProductImageView = ({ id, isOpen, onClose }) => {
 
   useEffect(() => {
     if (state.status === API_STATE.SUCCESS) {
-      setItems(state.resp);
+      setItems(state.resp.filter(t => t !== null));
     }
   }, [state]);
 
   const slides = useMemo(
     () =>
-      items
-        .map(t => t.asset)
-        .map(item => (
-          <CarouselItem
-            className="text-center"
-            onExiting={() => setAnimating(true)}
-            onExited={() => setAnimating(false)}
-            key={item.fileId}
-          >
-            <img
-              src={imageUrl(item.fileId)}
-              alt="asset"
-              style={{ height: "600px", width: "800px", objectFit: "contain" }}
-            />
-            <CarouselCaption captionText={item.name} />
-          </CarouselItem>
-        )),
+      items.map(item => (
+        <CarouselItem
+          className="text-center"
+          onExiting={() => setAnimating(true)}
+          onExited={() => setAnimating(false)}
+          key={item.fileId}
+        >
+          <img
+            src={cloudImageUrl(item)}
+            alt="asset"
+            style={{ height: "600px", width: "800px", objectFit: "contain" }}
+          />
+          <CarouselCaption captionText={item.name} />
+        </CarouselItem>
+      )),
     [items],
   );
 
