@@ -59,12 +59,14 @@ import ShopPage from "../shop/Loadable";
 import POSPage from "../pos/Loadable";
 import TaxPage from "../tax/tax/Loadable";
 import TaxSetPage from "../tax/tax-set/Loadable";
+import DebtPage from "../debt/Loadable";
 import { STUDENT_CLASS_ROOT_PATH } from "../student/student-class/constants";
 import { STUDENT_BUS_STOP_ROOT_PATH } from "../student/student-bus-stop/constants";
 import { POS_ROOT_PATH } from "../pos/constants";
 import { TAX_ROOT_PATH } from "../tax/tax/constants";
 import { TAX_SET_ROOT_PATH } from "../tax/tax-set/constants";
 import { ASSET_ROOT_PATH } from "../../components/assets/constants";
+import { DEBT_ROOT_PATH } from "../debt/constants";
 
 function Layout({
   sidebarPosition,
@@ -159,6 +161,7 @@ function Layout({
                 <Route path={POS_ROOT_PATH} component={POSPage} />
                 <Route path={TAX_ROOT_PATH} component={TaxPage} />
                 <Route path={TAX_SET_ROOT_PATH} component={TaxSetPage} />
+                <Route path={DEBT_ROOT_PATH} component={DebtPage} />
               </Switch>
               <Footer />
             </div>

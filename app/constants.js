@@ -135,6 +135,12 @@ export const PERMISSION = {
     UPDATE: 84,
     DELETE: 85,
   },
+  DEBT: {
+    READ: 86,
+    CREATE: 87,
+    UPDATE: 88,
+    DELETE: 89,
+  },
 };
 
 export const PERMISSION_TYPE = {

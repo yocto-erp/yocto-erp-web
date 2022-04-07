@@ -34,6 +34,7 @@ import { POS_ROOT_PATH } from "../../pos/constants";
 import { TAX_ROOT_PATH } from "../../tax/tax/constants";
 import { TAX_SET_ROOT_PATH } from "../../tax/tax-set/constants";
 import { ASSET_ROOT_PATH } from "../../../components/assets/constants";
+import { DEBT_ROOT_PATH } from "../../debt/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -77,7 +78,7 @@ export const SIDE_BAR_MENU = {
       isHeader: true,
       iconName: "fi flaticon-network",
       link: INVENTORY_ROOT_PATH,
-      index: "inventory",
+      index: "debt",
       permission: [
         PERMISSION.INVENTORY.GOODS_ISSUE.READ,
         PERMISSION.INVENTORY.GOODS_RECEIPT.READ,
@@ -215,6 +216,13 @@ export const SIDE_BAR_MENU = {
         {
           header: "Danh sách nhóm thuế",
           link: TAX_SET_ROOT_PATH,
+          index: "finance.taxSet",
+          permission: [PERMISSION.TAX.READ],
+          isHeader: true,
+        },
+        {
+          header: "Công nợ",
+          link: DEBT_ROOT_PATH,
           index: "finance.taxSet",
           permission: [PERMISSION.TAX.READ],
           isHeader: true,
