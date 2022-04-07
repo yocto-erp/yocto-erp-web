@@ -34,7 +34,7 @@ const AssetSelect = React.forwardRef(
         <div className="previews">
           <ReactSortable
             className="row no-gutters"
-            list={value}
+            list={value || []}
             setList={onChange}
           >
             {(value || [])
