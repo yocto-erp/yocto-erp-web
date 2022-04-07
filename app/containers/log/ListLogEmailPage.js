@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   ButtonGroup,
   ButtonToolbar,
   UncontrolledTooltip,
-} from 'reactstrap';
-import PageTitle from '../Layout/PageTitle';
-import logApi from '../../libs/apis/log.api';
-import ListWidget from '../../components/ListWidget';
-import { SORT_DIR } from '../../components/ListWidget/constants';
-import FilterEmail from './components/FilterEmail';
-import { formatDate } from '../../libs/utils/date.util';
-import { EMAIL_STATUS } from './constants';
-import ModalViewContentEmail from './components/ModalViewContentEmail';
+} from "reactstrap";
+import PageTitle from "../Layout/PageTitle";
+import logApi from "../../libs/apis/log.api";
+import ListWidget from "../../components/ListWidget";
+import { SORT_DIR } from "../../components/ListWidget/constants";
+import FilterEmail from "./components/FilterEmail";
+import { formatDate } from "../../libs/utils/date.util";
+import { EMAIL_STATUS } from "./constants";
+import ModalViewContentEmail from "./components/ModalViewContentEmail";
 
 const ListLogEmailPage = () => {
   const [isOpen, open] = React.useState(false);
@@ -20,15 +20,15 @@ const ListLogEmailPage = () => {
   const columns = React.useMemo(
     () => [
       {
-        header: 'Subject',
-        data: 'subject',
+        header: "Subject",
+        data: "subject",
         render: row => (
           <>
             <span>{row.email.subject}</span>
             {row.email.totalAttach ? (
               <i
                 className="las la-paperclip ml-2"
-                style={{ fontSize: '1.2em' }}
+                style={{ fontSize: "1.2em" }}
                 title="Attachment"
               />
             ) : null}
@@ -50,14 +50,14 @@ const ListLogEmailPage = () => {
       //   ),
       // },
       {
-        header: 'From',
-        data: 'from',
-        class: 'min',
+        header: "From",
+        data: "from",
+        class: "min",
         render: row => row.email.from,
       },
       {
-        header: 'To',
-        data: 'to',
+        header: "To",
+        data: "to",
         render: row => (
           <p className="p-0 m-0">
             {row.email.to}
@@ -77,11 +77,11 @@ const ListLogEmailPage = () => {
         ),
       },
       {
-        header: 'Status',
-        data: 'status',
-        class: 'min',
+        header: "Status",
+        data: "status",
+        class: "min",
         render: row => {
-          let rs = '';
+          let rs = "";
           switch (row.email.status) {
             case EMAIL_STATUS.PENDING:
               rs = (
@@ -118,18 +118,21 @@ const ListLogEmailPage = () => {
         },
       },
       {
-        header: 'Sent Date',
-        data: 'sent_date',
-        class: 'min',
+        header: "Sent Date",
+        data: "sent_date",
+        class: "min",
+        sort: {
+          name: "createdDate",
+        },
         render: row =>
           row.email && row.email.sent_date
             ? formatDate(new Date(row.email.sent_date))
-            : '',
+            : "",
       },
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <ButtonToolbar className="">
             <ButtonGroup size="sm">
@@ -151,7 +154,7 @@ const ListLogEmailPage = () => {
     [],
   );
 
-  const search = { search: '', fromDate: null, toDate: null };
+  const search = { search: "", fromDate: null, toDate: null };
 
   return (
     <>
@@ -177,7 +180,7 @@ const ListLogEmailPage = () => {
           isOpen={isOpen}
         />
       ) : (
-        ''
+        ""
       )}
     </>
   );

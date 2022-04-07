@@ -21,6 +21,7 @@ import { isFunc } from "../../../utils/util";
 import NewFolderModal from "./NewFolderModal";
 import { assetApi } from "../../../libs/apis/image.api";
 import UploadFileModal from "./UploadFileModal";
+import DeleteFileModal from "./DeleteFileModal";
 
 const FileBrowserView = ({
   list,
@@ -30,6 +31,7 @@ const FileBrowserView = ({
   fileTypes = [],
   isMulti = true,
   className,
+  deleteApi = () => {},
 }) => {
   const driverRoot = { id: ROOT_FOLDER, name: drive };
   const [assets, setAssets] = useState({
@@ -37,6 +39,7 @@ const FileBrowserView = ({
     rows: [],
   });
   const [isCreateNewFolder, setCreateNewFolder] = useState(false);
+  const [deleteAssets, setDeleteAssets] = useState(null);
   const [isUploadFile, setIsUploadFile] = useState(false);
 
   const [searchInput, setSearchInput] = useState("");
@@ -269,62 +272,77 @@ const FileBrowserView = ({
 
   return (
     <div className={classnames("asset-browser-wrapper", className)}>
-      <div className="asset-browser-header">
-        <div
-          className="btn-toolbar mb-3 justify-content-between align-items-center"
-          role="toolbar"
-          aria-label="File actions"
-        >
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search"
-              aria-label="Search by name"
-              aria-describedby="btnGroupAddon"
-              onChange={e => {
-                setSearchInput(e.target.value);
-              }}
-              value={searchInput}
-            />
-            <div className="input-group-append">
-              <IconButton
-                isLoading={isLoading}
-                className="ml-0"
-                type="button"
-                color="primary"
-                onClick={onSearchClick}
-              >
-                <i className="fa fa-search fa-fw" />{" "}
-              </IconButton>
+      <div className="asset-browser-header-wrapper  sticky-top">
+        <div className="asset-browser-header">
+          <div
+            className="btn-toolbar mb-3 justify-content-between align-items-center"
+            role="toolbar"
+            aria-label="File actions"
+          >
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search"
+                aria-label="Search by name"
+                aria-describedby="btnGroupAddon"
+                onChange={e => {
+                  setSearchInput(e.target.value);
+                }}
+                value={searchInput}
+              />
+              <div className="input-group-append">
+                <IconButton
+                  isLoading={isLoading}
+                  className="ml-0"
+                  type="button"
+                  color="primary"
+                  onClick={onSearchClick}
+                >
+                  <i className="fa fa-search fa-fw" />{" "}
+                </IconButton>
+              </div>
             </div>
-          </div>
-          <div>
-            <button type="button" className="btn btn-link">
-              {totalFileSelect} select{totalFileSelect > 1 ? "s" : ""}
-            </button>
-            <div className="btn-group" role="group" aria-label="First group">
+            <div>
               <button
                 type="button"
-                className="btn btn-primary btn-icon"
-                onClick={() => setCreateNewFolder(true)}
+                disabled
+                style={{ opacity: 1 }}
+                className="btn btn-link text-decoration-none text-white"
               >
-                <FaFolderPlus />
+                {totalFileSelect} select{totalFileSelect > 1 ? "s" : ""}
               </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-icon"
-                onClick={() => setIsUploadFile(true)}
-              >
-                <FaFileUpload />
-              </button>
-              <button type="button" className="btn btn-danger btn-icon">
-                <FaTrashAlt />
-              </button>
+              <div className="btn-group" role="group" aria-label="First group">
+                <button
+                  type="button"
+                  className="btn btn-primary btn-icon"
+                  onClick={() => setCreateNewFolder(true)}
+                >
+                  <FaFolderPlus />
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-icon"
+                  onClick={() => setIsUploadFile(true)}
+                >
+                  <FaFileUpload />
+                </button>
+                <button
+                  type="button"
+                  disabled={!totalFileSelect}
+                  className="btn btn-danger btn-icon"
+                  onClick={() => {
+                    const keys = Object.keys(selectAssets);
+                    setDeleteAssets(keys.map(t => selectAssets[t]));
+                  }}
+                >
+                  <FaTrashAlt />
+                </button>
+              </div>
             </div>
           </div>
+          {breadCrumbView}
         </div>
-        {breadCrumbView}
       </div>
       <div className="asset-browser-body">
         {status === API_STATE.LOADING ? <LoadingIndicator /> : null}
@@ -388,6 +406,15 @@ const FileBrowserView = ({
         isOpen={isUploadFile}
         drivers={breadcrumbs}
       />
+      <DeleteFileModal
+        closeHandle={() => {
+          search(searchObject, false, true);
+          setDeleteAssets(null);
+          setSelectAssets({});
+        }}
+        assets={deleteAssets}
+        deleteApi={deleteApi}
+      />
     </div>
   );
 };
@@ -399,6 +426,7 @@ FileBrowserView.propTypes = {
   fileTypes: PropTypes.arrayOf(PropTypes.string),
   isMulti: PropTypes.bool,
   className: PropTypes.any,
+  deleteApi: PropTypes.func,
 };
 
 export default FileBrowserView;

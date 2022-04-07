@@ -18,11 +18,11 @@ import ListWidget from "../../../components/ListWidget";
 import Filter from "./components/Filter";
 import {
   CreatedByColumn,
-  dateRender,
   SORT_DIR,
 } from "../../../components/ListWidget/constants";
 import Price from "../../../components/common/Price";
 import Tags from "../../../components/Form/tagging/ViewTags";
+import SubjectView from "../../partner/subject/components/SubjectView";
 
 const ROOT_PATH = PURCHASE_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -40,22 +40,10 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: "Company",
-        data: "partnerCompany",
-        width: "12%",
-        render: row => {
-          const { partnerCompany } = row;
-          return partnerCompany ? partnerCompany.name : "";
-        },
-      },
-      {
-        header: "Customer",
-        data: "partnerPerson",
-        width: "12%",
-        render: row => {
-          const { partnerPerson } = row;
-          return partnerPerson ? partnerPerson.fullName : "";
-        },
+        header: "Đối tác",
+        data: "subject",
+        class: "min",
+        render: row => <SubjectView item={row.subject} />,
       },
       {
         header: "Total Amount",
@@ -70,12 +58,6 @@ const ListPage = ({ history }) => {
         header: "Remark",
         data: "remark",
         width: "40%",
-      },
-      {
-        header: <span className="text-nowrap">Processed Date</span>,
-        data: "processedDate",
-        render: row => dateRender(row.processedDate),
-        class: "min",
       },
       CreatedByColumn,
       {

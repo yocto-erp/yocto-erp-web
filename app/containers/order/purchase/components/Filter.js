@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
-import { Controller, useForm } from 'react-hook-form';
-import { useListFilter } from '../../../../components/ListWidget/constants';
-import SearchButton from '../../../../components/button/SearchButton';
-import CompanySelect from '../../../../components/common/company/CompanySelect';
-import CustomerSelect from '../../../../components/common/customer/CustomerSelect';
+import React, { useEffect } from "react";
+import { Form, FormGroup, Input, Label } from "reactstrap";
+import { Controller, useForm } from "react-hook-form";
+import { useListFilter } from "../../../../components/ListWidget/constants";
+import SearchButton from "../../../../components/button/SearchButton";
+import SelectSubject from "../../../partner/subject/components/SelectSubject";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -17,56 +16,45 @@ const Filter = () => {
   }, [filter]);
 
   const onSubmit = handleSubmit(val => {
-    const partnerCompanyId = val.company ? val.company.id : null;
-    const partnerPersonId = val.customer ? val.customer.id : null;
-    const { search } = val;
     searchByFilter(val);
   });
   return (
     <Form inline onSubmit={onSubmit} noValidate>
       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="name" className="mr-sm-2">
+        <Label for="name" className="mr-sm-2 sr-only">
           Name
         </Label>
         <Input
           type="search"
           name="search"
           className="mr-2"
-          style={{ width: '300px' }}
+          style={{ width: "300px" }}
           innerRef={register}
           id="search"
           placeholder="Search By Name"
         />
       </FormGroup>
-      <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="partnerCompanyId" className="mr-sm-2">
-          Company
-        </Label>
-        <Controller
-          name="company"
-          defaultValue={null}
-          creatable={false}
-          style={{ width: '250px' }}
-          control={control}
-          id="partnerCompanyId"
-          placeholder="Search Company"
-          as={CompanySelect}
-        />
-      </FormGroup>
-      <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="partnerCustomerId" className="mr-sm-2">
-          Customer
-        </Label>
-        <Controller
-          name="customer"
-          defaultValue={null}
-          creatable={false}
-          style={{ width: '250px' }}
-          control={control}
-          id="partnerPersonId"
-          placeholder="Customer Name"
-          as={CustomerSelect}
-        />
+      <FormGroup className="mr-2">
+        <Label className="mr-2 sr-only">Name</Label>
+        <div style={{ width: "250px" }}>
+          <Controller
+            name="subject"
+            defaultValue={null}
+            control={control}
+            render={({ onChange, ...data }, { invalid }) => (
+              <SelectSubject
+                id="subject"
+                placeholder="Choose Partner"
+                creatable={false}
+                invalid={invalid}
+                onChange={val => {
+                  onChange(val);
+                }}
+                {...data}
+              />
+            )}
+          />
+        </div>
       </FormGroup>
       <SearchButton />
     </Form>

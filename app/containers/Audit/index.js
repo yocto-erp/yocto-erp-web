@@ -1,22 +1,25 @@
-import React from 'react';
-import { formatDate } from '../../libs/utils/date.util';
-import ListWidget from '../../components/ListWidget';
-import PageTitle from '../Layout/PageTitle';
-import { auditApi } from '../../libs/apis/audit.api';
-import AuditItem from './components/AuditItem';
+import React from "react";
+import { formatDate } from "../../libs/utils/date.util";
+import ListWidget from "../../components/ListWidget";
+import PageTitle from "../Layout/PageTitle";
+import { auditApi } from "../../libs/apis/audit.api";
+import AuditItem from "./components/AuditItem";
 
 export default function Audit() {
   const columns = React.useMemo(
     () => [
       {
-        header: 'Action',
-        data: 'subject',
+        header: "Action",
+        data: "subject",
         render: row => <AuditItem item={row} />,
       },
       {
-        header: 'Action Date',
-        data: 'sent_date',
-        class: 'min',
+        header: "Action Date",
+        data: "createdDate",
+        sort: {
+          name: "createdDate",
+        },
+        class: "min",
         render: row => formatDate(new Date(row.createdDate)),
       },
     ],

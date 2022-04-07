@@ -54,8 +54,8 @@ const CreatePaymentForm = ({ id }) => {
     onSuccess: resp => {
       toast.success(
         id
-          ? `Update Cost ${resp.name} success`
-          : `Create Cost ${resp.name} success`,
+          ? `Update Payment ${resp.name} success`
+          : `Create Payment ${resp.name} success`,
       );
     },
     mappingToForm: form => ({
@@ -87,14 +87,14 @@ const CreatePaymentForm = ({ id }) => {
           <Col md={7}>
             <FormGroup row>
               <Label sm={3}>
-                Title <span className="text-danger">*</span>
+                Name <span className="text-danger">*</span>
               </Label>
               <Col sm={9}>
                 <Input
                   invalid={!!errors.name}
                   name="name"
                   id="name"
-                  placeholder="Enter title"
+                  placeholder="Name"
                   innerRef={register}
                 />
                 <FormHookErrorMessage error={errors.name} />

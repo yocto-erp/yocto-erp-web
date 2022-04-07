@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Col,
-  Form,
-  FormFeedback,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-} from "reactstrap";
+import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { PropTypes } from "prop-types";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -17,16 +9,17 @@ import Widget from "../../../components/Widget/Widget";
 import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
 import SubmitButton from "../../../components/button/SubmitButton";
 import BackButton from "../../../components/button/BackButton";
-import CompanySelect from "../../../components/common/company/CompanySelect";
-import CustomerSelect from "../../../components/common/customer/CustomerSelect";
-import FileUpload from "../../../components/FileUpload";
 import InputAmount from "../../../components/Form/InputAmount";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
-import { mappingServerTagging } from "../../../components/constants";
 import PaymentSelect from "../../payment/components/PaymentSelect";
 import FormError from "../../../components/Form/FormError";
+import FormRow from "../../../components/Form/FormRow";
+import { DEFAULT_LABEL_COL, DEFAULT_VALUE_COL } from "../../../constants";
+import SelectSubject from "../../partner/subject/components/SelectSubject";
+import AssetSelect from "../../../components/assets/AssetSelect";
+import { ALL_MIME_TYPE } from "../../../components/assets/constants";
 
 const CreateReceiptForm = ({ id }) => {
   const validationSchema = yup.object().shape({
@@ -54,85 +47,65 @@ const CreateReceiptForm = ({ id }) => {
     onSuccess: resp => {
       toast.success(
         id
-          ? `Update Cost ${resp.name} success`
-          : `Create Cost ${resp.name} success`,
+          ? `Update Receipt Voucher ${resp.name} success`
+          : `Create Receipt Voucher ${resp.name} success`,
       );
     },
     mappingToForm: form => ({
       ...form,
       purpose: form.costPurpose.purpose,
-      partnerPersonId: form.partnerPerson,
-      partnerCompanyId: form.partnerCompany,
-      tagging:
-        form.tagging && form.tagging.length
-          ? form.tagging.map(mappingServerTagging)
-          : [],
-    }),
-    mappingToServer: form => ({
-      ...form,
-      partnerPersonId: form.partnerPersonId ? form.partnerPersonId.id : null,
-      partnerCompanyId: form.partnerCompanyId ? form.partnerCompanyId.id : null,
     }),
     initForm: {
       amount: "",
       assets: [],
-      partnerCompanyId: null,
-      partnerPersonId: null,
+      subject: null,
       tagging: [],
     },
     validationSchema,
     id,
   });
-  const form = React.useMemo(
-    () => (
+
+  return (
+    <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
         <FormError errors={serverErrors} />
         <Row>
           <Col md={7}>
+            <FormRow
+              name="name"
+              error={errors.name}
+              register={register}
+              type="text"
+              valueCol={DEFAULT_VALUE_COL}
+              labelCol={DEFAULT_LABEL_COL}
+              placeholder="Name"
+              label="Name"
+              isRequired
+            />
             <FormGroup row>
-              <Label sm={3}>
-                Title <span className="text-danger">*</span>
+              <Label sm={DEFAULT_LABEL_COL}>
+                Amount <span className="text-danger">*</span>
               </Label>
-              <Col sm={9}>
-                <Input
-                  invalid={!!errors.name}
-                  name="name"
-                  id="name"
-                  placeholder="Enter title"
-                  innerRef={register}
-                  defaultValue={formData.name}
-                />
-                <FormFeedback>
-                  {errors.name && errors.name.message}
-                </FormFeedback>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label sm={3}>
-                Total Amount <span className="text-danger">*</span>
-              </Label>
-              <Col sm={9}>
+              <Col sm={DEFAULT_VALUE_COL}>
                 <Controller
                   name="amount"
                   control={control}
                   defaultValue={formData.amount}
                   render={({ onChange, value }, { invalid }) => (
                     <InputAmount
-                      placeholder="Enter Amount here"
+                      placeholder="Amount"
                       onChange={onChange}
                       value={value}
                       invalid={invalid}
                     />
                   )}
                 />
-                <FormFeedback>
-                  {errors.amount && errors.amount.message}
-                </FormFeedback>
+                <FormHookErrorMessage error={errors.amount} />
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={3}>Payment Method</Label>
-              <Col sm={9}>
+              <Label sm={DEFAULT_LABEL_COL}>Payment Method</Label>
+              <Col sm={DEFAULT_VALUE_COL}>
                 <Controller
                   name="paymentMethod"
                   control={control}
@@ -149,26 +122,24 @@ const CreateReceiptForm = ({ id }) => {
                 <FormHookErrorMessage error={errors.paymentMethod} />
               </Col>
             </FormGroup>
+            <FormRow
+              name="remark"
+              register={register}
+              type="textarea"
+              valueCol={DEFAULT_VALUE_COL}
+              labelCol={DEFAULT_LABEL_COL}
+              placeholder="Remark"
+              label="Remark"
+            />
             <FormGroup row>
-              <Label sm={3}>Remark</Label>
-              <Col sm={9}>
-                <Input
-                  name="remark"
-                  innerRef={register}
-                  type="textarea"
-                  placeholder="Enter title"
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label sm={3}>Partner Company</Label>
-              <Col sm={9}>
+              <Label sm={DEFAULT_LABEL_COL}>Partner Company</Label>
+              <Col sm={DEFAULT_VALUE_COL}>
                 <Controller
-                  name="partnerCompanyId"
-                  defaultValue={formData ? formData.partnerCompanyId : null}
+                  name="subject"
+                  defaultValue={formData.subject}
                   control={control}
                   render={({ onChange, ...data }) => (
-                    <CompanySelect
+                    <SelectSubject
                       id="partnerCompanyId"
                       placeholder="Choose Partner Company"
                       invalid={!!errors.partnerCompanyId}
@@ -184,46 +155,14 @@ const CreateReceiptForm = ({ id }) => {
                     />
                   )}
                 />
-                <FormFeedback>
-                  {errors.partnerCompanyId && errors.partnerCompanyId.message}
-                </FormFeedback>
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label sm={3}>Partner Person</Label>
-              <Col sm={9}>
-                <Controller
-                  name="partnerPersonId"
-                  defaultValue={formData ? formData.partnerPersonId : null}
-                  control={control}
-                  render={({ onChange, ...data }) => (
-                    <CustomerSelect
-                      id="partnerPersonId"
-                      placeholder="Choose Partner Person"
-                      invalid={!!errors.partnerPersonId}
-                      onAdded={newCustomer => {
-                        setValue("partnerPersonId", newCustomer, {
-                          shouldValidate: true,
-                        });
-                      }}
-                      onChange={val => {
-                        onChange(val);
-                      }}
-                      {...data}
-                    />
-                  )}
-                />
-                <FormFeedback>
-                  {errors.partnerPersonId && errors.partnerPersonId.message}
-                </FormFeedback>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label sm={3}>Tagging</Label>
-              <Col sm={9}>
+              <Label sm={DEFAULT_LABEL_COL}>Tagging</Label>
+              <Col sm={DEFAULT_VALUE_COL}>
                 <Controller
                   name="tagging"
-                  defaultValue={formData ? formData.tagging : []}
+                  defaultValue={formData.tagging}
                   control={control}
                   render={({ onChange, ...data }) => (
                     <InputAsyncTagging
@@ -240,19 +179,22 @@ const CreateReceiptForm = ({ id }) => {
           <Col md={5}>
             <FormGroup className="pb-3 h-100">
               <Controller
-                defaultValue={formData ? formData.assets : []}
-                invalid={!!errors.assets}
-                as={FileUpload}
-                className="h-100"
+                defaultValue={formData.assets}
                 name="assets"
-                placeholder="Upload files"
                 control={control}
-                accept={["image/*"]}
-                maxSize={500000}
+                render={({ onChange, ...data }, { invalid }) => (
+                  <AssetSelect
+                    fileTypes={ALL_MIME_TYPE}
+                    placeholder="Select files"
+                    maxSize={500000}
+                    {...data}
+                    onChange={onChange}
+                    className="h-100"
+                    invalid={invalid}
+                  />
+                )}
               />
-              <FormFeedback>
-                {errors.assets && errors.assets.message}
-              </FormFeedback>
+              <FormHookErrorMessage error={errors.assets} />
             </FormGroup>
 
             <Input innerRef={register} type="hidden" name="type" value="1" />
@@ -261,14 +203,14 @@ const CreateReceiptForm = ({ id }) => {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!isValid || !isDirty} />
       </Form>
-    ),
-    [submit, errors, isLoading, register],
+    </Widget>
   );
-
-  return <Widget>{form}</Widget>;
 };
+
 CreateReceiptForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
+
 CreateReceiptForm.defaultProps = {};
+
 export default CreateReceiptForm;

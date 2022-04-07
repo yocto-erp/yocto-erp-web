@@ -24,7 +24,6 @@ import CreateButton from "../../../components/button/CreateButton";
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
 import { ERROR } from "../../../components/Form/messages";
 import InputNumber from "../../../components/Form/InputNumber";
-import { mappingServerTagging } from "../../../components/constants";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
 import FormError from "../../../components/Form/FormError";
@@ -71,18 +70,6 @@ function MyForm({ id }) {
           : `Create product ${resp.name} success`,
       );
     },
-    mappingToForm: form => ({
-      name: form.name,
-      priceBaseUnit: form.priceBaseUnit,
-      remark: form.remark,
-      productDocumentId: form.productDocumentId,
-      units: form.units,
-      assets: form.assets,
-      tagging:
-        form.tagging && form.tagging.length
-          ? form.tagging.map(mappingServerTagging)
-          : [],
-    }),
     validationSchema,
     initForm: {
       priceBaseUnit: 0,

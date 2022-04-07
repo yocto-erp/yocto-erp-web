@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { toast } from 'react-toastify';
-import * as yup from 'yup';
-import { Controller } from 'react-hook-form';
-import ModalCancelButton from '../../../../components/button/ModalCancelButton';
-import ModalOKButton from '../../../../components/button/ModalOKButton';
-import EmailTemplateSelect from '../../../../components/common/template/EmailTemplateSelect';
-import { TEMPLATE_TYPE } from '../../../../libs/apis/template/templateType.api';
-import RawHTML from '../../../../components/RawHtml';
-import studentMonthlyFeeApi from '../../../../libs/apis/student/student-monthly-fee.api';
-import useStudentConfigure from '../../../../libs/hooks/useStudentConfigure';
-import FormGroupInput from '../../../../components/Form/FormGroupInput';
-import useMyForm from '../../../../libs/hooks/useMyForm';
-import { isValidEmail } from '../../../../libs/utils/schema.util';
-import MultipleEmailInput from '../../../../components/Form/MultipleEmailInput';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { toast } from "react-toastify";
+import * as yup from "yup";
+import { Controller } from "react-hook-form";
+import ModalCancelButton from "../../../../components/button/ModalCancelButton";
+import ModalOKButton from "../../../../components/button/ModalOKButton";
+import EmailTemplateSelect from "../../../../components/common/template/EmailTemplateSelect";
+import { TEMPLATE_TYPE } from "../../../../libs/apis/template/templateType.api";
+import RawHTML from "../../../../components/RawHtml";
+import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api";
+import useStudentConfigure from "../../../../libs/hooks/useStudentConfigure";
+import FormGroupInput from "../../../../components/Form/FormGroupInput";
+import useMyForm from "../../../../libs/hooks/useMyForm";
+import { isValidEmail } from "../../../../libs/utils/schema.util";
+import MultipleEmailInput from "../../../../components/Form/MultipleEmailInput";
 
 const schema = yup.object().shape({
   from: yup
     .string()
-    .email('Invalid Email')
+    .email("Invalid Email")
     .required(),
   cc: yup.array(),
   bcc: yup.array(),
@@ -56,27 +56,27 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
     },
     onConfirm: () => ({
       title: `Send email to parents of total ${fees.length} students`,
-      message: 'Are you sure to send email ?',
+      message: "Are you sure to send email ?",
     }),
   });
 
-  const emailTemplate = watch('emailTemplate');
+  const emailTemplate = watch("emailTemplate");
 
   useEffect(() => {
-    setValue('from', emailTemplate?.from, { shouldValidate: true });
-    setValue('cc', emailTemplate?.cc || [], { shouldValidate: true });
-    setValue('bcc', emailTemplate?.bcc || [], { shouldValidate: true });
+    setValue("from", emailTemplate?.from, { shouldValidate: true });
+    setValue("cc", emailTemplate?.cc || [], { shouldValidate: true });
+    setValue("bcc", emailTemplate?.bcc || [], { shouldValidate: true });
   }, [emailTemplate, setValue]);
 
   useEffect(() => {
     if (serverErrors && serverErrors.length) {
-      toast.error(serverErrors.map(t => t.message).join('\n'));
+      toast.error(serverErrors.map(t => t.message).join("\n"));
     }
   }, [serverErrors]);
 
   useEffect(() => {
     if (resp) {
-      console.log('response', resp);
+      console.log("response", resp);
       const { success, fail } = resp;
       const rs = [];
       if (success.length) {
@@ -176,7 +176,7 @@ const SendMailStudentFee = ({ isOpen = false, fees = [], onClose }) => {
                         <p>
                           <strong>Content:</strong>
                         </p>
-                        <div style={{ maxHeight: 400, overflow: 'auto' }}>
+                        <div style={{ maxHeight: 400, overflow: "auto" }}>
                           <RawHTML html={emailTemplate.template.content} />
                         </div>
                       </div>

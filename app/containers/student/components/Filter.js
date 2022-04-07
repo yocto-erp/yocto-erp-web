@@ -41,6 +41,7 @@ const Filter = () => {
         <Controller
           name="class"
           control={control}
+          defaultValue={null}
           render={({ onChange, ...data }) => (
             <StudentClassSelect
               id="class"
