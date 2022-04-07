@@ -4,7 +4,6 @@ import {
   Col,
   Form,
   FormGroup,
-  Input,
   Label,
   Modal,
   ModalBody,
@@ -12,56 +11,72 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
-import { yupResolver } from "@hookform/resolvers";
-import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
+import { Controller } from "react-hook-form";
 import messages from "../messages";
-import { useAsync } from "../../../../libs/hooks/useAsync";
 import subjectApi from "../../../../libs/apis/partner/subject.api";
-import { LIST_GENDER } from "../../../../libs/apis/person.api";
 import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
-import FormRow from "../../../../components/Form/FormRow";
 import ModalCancelButton from "../../../../components/button/ModalCancelButton";
 import SubmitButton from "../../../../components/button/SubmitButton";
+import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
+import {
+  LIST_SUBJECT_TYPE,
+  SUBJECT_TYPE,
+  subjectValidationSchema,
+} from "../constants";
+import FormError from "../../../../components/Form/FormError";
+import FormGroupInput from "../../../../components/Form/FormGroupInput";
+import CompanySelect from "../../../../components/common/company/CompanySelect";
+import CustomerSelect from "../../../../components/common/customer/CustomerSelect";
+import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../../libs/apis/tagging.api";
+import AssetSingleSelect from "../../../../components/assets/AssetSingleSelect";
 
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required(),
-  lastName: Yup.string().required(),
-  sex: Yup.string().required(),
-});
+const { create, update, read } = subjectApi;
 
-const TITLE_COL = 3;
-const INPUT_COL = 9;
-const SubjectModalForm = ({ isOpen, closeHandle, headerTitle }) => {
+const SubjectModalForm = ({ isOpen, closeHandle, headerTitle, id }) => {
   const {
     register,
-    handleSubmit,
+    submit,
     errors,
-    formState: { isValid, isDirty },
-  } = useForm({
-    mode: "all",
-    reValidateMode: "onChange",
-    resolver: yupResolver(validationSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      gsm: "",
-      address: "",
-      sex: "",
-      remark: "",
+    watch,
+    control,
+    setValue,
+    state: { isLoading, formData, errors: serverErrors },
+    formState: { isDirty, isValid },
+  } = useHookCRUDForm({
+    create,
+    update,
+    read,
+    onSuccess: resp => {
+      let msg = "";
+      if (Number(resp.type) === SUBJECT_TYPE.COMPANY) {
+        msg = resp.company.name;
+      } else {
+        msg =
+          resp.person.fullName ||
+          `${resp.person.firstName} ${resp.person.lastName}`;
+      }
+      toast.success(
+        id ? `Update Partner ${msg} success` : `Create Partner ${msg} success`,
+      );
     },
+    validationSchema: subjectValidationSchema,
+    initForm: {
+      person: null,
+      company: null,
+      type: SUBJECT_TYPE.PERSONAL,
+      remark: "",
+      asset: null,
+      contactPerson: null,
+      tagging: [],
+    },
+    id,
   });
 
-  const [isLoading, exec] = useAsync({ asyncApi: subjectApi.create });
-  const onSubmit = handleSubmit(val => {
-    exec(val).then(result => {
-      toast.success(`Create Customer success !`);
-      closeHandle(result);
-    });
-  });
+  const type = watch("type");
+
   return (
     <Modal isOpen={isOpen} size="lg">
       <Form noValidate formNoValidate>
@@ -69,110 +84,163 @@ const SubjectModalForm = ({ isOpen, closeHandle, headerTitle }) => {
           {headerTitle || <FormattedMessage {...messages.modalTitle} />}
         </ModalHeader>
         <ModalBody>
-          <FormGroup row>
-            <Label sm={TITLE_COL}>
-              Họ tên <span className="text-danger">*</span>
-            </Label>
-            <Col sm={INPUT_COL}>
-              <Row>
-                <Col sm={4}>
-                  <FormattedMessage {...messages.formGenderSelectDefault}>
-                    {msg => (
-                      <Input
-                        name="sex"
-                        type="select"
-                        register={register}
-                        placeholder={msg}
-                      >
-                        <option value="">{msg}</option>
-                        {LIST_GENDER.map(t => (
-                          <FormattedMessage
-                            {...messages[`formGender${t.id}`]}
-                            key={t.id}
-                          >
-                            {msg1 => <option value={t.id}>{msg1}</option>}
-                          </FormattedMessage>
-                        ))}
-                      </Input>
+          <FormError errors={serverErrors} />
+          <Row>
+            <Col xs="12" sm="6" md="12" lg="6" xl="6">
+              <FormGroupInput
+                className={id ? "hide" : ""}
+                label="Loại đối tác"
+                name="type"
+                type="select"
+                register={register}
+                error={errors.type}
+              >
+                <option value="">Chọn loại đối tác</option>
+                {LIST_SUBJECT_TYPE.map(t => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
+              </FormGroupInput>
+              {Number(type) === SUBJECT_TYPE.COMPANY ? (
+                <FormattedMessage {...messages.formCompanyLabel}>
+                  {msg => (
+                    <FormGroup isRequired label={msg}>
+                      <Controller
+                        name="company"
+                        defaultValue={formData.company}
+                        control={control}
+                        render={({ onChange, ...data }, { invalid }) => (
+                          <CompanySelect
+                            id="company"
+                            placeholder={msg}
+                            invalid={invalid}
+                            onAdded={newCompany => {
+                              setValue("company", newCompany, {
+                                shouldValidate: true,
+                              });
+                            }}
+                            onChange={val => {
+                              onChange(val);
+                            }}
+                            {...data}
+                          />
+                        )}
+                      />
+                      <FormHookErrorMessage error={errors.company} />
+                    </FormGroup>
+                  )}
+                </FormattedMessage>
+              ) : (
+                <FormattedMessage {...messages.formPersonLabel}>
+                  {msg => (
+                    <FormGroup isRequired label={msg}>
+                      <Controller
+                        name="person"
+                        defaultValue={formData.person}
+                        control={control}
+                        render={({ onChange, ...data }, { invalid }) => (
+                          <CustomerSelect
+                            id="person"
+                            placeholder={msg}
+                            invalid={invalid}
+                            onAdded={newPerson => {
+                              setValue("person", newPerson, {
+                                shouldValidate: true,
+                              });
+                            }}
+                            onChange={val => {
+                              onChange(val);
+                            }}
+                            {...data}
+                          />
+                        )}
+                      />
+                      <FormHookErrorMessage error={errors.person} />
+                    </FormGroup>
+                  )}
+                </FormattedMessage>
+              )}
+              {Number(type) === SUBJECT_TYPE.COMPANY ? (
+                <FormGroup>
+                  <Label for="person" className="mr-sm-2">
+                    <FormattedMessage {...messages.formContactPerson} />
+                  </Label>
+                  <Controller
+                    name="contactPerson"
+                    defaultValue={formData.contactPerson}
+                    control={control}
+                    render={({ onChange, ...data }) => (
+                      <FormattedMessage {...messages.formContactPerson}>
+                        {msg => (
+                          <CustomerSelect
+                            id="contactPerson"
+                            placeholder={msg}
+                            onAdded={newCustomer => {
+                              setValue("contactPerson", newCustomer, {
+                                shouldValidate: true,
+                              });
+                            }}
+                            onChange={onChange}
+                            {...data}
+                          />
+                        )}
+                      </FormattedMessage>
                     )}
-                  </FormattedMessage>
-                </Col>
-                <Col sm={4}>
-                  <Input
-                    type="text"
-                    innerRef={register}
-                    name="firstName"
-                    invalid={!!errors.firstName}
-                    placeholder="Họ"
                   />
-                  <FormHookErrorMessage error={errors.firstName} />
-                </Col>
-                <Col sm={4}>
-                  <Input
-                    type="text"
-                    innerRef={register}
-                    name="lastName"
-                    invalid={!!errors.lastName}
-                    placeholder="Tên"
+                </FormGroup>
+              ) : null}
+              <FormattedMessage {...messages.formRemark}>
+                {msg => (
+                  <FormGroupInput
+                    label={msg}
+                    rows={4}
+                    type="textarea"
+                    name="remark"
+                    register={register}
+                    placeholder={msg}
                   />
-                  <FormHookErrorMessage error={errors.lastName} />
-                </Col>
-              </Row>
+                )}
+              </FormattedMessage>
+              <FormGroup>
+                <Label for="tagging" className="mr-sm-2">
+                  Tagging
+                </Label>
+                <Controller
+                  name="tagging"
+                  id="tagging"
+                  defaultValue={formData ? formData.tagging : []}
+                  control={control}
+                  render={({ onChange, ...data }) => (
+                    <InputAsyncTagging
+                      {...data}
+                      onChange={onChange}
+                      loadOptionApi={taggingApi.search}
+                    />
+                  )}
+                />
+                <FormHookErrorMessage error={errors.tagging} />
+              </FormGroup>
             </Col>
-          </FormGroup>
-          <FormattedMessage {...messages.formGSM}>
-            {msg => (
-              <FormRow
-                label={msg}
-                labelCol={TITLE_COL}
-                valueCol={INPUT_COL}
-                name="gsm"
-                type="tel"
-                register={register}
-                placeholder={msg}
-              />
-            )}
-          </FormattedMessage>
-          <FormattedMessage {...messages.formEmail}>
-            {msg => (
-              <FormRow
-                label={msg}
-                labelCol={TITLE_COL}
-                valueCol={INPUT_COL}
-                name="email"
-                type="email"
-                register={register}
-                placeholder={msg}
-                error={errors.email}
-              />
-            )}
-          </FormattedMessage>
-          <FormattedMessage {...messages.formAddress}>
-            {msg => (
-              <FormRow
-                label={msg}
-                labelCol={TITLE_COL}
-                valueCol={INPUT_COL}
-                name="address"
-                type="text"
-                register={register}
-                placeholder={msg}
-              />
-            )}
-          </FormattedMessage>
-          <FormattedMessage {...messages.formRemark}>
-            {msg => (
-              <FormRow
-                label={msg}
-                labelCol={TITLE_COL}
-                valueCol={INPUT_COL}
-                name="remark"
-                type="textarea"
-                register={register}
-                placeholder={msg}
-              />
-            )}
-          </FormattedMessage>
+            <Col md={6}>
+              <FormGroup>
+                <Label>Logo</Label>
+                <Controller
+                  defaultValue={formData?.asset}
+                  name="assets"
+                  control={control}
+                  render={({ onChange, ...data }, { invalid }) => (
+                    <AssetSingleSelect
+                      placeholder="Select Photo"
+                      {...data}
+                      onChange={onChange}
+                      invalid={invalid}
+                    />
+                  )}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
         </ModalBody>
         <ModalFooter>
           <ModalCancelButton onClick={() => closeHandle(false)} />
@@ -180,7 +248,7 @@ const SubjectModalForm = ({ isOpen, closeHandle, headerTitle }) => {
             disabled={!isValid || !isDirty}
             type="button"
             isLoading={isLoading}
-            onClick={onSubmit}
+            onClick={submit}
           />
         </ModalFooter>
       </Form>
@@ -192,6 +260,7 @@ SubjectModalForm.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeHandle: PropTypes.func.isRequired,
   headerTitle: PropTypes.string,
+  id: PropTypes.any,
 };
 
 export default SubjectModalForm;

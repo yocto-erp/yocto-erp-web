@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as Yup from "yup";
 import { Col, Form, Label, Row } from "reactstrap";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
@@ -9,7 +8,11 @@ import Widget from "../../../../components/Widget/Widget";
 import SubmitButton from "../../../../components/button/SubmitButton";
 import BackButton from "../../../../components/button/BackButton";
 import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
-import { LIST_SUBJECT_TYPE, SUBJECT_TYPE } from "../constants";
+import {
+  LIST_SUBJECT_TYPE,
+  SUBJECT_TYPE,
+  subjectValidationSchema,
+} from "../constants";
 import FormGroupInput from "../../../../components/Form/FormGroupInput";
 import messages from "../messages";
 import AssetSingleSelect from "../../../../components/assets/AssetSingleSelect";
@@ -21,22 +24,6 @@ import subjectApi from "../../../../libs/apis/partner/subject.api";
 import FormError from "../../../../components/Form/FormError";
 import FormGroup from "../../../../components/Form/FormGroup";
 import CompanySelect from "../../../../components/common/company/CompanySelect";
-
-const validationSchema = Yup.object().shape({
-  person: Yup.object().when("type", {
-    is: val => Number(val) === SUBJECT_TYPE.PERSONAL,
-    then: Yup.object()
-      .nullable()
-      .required(),
-  }),
-  company: Yup.object().when("type", {
-    is: val => Number(val) === SUBJECT_TYPE.COMPANY,
-    then: Yup.object()
-      .nullable()
-      .required(),
-  }),
-  type: Yup.string().required(),
-});
 
 const { create, update, read } = subjectApi;
 
@@ -67,7 +54,7 @@ function MyForm({ id }) {
         id ? `Update Partner ${msg} success` : `Create Partner ${msg} success`,
       );
     },
-    validationSchema,
+    validationSchema: subjectValidationSchema,
     initForm: {
       person: null,
       company: null,

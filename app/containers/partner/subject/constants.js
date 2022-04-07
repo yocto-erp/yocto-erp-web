@@ -1,3 +1,5 @@
+import * as Yup from "yup";
+
 export const SUBJECT_TYPE = {
   PERSONAL: 1,
   COMPANY: 2,
@@ -66,3 +68,19 @@ export function mappingOptionSubject(val) {
 
   return null;
 }
+
+export const subjectValidationSchema = Yup.object().shape({
+  person: Yup.object().when("type", {
+    is: val => Number(val) === SUBJECT_TYPE.PERSONAL,
+    then: Yup.object()
+      .nullable()
+      .required(),
+  }),
+  company: Yup.object().when("type", {
+    is: val => Number(val) === SUBJECT_TYPE.COMPANY,
+    then: Yup.object()
+      .nullable()
+      .required(),
+  }),
+  type: Yup.string().required(),
+});
