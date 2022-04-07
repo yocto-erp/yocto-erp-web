@@ -29,7 +29,7 @@ import messages from "./messages";
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required(ERROR.required),
   lastName: Yup.string().required(ERROR.required),
-  sex: Yup.string().required(),
+  sex: Yup.string().required(ERROR.required),
 });
 
 const TITLE_COL = 3;
@@ -81,7 +81,8 @@ const CustomerModalForm = ({ isOpen, closeHandle, headerTitle }) => {
                       <Input
                         name="sex"
                         type="select"
-                        register={register}
+                        innerRef={register}
+                        invalid={!!errors.sex}
                         placeholder={msg}
                       >
                         <option value="">{msg}</option>
@@ -96,6 +97,7 @@ const CustomerModalForm = ({ isOpen, closeHandle, headerTitle }) => {
                       </Input>
                     )}
                   </FormattedMessage>
+                  <FormHookErrorMessage error={errors.sex} />
                 </Col>
                 <Col sm={4}>
                   <Input
