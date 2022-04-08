@@ -5,6 +5,7 @@ import noImage from "../../../images/No_image_available.svg";
 import { thumbnail } from "../../../libs/apis/image.api";
 import ProductImageView from "./ProductImageView";
 import { hasText } from "../../../utils/util";
+import productApi from "../../../libs/apis/product/product.api";
 
 const ProductView = ({ item }) => {
   const [isViewImage, setIsViewImage] = useState(false);
@@ -33,7 +34,7 @@ const ProductView = ({ item }) => {
       </div>
       {hasText(item?.thumbnail) ? (
         <ProductImageView
-          id={item.id}
+          getAssetsApi={() => productApi.assets(item.id)}
           isOpen={isViewImage}
           onClose={() => setIsViewImage(false)}
         />

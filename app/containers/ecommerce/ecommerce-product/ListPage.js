@@ -2,6 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
 import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
 import {
   deletePagePattern,
@@ -20,7 +21,8 @@ import {
   SORT_DIR,
 } from "../../../components/ListWidget/constants";
 import { ECOMMERCE_PRODUCT_ROOT_PATH } from "../constants";
-import ProductView from "../../../components/common/product/ProductView";
+import EcommerceProductView from "../components/EcommerceProductView";
+import messages from "../messages";
 
 const ROOT_PATH = ECOMMERCE_PRODUCT_ROOT_PATH;
 
@@ -28,45 +30,42 @@ const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: "Product",
+        header: "Sản phẩm bán",
         data: "type",
         sort: {
           name: "type",
         },
-        render: row => <ProductView item={row.product} />,
+        render: row => <EcommerceProductView item={row} />,
       },
       {
-        header: "Web Name",
-        data: "webDisplayName",
+        header: <span className="text-nowrap">Giá</span>,
+        data: "amount",
         render: row => (
           <>
-            <p className="mb-0">
-              {row.webDisplayName}
-              <br />
-              <small className="text-info">({row.shortName})</small>
-            </p>
+            <Price amount={row.price} />/{row.unit.name}
           </>
         ),
-        width: "20%",
-      },
-      {
-        header: <span className="text-nowrap">Price</span>,
-        data: "amount",
-        render: row => <Price amount={row.price} />,
         sort: {
           name: "price",
         },
-        class: "min text-right",
+        class: "min",
       },
       {
-        header: <span className="text-nowrap">Tax Set</span>,
+        header: "Cần xuất kho",
+        data: "webDisplayName",
+        class: "min text-center",
+        render: row =>
+          row.enableWarehouse ? (
+            <span className="badge badge-info">ENABLE</span>
+          ) : (
+            <span className="badge badge-secondary">DISABLE</span>
+          ),
+      },
+      {
+        header: <span className="text-nowrap">Thuế bán</span>,
         data: "taxSet",
         render: row => row.taxSet?.name,
         class: "min text-center",
-      },
-      {
-        header: "Remark",
-        data: "remark",
       },
       LastModifiedByColumn,
       {
@@ -117,13 +116,19 @@ const ListPage = ({ history }) => {
             onClose={item => {
               history.goBack();
               if (item) {
-                toast.success(`Delete Cost ${item.name} Success`);
+                toast.success(
+                  `Delete Ecommerce Product ${item.webDisplayName} Success`,
+                );
               }
             }}
-            title="Delete Cost?"
+            title="Delete Ecommerce Product?"
             message={row => {
               if (!row) return "";
-              return `Are you sure to delete ${row.name} ?`;
+              return (
+                <>
+                  Are you sure to delete <strong>{row.webDisplayName}</strong> ?
+                </>
+              );
             }}
           />
         )}
@@ -136,7 +141,12 @@ const ListPage = ({ history }) => {
 
   return (
     <ListWidget
-      pageHeader={<PageTitle title="Ecommerce Product" actions={actions} />}
+      pageHeader={
+        <PageTitle
+          title={<FormattedMessage {...messages.header} />}
+          actions={actions}
+        />
+      }
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={EcommerceProductApi.search}
@@ -144,7 +154,6 @@ const ListPage = ({ history }) => {
       initPage={1}
       initSize={10}
       initSorts={{ lastModifiedDate: SORT_DIR.DESC }}
-      enableSelectColumn
     />
   );
 };

@@ -12,12 +12,12 @@ import {
   ModalHeader,
 } from "reactstrap";
 import { API_STATE, useApi } from "../../../libs/hooks/useApi";
-import productApi from "../../../libs/apis/product/product.api";
 import ModalOKButton from "../../button/ModalOKButton";
 import { cloudImageUrl } from "../../../libs/apis/image.api";
+import "./ProductImageView.scss";
 
-const ProductImageView = ({ id, isOpen, onClose }) => {
-  const { exec, state } = useApi(productApi.assets);
+const ProductImageView = ({ isOpen, onClose, getAssetsApi }) => {
+  const { exec, state } = useApi(getAssetsApi);
   const [items, setItems] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
@@ -41,9 +41,9 @@ const ProductImageView = ({ id, isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      exec(id);
+      exec();
     }
-  }, [id, isOpen]);
+  }, [isOpen]);
 
   useEffect(() => {
     if (state.status === API_STATE.SUCCESS) {
@@ -72,15 +72,23 @@ const ProductImageView = ({ id, isOpen, onClose }) => {
   );
 
   return (
-    <Modal scrollable size="xl" isOpen={isOpen} fade={false}>
-      <ModalHeader toggle={onClose}>Image</ModalHeader>
+    <Modal
+      scrollable
+      size="xl"
+      isOpen={isOpen}
+      fade={false}
+      className="product-image-view"
+    >
+      <ModalHeader toggle={onClose} tag="div">
+        <div className="row">
+          <div className="col-auto">Image</div>
+          <div className="col text-center">
+            <strong>{items[activeIndex]?.name}</strong>
+          </div>
+        </div>
+      </ModalHeader>
       <ModalBody>
         <Carousel activeIndex={activeIndex} next={next} previous={previous}>
-          <CarouselIndicators
-            items={items}
-            activeIndex={activeIndex}
-            onClickHandler={goToIndex}
-          />
           {slides}
           <CarouselControl
             direction="prev"
@@ -95,6 +103,11 @@ const ProductImageView = ({ id, isOpen, onClose }) => {
         </Carousel>
       </ModalBody>
       <ModalFooter>
+        <CarouselIndicators
+          items={items}
+          activeIndex={activeIndex}
+          onClickHandler={goToIndex}
+        />
         <ModalOKButton type="button" onClick={onClose}>
           Close
         </ModalOKButton>
@@ -104,7 +117,7 @@ const ProductImageView = ({ id, isOpen, onClose }) => {
 };
 
 ProductImageView.propTypes = {
-  id: PropTypes.number.isRequired,
+  getAssetsApi: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
 };

@@ -36,7 +36,11 @@ const AuditItem = ({ item, intl }) => {
     remark,
   } = item;
 
-  let rs = "Unknown";
+  let rs = (
+    <strong>
+      {createdBy.displayName || createdBy.email} - {actionId} - {relativeId}
+    </strong>
+  );
   const values = {
     name: <strong>{createdBy.displayName || createdBy.email}</strong>,
     item: (

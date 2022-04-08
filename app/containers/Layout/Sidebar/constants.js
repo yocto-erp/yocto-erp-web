@@ -23,10 +23,7 @@ import {
   TEMPLATE_EMAIL_ROOT_PATH,
   TEMPLATE_PRINT_ROOT_PATH,
 } from "../../template/constants";
-import {
-  ECOMMERCE_CONFIGURATION_ROOT_PATH,
-  ECOMMERCE_PRODUCT_ROOT_PATH,
-} from "../../ecommerce/constants";
+import { ECOMMERCE_MENU_SETTING } from "../../ecommerce/constants";
 import { SHOP_ROOT_PATH } from "../../shop/constants";
 import { STUDENT_CLASS_ROOT_PATH } from "../../student/student-class/constants";
 import { STUDENT_BUS_STOP_ROOT_PATH } from "../../student/student-bus-stop/constants";
@@ -230,29 +227,7 @@ export const SIDE_BAR_MENU = {
       ],
     },
     {
-      header: "Ecommerce",
-      link: "",
-      iconName: "fa fa-shopping-basket",
-      isHeader: true,
-      index: "ecommerce",
-      permission: PERMISSION.TEMPLATE.READ,
-      children: [
-        {
-          header: "Product",
-          link: ECOMMERCE_PRODUCT_ROOT_PATH,
-          index: "ecommerce.product",
-        },
-        {
-          header: "Order",
-          link: TEMPLATE_EMAIL_ROOT_PATH,
-          index: "ecommerce.order",
-        },
-        {
-          header: "Setting",
-          link: ECOMMERCE_CONFIGURATION_ROOT_PATH,
-          index: "ecommerce.setting",
-        },
-      ],
+      ...ECOMMERCE_MENU_SETTING,
     },
     {
       header: "Mẫu tài liệu",

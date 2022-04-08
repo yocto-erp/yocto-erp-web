@@ -14,6 +14,10 @@ export default function Audit() {
         render: row => <AuditItem item={row} />,
       },
       {
+        header: "Remark",
+        data: "remark",
+      },
+      {
         header: "Action Date",
         data: "createdDate",
         sort: {
