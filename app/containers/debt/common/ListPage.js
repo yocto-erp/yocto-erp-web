@@ -1,26 +1,16 @@
 import React from "react";
-import { Route } from "react-router-dom";
 import { PropTypes } from "prop-types";
-import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
 import Filter from "./Filter";
 import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
-import {
-  deletePagePattern,
-  editPage,
-  onDelete,
-} from "../../../libs/utils/crud.util";
 import PageTitle from "../../Layout/PageTitle";
-import { DEBT_COMMON_ROOT_PATH } from "../constants";
+import { DEBT_LIST_ROOT_PATH } from "../constants";
 import ListWidget from "../../../components/ListWidget";
-import DeleteConfirmModal from "../../../components/modal/DeleteConfirmModal";
-import {
-  CreatedByColumn,
-  SORT_DIR,
-} from "../../../components/ListWidget/constants";
-import debtApi from "../../../libs/apis/debt/debt.api";
+import { SORT_DIR } from "../../../components/ListWidget/constants";
 import messages from "../messages";
 import SubjectView from "../../partner/subject/components/SubjectView";
+import debtCommonApi from "../../../libs/apis/debt/debt-common.api";
+import Price from "../../../components/common/Price";
 
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
@@ -29,29 +19,35 @@ const ListPage = ({ history }) => {
         header: "Đối tác",
         data: "type",
         render: row => (
-          <FormattedMessage {...messages[`listPageType${row.type}`]} />
+          <FormattedMessage {...messages[`listPageType${row.subject.type}`]} />
         ),
       },
       {
         header: "Thông tin",
-        data: "gsm",
-        render: row => <SubjectView item={row} isShowTagging />,
+        data: "info",
+        render: row => <SubjectView item={row.subject} isShowTagging />,
       },
       {
-        header: "Remark",
-        data: "remark",
+        header: "Số tiền phải thu",
+        data: "debit",
+        class: "min",
+        render: row => <Price amount={row?.debit} />,
       },
-      CreatedByColumn,
+      {
+        header: "Số tiền phải trả",
+        data: "credit",
+        class: "min",
+        render: row => <Price amount={row?.credit} />,
+      },
       {
         header: "Action",
         data: "",
         class: "action",
-        render: row => (
+        render: () => (
           <TableActionColumns
-            onEdit={() => {
-              history.push(editPage(DEBT_COMMON_ROOT_PATH, row.id));
+            onView={() => {
+              history.push(DEBT_LIST_ROOT_PATH);
             }}
-            onDelete={onDelete(DEBT_COMMON_ROOT_PATH, row.id, history)}
           />
         ),
       },
@@ -61,37 +57,6 @@ const ListPage = ({ history }) => {
 
   const search = { search: "" };
 
-  const deleteConfirmDialog = React.useMemo(
-    () => (
-      <Route
-        path={deletePagePattern(DEBT_COMMON_ROOT_PATH)}
-        render={({
-          match: {
-            params: { id },
-          },
-        }) => (
-          <DeleteConfirmModal
-            id={id}
-            deleteApi={debtApi.remove}
-            readApi={debtApi.read}
-            routePattern={DEBT_COMMON_ROOT_PATH}
-            onClose={item => {
-              history.goBack();
-              if (item) {
-                toast.success(`Delete Partner Success`);
-              }
-            }}
-            title="Delete Partner?"
-            message={row => {
-              if (!row) return "";
-              return `Are you sure to delete partner`;
-            }}
-          />
-        )}
-      />
-    ),
-    [],
-  );
   return (
     <ListWidget
       pageHeader={
@@ -99,13 +64,12 @@ const ListPage = ({ history }) => {
           title={<FormattedMessage {...messages.listPageCommonHeader} />}
         />
       }
-      deleteDialog={deleteConfirmDialog}
       columns={columns}
-      fetchData={debtApi.search}
+      fetchData={debtCommonApi.search}
       initFilter={search}
       initPage={1}
       initSize={10}
-      initSorts={{ createdDate: SORT_DIR.DESC }}
+      initSorts={{ subjectId: SORT_DIR.DESC }}
     >
       <Filter />
     </ListWidget>

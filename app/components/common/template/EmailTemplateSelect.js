@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button, InputGroup, InputGroupAddon } from 'reactstrap';
-import AsyncSelect from 'react-select/async';
-import classNames from 'classnames';
-import debounce from 'lodash/debounce';
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from '../../constants';
-import { templateEmailApi } from '../../../libs/apis/template/template.api';
-import MailMergeConfigure from '../../../containers/tools/mail-merge/components/MailMergeConfigure';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button, InputGroup, InputGroupAddon } from "reactstrap";
+import AsyncSelect from "react-select/async";
+import classNames from "classnames";
+import debounce from "lodash/debounce";
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../constants";
+import { templateEmailApi } from "../../../libs/apis/template/template.api";
+import MailMergeConfigure from "../../../containers/tools/mail-merge/components/MailMergeConfigure";
 
 const formatOptionLabel = data => (
   <div className="text-white">
-    <span>{data.template ? data.template.name : ''}</span>
+    <span>{data.template ? data.template.name : ""}</span>
   </div>
 );
 
@@ -48,7 +48,7 @@ const EmailTemplateSelect = React.forwardRef((
   }, 300);
   return (
     <>
-      <InputGroup className={classNames({ 'is-invalid': invalid })} {...props}>
+      <InputGroup className={classNames({ "is-invalid": invalid })} {...props}>
         {enableAction ? (
           <InputGroupAddon addonType="prepend">
             <Button
@@ -75,7 +75,7 @@ const EmailTemplateSelect = React.forwardRef((
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any Email Template with search "${inputValue}", try to search another`
-              : 'Input and search Email Template'
+              : "Input and search Email Template"
           }
           loadOptions={loadOptions}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}

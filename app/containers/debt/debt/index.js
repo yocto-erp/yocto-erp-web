@@ -13,7 +13,7 @@ import CreatePagePaid from "./paid/CreatePagePaid";
 import {
   DEBT_DEBIT_ROOT_PATH,
   DEBT_LIST_ROOT_PATH,
-  DEBT_PAY_ROOT_PATH,
+  DEBT_PAID_ROOT_PATH,
 } from "../constants";
 
 const MAIN_PATH = DEBT_LIST_ROOT_PATH;
@@ -23,12 +23,12 @@ function DebtListPage() {
     <Switch>
       <Route
         exact
-        path={`${editPagePattern(DEBT_PAY_ROOT_PATH)}`}
+        path={`${editPagePattern(DEBT_PAID_ROOT_PATH)}`}
         component={EditPagePaid}
       />
       <Route
         exact
-        path={`${newPage(DEBT_PAY_ROOT_PATH)}`}
+        path={`${newPage(DEBT_PAID_ROOT_PATH)}`}
         component={CreatePagePaid}
       />
       <Route

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Col, Form, Label, Row } from "reactstrap";
@@ -14,30 +14,17 @@ import messages from "../../messages";
 import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../../libs/apis/tagging.api";
 import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
-import CustomerSelect from "../../../../components/common/customer/CustomerSelect";
 import debtApi from "../../../../libs/apis/debt/debt.api";
 import FormError from "../../../../components/Form/FormError";
 import FormGroup from "../../../../components/Form/FormGroup";
-import CompanySelect from "../../../../components/common/company/CompanySelect";
 import InputNumber from "../../../../components/Form/InputNumber";
-import {
-  LIST_SUBJECT_TYPE,
-  SUBJECT_TYPE,
-} from "../../../partner/subject/constants";
+import { DEBIT_TYPE, LIST_PAID_TYPE, PAID_TYPE } from "../../constants";
+import { ERROR } from "../../../../components/Form/messages";
+import SelectSubject from "../../../partner/subject/components/SelectSubject";
+import SelectSettleDebtId from "../../components/SelectSettleDebtId";
 
 const validationSchema = Yup.object().shape({
-  person: Yup.object().when("type", {
-    is: val => Number(val) === SUBJECT_TYPE.PERSONAL,
-    then: Yup.object()
-      .nullable()
-      .required(),
-  }),
-  company: Yup.object().when("type", {
-    is: val => Number(val) === SUBJECT_TYPE.COMPANY,
-    then: Yup.object()
-      .nullable()
-      .required(),
-  }),
+  name: Yup.string().required(ERROR.required),
   type: Yup.string().required(),
   amount: Yup.number()
     .typeError("This field is required.")
@@ -52,9 +39,9 @@ function MyFormPaid({ id }) {
     register,
     submit,
     errors,
-    watch,
     control,
     setValue,
+    watch,
     state: { isLoading, formData, errors: serverErrors },
     formState: { isDirty, isValid },
   } = useHookCRUDForm({
@@ -62,32 +49,30 @@ function MyFormPaid({ id }) {
     update,
     read,
     onSuccess: resp => {
-      let msg = "";
-      if (Number(resp.type) === SUBJECT_TYPE.COMPANY) {
-        msg = resp.company.name;
-      } else {
-        msg =
-          resp.person.fullName ||
-          `${resp.person.firstName} ${resp.person.lastName}`;
-      }
       toast.success(
-        id ? `Update Debit ${msg} success` : `Create Debit ${msg} success`,
+        id
+          ? `Update Paid ${resp.name} Success!`
+          : `Create Paid ${resp.name} Success!`,
       );
     },
     validationSchema,
     initForm: {
-      person: null,
-      company: null,
-      type: SUBJECT_TYPE.PERSONAL,
+      name: "",
+      type: PAID_TYPE.RECOVERY_PUBLIC_DEBT,
       remark: "",
-      contactPerson: null,
       amount: "",
       tagging: [],
+      settleDebtId: null,
+      subject: null,
     },
     id,
   });
 
-  const type = watch("type");
+  const typeDebit = watch("type");
+
+  useEffect(() => {
+    console.log("ServerErrors", serverErrors);
+  }, [serverErrors]);
 
   return (
     <Widget>
@@ -96,108 +81,80 @@ function MyFormPaid({ id }) {
         <Row>
           <Col xs="12" sm="6" md="12" lg="6" xl="6">
             <FormGroupInput
-              className={id ? "hide" : ""}
-              label="Loại đối tác"
+              label="Name"
+              isRequired
+              name="name"
+              type="text"
+              error={errors.name}
+              register={register}
+              placeholder="Name"
+            />
+            <FormGroupInput
+              label="Loại trả nợ"
               name="type"
               type="select"
               register={register}
-              error={errors.type}
+              error={errors.typeDebit}
             >
-              <option value="">Chọn loại đối tác</option>
-              {LIST_SUBJECT_TYPE.map(t => (
+              {LIST_PAID_TYPE.map(t => (
                 <option key={t.id} value={t.id}>
                   {t.name}
                 </option>
               ))}
             </FormGroupInput>
-            {Number(type) === SUBJECT_TYPE.COMPANY ? (
-              <FormattedMessage {...messages.formCompanyLabel}>
-                {msg => (
-                  <FormGroup isRequired label={msg}>
-                    <Controller
-                      name="company"
-                      defaultValue={formData.company}
-                      control={control}
-                      render={({ onChange, ...data }, { invalid }) => (
-                        <CompanySelect
-                          id="company"
-                          placeholder={msg}
-                          invalid={invalid}
-                          onAdded={newCompany => {
-                            setValue("company", newCompany, {
-                              shouldValidate: true,
-                            });
-                          }}
-                          onChange={val => {
-                            onChange(val);
-                          }}
-                          {...data}
-                        />
-                      )}
-                    />
-                    <FormHookErrorMessage error={errors.company} />
-                  </FormGroup>
+            <FormGroup>
+              <Label for="name" className="mr-sm-2">
+                Debt
+              </Label>
+              <Controller
+                name="settleDebtId"
+                defaultValue={formData.settleDebtId}
+                control={control}
+                render={({ onChange, ...data }, { invalid }) => (
+                  <SelectSettleDebtId
+                    id="settleDebtId"
+                    placeholder="settleDebtId"
+                    debtType={
+                      +typeDebit === PAID_TYPE.RECOVERY_PUBLIC_DEBT
+                        ? [DEBIT_TYPE.RECEIVABLES]
+                        : [DEBIT_TYPE.TO_PAY_DEBT]
+                    }
+                    invalid={invalid}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
                 )}
-              </FormattedMessage>
-            ) : (
-              <FormattedMessage {...messages.formPersonLabel}>
-                {msg => (
-                  <FormGroup isRequired label={msg}>
-                    <Controller
-                      name="person"
-                      defaultValue={formData.person}
-                      control={control}
-                      render={({ onChange, ...data }, { invalid }) => (
-                        <CustomerSelect
-                          id="person"
-                          placeholder={msg}
-                          invalid={invalid}
-                          onAdded={newPerson => {
-                            setValue("person", newPerson, {
-                              shouldValidate: true,
-                            });
-                          }}
-                          onChange={val => {
-                            onChange(val);
-                          }}
-                          {...data}
-                        />
-                      )}
-                    />
-                    <FormHookErrorMessage error={errors.person} />
-                  </FormGroup>
+              />
+              <FormHookErrorMessage error={errors.settleDebtId} />
+            </FormGroup>
+            <FormGroup>
+              <Label for="name" className="mr-sm-2">
+                Partner
+              </Label>
+              <Controller
+                name="subject"
+                defaultValue={formData.subject}
+                control={control}
+                render={({ onChange, ...data }, { invalid }) => (
+                  <SelectSubject
+                    id="subject"
+                    placeholder="Choose Partner"
+                    invalid={invalid}
+                    onAdded={newCompany => {
+                      setValue("subject", newCompany, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
                 )}
-              </FormattedMessage>
-            )}
-            {Number(type) === SUBJECT_TYPE.COMPANY ? (
-              <FormGroup>
-                <Label for="person" className="mr-sm-2">
-                  <FormattedMessage {...messages.formContactPerson} />
-                </Label>
-                <Controller
-                  name="contactPerson"
-                  defaultValue={formData.contactPerson}
-                  control={control}
-                  render={({ onChange, ...data }) => (
-                    <FormattedMessage {...messages.formContactPerson}>
-                      {msg => (
-                        <CustomerSelect
-                          id="contactPerson"
-                          placeholder={msg}
-                          onAdded={newCustomer => {
-                            setValue("contactPerson", newCustomer, {
-                              shouldValidate: true,
-                            });
-                          }}
-                          onChange={onChange}
-                          {...data}
-                        />
-                      )}
-                    </FormattedMessage>
-                  )}
-                />
-              </FormGroup>
-            ) : null}
+              />
+            </FormGroup>
             <FormGroup>
               <Label for="name" className="mr-sm-2">
                 Amount

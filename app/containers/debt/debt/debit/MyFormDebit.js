@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Col, Form, Label, Row } from "reactstrap";
@@ -18,8 +18,7 @@ import debtApi from "../../../../libs/apis/debt/debt.api";
 import FormError from "../../../../components/Form/FormError";
 import FormGroup from "../../../../components/Form/FormGroup";
 import InputNumber from "../../../../components/Form/InputNumber";
-import { SUBJECT_TYPE } from "../../../partner/subject/constants";
-import { DEBT_TYPE } from "../../constants";
+import { DEBIT_TYPE, LIST_DEBIT_TYPE } from "../../constants";
 import { ERROR } from "../../../../components/Form/messages";
 import SelectSubject from "../../../partner/subject/components/SelectSubject";
 
@@ -39,7 +38,6 @@ function MyFormDebit({ id }) {
     register,
     submit,
     errors,
-    watch,
     control,
     setValue,
     state: { isLoading, formData, errors: serverErrors },
@@ -48,34 +46,29 @@ function MyFormDebit({ id }) {
     create,
     update,
     read,
-    mappingToServer: form => ({
-      ...form,
-      type: DEBT_TYPE.DEBIT,
-    }),
     onSuccess: resp => {
-      let msg = "";
-      if (Number(resp.subjectType) === SUBJECT_TYPE.COMPANY) {
-        msg = resp.company.name;
-      } else {
-        msg =
-          resp.person.fullName ||
-          `${resp.person.firstName} ${resp.person.lastName}`;
-      }
       toast.success(
-        id ? `Update Debit ${msg} success` : `Create Debit ${msg} success`,
+        id
+          ? `Update Debit ${resp.name} Success!`
+          : `Create Debit ${resp.name} Success!`,
       );
     },
     validationSchema,
     initForm: {
       name: "",
+      type: DEBIT_TYPE.RECEIVABLES,
       remark: "",
       amount: "",
       tagging: [],
+      settleDebtId: null,
+      subject: null,
     },
     id,
   });
 
-  const subjectType = watch("subjectType");
+  useEffect(() => {
+    console.log("ServerErrors", serverErrors);
+  }, [serverErrors]);
 
   return (
     <Widget>
@@ -90,6 +83,7 @@ function MyFormDebit({ id }) {
               type="text"
               error={errors.name}
               register={register}
+              placeholder="Name"
             />
             <FormGroup>
               <Label for="name" className="mr-sm-2">
@@ -117,6 +111,19 @@ function MyFormDebit({ id }) {
                 )}
               />
             </FormGroup>
+            <FormGroupInput
+              label="Loại ghi nợ"
+              name="type"
+              type="select"
+              register={register}
+              error={errors.typeDebit}
+            >
+              {LIST_DEBIT_TYPE.map(t => (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              ))}
+            </FormGroupInput>
             <FormGroup>
               <Label for="name" className="mr-sm-2">
                 Amount
