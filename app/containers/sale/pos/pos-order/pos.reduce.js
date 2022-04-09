@@ -117,7 +117,7 @@ function changeOrderPaymentAmount(state, action) {
   const { currentOrder, orders } = state;
   const order = orders[currentOrder];
   order.paymentAmountInput = amount;
-  order.paymentAmount = amount;
+  order.paymentAmount = amount || 0;
   orders[currentOrder] = calculateOrder(order);
   return { ...state, orders: [...state.orders] };
 }

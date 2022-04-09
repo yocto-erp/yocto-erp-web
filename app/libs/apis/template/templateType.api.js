@@ -1,6 +1,6 @@
-import useSWR from 'swr';
-import { fetchJSON } from '../fetch';
-import { API_URL } from '../../../constants';
+import useSWR from "swr";
+import { fetchJSON } from "../fetch";
+import { API_URL } from "../../../constants";
 
 const API_ENDPOINT_URL = `${API_URL}/template/type`;
 
@@ -18,7 +18,7 @@ export const templateTypeApi = {
 export const useTemplateType = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: templateType, error, mutate } = useSWR(
-    'getTemplateType',
+    "getTemplateType",
     templateTypeApi.search,
     {
       initialData: [],
@@ -40,7 +40,7 @@ export const useTemplateType = () => {
 export const useTemplateTypeId = id => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: templateType, error, mutate } = useSWR(
-    () => (id ? ['getTemplateTypeId', id] : null),
+    () => (id ? ["getTemplateTypeId", id] : null),
     (url, _id) => {
       console.log(url);
       console.log(_id);

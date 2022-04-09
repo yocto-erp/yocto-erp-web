@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { TAX_TYPE } from "../../../finance/constants";
-import { multiply, plus } from "../../../../libs/utils/math.util";
+import { multiply, plus, subtract } from "../../../../libs/utils/math.util";
 
 export const initProduct = prod => ({
   product: prod,
@@ -70,7 +70,7 @@ export function calculateOrder(order) {
     tax: 0,
   };
   if (order) {
-    const { products } = order;
+    const { products, paymentAmount } = order;
     for (let i = 0; i < products.length; i += 1) {
       const product = products[i];
       const price = multiply(product.qty, product.product.price);
@@ -93,6 +93,8 @@ export function calculateOrder(order) {
         }
       }
     }
+    rs.return = subtract(paymentAmount, rs.total);
+    rs.debt = subtract(rs.total, paymentAmount);
   }
   console.log(order);
   return { ...order, ...rs };

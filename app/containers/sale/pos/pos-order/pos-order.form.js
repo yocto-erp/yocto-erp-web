@@ -208,7 +208,7 @@ const PosOrderForm = () => {
                   <InputAmount
                     placeholder="Khách hàng trả"
                     onChange={val => dispatch(onChangeOrderPaymentAmount(val))}
-                    value={order.paymentAmount}
+                    value={order.paymentAmountInput}
                   />
                 </div>
                 <div className="col-md-3 p-0 pl-1">
