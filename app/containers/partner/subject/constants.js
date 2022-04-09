@@ -25,6 +25,7 @@ export const mappingSubject = sub => {
   }
   const { type, company, person, contactPerson, image, remark } = sub;
   const rs = {
+    id: sub.id,
     name: "",
     companyName: "",
     type,

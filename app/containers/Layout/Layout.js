@@ -16,12 +16,12 @@ import { PRODUCT_ROOT_PATH } from "../product/constants";
 import ProductPage from "../product/Loadable";
 import InventoryPage from "../inventory/Loadable";
 import { INVENTORY_ROOT_PATH } from "../inventory/constants";
-import { PURCHASE_ROOT_PATH } from "../order/purchase/constants";
+import { PURCHASE_ORDER_ROOT_PATH } from "../order/purchase/constants";
 import PurchasePage from "../order/purchase/Loadable";
 import { COST_ROOT_PATH } from "../cost/constants";
 import CostPage from "../cost";
-import { SALE_ROOT_PATH } from "../order/sale/constants";
-import SalePage from "../order/sale/Loadable";
+import { SALE_ORDER_ROOT_PATH } from "../order/sale/constants";
+import SaleOrderPage from "../order/sale/Loadable";
 import { PARTNER_ROOT_PATH } from "../partner/constants";
 import PartnerPage from "../partner/Loadable";
 import { STUDENT_ROOT_PATH } from "../student/constants";
@@ -54,17 +54,13 @@ import UserPage from "../user/Loadable";
 import { ADMIN_PATH } from "../../constants";
 import EcommercePage from "../ecommerce/Loadable";
 import { ECOMMERCE_ROOT_PATH } from "../ecommerce/constants";
-import { SHOP_ROOT_PATH } from "../shop/constants";
-import ShopPage from "../shop/Loadable";
-import POSPage from "../pos/Loadable";
-import TaxPage from "../tax/tax/Loadable";
-import TaxSetPage from "../tax/tax-set/Loadable";
+import SalePage from "../sale/Loadable";
 import { STUDENT_CLASS_ROOT_PATH } from "../student/student-class/constants";
 import { STUDENT_BUS_STOP_ROOT_PATH } from "../student/student-bus-stop/constants";
-import { POS_ROOT_PATH } from "../pos/constants";
-import { TAX_ROOT_PATH } from "../tax/tax/constants";
-import { TAX_SET_ROOT_PATH } from "../tax/tax-set/constants";
 import { ASSET_ROOT_PATH } from "../../components/assets/constants";
+import { FINANCE_ROOT_PATH } from "../finance/constants";
+import FinancePage from "../finance/Loadable";
+import { SALE_ROOT_PATH } from "../sale/constants";
 
 function Layout({
   sidebarPosition,
@@ -106,8 +102,11 @@ function Layout({
                   exact
                   component={Dashboard}
                 />
-                <Route path={SALE_ROOT_PATH} component={SalePage} />
-                <Route path={PURCHASE_ROOT_PATH} component={PurchasePage} />
+                <Route path={SALE_ORDER_ROOT_PATH} component={SaleOrderPage} />
+                <Route
+                  path={PURCHASE_ORDER_ROOT_PATH}
+                  component={PurchasePage}
+                />
                 <Route
                   path={`${WAREHOUSE_ROOT_PATH}`}
                   component={WarehousePage}
@@ -155,10 +154,8 @@ function Layout({
                 <Route path={`${TAGGING_ROOT_PATH}`} component={TaggingPage} />
                 <Route path={ASSET_ROOT_PATH} component={FileBrowser} />
                 <Route path={`${USER_ROOT_PATH}`} component={UserPage} />
-                <Route path={`${SHOP_ROOT_PATH}`} component={ShopPage} />
-                <Route path={POS_ROOT_PATH} component={POSPage} />
-                <Route path={TAX_ROOT_PATH} component={TaxPage} />
-                <Route path={TAX_SET_ROOT_PATH} component={TaxSetPage} />
+                <Route path={SALE_ROOT_PATH} component={SalePage} />
+                <Route path={FINANCE_ROOT_PATH} component={FinancePage} />
               </Switch>
               <Footer />
             </div>

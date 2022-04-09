@@ -2,7 +2,7 @@ import { AUDIT_ROOT_PATH } from "../../Audit/constants";
 import { TAGGING_ROOT_PATH } from "../../tagging/constants";
 import { USER_ROOT_PATH } from "../../user/constants";
 import { ADMIN_PATH, PERMISSION } from "../../../constants";
-import { PURCHASE_ROOT_PATH } from "../../order/purchase/constants";
+import { PURCHASE_ORDER_ROOT_PATH } from "../../order/purchase/constants";
 import { COST_ROOT_PATH } from "../../cost/constants";
 import { INVENTORY_ROOT_PATH } from "../../inventory/constants";
 import {
@@ -23,14 +23,15 @@ import {
   TEMPLATE_EMAIL_ROOT_PATH,
   TEMPLATE_PRINT_ROOT_PATH,
 } from "../../template/constants";
-import { ECOMMERCE_MENU_SETTING } from "../../ecommerce/constants";
-import { SHOP_ROOT_PATH } from "../../shop/constants";
+import { SALE_MENU_SETTING } from "../../ecommerce/constants";
+import { SHOP_ROOT_PATH } from "../../sale/shop/constants";
 import { STUDENT_CLASS_ROOT_PATH } from "../../student/student-class/constants";
 import { STUDENT_BUS_STOP_ROOT_PATH } from "../../student/student-bus-stop/constants";
-import { POS_ROOT_PATH } from "../../pos/constants";
-import { TAX_ROOT_PATH } from "../../tax/tax/constants";
-import { TAX_SET_ROOT_PATH } from "../../tax/tax-set/constants";
+import { POS_ROOT_PATH } from "../../sale/pos/constants";
+import { TAX_ROOT_PATH } from "../../finance/tax/tax/constants";
+import { TAX_SET_ROOT_PATH } from "../../finance/tax/tax-set/constants";
 import { ASSET_ROOT_PATH } from "../../../components/assets/constants";
+import { PAYMENT_ROOT_PATH } from "../../finance/payment/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -57,7 +58,7 @@ export const SIDE_BAR_MENU = {
       header: "Mua hàng",
       isHeader: true,
       iconName: "fi flaticon-network",
-      link: PURCHASE_ROOT_PATH,
+      link: PURCHASE_ORDER_ROOT_PATH,
       index: "purchase",
       permission: PERMISSION.ORDER.PURCHASE.READ,
     },
@@ -205,6 +206,7 @@ export const SIDE_BAR_MENU = {
         {
           header: "Danh sách thuế",
           link: TAX_ROOT_PATH,
+          exact: true,
           index: "finance.tax",
           permission: [PERMISSION.TAX.READ],
           isHeader: true,
@@ -213,13 +215,21 @@ export const SIDE_BAR_MENU = {
           header: "Danh sách nhóm thuế",
           link: TAX_SET_ROOT_PATH,
           index: "finance.taxSet",
+          exact: true,
           permission: [PERMISSION.TAX.READ],
+          isHeader: true,
+        },
+        {
+          header: "Kênh thanh toán",
+          link: PAYMENT_ROOT_PATH,
+          exact: true,
+          index: "finance.payment",
           isHeader: true,
         },
       ],
     },
     {
-      ...ECOMMERCE_MENU_SETTING,
+      ...SALE_MENU_SETTING,
     },
     {
       header: "Mẫu tài liệu",
@@ -232,11 +242,13 @@ export const SIDE_BAR_MENU = {
         {
           header: "Mẫu in",
           link: TEMPLATE_PRINT_ROOT_PATH,
+          exact: true,
           index: "template.print",
         },
         {
           header: "Mẫu Email",
           link: TEMPLATE_EMAIL_ROOT_PATH,
+          exact: true,
           index: "template.email",
         },
       ],

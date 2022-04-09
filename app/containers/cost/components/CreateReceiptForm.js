@@ -13,7 +13,7 @@ import InputAmount from "../../../components/Form/InputAmount";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
-import PaymentSelect from "../../payment/components/PaymentSelect";
+import PaymentSelect from "../../finance/payment/components/PaymentSelect";
 import FormError from "../../../components/Form/FormError";
 import FormRow from "../../../components/Form/FormRow";
 import { DEFAULT_LABEL_COL, DEFAULT_VALUE_COL } from "../../../constants";

@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import ConfirmModal from '../../components/modal/ConfirmModal';
+import React, { useCallback, useState } from "react";
+import ConfirmModal from "../../components/modal/ConfirmModal";
 
 export const useConfirmDialog = () => {
   const [confirm, setConfirm] = useState(null);

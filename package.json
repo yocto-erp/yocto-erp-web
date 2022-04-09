@@ -150,7 +150,8 @@
     "filepond-plugin-image-preview": "^4.6.11",
     "filepond-plugin-file-validate-type": "^1.2.6",
     "react-icons": "^4.3.1",
-    "filesize": "^8.0.7"
+    "filesize": "^8.0.7",
+    "mathjs": "^10.4.3"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",

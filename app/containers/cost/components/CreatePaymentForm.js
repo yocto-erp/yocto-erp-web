@@ -23,7 +23,7 @@ import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage"
 import { ERROR } from "../../../components/Form/messages";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
-import PaymentSelect from "../../payment/components/PaymentSelect";
+import PaymentSelect from "../../finance/payment/components/PaymentSelect";
 import FormError from "../../../components/Form/FormError";
 import AssetSelect from "../../../components/assets/AssetSelect";
 import SelectSubject from "../../partner/subject/components/SelectSubject";

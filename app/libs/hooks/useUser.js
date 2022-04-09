@@ -1,9 +1,9 @@
-import useSWR from 'swr';
-import { getInfo } from '../apis/auth.api';
-import { PERMISSION_TYPE } from '../../constants';
-import { isArray } from '../../utils/util';
+import useSWR from "swr";
+import { getInfo } from "../apis/auth.api";
+import { PERMISSION_TYPE } from "../../constants";
+import { isArray } from "../../utils/util";
 
-export const SWR_KEY_USER = 'user';
+export const SWR_KEY_USER = "user";
 
 export default () => {
   const { data: user, error, mutate } = useSWR(SWR_KEY_USER, getInfo, {
@@ -19,6 +19,7 @@ export default () => {
   const isAuthenticated = !error && user != null;
   const isLoading = !user && !error;
 
+  // eslint-disable-next-line no-unused-vars
   const isHasAnyPermission = ({ permission, type = PERMISSION_TYPE.FULL }) => {
     let rs = false;
     if (user && user.permissions) {

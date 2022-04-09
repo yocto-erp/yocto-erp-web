@@ -1,3 +1,3 @@
-import { ADMIN_PATH } from '../../../constants';
+import { ORDER_ROOT_PATH } from "../constants";
 
-export const PURCHASE_ROOT_PATH = `${ADMIN_PATH}/purchase`;
+export const PURCHASE_ORDER_ROOT_PATH = `${ORDER_ROOT_PATH}/purchase`;

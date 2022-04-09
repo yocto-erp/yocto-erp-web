@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import {
   Col,
   Form,
-  FormGroup,
-  Label,
   Modal,
   ModalBody,
   ModalFooter,
@@ -32,6 +30,7 @@ import CustomerSelect from "../../../../components/common/customer/CustomerSelec
 import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../../libs/apis/tagging.api";
 import AssetSingleSelect from "../../../../components/assets/AssetSingleSelect";
+import FormGroup from "../../../../components/Form/FormGroup";
 
 const { create, update, read } = subjectApi;
 
@@ -61,6 +60,7 @@ const SubjectModalForm = ({ isOpen, closeHandle, headerTitle, id }) => {
       toast.success(
         id ? `Update Partner ${msg} success` : `Create Partner ${msg} success`,
       );
+      closeHandle(resp);
     },
     validationSchema: subjectValidationSchema,
     initForm: {
@@ -162,17 +162,14 @@ const SubjectModalForm = ({ isOpen, closeHandle, headerTitle, id }) => {
                 </FormattedMessage>
               )}
               {Number(type) === SUBJECT_TYPE.COMPANY ? (
-                <FormGroup>
-                  <Label for="person" className="mr-sm-2">
-                    <FormattedMessage {...messages.formContactPerson} />
-                  </Label>
-                  <Controller
-                    name="contactPerson"
-                    defaultValue={formData.contactPerson}
-                    control={control}
-                    render={({ onChange, ...data }) => (
-                      <FormattedMessage {...messages.formContactPerson}>
-                        {msg => (
+                <FormattedMessage {...messages.formContactPerson}>
+                  {msg => (
+                    <FormGroup label={msg}>
+                      <Controller
+                        name="contactPerson"
+                        defaultValue={formData.contactPerson}
+                        control={control}
+                        render={({ onChange, ...data }) => (
                           <CustomerSelect
                             id="contactPerson"
                             placeholder={msg}
@@ -185,10 +182,10 @@ const SubjectModalForm = ({ isOpen, closeHandle, headerTitle, id }) => {
                             {...data}
                           />
                         )}
-                      </FormattedMessage>
-                    )}
-                  />
-                </FormGroup>
+                      />
+                    </FormGroup>
+                  )}
+                </FormattedMessage>
               ) : null}
               <FormattedMessage {...messages.formRemark}>
                 {msg => (
@@ -202,10 +199,7 @@ const SubjectModalForm = ({ isOpen, closeHandle, headerTitle, id }) => {
                   />
                 )}
               </FormattedMessage>
-              <FormGroup>
-                <Label for="tagging" className="mr-sm-2">
-                  Tagging
-                </Label>
+              <FormGroup label="Tagging">
                 <Controller
                   name="tagging"
                   id="tagging"
@@ -223,8 +217,7 @@ const SubjectModalForm = ({ isOpen, closeHandle, headerTitle, id }) => {
               </FormGroup>
             </Col>
             <Col md={6}>
-              <FormGroup>
-                <Label>Logo</Label>
+              <FormGroup label="">
                 <Controller
                   defaultValue={formData?.asset}
                   name="assets"

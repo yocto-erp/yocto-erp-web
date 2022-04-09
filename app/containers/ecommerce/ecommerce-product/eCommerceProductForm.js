@@ -17,7 +17,7 @@ import Editor from "../../../components/Form/Editor";
 import BackButton from "../../../components/button/BackButton";
 import SubmitButton from "../../../components/button/SubmitButton";
 import { transformUnNumber } from "../../../libs/utils/number.util";
-import TaxSetSelect from "../../tax/tax-set/components/TaxSetSelect";
+import TaxSetSelect from "../../finance/tax/tax-set/components/TaxSetSelect";
 import AssetSelect from "../../../components/assets/AssetSelect";
 import { MIME_TYPE } from "../../../components/assets/constants";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";

@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import isFunction from 'lodash/isFunction';
-import ModalOKButton from '../button/ModalOKButton';
-import ModalCancelButton from '../button/ModalCancelButton';
+import React from "react";
+import PropTypes from "prop-types";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import isFunction from "lodash/isFunction";
+import ModalOKButton from "../button/ModalOKButton";
+import ModalCancelButton from "../button/ModalCancelButton";
 
 const ConfirmModal = ({ message, title, onClose, isOpen = false }) => (
   <Modal className="warning" isOpen={isOpen} fade={false}>
     <ModalHeader toggle={() => onClose(false)}>
-      {title || 'Confirmation ?'}
+      {title || "Confirmation ?"}
     </ModalHeader>
     <ModalBody>{isFunction(message) ? message() : message}</ModalBody>
     <ModalFooter>

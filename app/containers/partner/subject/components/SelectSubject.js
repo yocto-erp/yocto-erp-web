@@ -39,6 +39,7 @@ const SelectSubject = React.forwardRef((
     onChange,
     value,
     creatable = true,
+    mappingValue = mappingOptionSubject,
     ...props
   },
   // eslint-disable-next-line no-unused-vars
@@ -77,7 +78,7 @@ const SelectSubject = React.forwardRef((
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           onBlur={onBlur}
-          onChange={val => onChange(mappingOptionSubject(val))}
+          onChange={val => onChange(mappingValue ? mappingValue(val) : val)}
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.id}
           name={name}
@@ -124,6 +125,7 @@ SelectSubject.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   creatable: PropTypes.bool,
+  mappingValue: PropTypes.func,
 };
 
 export default SelectSubject;

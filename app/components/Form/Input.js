@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import FormHookErrorMessage from './FormHookErrorMessage';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import FormHookErrorMessage from "./FormHookErrorMessage";
 
 const Input = ({ register, type, name, error, className, ...props }) => (
   <>
@@ -9,7 +9,7 @@ const Input = ({ register, type, name, error, className, ...props }) => (
       type={type}
       ref={register}
       name={name}
-      className={classNames(className, { 'is-invalid': !!error })}
+      className={classNames(className, { "is-invalid": !!error })}
       {...props}
     />
     <FormHookErrorMessage error={error} />
@@ -22,31 +22,31 @@ Input.propTypes = {
   error: PropTypes.any,
   className: PropTypes.any,
   type: PropTypes.oneOf([
-    'text',
-    'email',
-    'select',
-    'file',
-    'radio',
-    'checkbox',
-    'textarea',
-    'button',
-    'reset',
-    'submit',
-    'date',
-    'datetime-local',
-    'hidden',
-    'image',
-    'month',
-    'number',
-    'range',
-    'search',
-    'tel',
-    'url',
-    'week',
-    'password',
-    'datetime',
-    'time',
-    'color',
+    "text",
+    "email",
+    "select",
+    "file",
+    "radio",
+    "checkbox",
+    "textarea",
+    "button",
+    "reset",
+    "submit",
+    "date",
+    "datetime-local",
+    "hidden",
+    "image",
+    "month",
+    "number",
+    "range",
+    "search",
+    "tel",
+    "url",
+    "week",
+    "password",
+    "datetime",
+    "time",
+    "color",
   ]),
 };
 

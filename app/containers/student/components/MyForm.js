@@ -244,21 +244,31 @@ function MyForm({ id }) {
                     &nbsp;
                   </Label>
                   <div className="radio abc-radio abc-radio-success pl-0">
-                    <input
-                      defaultChecked={
-                        formData.mainContact === MAIN_CONTACT_TYPE.FATHER
-                      }
-                      type="radio"
-                      className="form-check-input"
+                    <Controller
                       name="mainContact"
-                      onClick={e => {
-                        console.log("setFATHERvalue", e.currentTarget.value);
-                        setValue("mainContact", e.currentTarget.value, {
-                          shouldDirty: true,
-                        });
-                      }}
-                      id="fatherMainContact"
-                      value={MAIN_CONTACT_TYPE.FATHER}
+                      control={control}
+                      render={() => (
+                        <input
+                          defaultChecked={
+                            formData.mainContact === MAIN_CONTACT_TYPE.FATHER
+                          }
+                          type="radio"
+                          className="form-check-input"
+                          name="mainContact"
+                          onClick={e => {
+                            console.log(
+                              "setFATHERvalue",
+                              e.currentTarget.value,
+                            );
+                            setValue("mainContact", e.currentTarget.value, {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            });
+                          }}
+                          id="fatherMainContact"
+                          value={MAIN_CONTACT_TYPE.FATHER}
+                        />
+                      )}
                     />{" "}
                     <Label for="fatherMainContact">
                       <FormattedMessage {...studentFormMessage.fatherContact} />
@@ -324,6 +334,7 @@ function MyForm({ id }) {
                             );
                             setValue("mainContact", e.currentTarget.value, {
                               shouldDirty: true,
+                              shouldValidate: true,
                             });
                           }}
                           id="motherMainContact"

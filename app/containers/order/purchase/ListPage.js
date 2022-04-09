@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
 import purchaseApi from "../../../libs/apis/order/purchase.api";
-import { PURCHASE_ROOT_PATH } from "./constants";
+import { PURCHASE_ORDER_ROOT_PATH } from "./constants";
 import PageTitle from "../../Layout/PageTitle";
 import {
   deletePagePattern,
@@ -24,7 +24,7 @@ import Price from "../../../components/common/Price";
 import Tags from "../../../components/Form/tagging/ViewTags";
 import SubjectView from "../../partner/subject/components/SubjectView";
 
-const ROOT_PATH = PURCHASE_ROOT_PATH;
+const ROOT_PATH = PURCHASE_ORDER_ROOT_PATH;
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
