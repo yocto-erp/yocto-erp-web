@@ -63,9 +63,7 @@ const SelectSettleDebtId = React.forwardRef((
             }
             isClearable
             onBlur={onBlur}
-            onChange={val =>
-              onChange(val ? { id: val.id, name: val.name } : null)
-            }
+            onChange={val => onChange(val || null)}
             formatOptionLabel={formatOptionLabel}
             getOptionValue={data => data.id}
             name={name}

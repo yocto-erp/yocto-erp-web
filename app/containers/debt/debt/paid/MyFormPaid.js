@@ -121,6 +121,10 @@ function MyFormPaid({ id }) {
                     }
                     invalid={invalid}
                     onChange={val => {
+                      if (val) {
+                        setValue("amount", val.amount);
+                        setValue("subject", val.subject);
+                      }
                       onChange(val);
                     }}
                     {...data}
