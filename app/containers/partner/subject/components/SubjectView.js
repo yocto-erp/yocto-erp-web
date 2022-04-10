@@ -7,7 +7,7 @@ import Tags from "../../../../components/Form/tagging/ViewTags";
 import "./SubjectView.scss";
 import PersonView from "../../person/components/PersonView";
 
-const SubjectView = ({ item, isShowTagging = true }) => {
+const SubjectView = ({ item, isShowTagging = true, isShowAddress = false }) => {
   if (!item) return null;
   const rs = mappingSubject(item);
   return (
@@ -40,7 +40,7 @@ const SubjectView = ({ item, isShowTagging = true }) => {
           <br />
         </>
       ) : null}
-      {hasText(rs.address) ? (
+      {hasText(rs.address) && isShowAddress ? (
         <>
           <span className="text-nowrap">
             <i className="fa fa-map-marker fa-fw" />
@@ -63,6 +63,7 @@ const SubjectView = ({ item, isShowTagging = true }) => {
 SubjectView.propTypes = {
   item: PropTypes.object,
   isShowTagging: PropTypes.bool,
+  isShowAddress: PropTypes.bool,
 };
 
 export default SubjectView;

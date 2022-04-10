@@ -14,6 +14,7 @@ import saleApi from "../../libs/apis/order/sale.api";
 const validationSchema = Yup.object().shape({
   taggingPOSDebt: Yup.array(),
   taggingPOSCost: Yup.array(),
+  taggingPOSWarehouse: Yup.array(),
 });
 const SaleConfigurePage = () => {
   const {
@@ -101,6 +102,29 @@ const SaleConfigurePage = () => {
               control={control}
               render={({ onChange, ...data }) => (
                 <InputAsyncTagging
+                  {...data}
+                  onChange={onChange}
+                  loadOptionApi={taggingApi.search}
+                />
+              )}
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label
+            htmlFor="taggingPOSWarehouse"
+            className="col-md-3 col-form-label"
+          >
+            Phiếu xuất kho từ POS
+          </label>
+          <div className="col-md-9">
+            <Controller
+              name="taggingPOSWarehouse"
+              defaultValue={null}
+              control={control}
+              render={({ onChange, ...data }) => (
+                <InputAsyncTagging
+                  id="taggingPOSWarehouse"
                   {...data}
                   onChange={onChange}
                   loadOptionApi={taggingApi.search}

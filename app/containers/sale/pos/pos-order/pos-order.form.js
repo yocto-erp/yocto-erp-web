@@ -1,11 +1,13 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { FormattedMessage } from "react-intl";
+import { UncontrolledTooltip } from "reactstrap";
 import { usePosDispatch, usePosOrderContext } from "./pos.context";
 import {
   changeProductQty,
   onChangeOrderPaymentAmount,
   onSelectCustomer,
+  onSetShipping,
   removeOrder,
   removeProduct,
 } from "./pos.reduce";
@@ -15,11 +17,11 @@ import Input from "../../../../components/Form/Input";
 import InputAmount from "../../../../components/Form/InputAmount";
 import PosCheckOut from "./check-out.modal";
 import SelectSubject from "../../../partner/subject/components/SelectSubject";
-import { mappingSubject } from "../../../partner/subject/constants";
 import "./pos-order.scss";
 import { useConfirmDialog } from "../../../../libs/hooks/useConfirmDialog";
 
 import messages from "./messages";
+import { TAX_TYPE } from "../../../finance/tax/tax/constants";
 
 const PosOrderForm = () => {
   const order = usePosOrderContext();
@@ -33,34 +35,19 @@ const PosOrderForm = () => {
   const { openConfirm, confirmModal } = useConfirmDialog();
 
   const onSubmit = () => {
-    setCheckOutOrder({ order, form: {} });
+    setCheckOutOrder(order);
   };
-
-  const onCustomerChange = useCallback(
-    customer => {
-      dispatch(onSelectCustomer(customer));
-    },
-    [dispatch],
-  );
-
-  const customerSelect = useMemo(
-    () => (
-      <SelectSubject
-        value={order?.customer}
-        onChange={onCustomerChange}
-        onAdded={onCustomerChange}
-        mappingValue={mappingSubject}
-      />
-    ),
-    [order?.customer, onCustomerChange],
-  );
 
   const isEnableCheckout = useMemo(() => {
     let rs = false;
     if (order) {
-      const { products } = order;
+      const { products, customer, debt } = order;
       if (products.length) {
-        rs = true;
+        if (debt > 0) {
+          rs = !!customer;
+        } else {
+          rs = true;
+        }
       }
     }
     return rs;
@@ -71,7 +58,19 @@ const PosOrderForm = () => {
       {order ? (
         <div className="checkout">
           <div className="checkout-form">
-            {customerSelect}
+            <FormattedMessage {...messages.formCustomer}>
+              {msg => (
+                <SelectSubject
+                  name="customer"
+                  value={order?.customer}
+                  onChange={val => dispatch(onSelectCustomer(val))}
+                  onAdded={val => dispatch(onSelectCustomer(val))}
+                  mappingValue={null}
+                  placeholder={msg}
+                />
+              )}
+            </FormattedMessage>
+
             <OverlayScrollbarsComponent
               className="product-list mt-3"
               options={PosScrollOptions}
@@ -154,21 +153,32 @@ const PosOrderForm = () => {
               <table className="table-borderless table-sm w-100">
                 <tbody>
                   <tr>
-                    <td />
-                    <td className="text-right">
+                    <td className="text-left" id={`tax${order.id}`}>
                       Tax: <Price amount={order.tax} />{" "}
+                    </td>
+                    <td className="text-right">
+                      Total: <Price amount={order.total} />
                     </td>
                   </tr>
                   <tr>
                     <td />
                     <td className="text-right">
                       <strong className="text-danger h4">
-                        <Price amount={order.total} />
+                        <Price amount={order.totalWithTax} />
                       </strong>
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <UncontrolledTooltip target={`tax${order.id}`}>
+                {(order.taxes || []).map(t => (
+                  <p className="mb-0">
+                    {t.shortName}
+                    {t.type === TAX_TYPE.PERCENT ? ` (${t.amount}%)` : ""}:{" "}
+                    <Price amount={t.taxAmount} />
+                  </p>
+                ))}
+              </UncontrolledTooltip>
               <p />
               <p />
             </div>
@@ -186,7 +196,9 @@ const PosOrderForm = () => {
                           name="isShipping"
                           type="checkbox"
                           checked={order.isShipping}
-                          onChange={e => console.log(e)}
+                          onChange={e =>
+                            dispatch(onSetShipping(e.currentTarget.checked))
+                          }
                         />
                         <label
                           className="form-check-label"
@@ -222,9 +234,9 @@ const PosOrderForm = () => {
                   </button>
                 </div>
               </div>
-              <div className="row">
+              <div className="row justify-content-center align-items-center">
                 <div className="col-md-6 p-0">
-                  <p className="help-block mb-0">
+                  <p className="help-block mb-0 mt-0">
                     {order.return > 0 ? (
                       <span className="text-success">
                         Return: <Price amount={order.return} />{" "}
@@ -244,7 +256,10 @@ const PosOrderForm = () => {
                     onClick={() => {
                       openConfirm({
                         title: (
-                          <p className="mb-0">Delete Order {order.name}?</p>
+                          <p className="mb-0">
+                            <FormattedMessage {...messages.formBtnDelete} />{" "}
+                            {order.name}?
+                          </p>
                         ),
                         message: `Are you sure to delete this order?`,
                         onClose: isConfirm => {
@@ -255,7 +270,8 @@ const PosOrderForm = () => {
                       });
                     }}
                   >
-                    <i className="fa fa-trash" /> Xóa đơn hàng
+                    <i className="fa fa-trash" />{" "}
+                    <FormattedMessage {...messages.formBtnDelete} />
                   </button>
                 </div>
               </div>
@@ -263,13 +279,15 @@ const PosOrderForm = () => {
           </div>
         </div>
       ) : (
-        <div className="no-order text-warning">No Order</div>
+        <div className="no-order text-warning">
+          <FormattedMessage {...messages.orderEmpty} />
+        </div>
       )}
       <PosCheckOut
         order={checkoutOrder}
         onClose={res => {
           console.log(res);
-          setCheckOutOrder({ order: null, form: {} });
+          setCheckOutOrder(null);
         }}
       />
       {confirmModal}

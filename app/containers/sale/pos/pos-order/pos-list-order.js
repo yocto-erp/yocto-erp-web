@@ -13,7 +13,6 @@ const PosListOrder = () => {
   const dispatch = usePosDispatch();
   const { orders, currentOrder } = usePosListOrderContext();
 
-  console.log(orders);
   const listOrder = useMemo(
     () => (
       <div className="list-group">
@@ -33,7 +32,10 @@ const PosListOrder = () => {
               onKeyDown={() => dispatch(selectOrder(i))}
               key={`order${t.id}`}
             >
-              <p className="m-0 pr-1 text-ellipsis">
+              <p
+                className="m-0 pr-1 text-ellipsis small"
+                style={{ width: "160px" }}
+              >
                 <strong>{t.name}</strong>
                 <br />
                 <span>{t.customer?.name || "   "}</span>

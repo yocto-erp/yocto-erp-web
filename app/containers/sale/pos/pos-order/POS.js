@@ -21,6 +21,7 @@ import {
 } from "./pos.context";
 import PosListOrder from "./pos-list-order";
 import PosOrderForm from "./pos-order.form";
+import { PRODUCT_CACHE_LRU } from "./constants";
 
 const POS = () => {
   const { state: productListState, exec: listProductExec } = useApi(
@@ -46,8 +47,15 @@ const POS = () => {
 
   const onProductClick = useCallback(
     product => {
-      EcommerceProductApi.read(product.id)
-        .then(t => dispatch(addProduct(t)))
+      console.log(PRODUCT_CACHE_LRU);
+      if (PRODUCT_CACHE_LRU.has(product.id)) {
+        return dispatch(addProduct(PRODUCT_CACHE_LRU.get(product.id)));
+      }
+      return EcommerceProductApi.read(product.id)
+        .then(t => {
+          PRODUCT_CACHE_LRU.set(t.id, t);
+          return dispatch(addProduct(t));
+        })
         .catch(e => {
           let message;
           if (e && e.errors && e.errors.length) {
@@ -102,7 +110,7 @@ const POS = () => {
       );
     }
     return null;
-  }, [productListState]);
+  }, [productListState, onProductClick]);
 
   useEffect(() => {
     console.log(filter);

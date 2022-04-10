@@ -64,4 +64,28 @@ export default defineMessages({
     id: `${scope}.return`,
     defaultMessage: "Trả lại",
   },
+  checkoutModalCustomer: {
+    id: `${scope}.checkoutModalCustomer`,
+    defaultMessage: "Khách hàng",
+  },
+  checkoutModalCustomerPay: {
+    id: `${scope}.checkoutModalCustomer`,
+    defaultMessage: "Khách hàng trả",
+  },
+  checkoutModalTotal: {
+    id: `${scope}.checkoutModalTotal`,
+    defaultMessage: "Số tiền",
+  },
+  checkoutModalTax: {
+    id: `${scope}.checkoutModalTax`,
+    defaultMessage: "Thuế",
+  },
+  checkoutModalTabTitle: {
+    id: `${scope}.checkoutModalTabTitle`,
+    defaultMessage: "Thanh toán",
+  },
+  checkoutModalTabVoucher: {
+    id: `${scope}.checkoutModalTabVoucher`,
+    defaultMessage: "Tạo phiếu",
+  },
 });

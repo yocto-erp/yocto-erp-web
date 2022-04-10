@@ -15,6 +15,8 @@ const POS_ACTION = {
   SELECT_CUSTOMER: "SELECT_CUSTOMER",
   SET_ORDER_SHIP: "SET_ORDER_SHIP",
   CHANGE_ORDER_PAYMENT_AMOUNT: "CHANGE_PAYMENT_AMOUNT",
+  SET_SHIPPING: "SET_SHIPPING",
+  SET_ADDRESS: "SET_ADDRESS",
 };
 
 export const posInitialState = {
@@ -112,6 +114,36 @@ export function changeProductQty(index, qty) {
   };
 }
 
+export function onSetShipping(isShipping) {
+  return {
+    type: POS_ACTION.SET_SHIPPING,
+    data: isShipping,
+  };
+}
+
+export function onChangeAddress(address) {
+  return {
+    type: POS_ACTION.SET_ADDRESS,
+    data: address,
+  };
+}
+
+function setShipping(state, action) {
+  const { data: isShipping } = action;
+  const { currentOrder, orders } = state;
+  const order = orders[currentOrder];
+  order.isShipping = isShipping;
+  return { ...state, orders: [...state.orders] };
+}
+
+function changeAddress(state, action) {
+  const { data: address } = action;
+  const { currentOrder, orders } = state;
+  const order = orders[currentOrder];
+  order.address = address;
+  return { ...state, orders: [...state.orders] };
+}
+
 function changeOrderPaymentAmount(state, action) {
   const { amount } = action;
   const { currentOrder, orders } = state;
@@ -155,7 +187,7 @@ export function posReducer(state, action) {
     case POS_ACTION.ADD_ORDER: {
       return {
         id: uuidv4(),
-        orders: [...state.orders, initOrder(state.orders.length + 1)],
+        orders: [...state.orders, initOrder()],
         currentOrder: state.orders.length,
       };
     }
@@ -182,7 +214,7 @@ export function posReducer(state, action) {
       const { data: product } = action;
       let { currentOrder, orders } = state;
       if (currentOrder === -1) {
-        orders = [initOrder(1)];
+        orders = [initOrder()];
         currentOrder = 0;
       }
       const order = orders[currentOrder];
@@ -246,7 +278,12 @@ export function posReducer(state, action) {
     case POS_ACTION.CHANGE_ORDER_PAYMENT_AMOUNT: {
       return changeOrderPaymentAmount(state, action);
     }
-
+    case POS_ACTION.SET_SHIPPING: {
+      return setShipping(state, action);
+    }
+    case POS_ACTION.SET_ADDRESS: {
+      return changeAddress(state, action);
+    }
     default:
       throw new Error();
   }

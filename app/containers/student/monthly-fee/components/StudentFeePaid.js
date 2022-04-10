@@ -47,7 +47,6 @@ const schema = yup.object().shape({
 });
 
 const StudentFeePaid = ({ isOpen, onClose, student }) => {
-  console.log(student);
   const {
     register,
     errors,

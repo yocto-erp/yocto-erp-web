@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import { TAX_TYPE } from "../../../finance/constants";
 import { multiply, plus, subtract } from "../../../../libs/utils/math.util";
+import { TAX_TYPE } from "../../../finance/tax/tax/constants";
 
 export const initProduct = prod => ({
   product: prod,
@@ -11,9 +11,9 @@ export const initProduct = prod => ({
   taxes: [],
 });
 
-export const initOrder = index => ({
+export const initOrder = () => ({
   id: uuidv4(),
-  name: `Order ${index}`,
+  name: `Order ${new Date().toLocaleString("vi-VN")}`,
   customer: null,
   products: [],
   total: 0,
@@ -82,7 +82,7 @@ export function calculateOrder(order) {
       rs.total = plus(rs.total, price);
       rs.tax = plus(rs.tax, product.tax);
       rs.totalWithTax = plus(rs.totalWithTax, productTax.totalWithTax);
-      for (let j = 0; j < product.taxes; j += 1) {
+      for (let j = 0; j < product.taxes.length; j += 1) {
         const tax = product.taxes[j];
         let taxExisted = rs.taxes.find(t => t.id === tax.id);
         if (!taxExisted) {
@@ -94,8 +94,8 @@ export function calculateOrder(order) {
       }
     }
     rs.return = subtract(paymentAmount, rs.total);
-    rs.debt = subtract(rs.total, paymentAmount);
+    rs.debt = subtract(rs.totalWithTax, paymentAmount);
   }
-  console.log(order);
+  console.log(rs);
   return { ...order, ...rs };
 }

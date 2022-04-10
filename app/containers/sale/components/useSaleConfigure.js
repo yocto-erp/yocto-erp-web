@@ -1,12 +1,12 @@
 import useSWR from "swr";
-import studentConfigurationApi from "../apis/student/student-config.api";
+import saleApi from "../../../libs/apis/order/sale.api";
 
-export const SWR_KEY_STUDENT_CONFIGURE = "studentConfigure";
+export const SWR_KEY_SALE_CONFIGURE = "saleConfigure";
 
 export default () => {
   const { data, error, mutate } = useSWR(
-    SWR_KEY_STUDENT_CONFIGURE,
-    studentConfigurationApi.get,
+    SWR_KEY_SALE_CONFIGURE,
+    saleApi.getConfigure,
     {
       revalidateOnMount: true,
     },
@@ -17,6 +17,6 @@ export default () => {
   return {
     isLoading,
     configure: data,
-    getStudentConfigure: mutate,
+    getConfigure: mutate,
   };
 };
