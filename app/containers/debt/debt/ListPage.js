@@ -2,7 +2,6 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { toast } from "react-toastify";
-import { FormattedMessage } from "react-intl";
 import Filter from "./Filter";
 import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
 import {
@@ -26,10 +25,10 @@ import {
   DEBT_PAID_ROOT_PATH,
   DEBT_TYPE,
 } from "../constants";
-import messages from "../messages";
 import SubjectView from "../../partner/subject/components/SubjectView";
 import Price from "../../../components/common/Price";
 import DebtTypeView from "../components/DebtTypeView";
+import Tags from "../../../components/Form/tagging/ViewTags";
 
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
@@ -37,18 +36,15 @@ const ListPage = ({ history }) => {
       {
         header: "Name",
         data: "name",
-      },
-      {
-        header: "Đối tác",
-        data: "partner",
         render: row => (
-          <FormattedMessage
-            {...messages[`listPageType${row?.subject?.type}`]}
-          />
+          <>
+            <p className="mb-0">{row.name}</p>
+            <Tags item={row.tagging} />{" "}
+          </>
         ),
       },
       {
-        header: "Thông tin",
+        header: "Đối tác",
         data: "info",
         render: row => <SubjectView item={row?.subject} isShowTagging />,
       },

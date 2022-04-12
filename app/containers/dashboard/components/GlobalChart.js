@@ -1,16 +1,16 @@
-import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Pie } from 'react-chartjs-2';
-import { useApi } from '../../../libs/hooks/useApi';
-import { globalSummaryApi } from '../../../libs/apis/summary/summary.api';
-import { formatMoney } from '../../../libs/utils/number.util';
-import Widget from '../../../components/Widget/Widget';
-import Ago from '../../../components/common/date/Ago';
+import React, { useEffect, useMemo } from "react";
+import PropTypes from "prop-types";
+import { Pie } from "react-chartjs-2";
+import { useApi } from "../../../libs/hooks/useApi";
+import { globalSummaryApi } from "../../../libs/apis/summary/summary.api";
+import { formatMoney } from "../../../libs/utils/number.util";
+import Widget from "../../../components/Widget/Widget";
+import Ago from "../../../components/common/date/Ago";
 
 const GlobalChart = ({ dateFrom, dateTo }) => {
   const {
     exec,
-    state: { errors, resp, isLoading },
+    state: { resp },
   } = useApi(() => globalSummaryApi.get(dateFrom, dateTo));
   useEffect(() => {
     if (dateFrom && dateTo) {
@@ -20,7 +20,7 @@ const GlobalChart = ({ dateFrom, dateTo }) => {
 
   const data = useMemo(
     () => ({
-      labels: ['Receipt', 'Payment'],
+      labels: ["Receipt", "Payment"],
       datasets: [
         {
           data: [
@@ -28,20 +28,20 @@ const GlobalChart = ({ dateFrom, dateTo }) => {
             resp?.costSummary?.totalPayment || 0,
           ],
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
           ],
           borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)',
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 99, 132, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
           ],
           borderWidth: 1,
         },
@@ -75,12 +75,12 @@ const GlobalChart = ({ dateFrom, dateTo }) => {
                 const value =
                   chartData.datasets[tooltipItem.datasetIndex].data[
                     tooltipItem.index
-                  ] || '';
-                let label = chartData.labels[tooltipItem.index] || '';
+                  ] || "";
+                let label = chartData.labels[tooltipItem.index] || "";
                 if (label) {
-                  label += ': ';
+                  label += ": ";
                 }
-                label += formatMoney(value, 'VND');
+                label += formatMoney(value, "VND");
                 return label;
               },
             },

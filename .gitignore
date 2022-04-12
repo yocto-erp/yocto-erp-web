@@ -10,3 +10,10 @@ npm-debug.log
 .idea
 build.tar.gz
 yarn.lock
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

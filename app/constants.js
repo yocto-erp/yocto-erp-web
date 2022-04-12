@@ -1,5 +1,8 @@
 export const API_URL = "/api";
 export const ADMIN_PATH = "/admin";
+
+// MAX = 91
+
 export const PERMISSION = {
   PRODUCT: {
     CREATE: 1,
@@ -136,10 +139,10 @@ export const PERMISSION = {
     DELETE: 85,
   },
   DEBT: {
-    READ: 86,
-    CREATE: 87,
-    UPDATE: 88,
-    DELETE: 89,
+    READ: 88,
+    CREATE: 89,
+    UPDATE: 90,
+    DELETE: 91,
   },
 };
 
@@ -430,6 +433,16 @@ export const PERMISSION_MODULE = [
       { id: PERMISSION.ASSET.CREATE, name: "CREATE", enableType: 1 },
       { id: PERMISSION.ASSET.READ, name: "READ", enableType: 1 },
       { id: PERMISSION.ASSET.DELETE, name: "DELETE", enableType: 1 },
+    ],
+  },
+  {
+    id: 20,
+    name: "Debt",
+    permissions: [
+      { id: PERMISSION.DEBT.CREATE, name: "CREATE", enableType: 1 },
+      { id: PERMISSION.DEBT.READ, name: "READ", enableType: 1 },
+      { id: PERMISSION.DEBT.UPDATE, name: "UPDATE", enableType: 1 },
+      { id: PERMISSION.DEBT.DELETE, name: "DELETE", enableType: 1 },
     ],
   },
 ];

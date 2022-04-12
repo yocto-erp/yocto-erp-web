@@ -23,7 +23,7 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: "Thông tin",
+        header: "Đối tác",
         data: "info",
         render: row => <SubjectView item={row.subject} isShowTagging />,
       },
