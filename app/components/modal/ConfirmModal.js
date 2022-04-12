@@ -5,15 +5,21 @@ import isFunction from "lodash/isFunction";
 import ModalOKButton from "../button/ModalOKButton";
 import ModalCancelButton from "../button/ModalCancelButton";
 
-const ConfirmModal = ({ message, title, onClose, isOpen = false }) => (
-  <Modal className="warning" isOpen={isOpen} fade={false}>
+const ConfirmModal = ({
+  message,
+  title,
+  onClose,
+  isOpen = false,
+  type = "warning",
+}) => (
+  <Modal className={type} isOpen={isOpen} fade={false}>
     <ModalHeader toggle={() => onClose(false)}>
       {title || "Confirmation ?"}
     </ModalHeader>
     <ModalBody>{isFunction(message) ? message() : message}</ModalBody>
     <ModalFooter>
       <ModalCancelButton onClick={() => onClose(false)} />
-      <ModalOKButton color="warning" onClick={() => onClose(true)}>
+      <ModalOKButton color={type} onClick={() => onClose(true)}>
         <i className="fa fa-check fa-fw mr-2" /> Confirm
       </ModalOKButton>
     </ModalFooter>
@@ -25,6 +31,7 @@ ConfirmModal.propTypes = {
   title: PropTypes.node,
   onClose: PropTypes.func,
   isOpen: PropTypes.bool,
+  type: PropTypes.oneOf(["warning", "danger"]),
 };
 
 export default ConfirmModal;

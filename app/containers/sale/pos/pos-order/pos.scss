@@ -1,5 +1,5 @@
 $height: calc(100vh - 170px);
-.filter {
+.pos-filter {
   padding: 0 10px 10px;
 }
 
@@ -129,12 +129,12 @@ $height: calc(100vh - 170px);
 
         .pos-list-order-btn {
           position: absolute;
-          top: 0;
-          right: 0;
+          top: 1px;
+          right: 1px;
           opacity: 0.3;
 
           .btn {
-            padding: 0.4rem;
+            padding: 0.2rem 0.4rem;
           }
         }
 

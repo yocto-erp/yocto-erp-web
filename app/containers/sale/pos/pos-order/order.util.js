@@ -96,6 +96,5 @@ export function calculateOrder(order) {
     rs.return = subtract(paymentAmount, rs.total);
     rs.debt = subtract(rs.totalWithTax, paymentAmount);
   }
-  console.log(rs);
   return { ...order, ...rs };
 }

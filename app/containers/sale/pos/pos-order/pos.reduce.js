@@ -1,9 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { subtract } from "../../../../libs/utils/math.util";
 import { calculateOrder, initOrder, initProduct } from "./order.util";
+import { SUBJECT_TYPE } from "../../../partner/subject/constants";
 
 const POS_ACTION = {
   ADD_ORDER: "ADD_ORDER",
+  UPDATE_ORDER: "UPDATE_ORDER",
   REMOVE_ORDER: "REMOVE_ORDER",
   REMOVE_CURRENT_ORDER: "REMOVE_CURRENT_ORDER",
   SELECT_ORDER: "SELECT_ORDER",
@@ -17,12 +19,48 @@ const POS_ACTION = {
   CHANGE_ORDER_PAYMENT_AMOUNT: "CHANGE_PAYMENT_AMOUNT",
   SET_SHIPPING: "SET_SHIPPING",
   SET_ADDRESS: "SET_ADDRESS",
+  CHECKOUT: "CHECKOUT",
 };
 
 export const posInitialState = {
   orders: [],
   currentOrder: -1,
 };
+
+export function onCheckout() {
+  return {
+    type: POS_ACTION.CHECKOUT,
+  };
+}
+
+export function checkOut(state) {
+  const { orders, currentOrder } = state;
+  orders.splice(currentOrder, 1);
+  return { ...state, orders: [...orders], currentOrder: 0 };
+}
+
+export function onUpdateOrder(index, form) {
+  return {
+    type: POS_ACTION.UPDATE_ORDER,
+    data: {
+      index,
+      form,
+    },
+  };
+}
+
+function updateOrder(state, action) {
+  const {
+    data: {
+      index,
+      form: { name },
+    },
+  } = action;
+  const { orders } = state;
+  const order = orders[index];
+  order.name = name;
+  return { ...state, orders: [...state.orders] };
+}
 
 export function onChangeOrderPaymentAmount(amount) {
   return {
@@ -65,7 +103,6 @@ export function selectOrder(index) {
 }
 
 export function addProduct(product) {
-  console.log("Add Product", product);
   return {
     type: POS_ACTION.ADD_PRODUCT,
     data: product,
@@ -90,13 +127,6 @@ export function onSelectCustomer(customer) {
   return {
     type: POS_ACTION.SELECT_CUSTOMER,
     data: customer,
-  };
-}
-
-export function increaseProduct(index) {
-  return {
-    type: POS_ACTION.INCREASE,
-    data: index,
   };
 }
 
@@ -261,14 +291,18 @@ export function posReducer(state, action) {
       return { ...state, orders: [...state.orders] };
     }
     case POS_ACTION.SELECT_CUSTOMER: {
-      console.log("onselect customer", action);
       const { orders } = state;
       const { data: customer } = action;
       const order = orders[state.currentOrder];
       order.customer = customer;
       order.email = customer?.email;
       order.phone = customer?.gsm;
-      order.address = customer?.address;
+      if (customer.type === SUBJECT_TYPE.COMPANY) {
+        order.address = customer?.company.address;
+      } else {
+        order.address = customer?.person?.address;
+      }
+
       orders[state.currentOrder] = { ...order };
       return {
         orders: [...state.orders],
@@ -283,6 +317,12 @@ export function posReducer(state, action) {
     }
     case POS_ACTION.SET_ADDRESS: {
       return changeAddress(state, action);
+    }
+    case POS_ACTION.UPDATE_ORDER: {
+      return updateOrder(state, action);
+    }
+    case POS_ACTION.CHECKOUT: {
+      return checkOut(state);
     }
     default:
       throw new Error();

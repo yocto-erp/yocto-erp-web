@@ -1,26 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
-import { mappingSubject, SUBJECT_TYPE } from "../constants";
+import { mappingSubject } from "../constants";
 import { hasText } from "../../../../utils/util";
 import Tags from "../../../../components/Form/tagging/ViewTags";
 import "./SubjectView.scss";
 import PersonView from "../../person/components/PersonView";
+import SubjectName from "./SubjectName";
 
 const SubjectView = ({ item, isShowTagging = true, isShowAddress = false }) => {
   if (!item) return null;
   const rs = mappingSubject(item);
   return (
     <div>
-      <strong>
-        <i
-          className={classnames("fa fa-fw", {
-            "fa-user-o": Number(item.type) === SUBJECT_TYPE.PERSONAL,
-            "fa-building-o": Number(item.type) === SUBJECT_TYPE.COMPANY,
-          })}
-        />{" "}
-        {rs.name}
-      </strong>
+      <SubjectName item={rs} />
       <br />
       {hasText(rs.gsm) ? (
         <>

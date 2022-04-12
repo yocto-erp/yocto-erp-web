@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import * as yup from "yup";
 import classNames from "classnames";
 import { Controller } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
+import { toast } from "react-toastify";
 import ModalCancelButton from "../../../../components/button/ModalCancelButton";
 import ModalOKButton from "../../../../components/button/ModalOKButton";
 import Price from "../../../../components/common/Price";
@@ -19,6 +21,9 @@ import { compare } from "../../../../libs/utils/math.util";
 import useSaleConfigure from "../../components/useSaleConfigure";
 import messages from "./messages";
 import { TAX_TYPE } from "../../../finance/tax/tax/constants";
+
+import posApi from "../../../../libs/apis/pos.api";
+import { API_STATE } from "../../../../libs/hooks/useApi";
 
 const schema = yup.object().shape({
   storeCashIn: yup.bool(),
@@ -54,6 +59,7 @@ const schema = yup.object().shape({
   }),
 });
 const PosCheckOut = ({ order, onClose }) => {
+  const { id } = useParams();
   const { configure: saleConfig } = useSaleConfigure();
   const [tab, setTab] = useState(1);
   const {
@@ -64,12 +70,12 @@ const PosCheckOut = ({ order, onClose }) => {
     reset,
     control,
     watch,
-    state: { isLoading, errors: serverErrors },
+    state,
   } = useMyForm({
     validationSchema: schema,
     api: formData => {
-      console.log(formData);
-      return new Promise(resolve => resolve(1));
+      console.log({ order, voucher: formData });
+      return posApi.posOrder(id, { order, voucher: formData });
     },
   });
 
@@ -99,6 +105,13 @@ const PosCheckOut = ({ order, onClose }) => {
       });
     }
   }, [order, saleConfig]);
+
+  useEffect(() => {
+    if (state.status === API_STATE.SUCCESS) {
+      toast.success(`Thanh toán thành công đơn hàng ${order.name}`);
+      onClose(true);
+    }
+  }, [state]);
 
   return (
     order && (
@@ -177,7 +190,7 @@ const PosCheckOut = ({ order, onClose }) => {
                   </label>
                   <div className="col align-self-center">
                     {(order?.taxes || []).map(t => (
-                      <p className="mb-0">
+                      <p className="mb-0" key={t.id}>
                         {t.shortName} ({t.amount}
                         {t.type === TAX_TYPE.PERCENT ? "%" : ""}) :{" "}
                         <Price amount={t.taxAmount} />
@@ -408,16 +421,16 @@ const PosCheckOut = ({ order, onClose }) => {
           </div>
         </ModalBody>
         <ModalFooter>
-          {serverErrors && serverErrors.length ? (
+          {state.errors && state.errors.length ? (
             <p className="mb-0 text-left text-danger flex-grow-1">
-              <i className="fa fa-warning" />
-              {serverErrors.map(t => t.message || t.code).join("\n")}
+              <i className="fa fa-warning fa-fw pl-2" />
+              {state.errors.map(t => t.message || t.code).join("\n")}
             </p>
           ) : null}
           <ModalCancelButton onClick={() => onClose(false)} />
           <ModalOKButton
             color="warning"
-            isLoading={isLoading}
+            isLoading={state.status === API_STATE.LOADING}
             disabled={!isValid}
             onClick={onSubmit}
           >
@@ -433,6 +446,7 @@ PosCheckOut.propTypes = {
   order: PropTypes.object,
   onClose: PropTypes.func,
   form: PropTypes.object,
+  posId: PropTypes.string.isRequired,
 };
 
 export default PosCheckOut;

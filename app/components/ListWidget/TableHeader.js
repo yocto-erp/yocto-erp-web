@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
-import { COLUMN_PROPS, SORT_DIR } from './constants';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button } from "reactstrap";
+import { COLUMN_PROPS, SORT_DIR } from "./constants";
 
-const SORT_ORDER = [SORT_DIR.ASC, SORT_DIR.DESC, ''];
+const SORT_ORDER = [SORT_DIR.ASC, SORT_DIR.DESC, ""];
 
 const TableHeader = ({
   columns,
@@ -33,13 +33,13 @@ const TableHeader = ({
       const className = [col.class];
       if (col.sort) {
         const colSortDir =
-          sorts && sorts[col.sort.name] && sorts[col.sort.name] !== ''
+          sorts && sorts[col.sort.name] && sorts[col.sort.name] !== ""
             ? `${sorts[col.sort.name]}`
-            : '';
+            : "";
         className.push(`sorting ${colSortDir}`);
         rs.onClick = () => onSortClick(col.sort.name);
       }
-      rs.className = className.join(' ');
+      rs.className = className.join(" ");
 
       return rs;
     },
@@ -57,7 +57,7 @@ const TableHeader = ({
             color="link"
             size="sm"
             className="text-success"
-            style={{ padding: '2px' }}
+            style={{ padding: "2px" }}
             onClick={() => onSelectAll(true)}
           >
             ALL
@@ -68,7 +68,7 @@ const TableHeader = ({
             color="link"
             size="sm"
             className="text-danger"
-            style={{ padding: '2px' }}
+            style={{ padding: "2px" }}
             onClick={() => onSelectAll(false)}
           >
             None

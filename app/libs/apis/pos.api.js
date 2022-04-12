@@ -8,6 +8,8 @@ const posApi = {
   getUsers: posId => fetchJSON(`${API_ENDPOINT_URL}/${posId}/users`),
   assignUsers: (posId, users) =>
     postJSON(`${API_ENDPOINT_URL}/${posId}/users`, users),
+  posOrder: (posId, form) =>
+    postJSON(`${API_ENDPOINT_URL}/${posId}/order`, form),
   listPos: () => fetchJSON(`${API_ENDPOINT_URL}/list`),
 };
 

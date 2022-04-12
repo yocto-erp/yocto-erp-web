@@ -38,7 +38,7 @@ const ListPage = ({ history }) => {
       {
         header: "Thông tin",
         data: "gsm",
-        render: row => <SubjectView item={row} isShowTagging />,
+        render: row => <SubjectView item={row} isShowTagging isShowAddress />,
       },
       {
         header: "Remark",

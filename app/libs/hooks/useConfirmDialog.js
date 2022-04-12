@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import ConfirmModal from "../../components/modal/ConfirmModal";
 
-export const useConfirmDialog = () => {
+export const useConfirmDialog = (type = "warning") => {
   const [confirm, setConfirm] = useState(null);
   const onCloseHandle = React.useCallback(
     isConfirm => {
@@ -22,9 +22,10 @@ export const useConfirmDialog = () => {
         title={confirm?.title}
         message={confirm?.message}
         onClose={onCloseHandle}
+        type={type}
       />
     ),
-    [confirm],
+    [confirm, type],
   );
 
   return { confirmModal: modal, openConfirm };

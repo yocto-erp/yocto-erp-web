@@ -31,7 +31,7 @@ const FilePickerModal = ({ isOpen, closeHandle, fileTypes, isMulti }) => {
           ? `(${files.length} ${files.length === 1 ? "file" : "files"})`
           : ""}
       </ModalHeader>
-      <ModalBody className="f">
+      <ModalBody>
         <LocalDrive
           className="p-0"
           multiple={isMulti}

@@ -6,6 +6,7 @@ import { usePosDispatch, usePosOrderContext } from "./pos.context";
 import {
   changeProductQty,
   onChangeOrderPaymentAmount,
+  onCheckout,
   onSelectCustomer,
   onSetShipping,
   removeOrder,
@@ -27,12 +28,9 @@ const PosOrderForm = () => {
   const order = usePosOrderContext();
   const dispatch = usePosDispatch();
 
-  const [checkoutOrder, setCheckOutOrder] = useState({
-    order: null,
-    form: {},
-  });
+  const [checkoutOrder, setCheckOutOrder] = useState(null);
 
-  const { openConfirm, confirmModal } = useConfirmDialog();
+  const { openConfirm, confirmModal } = useConfirmDialog("danger");
 
   const onSubmit = () => {
     setCheckOutOrder(order);
@@ -288,6 +286,9 @@ const PosOrderForm = () => {
         onClose={res => {
           console.log(res);
           setCheckOutOrder(null);
+          if (res) {
+            dispatch(onCheckout());
+          }
         }}
       />
       {confirmModal}

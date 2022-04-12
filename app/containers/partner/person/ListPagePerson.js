@@ -2,6 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
 import Filter from "./components/Filter";
 import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
 import {
@@ -20,33 +21,37 @@ import {
   CreatedByColumn,
   SORT_DIR,
 } from "../../../components/ListWidget/constants";
+import messages from "./messages";
 
 const ListPagePerson = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: "FullName",
+        header: <FormattedMessage {...messages.listPageColFullname} />,
         data: "name",
         class: "min",
         render: row => row.fullName || `${row.firstName} ${row.lastName}`,
       },
       {
-        header: "Phone",
+        header: <FormattedMessage {...messages.listPageColGsm} />,
         data: "gsm",
         class: "min",
       },
       {
-        header: "email",
+        header: <FormattedMessage {...messages.listPageColEmail} />,
         data: "email",
         class: "min",
       },
       {
-        header: "Remark",
+        header: <FormattedMessage {...messages.listPageColRemark} />,
         data: "remark",
       },
-      CreatedByColumn,
       {
-        header: "Action",
+        ...CreatedByColumn,
+        header: <FormattedMessage {...messages.listPageColCreatedBy} />,
+      },
+      {
+        header: <FormattedMessage {...messages.listPageColAction} />,
         data: "",
         class: "action",
         render: row => (
@@ -116,7 +121,12 @@ const ListPagePerson = ({ history }) => {
   );
   return (
     <ListWidget
-      pageHeader={<PageTitle title="Customer Management" actions={actions} />}
+      pageHeader={
+        <PageTitle
+          title={<FormattedMessage {...messages.listPageHeader} />}
+          actions={actions}
+        />
+      }
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={personApi.search}

@@ -27,6 +27,7 @@ const POS = () => {
   const { state: productListState, exec: listProductExec } = useApi(
     EcommerceProductApi.search,
   );
+
   const [filter, setFilter] = useState({
     page: 1,
     size: 12,
@@ -47,7 +48,6 @@ const POS = () => {
 
   const onProductClick = useCallback(
     product => {
-      console.log(PRODUCT_CACHE_LRU);
       if (PRODUCT_CACHE_LRU.has(product.id)) {
         return dispatch(addProduct(PRODUCT_CACHE_LRU.get(product.id)));
       }
@@ -128,7 +128,7 @@ const POS = () => {
     <PosDispatchContext.Provider value={dispatch}>
       <div className="row">
         <div className="col-6 product-list-wrapper">
-          <div className="filter">
+          <div className="pos-filter">
             <div className="row">
               <div className="col">
                 <input

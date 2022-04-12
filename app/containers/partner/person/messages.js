@@ -10,11 +10,39 @@ export const scope = "containers.partner.person";
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: "Thông tin đối tác",
+    defaultMessage: "Quản lý thông tin cá nhân",
   },
   listPageHeader: {
     id: `${scope}.header`,
-    defaultMessage: "Quản lý đối tác",
+    defaultMessage: "Quản lý thông tin cá nhân",
+  },
+  listPageColFullname: {
+    id: `${scope}.listPageColFullname`,
+    defaultMessage: "Họ Tên",
+  },
+  listPageColGsm: {
+    id: `${scope}.listPageColGsm`,
+    defaultMessage: "Số điện thoại",
+  },
+  listPageColEmail: {
+    id: `${scope}.listPageColEmail`,
+    defaultMessage: "Email",
+  },
+  listPageColRemark: {
+    id: `${scope}.listPageColRemark`,
+    defaultMessage: "Chú thích",
+  },
+  listPageColCreatedBy: {
+    id: `${scope}.listPageColCreatedBy`,
+    defaultMessage: "Tạo bởi",
+  },
+  listPageColAction: {
+    id: `${scope}.listPageColAction`,
+    defaultMessage: "Thao tác",
+  },
+  filterSearchPlaceholder: {
+    id: `${scope}.filterSearchPlaceholder`,
+    defaultMessage: "Tìm theo tên, số điện thoai, email",
   },
   listPageType2: {
     id: `${scope}.listPageTypeCOMPANY`,
