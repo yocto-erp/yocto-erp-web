@@ -32,6 +32,7 @@ import { TAX_ROOT_PATH } from "../../finance/tax/tax/constants";
 import { TAX_SET_ROOT_PATH } from "../../finance/tax/tax-set/constants";
 import { ASSET_ROOT_PATH } from "../../../components/assets/constants";
 import { PAYMENT_ROOT_PATH } from "../../finance/payment/constants";
+import { DEBT_ROOT_PATH } from "../../debt/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -224,6 +225,13 @@ export const SIDE_BAR_MENU = {
           link: PAYMENT_ROOT_PATH,
           exact: true,
           index: "finance.payment",
+          isHeader: true,
+        },
+        {
+          header: "Công nợ",
+          link: DEBT_ROOT_PATH,
+          index: "finance.taxSet",
+          permission: [PERMISSION.TAX.READ],
           isHeader: true,
         },
       ],

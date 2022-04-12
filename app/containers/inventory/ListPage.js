@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   TabContent,
   TabPane,
@@ -7,10 +7,10 @@ import {
   NavLink,
   Row,
   Col,
-} from 'reactstrap';
-import { useRouteMatch, Route, useHistory, Switch } from 'react-router-dom';
-import ListInventorySummary from './components/inventory-summary/ListInventorySummary';
-import ListInventory from './components/inventory/ListInventory';
+} from "reactstrap";
+import { useRouteMatch, Route, useHistory, Switch } from "react-router-dom";
+import ListInventorySummary from "./components/inventory-summary/ListInventorySummary";
+import ListInventory from "./components/inventory/ListInventory";
 
 const ListPage = () => {
   const { path } = useRouteMatch();

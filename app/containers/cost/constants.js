@@ -1,4 +1,4 @@
-import { ADMIN_PATH } from '../../constants';
+import { ADMIN_PATH } from "../../constants";
 
 const COST_ROOT_PATH = `${ADMIN_PATH}/cost`;
 const COST_PAYMENT_PATH = `${COST_ROOT_PATH}/payment`;

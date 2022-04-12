@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { FormattedMessage } from "react-intl";
 import {
   Button,
   Container,
@@ -11,27 +11,27 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-} from 'reactstrap';
-import * as yup from 'yup';
-import classNames from 'classnames';
-import { Link } from 'react-router-dom';
-import messages from './messages';
-import Widget from '../../../components/Widget/Widget';
-import Footer from '../../Layout/Footer';
-import userApi from '../../../libs/apis/user.api';
-import { useApi } from '../../../libs/hooks/useApi';
-import useMyForm from '../../../libs/hooks/useMyForm';
-import SubmitButton from '../../../components/button/SubmitButton';
-import FormError from '../../../components/Form/FormError';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
+} from "reactstrap";
+import * as yup from "yup";
+import classNames from "classnames";
+import { Link } from "react-router-dom";
+import messages from "./messages";
+import Widget from "../../../components/Widget/Widget";
+import Footer from "../../Layout/Footer";
+import userApi from "../../../libs/apis/user.api";
+import { useApi } from "../../../libs/hooks/useApi";
+import useMyForm from "../../../libs/hooks/useMyForm";
+import SubmitButton from "../../../components/button/SubmitButton";
+import FormError from "../../../components/Form/FormError";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
 
 export function VerifyInvitationPage() {
   const [isShowPassword, setShowPassword] = useState(false);
   const { search } = window.location;
   const params = new URLSearchParams(search);
-  const email = params.get('email');
-  const token = params.get('token');
-  const companyId = params.get('companyId');
+  const email = params.get("email");
+  const token = params.get("token");
+  const companyId = params.get("companyId");
 
   const {
     exec,
@@ -77,7 +77,7 @@ export function VerifyInvitationPage() {
   });
 
   const form = React.useMemo(() => {
-    if (!invitationResp) return '';
+    if (!invitationResp) return "";
     const {
       userActive: { user },
       invitation: { company },
@@ -138,7 +138,7 @@ export function VerifyInvitationPage() {
                     invalid={!!errors.password}
                     id="password"
                     className="input-transparent pl-3"
-                    type={isShowPassword ? 'text' : 'password'}
+                    type={isShowPassword ? "text" : "password"}
                     innerRef={register}
                     required
                     name="password"
@@ -153,9 +153,9 @@ export function VerifyInvitationPage() {
                       onClick={() => setShowPassword(!isShowPassword)}
                     >
                       <i
-                        className={classNames('la', {
-                          'la-eye-slash': !isShowPassword,
-                          'la-eye': isShowPassword,
+                        className={classNames("la", {
+                          "la-eye-slash": !isShowPassword,
+                          "la-eye": isShowPassword,
                         })}
                       />
                     </Button>
@@ -164,7 +164,7 @@ export function VerifyInvitationPage() {
               </FormGroup>
             </>
           ) : (
-            ''
+            ""
           )}
 
           <div className="bg-widget auth-widget-footer">
@@ -175,7 +175,7 @@ export function VerifyInvitationPage() {
               size="sm"
               disabled={!formState.isValid}
               isLoading={isLoading}
-              style={{ color: '#fff' }}
+              style={{ color: "#fff" }}
             >
               <FormattedMessage
                 {...(user.personId === null
@@ -208,7 +208,7 @@ export function VerifyInvitationPage() {
       );
     }
     if (!invitationResp) {
-      return '';
+      return "";
     }
     console.log(invitationResp);
     if (resp) {

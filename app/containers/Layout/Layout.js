@@ -61,6 +61,8 @@ import { ASSET_ROOT_PATH } from "../../components/assets/constants";
 import { FINANCE_ROOT_PATH } from "../finance/constants";
 import FinancePage from "../finance/Loadable";
 import { SALE_ROOT_PATH } from "../sale/constants";
+import DebtPage from "../debt/Loadable";
+import { DEBT_ROOT_PATH } from "../debt/constants";
 
 function Layout({
   sidebarPosition,
@@ -156,6 +158,7 @@ function Layout({
                 <Route path={`${USER_ROOT_PATH}`} component={UserPage} />
                 <Route path={SALE_ROOT_PATH} component={SalePage} />
                 <Route path={FINANCE_ROOT_PATH} component={FinancePage} />
+                <Route path={DEBT_ROOT_PATH} component={DebtPage} />
               </Switch>
               <Footer />
             </div>

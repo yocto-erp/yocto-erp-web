@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { Form, Input } from 'reactstrap';
-import { Controller, useForm } from 'react-hook-form';
-import { useListFilter } from '../../../components/ListWidget/constants';
-import SearchButton from '../../../components/button/SearchButton';
-import InputAsyncTagging from '../../../components/Form/InputAsyncTagging';
-import taggingApi from '../../../libs/apis/tagging.api';
+import React, { useEffect } from "react";
+import { Form, Input } from "reactstrap";
+import { Controller, useForm } from "react-hook-form";
+import { useListFilter } from "../../../components/ListWidget/constants";
+import SearchButton from "../../../components/button/SearchButton";
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../libs/apis/tagging.api";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -24,12 +24,12 @@ const Filter = () => {
         type="search"
         name="search"
         className="mr-2"
-        style={{ width: '300px' }}
+        style={{ width: "300px" }}
         innerRef={register}
         id="search"
         placeholder="Search By Product Name, ID"
       />
-      <div style={{ width: '300px' }} className="mr-2">
+      <div style={{ width: "300px" }} className="mr-2">
         <Controller
           name="tagging"
           defaultValue={[]}
