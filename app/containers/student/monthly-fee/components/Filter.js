@@ -9,7 +9,7 @@ import StudentClassSelect from "../../student-class/components/StudentClassSelec
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
   const { handleSubmit, register, control, reset } = useForm({
-    defaultValues: { month: null },
+    defaultValues: { month: null, search: "", class: null, isPaid: 0 },
   });
   const onSubmit = handleSubmit(val => searchByFilter(val));
 

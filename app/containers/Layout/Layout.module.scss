@@ -15,7 +15,7 @@
   flex-direction: column;
   left: 0;
   right: 0;
-  transition: left $sidebar-transition-time ease-in-out;
+  transition: margin-left $sidebar-transition-time ease-in-out;
 
   @media print {
     margin: 0;

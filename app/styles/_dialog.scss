@@ -93,3 +93,39 @@
     }
   }
 }
+
+.modal.modal-tabs {
+  .modal-header {
+    padding: 0;
+    align-items: center;
+
+    .modal-title {
+      width: 100%;
+
+      .nav-tabs {
+        margin-top: 1rem;
+
+        > .nav-item > .nav-link {
+          padding: 6px 18px;
+          font-size: 1rem;
+          font-weight: normal;
+
+          &.active {
+            background: #ffc107;
+            color: #040620;
+          }
+        }
+      }
+    }
+  }
+
+  .modal-body {
+    .tab-content {
+      background-color: transparent;
+
+      .tab-pane {
+        padding: 0;
+      }
+    }
+  }
+}

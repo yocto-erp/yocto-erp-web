@@ -21,52 +21,52 @@ const PosListOrder = () => {
     () => (
       <div className="list-group">
         {orders.map((t, i) => (
-          <div key={`order${t.id}`}>
-            <div
-              role="button"
-              tabIndex={i}
+          <div
+            role="button"
+            tabIndex={i}
+            className={classNames(
+              "list-group-item list-group-item-action p-2 d-flex justify-content-between align-items-center",
+              {
+                active: i === currentOrder,
+              },
+            )}
+            onClick={() => dispatch(selectOrder(i))}
+            onKeyDown={() => dispatch(selectOrder(i))}
+            key={`order${t.id}`}
+          >
+            <p
+              className="m-0 pr-1 text-ellipsis small d-block"
+              style={{ width: "160px" }}
               id={`order${t.id}`}
-              className={classNames(
-                "list-group-item list-group-item-action p-2 d-flex justify-content-between align-items-center",
-                {
-                  active: i === currentOrder,
-                },
-              )}
-              onClick={() => dispatch(selectOrder(i))}
-              onKeyDown={() => dispatch(selectOrder(i))}
             >
-              <p
-                className="m-0 pr-1 text-ellipsis small"
-                style={{ width: "160px" }}
+              <strong>
+                {i + 1}. {t.name}
+              </strong>
+              {t.customer ? (
+                <>
+                  <br />
+                  <SubjectName item={t.customer} />
+                </>
+              ) : null}
+              {t.products.length ? (
+                <>
+                  <br />
+                  <span className="">
+                    <i className="fa fa-shopping-cart fa-fw" />{" "}
+                    {t.products.length} (<Price amount={t.total} />)
+                  </span>
+                </>
+              ) : null}
+            </p>
+            <div className="btn-group btn-group-sm pos-list-order-btn">
+              <button
+                type="button"
+                className="btn btn-sm btn-info"
+                onClick={() => setEditOrderIndex(i)}
               >
-                <strong>{t.name}</strong>
-                {t.customer ? (
-                  <>
-                    <br />
-                    <SubjectName item={t.customer} />
-                  </>
-                ) : null}
-                {t.products.length ? (
-                  <>
-                    <br />
-                    <span className="">
-                      <i className="fa fa-shopping-cart fa-fw" />{" "}
-                      {t.products.length} (<Price amount={t.total} />)
-                    </span>
-                  </>
-                ) : null}
-              </p>
-              <div className="btn-group btn-group-sm pos-list-order-btn">
-                <button
-                  type="button"
-                  className="btn btn-sm btn-info"
-                  onClick={() => setEditOrderIndex(i)}
-                >
-                  <i className="fa fa-edit" />
-                </button>
-              </div>
+                <i className="fa fa-edit" />
+              </button>
             </div>
-
             <UncontrolledTooltip target={`order${t.id}`}>
               <div className="text-left">
                 {t.name}

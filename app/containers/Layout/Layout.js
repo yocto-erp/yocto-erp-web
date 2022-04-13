@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Route, Switch, withRouter } from "react-router-dom";
-
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import classNames from "classnames";
 import Header from "./Header/Header";
@@ -63,6 +62,7 @@ import FinancePage from "../finance/Loadable";
 import { SALE_ROOT_PATH } from "../sale/constants";
 import DebtPage from "../debt/Loadable";
 import { DEBT_ROOT_PATH } from "../debt/constants";
+import "animate.css";
 
 function Layout({
   sidebarPosition,
