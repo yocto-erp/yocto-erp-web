@@ -1,25 +1,25 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Form, Label } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { Controller, useWatch } from 'react-hook-form';
-import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
-import Widget from '../../../../components/Widget/Widget';
-import SubmitButton from '../../../../components/button/SubmitButton';
-import BackButton from '../../../../components/button/BackButton';
-import { templateApi } from '../../../../libs/apis/template/template.api';
-import Editor from '../../../../components/Form/Editor';
-import FormGroupInput from '../../../../components/Form/FormGroupInput';
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Form, Label } from "reactstrap";
+import { toast } from "react-toastify";
+import { Controller, useWatch } from "react-hook-form";
+import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
+import Widget from "../../../../components/Widget/Widget";
+import SubmitButton from "../../../../components/button/SubmitButton";
+import BackButton from "../../../../components/button/BackButton";
+import { templateApi } from "../../../../libs/apis/template/template.api";
+import Editor from "../../../../components/Form/Editor";
+import FormGroupInput from "../../../../components/Form/FormGroupInput";
 import {
   useTemplateType,
   useTemplateTypeId,
-} from '../../../../libs/apis/template/templateType.api';
+} from "../../../../libs/apis/template/templateType.api";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
-  templateTypeId: Yup.number().required('Template Type is required'),
-  content: Yup.string().required('Content is required'),
+  name: Yup.string().required("This field is required."),
+  templateTypeId: Yup.number().required("Template Type is required"),
+  content: Yup.string().required("Content is required"),
 });
 
 const { create, update, read } = templateApi;
@@ -51,9 +51,9 @@ function MyForm({ id }) {
     }),
     validationSchema,
     initForm: {
-      name: '',
-      templateTypeId: '',
-      content: '',
+      name: "",
+      templateTypeId: "",
+      content: "",
     },
     id,
   });
@@ -61,7 +61,7 @@ function MyForm({ id }) {
   const { templateTypeList } = useTemplateType();
   const templateTypeId = useWatch({
     control,
-    name: 'templateTypeId',
+    name: "templateTypeId",
   });
   const { templateType } = useTemplateTypeId(templateTypeId);
 
@@ -75,7 +75,7 @@ function MyForm({ id }) {
           <Controller
             name="content"
             control={control}
-            defaultValue={formData.content || ''}
+            defaultValue={formData.content || ""}
             render={({ onChange, onBlur, value }) => (
               <Editor
                 value={value}
