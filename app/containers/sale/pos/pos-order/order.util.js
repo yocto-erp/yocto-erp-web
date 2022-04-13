@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { multiply, plus, subtract } from "../../../../libs/utils/math.util";
 import { TAX_TYPE } from "../../../finance/tax/tax/constants";
+import { isArrayHasItem } from "../../../../utils/util";
 
 export const initProduct = prod => ({
   product: prod,
@@ -37,18 +38,21 @@ function calculateProductTax(taxes, amount) {
     totalWithTax: 0,
     total: amount,
   };
-  for (let i = 0; i < taxes.length; i += 1) {
-    const { type, amount: taxAmount } = taxes[i];
-    let taxVal = 0;
-    if (type === TAX_TYPE.PERCENT) {
-      taxVal = multiply(amount, taxAmount / 100);
-    } else {
-      taxVal = taxAmount;
+  if (isArrayHasItem(taxes)) {
+    for (let i = 0; i < taxes.length; i += 1) {
+      const { type, amount: taxAmount } = taxes[i];
+      let taxVal = 0;
+      if (type === TAX_TYPE.PERCENT) {
+        taxVal = multiply(amount, taxAmount / 100);
+      } else {
+        taxVal = taxAmount;
+      }
+      rs.taxes.push({ ...taxes[i], taxAmount: taxVal });
+      rs.tax = plus(rs.tax, taxVal);
     }
-    rs.taxes.push({ ...taxes[i], taxAmount: taxVal });
-    rs.tax = plus(rs.tax, taxVal);
-    rs.totalWithTax = plus(amount, taxVal);
   }
+  rs.totalWithTax = plus(amount, rs.tax);
+
   return rs;
 }
 
@@ -82,14 +86,16 @@ export function calculateOrder(order) {
       rs.total = plus(rs.total, price);
       rs.tax = plus(rs.tax, product.tax);
       rs.totalWithTax = plus(rs.totalWithTax, productTax.totalWithTax);
-      for (let j = 0; j < product.taxes.length; j += 1) {
-        const tax = product.taxes[j];
-        let taxExisted = rs.taxes.find(t => t.id === tax.id);
-        if (!taxExisted) {
-          taxExisted = { ...tax };
-          rs.taxes.push(taxExisted);
-        } else {
-          taxExisted.taxAmount = plus(taxExisted.taxAmount, tax.taxAmount);
+      if (isArrayHasItem(product.taxes)) {
+        for (let j = 0; j < product.taxes.length; j += 1) {
+          const tax = product.taxes[j];
+          let taxExisted = rs.taxes.find(t => t.id === tax.id);
+          if (!taxExisted) {
+            taxExisted = { ...tax };
+            rs.taxes.push(taxExisted);
+          } else {
+            taxExisted.taxAmount = plus(taxExisted.taxAmount, tax.taxAmount);
+          }
         }
       }
     }
