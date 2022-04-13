@@ -21,7 +21,7 @@ const PosListOrder = () => {
     () => (
       <div className="list-group">
         {orders.map((t, i) => (
-          <>
+          <div key={`order${t.id}`}>
             <div
               role="button"
               tabIndex={i}
@@ -34,7 +34,6 @@ const PosListOrder = () => {
               )}
               onClick={() => dispatch(selectOrder(i))}
               onKeyDown={() => dispatch(selectOrder(i))}
-              key={`order${t.id}`}
             >
               <p
                 className="m-0 pr-1 text-ellipsis small"
@@ -102,7 +101,7 @@ const PosListOrder = () => {
                 )}
               </div>
             </UncontrolledTooltip>
-          </>
+          </div>
         ))}
       </div>
     ),

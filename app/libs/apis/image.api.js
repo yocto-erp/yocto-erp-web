@@ -11,11 +11,14 @@ export const thumbnail = filename =>
   filename ? `/thumbnail/${filename}.png` : noImage;
 
 export const cloudImageUrl = asset => {
-  const { ipfs, fileId } = asset;
-  if (ipfs && ipfs.totalPinned >= 2) {
-    return `${IPFS_GATEWAY_URL}/${ipfs.carId}/${fileId}`;
+  if (asset) {
+    const { ipfs, fileId } = asset;
+    if (ipfs && ipfs.totalPinned >= 2) {
+      return `${IPFS_GATEWAY_URL}/${ipfs.carId}/${fileId}`;
+    }
+    return imageUrl(fileId);
   }
-  return imageUrl(fileId);
+  return noImage;
 };
 
 export const assetApi = {
