@@ -230,7 +230,7 @@ export const SIDE_BAR_MENU = {
         {
           header: "Công nợ",
           link: DEBT_ROOT_PATH,
-          index: "finance.taxSet",
+          index: "finance.debt",
           permission: [PERMISSION.TAX.READ],
           isHeader: true,
         },

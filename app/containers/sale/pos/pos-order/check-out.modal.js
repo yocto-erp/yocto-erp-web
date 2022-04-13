@@ -446,7 +446,6 @@ PosCheckOut.propTypes = {
   order: PropTypes.object,
   onClose: PropTypes.func,
   form: PropTypes.object,
-  posId: PropTypes.string.isRequired,
 };
 
 export default PosCheckOut;
