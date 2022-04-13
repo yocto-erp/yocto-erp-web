@@ -49,9 +49,9 @@ function calculateProductTax(taxes, amount) {
       }
       rs.taxes.push({ ...taxes[i], taxAmount: taxVal });
       rs.tax = plus(rs.tax, taxVal);
-      rs.totalWithTax = plus(amount, taxVal);
     }
   }
+  rs.totalWithTax = plus(amount, rs.tax);
 
   return rs;
 }

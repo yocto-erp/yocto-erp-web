@@ -22,6 +22,7 @@ import AssetSelect from "../../../components/assets/AssetSelect";
 import { MIME_TYPE } from "../../../components/assets/constants";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
+import FormError from "../../../components/Form/FormError";
 
 const validationSchema = yup.object().shape({
   product: yup
@@ -54,7 +55,7 @@ const ECommerceProductForm = ({ id }) => {
     register,
     watch,
     submit,
-    state: { isLoading, formData },
+    state: { isLoading, formData, errors: serverErrors },
     formState: { isDirty, isValid, errors },
   } = useHookCRUDForm({
     create,
@@ -87,6 +88,7 @@ const ECommerceProductForm = ({ id }) => {
   return (
     <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
+        <FormError errors={serverErrors} />
         <div className="row">
           <div className="col-md-7">
             <div className="row">

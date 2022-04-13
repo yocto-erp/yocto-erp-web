@@ -170,7 +170,7 @@ const PosOrderForm = () => {
               </table>
               <UncontrolledTooltip target={`tax${order.id}`}>
                 {(order.taxes || []).map(t => (
-                  <p className="mb-0">
+                  <p className="mb-0" key={`tax${t.id}`}>
                     {t.shortName}
                     {t.type === TAX_TYPE.PERCENT ? ` (${t.amount}%)` : ""}:{" "}
                     <Price amount={t.taxAmount} />
