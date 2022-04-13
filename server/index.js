@@ -18,7 +18,7 @@ const app = express();
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 if (isDev) {
-  console.log('Create Proxy');
+  console.log('Create Proxy', process.env.SERVER_URL);
   const serverURL = process.env.SERVER_URL || 'http://104.248.156.227:3001/';
   app.use(
     ['/api/**', '/thumbnail/**', '/upload/**'],
@@ -27,6 +27,9 @@ if (isDev) {
       changeOrigin: true,
       logLevel: 'debug',
       ws: true,
+      onError: (err, req, res, target) => {
+        console.log(err, req, res, target);
+      }
     }),
   );
 }
