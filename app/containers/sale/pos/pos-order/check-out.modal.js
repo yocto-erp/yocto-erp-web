@@ -159,7 +159,7 @@ const PosCheckOut = ({ order, onClose }) => {
               role="tabpanel"
               aria-labelledby="tab1"
             >
-              <h1 className="text-danger text-center">
+              <h1 className="text-success text-center">
                 <Price amount={order.totalWithTax} />
               </h1>
               <div>
@@ -423,7 +423,7 @@ const PosCheckOut = ({ order, onClose }) => {
         <ModalFooter>
           {state.errors && state.errors.length ? (
             <p className="mb-0 text-left text-danger flex-grow-1">
-              <i className="fa fa-warning fa-fw pl-2" />
+              <i className="fa fa-warning fa-fw mr-2" />
               {state.errors.map(t => t.message || t.code).join("\n")}
             </p>
           ) : null}

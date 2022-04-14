@@ -9,7 +9,7 @@
   background-color: $sidebar-bg-color;
   color: $sidebar-color;
   overflow-y: auto;
-  margin-left: 15px;
+  margin-left: 0;
   transition: height 1s;
   transform: translateX(-$sidebar-width-open);
 
@@ -26,7 +26,7 @@
   }
 
   :global(.sidebar-hide) & {
-    display: none;
+    // display: none;
   }
 
   @include scroll-bar($sidebar-scrollbar-bg);

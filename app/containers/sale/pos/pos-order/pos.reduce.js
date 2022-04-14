@@ -36,7 +36,11 @@ export function onCheckout() {
 export function checkOut(state) {
   const { orders, currentOrder } = state;
   orders.splice(currentOrder, 1);
-  return { ...state, orders: [...orders], currentOrder: 0 };
+  return {
+    ...state,
+    orders: [...orders],
+    currentOrder: orders.length ? 0 : -1,
+  };
 }
 
 export function onUpdateOrder(index, form) {

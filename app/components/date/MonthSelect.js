@@ -30,7 +30,6 @@ const MonthSelect = React.forwardRef(
 
     useEffect(() => {
       let month = null;
-      console.log(value);
       if (value) {
         try {
           month = monthToLocalDateObj(value.month, value.year);

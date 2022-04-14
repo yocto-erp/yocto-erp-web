@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import AsyncSelect from "react-select/async";
 import debounce from "lodash/debounce";
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../../components/constants";
-import { EcommerceSettingApi } from "../../../../libs/apis/ecommerce/ecommerce-setting.api";
+import { PaymentApi } from "../../../../libs/apis/finance/payment.api";
 
 const formatOptionLabel = data => (
   <div className="text-white">
@@ -17,15 +17,13 @@ const PaymentSelect = React.forwardRef((
   ref,
 ) => {
   const loadOptions = debounce((inputValue, cb) => {
-    EcommerceSettingApi.payment
-      .search({
-        page: 1,
-        size: 100,
-        filter: {
-          search: inputValue,
-        },
-      })
-      .then(resp => cb(resp));
+    PaymentApi.search({
+      page: 1,
+      size: 100,
+      filter: {
+        search: inputValue,
+      },
+    }).then(resp => cb(resp));
   }, 300);
   return (
     <AsyncSelect

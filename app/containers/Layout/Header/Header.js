@@ -1,7 +1,8 @@
-import { connect } from 'react-redux';
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+import React, { useCallback, useState } from "react";
+import PropTypes from "prop-types";
+import { Link, withRouter } from "react-router-dom";
+import { BiMenu, BiMenuAltLeft } from "react-icons/all";
 import {
   Collapse,
   Dropdown,
@@ -17,20 +18,20 @@ import {
   Navbar,
   NavItem,
   NavLink,
-} from 'reactstrap';
-import classNames from 'classnames';
-import Notifications from '../../../components/Notifications/Notifications';
+} from "reactstrap";
+import classNames from "classnames";
+import Notifications from "../../../components/Notifications/Notifications";
 import {
   changeSidebarVisibility,
   closeSidebar,
   openSidebar,
-} from '../redux/navigation';
-import s from './Header.module.scss';
-import '../../../../node_modules/animate.css/animate.css';
-import AccountDropDown from './components/AccountDropdown';
-import LanguageDropDown from './components/LanguageDropdown';
-import useUser from '../../../libs/hooks/useUser';
-import { CONFIGURATION_COMPANY_ROOT_PATH } from '../../configuration/constants';
+} from "../redux/navigation";
+import s from "./Header.module.scss";
+import "../../../../node_modules/animate.css/animate.css";
+import AccountDropDown from "./components/AccountDropdown";
+import LanguageDropDown from "./components/LanguageDropdown";
+import useUser from "../../../libs/hooks/useUser";
+import { CONFIGURATION_COMPANY_ROOT_PATH } from "../../configuration/constants";
 
 function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
   const [messagesOpen, setMessagesOpen] = useState(false);
@@ -63,7 +64,7 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
     <Navbar className={`d-print-none ${s.root}`}>
       <Nav
         className={classNames(
-          'd-flex justify-content-center align-content-center nav-responsive d-md-down-none',
+          "d-flex justify-content-center align-content-center nav-responsive d-md-down-none",
           s.rightMenu,
         )}
       >
@@ -73,12 +74,11 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
             className={`${s.navItem} text-white`}
             href="#"
           >
-            <i
-              className={classNames('glyphicon', {
-                'glyphicon-menu-left': sidebarVisibility === 'show',
-                'glyphicon-menu-right': sidebarVisibility === 'hide',
-              })}
-            />
+            {sidebarVisibility === "show" ? (
+              <BiMenuAltLeft size={32} />
+            ) : (
+              <BiMenu size={32} />
+            )}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -86,8 +86,8 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
             className={`${s.navItem} text-white nav-link company`}
             to={CONFIGURATION_COMPANY_ROOT_PATH}
           >
-            {user?.company?.name}{' '}
-            <i className="ml-2 fi flaticon-edit" style={{ fontSize: '1rem' }} />
+            {user?.company?.name}{" "}
+            <i className="ml-2 fi flaticon-edit" style={{ fontSize: "1rem" }} />
           </Link>
         </NavItem>
       </Nav>
@@ -98,7 +98,7 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
       >
         <InputGroup
           className={`${s.navbarForm} ${
-            searchFocused ? s.navbarFormFocused : ''
+            searchFocused ? s.navbarFormFocused : ""
           }`}
         >
           <InputGroupAddon addonType="prepend" className={s.inputAddon}>
