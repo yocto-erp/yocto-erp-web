@@ -1,22 +1,23 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { Route, Switch } from 'react-router-dom';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import { ToastContainer } from 'react-toastify';
+import React from "react";
+import { Helmet } from "react-helmet";
+import { Route, Switch } from "react-router-dom";
+import NotFoundPage from "containers/NotFoundPage/Loadable";
+import { ToastContainer } from "react-toastify";
 
-import GlobalStyle from '../../global-styles';
-import { Login } from '../Auth/login';
-import RegisterPage from '../Auth/register';
-import { VerifyMailPage } from '../Auth/verify-mail';
-import { VerifyInvitationPage } from '../Auth/verify-invitation';
-import ForgotPasswordPage from '../Auth/forgot-password';
-import RestPasswordPage from '../Auth/reset-password';
-import UserAdminDashboard from '../UserAdminDashboard';
+import GlobalStyle from "../../global-styles";
+import { Login } from "../Auth/login";
+import RegisterPage from "../Auth/register";
+import { VerifyMailPage } from "../Auth/verify-mail";
+import { VerifyInvitationPage } from "../Auth/verify-invitation";
+import ForgotPasswordPage from "../Auth/forgot-password";
+import RestPasswordPage from "../Auth/reset-password";
+import UserAdminDashboard from "../UserAdminDashboard";
 
-import 'styles/theme.scss';
-import 'overlayscrollbars/css/OverlayScrollbars.css';
-import UserPublicHomePage from '../public/UserPublicHomePage';
-import UserProductPage from '../public/UserProductPage';
+import "styles/theme.scss";
+import "overlayscrollbars/css/OverlayScrollbars.css";
+import UserPublicHomePage from "../public/UserPublicHomePage/Loadable";
+import UserProductPage from "../public/UserProductPage/Loadable";
+import CheckOutFlowPage from "../public/CheckOutFlowPage/Loadable";
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
         <Route path="/invite-confirm" exact component={VerifyInvitationPage} />
         <Route path="/admin" component={UserAdminDashboard} />
         <Route path="/cpm/:publicId/product" component={UserProductPage} />
+        <Route path="/cpm/:publicId/order" component={CheckOutFlowPage} />
         <Route path="/" component={UserPublicHomePage} />
         <Route path="" component={NotFoundPage} />
       </Switch>

@@ -12,14 +12,13 @@ import SearchButton from "../../../components/button/SearchButton";
 import Pagination from "../../../components/Pagination";
 
 const UserProductPage = () => {
-  console.log("Company Product page");
   const { publicId } = useParams();
   const { handleSubmit, register } = useForm({});
   const [searchObject, setSearchObject] = useState({
     search: "",
     tagging: null,
     page: 1,
-    size: 2,
+    size: 10,
   });
   const [option, setOptions] = useState({
     count: 0,

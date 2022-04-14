@@ -10,9 +10,10 @@ import {
   CardTitle,
 } from "reactstrap";
 import { addToCart } from "../../containers/public/shop/redux/shopping";
-import { imagePath } from "../../libs/apis/image.api";
+import { cloudImageUrl } from "../../libs/apis/image.api";
 import noImage from "../../images/No_image_available.svg";
 import { formatMoney } from "../../libs/utils/number.util";
+import "./style.scss";
 
 const CardShop = ({ index, item }) => {
   const dispatch = useDispatch();
@@ -20,16 +21,13 @@ const CardShop = ({ index, item }) => {
   return (
     <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 mt-3" key={index}>
       <Card>
-        <CardImg
-          top
-          width="100%"
-          src={
-            item?.product?.thumbnail
-              ? imagePath(item?.product?.thumbnail)
-              : noImage
-          }
-          alt="Card image cap"
-        />
+        <div className="box-image">
+          <CardImg
+            top
+            src={item?.thumbnail ? cloudImageUrl(item.thumbnail) : noImage}
+            alt="thumbnail"
+          />
+        </div>
         <CardBody>
           <CardTitle tag="h5" className="bold">
             {item?.webDisplayName}
