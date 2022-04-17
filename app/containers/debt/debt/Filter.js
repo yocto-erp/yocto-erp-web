@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
-import { Form, FormGroup, Input, Label } from "reactstrap";
-import { useForm } from "react-hook-form";
+import { Form, Input } from "reactstrap";
+import { Controller, useForm } from "react-hook-form";
+import { FormattedMessage } from "react-intl";
 import { useListFilter } from "../../../components/ListWidget/constants";
 import SearchButton from "../../../components/button/SearchButton";
+import { commonMessage } from "../../messages";
+import SelectSubject from "../../partner/subject/components/SelectSubject";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
-  const { handleSubmit, register, reset } = useForm({
+  const { handleSubmit, register, reset, control } = useForm({
     defaultValues: filter || {},
   });
 
@@ -18,21 +21,37 @@ const Filter = () => {
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
-      <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="name" className="mr-sm-2 sr-only">
-          Name
-        </Label>
-        <Input
-          type="search"
-          name="search"
-          className="mr-2"
-          style={{ width: "300px" }}
-          innerRef={register}
-          id="search"
-          placeholder="Search By Name"
+      <FormattedMessage {...commonMessage.searchByName}>
+        {msg => (
+          <Input
+            type="search"
+            name="search"
+            className="mr-2 mt-2 mt-md-0"
+            style={{ width: "300px" }}
+            innerRef={register}
+            id="search"
+            placeholder={msg}
+          />
+        )}
+      </FormattedMessage>
+      <div style={{ width: "300px" }} className="mr-2 mt-2 mt-md-0">
+        <Controller
+          name="subject"
+          defaultValue={null}
+          control={control}
+          render={({ onChange, ...data }) => (
+            <SelectSubject
+              id="partnerCompanyId"
+              placeholder="Partner Company"
+              onChange={val => {
+                onChange(val);
+              }}
+              {...data}
+            />
+          )}
         />
-        <SearchButton />
-      </FormGroup>
+      </div>
+      <SearchButton className="mr-2 mt-2 mt-md-0" />
     </Form>
   );
 };

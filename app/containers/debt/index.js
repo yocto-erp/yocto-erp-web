@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, Redirect, Route, Switch } from "react-router-dom";
 import { Col, Nav, NavItem, Row, TabContent, TabPane } from "reactstrap";
+import { FormattedMessage } from "react-intl";
 import {
   DEBT_ROOT_PATH,
   DEBT_LIST_ROOT_PATH,
@@ -8,6 +9,7 @@ import {
 } from "./constants";
 import DebtListPage from "./debt/Loadable";
 import CommonDebtPage from "./common/Loadable";
+import messages from "./messages";
 
 function DebtPage() {
   return (
@@ -20,7 +22,7 @@ function DebtPage() {
               to={DEBT_COMMON_ROOT_PATH}
               className="nav-link"
             >
-              Common
+              <FormattedMessage {...messages.tabCommon} />
             </NavLink>
           </NavItem>
           <NavItem>
@@ -29,7 +31,7 @@ function DebtPage() {
               to={DEBT_LIST_ROOT_PATH}
               className="nav-link"
             >
-              List Debt
+              <FormattedMessage {...messages.tabDebt} />
             </NavLink>
           </NavItem>
         </>

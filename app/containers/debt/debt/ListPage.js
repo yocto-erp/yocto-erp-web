@@ -149,7 +149,8 @@ const ListPage = ({ history }) => {
   );
   return (
     <ListWidget
-      pageHeader={<PageTitle title="List Debt" actions={actions} />}
+      isWidgetWrapper={false}
+      pageHeader={<PageTitle title="" actions={actions} />}
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={debtApi.search}

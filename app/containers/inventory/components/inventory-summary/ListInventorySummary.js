@@ -88,12 +88,8 @@ const ListInventorySummary = ({ history }) => {
 
   return (
     <ListWidget
-      pageHeader={
-        <PageTitle
-          title={<FormattedMessage {...inventoryMessages.inventoryTitle} />}
-          actions={actions}
-        />
-      }
+      isWidgetWrapper={false}
+      pageHeader={<PageTitle title="" actions={actions} />}
       columns={columns}
       fetchData={inventorySummaryApi.search}
       initialSize={10}

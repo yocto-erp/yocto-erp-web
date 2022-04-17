@@ -51,7 +51,7 @@ const ProductSelect = React.forwardRef((
           aria-labelledby="test"
           className="react-select-container"
           classNamePrefix="react-select"
-          placeholder={placeholder || "Search Product"}
+          placeholder={placeholder || "Search and Select"}
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any Product with search "${inputValue}", try to search another`

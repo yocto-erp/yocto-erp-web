@@ -21,6 +21,9 @@ export function stringifySearchObject(params) {
   });
 }
 
+export const objectToQueryString = obj =>
+  stringify(obj, { arrayFormat: "indices" });
+
 export const convertQueryWithDate = (dateParams = ["startDate", "endDate"]) => (
   key,
   value,

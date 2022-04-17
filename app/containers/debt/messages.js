@@ -10,12 +10,21 @@ export const scope = "containers.debt";
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: "Common Debt",
+    defaultMessage: "Quản lý nợ",
   },
   listPageCommonHeader: {
     id: `${scope}.header`,
-    defaultMessage: "Common Debt",
+    defaultMessage: "Quản lý nợ",
   },
+  tabCommon: {
+    id: `${scope}.tabCommon`,
+    defaultMessage: "Quản lý nợ",
+  },
+  tabDebt: {
+    id: `${scope}.tabDebt`,
+    defaultMessage: "Danh sách nợ chi tiết",
+  },
+
   listPageType2: {
     id: `${scope}.listPageTypeCOMPANY`,
     defaultMessage: "Công ty",

@@ -27,6 +27,7 @@ const ListWidget = ({
   mappingUrlData,
   initFilter,
   initSorts,
+  isWidgetWrapper = true,
   ...props
 }) => {
   const {
@@ -188,7 +189,6 @@ const ListWidget = ({
 
   const searchByFilter = React.useCallback(
     par => {
-      setPage(1);
       setFilter(par);
     },
     [setPage, setFilter],
@@ -213,30 +213,32 @@ const ListWidget = ({
     searchApi(queryObj);
   }, [queryObj, searchApi]);
 
+  const mainEls = columns.length ? (
+    <div className="wrapper">
+      <div className="filter">
+        <ListFilterProvider value={{ searchByFilter, filter: queryObj.filter }}>
+          {props.children}
+        </ListFilterProvider>
+      </div>
+      <div className="table-responsive">
+        <table className="table table-sm table-bordered table-striped">
+          <thead>{tableHeader}</thead>
+          <tbody>{tableBody}</tbody>
+        </table>
+      </div>
+      {pagination}
+    </div>
+  ) : null;
+
   return (
     <ListActionProvider value={{ refresh, onDeleted }}>
       <ListStateProvider value={selectedList}>
         {pageHeader}
-        {columns.length ? (
-          <Widget className={widgetClassname}>
-            <div className="wrapper">
-              <div className="filter">
-                <ListFilterProvider
-                  value={{ searchByFilter, filter: queryObj.filter }}
-                >
-                  {props.children}
-                </ListFilterProvider>
-              </div>
-              <div className="table-responsive">
-                <table className="table table-sm table-bordered table-striped">
-                  <thead>{tableHeader}</thead>
-                  <tbody>{tableBody}</tbody>
-                </table>
-              </div>
-              {pagination}
-            </div>
-          </Widget>
-        ) : null}
+        {isWidgetWrapper ? (
+          <Widget className={widgetClassname}>{mainEls}</Widget>
+        ) : (
+          mainEls
+        )}
         {deleteDialog}
       </ListStateProvider>
     </ListActionProvider>
@@ -256,6 +258,7 @@ ListWidget.propTypes = {
   pageHeader: PropTypes.node,
   widgetClassname: PropTypes.string,
   mappingUrlData: PropTypes.func,
+  isWidgetWrapper: PropTypes.bool,
 };
 
 export default ListWidget;
