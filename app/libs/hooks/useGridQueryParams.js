@@ -95,7 +95,7 @@ export const useGridQueryParams = (
 
   const setFilter = useCallback(
     filter => {
-      const newObj = { ...queryObj, filter };
+      const newObj = { ...queryObj, filter, page: 1 };
       updateURL(newObj);
     },
     [queryObj, updateURL],

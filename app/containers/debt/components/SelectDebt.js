@@ -6,14 +6,30 @@ import classNames from "classnames";
 import debounce from "lodash/debounce";
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../components/constants";
 import debtApi from "../../../libs/apis/debt/debt.api";
+import SubjectView from "../../partner/subject/components/SubjectView";
+import Price from "../../../components/common/Price";
 
-const formatOptionLabel = data => (
+const formatOptionLabel = (data, { context }) => (
   <div className="text-white">
-    <span>{data.name}</span>
+    <span className="font-weight-bold">{data.name}</span>
+
+    {context === "menu" && (
+      <>
+        <br />
+        <span>
+          <Price className="text-danger" amount={data.amount} />
+        </span>
+        <SubjectView
+          item={data.subject}
+          isShowTagging={false}
+          isShowAddress={false}
+        />
+      </>
+    )}
   </div>
 );
 
-const SelectSettleDebtId = React.forwardRef((
+const SelectDebt = React.forwardRef((
   {
     onBlur,
     invalid,
@@ -76,7 +92,7 @@ const SelectSettleDebtId = React.forwardRef((
   );
 });
 
-SelectSettleDebtId.propTypes = {
+SelectDebt.propTypes = {
   value: PropTypes.any,
   invalid: PropTypes.bool,
   name: PropTypes.string.isRequired,
@@ -88,4 +104,4 @@ SelectSettleDebtId.propTypes = {
   debtType: PropTypes.array,
 };
 
-export default SelectSettleDebtId;
+export default SelectDebt;

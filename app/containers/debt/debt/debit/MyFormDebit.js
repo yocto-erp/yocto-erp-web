@@ -75,7 +75,7 @@ function MyFormDebit({ id }) {
       <Form onSubmit={submit} noValidate formNoValidate>
         <FormError errors={serverErrors} />
         <Row>
-          <Col xs="12" sm="6" md="12" lg="6" xl="6">
+          <Col md="6">
             <FormGroupInput
               label="Name"
               isRequired
@@ -119,13 +119,17 @@ function MyFormDebit({ id }) {
               error={errors.typeDebit}
             >
               {LIST_DEBIT_TYPE.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.name}
-                </option>
+                <FormattedMessage {...messages[`debtType${t.id}`]} key={t.id}>
+                  {msg => (
+                    <option key={t.id} value={t.id}>
+                      {msg}
+                    </option>
+                  )}
+                </FormattedMessage>
               ))}
             </FormGroupInput>
             <FormGroup>
-              <Label for="name" className="mr-sm-2">
+              <Label for="amount" className="mr-sm-2">
                 Amount
               </Label>
               <Controller
@@ -145,18 +149,8 @@ function MyFormDebit({ id }) {
               />
               <FormHookErrorMessage error={errors.amount} />
             </FormGroup>
-            <FormattedMessage {...messages.formRemark}>
-              {msg => (
-                <FormGroupInput
-                  label={msg}
-                  rows={4}
-                  type="textarea"
-                  name="remark"
-                  register={register}
-                  placeholder={msg}
-                />
-              )}
-            </FormattedMessage>
+          </Col>
+          <Col md="6">
             <FormGroup>
               <Label for="tagging" className="mr-sm-2">
                 Tagging
@@ -176,6 +170,18 @@ function MyFormDebit({ id }) {
               />
               <FormHookErrorMessage error={errors.tagging} />
             </FormGroup>
+            <FormattedMessage {...messages.formRemark}>
+              {msg => (
+                <FormGroupInput
+                  label={msg}
+                  rows={4}
+                  type="textarea"
+                  name="remark"
+                  register={register}
+                  placeholder={msg}
+                />
+              )}
+            </FormattedMessage>
           </Col>
         </Row>
 

@@ -9,8 +9,10 @@ import {
   Col,
 } from "reactstrap";
 import { useRouteMatch, Route, useHistory, Switch } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
 import ListInventorySummary from "./components/inventory-summary/ListInventorySummary";
 import ListInventory from "./components/inventory/ListInventory";
+import { inventoryMessages } from "./messages";
 
 const ListPage = () => {
   const { path } = useRouteMatch();
@@ -26,11 +28,13 @@ const ListPage = () => {
               <>
                 <NavItem>
                   <NavLink onClick={() => history.push(`${path}`)}>
-                    GOODS RECEIPT/ISSUE
+                    <FormattedMessage {...inventoryMessages.title} />
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="active">INVENTORY SUMMARY</NavLink>
+                  <NavLink className="active">
+                    <FormattedMessage {...inventoryMessages.inventoryTitle} />
+                  </NavLink>
                 </NavItem>
               </>
             )}
@@ -40,11 +44,13 @@ const ListPage = () => {
             render={() => (
               <>
                 <NavItem>
-                  <NavLink className="active">GOODS RECEIPT/ISSUE</NavLink>
+                  <NavLink className="active">
+                    <FormattedMessage {...inventoryMessages.title} />
+                  </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink onClick={() => history.push(`${path}/summary`)}>
-                    INVENTORY SUMMARY
+                    <FormattedMessage {...inventoryMessages.inventoryTitle} />
                   </NavLink>
                 </NavItem>
               </>

@@ -1,19 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, UncontrolledPopover } from "reactstrap";
+import {
+  Button,
+  Form,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "reactstrap";
 import classNames from "classnames";
 import { hasText } from "../../../../utils/util";
 import { GENDER } from "../../../../libs/apis/person.api";
 import "./PersonView.scss";
+import SubmitButton from "../../../../components/button/SubmitButton";
 
 const PersonView = ({ item, title = "Thông tin chi tiết" }) => {
+  const [isOpen, setIsOpen] = useState(false);
   if (!item) return null;
+
   return (
     <>
       <Button
         type="button"
         color="link"
-        id={`contactPerson${item.id}`}
+        onClick={() => setIsOpen(true)}
         className="contact-person text-decoration-none text-warning"
       >
         <i
@@ -26,40 +36,49 @@ const PersonView = ({ item, title = "Thông tin chi tiết" }) => {
         &nbsp;
         {item.fullName || `${item.firstName} ${item.lastName}`}{" "}
       </Button>
-      <UncontrolledPopover
-        target={`contactPerson${item.id}`}
-        placement="top"
-        trigger="focus"
+      <Modal
+        isOpen={isOpen}
+        className="primary"
+        fade={false}
+        backdrop
+        toggle={() => setIsOpen(false)}
       >
-        <div className="text-left text-dark p-2 contact-person-popup">
-          <p className="text-center font-weight-bold text-primary mb-0">
-            {title}
-          </p>
-          <hr />
-          <strong>
-            {item.fullName || `${item.firstName} ${item.lastName}`}{" "}
-          </strong>
-          <br />
-          {hasText(item.gsm) ? (
-            <>
-              <span>
-                <i className="fa fa-phone fa-fw" />
-                &nbsp;{item.gsm}{" "}
-              </span>
+        <Form noValidate formNoValidate>
+          <ModalHeader toggle={() => setIsOpen(false)}>{title}</ModalHeader>
+          <ModalBody>
+            <div className="text-left p-2 contact-person-popup">
+              <strong className="h4">
+                {item.fullName || `${item.firstName} ${item.lastName}`}{" "}
+              </strong>
               <br />
-            </>
-          ) : null}
-          {hasText(item.email) ? (
-            <>
-              <span>
-                <i className="fa fa-envelope fa-fw" />
-                &nbsp;{item.email}{" "}
-              </span>
               <br />
-            </>
-          ) : null}
-        </div>
-      </UncontrolledPopover>
+              {hasText(item.gsm) ? (
+                <>
+                  <span>
+                    <i className="fa fa-phone fa-fw" />
+                    &nbsp;{item.gsm}{" "}
+                  </span>
+                  <br />
+                </>
+              ) : null}
+              {hasText(item.email) ? (
+                <>
+                  <span>
+                    <i className="fa fa-envelope fa-fw" />
+                    &nbsp;{item.email}{" "}
+                  </span>
+                  <br />
+                </>
+              ) : null}
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <SubmitButton type="button" onClick={() => setIsOpen(false)}>
+              Close
+            </SubmitButton>
+          </ModalFooter>
+        </Form>
+      </Modal>
     </>
   );
 };

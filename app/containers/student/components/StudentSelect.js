@@ -55,11 +55,13 @@ const StudentSelect = React.forwardRef((
           noOptionsMessage={({ inputValue }) =>
             inputValue
               ? `Not found any student with search "${inputValue}", try to search another`
-              : "Input and search student"
+              : "Type & search student"
           }
           loadOptions={loadOptions1}
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isDisabled={disabled}
+          defaultOptions
+          menuPortalTarget={document.body}
           isClearable={isClearable}
           onBlur={onBlur}
           onFocus={onFocus}

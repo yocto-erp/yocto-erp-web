@@ -1,10 +1,10 @@
-import React from 'react';
-import { Form, FormGroup, Label } from 'reactstrap';
-import { Controller, useForm } from 'react-hook-form';
-import { useListFilter } from '../../../../components/ListWidget/constants';
-import SearchButton from '../../../../components/button/SearchButton';
-import ProductSelect from '../../../../components/common/product/ProductSelect';
-import WarehouseSelect from '../../../../components/common/warehouse/WarehouseSelect';
+import React from "react";
+import { Form } from "reactstrap";
+import { Controller, useForm } from "react-hook-form";
+import { useListFilter } from "../../../../components/ListWidget/constants";
+import SearchButton from "../../../../components/button/SearchButton";
+import ProductSelect from "../../../../components/common/product/ProductSelect";
+import WarehouseSelect from "../../../../components/common/warehouse/WarehouseSelect";
 
 const FilterInventorySummary = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -20,39 +20,41 @@ const FilterInventorySummary = () => {
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
-      <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="warehouseId" className="mr-sm-2">
-          Warehouse
-        </Label>
-        <div style={{ width: '250px' }}>
-          <Controller
-            defaultValue={null}
-            name="warehouse"
-            control={control}
+      <Controller
+        defaultValue={null}
+        name="warehouse"
+        control={control}
+        render={({ onChange, value }, { invalid }) => (
+          <WarehouseSelect
+            className="mr-2 mt-md-0 mt-2"
             id="warehouseId"
             placeholder="Select Warehouse"
-            as={WarehouseSelect}
+            onChange={onChange}
+            value={value}
+            invalid={invalid}
           />
-        </div>
-      </FormGroup>
+        )}
+      />
 
-      <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="productId" className="mr-sm-2">
-          Product
-        </Label>
+      <div style={{ width: "300px" }} className="mr-2 mt-md-0 mt-2">
         <Controller
           name="product"
           defaultValue={null}
-          creatable={false}
-          style={{ width: '250px' }}
           control={control}
-          id="productId"
-          placeholder="Product Name"
-          as={ProductSelect}
+          render={({ onChange, value }, { invalid }) => (
+            <ProductSelect
+              name="product"
+              creatable={false}
+              id="productId"
+              placeholder="Search and Select Product"
+              onChange={onChange}
+              value={value}
+              invalid={invalid}
+            />
+          )}
         />
-      </FormGroup>
-
-      <SearchButton />
+      </div>
+      <SearchButton className="mr-2 mt-md-0 mt-2" />
     </Form>
   );
 };

@@ -203,12 +203,8 @@ const ListInventory = ({ history }) => {
 
   return (
     <ListWidget
-      pageHeader={
-        <PageTitle
-          title={<FormattedMessage {...inventoryMessages.title} />}
-          actions={actions}
-        />
-      }
+      pageHeader={<PageTitle title="" actions={actions} />}
+      isWidgetWrapper={false}
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={inventoryApi.search}

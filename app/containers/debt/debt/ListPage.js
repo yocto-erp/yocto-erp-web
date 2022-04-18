@@ -2,6 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
 import Filter from "./Filter";
 import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
 import {
@@ -29,6 +30,7 @@ import SubjectView from "../../partner/subject/components/SubjectView";
 import Price from "../../../components/common/Price";
 import DebtTypeView from "../components/DebtTypeView";
 import Tags from "../../../components/Form/tagging/ViewTags";
+import messages from "../messages";
 
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
@@ -102,7 +104,7 @@ const ListPage = ({ history }) => {
           history.push(newPage(DEBT_DEBIT_ROOT_PATH));
         }}
       >
-        Ghi Nợ
+        <FormattedMessage {...messages.btnAddDebt} />
       </CreateButton>
       <CreateButton
         className="mr-2 btn-raised"
@@ -111,7 +113,7 @@ const ListPage = ({ history }) => {
           history.push(newPage(DEBT_PAID_ROOT_PATH));
         }}
       >
-        Trả Nợ
+        <FormattedMessage {...messages.btnAddDebtPaid} />
       </CreateButton>
     </>
   );
@@ -149,7 +151,8 @@ const ListPage = ({ history }) => {
   );
   return (
     <ListWidget
-      pageHeader={<PageTitle title="List Debt" actions={actions} />}
+      isWidgetWrapper={false}
+      pageHeader={<PageTitle title="" actions={actions} />}
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={debtApi.search}
