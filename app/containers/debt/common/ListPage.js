@@ -10,6 +10,7 @@ import debtCommonApi from "../../../libs/apis/debt/debt-common.api";
 import Price from "../../../components/common/Price";
 import { objectToQueryString } from "../../../libs/utils/query.util";
 import { mappingOptionSubject } from "../../partner/subject/constants";
+import { distanceFromNow } from "../../../libs/utils/date.util";
 
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
@@ -30,6 +31,20 @@ const ListPage = ({ history }) => {
         data: "credit",
         class: "min",
         render: row => <Price amount={row?.credit} />,
+      },
+      {
+        header: "Cập nhập vào",
+        data: "lastModifiedDate",
+        class: "min",
+        sort: {
+          name: "lastModifiedDate",
+        },
+        render: row => (
+          <>
+            <i className="fi flaticon-time" />{" "}
+            {distanceFromNow(new Date(row.lastModifiedDate))}
+          </>
+        ),
       },
       {
         header: "Action",

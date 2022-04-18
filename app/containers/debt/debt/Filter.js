@@ -6,6 +6,8 @@ import { useListFilter } from "../../../components/ListWidget/constants";
 import SearchButton from "../../../components/button/SearchButton";
 import { commonMessage } from "../../messages";
 import SelectSubject from "../../partner/subject/components/SelectSubject";
+import { LIST_DEBIT_TYPE, LIST_PAID_TYPE } from "../constants";
+import messages from "../messages";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -51,6 +53,23 @@ const Filter = () => {
           )}
         />
       </div>
+      <Input
+        type="select"
+        name="type"
+        innerRef={register}
+        className="mr-2 mt-2 mt-md-0"
+      >
+        <option value="">ALL</option>
+        {[...LIST_DEBIT_TYPE, ...LIST_PAID_TYPE].map(t => (
+          <FormattedMessage {...messages[`debtType${t.id}`]} key={t.id}>
+            {msg => (
+              <option key={t.id} value={t.id}>
+                {msg}
+              </option>
+            )}
+          </FormattedMessage>
+        ))}
+      </Input>
       <SearchButton className="mr-2 mt-2 mt-md-0" />
     </Form>
   );

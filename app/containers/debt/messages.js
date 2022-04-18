@@ -69,4 +69,44 @@ export default defineMessages({
     id: `${scope}.formRemark`,
     defaultMessage: "Người liên hệ",
   },
+  debtType1: {
+    id: `${scope}.debtType1`,
+    defaultMessage: "Nợ cần thu",
+  },
+  debtType2: {
+    id: `${scope}.debtType2`,
+    defaultMessage: "Nợ phải trả",
+  },
+  debtType3: {
+    id: `${scope}.debtType3`,
+    defaultMessage: "Thu nợ",
+  },
+  debtType4: {
+    id: `${scope}.debtType4`,
+    defaultMessage: "Trả nợ",
+  },
+  btnAddDebt: {
+    id: `${scope}.btnAddDebt`,
+    defaultMessage: "Ghi nợ",
+  },
+  addDebtTitle: {
+    id: `${scope}.addDebtTitle`,
+    defaultMessage: "Tạo phiếu ghi nợ",
+  },
+  editDebtTitle: {
+    id: `${scope}.editDebtTitle`,
+    defaultMessage: "Cập nhập phiếu ghi nợ",
+  },
+  btnAddDebtPaid: {
+    id: `${scope}.btnAddDebt`,
+    defaultMessage: "Thanh toán nợ",
+  },
+  addDebtPaidTitle: {
+    id: `${scope}.addDebtPaidTitle`,
+    defaultMessage: "Tạo phiếu thanh toán nợ",
+  },
+  editDebtPaidTitle: {
+    id: `${scope}.editDebtPaidTitle`,
+    defaultMessage: "Cập nhập phiếu thanh toán nợ",
+  },
 });

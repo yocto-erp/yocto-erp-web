@@ -1,62 +1,44 @@
 import React from "react";
-import { NavLink, Redirect, Route, Switch } from "react-router-dom";
-import { Col, Nav, NavItem, Row, TabContent, TabPane } from "reactstrap";
-import { FormattedMessage } from "react-intl";
+import { Route, Switch } from "react-router-dom";
 import {
   DEBT_ROOT_PATH,
-  DEBT_LIST_ROOT_PATH,
-  DEBT_COMMON_ROOT_PATH,
+  DEBT_PAID_ROOT_PATH,
+  DEBT_DEBIT_ROOT_PATH,
 } from "./constants";
-import DebtListPage from "./debt/Loadable";
-import CommonDebtPage from "./common/Loadable";
-import messages from "./messages";
+
+import { editPagePattern, listPage, newPage } from "../../libs/utils/crud.util";
+
+import ListPage from "./ListPage";
+import EditPagePaid from "./debt/paid/EditPagePaid";
+import CreatePagePaid from "./debt/paid/CreatePagePaid";
+import EditPageDebit from "./debt/debit/EditPageDebit";
+import CreatePageDebit from "./debt/debit/CreatePageDebit";
 
 function DebtPage() {
   return (
-    <div>
-      <Nav tabs>
-        <>
-          <NavItem>
-            <NavLink
-              activeClassName="active"
-              to={DEBT_COMMON_ROOT_PATH}
-              className="nav-link"
-            >
-              <FormattedMessage {...messages.tabCommon} />
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              activeClassName="active"
-              to={DEBT_LIST_ROOT_PATH}
-              className="nav-link"
-            >
-              <FormattedMessage {...messages.tabDebt} />
-            </NavLink>
-          </NavItem>
-        </>
-      </Nav>
-      <TabContent>
-        <TabPane>
-          <Row>
-            <Col xl="12" lg="12" md="12" sm="12">
-              <Switch>
-                <Redirect
-                  exact
-                  from={DEBT_ROOT_PATH}
-                  to={DEBT_COMMON_ROOT_PATH}
-                />
-                <Route component={DebtListPage} path={DEBT_LIST_ROOT_PATH} />
-                <Route
-                  component={CommonDebtPage}
-                  path={DEBT_COMMON_ROOT_PATH}
-                />
-              </Switch>
-            </Col>
-          </Row>
-        </TabPane>
-      </TabContent>
-    </div>
+    <Switch>
+      <Route
+        exact
+        path={`${editPagePattern(DEBT_PAID_ROOT_PATH)}`}
+        component={EditPagePaid}
+      />
+      <Route
+        exact
+        path={`${newPage(DEBT_PAID_ROOT_PATH)}`}
+        component={CreatePagePaid}
+      />
+      <Route
+        exact
+        path={`${editPagePattern(DEBT_DEBIT_ROOT_PATH)}`}
+        component={EditPageDebit}
+      />
+      <Route
+        exact
+        path={`${newPage(DEBT_DEBIT_ROOT_PATH)}`}
+        component={CreatePageDebit}
+      />
+      <Route path={`${listPage(DEBT_ROOT_PATH)}`} component={ListPage} />
+    </Switch>
   );
 }
 

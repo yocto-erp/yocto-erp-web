@@ -4,7 +4,7 @@ export const DEFAULT_BACKGROUND_COLOR = "#040620";
 export const REACT_SELECT_OPTION_CUSTOM_STYLE = {
   option: (provided, state) => {
     let color = "white";
-    let background = "transparent";
+    let background = DEFAULT_BACKGROUND_COLOR;
     if (state.isDisabled) {
       color = "#798892";
     } else if (state.isFocused || state.isSelected) {
@@ -24,10 +24,20 @@ export const REACT_SELECT_OPTION_CUSTOM_STYLE = {
     ...styles,
     color: data.color || DEFAULT_TEXT_COLOR,
   }),
+  menu: provided => ({
+    ...provided,
+    "background-color": DEFAULT_BACKGROUND_COLOR,
+    border: "1px solid #1870DC",
+  }),
+  menuList: provided => ({
+    ...provided,
+    "background-color": DEFAULT_BACKGROUND_COLOR,
+    "border-radius": "4px",
+  }),
   menuPortal: provided => ({
     ...provided,
     container: {
-      background: "#040620",
+      background: DEFAULT_BACKGROUND_COLOR,
     },
   }),
 };

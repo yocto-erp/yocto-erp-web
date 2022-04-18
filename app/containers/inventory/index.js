@@ -1,16 +1,16 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import {
   INVENTORY_ROOT_PATH,
   PATH_GOODS_RECEIPT,
   PATH_GOODS_ISSUE,
-} from './constants';
-import { listPage, newPage } from '../../libs/utils/crud.util';
-import ListPage from './ListPage';
-import CreatePageGoodsReceipt from './goods-receipt/CreatePageGoodsReceipt';
-import EditPageGoodsReceipt from './goods-receipt/EditPageGoodsReceipt';
-import CreatePageGoodsIssue from './goods-issue/CreatePageGoodsIssue';
-import EditPageGoodsIssue from './goods-issue/EditPageGoodsIssue';
+} from "./constants";
+import { listPage, newPage } from "../../libs/utils/crud.util";
+import ListPage from "./ListPage";
+import CreatePageGoodsReceipt from "./goods-receipt/CreatePageGoodsReceipt";
+import EditPageGoodsReceipt from "./goods-receipt/EditPageGoodsReceipt";
+import CreatePageGoodsIssue from "./goods-issue/CreatePageGoodsIssue";
+import EditPageGoodsIssue from "./goods-issue/EditPageGoodsIssue";
 
 const MAIN_PATH = INVENTORY_ROOT_PATH;
 

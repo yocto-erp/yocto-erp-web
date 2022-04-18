@@ -21,7 +21,7 @@ import InputNumber from "../../../../components/Form/InputNumber";
 import { DEBIT_TYPE, LIST_PAID_TYPE, PAID_TYPE } from "../../constants";
 import { ERROR } from "../../../../components/Form/messages";
 import SelectSubject from "../../../partner/subject/components/SelectSubject";
-import SelectSettleDebtId from "../../components/SelectSettleDebtId";
+import SelectDebt from "../../components/SelectDebt";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -62,7 +62,7 @@ function MyFormPaid({ id }) {
       remark: "",
       amount: "",
       tagging: [],
-      settleDebtId: null,
+      settleDebt: null,
       subject: null,
     },
     id,
@@ -79,7 +79,7 @@ function MyFormPaid({ id }) {
       <Form onSubmit={submit} noValidate formNoValidate>
         <FormError errors={serverErrors} />
         <Row>
-          <Col xs="12" sm="6" md="12" lg="6" xl="6">
+          <Col md={6}>
             <FormGroupInput
               label="Name"
               isRequired
@@ -90,28 +90,32 @@ function MyFormPaid({ id }) {
               placeholder="Name"
             />
             <FormGroupInput
-              label="Loại trả nợ"
+              label="Loại"
               name="type"
               type="select"
               register={register}
               error={errors.typeDebit}
             >
               {LIST_PAID_TYPE.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.name}
-                </option>
+                <FormattedMessage {...messages[`debtType${t.id}`]} key={t.id}>
+                  {msg => (
+                    <option key={t.id} value={t.id}>
+                      {msg}
+                    </option>
+                  )}
+                </FormattedMessage>
               ))}
             </FormGroupInput>
             <FormGroup>
               <Label for="name" className="mr-sm-2">
-                Debt
+                Thanh toán cho phiếu nợ
               </Label>
               <Controller
-                name="settleDebtId"
-                defaultValue={formData.settleDebtId}
+                name="settleDebt"
+                defaultValue={formData.settleDebt}
                 control={control}
                 render={({ onChange, ...data }, { invalid }) => (
-                  <SelectSettleDebtId
+                  <SelectDebt
                     id="settleDebtId"
                     placeholder="settleDebtId"
                     debtType={
@@ -180,18 +184,8 @@ function MyFormPaid({ id }) {
               />
               <FormHookErrorMessage error={errors.amount} />
             </FormGroup>
-            <FormattedMessage {...messages.formRemark}>
-              {msg => (
-                <FormGroupInput
-                  label={msg}
-                  rows={4}
-                  type="textarea"
-                  name="remark"
-                  register={register}
-                  placeholder={msg}
-                />
-              )}
-            </FormattedMessage>
+          </Col>
+          <Col md={6}>
             <FormGroup>
               <Label for="tagging" className="mr-sm-2">
                 Tagging
@@ -211,6 +205,18 @@ function MyFormPaid({ id }) {
               />
               <FormHookErrorMessage error={errors.tagging} />
             </FormGroup>
+            <FormattedMessage {...messages.formRemark}>
+              {msg => (
+                <FormGroupInput
+                  label={msg}
+                  rows={5}
+                  type="textarea"
+                  name="remark"
+                  register={register}
+                  placeholder={msg}
+                />
+              )}
+            </FormattedMessage>
           </Col>
         </Row>
 

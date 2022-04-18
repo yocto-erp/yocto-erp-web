@@ -7,7 +7,9 @@ import {
   startOfMonth,
   startOfWeek,
   parseISO,
+  formatDistanceToNowStrict,
 } from "date-fns";
+import { vi, enUS } from "date-fns/locale";
 
 export const FNS_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
 export const FNS_DATE_FORMAT = "dd/MM/yyyy";
@@ -84,4 +86,20 @@ export function thisMonthRange() {
     from: startOfMonth(new Date()),
     to: endOfMonth(new Date()),
   };
+}
+
+const getMappingLocale = localeStr => {
+  switch (localeStr) {
+    case "vi":
+      return vi;
+    default:
+      return enUS;
+  }
+};
+
+export function distanceFromNow(date, opts = { locale: "vi" }) {
+  return formatDistanceToNowStrict(date, {
+    addSuffix: true,
+    locale: getMappingLocale(opts.locale),
+  });
 }

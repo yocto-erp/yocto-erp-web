@@ -4,8 +4,8 @@ export const DEBT_ROOT_PATH = `${ADMIN_PATH}/debt`;
 export const DEBT_LIST_ROOT_PATH = `${DEBT_ROOT_PATH}/list`;
 export const DEBT_COMMON_ROOT_PATH = `${DEBT_ROOT_PATH}/common`;
 
-export const DEBT_DEBIT_ROOT_PATH = `${DEBT_LIST_ROOT_PATH}/debit`;
-export const DEBT_PAID_ROOT_PATH = `${DEBT_LIST_ROOT_PATH}/paid`;
+export const DEBT_DEBIT_ROOT_PATH = `${DEBT_ROOT_PATH}/debit`;
+export const DEBT_PAID_ROOT_PATH = `${DEBT_ROOT_PATH}/paid`;
 
 export const DEBT_PURPOSE_TYPE = {
   SALE: 1,

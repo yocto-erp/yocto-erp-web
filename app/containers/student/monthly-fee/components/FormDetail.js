@@ -384,28 +384,6 @@ const FormDetail = ({
               )}
             />
           </InputGroup>
-          <InputGroup size="sm">
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>
-                <i className="fa fa-money fa-fw" />
-              </InputGroupText>
-            </InputGroupAddon>
-            <Controller
-              control={control}
-              defaultValue={item.debt}
-              invalid={!!get(errors, ["details", index, "debt"], false)}
-              name={`details[${index}].debt`}
-              render={({ onChange, value, onBlur, ...props }) => (
-                <InputNumber
-                  {...props}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  placeholder="Debt"
-                />
-              )}
-            />
-          </InputGroup>
         </td>
         <td>
           <Input

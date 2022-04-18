@@ -25,7 +25,6 @@ if (isDev) {
     createProxyMiddleware({
       target: serverURL,
       changeOrigin: true,
-      logLevel: 'debug',
       ws: true,
       onError: (err, req, res, target) => {
         console.log(err, req, res, target);

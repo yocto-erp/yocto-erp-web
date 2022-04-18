@@ -1,24 +1,13 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import {
-  editPagePattern,
-  listPage,
-  newPage,
-} from "../../../libs/utils/crud.util";
-import ListPage from "./ListPage";
+import { editPagePattern, newPage } from "../../../libs/utils/crud.util";
 import EditPageDebit from "./debit/EditPageDebit";
 import CreatePageDebit from "./debit/CreatePageDebit";
 import EditPagePaid from "./paid/EditPagePaid";
 import CreatePagePaid from "./paid/CreatePagePaid";
-import {
-  DEBT_DEBIT_ROOT_PATH,
-  DEBT_LIST_ROOT_PATH,
-  DEBT_PAID_ROOT_PATH,
-} from "../constants";
+import { DEBT_DEBIT_ROOT_PATH, DEBT_PAID_ROOT_PATH } from "../constants";
 
-const MAIN_PATH = DEBT_LIST_ROOT_PATH;
-
-function DebtListPage() {
+function indexPage() {
   return (
     <Switch>
       <Route
@@ -41,13 +30,12 @@ function DebtListPage() {
         path={`${newPage(DEBT_DEBIT_ROOT_PATH)}`}
         component={CreatePageDebit}
       />
-      <Route path={`${listPage(MAIN_PATH)}`} component={ListPage} />
     </Switch>
   );
 }
 
-DebtListPage.propTypes = {};
+indexPage.propTypes = {};
 
-DebtListPage.defaultProps = {};
+indexPage.defaultProps = {};
 
-export default DebtListPage;
+export default indexPage;

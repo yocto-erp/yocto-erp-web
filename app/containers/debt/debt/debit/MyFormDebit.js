@@ -119,9 +119,13 @@ function MyFormDebit({ id }) {
               error={errors.typeDebit}
             >
               {LIST_DEBIT_TYPE.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.name}
-                </option>
+                <FormattedMessage {...messages[`debtType${t.id}`]} key={t.id}>
+                  {msg => (
+                    <option key={t.id} value={t.id}>
+                      {msg}
+                    </option>
+                  )}
+                </FormattedMessage>
               ))}
             </FormGroupInput>
             <FormGroup>
