@@ -31,7 +31,7 @@ export const initOrder = () => ({
   paymentAmount: 0,
 });
 
-function calculateProductTax(taxes, amount) {
+export function calculateProductTax(taxes, amount) {
   const rs = {
     tax: 0,
     taxes: [],

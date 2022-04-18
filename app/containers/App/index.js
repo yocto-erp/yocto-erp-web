@@ -16,8 +16,8 @@ import UserAdminDashboard from "../UserAdminDashboard";
 import "styles/theme.scss";
 import "overlayscrollbars/css/OverlayScrollbars.css";
 import UserPublicHomePage from "../public/UserPublicHomePage/Loadable";
-import UserProductPage from "../public/UserProductPage/Loadable";
-import CheckOutFlowPage from "../public/CheckOutFlowPage/Loadable";
+import UserProductPage from "../public/shop/UserProductPage/Loadable";
+import UserOrderPage from "../public/shop/UserOrderPage/Loadable";
 
 export default function App() {
   return (
@@ -46,7 +46,7 @@ export default function App() {
         <Route path="/invite-confirm" exact component={VerifyInvitationPage} />
         <Route path="/admin" component={UserAdminDashboard} />
         <Route path="/cpm/:publicId/product" component={UserProductPage} />
-        <Route path="/cpm/:publicId/order" component={CheckOutFlowPage} />
+        <Route path="/cpm/:publicId/order" component={UserOrderPage} />
         <Route path="/" component={UserPublicHomePage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
