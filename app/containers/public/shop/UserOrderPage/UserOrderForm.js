@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { useParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -25,19 +26,49 @@ import BackButton from "../../../../components/button/BackButton";
 import SubmitButton from "../../../../components/button/SubmitButton";
 import { ERROR } from "../../../../components/Form/messages";
 import ecommerceShopApi from "../../../../libs/apis/public/ecommerce-shop";
-import { API_STATE } from "../../../../libs/hooks/useApi";
-const schema = Yup.object().shape({
+import { API_STATE, useApi } from "../../../../libs/hooks/useApi";
+const schemaNotLogin = Yup.object().shape({
   email: Yup.string()
     .email(ERROR.email)
     .required(ERROR.required),
-  fullName: Yup.string().required(ERROR.required),
+  firstName: Yup.string().required(ERROR.required),
+  lastName: Yup.string().required(ERROR.required),
   phone: Yup.string().required(ERROR.required),
   address: Yup.string().when("isShipping", {
     is: true,
     then: Yup.string().required(ERROR.required),
   }),
 });
+
+const schemaLogin = Yup.object().shape({
+  address: Yup.string().when("isShipping", {
+    is: true,
+    then: Yup.string().required(ERROR.required),
+  }),
+});
 const UserOrderForm = () => {
+  const { publicId } = useParams();
+
+  const [company, setCompany] = useState(null);
+
+  const { state: stateGet, exec } = useApi(() =>
+    ecommerceShopApi.getCompanyByPublicId(publicId),
+  );
+
+  useEffect(() => {
+    if (publicId) {
+      exec();
+    }
+  }, [publicId]);
+
+  useEffect(() => {
+    if (stateGet.status === API_STATE.SUCCESS) {
+      setCompany(stateGet.resp);
+    } else if (stateGet.status === API_STATE.FAIL) {
+      toast.error(stateGet.errors.map(t => (t.message || t.code).join("\n")));
+    }
+  }, [stateGet]);
+
   const {
     products,
     total,
@@ -50,7 +81,7 @@ const UserOrderForm = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useUser();
   const { register, errors, onSubmit, state } = useMyForm({
-    validationSchema: schema,
+    validationSchema: isAuthenticated ? schemaLogin : schemaNotLogin,
     api: formData => {
       const form = {
         ...formData,
@@ -59,6 +90,7 @@ const UserOrderForm = () => {
         tax,
         totalWithTax,
         taxes,
+        companyId: company.id,
         userId: isAuthenticated ? user.id : null,
       };
       return ecommerceShopApi.create(form);
@@ -200,18 +232,29 @@ const UserOrderForm = () => {
           <>
             <h1>Information</h1>
             <Row>
-              <Col xs="12" sm="6" md="12" lg="4" xl="4">
+              <Col xs="12" sm="6" md="12" lg="6" xl="6">
                 <FormGroupInput
-                  label="FullName"
+                  label="FirstName"
                   isRequired
-                  name="fullName"
+                  name="firstName"
                   type="text"
-                  error={errors.fullName}
+                  error={errors.firstName}
                   register={register}
-                  placeholder="FullName"
+                  placeholder="FirstName"
                 />
               </Col>
-              <Col xs="12" sm="6" md="12" lg="4" xl="4">
+              <Col xs="12" sm="6" md="12" lg="6" xl="6">
+                <FormGroupInput
+                  label="LastName"
+                  isRequired
+                  name="lastName"
+                  type="text"
+                  error={errors.lastName}
+                  register={register}
+                  placeholder="LastName"
+                />
+              </Col>
+              <Col xs="12" sm="6" md="12" lg="6" xl="6">
                 <FormGroupInput
                   label="Email"
                   isRequired
@@ -222,7 +265,7 @@ const UserOrderForm = () => {
                   placeholder="Email"
                 />
               </Col>
-              <Col xs="12" sm="6" md="12" lg="4" xl="4">
+              <Col xs="12" sm="6" md="12" lg="6" xl="6">
                 <FormGroupInput
                   label="Phone"
                   isRequired

@@ -7,6 +7,8 @@ const API_ENDPOINT_URL = `${API_URL}/ecommerce-shop`;
 
 const ecommerceShopApi = {
   ...createCRUDApi(API_ENDPOINT_URL),
+  getCompanyByPublicId: publicId =>
+    fetchJSON(`${API_ENDPOINT_URL}/company/${publicId}`),
   listPublicECommerceProducts: (publicId, params) => {
     const { page, size, sorts, search, tagging } = params;
     const mapSorts = [];
