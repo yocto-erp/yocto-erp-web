@@ -14,7 +14,7 @@ import AccountDropDown from "../../Layout/Header/components/AccountDropdown";
 import LanguageDropDown from "../../Layout/Header/components/LanguageDropdown";
 import useUser from "../../../libs/hooks/useUser";
 import s from "../../Layout/Header/Header.module.scss";
-import CartNotification from "./CartNotification/CartNotification";
+import CardNotification from "./CardNotification/CardNotification";
 
 function Header({ companyName }) {
   const { user } = useUser();
@@ -65,7 +65,7 @@ function Header({ companyName }) {
                   s.notificationsWrapper
                 } py-0 animate__animated animate__faster animate__fadeInUp`}
               >
-                <CartNotification />
+                <CardNotification />
               </DropdownMenu>
             </Dropdown>
             <LanguageDropDown />

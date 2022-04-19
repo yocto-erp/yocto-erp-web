@@ -1,12 +1,14 @@
-import { stringify } from 'qs';
-import forIn from 'lodash/forIn';
-import { API_URL } from '../../../constants';
-import { createCRUDApi, fetchJSON } from '../fetch';
+import { stringify } from "qs";
+import forIn from "lodash/forIn";
+import { API_URL } from "../../../constants";
+import { createCRUDApi, fetchJSON } from "../fetch";
 
 const API_ENDPOINT_URL = `${API_URL}/ecommerce-shop`;
 
 const ecommerceShopApi = {
   ...createCRUDApi(API_ENDPOINT_URL),
+  getCompanyByPublicId: publicId =>
+    fetchJSON(`${API_ENDPOINT_URL}/company/${publicId}`),
   listPublicECommerceProducts: (publicId, params) => {
     const { page, size, sorts, search, tagging } = params;
     const mapSorts = [];
@@ -25,7 +27,7 @@ const ecommerceShopApi = {
     };
     return fetchJSON(
       `${API_ENDPOINT_URL}/products?${stringify(body, {
-        arrayFormat: 'repeat',
+        arrayFormat: "repeat",
       })}`,
     );
   },
