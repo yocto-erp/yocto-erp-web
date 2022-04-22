@@ -1,5 +1,5 @@
-import { API_URL } from '../../constants';
-import { fetchJSON, postJSON } from './fetch';
+import { API_URL } from "../../constants";
+import { fetchJSON, postJSON } from "./fetch";
 
 export const login = ({ email, password }) =>
   postJSON(`${API_URL}/sign-in`, {
