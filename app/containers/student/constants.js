@@ -1,6 +1,7 @@
 import { ADMIN_PATH } from "../../constants";
 
 export const STUDENT_ROOT_PATH = `${ADMIN_PATH}/student`;
+export const STUDENT_MANAGEMENT_ROOT_PATH = `${STUDENT_ROOT_PATH}/manage`;
 export const STUDENT_CONFIGURATION_ROOT_PATH = `${STUDENT_ROOT_PATH}/configure`;
 
 export const MAIN_CONTACT_TYPE = {

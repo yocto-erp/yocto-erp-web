@@ -1,8 +1,8 @@
-import { ADMIN_PATH } from '../../constants';
+import { ADMIN_PATH } from "../../constants";
 
 export const EMAIL_PROVIDER = {
-  SMTP: 'SMTP',
-  MAILGUN: 'MAILGUN',
+  SMTP: "SMTP",
+  MAILGUN: "MAILGUN",
 };
 
 export const CONFIGURATION_ROOT_PATH = `${ADMIN_PATH}/configuration`;

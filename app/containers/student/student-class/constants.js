@@ -1,3 +1,3 @@
-import { ADMIN_PATH } from "../../../constants";
+import { STUDENT_ROOT_PATH } from "../constants";
 
-export const STUDENT_CLASS_ROOT_PATH = `${ADMIN_PATH}/student-class`;
+export const STUDENT_CLASS_ROOT_PATH = `${STUDENT_ROOT_PATH}/student-class`;

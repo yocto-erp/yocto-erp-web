@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
-import { COLUMN_PROPS } from './constants';
-import { isFunc } from '../../utils/util';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import { v4 as uuidv4 } from "uuid";
+import { COLUMN_PROPS } from "./constants";
+import { isFunc } from "../../utils/util";
 
 const TableBody = ({
   columns,
@@ -36,7 +36,7 @@ const TableBody = ({
             key={item.data}
             style={
               item.width
-                ? { width: item.width ? `${item.width}` : 'inherit' }
+                ? { width: item.width ? `${item.width}` : "inherit" }
                 : {}
             }
             className={classNames(item.class)}

@@ -103,3 +103,18 @@ export function distanceFromNow(date, opts = { locale: "vi" }) {
     locale: getMappingLocale(opts.locale),
   });
 }
+
+export const getDatesBetween = (startDate, endDate, includeEndDate = true) => {
+  console.log(startDate, endDate);
+  const dates = [];
+  if (startDate && endDate) {
+    const currentDate = new Date(startDate);
+    while (currentDate < endDate) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    if (includeEndDate) dates.push(new Date(endDate));
+  }
+
+  return dates;
+};

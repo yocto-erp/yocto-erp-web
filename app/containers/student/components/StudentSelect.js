@@ -10,7 +10,9 @@ import StudentInfoView from "./StudentInfoView";
 
 const formatOptionLabel = data => (
   <div className="text-white">
-    <span>{data.child.name}</span>
+    <span>
+      {data.child.name} (<strong>{data.alias}</strong>)
+    </span>
   </div>
 );
 

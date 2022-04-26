@@ -7,7 +7,7 @@ import { COST_ROOT_PATH } from "../../cost/constants";
 import { INVENTORY_ROOT_PATH } from "../../inventory/constants";
 import {
   STUDENT_CONFIGURATION_ROOT_PATH,
-  STUDENT_ROOT_PATH,
+  STUDENT_MANAGEMENT_ROOT_PATH,
 } from "../../student/constants";
 import { STUDENT_MONTHLY_ROOT_PATH } from "../../student/monthly-fee/constants";
 import { SURVEY_MANAGEMENT_ROOT_PATH } from "../../survey/Admin/constants";
@@ -33,6 +33,7 @@ import { TAX_SET_ROOT_PATH } from "../../finance/tax/tax-set/constants";
 import { ASSET_ROOT_PATH } from "../../../components/assets/constants";
 import { PAYMENT_ROOT_PATH } from "../../finance/payment/constants";
 import { DEBT_ROOT_PATH } from "../../debt/constants";
+import { STUDENT_TRACKING_ROOT_PATH } from "../../student/student-tracking/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -109,20 +110,30 @@ export const SIDE_BAR_MENU = {
         {
           header: "Bus Stop",
           isHeader: true,
+          exact: true,
           link: STUDENT_BUS_STOP_ROOT_PATH,
           index: "student.busStop",
         },
         {
           header: "List Student",
           isHeader: true,
-          link: STUDENT_ROOT_PATH,
+          link: STUDENT_MANAGEMENT_ROOT_PATH,
+          exact: true,
           index: "student.list",
         },
         {
           header: "Monthly Fee",
           isHeader: true,
+          exact: true,
           link: STUDENT_MONTHLY_ROOT_PATH,
           index: "student.monthly-fee",
+        },
+        {
+          header: "Tracking",
+          isHeader: true,
+          exact: true,
+          link: STUDENT_TRACKING_ROOT_PATH,
+          index: "student.tracking",
         },
         {
           header: "Configure",

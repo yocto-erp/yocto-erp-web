@@ -27,6 +27,7 @@ import { STUDENT_ROOT_PATH } from "../student/constants";
 import StudentPage from "../student/Loadable";
 import StudentClassPage from "../student/student-class/Loadable";
 import StudentBusStopPage from "../student/student-bus-stop/Loadable";
+import StudentTrackingPage from "../student/student-tracking/Loadable";
 import ConfigurationPage from "../configuration/Loadable";
 import StudentMonthlyPage from "../student/monthly-fee/Loadable";
 import { STUDENT_MONTHLY_ROOT_PATH } from "../student/monthly-fee/constants";
@@ -63,6 +64,7 @@ import { SALE_ROOT_PATH } from "../sale/constants";
 import DebtPage from "../debt/Loadable";
 import { DEBT_ROOT_PATH } from "../debt/constants";
 import "animate.css";
+import { STUDENT_TRACKING_ROOT_PATH } from "../student/student-tracking/constants";
 
 function Layout({
   sidebarPosition,
@@ -124,7 +126,6 @@ function Layout({
                   component={StudentMonthlyPage}
                 />
                 <Route path={`${COST_ROOT_PATH}`} component={CostPage} />
-                <Route path={`${STUDENT_ROOT_PATH}`} component={StudentPage} />
                 <Route
                   path={`${STUDENT_CLASS_ROOT_PATH}`}
                   component={StudentClassPage}
@@ -133,6 +134,11 @@ function Layout({
                   path={STUDENT_BUS_STOP_ROOT_PATH}
                   component={StudentBusStopPage}
                 />
+                <Route
+                  path={STUDENT_TRACKING_ROOT_PATH}
+                  component={StudentTrackingPage}
+                />
+                <Route path={STUDENT_ROOT_PATH} component={StudentPage} />
                 <Route
                   path={`${CONFIGURATION_ROOT_PATH}`}
                   component={ConfigurationPage}
