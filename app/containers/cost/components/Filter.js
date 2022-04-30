@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Form, FormGroup, Input, Label } from "reactstrap";
+import { Form, Input } from "reactstrap";
 import { Controller, useForm } from "react-hook-form";
+import { FormattedMessage } from "react-intl";
 import SearchButton from "../../../components/button/SearchButton";
 import { useListFilter } from "../../../components/ListWidget/constants";
 import DateSelect from "../../../components/date/DateSelect";
 import SelectSubject from "../../partner/subject/components/SelectSubject";
+import messages from "../messages";
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../libs/apis/tagging.api";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -22,66 +26,90 @@ const Filter = () => {
     searchByFilter({ ...val, startDate, endDate });
   });
   return (
-    <Form onSubmit={onSubmit} inline>
-      <FormGroup>
-        <Label className="mr-2 sr-only">Name</Label>
-        <Input
-          type="text"
-          name="search"
-          className="mr-2"
-          placeholder="Search By Name"
-          style={{ width: "250px" }}
-          innerRef={register}
-        />
-      </FormGroup>
-      <FormGroup className="mr-2">
-        <Label className="mr-2 sr-only">Name</Label>
-        <div style={{ width: "250px" }}>
+    <Form onSubmit={onSubmit}>
+      <div className="form-inline">
+        <FormattedMessage {...messages.listPageFilterName}>
+          {msg => (
+            <Input
+              type="text"
+              name="search"
+              className="mr-2 mt-2 mt-md-0"
+              placeholder={msg}
+              style={{ width: "250px" }}
+              innerRef={register}
+            />
+          )}
+        </FormattedMessage>
+        <div style={{ width: "400px" }} className="mr-2 mt-2 mt-md-0">
+          <Controller
+            name="tagging"
+            defaultValue={[]}
+            control={control}
+            render={({ onChange, ...data }) => (
+              <InputAsyncTagging
+                {...data}
+                onChange={onChange}
+                loadOptionApi={taggingApi.search}
+              />
+            )}
+          />
+        </div>
+      </div>
+      <div className="form-inline mt-2">
+        <div style={{ width: "250px" }} className="mr-2 mt-2 mt-md-0">
           <Controller
             name="subject"
             defaultValue={null}
             control={control}
             render={({ onChange, ...data }, { invalid }) => (
-              <SelectSubject
-                id="subject"
-                placeholder="Choose Partner"
-                creatable={false}
-                invalid={invalid}
-                onChange={val => {
-                  onChange(val);
-                }}
-                {...data}
-              />
+              <FormattedMessage {...messages.listPageFilterPartner}>
+                {msg => (
+                  <SelectSubject
+                    id="subject"
+                    placeholder={msg}
+                    creatable={false}
+                    invalid={invalid}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
+                )}
+              </FormattedMessage>
             )}
           />
         </div>
-      </FormGroup>
-      <FormGroup className="mr-2">
-        <Label className="mr-2 sr-only">StartDate</Label>
-        <div>
-          <DateSelect
-            placeholder="Select start date"
-            id="fromDate"
-            value={startDate}
-            onChange={setStartDate}
-            isClearable
-          />
+
+        <div className="mr-2 mt-2 mt-md-0">
+          <FormattedMessage {...messages.listPageFilterFromDate}>
+            {msg => (
+              <DateSelect
+                placeholder={msg}
+                id="fromDate"
+                value={startDate}
+                onChange={setStartDate}
+                isClearable
+              />
+            )}
+          </FormattedMessage>
         </div>
-      </FormGroup>
-      <FormGroup className="mr-2">
-        <Label className="pr-2 sr-only">EndDate</Label>
-        <div>
-          <DateSelect
-            placeholder="Select end date"
-            id="toDate"
-            value={endDate}
-            minDate={startDate}
-            onChange={setEndDate}
-            isClearable
-          />
+
+        <div className="mr-2 mt-2 mt-md-0">
+          <FormattedMessage {...messages.listPageFilterToDate}>
+            {msg => (
+              <DateSelect
+                placeholder={msg}
+                id="toDate"
+                value={endDate}
+                minDate={startDate}
+                onChange={setEndDate}
+                isClearable
+              />
+            )}
+          </FormattedMessage>
         </div>
-      </FormGroup>
-      <SearchButton />
+        <SearchButton className="mt-2 mt-md-0" />
+      </div>
     </Form>
   );
 };

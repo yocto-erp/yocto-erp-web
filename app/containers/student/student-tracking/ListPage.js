@@ -15,6 +15,7 @@ import {
   formatDate,
   formatDateOnly,
   getDatesBetween,
+  thisMonthRange,
 } from "../../../libs/utils/date.util";
 import UserView from "../../../components/ListWidget/UserView";
 import { cloudImageUrl } from "../../../libs/apis/image.api";
@@ -29,10 +30,23 @@ const validationSchema = yup.object().shape({
   toDate: yup.date().required(),
 });
 const ListPage = () => {
+  const montRange = thisMonthRange();
   const { exec, state: summaryState } = useApi(studentTrackingApi.summary);
-  const { watch, onSubmit, formState, state, control, setValue } = useMyForm({
+  const {
+    watch,
+    onSubmit,
+    formState,
+    state,
+    control,
+    setValue,
+    resetState,
+  } = useMyForm({
     api: data => studentTrackingApi.list(data),
     validationSchema,
+    form: {
+      fromDate: montRange.from,
+      toDate: montRange.to,
+    },
   });
 
   const [isOpen, setIsOpen] = useState(false);
@@ -53,7 +67,7 @@ const ListPage = () => {
   const listDate = useMemo(() => {
     const rs = [];
     if (state.status === API_STATE.SUCCESS) {
-      const rangeDate = getDatesBetween(fromDate, toDate);
+      const rangeDate = getDatesBetween(fromDate, toDate, false);
       for (let i = rangeDate.length - 1; i >= 0; i -= 1) {
         const item = { date: rangeDate[i] };
         item.tracking = state.resp.find(
@@ -77,7 +91,14 @@ const ListPage = () => {
     [listDate],
   );
 
+  const reset = useCallback(() => {
+    resetState();
+    setSelectList({});
+  }, [resetState, setSelectList]);
+
   useEffect(() => {
+    reset();
+    console.log(fromDate, toDate);
     if (fromDate && toDate) {
       exec({ fromDate, toDate });
     }
@@ -137,7 +158,10 @@ const ListPage = () => {
                 name="student"
                 render={({ onChange, value, onBlur, name }, { invalid }) => (
                   <StudentSelect
-                    onChange={onChange}
+                    onChange={val => {
+                      reset();
+                      onChange(val);
+                    }}
                     invalid={invalid}
                     onBlur={onBlur}
                     isClearable
@@ -160,11 +184,18 @@ const ListPage = () => {
       <div className="row mt-4">
         <div className="col-md-3">
           {summaryState.status === API_STATE.LOADING && <LoadingIndicator />}
-          {summaryState.status === API_STATE.SUCCESS && (
+          {summaryState.status === API_STATE.SUCCESS && fromDate && toDate && (
             <>
-              <h4>
-                Summary {formatDateOnly(fromDate)} - {formatDateOnly(toDate)}
-              </h4>
+              <div
+                className="row justify-content-center align-items-center"
+                style={{ "min-height": "32px" }}
+              >
+                <div className="col-auto">
+                  <h5 className="mb-0 align-middle">
+                    {formatDateOnly(fromDate)} - {formatDateOnly(toDate)}
+                  </h5>
+                </div>
+              </div>
               <div className="table-responsive mt-4">
                 <table className="table table-sm table-bordered table-striped">
                   <thead>
@@ -205,7 +236,10 @@ const ListPage = () => {
             <>
               <div className="row justify-content-center align-items-center">
                 <div className="col">
-                  <h4>Daily Status</h4>
+                  <h5 className="mb-0">
+                    {student?.child.fullName || student?.child.name} (
+                    {student?.alias}) daily status
+                  </h5>
                 </div>
                 <div className="col-auto">
                   <span>Selects: {selectedLength}</span>

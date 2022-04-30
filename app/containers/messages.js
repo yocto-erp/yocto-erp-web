@@ -11,4 +11,16 @@ export const commonMessage = defineMessages({
     id: `${scope}.searchByName`,
     defaultMessage: "Tìm theo tên",
   },
+  createdBy: {
+    id: `${scope}.createdBy`,
+    defaultMessage: "Tạo bởi",
+  },
+  action: {
+    id: `${scope}.action`,
+    defaultMessage: "Thao tác",
+  },
+  btnSearch: {
+    id: `${scope}.btnSearch`,
+    defaultMessage: "Tìm kiếm",
+  },
 });

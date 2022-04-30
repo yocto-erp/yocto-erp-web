@@ -2,6 +2,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
+import classNames from "classnames";
 import Filter from "./components/Filter";
 import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import {
@@ -15,6 +17,7 @@ import {
   COST_PAYMENT_PATH,
   COST_RECEIPT_PATH,
   COST_ROOT_PATH,
+  COST_TYPE,
 } from "./constants";
 import apiCost from "../../libs/apis/cost.api";
 import CreateButton from "../../components/button/CreateButton";
@@ -28,6 +31,8 @@ import {
 import { convertQueryWithDate } from "../../libs/utils/query.util";
 import Tags from "../../components/Form/tagging/ViewTags";
 import SubjectView from "../partner/subject/components/SubjectView";
+import messages from "./messages";
+import { commonMessage } from "../messages";
 
 const ROOT_PATH = COST_ROOT_PATH;
 
@@ -35,7 +40,7 @@ const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: "Name",
+        header: <FormattedMessage {...messages.listPageName} />,
         data: "name",
         width: "20%",
         render: row => (
@@ -46,27 +51,31 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: "Type",
+        header: <FormattedMessage {...messages.listPageType} />,
         data: "type",
         sort: {
           name: "type",
         },
-        width: "1px",
-        render: row =>
-          row.type === 1 ? (
-            <span className="badge badge-success">RECEIPT</span>
-          ) : (
-            <span className="badge badge-danger">PAYMENT</span>
-          ),
+        class: "min no-wrap",
+        render: row => (
+          <span
+            className={classNames("badge", {
+              "badge-success": row.type === COST_TYPE.RECEIPT,
+              "badge-danger": row.type === COST_TYPE.PAYMENT,
+            })}
+          >
+            <FormattedMessage {...messages[`costType${row.type}`]} />
+          </span>
+        ),
       },
       {
-        header: "Đối tác",
+        header: <FormattedMessage {...messages.listPagePartner} />,
         data: "subject",
-        width: "1px",
+        class: "min no-wrap",
         render: row => <SubjectView item={row.subject} isShowTagging={false} />,
       },
       {
-        header: <span className="text-nowrap">Total Amount</span>,
+        header: <FormattedMessage {...messages.listPageAmount} />,
         data: "amount",
         render: row => <Price amount={row.amount} />,
         sort: {
@@ -75,18 +84,18 @@ const ListPage = ({ history }) => {
         class: "min text-right",
       },
       {
-        header: <span className="text-nowrap">Payment Method</span>,
+        header: <FormattedMessage {...messages.listPagePaymentMethod} />,
         data: "paymentMethod",
         render: row => row.paymentMethod?.name,
         class: "min text-center",
       },
       {
-        header: "Remark",
+        header: <FormattedMessage {...messages.listPageRemark} />,
         data: "remark",
       },
       CreatedByColumn,
       {
-        header: "Action",
+        header: <FormattedMessage {...commonMessage.action} />,
         data: "",
         class: "action",
         render: row => (
@@ -112,21 +121,22 @@ const ListPage = ({ history }) => {
   const actions = (
     <>
       <CreateButton
-        className="mr-2 btn-raised"
-        onClick={() => {
-          history.push(newPage(COST_PAYMENT_PATH));
-        }}
-      >
-        Payment Voucher
-      </CreateButton>
-      <CreateButton
         className="btn-raised"
         onClick={() => {
           history.push(newPage(COST_RECEIPT_PATH));
         }}
-        color="warning"
+        color="success"
       >
-        Receipt Voucher
+        <FormattedMessage {...messages.listPageBtnCreateReceipt} />
+      </CreateButton>
+      <CreateButton
+        className="ml-2 btn-raised"
+        color="danger"
+        onClick={() => {
+          history.push(newPage(COST_PAYMENT_PATH));
+        }}
+      >
+        <FormattedMessage {...messages.listPageBtnCreatePayment} />
       </CreateButton>
     </>
   );
@@ -168,7 +178,12 @@ const ListPage = ({ history }) => {
 
   return (
     <ListWidget
-      pageHeader={<PageTitle title="Cost Management" actions={actions} />}
+      pageHeader={
+        <PageTitle
+          title={<FormattedMessage {...messages.header} />}
+          actions={actions}
+        />
+      }
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={apiCost.search}

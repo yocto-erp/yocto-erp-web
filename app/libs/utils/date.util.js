@@ -24,6 +24,9 @@ export function ago(date1, date2) {
 }
 
 export function formatDateOnly(dateObj) {
+  if (!dateObj) {
+    return "";
+  }
   return format(dateObj, FNS_DATE_FORMAT);
 }
 

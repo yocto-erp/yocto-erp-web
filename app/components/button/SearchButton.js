@@ -1,21 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button } from "reactstrap";
+import { FormattedMessage } from "react-intl";
+import { commonMessage } from "../../containers/messages";
 
 const SearchButton = ({
   isLoading,
   children,
-  color = 'info',
+  color = "info",
   className,
   outline = true,
   ...props
 }) => {
-  let els = 'Loading';
+  let els = "Loading";
   if (!isLoading) {
     if (children) {
       els = children;
     } else {
-      els = 'Search';
+      els = <FormattedMessage {...commonMessage.btnSearch} />;
     }
   }
   return (

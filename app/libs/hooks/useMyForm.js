@@ -93,6 +93,13 @@ const useMyForm = ({ form = {}, validationSchema, api, onConfirm = null }) => {
     onSubmit,
     errors,
     reset,
+    resetState: () =>
+      setState({
+        isLoading: false,
+        errors: [],
+        resp: null,
+        status: API_STATE.PENDING,
+      }),
     setValue,
     state,
     watch,

@@ -1,7 +1,9 @@
 import React, { createContext, useContext } from "react";
 import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
 import CreatedBy from "./CreatedBy";
 import { formatDate } from "../../libs/utils/date.util";
+import { commonMessage } from "../../containers/messages";
 
 const ListFilterContext = createContext({});
 const ListActionContext = createContext(null);
@@ -36,7 +38,7 @@ export const ListActionProvider = ListActionContext.Provider;
 export const ListStateProvider = ListStateContext.Provider;
 
 export const CreatedByColumn = {
-  header: <span className="text-nowrap">Created By</span>,
+  header: <FormattedMessage {...commonMessage.createdBy} />,
   data: "createdBy",
   sort: {
     name: "createdDate",

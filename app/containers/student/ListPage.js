@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { Button, UncontrolledTooltip } from "reactstrap";
 import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import studentApi from "../../libs/apis/student/student.api";
-import { MAIN_CONTACT_TYPE, STUDENT_ROOT_PATH } from "./constants";
+import { MAIN_CONTACT_TYPE, STUDENT_MANAGEMENT_ROOT_PATH } from "./constants";
 import PageTitle from "../Layout/PageTitle";
 import {
   deletePagePattern,
@@ -24,7 +24,7 @@ import { CreatedByColumn } from "../../components/ListWidget/constants";
 import PersonView from "../partner/person/components/PersonView";
 import { GENDER } from "../../libs/apis/person.api";
 
-const ROOT_PATH = STUDENT_ROOT_PATH;
+const ROOT_PATH = STUDENT_MANAGEMENT_ROOT_PATH;
 const ListPage = ({ history }) => {
   const { configure } = useStudentConfigure();
 

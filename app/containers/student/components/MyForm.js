@@ -193,11 +193,13 @@ function MyForm({ id }) {
                     name="birthday"
                     control={control}
                     render={({ value, onChange }, { invalid }) => (
-                      <DateSelect
-                        value={value}
-                        onChange={onChange}
-                        invalid={invalid}
-                      />
+                      <div>
+                        <DateSelect
+                          value={value}
+                          onChange={onChange}
+                          invalid={invalid}
+                        />
+                      </div>
                     )}
                   />
                   <FormHookErrorMessage error={errors.birthday} />

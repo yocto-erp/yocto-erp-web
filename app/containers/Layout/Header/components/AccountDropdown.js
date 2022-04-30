@@ -1,24 +1,24 @@
-import React from 'react';
+import React from "react";
 import {
   Badge,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   UncontrolledDropdown,
-} from 'reactstrap';
-import { Link, useHistory } from 'react-router-dom';
-import { mutate } from 'swr';
-import s from '../Header.module.scss';
-import avatar from '../../../../images/people/a5.jpg';
-import { set, STORAGE } from '../../../../libs/utils/storage';
-import useUser, { SWR_KEY_USER } from '../../../../libs/hooks/useUser';
+} from "reactstrap";
+import { Link, useHistory } from "react-router-dom";
+import { mutate } from "swr";
+import s from "../Header.module.scss";
+import avatar from "../../../../images/No_image_available.svg";
+import { set, STORAGE } from "../../../../libs/utils/storage";
+import useUser, { SWR_KEY_USER } from "../../../../libs/hooks/useUser";
 
 const AccountDropDown = () => {
   const { user } = useUser();
   const history = useHistory();
   const logout = () => {
     set(STORAGE.JWT, null);
-    history.push('/');
+    history.push("/");
     return mutate(SWR_KEY_USER, null);
   };
   return (
@@ -27,9 +27,9 @@ const AccountDropDown = () => {
         nav
         caret
         style={{
-          color: '#f4f4f5',
+          color: "#f4f4f5",
           padding: 0,
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
         }}
       >
         <span className={`${s.avatar} rounded-circle thumb-sm float-left mr-2`}>
@@ -37,7 +37,7 @@ const AccountDropDown = () => {
         </span>
         <div
           className={`small ${s.accountCheck} text-truncate`}
-          style={{ maxWidth: '100px' }}
+          style={{ maxWidth: "100px" }}
         >
           {user?.email}
         </div>

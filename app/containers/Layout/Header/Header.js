@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { BiMenu, BiMenuAltLeft } from "react-icons/all";
+/* eslint-disable no-unused-vars */
 import {
   Collapse,
   Dropdown,
@@ -92,6 +93,7 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
         </NavItem>
       </Nav>
 
+      {/*
       <Collapse
         className={`${s.searchCollapse} ml-lg-0 mr-md-3`}
         isOpen={searchOpen}
@@ -131,7 +133,7 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
           </InputGroup>
         </FormGroup>
       </Form>
-
+*/}
       <Nav className="ml-md-0 d-flex nav-responsive">
         <NavItem className="d-lg-none d-md-block d-sm-none">
           <NavLink onClick={toggleSearchOpen} className={s.navItem} href="#">
@@ -139,6 +141,7 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
           </NavLink>
         </NavItem>
         <AccountDropDown />
+        {/*
         <Dropdown
           nav
           isOpen={messagesOpen}
@@ -157,6 +160,7 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
             <Notifications />
           </DropdownMenu>
         </Dropdown>
+        */}
         <NavItem className={`${s.divider} text-white`} />
         <LanguageDropDown />
         <NavItem className="d-md-none">

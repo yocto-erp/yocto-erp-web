@@ -115,7 +115,7 @@ const StudentTrackingUpdateStatusModal = ({
 
 StudentTrackingUpdateStatusModal.propTypes = {
   isOpen: PropTypes.bool,
-  student: PropTypes.object.isRequired,
+  student: PropTypes.object,
   listDate: PropTypes.array,
   closeHandle: PropTypes.func.isRequired,
 };
