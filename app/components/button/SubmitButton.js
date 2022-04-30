@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Button } from "reactstrap";
+import { FormattedMessage } from "react-intl";
+import { commonMessage } from "../../containers/messages";
 
 const SubmitButton = ({
   isLoading,
@@ -14,7 +16,7 @@ const SubmitButton = ({
   return (
     <Button color={color} disabled={isDisabled} type={type} {...props}>
       {isLoading ? <i className="fa fa-spinner fa-spin fa-fw" /> : ""}&nbsp;
-      {children || "Submit"}
+      {children || <FormattedMessage {...commonMessage.btnSubmit} />}
     </Button>
   );
 };

@@ -14,11 +14,11 @@ export default defineMessages({
   },
   listPageBtnCreatePayment: {
     id: `${scope}.listPageBtnCreatePayment`,
-    defaultMessage: "Phiếu thu",
+    defaultMessage: "Phiếu Chi",
   },
   listPageBtnCreateReceipt: {
     id: `${scope}.listPageBtnCreateReceipt`,
-    defaultMessage: "Phiếu chi",
+    defaultMessage: "Phiếu Thu",
   },
   listPageFilterName: {
     id: `${scope}.listPageFilterName`,

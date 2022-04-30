@@ -1,14 +1,18 @@
-import React from 'react';
-import { Button } from 'reactstrap';
+import React from "react";
+import { Button } from "reactstrap";
+import { FormattedMessage } from "react-intl";
+import PropTypes from "prop-types";
+import { commonMessage } from "../../containers/messages";
 
 const BackButton = props => (
   <Button onClick={() => window.history.back()} {...props}>
     <i className="la la-angle-left" />
-    {/* eslint-disable-next-line react/prop-types */}
-    {props.children ? props.children : 'Back'}
+    {props.children || <FormattedMessage {...commonMessage.btnBack} />}
   </Button>
 );
 
-BackButton.propTypes = {};
+BackButton.propTypes = {
+  children: PropTypes.node,
+};
 
 export default BackButton;

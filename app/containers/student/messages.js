@@ -5,7 +5,15 @@ const studentFormScope = "containers.student.form";
 export const studentFormMessage = defineMessages({
   header: {
     id: `${studentFormScope}.header`,
-    defaultMessage: "Thông tin đối tác",
+    defaultMessage: "Thông tin học sinh",
+  },
+  pageCreateHeader: {
+    id: `${studentFormScope}.pageCreateHeader`,
+    defaultMessage: "Tạo học sinh",
+  },
+  pageUpdateHeader: {
+    id: `${studentFormScope}.pageUpdateHeader`,
+    defaultMessage: "Cập nhập học sinh",
   },
   fullName: {
     id: `${studentFormScope}.fullName`,
@@ -56,3 +64,50 @@ export const studentFormMessage = defineMessages({
     defaultMessage: "Liên lạc mẹ",
   },
 });
+
+export const listPageMessage = {
+  header: {
+    id: `${studentFormScope}.listPageHeader`,
+    defaultMessage: "Quản lý học sinh",
+  },
+  filterSearch: {
+    id: `${studentFormScope}.listPageFilterSearch`,
+    defaultMessage: "Tìm theo tên hoặc ID",
+  },
+  filterStatus: {
+    id: `${studentFormScope}.listPageFilterStatus`,
+    defaultMessage: "Trạng thái",
+  },
+  tableStatus: {
+    id: `${studentFormScope}.listPageTableStatus`,
+    defaultMessage: "Trạng thái",
+  },
+  tableStudent: {
+    id: `${studentFormScope}.listPageTableStudent`,
+    defaultMessage: "Học sinh",
+  },
+  tableParent: {
+    id: `${studentFormScope}.listPageTableParent`,
+    defaultMessage: "Phụ huynh",
+  },
+  tableMeal: {
+    id: `${studentFormScope}.listPageTableMeal`,
+    defaultMessage: "Đăng ký ăn",
+  },
+  tableBus: {
+    id: `${studentFormScope}.listPageTableBus`,
+    defaultMessage: "Xe bus",
+  },
+  status1: {
+    id: `${studentFormScope}.status1`,
+    defaultMessage: "Chờ",
+  },
+  status2: {
+    id: `${studentFormScope}.status2`,
+    defaultMessage: "Đang học",
+  },
+  status3: {
+    id: `${studentFormScope}.status3`,
+    defaultMessage: "Nghỉ học",
+  },
+};

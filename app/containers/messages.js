@@ -19,8 +19,28 @@ export const commonMessage = defineMessages({
     id: `${scope}.action`,
     defaultMessage: "Thao tác",
   },
+  textRemark: {
+    id: `${scope}.textRemark`,
+    defaultMessage: "Chú thích",
+  },
   btnSearch: {
     id: `${scope}.btnSearch`,
     defaultMessage: "Tìm kiếm",
+  },
+  btnReset: {
+    id: `${scope}.btnReset`,
+    defaultMessage: "Xoá",
+  },
+  btnCreate: {
+    id: `${scope}.btnCreate`,
+    defaultMessage: "Tạo",
+  },
+  btnBack: {
+    id: `${scope}.btnBack`,
+    defaultMessage: "Quay lại",
+  },
+  btnSubmit: {
+    id: `${scope}.btnSubmit`,
+    defaultMessage: "Lưu",
   },
 });

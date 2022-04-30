@@ -4,9 +4,14 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import classNames from "classnames";
 import { Button, UncontrolledTooltip } from "reactstrap";
+import { FormattedMessage } from "react-intl";
 import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import studentApi from "../../libs/apis/student/student.api";
-import { MAIN_CONTACT_TYPE, STUDENT_MANAGEMENT_ROOT_PATH } from "./constants";
+import {
+  MAIN_CONTACT_TYPE,
+  STUDENT_MANAGEMENT_ROOT_PATH,
+  STUDENT_STATUS,
+} from "./constants";
 import PageTitle from "../Layout/PageTitle";
 import {
   deletePagePattern,
@@ -23,6 +28,8 @@ import useStudentConfigure from "../../libs/hooks/useStudentConfigure";
 import { CreatedByColumn } from "../../components/ListWidget/constants";
 import PersonView from "../partner/person/components/PersonView";
 import { GENDER } from "../../libs/apis/person.api";
+import { listPageMessage } from "./messages";
+import { commonMessage } from "../messages";
 
 const ROOT_PATH = STUDENT_MANAGEMENT_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -32,27 +39,39 @@ const ListPage = ({ history }) => {
     () => [
       {
         key: "status",
-        header: "Status",
+        header: <FormattedMessage {...listPageMessage.tableStatus} />,
         data: "status",
-        width: "5%",
+        class: "min text-center",
         sort: {
           name: "status",
         },
         render: row => {
-          if (row.status === 1) {
-            return <span className="badge badge-warning">PENDING</span>;
+          if (row.status === STUDENT_STATUS.PENDING) {
+            return (
+              <span className="badge badge-warning">
+                <FormattedMessage {...listPageMessage[`status${row.status}`]} />
+              </span>
+            );
           }
-          if (row.status === 2) {
-            return <span className="badge badge-success">ACTIVE</span>;
+          if (row.status === STUDENT_STATUS.ACTIVE) {
+            return (
+              <span className="badge badge-success">
+                <FormattedMessage {...listPageMessage[`status${row.status}`]} />
+              </span>
+            );
           }
-          if (row.status === 3) {
-            return <span className="badge badge-danger">LEAVE</span>;
+          if (row.status === STUDENT_STATUS.LEAVE) {
+            return (
+              <span className="badge badge-danger">
+                <FormattedMessage {...listPageMessage[`status${row.status}`]} />
+              </span>
+            );
           }
           return <></>;
         },
       },
       {
-        header: <strong>Student</strong>,
+        header: <FormattedMessage {...listPageMessage.tableStudent} />,
         data: "studentId",
         sort: {
           name: "name",
@@ -92,7 +111,7 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: "parent",
+        header: <FormattedMessage {...listPageMessage.tableParent} />,
         data: "father",
         width: "15%",
         render: row => (
@@ -127,18 +146,18 @@ const ListPage = ({ history }) => {
         ),
       },
       {
-        header: "Meal",
+        header: <FormattedMessage {...listPageMessage.tableMeal} />,
         data: "enableMeal",
-        width: "5%",
+        width: "min text-center",
         render: row =>
           row.enableMeal ? (
-            <span className="badge badge-success">YES</span>
+            <span className="badge badge-success">Có</span>
           ) : (
-            <span className="badge badge-danger">NO</span>
+            <span className="badge badge-danger">Không</span>
           ),
       },
       {
-        header: "Bus",
+        header: <FormattedMessage {...listPageMessage.tableBus} />,
         data: "bus",
         class: "min no-wrap",
         render: row => {
@@ -161,7 +180,7 @@ const ListPage = ({ history }) => {
       },
       CreatedByColumn,
       {
-        header: "Action",
+        header: <FormattedMessage {...commonMessage.action} />,
         data: "",
         class: "action",
         render: row => (
@@ -224,7 +243,12 @@ const ListPage = ({ history }) => {
   );
   return (
     <ListWidget
-      pageHeader={<PageTitle title="Student" actions={actions} />}
+      pageHeader={
+        <PageTitle
+          title={<FormattedMessage {...listPageMessage.header} />}
+          actions={actions}
+        />
+      }
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={studentApi.search}
