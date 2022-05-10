@@ -1,9 +1,18 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
-import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import {
+  Col,
+  Form,
+  FormGroup,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "reactstrap";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
 import FormError from "../../../../components/Form/FormError";
@@ -14,6 +23,7 @@ import { API_STATE, useApi } from "../../../../libs/hooks/useApi";
 import { studentTrackingApi } from "../../../../libs/apis/student/student-tracking.api";
 import { LIST_STUDENT_DAILY_STATUS } from "../constants";
 import { studentTrackingMessage } from "../messages";
+import BusStopSelect from "../../student-bus-stop/components/BusStopSelect";
 
 const validationSchema = Yup.object().shape({
   status: Yup.string().required(),
@@ -28,6 +38,7 @@ const StudentTrackingUpdateStatusModal = ({
   const {
     register,
     handleSubmit,
+    control,
     errors,
     formState: { isValid, isDirty },
   } = useForm({
@@ -88,6 +99,46 @@ const StudentTrackingUpdateStatusModal = ({
               </FormattedMessage>
             ))}
           </FormRow>
+          <FormGroup row hidden={!student?.enableBus}>
+            <Label for="toSchoolFromBusStop" sm={2}>
+              Đón tại
+            </Label>
+            <Col sm={10}>
+              <Controller
+                name="checkinPlace"
+                defaultValue={null}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <BusStopSelect
+                    id="toSchoolFromBusStop"
+                    placeholder="Đón tại"
+                    onChange={onChange}
+                    {...data}
+                  />
+                )}
+              />
+            </Col>
+          </FormGroup>
+          <FormGroup row hidden={!student?.enableBus}>
+            <Label for="toHomeBusStop" sm={2}>
+              Về đến
+            </Label>
+            <Col sm={10}>
+              <Controller
+                name="checkoutPlace"
+                defaultValue={null}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <BusStopSelect
+                    id="toHomeBusStop"
+                    placeholder="Về đến"
+                    onChange={onChange}
+                    {...data}
+                  />
+                )}
+              />
+            </Col>
+          </FormGroup>
           <FormRow
             label={<span className="text-nowrap">Remark</span>}
             labelCol={2}

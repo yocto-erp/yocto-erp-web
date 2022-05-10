@@ -287,11 +287,9 @@ const ListPage = () => {
                       <th className="min align-middle text-center">Date</th>
                       <th className="min align-middle text-center">Status</th>
                       <th className="align-middle">Remark</th>
+                      <th className="min align-middle text-center">Check In</th>
                       <th className="min align-middle text-center">
-                        Check In With
-                      </th>
-                      <th className="min align-middle text-center">
-                        Check Out With
+                        Check Out
                       </th>
                     </tr>
                   </thead>
@@ -340,8 +338,8 @@ const ListPage = () => {
                         </td>
                         <td>{t.tracking?.checkInRemark}</td>
                         <td>
-                          {t.tracking?.checkInDate && (
-                            <div className="media">
+                          <div className="media">
+                            {t.tracking?.checkInSignature && (
                               <a
                                 href={cloudImageUrl(
                                   t.tracking?.checkInSignature,
@@ -363,52 +361,52 @@ const ListPage = () => {
                                   alt="signature"
                                 />
                               </a>
+                            )}
 
-                              <div className="media-body">
-                                <span className="text-nowrap">
+                            <div className="media-body">
+                              <span className="text-nowrap">
+                                {t.tracking?.checkInWith && (
                                   <UserView user={t.tracking?.checkInWith} />
-                                  {t.tracking?.checkInCoordinate && (
-                                    <a
-                                      href={`https://maps.google.com/maps?q=${
-                                        t.tracking.checkInCoordinate
-                                          .coordinates[1]
-                                      },${
-                                        t.tracking.checkInCoordinate
-                                          .coordinates[0]
-                                      }&hl=es;z=14&amp;output=embed`}
-                                      target="_blank"
-                                    >
-                                      <i className="fa fa-map-marker fa-fw" />
-                                    </a>
-                                  )}
-                                </span>
-                                {t.tracking?.checkInFromBus && (
-                                  <p className="mb-0">
-                                    <i className="fa fa-bus fa-fw" />{" "}
-                                    {t.tracking.checkInFromBus.name}
-                                  </p>
                                 )}
-                                {t.tracking?.checkInIP && (
-                                  <p className="mb-0">
-                                    <i className="fa fa-mobile fa-fw" />{" "}
-                                    <strong>{t.tracking?.checkInIP}</strong>
-                                  </p>
+                                {t.tracking?.checkInCoordinate && (
+                                  <a
+                                    href={`https://maps.google.com/maps?q=${
+                                      t.tracking.checkInCoordinate
+                                        .coordinates[1]
+                                    },${
+                                      t.tracking.checkInCoordinate
+                                        .coordinates[0]
+                                    }&hl=es;z=14&amp;output=embed`}
+                                    target="_blank"
+                                  >
+                                    <i className="fa fa-map-marker fa-fw" />
+                                  </a>
                                 )}
-                                {t.tracking?.checkInDate && (
-                                  <p className="mb-0">
-                                    <i className="fa fa-clock-o fa-fw" />{" "}
-                                    {formatDate(
-                                      new Date(t.tracking.checkInDate),
-                                    )}
-                                  </p>
-                                )}
-                              </div>
+                              </span>
+                              {t.tracking?.checkInFromBus && (
+                                <p className="mb-0 text-nowrap">
+                                  <i className="fa fa-bus fa-fw" />{" "}
+                                  {t.tracking.checkInFromBus.name}
+                                </p>
+                              )}
+                              {t.tracking?.checkInIP && (
+                                <p className="mb-0 text-nowrap">
+                                  <i className="fa fa-mobile fa-fw" />{" "}
+                                  <strong>{t.tracking?.checkInIP}</strong>
+                                </p>
+                              )}
+                              {t.tracking?.checkInDate && (
+                                <p className="mb-0 text-nowrap">
+                                  <i className="fa fa-clock-o fa-fw" />{" "}
+                                  {formatDate(new Date(t.tracking.checkInDate))}
+                                </p>
+                              )}
                             </div>
-                          )}
+                          </div>
                         </td>
                         <td>
-                          {t.tracking?.checkOutDate && (
-                            <div className="media">
+                          <div className="media">
+                            {t.tracking?.checkOutSignature && (
                               <a
                                 href={cloudImageUrl(
                                   t.tracking?.checkOutSignature,
@@ -430,48 +428,49 @@ const ListPage = () => {
                                   alt="signature"
                                 />
                               </a>
+                            )}
 
-                              <div className="media-body">
-                                <span className="text-nowrap">
+                            <div className="media-body">
+                              <span className="text-nowrap">
+                                {t.tracking?.checkOutWith && (
                                   <UserView user={t.tracking?.checkOutWith} />
-                                  {t.tracking?.checkOutCoordinate && (
-                                    <a
-                                      href={`https://maps.google.com/maps?q=${
-                                        t.tracking.checkOutCoordinate
-                                          .coordinates[1]
-                                      },${
-                                        t.tracking.checkOutCoordinate
-                                          .coordinates[0]
-                                      }&hl=es;z=14&amp;output=embed`}
-                                      target="_blank"
-                                    >
-                                      <i className="fa fa-map-marker fa-fw" />
-                                    </a>
+                                )}
+                                {t.tracking?.checkOutCoordinate && (
+                                  <a
+                                    href={`https://maps.google.com/maps?q=${
+                                      t.tracking.checkOutCoordinate
+                                        .coordinates[1]
+                                    },${
+                                      t.tracking.checkOutCoordinate
+                                        .coordinates[0]
+                                    }&hl=es;z=14&amp;output=embed`}
+                                    target="_blank"
+                                  >
+                                    <i className="fa fa-map-marker fa-fw" />
+                                  </a>
+                                )}
+                              </span>
+                              {t.tracking?.checkOutAtBus && (
+                                <p className="mb-0 text-nowrap">
+                                  <i className="fa fa-bus" />{" "}
+                                  {t.tracking.checkOutAtBus.name}
+                                </p>
+                              )}
+                              {t.tracking?.checkOutIP && (
+                                <p className="mb-0 text-nowrap">
+                                  IP: <strong>{t.tracking?.checkOutIP}</strong>
+                                </p>
+                              )}
+                              {t.tracking?.checkOutDate && (
+                                <p className="mb-0 text-nowrap">
+                                  <i className="fa fa-clock-o fa-fw" />{" "}
+                                  {formatDate(
+                                    new Date(t.tracking.checkOutDate),
                                   )}
-                                </span>
-                                {t.tracking?.checkOutAtBus && (
-                                  <p className="mb-0">
-                                    <i className="fa fa-bus" />{" "}
-                                    {t.tracking.checkOutAtBus.name}
-                                  </p>
-                                )}
-                                {t.tracking?.checkOutIP && (
-                                  <p className="mb-0">
-                                    IP:{" "}
-                                    <strong>{t.tracking?.checkOutIP}</strong>
-                                  </p>
-                                )}
-                                {t.tracking?.checkOutDate && (
-                                  <p className="mb-0">
-                                    <i className="fa fa-clock-o fa-fw" />{" "}
-                                    {formatDate(
-                                      new Date(t.tracking.checkOutDate),
-                                    )}
-                                  </p>
-                                )}
-                              </div>
+                                </p>
+                              )}
                             </div>
-                          )}
+                          </div>
                         </td>
                       </tr>
                     ))}
