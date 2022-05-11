@@ -111,6 +111,7 @@ const ListPageCompany = ({ history }) => {
   );
   return (
     <ListWidget
+      isWidgetWrapper={false}
       pageHeader={<PageTitle title="Company Management" actions={actions} />}
       deleteDialog={deleteConfirmDialog}
       columns={columns}

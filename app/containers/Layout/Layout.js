@@ -65,6 +65,8 @@ import DebtPage from "../debt/Loadable";
 import { DEBT_ROOT_PATH } from "../debt/constants";
 import "animate.css";
 import { STUDENT_TRACKING_ROOT_PATH } from "../student/student-tracking/constants";
+import ProviderPage from "../provider/Loadable";
+import { PROVIDER_ROOT_PATH } from "../provider/constants";
 
 function Layout({
   sidebarPosition,
@@ -165,6 +167,7 @@ function Layout({
                 <Route path={SALE_ROOT_PATH} component={SalePage} />
                 <Route path={FINANCE_ROOT_PATH} component={FinancePage} />
                 <Route path={DEBT_ROOT_PATH} component={DebtPage} />
+                <Route path={PROVIDER_ROOT_PATH} component={ProviderPage} />
               </Switch>
               <Footer />
             </div>

@@ -34,6 +34,7 @@ import { ASSET_ROOT_PATH } from "../../../components/assets/constants";
 import { PAYMENT_ROOT_PATH } from "../../finance/payment/constants";
 import { DEBT_ROOT_PATH } from "../../debt/constants";
 import { STUDENT_TRACKING_ROOT_PATH } from "../../student/student-tracking/constants";
+import { PROVIDER_ROOT_PATH } from "../../provider/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -186,6 +187,13 @@ export const SIDE_BAR_MENU = {
           link: PRODUCT_ROOT_PATH,
           index: "management.product",
           permission: PERMISSION.PRODUCT.READ,
+          isHeader: true,
+        },
+        {
+          header: "Nhà cung cấp",
+          link: PROVIDER_ROOT_PATH,
+          index: "management.provider",
+          permission: [PERMISSION.PROVIDER.READ],
           isHeader: true,
         },
         {

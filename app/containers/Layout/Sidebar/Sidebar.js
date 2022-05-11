@@ -22,6 +22,7 @@ function Sidebar({ dispatch, sidebarOpened }) {
       isHasPermission={isHasAnyPermission}
       key={t.index}
       header={t.header}
+      icon={t.icon}
       isHeader={t.isHeader}
       iconName={t.iconName}
       exact={t.exact}

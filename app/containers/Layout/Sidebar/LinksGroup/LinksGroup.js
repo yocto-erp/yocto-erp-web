@@ -17,6 +17,7 @@ const LinksGroup = ({
   link,
   childrenLinks,
   iconName,
+  icon,
   className,
   badge,
   label,
@@ -55,7 +56,7 @@ const LinksGroup = ({
         style={headingStyle}
       >
         <span className={s.icon}>
-          <i className={`${iconName}`} />
+          {icon || <i className={`${iconName}`} />}
         </span>
         {header}{" "}
         {label && (
@@ -100,7 +101,7 @@ const LinksGroup = ({
           >
             {isHeader ? (
               <span className={s.icon}>
-                <i className={iconName} />
+                {icon || <i className={iconName} />}
               </span>
             ) : null}
             {header}{" "}
@@ -129,6 +130,7 @@ const LinksGroup = ({
                       header={child.header}
                       isHeader={child.isHeader}
                       link={child.link}
+                      icon={child.icon}
                       index={child.index}
                       childrenLinks={child.childrenLinks}
                       deep={deep + 1}
@@ -158,6 +160,7 @@ LinksGroup.propTypes = {
   exact: PropTypes.bool,
   isHeader: PropTypes.bool,
   isHasPermission: PropTypes.func,
+  icon: PropTypes.node,
 };
 
 export default LinksGroup;

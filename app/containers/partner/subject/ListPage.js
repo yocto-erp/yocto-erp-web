@@ -112,6 +112,7 @@ const ListPage = ({ history }) => {
   );
   return (
     <ListWidget
+      isWidgetWrapper={false}
       pageHeader={
         <PageTitle
           title={<FormattedMessage {...messages.listPageHeader} />}
