@@ -1,8 +1,7 @@
 import { API_URL } from "../../constants";
 import noImage from "../../images/No_image_available.svg";
 import { createCRUDApi } from "./fetch";
-
-export const IPFS_GATEWAY_URL = "https://ipfs.io/ipfs";
+// eslint-disable-next-line no-unused-vars
 const IPFS_GATEWAY = {
   cloudflare: "https://cloudflare-ipfs.com/ipfs",
   ipfs: "https://ipfs.io/ipfs",
@@ -15,11 +14,14 @@ export const imagePath = filename =>
 export const thumbnail = filename =>
   filename ? `/thumbnail/${filename}.png` : noImage;
 
+const dwebLink = (carId, fieldId) =>
+  `https://${carId}.ipfs.dweb.link/${fieldId}`;
+
 export const cloudImageUrl = asset => {
   if (asset) {
     const { ipfs, fileId } = asset;
     if (ipfs && ipfs.totalPinned >= 2) {
-      return `${IPFS_GATEWAY.dweb}/${ipfs.carId}/${fileId}`;
+      return dwebLink(ipfs.carId, fileId);
     }
     return imageUrl(fileId);
   }

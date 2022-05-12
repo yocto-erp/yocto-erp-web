@@ -45,6 +45,7 @@ export const REACT_SELECT_OPTION_CUSTOM_STYLE = {
 export const EDITOR_TYPE = {
   NORMAL: 1,
   EMAIL: 2,
+  COMMENT: 3,
 };
 
 export const mappingServerTagging = item => ({

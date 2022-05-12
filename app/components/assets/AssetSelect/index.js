@@ -5,19 +5,31 @@ import { ReactSortable } from "react-sortablejs";
 import PreviewImage from "./PreviewImage";
 import FilePickerModal from "../FileBrowser/FilePickerModal";
 import ViewLargeAssetModal from "../ViewLargeAssetModal";
+import { ALL_MIME_TYPE } from "../constants";
 
 const AssetSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
-  ({ onChange, value = [], invalid, className, fileTypes, ...props }, ref) => {
+  (
+    {
+      onChange,
+      value = [],
+      invalid,
+      className,
+      fileTypes = ALL_MIME_TYPE,
+      ...props
+    },
+    // eslint-disable-next-line no-unused-vars
+    ref,
+  ) => {
     // const [files, setFiles] = useState([]);
     const [isOpenPickerFile, setIsOpenPickerFile] = useState(false);
     const [enlargeFile, setEnlargeFile] = useState(null);
 
     const onRemoveItem = index => {
-      value.splice(index, 1);
-      const newFiles = [...value];
-      onChange(newFiles);
-      return newFiles;
+      const newItems = [...value];
+      newItems.splice(index, 1);
+      onChange(newItems);
+      return newItems;
     };
 
     const viewLarge = useCallback(
@@ -46,6 +58,7 @@ const AssetSelect = React.forwardRef(
                   key={t.id}
                 >
                   <PreviewImage
+                    style={{ cursor: "move" }}
                     file={t}
                     onRemove={() => {
                       onRemoveItem(i);

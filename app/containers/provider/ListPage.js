@@ -3,6 +3,8 @@ import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { FormattedMessage, injectIntl, intlShape } from "react-intl";
+import { FaEye, FaSignature } from "react-icons/fa";
+import { Button } from "reactstrap";
 import CreatedBy from "../../components/ListWidget/CreatedBy";
 import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import { PROVIDER_ROOT_PATH } from "./constants";
@@ -13,14 +15,20 @@ import {
   deletePagePattern,
   editPage,
   newPage,
+  viewPage,
 } from "../../libs/utils/crud.util";
 import CreateButton from "../../components/button/CreateButton";
 import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
 import ListWidget from "../../components/ListWidget";
 import messages from "./messages";
 import SubjectView from "../partner/subject/components/SubjectView";
-import Tags from "../../components/Form/tagging/ViewTags";
 import { providerApi } from "../../libs/apis/provider/provider.api";
+import UserView from "../../components/ListWidget/UserView";
+import { formatDate, formatDateOnlyFromStr } from "../../libs/utils/date.util";
+import ProviderStatus from "./components/ProviderStatus";
+import { hasText } from "../../utils/util";
+import Permission from "../../components/Acl/Permission";
+import { PERMISSION } from "../../constants";
 
 const ROOT_PATH = PROVIDER_ROOT_PATH;
 const ListPage = ({ history, intl }) => {
@@ -29,26 +37,68 @@ const ListPage = ({ history, intl }) => {
       {
         header: (
           <strong>
-            <FormattedMessage {...messages.listPageColName} />
+            <FormattedMessage {...messages.listPageColSubject} />
           </strong>
         ),
-        data: "name",
+        data: "subject",
+        class: "min-width",
+        render: row => (
+          <SubjectView item={row.subject} isShowTagging isShowAddress />
+        ),
+      },
+      {
+        header: (
+          <strong>
+            <FormattedMessage {...messages.listPageColStatus} />
+          </strong>
+        ),
+        data: "status",
+        class: "min-width text-center",
+        render: row => <ProviderStatus status={row.status} />,
+      },
+      {
+        header: (
+          <strong>
+            <FormattedMessage {...messages.listPageColTerm} />
+          </strong>
+        ),
+        data: "term",
+        class: "min-width text-center",
         render: row => (
           <>
-            <p className="mb-0">{row.name}</p>
-            <Tags item={row.tagging} />{" "}
+            {formatDateOnlyFromStr(row.contractStartDate)}
+            {hasText(row.contractEndDate)
+              ? ` - ${formatDateOnlyFromStr(row.contractEndDate)}`
+              : ""}
           </>
         ),
       },
       {
         header: (
           <strong>
-            <FormattedMessage {...messages.listPageColSubject} />
+            <FormattedMessage {...messages.listPageColRemark} />
           </strong>
         ),
-        data: "subject",
+        data: "remark",
+      },
+      {
+        header: (
+          <strong>
+            <FormattedMessage {...messages.listPageColApprove} />
+          </strong>
+        ),
+        data: "approve",
         class: "min-width",
-        render: row => <SubjectView item={row.subject} />,
+        render: row =>
+          row.isApproved && (
+            <>
+              <UserView user={row.approvedBy} />
+              <span className="text-nowrap">
+                <i className="fi flaticon-time" />{" "}
+                {formatDate(new Date(row.approvedDate))}
+              </span>
+            </>
+          ),
       },
       {
         header: "Created By",
@@ -71,7 +121,24 @@ const ListPage = ({ history, intl }) => {
             onDelete={() => {
               history.push(deletePage(ROOT_PATH, row.id));
             }}
-          />
+          >
+            <Permission permissions={[PERMISSION.PROVIDER.APPROVE]}>
+              <Button
+                type="button"
+                color="primary"
+                onClick={() => console.log("Press")}
+              >
+                <FaSignature />
+              </Button>
+              <Button
+                type="button"
+                color="success"
+                onClick={() => history.push(viewPage(ROOT_PATH, row.id))}
+              >
+                <FaEye />
+              </Button>
+            </Permission>
+          </TableActionColumns>
         ),
       },
     ],

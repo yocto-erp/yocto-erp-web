@@ -10,6 +10,7 @@ import {
   formatDistanceToNowStrict,
 } from "date-fns";
 import { vi, enUS } from "date-fns/locale";
+import { hasText } from "../../utils/util";
 
 export const FNS_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
 export const FNS_DATE_FORMAT = "dd/MM/yyyy";
@@ -19,8 +20,22 @@ export function formatDate(dateObj) {
   return format(dateObj, FNS_DATE_TIME_FORMAT);
 }
 
+export function formatDateFromStr(dateObj) {
+  if (!hasText(dateObj)) {
+    return "";
+  }
+  return format(new Date(dateObj), FNS_DATE_TIME_FORMAT);
+}
+
 export function ago(date1, date2) {
   return formatDistance(date1, date2);
+}
+
+export function formatDateOnlyFromStr(dateObj) {
+  if (!hasText(dateObj)) {
+    return "";
+  }
+  return format(new Date(dateObj), FNS_DATE_FORMAT);
 }
 
 export function formatDateOnly(dateObj) {

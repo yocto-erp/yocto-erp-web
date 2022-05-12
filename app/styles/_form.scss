@@ -2,4 +2,15 @@
   font-size: 1.4rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #798892;
+  margin-bottom: 1rem;
+
+  small {
+    font-size: 0.9rem;
+    opacity: 0.75;
+  }
+
+  &.no-bottom {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 }

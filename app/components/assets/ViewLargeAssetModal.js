@@ -5,7 +5,13 @@ import { imageUrl } from "../../libs/apis/image.api";
 import ModalOKButton from "../button/ModalOKButton";
 
 const ViewLargeAssetModal = ({ file, onClose }) => (
-  <Modal scrollable size="xl" isOpen={file != null} fade={false}>
+  <Modal
+    scrollable
+    size="xl"
+    isOpen={file != null}
+    fade={false}
+    className="primary"
+  >
     <ModalHeader toggle={() => onClose(null)}>{file?.name}</ModalHeader>
     <ModalBody className="text-center">
       <figure className="figure">

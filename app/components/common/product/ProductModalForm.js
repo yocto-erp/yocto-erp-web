@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Button,
   Form,
@@ -12,31 +12,31 @@ import {
   ModalFooter,
   ModalHeader,
   Table,
-} from 'reactstrap';
-import { yupResolver } from '@hookform/resolvers';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
-import * as Yup from 'yup';
-import get from 'lodash/get';
-import { toast } from 'react-toastify';
-import FormRow from '../../Form/FormRow';
-import ModalCancelButton from '../../button/ModalCancelButton';
-import SubmitButton from '../../button/SubmitButton';
-import CreateButton from '../../button/CreateButton';
-import productApi from '../../../libs/apis/product/product.api';
-import { useAsync } from '../../../libs/hooks/useAsync';
+} from "reactstrap";
+import { yupResolver } from "@hookform/resolvers";
+import { useFieldArray, useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
+import * as Yup from "yup";
+import get from "lodash/get";
+import { toast } from "react-toastify";
+import FormRow from "../../Form/FormRow";
+import ModalCancelButton from "../../button/ModalCancelButton";
+import SubmitButton from "../../button/SubmitButton";
+import CreateButton from "../../button/CreateButton";
+import productApi from "../../../libs/apis/product/product.api";
+import { useAsync } from "../../../libs/hooks/useAsync";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
+  name: Yup.string().required("This field is required."),
   // priceBaseUnit: Yup.number().transform(transformUnNumber),
   units: Yup.array()
     .of(
       Yup.object().shape({
-        name: Yup.string().required('This field is required.'),
-        rate: Yup.number().required('This field is required.'),
+        name: Yup.string().required("This field is required."),
+        rate: Yup.number().required("This field is required."),
       }),
     )
-    .required('This field is required.'),
+    .required("This field is required."),
 });
 
 const ProductModalForm = ({ isOpen, closeHandle }) => {
@@ -47,14 +47,14 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
     errors,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'all',
-    reValidateMode: 'onChange',
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: yupResolver(validationSchema),
-    defaultValues: { name: '', units: [{ name: '', rate: 1 }] },
+    defaultValues: { name: "", units: [{ name: "", rate: 1 }] },
   });
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'units',
+    name: "units",
   });
   const [isLoading, exec] = useAsync({ asyncApi: productApi.create });
   const onSubmit = handleSubmit(val => {
@@ -110,7 +110,7 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
                   <th>
                     Unit Name<span className="text-danger">*</span>
                   </th>
-                  <th style={{ width: '120px' }}>
+                  <th style={{ width: "120px" }}>
                     Rate<span className="text-danger">*</span>
                   </th>
                   <th className="action">Action</th>
@@ -122,19 +122,19 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
                     <td>
                       <Input
                         type="text"
-                        invalid={!!get(errors, ['units', index, 'name'], false)}
+                        invalid={!!get(errors, ["units", index, "name"], false)}
                         name={`units[${index}].name`}
                         innerRef={register}
                         placeholder="Input Unit Name"
                         defaultValue={item.name} // make sure to set up defaultValue
                       />
                       <FormFeedback>
-                        {get(errors, ['units', index, 'name', 'message'], '')}
+                        {get(errors, ["units", index, "name", "message"], "")}
                       </FormFeedback>
                     </td>
-                    <td style={{ width: '120px' }}>
+                    <td style={{ width: "120px" }}>
                       <Input
-                        invalid={!!get(errors, ['units', index, 'rate'], false)}
+                        invalid={!!get(errors, ["units", index, "rate"], false)}
                         type="text"
                         name={`units[${index}].rate`}
                         readOnly={item.rate === 1}
@@ -142,7 +142,7 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
                         defaultValue={item.rate} // make sure to set up defaultValue
                       />
                       <FormFeedback>
-                        {get(errors, ['units', index, 'rate', 'message'], '')}
+                        {get(errors, ["units", index, "rate", "message"], "")}
                       </FormFeedback>
                     </td>
                     <td className="action">
@@ -152,7 +152,7 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
                         size="sm"
                         onClick={() => remove(index)}
                       >
-                        <i className="fi flaticon-trash" />{' '}
+                        <i className="fi flaticon-trash" />{" "}
                       </Button>
                     </td>
                   </tr>
@@ -167,8 +167,8 @@ const ProductModalForm = ({ isOpen, closeHandle }) => {
                       onClick={() =>
                         append({
                           id: uuidv4(),
-                          name: '',
-                          rate: fields && fields.length === 0 ? 1 : '',
+                          name: "",
+                          rate: fields && fields.length === 0 ? 1 : "",
                         })
                       }
                     >

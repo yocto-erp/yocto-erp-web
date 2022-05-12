@@ -2,41 +2,48 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./asset-select.scss";
 import { UncontrolledTooltip } from "reactstrap";
+import { BsZoomIn } from "react-icons/bs";
 import { isFunc } from "../../../utils/util";
 import { getLocalFileThumbnail } from "../constants";
 import { formatDate } from "../../../libs/utils/date.util";
 
-const PreviewImage = ({ file, onRemove, onViewLarge }) => (
+const PreviewImage = ({ file, onRemove, onViewLarge, ...other }) => (
   <>
-    <div className="preview-image" id={`item${file.id}`}>
-      <div className="btn-group btn-group-sm view">
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={e => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (isFunc(onViewLarge)) {
-              onViewLarge(e);
-            }
-          }}
-        >
-          <i className="fa fa-eye" />
-        </button>
-        <button
-          type="button"
-          className="btn btn-danger"
-          onClick={e => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (isFunc(onRemove)) {
-              onRemove();
-            }
-          }}
-        >
-          <i className="fa fa-times" />{" "}
-        </button>
-      </div>
+    <div className="preview-image" id={`item${file.id}`} {...other}>
+      {(onRemove || onViewLarge) && (
+        <div className="btn-group btn-group-sm view">
+          {onViewLarge && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (isFunc(onViewLarge)) {
+                  onViewLarge(e);
+                }
+              }}
+            >
+              <BsZoomIn />
+            </button>
+          )}
+          {onRemove && (
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (isFunc(onRemove)) {
+                  onRemove();
+                }
+              }}
+            >
+              <i className="fa fa-times" />{" "}
+            </button>
+          )}
+        </div>
+      )}
       {getLocalFileThumbnail(file)}
       <div className="title" title={file.name}>
         {file.name}

@@ -1,4 +1,5 @@
 import IMask from "imask";
+import * as Yup from "yup";
 
 export const isNumber = value =>
   value !== undefined &&
@@ -34,3 +35,9 @@ export function roundUp(num, precision) {
   }
   return "";
 }
+
+export const isPositiveNumber = Yup.number()
+  .transform(transformUnNumberToNull)
+  .nullable()
+  .moreThan(0)
+  .required();

@@ -8,12 +8,35 @@ import ProductModalForm from "./ProductModalForm";
 import productApi from "../../../libs/apis/product/product.api";
 import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../constants";
 import FormHookErrorMessage from "../../Form/FormHookErrorMessage";
+import { thumbnail } from "../../../libs/apis/image.api";
+import noImage from "../../../images/No_image_available.svg";
+import { hasText } from "../../../utils/util";
 
-const formatOptionLabel = data => (
-  <div className="text-white">
-    <span>{data.name}</span>
+const formatOptionLabel = (item, { context }) => (
+  <div className="media">
+    {context === "menu" && (
+      <img
+        role="presentation"
+        src={item.thumbnail ? thumbnail(item.thumbnail) : noImage}
+        style={{ width: 48, height: 48, cursor: "pointer" }}
+        title="Click to view all image"
+        className="mr-3"
+        alt="..."
+      />
+    )}
+    <div className="media-body">
+      <p className="mt-0 mb-0 font-weight-bold">{item.productDocumentId}</p>
+      <p className="mt-0 mb-0">
+        {hasText(item.productDocumentId) && (
+          <span>({item.productDocumentId})</span>
+        )}{" "}
+        {item.name}
+      </p>
+    </div>
   </div>
 );
+
+export const searchMappingProduct = val => ({ id: val.id, name: val.name });
 
 const ProductSelect = React.forwardRef((
   {
@@ -24,6 +47,8 @@ const ProductSelect = React.forwardRef((
     onAdded,
     onChange,
     value,
+    isMulti = false,
+    mappingProduct = searchMappingProduct,
     creatable = true,
     ...props
   },
@@ -61,10 +86,15 @@ const ProductSelect = React.forwardRef((
           styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
           isClearable
           defaultOptions
+          isMulti={isMulti}
           onBlur={onBlur}
-          onChange={val =>
-            onChange(val ? { id: val.id, name: val.name } : null)
-          }
+          onChange={val => {
+            let mapVal = val;
+            if (mappingProduct && val) {
+              mapVal = mappingProduct(val);
+            }
+            onChange(mapVal);
+          }}
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.id}
           name={name}
@@ -111,6 +141,8 @@ ProductSelect.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   creatable: PropTypes.bool,
+  mappingProduct: PropTypes.func,
+  isMulti: PropTypes.bool,
 };
 
 export default ProductSelect;

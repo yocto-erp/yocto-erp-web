@@ -7,7 +7,11 @@ import ProductImageView from "./ProductImageView";
 import { hasText } from "../../../utils/util";
 import productApi from "../../../libs/apis/product/product.api";
 
-const ProductView = ({ item }) => {
+export const PRODUCT_VIEW_TYPE = {
+  NORMAL: 1,
+  CARD: 2,
+};
+const ProductView = ({ item, type = PRODUCT_VIEW_TYPE.NORMAL }) => {
   const [isViewImage, setIsViewImage] = useState(false);
   const onViewListImage = useCallback(() => {
     if (item.thumbnail) {
@@ -16,22 +20,41 @@ const ProductView = ({ item }) => {
   }, [item]);
   return (
     <>
-      <div className="media">
-        <img
-          role="presentation"
-          src={item.thumbnail ? thumbnail(item.thumbnail) : noImage}
-          style={{ width: 48, height: 48, cursor: "pointer" }}
-          title="Click to view all image"
-          className="mr-3"
-          alt="..."
-          onClick={onViewListImage}
-          onKeyDown={onViewListImage}
-        />
-        <div className="media-body">
-          <p className="mt-0 mb-0 font-weight-bold">{item.productDocumentId}</p>
-          <p className="mt-0 mb-0">{item.name}</p>
+      {type === PRODUCT_VIEW_TYPE.NORMAL && (
+        <div className="media">
+          <img
+            role="presentation"
+            src={item.thumbnail ? thumbnail(item.thumbnail) : noImage}
+            style={{ width: 48, height: 48, cursor: "pointer" }}
+            title="Click to view all image"
+            className="mr-3"
+            alt="..."
+            onClick={onViewListImage}
+            onKeyDown={onViewListImage}
+          />
+          <div className="media-body">
+            <p className="mt-0 mb-0 font-weight-bold">
+              {item.productDocumentId}
+            </p>
+            <p className="mt-0 mb-0">{item.name}</p>
+          </div>
         </div>
-      </div>
+      )}
+      {type === PRODUCT_VIEW_TYPE.CARD && (
+        <div className="card">
+          <img
+            src={item.thumbnail ? thumbnail(item.thumbnail) : noImage}
+            className="card-img-top"
+            alt="..."
+          />
+          <div className="card-body">
+            <p className="mt-0 mb-0 font-weight-bold">
+              {item.productDocumentId}
+            </p>
+            <p className="mt-0 mb-0">{item.name}</p>
+          </div>
+        </div>
+      )}
       {hasText(item?.thumbnail) ? (
         <ProductImageView
           getAssetsApi={() => productApi.assets(item.id)}
@@ -45,6 +68,7 @@ const ProductView = ({ item }) => {
 
 ProductView.propTypes = {
   item: PropTypes.object.isRequired,
+  type: PropTypes.number,
 };
 
 export default ProductView;

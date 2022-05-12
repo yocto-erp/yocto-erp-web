@@ -38,8 +38,10 @@ const TableActionColumns = ({
 
   return (
     <ButtonToolbar className="">
-      {children}
-      <ButtonGroup size="sm">{buttonEls}</ButtonGroup>
+      <ButtonGroup size="sm">
+        {children}
+        {buttonEls}
+      </ButtonGroup>
     </ButtonToolbar>
   );
 };

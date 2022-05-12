@@ -4,6 +4,7 @@ import { Nav, NavItem, NavLink, TabContent } from "reactstrap";
 import classNames from "classnames";
 import GoogleDrive from "../google/GoogleDrive";
 import LocalDrive from "../LocalDrive";
+import { ALL_MIME_TYPE } from "../constants";
 
 const tabs = ["My Drive", "Google Drive"];
 // eslint-disable-next-line no-unused-vars
@@ -11,7 +12,7 @@ const FileBrowser = ({
   onPicked,
   className,
   multiple = true,
-  fileTypes = ["*"],
+  fileTypes = ALL_MIME_TYPE,
 }) => {
   const [tab, setTab] = useState(0);
   return (
