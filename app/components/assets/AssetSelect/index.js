@@ -16,6 +16,8 @@ const AssetSelect = React.forwardRef(
       invalid,
       className,
       fileTypes = ALL_MIME_TYPE,
+      buttonStyle = "btn-outline-primary",
+      buttonWrapperStyle = "justify-content-center",
       ...props
     },
     // eslint-disable-next-line no-unused-vars
@@ -82,10 +84,10 @@ const AssetSelect = React.forwardRef(
         )}
       >
         <div className="upload-zone text-center">
-          <div className="d-flex justify-content-center align-items-center">
+          <div className={classNames("d-flex", buttonWrapperStyle)}>
             <button
               type="button"
-              className="mr-2 text-white btn btn-outline-primary"
+              className={classNames("mr-2 text-white btn", buttonStyle)}
               onClick={() => setIsOpenPickerFile(true)}
             >
               {props.placeholder}
@@ -126,6 +128,8 @@ AssetSelect.propTypes = {
   placeholder: PropTypes.any,
   name: PropTypes.string,
   className: PropTypes.any,
+  buttonStyle: PropTypes.string,
+  buttonWrapperStyle: PropTypes.string,
   fileTypes: PropTypes.arrayOf(PropTypes.string),
 };
 

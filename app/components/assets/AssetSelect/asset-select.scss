@@ -6,12 +6,15 @@
   border-radius: 0.25rem;
 
   .upload-zone {
-    padding: 0.5rem;
     color: #495057;
 
     p {
       margin-bottom: 0;
     }
+  }
+
+  .previews {
+    padding-top: 0.5rem;
   }
 
   &:focus {

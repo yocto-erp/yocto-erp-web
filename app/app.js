@@ -14,7 +14,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import FontFaceObserver from "fontfaceobserver";
-import OverlayScrollbars from "overlayscrollbars";
 import history from "utils/history";
 
 // Import root app
@@ -76,11 +75,6 @@ const render = messages => {
     </Provider>,
     MOUNT_NODE,
   );
-  OverlayScrollbars(document.body, {
-    nativeScrollbarsOverlaid: {
-      initialize: false,
-    },
-  });
 };
 
 if (module.hot) {

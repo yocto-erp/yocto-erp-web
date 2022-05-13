@@ -3,6 +3,7 @@ import cx from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup/LinksGroup";
 
@@ -63,43 +64,55 @@ function Sidebar({ dispatch, sidebarOpened }) {
 
   return (
     <nav className={cx(s.root, s.staticSidebar)} ref={element}>
-      <div>
-        <header className={s.logo}>
-          <Link to="/">
-            Yocto <span className="fw-bold">ERP</span>
-          </Link>
-        </header>
+      <OverlayScrollbarsComponent
+        options={{
+          resize: "both",
+          scrollbars: {
+            autoHide: "scroll",
+          },
+          paddingAbsolute: true,
+        }}
+        style={{ height: "100vh" }}
+        className="os-theme-light"
+      >
+        <div className="pr-2">
+          <header className={s.logo}>
+            <Link to="/">
+              Yocto <span className="fw-bold">ERP</span>
+            </Link>
+          </header>
 
-        <ul className={cx(s.nav)}>
-          {SIDE_BAR_MENU.main
-            .filter(
-              t =>
-                !t.permission ||
-                isHasAnyPermission({ permission: t.permission }),
-            )
-            .map(processLinkGroup)}
-        </ul>
-        <h5 className={s.navTitle}>Tiện ích</h5>
-        <ul>
-          {SIDE_BAR_MENU.utils
-            .filter(
-              t =>
-                !t.permission ||
-                isHasAnyPermission({ permission: t.permission }),
-            )
-            .map(processLinkGroup)}
-        </ul>
-        <h5 className={s.navTitle}>Hệ thống</h5>
-        <ul>
-          {SIDE_BAR_MENU.management
-            .filter(
-              t =>
-                !t.permission ||
-                isHasAnyPermission({ permission: t.permission }),
-            )
-            .map(processLinkGroup)}
-        </ul>
-      </div>
+          <ul className={cx(s.nav)}>
+            {SIDE_BAR_MENU.main
+              .filter(
+                t =>
+                  !t.permission ||
+                  isHasAnyPermission({ permission: t.permission }),
+              )
+              .map(processLinkGroup)}
+          </ul>
+          <h5 className={s.navTitle}>Tiện ích</h5>
+          <ul>
+            {SIDE_BAR_MENU.utils
+              .filter(
+                t =>
+                  !t.permission ||
+                  isHasAnyPermission({ permission: t.permission }),
+              )
+              .map(processLinkGroup)}
+          </ul>
+          <h5 className={s.navTitle}>Hệ thống</h5>
+          <ul>
+            {SIDE_BAR_MENU.management
+              .filter(
+                t =>
+                  !t.permission ||
+                  isHasAnyPermission({ permission: t.permission }),
+              )
+              .map(processLinkGroup)}
+          </ul>
+        </div>
+      </OverlayScrollbarsComponent>
     </nav>
   );
 }

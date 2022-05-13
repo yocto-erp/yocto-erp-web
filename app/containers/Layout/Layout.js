@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
+
+import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
@@ -67,6 +69,7 @@ import "animate.css";
 import { STUDENT_TRACKING_ROOT_PATH } from "../student/student-tracking/constants";
 import ProviderPage from "../provider/Loadable";
 import { PROVIDER_ROOT_PATH } from "../provider/constants";
+import { COLOR } from "../../styles/color";
 
 function Layout({
   sidebarPosition,
@@ -76,6 +79,8 @@ function Layout({
   // eslint-disable-next-line no-unused-vars
   dispatch,
 }) {
+  const scrollRef = useRef();
+  const [showScroll, setShowScroll] = useState(false);
   return (
     <div
       className={[
@@ -91,12 +96,25 @@ function Layout({
         <Sidebar />
         <main>
           <OverlayScrollbarsComponent
+            ref={scrollRef}
             options={{
               resize: "both",
               scrollbars: {
                 autoHide: "scroll",
               },
               paddingAbsolute: false,
+              callbacks: {
+                onScroll: () => {
+                  const scrollHeight =
+                    scrollRef.current?.osInstance().scroll().position.y || 0;
+                  console.log(scrollHeight);
+                  if (!showScroll && scrollHeight > 400) {
+                    setShowScroll(true);
+                  } else if (showScroll && scrollHeight < 400) {
+                    setShowScroll(false);
+                  }
+                },
+              },
             }}
             className={classNames(s.contentWrapper, "os-theme-light")}
           >
@@ -174,6 +192,13 @@ function Layout({
           </OverlayScrollbarsComponent>
         </main>
       </div>
+      <BsFillArrowUpCircleFill
+        className="scrollTop"
+        color={COLOR.success}
+        onClick={() => scrollRef.current?.osInstance().scroll({ y: 0 }, 300)}
+        size={36}
+        style={{ display: showScroll ? "flex" : "none" }}
+      />
     </div>
   );
 }

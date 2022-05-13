@@ -12,7 +12,6 @@
   margin-left: 0;
   transition: height 1s;
   transform: translateX(-$sidebar-width-open);
-
   @media print {
     display: none;
   }
@@ -29,7 +28,7 @@
     // display: none;
   }
 
-  @include scroll-bar($sidebar-scrollbar-bg);
+  // @include scroll-bar($text-muted);
 
 
   @media (max-width: breakpoint-max(sm)) {

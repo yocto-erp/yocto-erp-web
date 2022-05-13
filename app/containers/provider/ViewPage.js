@@ -48,6 +48,7 @@ const ViewPage = () => {
   return (
     <>
       <PageTitle
+        className=""
         colLeft={9}
         colRight={3}
         actions={
@@ -60,13 +61,14 @@ const ViewPage = () => {
         }
         title={<FormattedMessage {...messages.viewPageTitle} />}
       />
-      <Widget>
+      <Widget className="mb-0">
         <div className="row">
           <div className="col-md-7">
             <div className="d-flex justify-content-between align-items-center form-heading">
               <p className="mb-0">Đối tác </p>
               <small>
-                Cập nhập {formatDateFromStr(resp?.lastModifiedDate)}
+                Cập nhập{" "}
+                {formatDateFromStr(resp?.lastModifiedDate || resp?.createdDate)}
               </small>
             </div>
 
@@ -86,10 +88,14 @@ const ViewPage = () => {
               ))}
             </div>
             <p className="form-heading no-bottom mt-4">Tài liệu</p>
-            <div className="row">
+            <div className="row no-gutters">
               {resp?.assets.map(t => (
                 <div className="col-auto" key={t.id}>
-                  <PreviewImage file={t} onViewLarge={e => viewLarge(e, t)} />
+                  <PreviewImage
+                    file={t}
+                    onViewLarge={e => viewLarge(e, t)}
+                    style={{ width: "120px" }}
+                  />
                 </div>
               ))}
             </div>

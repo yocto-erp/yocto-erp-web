@@ -1,7 +1,7 @@
 export const API_URL = "/api";
 export const ADMIN_PATH = "/admin";
 
-// MAX = 96
+// MAX = 100
 
 export const PERMISSION = {
   PRODUCT: {
@@ -151,19 +151,30 @@ export const PERMISSION = {
     DELETE: 95,
     APPROVE: 96,
   },
+  COMMENT: {
+    READ: 97,
+    CREATE: 98,
+    DELETE: 99,
+    UPDATE: 100,
+  },
 };
 
 export const PERMISSION_TYPE = {
-  OWNER: 1,
-  PARTIAL: 2,
-  FULL: 3,
+  OWNER: 1, // OWNER: Mean user can only see their own record.
+  PARTIAL: 2, // PARTIAL: Mean user can see their own record and other user.
+  FULL: 3, // FULL: Mean user can see all record.
 };
+
 /**
  * enableType:
  *  - 1: Allow User select type (OWNER/PARTIAL/FULL)
  *  - 2: Not allow (hide) user select type.
  * @type {{permissions: [{enableType: number, name: string, id: number}], name: string, id: number}[]}
  */
+export const PERMISSION_ENABLE_TYPE = {
+  ALLOW_CHOOSE_TYPE: 1,
+  NOT_ALLOW_CHOOSE_TYPE: 2,
+};
 
 export const PERMISSION_MODULE = [
   {
@@ -461,6 +472,16 @@ export const PERMISSION_MODULE = [
       { id: PERMISSION.PROVIDER.UPDATE, name: "UPDATE", enableType: 1 },
       { id: PERMISSION.PROVIDER.DELETE, name: "DELETE", enableType: 1 },
       { id: PERMISSION.PROVIDER.APPROVE, name: "APPROVE", enableType: 1 },
+    ],
+  },
+  {
+    id: 22,
+    name: "Comment",
+    permissions: [
+      { id: PERMISSION.COMMENT.CREATE, name: "CREATE", enableType: 1 },
+      { id: PERMISSION.COMMENT.READ, name: "READ", enableType: 1 },
+      { id: PERMISSION.COMMENT.UPDATE, name: "UPDATE", enableType: 1 },
+      { id: PERMISSION.COMMENT.DELETE, name: "DELETE", enableType: 1 },
     ],
   },
 ];

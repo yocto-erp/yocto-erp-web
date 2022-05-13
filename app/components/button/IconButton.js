@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button } from "reactstrap";
 
 const IconButton = ({
   isLoading,
   children,
   disabled,
-  type = 'submit',
-  color = 'info',
+  type = "submit",
+  color = "info",
   ...props
 }) => {
   const isDisabled = isLoading || disabled;
