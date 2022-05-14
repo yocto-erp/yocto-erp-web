@@ -21,6 +21,7 @@ import BackButton from "../../components/button/BackButton";
 import CommentEditor, {
   COMMENT_PURPOSE,
 } from "../comment/components/CommentEditor";
+import ProviderApproveStatus from "./components/ProviderApproveStatus";
 
 const ViewPage = () => {
   const { id } = useParams();
@@ -71,18 +72,25 @@ const ViewPage = () => {
                 {formatDateFromStr(resp?.lastModifiedDate || resp?.createdDate)}
               </small>
             </div>
+            <div className="row">
+              <div className="col-md-8">
+                <SubjectView item={resp?.subject} isShowAddress isShowTagging />
+                <p className="mt-4">
+                  <ProviderStatus status={resp?.status} />
+                </p>
+              </div>
+              <div className="col-md-4">
+                <ProviderApproveStatus provider={resp} />
+              </div>
+            </div>
 
-            <SubjectView item={resp?.subject} isShowAddress isShowTagging />
-            <p className="mt-4">
-              <ProviderStatus status={resp?.status} />
-            </p>
             <div className="mt-4" role="alert">
               {resp?.remark}
             </div>
             <p className="form-heading no-bottom mt-4">Sản phẩm</p>
-            <div className="row">
+            <div className="row row-cols-3">
               {resp?.products.map(t => (
-                <div className="col-auto" key={t.id} style={{ width: "250px" }}>
+                <div className="col mt-2" key={t.id}>
                   <ProductView item={t} type={PRODUCT_VIEW_TYPE.CARD} />
                 </div>
               ))}

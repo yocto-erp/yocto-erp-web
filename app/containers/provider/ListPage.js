@@ -11,10 +11,10 @@ import { PROVIDER_ROOT_PATH } from "./constants";
 import Filter from "./components/Filter";
 import PageTitle from "../Layout/PageTitle";
 import {
-  deletePage,
   deletePagePattern,
   editPage,
   newPage,
+  onDelete,
   viewPage,
 } from "../../libs/utils/crud.util";
 import CreateButton from "../../components/button/CreateButton";
@@ -23,16 +23,18 @@ import ListWidget from "../../components/ListWidget";
 import messages from "./messages";
 import SubjectView from "../partner/subject/components/SubjectView";
 import { providerApi } from "../../libs/apis/provider/provider.api";
-import UserView from "../../components/ListWidget/UserView";
-import { formatDate, formatDateOnlyFromStr } from "../../libs/utils/date.util";
+import { formatDateOnlyFromStr } from "../../libs/utils/date.util";
 import ProviderStatus from "./components/ProviderStatus";
 import { hasText } from "../../utils/util";
 import Permission from "../../components/Acl/Permission";
 import { PERMISSION } from "../../constants";
 import ProviderApproveModal from "./components/ProviderApproveModal";
+import ProviderApproveStatus from "./components/ProviderApproveStatus";
+import useUser from "../../libs/hooks/useUser";
 
 const ROOT_PATH = PROVIDER_ROOT_PATH;
 const ListPage = ({ history, intl }) => {
+  const { isHasAnyPermission } = useUser();
   const [approveItem, setApproveItem] = useState(null);
   const columns = React.useMemo(
     () => [
@@ -91,16 +93,7 @@ const ListPage = ({ history, intl }) => {
         ),
         data: "approve",
         class: "min-width",
-        render: row =>
-          row.isApproved && (
-            <>
-              <UserView user={row.approvedBy} />
-              <span className="text-nowrap">
-                <i className="fi flaticon-time" />{" "}
-                {formatDate(new Date(row.approvedDate))}
-              </span>
-            </>
-          ),
+        render: row => <ProviderApproveStatus provider={row} />,
       },
       {
         header: "Created By",
@@ -117,12 +110,16 @@ const ListPage = ({ history, intl }) => {
         class: "action",
         render: row => (
           <TableActionColumns
-            onEdit={() => {
-              history.push(editPage(ROOT_PATH, row.id));
-            }}
-            onDelete={() => {
-              history.push(deletePage(ROOT_PATH, row.id));
-            }}
+            onEdit={
+              isHasAnyPermission({ permission: PERMISSION.PROVIDER.UPDATE })
+                ? () => history.push(editPage(ROOT_PATH, row.id))
+                : null
+            }
+            onDelete={
+              isHasAnyPermission({ permission: PERMISSION.PROVIDER.DELETE })
+                ? onDelete(ROOT_PATH, row.id, history)
+                : null
+            }
           >
             <Permission permissions={[PERMISSION.PROVIDER.APPROVE]}>
               <Button
@@ -132,6 +129,8 @@ const ListPage = ({ history, intl }) => {
               >
                 <FaSignature />
               </Button>
+            </Permission>
+            <Permission permissions={[PERMISSION.PROVIDER.READ]}>
               <Button
                 type="button"
                 color="success"
@@ -149,14 +148,14 @@ const ListPage = ({ history, intl }) => {
 
   const search = { search: "" };
   const action = (
-    <div>
+    <Permission permissions={[PERMISSION.PROVIDER.CREATE]}>
       <CreateButton
         className="box"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
       />
-    </div>
+    </Permission>
   );
 
   const deleteConfirmDialog = React.useMemo(
@@ -212,11 +211,13 @@ const ListPage = ({ history, intl }) => {
       initialPage={1}
       initialFilter={search}
     >
-      <Filter />
-      <ProviderApproveModal
-        item={approveItem}
-        onClose={() => setApproveItem(null)}
-      />
+      <>
+        <Filter />
+        <ProviderApproveModal
+          item={approveItem}
+          onClose={() => setApproveItem(null)}
+        />
+      </>
     </ListWidget>
   );
 };

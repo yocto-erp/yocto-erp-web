@@ -1,22 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Form, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import * as yup from "yup";
+import { FormattedMessage } from "react-intl";
+import { toast } from "react-toastify";
 import FormError from "../../../components/Form/FormError";
 import ModalCancelButton from "../../../components/button/ModalCancelButton";
 import SubmitButton from "../../../components/button/SubmitButton";
 import { API_STATE } from "../../../libs/hooks/useApi";
 import useMyForm from "../../../libs/hooks/useMyForm";
+import { providerApi } from "../../../libs/apis/provider/provider.api";
+import messages from "../messages";
+import { useListActionContext } from "../../../components/ListWidget/constants";
 
 const schema = yup.object().shape({
   approve: yup.string().required(),
 });
 
 const ProviderApproveModal = ({ item, onClose }) => {
+  const { refresh } = useListActionContext();
   const {
     state,
     onSubmit,
     register,
+    reset,
+    resetState,
     formState: { isDirty, isValid },
   } = useMyForm({
     form: {
@@ -25,9 +33,20 @@ const ProviderApproveModal = ({ item, onClose }) => {
     validationSchema: schema,
     api: data => {
       console.log(data);
-      return new Promise(res => res(1));
+      return providerApi.approve(item.id, data.approve === "1");
     },
   });
+
+  useEffect(() => {
+    if (state.status === API_STATE.SUCCESS) {
+      refresh();
+      toast.success("Duyệt nhà cung cấp thành công");
+      resetState();
+      reset({});
+      onClose(true);
+    }
+  }, [state]);
+
   return (
     <Modal isOpen={item !== null} className="warning">
       <Form noValidate formNoValidate onSubmit={onSubmit}>
@@ -47,7 +66,7 @@ const ProviderApproveModal = ({ item, onClose }) => {
                 value="1"
               />
               <label className="form-check-label" htmlFor="radio1">
-                Approve
+                <FormattedMessage {...messages.formApproveStatusAccept} />
               </label>
             </div>
             <div className="form-check abc-radio form-check-inline abc-radio-warning">
@@ -60,7 +79,7 @@ const ProviderApproveModal = ({ item, onClose }) => {
                 value="0"
               />
               <label className="form-check-label" htmlFor="radio2">
-                Reject
+                <FormattedMessage {...messages.formApproveStatusReject} />
               </label>
             </div>
           </div>

@@ -5,7 +5,7 @@ const UserView = ({ user }) => {
   if (!user) return null;
   return (
     <span className="text-nowrap">
-      <i className="fa fa-user-o fa-fw" /> {user.displayName || user.email}
+      <i className="fi flaticon-user" /> {user.displayName || user.email}
     </span>
   );
 };

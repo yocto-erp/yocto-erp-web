@@ -1,5 +1,5 @@
-import { API_URL } from '../../constants';
-import { createCRUDApi, fetchJSON, postJSON } from './fetch';
+import { API_URL } from "../../constants";
+import { createCRUDApi, fetchJSON, postJSON } from "./fetch";
 
 const API_ENDPOINT_URL = `${API_URL}/user`;
 
@@ -17,6 +17,8 @@ const userApi = {
   confirmInvitation: form =>
     postJSON(`${API_ENDPOINT_URL}/invite/verify`, form),
   updateUser: (id, form) => postJSON(`${API_ENDPOINT_URL}/${id}`, form),
+  resendInvite: userId =>
+    postJSON(`${API_ENDPOINT_URL}/${userId}/invite/resend`),
 };
 
 export default userApi;

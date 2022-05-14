@@ -107,7 +107,6 @@ function Layout({
                 onScroll: () => {
                   const scrollHeight =
                     scrollRef.current?.osInstance().scroll().position.y || 0;
-                  console.log(scrollHeight);
                   if (!showScroll && scrollHeight > 400) {
                     setShowScroll(true);
                   } else if (showScroll && scrollHeight < 400) {

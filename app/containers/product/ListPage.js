@@ -7,10 +7,10 @@ import productApi from "../../libs/apis/product/product.api";
 import { PRODUCT_ROOT_PATH } from "./constants";
 import PageTitle from "../Layout/PageTitle";
 import {
-  deletePage,
   deletePagePattern,
   editPage,
   newPage,
+  onDelete,
 } from "../../libs/utils/crud.util";
 import CreateButton from "../../components/button/CreateButton";
 import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
@@ -22,9 +22,13 @@ import {
 } from "../../components/ListWidget/constants";
 import Tags from "../../components/Form/tagging/ViewTags";
 import ProductView from "../../components/common/product/ProductView";
+import useUser from "../../libs/hooks/useUser";
+import { PERMISSION } from "../../constants";
+import Permission from "../../components/Acl/Permission";
 
 const ROOT_PATH = PRODUCT_ROOT_PATH;
 const ListPage = ({ history }) => {
+  const { isHasAnyPermission } = useUser();
   const columns = React.useMemo(
     () => [
       {
@@ -52,12 +56,16 @@ const ListPage = ({ history }) => {
         class: "action",
         render: row => (
           <TableActionColumns
-            onEdit={() => {
-              history.push(editPage(ROOT_PATH, row.id));
-            }}
-            onDelete={() => {
-              history.push(deletePage(ROOT_PATH, row.id));
-            }}
+            onEdit={
+              isHasAnyPermission({ permission: PERMISSION.PRODUCT.UPDATE })
+                ? () => history.push(editPage(ROOT_PATH, row.id))
+                : null
+            }
+            onDelete={
+              isHasAnyPermission({ permission: PERMISSION.PROVIDER.DELETE })
+                ? onDelete(ROOT_PATH, row.id, history)
+                : null
+            }
           />
         ),
       },
@@ -67,13 +75,13 @@ const ListPage = ({ history }) => {
 
   const search = { search: "" };
   const action = (
-    <div>
+    <Permission permissions={[PERMISSION.PRODUCT.CREATE]}>
       <CreateButton
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
       />
-    </div>
+    </Permission>
   );
 
   const deleteConfirmDialog = React.useMemo(

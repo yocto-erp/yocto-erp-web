@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import { Button } from "reactstrap";
+import { BiMailSend } from "react-icons/all";
 import PageTitle from "../Layout/PageTitle";
 import ListWidget from "../../components/ListWidget";
 import { formatDate } from "../../libs/utils/date.util";
@@ -19,8 +21,12 @@ import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
 import CreateButton from "../../components/button/CreateButton";
 import FilterUser from "./components/FilterUser";
 import { SORT_DIR } from "../../components/ListWidget/constants";
+import ResendInviteModal from "./components/ResendInviteModal";
+import DateView from "../../components/common/date/DateView";
 
 const ListPage = ({ history }) => {
+  const [resendUser, setResendUser] = useState(null);
+
   const columns = React.useMemo(
     () => [
       {
@@ -46,16 +52,35 @@ const ListPage = ({ history }) => {
           switch (row.inviteStatus) {
             case USER_INVITE_STATUS.INVITED:
               rs = (
-                <span className="badge badge-danger" id={`status${row.id}`}>
-                  SENT
-                </span>
+                <p className="mb-0">
+                  <span
+                    className="badge badge-danger mb-1"
+                    id={`status${row.id}`}
+                  >
+                    SENT
+                  </span>
+                  <br />
+                  <Button
+                    color="warning"
+                    outline
+                    type="button"
+                    size="xs"
+                    onClick={() => setResendUser(row.user)}
+                  >
+                    Resend <BiMailSend size={18} />
+                  </Button>
+                </p>
               );
               break;
             case USER_INVITE_STATUS.CONFIRMED:
               rs = (
-                <span className="badge badge-success" id={`status${row.id}`}>
-                  CONFIRMED
-                </span>
+                <>
+                  <span className="badge badge-success" id={`status${row.id}`}>
+                    CONFIRMED
+                  </span>
+                  <br />
+                  <DateView date={row.confirmedDate} />
+                </>
               );
               break;
             default:
@@ -149,7 +174,13 @@ const ListPage = ({ history }) => {
       initSize={10}
       initSorts={{ createdDate: SORT_DIR.DESC }}
     >
-      <FilterUser />
+      <>
+        <FilterUser />
+        <ResendInviteModal
+          user={resendUser}
+          onClose={() => setResendUser(null)}
+        />
+      </>
     </ListWidget>
   );
 };

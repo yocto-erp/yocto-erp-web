@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { formatDate } from "../../libs/utils/date.util";
+import DateView from "../common/date/DateView";
 
 const CreatedBy = ({ user, date }) => {
   const userDisplay = user ? (
@@ -15,9 +15,7 @@ const CreatedBy = ({ user, date }) => {
     dateDisplay = (
       <>
         <br />
-        <span className="text-nowrap">
-          <i className="fi flaticon-time" /> {formatDate(new Date(date))}
-        </span>
+        <DateView date={date} />
       </>
     );
   }

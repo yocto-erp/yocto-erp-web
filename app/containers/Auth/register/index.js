@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import * as yup from 'yup';
+import React, { useMemo } from "react";
+import { Helmet } from "react-helmet";
+import { FormattedHTMLMessage, FormattedMessage } from "react-intl";
+import * as yup from "yup";
 
 import {
   Container,
@@ -12,27 +12,27 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-} from 'reactstrap';
+} from "reactstrap";
 
-import { Link } from 'react-router-dom';
-import Alert from 'reactstrap/es/Alert';
-import messages from './messages';
-import Widget from '../../../components/Widget/Widget';
-import Footer from '../../Layout/Footer';
-import SubmitButton from '../../../components/button/SubmitButton';
-import { registerUser } from '../../../libs/apis/auth.api';
-import useMyForm from '../../../libs/hooks/useMyForm';
-import FormError from '../../../components/Form/FormError';
-import FormHookErrorMessage from '../../../components/Form/FormHookErrorMessage';
+import { Link } from "react-router-dom";
+import Alert from "reactstrap/es/Alert";
+import messages from "./messages";
+import Widget from "../../../components/Widget/Widget";
+import Footer from "../../Layout/Footer";
+import SubmitButton from "../../../components/button/SubmitButton";
+import { registerUser } from "../../../libs/apis/auth.api";
+import useMyForm from "../../../libs/hooks/useMyForm";
+import FormError from "../../../components/Form/FormError";
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
 
 const schema = yup.object().shape({
   email: yup
     .string()
-    .email('Invalid Email')
-    .required('Email is required.'),
-  password: yup.string().required('Password is required.'),
-  firstName: yup.string().required('First Name is required.'),
-  lastName: yup.string().required('Last Name is required.'),
+    .email("Invalid Email")
+    .required("Email is required."),
+  password: yup.string().required("Password is required."),
+  firstName: yup.string().required("First Name is required."),
+  lastName: yup.string().required("Last Name is required."),
 });
 
 export function RegisterPage() {
@@ -53,7 +53,8 @@ export function RegisterPage() {
         <form onSubmit={onSubmit} noValidate>
           <FormGroup className="mt">
             <Label for="displayName">
-              Your name<span className="text-danger">*</span>
+              <FormattedMessage {...messages.formFullName} />
+              &nbsp;<span className="text-danger">*</span>
             </Label>
             <InputGroup className="input-group-no-border">
               <InputGroupAddon addonType="prepend">
@@ -61,31 +62,41 @@ export function RegisterPage() {
                   <i className="la la-user text-white" />
                 </InputGroupText>
               </InputGroupAddon>
-              <Input
-                invalid={!!errors.firstName}
-                id="firstName"
-                className="input-transparent pl-3"
-                type="text"
-                innerRef={register}
-                name="firstName"
-                placeholder="First Name"
-              />
-              <Input
-                invalid={!!errors.lastName}
-                id="lastName"
-                className="input-transparent pl-3"
-                type="text"
-                innerRef={register}
-                name="lastName"
-                placeholder="Last Name"
-              />
+              <FormattedMessage {...messages.formFirstName}>
+                {msg => (
+                  <Input
+                    invalid={!!errors.firstName}
+                    id="firstName"
+                    className="input-transparent pl-3"
+                    type="text"
+                    innerRef={register}
+                    name="firstName"
+                    placeholder={msg}
+                  />
+                )}
+              </FormattedMessage>
+              <FormattedMessage {...messages.formLastName}>
+                {msg => (
+                  <Input
+                    invalid={!!errors.lastName}
+                    id="lastName"
+                    className="input-transparent pl-3"
+                    type="text"
+                    innerRef={register}
+                    name="lastName"
+                    placeholder={msg}
+                  />
+                )}
+              </FormattedMessage>
+
               <FormHookErrorMessage error={errors.lastName} />
               <FormHookErrorMessage error={errors.firstName} />
             </InputGroup>
           </FormGroup>
           <FormGroup className="mt">
             <Label for="email">
-              Email<span className="text-danger">*</span>
+              <FormattedMessage {...messages.formEmail} />{" "}
+              <span className="text-danger">*</span>
             </Label>
             <InputGroup className="input-group-no-border">
               <InputGroupAddon addonType="prepend">
@@ -108,29 +119,36 @@ export function RegisterPage() {
             </InputGroup>
           </FormGroup>
           <FormGroup>
-            <Label for="password">
-              Password<span className="text-danger">*</span>
-            </Label>
-            <InputGroup className="input-group-no-border">
-              <InputGroupAddon addonType="prepend">
-                <InputGroupText>
-                  <i className="la la-lock text-white" />
-                </InputGroupText>
-              </InputGroupAddon>
-              <Input
-                invalid={!!errors.password}
-                id="password"
-                className="input-transparent pl-3"
-                type="password"
-                innerRef={register}
-                required
-                name="password"
-                placeholder="Password"
-              />
-              <FormFeedback>
-                {errors.password && errors.password.message}
-              </FormFeedback>
-            </InputGroup>
+            <FormattedMessage {...messages.formPassword}>
+              {msg => (
+                <>
+                  <Label for="password">
+                    {msg}&nbsp;<span className="text-danger">*</span>
+                  </Label>
+                  <InputGroup className="input-group-no-border">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="la la-lock text-white" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+
+                    <Input
+                      invalid={!!errors.password}
+                      id="password"
+                      className="input-transparent pl-3"
+                      type="password"
+                      innerRef={register}
+                      required
+                      name="password"
+                      placeholder={msg}
+                    />
+                    <FormFeedback>
+                      {errors.password && errors.password.message}
+                    </FormFeedback>
+                  </InputGroup>
+                </>
+              )}
+            </FormattedMessage>
           </FormGroup>
           <div className="bg-widget auth-widget-footer">
             <SubmitButton
@@ -140,13 +158,16 @@ export function RegisterPage() {
               size="sm"
               disabled={!(formState.isValid && formState.isDirty)}
               isLoading={isLoading}
-              style={{ color: '#fff' }}
+              style={{ color: "#fff" }}
             >
               <FormattedMessage {...messages.registerButton} />
             </SubmitButton>
             <p className="widget-auth-info m-4">
-              If you had account, &nbsp;
-              <Link to="/login">login here</Link>
+              <FormattedMessage {...messages.alreadyHaveAccount} />
+              &nbsp;
+              <Link to="/login">
+                <FormattedMessage {...messages.loginHere} />
+              </Link>
             </p>
           </div>
         </form>
@@ -158,7 +179,10 @@ export function RegisterPage() {
   return (
     <div>
       <Helmet>
-        <title>REGISTER</title>
+        <FormattedMessage {...messages.header}>
+          {msg => <title>{msg}</title>}
+        </FormattedMessage>
+
         <meta name="description" content="Description of Register" />
       </Helmet>
       <div className="auth-page d-flex align-items-center">
@@ -172,9 +196,15 @@ export function RegisterPage() {
             }
           >
             {resp ? (
-              <Alert color="info" className="mt-2">
-                Register succeed link has been send to your email{' '}
-                <strong>{resp.email}</strong>. Please check your mailbox.
+              <Alert
+                color="primary"
+                className="mt-2"
+                style={{ fontSize: "1.1rem" }}
+              >
+                <FormattedHTMLMessage
+                  {...messages.registerSuccess}
+                  values={{ email: resp.email }}
+                />
               </Alert>
             ) : (
               <>

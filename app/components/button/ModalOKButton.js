@@ -23,6 +23,7 @@ ModalOKButton.propTypes = {
   isLoading: PropTypes.bool,
   children: PropTypes.any,
   disabled: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default ModalOKButton;
