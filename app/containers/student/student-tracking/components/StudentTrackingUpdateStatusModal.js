@@ -65,7 +65,7 @@ const StudentTrackingUpdateStatusModal = ({
   }, [state]);
 
   return (
-    <Modal isOpen={isOpen} size="lg">
+    <Modal isOpen={isOpen} size="lg" className="primary">
       <Form noValidate formNoValidate>
         <ModalHeader toggle={() => closeHandle(false)}>
           Update status{" "}

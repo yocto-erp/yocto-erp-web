@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button } from "reactstrap";
 
 const ModalOKButton = ({ isLoading, children, disabled, ...props }) => {
-  let els = 'Processing...';
+  let els = "Processing...";
   if (!isLoading) {
     if (children) {
       els = children;
     } else {
-      els = 'Submit';
+      els = "Submit";
     }
   }
   return (

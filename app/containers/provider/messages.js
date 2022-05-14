@@ -115,4 +115,12 @@ export default defineMessages({
     id: `${scope}.providerStatus4`,
     defaultMessage: "Huỷ",
   },
+  formApproveStatusAccept: {
+    id: `${scope}.formApproveStatusAccept`,
+    defaultMessage: "Chấp nhận",
+  },
+  formApproveStatusReject: {
+    id: `${scope}.formApproveStatusAccept`,
+    defaultMessage: "Từ chối",
+  },
 });

@@ -43,4 +43,8 @@ export const commonMessage = defineMessages({
     id: `${scope}.btnSubmit`,
     defaultMessage: "Lưu",
   },
+  btnClose: {
+    id: `${scope}.btnClose`,
+    defaultMessage: "Đóng",
+  },
 });

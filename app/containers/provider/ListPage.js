@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
@@ -29,9 +29,11 @@ import ProviderStatus from "./components/ProviderStatus";
 import { hasText } from "../../utils/util";
 import Permission from "../../components/Acl/Permission";
 import { PERMISSION } from "../../constants";
+import ProviderApproveModal from "./components/ProviderApproveModal";
 
 const ROOT_PATH = PROVIDER_ROOT_PATH;
 const ListPage = ({ history, intl }) => {
+  const [approveItem, setApproveItem] = useState(null);
   const columns = React.useMemo(
     () => [
       {
@@ -126,7 +128,7 @@ const ListPage = ({ history, intl }) => {
               <Button
                 type="button"
                 color="primary"
-                onClick={() => console.log("Press")}
+                onClick={() => setApproveItem(row)}
               >
                 <FaSignature />
               </Button>
@@ -211,6 +213,10 @@ const ListPage = ({ history, intl }) => {
       initialFilter={search}
     >
       <Filter />
+      <ProviderApproveModal
+        item={approveItem}
+        onClose={() => setApproveItem(null)}
+      />
     </ListWidget>
   );
 };
