@@ -1,9 +1,10 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { ADMIN_PATH, PERMISSION } from "../../constants";
+import { ADMIN_PATH } from "../../constants";
 import { TEMPLATE_EMAIL_ROOT_PATH } from "../template/constants";
 import messages from "./messages";
 import { SALE_CONFIGURE_PATH } from "../sale/constants";
+import { PERMISSION } from "../../components/Acl/constants";
 
 export const ECOMMERCE_ROOT_PATH = `${ADMIN_PATH}/ecommerce`;
 export const ECOMMERCE_CONFIGURATION_ROOT_PATH = `${ECOMMERCE_ROOT_PATH}/configure`;

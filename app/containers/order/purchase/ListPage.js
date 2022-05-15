@@ -1,7 +1,8 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
 import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
 import purchaseApi from "../../../libs/apis/order/purchase.api";
 import { PURCHASE_ORDER_ROOT_PATH } from "./constants";
@@ -23,9 +24,13 @@ import {
 import Price from "../../../components/common/Price";
 import Tags from "../../../components/Form/tagging/ViewTags";
 import SubjectView from "../../partner/subject/components/SubjectView";
+import messages from "./messages";
+import { PERMISSION } from "../../../components/Acl/constants";
+import Permission from "../../../components/Acl/Permission";
 
 const ROOT_PATH = PURCHASE_ORDER_ROOT_PATH;
-const ListPage = ({ history }) => {
+const ListPage = () => {
+  const history = useHistory();
   const columns = React.useMemo(
     () => [
       {
@@ -66,10 +71,12 @@ const ListPage = ({ history }) => {
         class: "action",
         render: row => (
           <TableActionColumns
+            editPermission={PERMISSION.ORDER.PURCHASE.UPDATE}
             onEdit={() => {
               history.push(editPage(ROOT_PATH, row.id));
             }}
             onDelete={onDelete(ROOT_PATH, row.id, history)}
+            deletePermission={PERMISSION.ORDER.PURCHASE.DELETE}
           />
         ),
       },
@@ -79,14 +86,14 @@ const ListPage = ({ history }) => {
 
   const search = { search: "", partnerCompanyId: null, partnerPersonId: null };
   const action = (
-    <div>
+    <Permission permissions={[PERMISSION.ORDER.PURCHASE.CREATE]}>
       <CreateButton
         className="mr-2 btn-raised"
         onClick={() => {
           history.push(newPage(ROOT_PATH));
         }}
       />
-    </div>
+    </Permission>
   );
 
   const deleteConfirmDialog = React.useMemo(
@@ -123,7 +130,12 @@ const ListPage = ({ history }) => {
   );
   return (
     <ListWidget
-      pageHeader={<PageTitle title="Purchase" actions={action} />}
+      pageHeader={
+        <PageTitle
+          title={<FormattedMessage {...messages.listPageTitle} />}
+          actions={action}
+        />
+      }
       deleteDialog={deleteConfirmDialog}
       columns={columns}
       fetchData={purchaseApi.search}

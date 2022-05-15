@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import * as yup from 'yup';
+import React, { useMemo } from "react";
+import { Helmet } from "react-helmet";
+import { FormattedMessage } from "react-intl";
+import * as yup from "yup";
 
 import {
   Container,
@@ -12,22 +12,22 @@ import {
   InputGroupText,
   Input,
   FormFeedback,
-} from 'reactstrap';
-import Alert from 'reactstrap/es/Alert';
-import { Link } from 'react-router-dom';
-import messages from './messages';
-import Widget from '../../../components/Widget/Widget';
-import Footer from '../../Layout/Footer';
-import SubmitButton from '../../../components/button/SubmitButton';
-import { forgotPasswordSendMail } from '../../../libs/apis/auth.api';
-import FormError from '../../../components/Form/FormError';
-import useMyForm from '../../../libs/hooks/useMyForm';
+} from "reactstrap";
+import Alert from "reactstrap/es/Alert";
+import { Link } from "react-router-dom";
+import messages from "./messages";
+import Widget from "../../../components/Widget/Widget";
+import Footer from "../../Layout/Footer";
+import SubmitButton from "../../../components/button/SubmitButton";
+import { forgotPasswordSendMail } from "../../../libs/apis/auth.api";
+import FormError from "../../../components/Form/FormError";
+import useMyForm from "../../../libs/hooks/useMyForm";
 
 const schema = yup.object().shape({
   email: yup
     .string()
-    .email('Invalid Email')
-    .required('This field is required.'),
+    .email("Invalid Email")
+    .required("This field is required."),
 });
 
 export function ForgotPasswordPage() {
@@ -80,8 +80,10 @@ export function ForgotPasswordPage() {
               <FormattedMessage {...messages.forgotPasswordButton} />
             </SubmitButton>
             <p className="widget-auth-info m-4">
-              If you remember password, &nbsp;
-              <Link to="/">login here</Link>
+              <FormattedMessage {...messages.rememberPasswordMessage} /> &nbsp;
+              <Link to="/login">
+                <FormattedMessage {...messages.loginHereMessage} />
+              </Link>
             </p>
           </div>
         </form>
@@ -113,11 +115,13 @@ export function ForgotPasswordPage() {
               </Alert>
             ) : (
               <>
-                <p className="widget-auth-info">Nhập email bạn đã đăng kí!</p>
+                <p className="widget-auth-info">
+                  <FormattedMessage {...messages.resetPasswordGuide} />
+                </p>
                 <FormError
                   className="mt-3"
                   errors={serverErrors}
-                  item={() => 'Email not existed !'}
+                  item={() => "Email not existed !"}
                 />
                 {formEls}
               </>

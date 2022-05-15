@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { getInfo } from "../apis/auth.api";
-import { PERMISSION_TYPE } from "../../constants";
 import { isArray } from "../../utils/util";
+import { PERMISSION_TYPE } from "../../components/Acl/constants";
 
 export const SWR_KEY_USER = "user";
 
@@ -30,7 +30,7 @@ export default () => {
         perms = [permission];
       }
 
-      for (let i = 0; i <= perms.length; i += 1) {
+      for (let i = 0; i < perms.length; i += 1) {
         const perm = perms[i];
         if (user.permissions[`action${perm}`]) {
           rs = true;

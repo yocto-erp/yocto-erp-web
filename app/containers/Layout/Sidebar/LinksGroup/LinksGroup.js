@@ -11,6 +11,7 @@ import {
   selectActiveItem,
   selectActiveMenu,
 } from "../../redux/navigation";
+import { hasText } from "../../../../utils/util";
 
 const LinksGroup = ({
   header,
@@ -55,9 +56,11 @@ const LinksGroup = ({
         onClick={e => onLinkClick(index, e)}
         style={headingStyle}
       >
-        <span className={s.icon}>
-          {icon || <i className={`${iconName}`} />}
-        </span>
+        {(hasText(iconName) || icon) && (
+          <span className={s.icon}>
+            {icon || <i className={`${iconName}`} />}
+          </span>
+        )}
         {header}{" "}
         {label && (
           <sup className={`${s.headerLabel} text-${labelColor || "warning"}`}>
@@ -99,7 +102,7 @@ const LinksGroup = ({
             onClick={e => togglePanelCollapse(index, e)}
             href="#"
           >
-            {isHeader ? (
+            {isHeader && (icon || hasText(iconName)) ? (
               <span className={s.icon}>
                 {icon || <i className={iconName} />}
               </span>
@@ -131,6 +134,7 @@ const LinksGroup = ({
                       isHeader={child.isHeader}
                       link={child.link}
                       icon={child.icon}
+                      iconName={child.iconName}
                       index={child.index}
                       childrenLinks={child.childrenLinks}
                       deep={deep + 1}

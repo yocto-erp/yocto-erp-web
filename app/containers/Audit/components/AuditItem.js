@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormattedMessage, intlShape, injectIntl } from "react-intl";
-import { PERMISSION } from "../../../constants";
+import { PERMISSION } from "../../../components/Acl/constants";
 import messages from "../messages";
 
 /**

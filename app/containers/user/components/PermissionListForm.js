@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { PERMISSION_MODULE } from "../../../constants";
 import PermissionForm from "./PermissionForm";
+import { PERMISSION_MODULE } from "../../../components/Acl/constants";
 
 const PermissionListForm = ({ value, onChange }) => {
   const onInputChange = React.useCallback(

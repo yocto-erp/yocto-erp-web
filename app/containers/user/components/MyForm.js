@@ -6,6 +6,7 @@ import userApi from "../../../libs/apis/user.api";
 import { API_STATE, useApi } from "../../../libs/hooks/useApi";
 import SubmitButton from "../../../components/button/SubmitButton";
 import BackButton from "../../../components/button/BackButton";
+import UserView from "../../../components/ListWidget/UserView";
 
 function MyForm({ id }) {
   const {
@@ -47,6 +48,10 @@ function MyForm({ id }) {
 
   return (
     <>
+      <p className="form-heading">
+        <UserView user={resp?.user} />
+      </p>
+
       <PermissionListForm value={permissions} onChange={setPermissions} />
       <BackButton className="mr-2" />
       <SubmitButton

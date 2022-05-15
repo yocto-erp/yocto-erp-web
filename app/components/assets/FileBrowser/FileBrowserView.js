@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { FaFolderPlus, FaFileUpload, FaTrashAlt } from "react-icons/fa";
-
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
@@ -272,7 +271,7 @@ const FileBrowserView = ({
 
   return (
     <div className={classnames("asset-browser-wrapper", className)}>
-      <div className="asset-browser-header-wrapper  sticky-top">
+      <div className="asset-browser-header-wrapper sticky-top">
         <div className="asset-browser-header">
           <div
             className="btn-toolbar mb-3 justify-content-between align-items-center"

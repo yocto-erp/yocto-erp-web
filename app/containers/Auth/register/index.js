@@ -208,7 +208,6 @@ export function RegisterPage() {
               </Alert>
             ) : (
               <>
-                <p className="widget-auth-info">Use your email to register.</p>
                 <FormError
                   className="mt-3"
                   errors={serverErrors}

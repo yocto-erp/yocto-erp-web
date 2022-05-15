@@ -27,7 +27,7 @@ import { formatDateOnlyFromStr } from "../../libs/utils/date.util";
 import ProviderStatus from "./components/ProviderStatus";
 import { hasText } from "../../utils/util";
 import Permission from "../../components/Acl/Permission";
-import { PERMISSION } from "../../constants";
+import { PERMISSION } from "../../components/Acl/constants";
 import ProviderApproveModal from "./components/ProviderApproveModal";
 import ProviderApproveStatus from "./components/ProviderApproveStatus";
 import useUser from "../../libs/hooks/useUser";

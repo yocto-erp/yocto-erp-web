@@ -27,6 +27,7 @@ import "!file-loader?name=[name].[ext]!../static/favicon.ico";
 import "file-loader?name=.htaccess!./.htaccess"; // eslint-disable-line import/extensions
 import { SWRConfig } from "swr";
 import { Route, Switch } from "react-router-dom";
+import { IconContext } from "react-icons";
 import { isSafari } from "./utils/util";
 import configureStore from "./configureStore";
 
@@ -34,6 +35,7 @@ import configureStore from "./configureStore";
 import { translationMessages } from "./i18n";
 import { SURVEY_ROOT_PATH } from "./containers/survey/constants";
 import SurveyPage from "./containers/survey/Loadable";
+import NotFound from "./containers/NotFoundPage";
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -65,10 +67,13 @@ const render = messages => {
               focusThrottleInterval: 5000,
             }}
           >
-            <Switch>
-              <Route path={`${SURVEY_ROOT_PATH}`} component={SurveyPage} />
-              <Route path="/" component={App} />
-            </Switch>
+            <IconContext.Provider value={{ size: "16px" }}>
+              <Switch>
+                <Route path={`${SURVEY_ROOT_PATH}`} component={SurveyPage} />
+                <Route path="/not-found" component={NotFound} />
+                <Route path="/" component={App} />
+              </Switch>
+            </IconContext.Provider>
           </SWRConfig>
         </ConnectedRouter>
       </LanguageProvider>

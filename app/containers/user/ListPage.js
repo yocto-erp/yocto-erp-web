@@ -15,7 +15,6 @@ import {
   deletePagePattern,
   editPage,
   newPage,
-  viewPage,
 } from "../../libs/utils/crud.util";
 import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
 import CreateButton from "../../components/button/CreateButton";
@@ -102,9 +101,6 @@ const ListPage = ({ history }) => {
         class: "action",
         render: row => (
           <TableActionColumns
-            onView={() => {
-              history.push(viewPage(USER_ROOT_PATH, row.user.id));
-            }}
             onEdit={() => {
               history.push(editPage(USER_ROOT_PATH, row.user.id));
             }}

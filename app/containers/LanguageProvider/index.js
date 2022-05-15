@@ -20,6 +20,10 @@ export function LanguageProvider(props) {
       locale={props.locale}
       key={props.locale}
       messages={props.messages[props.locale]}
+      onError={() => {
+        console.log("env", process.env.NODE_ENV);
+        // TODO: Ignore, we will enable later
+      }}
     >
       {React.Children.only(props.children)}
     </IntlProvider>

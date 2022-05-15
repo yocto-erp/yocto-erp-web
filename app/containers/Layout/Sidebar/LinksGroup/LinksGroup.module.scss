@@ -24,10 +24,11 @@
 
   a, button.link {
     font-size: 13px;
-    display: block;
+    display: flex;
     color: $sidebar-color;
     text-decoration: none;
     cursor: pointer;
+    align-items: center;
 
     &:hover, &:focus {
       text-decoration: none;
@@ -58,6 +59,8 @@
     max-width: 14px;
     text-align: center;
     opacity: .6;
+    display: inline-flex;
+    align-items: center;
   }
 
   .badge {

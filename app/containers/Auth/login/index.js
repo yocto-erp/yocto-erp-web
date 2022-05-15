@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import { Link, Redirect } from 'react-router-dom';
-import * as yup from 'yup';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet";
+import { FormattedMessage } from "react-intl";
+import { Link, Redirect } from "react-router-dom";
+import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
 import {
   Alert,
   Container,
@@ -14,22 +14,22 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-} from 'reactstrap';
-import { mutate } from 'swr';
-import { toast } from 'react-toastify';
-import messages from './messages';
-import Widget from '../../../components/Widget/Widget';
-import Footer from '../../Layout/Footer';
-import SubmitButton from '../../../components/button/SubmitButton';
-import { login, resendEmailActive } from '../../../libs/apis/auth.api';
-import { set, STORAGE } from '../../../libs/utils/storage';
-import useUser, { SWR_KEY_USER } from '../../../libs/hooks/useUser';
-import useMyForm from '../../../libs/hooks/useMyForm';
+} from "reactstrap";
+import { mutate } from "swr";
+import { toast } from "react-toastify";
+import messages from "./messages";
+import Widget from "../../../components/Widget/Widget";
+import Footer from "../../Layout/Footer";
+import SubmitButton from "../../../components/button/SubmitButton";
+import { login, resendEmailActive } from "../../../libs/apis/auth.api";
+import { set, STORAGE } from "../../../libs/utils/storage";
+import useUser, { SWR_KEY_USER } from "../../../libs/hooks/useUser";
+import useMyForm from "../../../libs/hooks/useMyForm";
 
 const schema = yup.object().shape({
   email: yup
     .string()
-    .email('Invalid Email1')
+    .email()
     .required(),
   password: yup.string().required(),
 });
@@ -60,45 +60,58 @@ export function Login() {
       <>
         <form onSubmit={onSubmit} noValidate>
           <FormGroup className="mt">
-            <Label for="email">Email</Label>
+            <Label for="email">
+              <FormattedMessage {...messages.email} />
+            </Label>
             <InputGroup className="input-group-no-border">
               <InputGroupAddon addonType="prepend">
                 <InputGroupText>
                   <i className="la la-user text-white" />
                 </InputGroupText>
               </InputGroupAddon>
-              <Input
-                invalid={!!errors.email}
-                id="email"
-                className="input-transparent pl-3"
-                type="email"
-                innerRef={register}
-                name="email"
-                placeholder="Email"
-              />
+              <FormattedMessage {...messages.email}>
+                {msg => (
+                  <Input
+                    invalid={!!errors.email}
+                    id="email"
+                    className="input-transparent pl-3"
+                    type="email"
+                    innerRef={register}
+                    name="email"
+                    placeholder={msg}
+                  />
+                )}
+              </FormattedMessage>
+
               <FormFeedback>
                 <FormattedMessage {...messages.invalidEmail} />
               </FormFeedback>
             </InputGroup>
           </FormGroup>
           <FormGroup>
-            <Label for="password">Password</Label>
+            <Label for="password">
+              <FormattedMessage {...messages.password} />
+            </Label>
             <InputGroup className="input-group-no-border">
               <InputGroupAddon addonType="prepend">
                 <InputGroupText>
                   <i className="la la-lock text-white" />
                 </InputGroupText>
               </InputGroupAddon>
-              <Input
-                invalid={!!errors.password}
-                id="password"
-                className="input-transparent pl-3"
-                type="password"
-                innerRef={register}
-                required
-                name="password"
-                placeholder="Password"
-              />
+              <FormattedMessage {...messages.password}>
+                {msg => (
+                  <Input
+                    invalid={!!errors.password}
+                    id="password"
+                    className="input-transparent pl-3"
+                    type="password"
+                    innerRef={register}
+                    required
+                    name="password"
+                    placeholder={msg}
+                  />
+                )}
+              </FormattedMessage>
               <FormFeedback>
                 <FormattedMessage {...messages.invalidPassword} />
               </FormFeedback>
@@ -109,10 +122,9 @@ export function Login() {
               type="submit"
               color="danger"
               className="auth-btn"
-              size="sm"
               disabled={!(formState.isValid && formState.isDirty)}
               isLoading={isLoading}
-              style={{ color: '#fff' }}
+              style={{ color: "#fff" }}
             >
               <FormattedMessage {...messages.loginButton} />
             </SubmitButton>
@@ -120,13 +132,13 @@ export function Login() {
               className="d-block text-right mt-2"
               to="/forgot-password/send-mail"
             >
-              Forget Password ?
+              <FormattedMessage {...messages.forgetPassword} />
             </Link>
             <p className="widget-auth-info mt-4">
-              Don&apos;t have an account? Sign up now!
+              <FormattedMessage {...messages.notHaveAccountMessage} />
             </p>
             <Link className="d-block text-center mb-4" to="/register">
-              Create an Account
+              <FormattedMessage {...messages.createAccount} />
             </Link>
           </div>
         </form>
@@ -138,7 +150,7 @@ export function Login() {
   return isAuthenticated ? (
     <Redirect
       to={{
-        pathname: '/admin/dashboard',
+        pathname: "/admin/dashboard",
       }}
     />
   ) : (
@@ -157,7 +169,6 @@ export function Login() {
               </h3>
             }
           >
-            <p className="widget-auth-info">Use your email to sign in.</p>
             <>
               {serverErrors && serverErrors.length ? (
                 <Alert fade={false} color="danger" className="mt-4">
@@ -165,7 +176,7 @@ export function Login() {
                     {serverErrors.map(t => (
                       <li key={uuidv4()}>
                         {t.message}
-                        {serverErrors[0].code === 'EMAIL_NOT_ACTIVE' ? (
+                        {serverErrors[0].code === "EMAIL_NOT_ACTIVE" ? (
                           <>
                             <br />
                             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -176,7 +187,7 @@ export function Login() {
                                 resendEmailActive(getValues().email).then(
                                   () => {
                                     toast.success(
-                                      'Resend Email For activation success.',
+                                      "Resend Email For activation success.",
                                     );
                                   },
                                 );

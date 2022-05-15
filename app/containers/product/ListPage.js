@@ -23,8 +23,8 @@ import {
 import Tags from "../../components/Form/tagging/ViewTags";
 import ProductView from "../../components/common/product/ProductView";
 import useUser from "../../libs/hooks/useUser";
-import { PERMISSION } from "../../constants";
 import Permission from "../../components/Acl/Permission";
+import { PERMISSION } from "../../components/Acl/constants";
 
 const ROOT_PATH = PRODUCT_ROOT_PATH;
 const ListPage = ({ history }) => {

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Input } from "reactstrap";
-import { PERMISSION_TYPE } from "../../../constants";
 import Widget from "../../../components/Widget/Widget";
+import { PERMISSION_TYPE } from "../../../components/Acl/constants";
 
 const PermissionForm = ({ onChange, value, module }) => {
   const { permissions } = module;
@@ -89,7 +89,7 @@ const PermissionForm = ({ onChange, value, module }) => {
                     }
                   >
                     <option value={PERMISSION_TYPE.FULL}>FULL</option>
-                    <option value={PERMISSION_TYPE.PARTIAL}>PARTIAL</option>
+                    {/* <option value={PERMISSION_TYPE.PARTIAL}>PARTIAL</option> */}
                     <option value={PERMISSION_TYPE.OWNER}>OWNER</option>
                   </Input>
                 ) : (

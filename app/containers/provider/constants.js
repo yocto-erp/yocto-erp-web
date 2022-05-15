@@ -1,8 +1,9 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { FaUserTie } from "react-icons/fa";
-import { ADMIN_PATH, PERMISSION } from "../../constants";
+import { ADMIN_PATH } from "../../constants";
 import messages from "./messages";
+import { PERMISSION } from "../../components/Acl/constants";
 
 export const PROVIDER_ROOT_PATH = `${ADMIN_PATH}/provider`;
 

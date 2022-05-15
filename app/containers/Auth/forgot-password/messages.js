@@ -1,18 +1,30 @@
-import { defineMessages } from 'react-intl';
+import { defineMessages } from "react-intl";
 
-export const scope = 'app.containers.ForgotPassword';
+export const scope = "app.containers.ForgotPassword";
 
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'Forgot your password?',
+    defaultMessage: "Bạn quên mật khẩu ?",
   },
   email: {
     id: `${scope}.email`,
-    defaultMessage: 'Email',
+    defaultMessage: "Email",
+  },
+  resetPasswordGuide: {
+    id: `${scope}.resetPasswordGuide`,
+    defaultMessage: "Nhập email của bạn để thiết lập lại mật khẩu",
   },
   forgotPasswordButton: {
     id: `${scope}.button.forgotPassword`,
-    defaultMessage: 'Reset my password',
+    defaultMessage: "Thiết lập lại mật khẩu",
+  },
+  rememberPasswordMessage: {
+    id: `${scope}.remeberPasswordMessage`,
+    defaultMessage: "Nếu bạn nhớ mật khẩu,",
+  },
+  loginHereMessage: {
+    id: `${scope}.loginHereMessage`,
+    defaultMessage: "vui lòng đăng nhập",
   },
 });

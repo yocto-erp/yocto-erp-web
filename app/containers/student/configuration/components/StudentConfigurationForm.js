@@ -16,6 +16,7 @@ import { useApi } from "../../../../libs/hooks/useApi";
 import { templateApi } from "../../../../libs/apis/template/template.api";
 import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../../libs/apis/tagging.api";
+import BackButton from "../../../../components/button/BackButton";
 
 const StudentConfigurationForm = () => {
   const validationSchema = React.useMemo(
@@ -393,6 +394,7 @@ const StudentConfigurationForm = () => {
           </Col>
         </Row>
         */}
+        <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     );
