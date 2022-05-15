@@ -6,6 +6,7 @@ import { thumbnail } from "../../../libs/apis/image.api";
 import ProductImageView from "./ProductImageView";
 import { hasText } from "../../../utils/util";
 import productApi from "../../../libs/apis/product/product.api";
+import "./ProductView.scss";
 
 export const PRODUCT_VIEW_TYPE = {
   NORMAL: 1,
@@ -21,7 +22,7 @@ const ProductView = ({ item, type = PRODUCT_VIEW_TYPE.NORMAL }) => {
   return (
     <>
       {type === PRODUCT_VIEW_TYPE.NORMAL && (
-        <div className="media">
+        <div className="media product-view">
           <img
             role="presentation"
             src={item.thumbnail ? thumbnail(item.thumbnail) : noImage}
@@ -41,10 +42,14 @@ const ProductView = ({ item, type = PRODUCT_VIEW_TYPE.NORMAL }) => {
         </div>
       )}
       {type === PRODUCT_VIEW_TYPE.CARD && (
-        <div className="card">
+        <div className="card product-view">
           <img
+            role="presentation"
+            title="Nhấn vào để xem chi tiết hình ảnh"
             src={item.thumbnail ? thumbnail(item.thumbnail) : noImage}
             className="card-img-top"
+            onClick={onViewListImage}
+            onKeyDown={onViewListImage}
             alt="..."
           />
           <div className="card-body">

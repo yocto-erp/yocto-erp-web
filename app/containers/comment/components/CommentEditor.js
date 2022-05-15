@@ -55,7 +55,7 @@ const CommentEditor = ({ purpose, id }) => {
     }).then(t => {
       setListComment({
         rows: t.rows,
-        isMore: t.rows.length <= search.page * search.size && t.rows.length > 0,
+        isMore: t.rows.length === search.page * search.size,
       });
     });
 
@@ -66,7 +66,7 @@ const CommentEditor = ({ purpose, id }) => {
     }).then(t => {
       setListComment({
         rows: [...listComment.rows, ...t.rows],
-        isMore: t.rows.length <= search.size && t.rows.length > 0,
+        isMore: t.rows.length === search.size,
       });
     });
     setSearch({

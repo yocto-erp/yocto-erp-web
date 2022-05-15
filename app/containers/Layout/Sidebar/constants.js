@@ -2,6 +2,9 @@ import React from "react";
 import {
   AiFillShop,
   AiOutlineAudit,
+  AiOutlineSetting,
+  BiBuildingHouse,
+  BsEnvelopeOpen,
   BsFillTagsFill,
   CgTemplate,
   FaCashRegister,
@@ -9,6 +12,7 @@ import {
   FaMoneyCheckAlt,
   FaTh,
   FaUserFriends,
+  FaUserShield,
   FaWarehouse,
   FiHardDrive,
   GiTakeMyMoney,
@@ -16,6 +20,7 @@ import {
   MdMapsHomeWork,
   MdOutlineAddShoppingCart,
   MdOutlineInventory,
+  RiMailSettingsFill,
 } from "react-icons/all";
 import { AUDIT_ROOT_PATH } from "../../Audit/constants";
 import { TAGGING_ROOT_PATH } from "../../tagging/constants";
@@ -105,7 +110,6 @@ export const SIDE_BAR_MENU = {
     {
       header: "Nhập, xuất kho",
       isHeader: true,
-      exact: true,
       icon: <MdOutlineInventory />,
       link: INVENTORY_ROOT_PATH,
       index: "inventory",
@@ -325,20 +329,22 @@ export const SIDE_BAR_MENU = {
       ],
     },
     {
-      header: "Cấu hình",
+      header: "Hệ thống",
       permission: PERMISSION.CONFIGURATION,
       isHeader: true,
-      iconName: "fi flaticon-settings-3",
+      icon: <AiOutlineSetting />,
       index: "configuration",
       link: "",
       children: [
         {
           header: "Email",
+          icon: <RiMailSettingsFill />,
           link: CONFIGURATION_EMAIL_ROOT_PATH,
           index: "configuration.email",
         },
         {
           header: "Company",
+          icon: <BiBuildingHouse />,
           link: CONFIGURATION_COMPANY_ROOT_PATH,
           index: "configuration.company",
         },
@@ -355,12 +361,14 @@ export const SIDE_BAR_MENU = {
         {
           permission: PERMISSION.EMAIL.READ,
           header: "Email",
+          icon: <BsEnvelopeOpen />,
           link: LOG_EMAIL_ROOT_PATH,
           index: "log.email",
         },
         {
           permission: PERMISSION.AUDIT,
           header: "Audit",
+          icon: <FaUserShield />,
           link: AUDIT_ROOT_PATH,
           index: "log.audit",
         },
