@@ -9,9 +9,10 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import { mutate } from "swr";
 import s from "../Header.module.scss";
-import avatar from "../../../../images/No_image_available.svg";
 import { set, STORAGE } from "../../../../libs/utils/storage";
 import useUser, { SWR_KEY_USER } from "../../../../libs/hooks/useUser";
+import { USER_ROOT_PATH } from "../../../user/constants";
+import { cloudAssetUrl } from "../../../../libs/apis/image.api";
 
 const AccountDropDown = () => {
   const { user } = useUser();
@@ -32,18 +33,18 @@ const AccountDropDown = () => {
           backgroundColor: "transparent",
         }}
       >
-        <span className={`${s.avatar} rounded-circle thumb-sm float-left mr-2`}>
-          <img src={avatar} alt="..." />
+        <span className={`${s.avatar} rounded-circle float-left mr-2`}>
+          <img src={cloudAssetUrl(user?.avatar)} alt="..." />
         </span>
         <div
           className={`small ${s.accountCheck} text-truncate`}
           style={{ maxWidth: "100px" }}
         >
-          {user?.email}
+          {user?.displayName || user?.email}
         </div>
       </DropdownToggle>
       <DropdownMenu right className={`${s.dropdownMenu} ${s.support}`}>
-        <DropdownItem>
+        <DropdownItem onClick={() => history.push(`${USER_ROOT_PATH}/profile`)}>
           <Badge color="primary">
             <i className="fi flaticon-user" />
           </Badge>

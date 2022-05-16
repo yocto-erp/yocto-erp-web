@@ -1,5 +1,5 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
+import React from "react";
+import { Helmet } from "react-helmet";
 import {
   Button,
   Card,
@@ -9,25 +9,25 @@ import {
   CardText,
   CardTitle,
   Container,
-} from 'reactstrap';
+} from "reactstrap";
 
-import { mutate } from 'swr';
-import Footer from '../../Layout/Footer';
-import useUser, { SWR_KEY_USER } from '../../../libs/hooks/useUser';
-import { selectCompany } from '../../../libs/apis/auth.api';
-import { set, STORAGE } from '../../../libs/utils/storage';
-import { useApi } from '../../../libs/hooks/useApi';
-import LoadingIndicator from '../../../components/LoadingIndicator';
+import { mutate } from "swr";
+import Footer from "../../Layout/Footer";
+import useUser, { SWR_KEY_USER } from "../../../libs/hooks/useUser";
+import { selectCompany } from "../../../libs/apis/auth.api";
+import { set, STORAGE } from "../../../libs/utils/storage";
+import { useApi } from "../../../libs/hooks/useApi";
+import LoadingIndicator from "../../../components/LoadingIndicator";
 
 export function CompanyChoose() {
   const { user } = useUser();
 
   const {
-    state: { isLoading, resp },
+    state: { isLoading },
     exec,
   } = useApi(companyId => {
-    selectCompany(companyId).then(async resp => {
-      set(STORAGE.JWT, resp.token);
+    selectCompany(companyId).then(async resp1 => {
+      set(STORAGE.JWT, resp1.token);
       await mutate(SWR_KEY_USER);
     });
   });

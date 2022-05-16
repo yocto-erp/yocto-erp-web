@@ -21,7 +21,6 @@ import {
   NavLink,
 } from "reactstrap";
 import classNames from "classnames";
-import Notifications from "../../../components/Notifications/Notifications";
 import {
   changeSidebarVisibility,
   closeSidebar,

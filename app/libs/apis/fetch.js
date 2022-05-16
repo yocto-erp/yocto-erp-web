@@ -79,11 +79,19 @@ function readResponseAsJSON(response) {
   return response.json();
 }
 
-function getAuthHeader() {
+function getAuthHeader(contentType = "application/json") {
   const token = get(STORAGE.JWT);
   return {
     Authorization: `Bearer ${encodeURIComponent(token)}`,
-    "Content-Type": "application/json",
+    "Content-Type": contentType,
+    Accept: "application/json",
+  };
+}
+
+function getFormDataAuthHeader() {
+  const token = get(STORAGE.JWT);
+  return {
+    Authorization: `Bearer ${encodeURIComponent(token)}`,
     Accept: "application/json",
   };
 }
@@ -104,6 +112,17 @@ export function postJSON(pathToResource, body) {
     method: "POST",
     headers: getAuthHeader(),
     body: JSON.stringify(body),
+  })
+    .then(validateResponse)
+    .then(readResponseAsJSON)
+    .catch(logError);
+}
+
+export function postFormData(pathToResource, body) {
+  return fetch(pathToResource, {
+    method: "POST",
+    headers: getFormDataAuthHeader(),
+    body,
   })
     .then(validateResponse)
     .then(readResponseAsJSON)
