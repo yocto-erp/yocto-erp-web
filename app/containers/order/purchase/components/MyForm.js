@@ -14,6 +14,7 @@ import {
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { Controller, useFieldArray } from "react-hook-form";
+import { FormattedMessage } from "react-intl";
 import Widget from "../../../../components/Widget/Widget";
 import SubmitButton from "../../../../components/button/SubmitButton";
 import BackButton from "../../../../components/button/BackButton";
@@ -26,8 +27,10 @@ import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../../libs/apis/tagging.api";
 import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
 import { transformUnNumber } from "../../../../libs/utils/number.util";
-import SelectSubject from "../../../partner/subject/components/SelectSubject";
 import FormError from "../../../../components/Form/FormError";
+import SelectProvider from "../../../provider/components/SelectProvider";
+import messages from "../messages";
+import { commonMessage } from "../../../messages";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(),
@@ -115,45 +118,56 @@ function MyForm({ id }) {
         <FormError errors={serverError} />
         <Row>
           <Col md="6">
-            <FormGroup>
-              <Label for="name" className="mr-sm-2 required">
-                Name<span className="text-danger">*</span>
-              </Label>
-              <Input
-                invalid={!!errors.name}
-                type="text"
-                name="name"
-                innerRef={register}
-                id="name"
-                placeholder="Name"
-              />
-              <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
-            </FormGroup>
-            <FormGroup>
-              <Label for="subject" className="mr-sm-2">
-                Partner
-              </Label>
-              <Controller
-                name="subject"
-                defaultValue={formData ? formData.partnerCompanyId : null}
-                control={control}
-                render={({ onChange, ...data }) => (
-                  <SelectSubject
-                    id="subject"
-                    placeholder="Choose Partner"
-                    onAdded={newCompany => {
-                      setValue("subject", newCompany, {
-                        shouldValidate: true,
-                      });
-                    }}
-                    onChange={val => {
-                      onChange(val);
-                    }}
-                    {...data}
+            <FormattedMessage {...messages.formName}>
+              {msg => (
+                <FormGroup>
+                  <Label for="name" className="mr-sm-2 required">
+                    {msg}
+                    <span className="text-danger">*</span>
+                  </Label>
+                  <Input
+                    invalid={!!errors.name}
+                    type="text"
+                    name="name"
+                    innerRef={register}
+                    id="name"
+                    placeholder={msg}
                   />
-                )}
-              />
-            </FormGroup>
+                  <FormFeedback>
+                    {errors.name && errors.name.message}
+                  </FormFeedback>
+                </FormGroup>
+              )}
+            </FormattedMessage>
+            <FormattedMessage {...messages.formPartner}>
+              {msg => (
+                <FormGroup>
+                  <Label for="subject" className="mr-sm-2">
+                    {msg}
+                  </Label>
+                  <Controller
+                    name="subject"
+                    defaultValue={formData ? formData.partnerCompanyId : null}
+                    control={control}
+                    render={({ onChange, ...data }) => (
+                      <SelectProvider
+                        id="subject"
+                        placeholder={msg}
+                        onAdded={newCompany => {
+                          setValue("subject", newCompany, {
+                            shouldValidate: true,
+                          });
+                        }}
+                        onChange={val => {
+                          onChange(val);
+                        }}
+                        {...data}
+                      />
+                    )}
+                  />
+                </FormGroup>
+              )}
+            </FormattedMessage>
             <FormGroup>
               <Label for="tagging" className="mr-sm-2">
                 Tagging
@@ -175,19 +189,23 @@ function MyForm({ id }) {
             </FormGroup>
           </Col>
           <Col md="6">
-            <FormGroup>
-              <Label for="remark" className="mr-sm-2">
-                Remark
-              </Label>
-              <Input
-                rows={5}
-                type="textarea"
-                name="remark"
-                innerRef={register}
-                id="remark"
-                placeholder="Remark"
-              />
-            </FormGroup>
+            <FormattedMessage {...messages.formRemark}>
+              {msg => (
+                <FormGroup>
+                  <Label for="remark" className="mr-sm-2">
+                    {msg}
+                  </Label>
+                  <Input
+                    rows={5}
+                    type="textarea"
+                    name="remark"
+                    innerRef={register}
+                    id="remark"
+                    placeholder={msg}
+                  />
+                </FormGroup>
+              )}
+            </FormattedMessage>
           </Col>
         </Row>
         <FormGroup>
@@ -195,19 +213,27 @@ function MyForm({ id }) {
             <thead>
               <tr>
                 <th style={{ width: "30%" }}>
-                  Product<span className="text-danger">*</span>
+                  <FormattedMessage {...messages.formTableProduct} />
+                  <span className="text-danger">*</span>
                 </th>
                 <th style={{ width: "250px" }}>
-                  Unit<span className="text-danger">*</span>
+                  <FormattedMessage {...messages.formTableUnit} />
+                  <span className="text-danger">*</span>
                 </th>
                 <th style={{ width: "150px" }}>
-                  Quantity<span className="text-danger">*</span>
+                  <FormattedMessage {...messages.formTableQty} />
+                  <span className="text-danger">*</span>
                 </th>
                 <th style={{ width: "150px" }}>
-                  Price Per Unit<span className="text-danger">*</span>
+                  <FormattedMessage {...messages.formTablePrice} />
+                  <span className="text-danger">*</span>
                 </th>
-                <th>Remark</th>
-                <th className="action">Action</th>
+                <th>
+                  <FormattedMessage {...messages.formTableRemark} />
+                </th>
+                <th className="action">
+                  <FormattedMessage {...commonMessage.action} />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -242,7 +268,7 @@ function MyForm({ id }) {
                       });
                     }}
                   >
-                    Add
+                    <FormattedMessage {...messages.formTableBtnAddProduct} />
                   </CreateButton>
                 </td>
               </tr>

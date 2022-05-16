@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
-import { Form, FormGroup, Input, Label } from "reactstrap";
+import { Form, Input } from "reactstrap";
 import { Controller, useForm } from "react-hook-form";
+import { FormattedMessage } from "react-intl";
 import { useListFilter } from "../../../../components/ListWidget/constants";
 import SearchButton from "../../../../components/button/SearchButton";
-import SelectSubject from "../../../partner/subject/components/SelectSubject";
+import SelectProvider from "../../../provider/components/SelectProvider";
+import messages from "../messages";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -20,42 +22,41 @@ const Filter = () => {
   });
   return (
     <Form inline onSubmit={onSubmit} noValidate>
-      <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-        <Label for="name" className="mr-sm-2 sr-only">
-          Name
-        </Label>
-        <Input
-          type="search"
-          name="search"
-          className="mr-2"
-          style={{ width: "300px" }}
-          innerRef={register}
-          id="search"
-          placeholder="Search By Name"
-        />
-      </FormGroup>
-      <FormGroup className="mr-2">
-        <Label className="mr-2 sr-only">Name</Label>
-        <div style={{ width: "250px" }}>
-          <Controller
-            name="subject"
-            defaultValue={null}
-            control={control}
-            render={({ onChange, ...data }, { invalid }) => (
-              <SelectSubject
-                id="subject"
-                placeholder="Choose Partner"
-                creatable={false}
-                invalid={invalid}
-                onChange={val => {
-                  onChange(val);
-                }}
-                {...data}
-              />
-            )}
+      <FormattedMessage {...messages.listPageSearchName}>
+        {msg => (
+          <Input
+            type="search"
+            name="search"
+            className="mr-2 mt-2 mt-md-0"
+            innerRef={register}
+            id="search"
+            placeholder={msg}
           />
-        </div>
-      </FormGroup>
+        )}
+      </FormattedMessage>
+      <div style={{ width: "250px" }} className="mr-2 mt-2 mt-md-0">
+        <Controller
+          name="subject"
+          defaultValue={null}
+          control={control}
+          render={({ onChange, ...data }, { invalid }) => (
+            <FormattedMessage {...messages.listPageSearchProvider}>
+              {msg => (
+                <SelectProvider
+                  id="subject"
+                  placeholder={msg}
+                  creatable={false}
+                  invalid={invalid}
+                  onChange={val => {
+                    onChange(val);
+                  }}
+                  {...data}
+                />
+              )}
+            </FormattedMessage>
+          )}
+        />
+      </div>
       <SearchButton />
     </Form>
   );

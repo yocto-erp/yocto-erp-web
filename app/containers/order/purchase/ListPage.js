@@ -27,6 +27,7 @@ import SubjectView from "../../partner/subject/components/SubjectView";
 import messages from "./messages";
 import { PERMISSION } from "../../../components/Acl/constants";
 import Permission from "../../../components/Acl/Permission";
+import { commonMessage } from "../../messages";
 
 const ROOT_PATH = PURCHASE_ORDER_ROOT_PATH;
 const ListPage = () => {
@@ -34,7 +35,7 @@ const ListPage = () => {
   const columns = React.useMemo(
     () => [
       {
-        header: "Name",
+        header: <FormattedMessage {...messages.listPageTableColName} />,
         data: "name",
         width: "20%",
         render: row => (
@@ -45,13 +46,13 @@ const ListPage = () => {
         ),
       },
       {
-        header: "Đối tác",
+        header: <FormattedMessage {...messages.listPageTableColProvider} />,
         data: "subject",
         class: "min",
         render: row => <SubjectView item={row.subject} />,
       },
       {
-        header: "Total Amount",
+        header: <FormattedMessage {...messages.listPageTableColTotalAmount} />,
         data: "totalAmount",
         render: row => <Price amount={row.totalAmount} />,
         sort: {
@@ -60,13 +61,13 @@ const ListPage = () => {
         class: "min text-right",
       },
       {
-        header: "Remark",
+        header: <FormattedMessage {...messages.listPageTableColRemark} />,
         data: "remark",
         width: "40%",
       },
       CreatedByColumn,
       {
-        header: "Action",
+        header: <FormattedMessage {...commonMessage.action} />,
         data: "",
         class: "action",
         render: row => (
@@ -84,7 +85,7 @@ const ListPage = () => {
     [],
   );
 
-  const search = { search: "", partnerCompanyId: null, partnerPersonId: null };
+  const search = { search: "", subject: null };
   const action = (
     <Permission permissions={[PERMISSION.ORDER.PURCHASE.CREATE]}>
       <CreateButton

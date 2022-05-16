@@ -7,6 +7,14 @@ export const commonMessage = defineMessages({
     id: `${scope}.searchPartnerPlaceHolder`,
     defaultMessage: "Tìm theo tên, email, số điện thoại",
   },
+  pagingPage: {
+    id: `${scope}.pagingPage`,
+    defaultMessage: "Trang",
+  },
+  pagingTotal: {
+    id: `${scope}.pagingTotal`,
+    defaultMessage: "Tổng cộng",
+  },
   searchByName: {
     id: `${scope}.searchByName`,
     defaultMessage: "Tìm theo tên",

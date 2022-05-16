@@ -1,13 +1,15 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
 import MyForm from "./components/MyForm";
 import PageTitle from "../../Layout/PageTitle";
+import messages from "./messages";
 
 const EditPage = () => {
   const { id } = useParams();
   return (
     <>
-      <PageTitle title="Update Shop" />
+      <PageTitle title={<FormattedMessage {...messages.editPageTitle} />} />
       <div className="row">
         <div className="col-md-6">
           <MyForm id={id} />

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
 import debounce from "lodash/debounce";
 import { toast } from "react-toastify";
 import { Input, Spinner } from "reactstrap";
@@ -16,6 +17,7 @@ import "./List.scss";
 import Widget from "../Widget/Widget";
 import { useIsMounted } from "../../libs/hooks/useIsMounted";
 import { useGridQueryParams } from "../../libs/hooks/useGridQueryParams";
+import { commonMessage } from "../../containers/messages";
 
 const ListWidget = ({
   columns,
@@ -152,29 +154,35 @@ const ListWidget = ({
     () => (
       <div className="w-100 mt-2">
         <div className="d-flex align-items-center">
-          <Input
-            type="select"
-            name="pageSize"
-            className="mr-2"
-            bsSize="sm"
-            onChange={event => {
-              setSize(Number(event.target.value));
-            }}
-            style={{ width: "auto" }}
-            value={queryObj.size}
-          >
-            <option value={10}>10 / Page</option>
-            <option value={20}>20 / Page</option>
-            <option value={50}>50 / Page</option>
-            <option value={100}>100 / Page</option>
-          </Input>
+          <FormattedMessage {...commonMessage.pagingPage}>
+            {msg => (
+              <Input
+                type="select"
+                name="pageSize"
+                className="mr-2"
+                bsSize="sm"
+                onChange={event => {
+                  setSize(Number(event.target.value));
+                }}
+                style={{ width: "auto" }}
+                value={queryObj.size}
+              >
+                <option value={10}>10 / {msg}</option>
+                <option value={20}>20 / {msg}</option>
+                <option value={50}>50 / {msg}</option>
+                <option value={100}>100 / {msg}</option>
+              </Input>
+            )}
+          </FormattedMessage>
           <Pagination
             currentPage={queryObj.page}
             pageSize={queryObj.size}
             total={count}
             setPage={setPage}
           />
-          <div className="ml-2">Total: {count} records</div>
+          <div className="ml-2">
+            <FormattedMessage {...commonMessage.pagingTotal} />: {count}
+          </div>
           {isLoading ? <Spinner className="ml-auto" /> : ""}
         </div>
       </div>
