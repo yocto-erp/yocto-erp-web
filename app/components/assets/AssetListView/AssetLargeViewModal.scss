@@ -1,0 +1,25 @@
+.modal {
+  &.fullscreen {
+    .modal-dialog {
+      &.modal-dialog-scrollable.product-image-view {
+        .carousel-inner {
+          height: 100%;
+
+          .carousel-item {
+            img {
+              height: 100%;
+              object-fit: contain;
+              margin: auto;
+            }
+
+            svg {
+              height: 100%;
+              margin: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

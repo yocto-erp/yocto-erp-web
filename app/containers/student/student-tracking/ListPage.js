@@ -18,7 +18,7 @@ import {
   thisMonthRange,
 } from "../../../libs/utils/date.util";
 import UserView from "../../../components/ListWidget/UserView";
-import { cloudImageUrl } from "../../../libs/apis/image.api";
+import { cloudAssetUrl } from "../../../libs/apis/image.api";
 import { studentTrackingMessage } from "./messages";
 import { STUDENT_DAILY_STATUS } from "./constants";
 import StudentTrackingUpdateStatusModal from "./components/StudentTrackingUpdateStatusModal";
@@ -341,7 +341,7 @@ const ListPage = () => {
                           <div className="media">
                             {t.tracking?.checkInSignature && (
                               <a
-                                href={cloudImageUrl(
+                                href={cloudAssetUrl(
                                   t.tracking?.checkInSignature,
                                 )}
                                 style={{ width: "64px", height: "64px" }}
@@ -350,7 +350,7 @@ const ListPage = () => {
                               >
                                 <img
                                   title="signature"
-                                  src={cloudImageUrl(
+                                  src={cloudAssetUrl(
                                     t.tracking?.checkInSignature,
                                   )}
                                   className="img-thumbnail"
@@ -408,7 +408,7 @@ const ListPage = () => {
                           <div className="media">
                             {t.tracking?.checkOutSignature && (
                               <a
-                                href={cloudImageUrl(
+                                href={cloudAssetUrl(
                                   t.tracking?.checkOutSignature,
                                 )}
                                 style={{ width: "64px", height: "64px" }}
@@ -417,7 +417,7 @@ const ListPage = () => {
                               >
                                 <img
                                   title="signature"
-                                  src={cloudImageUrl(
+                                  src={cloudAssetUrl(
                                     t.tracking?.checkOutSignature,
                                   )}
                                   className="img-thumbnail"

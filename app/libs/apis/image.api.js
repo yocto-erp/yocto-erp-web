@@ -17,7 +17,7 @@ export const thumbnail = filename =>
 const dwebLink = (carId, fieldId) =>
   `https://${carId}.ipfs.dweb.link/${fieldId}`;
 
-export const cloudImageUrl = asset => {
+export const cloudAssetUrl = asset => {
   if (asset) {
     const { ipfs, fileId } = asset;
     if (ipfs && ipfs.totalPinned >= 2) {

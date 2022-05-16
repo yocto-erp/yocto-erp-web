@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import { toast } from "react-toastify";
 import { userAddProduct } from "../../shop/redux/shopping";
-import { cloudImageUrl } from "../../../../libs/apis/image.api";
+import { cloudAssetUrl } from "../../../../libs/apis/image.api";
 import noImage from "../../../../images/No_image_available.svg";
 import { formatMoney } from "../../../../libs/utils/number.util";
 import "./style.scss";
@@ -52,7 +52,7 @@ const CardProduct = ({ index, item }) => {
         <div className="box-image">
           <CardImg
             top
-            src={item?.thumbnail ? cloudImageUrl(item.thumbnail) : noImage}
+            src={item?.thumbnail ? cloudAssetUrl(item.thumbnail) : noImage}
             alt="thumbnail"
           />
         </div>

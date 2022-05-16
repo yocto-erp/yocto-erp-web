@@ -98,7 +98,7 @@ const ProviderApproveModal = ({ item, onClose }) => {
 };
 
 ProviderApproveModal.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
   onClose: PropTypes.func,
 };
 

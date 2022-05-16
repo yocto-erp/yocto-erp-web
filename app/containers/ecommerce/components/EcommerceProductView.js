@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 
 import noImage from "../../../images/No_image_available.svg";
-import { cloudImageUrl } from "../../../libs/apis/image.api";
+import { cloudAssetUrl } from "../../../libs/apis/image.api";
 import ProductImageView from "../../../components/common/product/ProductImageView";
 import Tags from "../../../components/Form/tagging/ViewTags";
 import ecommerceProductApi from "../../../libs/apis/ecommerce/ecommerce-product.api";
@@ -19,7 +19,7 @@ const EcommerceProductView = ({ item }) => {
       <div className="media">
         <img
           role="presentation"
-          src={item.thumbnail ? cloudImageUrl(item.thumbnail) : noImage}
+          src={item.thumbnail ? cloudAssetUrl(item.thumbnail) : noImage}
           style={{ width: 48, cursor: "pointer" }}
           title="Click to view all image"
           className="mr-3 img-thumbnail"

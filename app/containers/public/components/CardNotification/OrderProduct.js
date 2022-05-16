@@ -2,7 +2,7 @@ import React from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
 import PropTypes from "prop-types";
 import s from "./ListGroup.module.scss";
-import { cloudImageUrl } from "../../../../libs/apis/image.api";
+import { cloudAssetUrl } from "../../../../libs/apis/image.api";
 import noImage from "../../../../images/No_image_available.svg";
 import { formatMoney } from "../../../../libs/utils/number.util";
 
@@ -22,7 +22,7 @@ const OrderProduct = ({ products }) => {
                   style={{ width: "32px", height: "32px" }}
                   src={
                     item.product?.thumbnail
-                      ? cloudImageUrl(item.product?.thumbnail)
+                      ? cloudAssetUrl(item.product?.thumbnail)
                       : noImage
                   }
                   className="align-self-center mr-3"

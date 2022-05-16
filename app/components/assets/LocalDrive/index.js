@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import FileBrowserView from "../FileBrowser/FileBrowserView";
-import { assetApi, cloudImageUrl } from "../../../libs/apis/image.api";
+import { assetApi, cloudAssetUrl } from "../../../libs/apis/image.api";
 import { hasText } from "../../../utils/util";
 import { ALL_MIME_TYPE, ROOT_FOLDER } from "../constants";
 
@@ -40,7 +40,7 @@ const LocalDrive = ({
         .then(t => ({
           rows: t.rows.map(item => ({
             ...item,
-            thumbnail: cloudImageUrl(item),
+            thumbnail: cloudAssetUrl(item),
             lastModifiedDate: item.createdDate,
           })),
           isMore: t.rows.length === size,

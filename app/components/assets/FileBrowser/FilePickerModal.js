@@ -24,14 +24,21 @@ const FilePickerModal = ({ isOpen, closeHandle, fileTypes, isMulti }) => {
     [setFiles],
   );
   return (
-    <Modal isOpen={isOpen} className="xx-large primary" scrollable>
+    <Modal
+      isOpen={isOpen}
+      className="primary"
+      modalClassName="fullscreen"
+      fade={false}
+      scrollable
+      toggle={() => closeHandle(false)}
+    >
       <ModalHeader toggle={() => closeHandle(false)}>
         Select Files{" "}
         {files.length > 0
           ? `(${files.length} ${files.length === 1 ? "file" : "files"})`
           : ""}
       </ModalHeader>
-      <ModalBody className="mt-2 pt-0">
+      <ModalBody className="mt-2 p-0 ">
         <LocalDrive
           className="p-0"
           multiple={isMulti}

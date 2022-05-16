@@ -11,7 +11,7 @@ import debounce from "lodash/debounce";
 import { API_STATE, useApi } from "../../../../libs/hooks/useApi";
 import EcommerceProductApi from "../../../../libs/apis/ecommerce/ecommerce-product.api";
 import Price from "../../../../components/common/Price";
-import { cloudImageUrl } from "../../../../libs/apis/image.api";
+import { cloudAssetUrl } from "../../../../libs/apis/image.api";
 import "./pos.scss";
 import { addProduct, posInitialState, posReducer } from "./pos.reduce";
 import {
@@ -88,7 +88,7 @@ const POS = () => {
                 <div className="card">
                   <img
                     className="card-img-top"
-                    src={cloudImageUrl(t.thumbnail)}
+                    src={cloudAssetUrl(t.thumbnail)}
                     alt="thumbnail"
                   />
                   <div className="card-body">

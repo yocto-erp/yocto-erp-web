@@ -45,11 +45,9 @@ const NewFolderModal = ({ isOpen, closeHandle, parentId, newFolderApi }) => {
   }, [closeHandle, state]);
 
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={isOpen} className="info">
       <Form noValidate formNoValidate>
-        <ModalHeader toggle={() => closeHandle(false)}>
-          Create new folder
-        </ModalHeader>
+        <ModalHeader toggle={() => closeHandle(false)}>Tạo thư mục</ModalHeader>
         <ModalBody>
           <FormError errors={state.errors} />
           <FormRow

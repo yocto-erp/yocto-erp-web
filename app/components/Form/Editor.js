@@ -22,12 +22,10 @@ import "tinymce/plugins/hr";
 import "tinymce/plugins/pagebreak";
 import "tinymce/plugins/nonbreaking";
 import "tinymce/plugins/anchor";
-import "tinymce/plugins/toc";
 import "tinymce/plugins/insertdatetime";
 import "tinymce/plugins/advlist";
 import "tinymce/plugins/lists";
 import "tinymce/plugins/wordcount";
-import "tinymce/plugins/imagetools";
 import "tinymce/plugins/textpattern";
 import "tinymce/plugins/noneditable";
 import "tinymce/plugins/importcss";
@@ -119,7 +117,7 @@ const Editor = ({
           break;
         default:
           rs =
-            "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview print | table imagetools image media template link code";
+            "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | fullscreen preview print | table image media template link code";
       }
     }
     return rs;
@@ -149,11 +147,11 @@ const Editor = ({
         target: ref.current,
         plugins:
           format === "html"
-            ? "print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap"
+            ? "print preview paste importcss autolink directionality code visualblocks fullscreen image link media template table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount textpattern noneditable help charmap"
             : "noneditable",
         toolbar,
         importcss_append: true,
-        contextmenu: "link image imagetools table",
+        contextmenu: "link image table",
         table_toolbar: "",
         toolbar_mode: "wrap",
         image_advtab: true,

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Button } from "reactstrap";
@@ -15,27 +15,16 @@ import { formatDateFromStr } from "../../libs/utils/date.util";
 import ProductView, {
   PRODUCT_VIEW_TYPE,
 } from "../../components/common/product/ProductView";
-import PreviewImage from "../../components/assets/AssetSelect/PreviewImage";
-import ViewLargeAssetModal from "../../components/assets/ViewLargeAssetModal";
 import BackButton from "../../components/button/BackButton";
 import CommentEditor, {
   COMMENT_PURPOSE,
 } from "../comment/components/CommentEditor";
 import ProviderApproveStatus from "./components/ProviderApproveStatus";
+import AssetListView from "../../components/assets/AssetListView/AssetListView";
 
 const ViewPage = () => {
   const { id } = useParams();
   const { state, exec } = useApi(providerApi.read);
-  const [enlargeFile, setEnlargeFile] = useState(null);
-
-  const viewLarge = useCallback(
-    (e, file) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setEnlargeFile(file);
-    },
-    [setEnlargeFile],
-  );
 
   useEffect(() => {
     exec(id);
@@ -96,27 +85,13 @@ const ViewPage = () => {
               ))}
             </div>
             <p className="form-heading no-bottom mt-4">Tài liệu</p>
-            <div className="row no-gutters">
-              {resp?.assets.map(t => (
-                <div className="col-auto" key={t.id}>
-                  <PreviewImage
-                    file={t}
-                    onViewLarge={e => viewLarge(e, t)}
-                    style={{ width: "120px" }}
-                  />
-                </div>
-              ))}
-            </div>
+            <AssetListView list={resp?.assets} type="normal" />
           </div>
           <div className="col-md-5">
             <p className="form-heading">Ghi chú</p>
             <CommentEditor id={id} purpose={COMMENT_PURPOSE.PROVIDER} />
           </div>
         </div>
-        <ViewLargeAssetModal
-          file={enlargeFile}
-          onClose={() => setEnlargeFile(null)}
-        />
       </Widget>
     </>
   );

@@ -7,4 +7,11 @@
     position: relative;
     flex-grow: 1;
   }
+
+  .carousel-control-prev, .carousel-control-next {
+    top: 50%;
+    height: 100px;
+    transform: translateY(-50%);
+    width: 32px;
+  }
 }

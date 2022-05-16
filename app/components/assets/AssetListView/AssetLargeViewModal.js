@@ -10,9 +10,12 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
-import { cloudImageUrl } from "../../../libs/apis/image.api";
+import { FaFileDownload } from "react-icons/all";
 import ModalOKButton from "../../button/ModalOKButton";
 import { isArrayHasItem } from "../../../utils/util";
+import AssetView from "./AssetView";
+import { cloudAssetUrl } from "../../../libs/apis/image.api";
+import "./AssetLargeViewModal.scss";
 
 const AssetLargeViewModal = ({ assets, onClose, currentIndex = 0 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -39,16 +42,12 @@ const AssetLargeViewModal = ({ assets, onClose, currentIndex = 0 }) => {
     () =>
       assets.map(item => (
         <CarouselItem
-          className="text-center"
+          className="text-center h-100"
           onExiting={() => setAnimating(true)}
           onExited={() => setAnimating(false)}
           key={item.fileId}
         >
-          <img
-            src={cloudImageUrl(item)}
-            alt="asset"
-            style={{ height: "600px", width: "800px", objectFit: "contain" }}
-          />
+          <AssetView asset={item} size={400} display="preview" />
         </CarouselItem>
       )),
     [assets],
@@ -61,21 +60,38 @@ const AssetLargeViewModal = ({ assets, onClose, currentIndex = 0 }) => {
   return (
     <Modal
       scrollable
+      tabIndex="-1"
       size="xl"
       isOpen={isArrayHasItem(assets)}
       fade={false}
-      className="product-image-view"
+      className="product-image-view info"
+      modalClassName="fullscreen"
+      toggle={onClose}
+      keyboard
     >
       <ModalHeader toggle={onClose} tag="div">
         <div className="row">
-          <div className="col-auto">Image</div>
-          <div className="col text-center">
+          <div className="col-auto">Asset</div>
+          <div className="col align-items-center d-flex justify-content-center">
             <strong>{assets[activeIndex]?.name}</strong>
+            <a
+              href={cloudAssetUrl(assets[activeIndex])}
+              target="_blank"
+              className="ml-3 d-inline-flex justify-content-between align-items-center text-warning"
+            >
+              Tải về <FaFileDownload />
+            </a>
           </div>
         </div>
       </ModalHeader>
       <ModalBody>
-        <Carousel activeIndex={activeIndex} next={next} previous={previous}>
+        <Carousel
+          interval={false}
+          activeIndex={activeIndex}
+          next={next}
+          previous={previous}
+          className="h-100"
+        >
           {slides}
           <CarouselControl
             direction="prev"
