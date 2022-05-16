@@ -46,7 +46,7 @@ export default () => {
     isAuthenticated,
     isLoading,
     user,
-    getUser: mutate,
+    setUser: mutate,
     isHasAnyPermission,
   };
 };
