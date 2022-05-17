@@ -1,10 +1,11 @@
 import { LRUMap } from "lru_map";
 
-export const PosScrollOptions = {
+export const DEFAULT_SCROLL_OPTIONS = {
+  resize: "both",
   scrollbars: {
-    autoHide: "scroll",
+    autoHide: "leave",
   },
-  paddingAbsolute: true,
+  paddingAbsolute: false,
 };
 
 export const PRODUCT_SHOP_CACHE_LRU = new LRUMap(50);

@@ -6,6 +6,9 @@ import { useListFilter } from "../../../../components/ListWidget/constants";
 import SearchButton from "../../../../components/button/SearchButton";
 import SelectProvider from "../../../provider/components/SelectProvider";
 import messages from "../messages";
+import Permission from "../../../../components/Acl/Permission";
+import { PERMISSION } from "../../../../components/Acl/constants";
+import SelectUserShop from "../../../user/components/SelectUserShop";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -34,29 +37,52 @@ const Filter = () => {
           />
         )}
       </FormattedMessage>
-      <div style={{ width: "250px" }} className="mr-2 mt-2 mt-md-0">
+      <Permission permissions={[PERMISSION.ORDER.PURCHASE.PROVIDER]}>
+        <div style={{ width: "250px" }} className="mr-2 mt-2 mt-md-0">
+          <Controller
+            name="subject"
+            defaultValue={null}
+            control={control}
+            render={({ onChange, ...data }, { invalid }) => (
+              <FormattedMessage {...messages.listPageSearchProvider}>
+                {msg => (
+                  <SelectProvider
+                    id="subject"
+                    placeholder={msg}
+                    creatable={false}
+                    invalid={invalid}
+                    onChange={val => {
+                      onChange(val);
+                    }}
+                    {...data}
+                  />
+                )}
+              </FormattedMessage>
+            )}
+          />
+        </div>
+      </Permission>
+      <Permission permissions={[PERMISSION.ORDER.PURCHASE.SHOP]}>
         <Controller
-          name="subject"
+          name="shop"
           defaultValue={null}
           control={control}
-          render={({ onChange, ...data }, { invalid }) => (
-            <FormattedMessage {...messages.listPageSearchProvider}>
+          render={({ onChange, ...data }) => (
+            <FormattedMessage {...messages.listPageSearchShop}>
               {msg => (
-                <SelectProvider
-                  id="subject"
-                  placeholder={msg}
-                  creatable={false}
-                  invalid={invalid}
-                  onChange={val => {
-                    onChange(val);
-                  }}
-                  {...data}
-                />
+                <div style={{ width: "250px" }} className="mr-2 mt-2 mt-md-0">
+                  <SelectUserShop
+                    id="shop"
+                    placeholder={msg}
+                    onChange={onChange}
+                    {...data}
+                  />
+                </div>
               )}
             </FormattedMessage>
           )}
         />
-      </div>
+      </Permission>
       <SearchButton />
     </Form>
   );

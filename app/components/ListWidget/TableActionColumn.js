@@ -52,7 +52,7 @@ const TableActionColumns = ({
   }
 
   return (
-    <ButtonToolbar className="">
+    <ButtonToolbar className="justify-content-center">
       <ButtonGroup size="sm">
         {children}
         {buttonEls}

@@ -15,6 +15,10 @@ export default defineMessages({
     id: `${scope}.listPageSearchProvider`,
     defaultMessage: "Tìm theo nhà cung cấp",
   },
+  listPageSearchShop: {
+    id: `${scope}.listPageSearchShop`,
+    defaultMessage: "Tìm theo cửa hàng",
+  },
   listPageTableColName: {
     id: `${scope}.listPageTableColName`,
     defaultMessage: "Tên",
@@ -26,6 +30,10 @@ export default defineMessages({
   listPageTableColTotalAmount: {
     id: `${scope}.listPageTableColTotalAmount`,
     defaultMessage: "Tổng tiền",
+  },
+  listPageTableColShop: {
+    id: `${scope}.listPageTableColShop`,
+    defaultMessage: "Cửa hàng",
   },
   listPageTableColRemark: {
     id: `${scope}.listPageTableColRemark`,

@@ -9,9 +9,9 @@ import {
   Navbar,
 } from "reactstrap";
 import "../../../../node_modules/animate.css/animate.css";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import AccountDropDown from "../../Layout/Header/components/AccountDropdown";
-import LanguageDropDown from "../../Layout/Header/components/LanguageDropdown";
+// import LanguageDropDown from "../../Layout/Header/components/LanguageDropdown";
 import useUser from "../../../libs/hooks/useUser";
 import s from "../../Layout/Header/Header.module.scss";
 import CardNotification from "./CardNotification/CardNotification";
@@ -50,25 +50,16 @@ function Header({ companyName }) {
                 </li>
               </>
             )}
-            <Dropdown
-              nav
-              isOpen={messagesOpen}
-              toggle={toggleMessagesDropdown}
-              className={`${s.notificationsMenu}`}
-            >
+            <Dropdown nav isOpen={messagesOpen} toggle={toggleMessagesDropdown}>
               <DropdownToggle nav className={`${s.navItem} text-white`}>
                 <i className="glyphicon glyphicon-shopping-cart" />
                 <span className={`${s.count}`}>{products?.length}</span>
               </DropdownToggle>
-              <DropdownMenu
-                className={`${
-                  s.notificationsWrapper
-                } py-0 animate__animated animate__faster animate__fadeInUp`}
-              >
+              <DropdownMenu right className={`${s.dropdownMenu} ${s.support}`}>
                 <CardNotification />
               </DropdownMenu>
             </Dropdown>
-            <LanguageDropDown />
+            {/* <LanguageDropDown /> */}
           </Nav>
         </div>
       </Navbar>

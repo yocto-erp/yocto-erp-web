@@ -10,7 +10,7 @@ import Price from "../../../../components/common/Price";
 import Input from "../../../../components/Form/Input";
 import messages from "./messages";
 import { TAX_TYPE } from "../../../finance/tax/tax/constants";
-import { PosScrollOptions } from "./constants";
+import { DEFAULT_SCROLL_OPTIONS } from "./constants";
 import "./order.scss";
 import {
   userChangeProductQty,
@@ -114,7 +114,7 @@ const UserOrderForm = () => {
               <Col xs="12" sm="12" md="12" lg="12" xl="12">
                 <OverlayScrollbarsComponent
                   className="product-list mt-3"
-                  options={PosScrollOptions}
+                  options={DEFAULT_SCROLL_OPTIONS}
                 >
                   <table className="table table-sm table-bordered product-list-table">
                     <thead>

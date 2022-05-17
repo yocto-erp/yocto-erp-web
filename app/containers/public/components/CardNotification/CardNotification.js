@@ -27,13 +27,13 @@ const CardNotification = () => {
           <Button
             outline
             color="warning"
-            className="py-0"
+            className="py-0 btn-icon"
             id="load-notifications-btn"
             onClick={() => {
               history.push(`/cpm/${publicId}/order`);
             }}
           >
-            <i className="fa fa-shopping-cart" /> Check out
+            <i className="fa fa-shopping-cart fa-fw mr-2" /> Check out
           </Button>
         </footer>
       </section>

@@ -54,6 +54,7 @@ const ListPage = ({ history }) => {
         header: "Action",
         data: "",
         class: "action",
+        permissions: [PERMISSION.PRODUCT.UPDATE, PERMISSION.PROVIDER.DELETE],
         render: row => (
           <TableActionColumns
             onEdit={

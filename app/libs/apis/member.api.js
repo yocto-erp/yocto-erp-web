@@ -20,4 +20,5 @@ function updateProfile(form) {
 export const memberApi = {
   getProfile: () => fetchJSON(`${API_ENDPOINT_URL}/profile`),
   updateProfile,
+  getShop: () => fetchJSON(`${API_ENDPOINT_URL}/shop`),
 };

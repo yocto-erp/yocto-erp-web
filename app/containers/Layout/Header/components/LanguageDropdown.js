@@ -1,16 +1,16 @@
-import React, { useCallback } from 'react';
+import React, { useCallback } from "react";
 import {
   Badge,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   UncontrolledDropdown,
-} from 'reactstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import classNames from 'classnames';
-import s from '../Header.module.scss';
-import { makeSelectLocale } from '../../../LanguageProvider/selectors';
-import { changeLocale } from '../../../LanguageProvider/actions';
+} from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
+import classNames from "classnames";
+import s from "../Header.module.scss";
+import { makeSelectLocale } from "../../../LanguageProvider/selectors";
+import { changeLocale } from "../../../LanguageProvider/actions";
 
 const LanguageDropDown = () => {
   const dispatch = useDispatch();
@@ -30,12 +30,12 @@ const LanguageDropDown = () => {
         <i className="glyphicon glyphicon-globe" />
       </DropdownToggle>
       <DropdownMenu right className={`${s.dropdownMenu} ${s.support}`}>
-        <DropdownItem onClick={() => changeLanguage('en')}>
+        <DropdownItem onClick={() => changeLanguage("en")}>
           <Badge
             color="info"
             className={classNames({
-              'animate__infinite animate__animated infinite animate__heartBeat': isSelectLanguage(
-                'en',
+              "animate__infinite animate__animated infinite animate__heartBeat": isSelectLanguage(
+                "en",
               ),
             })}
           >
@@ -43,12 +43,12 @@ const LanguageDropDown = () => {
           </Badge>
           <div className={s.details}>English</div>
         </DropdownItem>
-        <DropdownItem onClick={() => changeLanguage('vn')}>
+        <DropdownItem onClick={() => changeLanguage("vn")}>
           <Badge
             color="primary"
             className={classNames({
-              'animate__infinite animate__animated infinite animate__heartBeat': isSelectLanguage(
-                'vn',
+              "animate__infinite animate__animated infinite animate__heartBeat": isSelectLanguage(
+                "vn",
               ),
             })}
           >

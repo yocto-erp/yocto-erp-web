@@ -10,6 +10,7 @@ import LinksGroup from "./LinksGroup/LinksGroup";
 import { changeActiveSidebarItem } from "../redux/navigation";
 import { SIDE_BAR_MENU } from "./constants";
 import useUser from "../../../libs/hooks/useUser";
+import { DEFAULT_SCROLL_OPTIONS } from "../../public/shop/UserOrderPage/constants";
 
 function Sidebar({ dispatch, sidebarOpened }) {
   const element = React.useRef();
@@ -65,13 +66,7 @@ function Sidebar({ dispatch, sidebarOpened }) {
   return (
     <nav className={cx(s.root, s.staticSidebar)} ref={element}>
       <OverlayScrollbarsComponent
-        options={{
-          resize: "both",
-          scrollbars: {
-            autoHide: "scroll",
-          },
-          paddingAbsolute: true,
-        }}
+        options={DEFAULT_SCROLL_OPTIONS}
         style={{ height: "100vh" }}
         className="os-theme-light"
       >

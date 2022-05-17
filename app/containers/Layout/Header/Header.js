@@ -4,22 +4,7 @@ import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { BiMenu, BiMenuAltLeft } from "react-icons/all";
 /* eslint-disable no-unused-vars */
-import {
-  Collapse,
-  Dropdown,
-  DropdownMenu,
-  DropdownToggle,
-  Form,
-  FormGroup,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Nav,
-  Navbar,
-  NavItem,
-  NavLink,
-} from "reactstrap";
+import { Nav, Navbar, NavItem, NavLink } from "reactstrap";
 import classNames from "classnames";
 import {
   changeSidebarVisibility,
@@ -32,6 +17,7 @@ import AccountDropDown from "./components/AccountDropdown";
 import LanguageDropDown from "./components/LanguageDropdown";
 import useUser from "../../../libs/hooks/useUser";
 import { CONFIGURATION_COMPANY_ROOT_PATH } from "../../configuration/constants";
+import { IconEdit } from "../../Icon/constants";
 
 function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
   const [messagesOpen, setMessagesOpen] = useState(false);
@@ -86,8 +72,7 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
             className={`${s.navItem} text-white nav-link company`}
             to={CONFIGURATION_COMPANY_ROOT_PATH}
           >
-            {user?.company?.name}{" "}
-            <i className="ml-2 fi flaticon-edit" style={{ fontSize: "1rem" }} />
+            {user?.company?.name} <IconEdit className="ml-2" size={24} />
           </Link>
         </NavItem>
       </Nav>

@@ -99,9 +99,9 @@ export const useHookCRUDForm = ({
         console.log("Init form", localFormData);
         reset(localFormData);
       });
-    } else {
+    } /* else {
       reset(initForm);
-    }
+    } */
   }, [read, id]);
 
   const handleError = error => {

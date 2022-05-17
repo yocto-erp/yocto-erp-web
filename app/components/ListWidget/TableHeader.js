@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button } from "reactstrap";
 import { COLUMN_PROPS, SORT_DIR } from "./constants";
+import useUser from "../../libs/hooks/useUser";
+import { isArrayHasItem } from "../../utils/util";
 
 const SORT_ORDER = [SORT_DIR.ASC, SORT_DIR.DESC, ""];
 
@@ -12,6 +14,7 @@ const TableHeader = ({
   enableSelectColumn = false,
   onSelectAll,
 }) => {
+  const { isHasAnyPermission } = useUser();
   const onSortClick = React.useCallback(
     name => {
       const currentDir = sorts && sorts[name];
@@ -75,15 +78,22 @@ const TableHeader = ({
           </Button>
         </th>
       ) : null}
-      {columns.map(item => (
-        <th
-          key={item.data}
-          {...getSortProps(item)}
-          style={item.width ? { width: item.width } : {}}
-        >
-          {item.header}
-        </th>
-      ))}
+      {columns.map(item => {
+        if (
+          isArrayHasItem(item.permissions) &&
+          !isHasAnyPermission({ permission: item.permissions })
+        )
+          return null;
+        return (
+          <th
+            key={item.data}
+            {...getSortProps(item)}
+            style={item.width ? { width: item.width } : {}}
+          >
+            {item.header}
+          </th>
+        );
+      })}
     </tr>
   );
 };

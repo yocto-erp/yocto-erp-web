@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import get from "lodash/get";
 import { Button, Input } from "reactstrap";
 import { Controller, useWatch } from "react-hook-form";
-import ProductSelect from "../../../components/common/product/ProductSelect";
-import UnitSelect from "../../../components/common/unit/UnitSelect";
-import InputNumber from "../../../components/Form/InputNumber";
-import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
-import InputAmount from "../../../components/Form/InputAmount";
-import { IconTrash } from "../../Icon/constants";
+import ProductSelect from "../../../../components/common/product/ProductSelect";
+import UnitSelect from "../../../../components/common/unit/UnitSelect";
+import InputNumber from "../../../../components/Form/InputNumber";
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
+import InputAmount from "../../../../components/Form/InputAmount";
+import { IconTrash } from "../../../Icon/constants";
+import Permission from "../../../../components/Acl/Permission";
+import { PERMISSION } from "../../../../components/Acl/constants";
 
-const OrderFormDetail = ({
+const PurchaseOrderFormDetail = ({
   control,
   errors,
   register,
@@ -79,6 +81,7 @@ const OrderFormDetail = ({
           )}
         />
       </td>
+
       <td>
         <Controller
           name={`details[${index}].quantity`}
@@ -99,24 +102,27 @@ const OrderFormDetail = ({
           error={get(errors, ["details", index, "quantity"])}
         />
       </td>
-      <td>
-        <Controller
-          name={`details[${index}].price`}
-          control={control}
-          defaultValue={item.price}
-          render={({ onChange, value }, { invalid }) => (
-            <InputAmount
-              placeholder="Price"
-              onChange={onChange}
-              value={value}
-              invalid={invalid}
-            />
-          )}
-        />
-        <FormHookErrorMessage
-          error={get(errors, ["details", index, "price"])}
-        />
-      </td>
+
+      <Permission permissions={[PERMISSION.ORDER.PURCHASE.AMOUNT]}>
+        <td>
+          <Controller
+            name={`details[${index}].price`}
+            control={control}
+            defaultValue={item.price}
+            render={({ onChange, value }, { invalid }) => (
+              <InputAmount
+                placeholder="Price"
+                onChange={onChange}
+                value={value}
+                invalid={invalid}
+              />
+            )}
+          />
+          <FormHookErrorMessage
+            error={get(errors, ["details", index, "price"])}
+          />
+        </td>
+      </Permission>
       <td>
         <Input
           type="text"
@@ -144,7 +150,7 @@ const OrderFormDetail = ({
   );
 };
 
-OrderFormDetail.propTypes = {
+PurchaseOrderFormDetail.propTypes = {
   control: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
@@ -154,4 +160,4 @@ OrderFormDetail.propTypes = {
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
 };
-export default OrderFormDetail;
+export default PurchaseOrderFormDetail;

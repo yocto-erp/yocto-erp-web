@@ -307,7 +307,7 @@ const FileBrowserView = ({
                 type="button"
                 disabled
                 style={{ opacity: 1 }}
-                className="btn btn-link text-decoration-none text-white"
+                className="btn btn-link text-decoration-none text-white mr-2"
               >
                 {totalFileSelect} select{totalFileSelect > 1 ? "s" : ""}
               </button>

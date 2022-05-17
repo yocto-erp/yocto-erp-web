@@ -87,6 +87,18 @@ export const commonMessage = defineMessages({
     id: `${scope}.formShop`,
     defaultMessage: "Cửa hàng",
   },
+  formStatus: {
+    id: `${scope}.formStatus`,
+    defaultMessage: "Tình trạng",
+  },
+  tableColHeaderName: {
+    id: `${scope}.tableColHeaderName`,
+    defaultMessage: "Tên",
+  },
+  tableColHeaderRemark: {
+    id: `${scope}.tableColHeaderRemark`,
+    defaultMessage: "Ghi chú",
+  },
   tableColHeaderAddress: {
     id: `${scope}.tableColHeaderAddress`,
     defaultMessage: "Địa chỉ",
@@ -102,5 +114,9 @@ export const commonMessage = defineMessages({
   tableColHeaderLastModifiedBy: {
     id: `${scope}.tableColHeaderLastModifiedBy`,
     defaultMessage: "Cập nhập",
+  },
+  tableColHeaderStatus: {
+    id: `${scope}.tableColHeaderStatus`,
+    defaultMessage: "Trạng thái",
   },
 });

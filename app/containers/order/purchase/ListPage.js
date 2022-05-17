@@ -28,6 +28,7 @@ import messages from "./messages";
 import { PERMISSION } from "../../../components/Acl/constants";
 import Permission from "../../../components/Acl/Permission";
 import { commonMessage } from "../../messages";
+import PurchaseOrderStatus from "../components/PurchaseOrderStatus";
 
 const ROOT_PATH = PURCHASE_ORDER_ROOT_PATH;
 const ListPage = () => {
@@ -40,7 +41,7 @@ const ListPage = () => {
         width: "20%",
         render: row => (
           <>
-            <p>{row.name}</p>
+            <p className="mb-0">{row.name}</p>
             <Tags item={row.tagging} />{" "}
           </>
         ),
@@ -50,6 +51,7 @@ const ListPage = () => {
         data: "subject",
         class: "min",
         render: row => <SubjectView item={row.subject} />,
+        permissions: [PERMISSION.ORDER.PURCHASE.PROVIDER],
       },
       {
         header: <FormattedMessage {...messages.listPageTableColTotalAmount} />,
@@ -59,11 +61,23 @@ const ListPage = () => {
           name: "totalAmount",
         },
         class: "min text-right",
+        permissions: [PERMISSION.ORDER.PURCHASE.AMOUNT],
       },
       {
         header: <FormattedMessage {...messages.listPageTableColRemark} />,
         data: "remark",
-        width: "40%",
+      },
+      {
+        header: <FormattedMessage {...messages.listPageTableColShop} />,
+        data: "shop",
+        width: "120px",
+        render: row => row.shop?.name,
+      },
+      {
+        header: <FormattedMessage {...commonMessage.tableColHeaderStatus} />,
+        data: "status",
+        class: "min",
+        render: row => <PurchaseOrderStatus status={row.status} />,
       },
       CreatedByColumn,
       {

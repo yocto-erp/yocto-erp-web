@@ -70,6 +70,7 @@ import { STUDENT_TRACKING_ROOT_PATH } from "../student/student-tracking/constant
 import ProviderPage from "../provider/Loadable";
 import { PROVIDER_ROOT_PATH } from "../provider/constants";
 import { COLOR } from "../../styles/color";
+import { DEFAULT_SCROLL_OPTIONS } from "../public/shop/UserOrderPage/constants";
 
 function Layout({
   sidebarPosition,
@@ -98,11 +99,7 @@ function Layout({
           <OverlayScrollbarsComponent
             ref={scrollRef}
             options={{
-              resize: "both",
-              scrollbars: {
-                autoHide: "scroll",
-              },
-              paddingAbsolute: false,
+              ...DEFAULT_SCROLL_OPTIONS,
               callbacks: {
                 onScroll: () => {
                   const scrollHeight =

@@ -1,4 +1,4 @@
-// MAX = 125
+// MAX = 127
 
 export const PERMISSION = {
   PRODUCT: {
@@ -26,6 +26,8 @@ export const PERMISSION = {
       UPDATE: 27,
       DELETE: 28,
       PROVIDER: 125, // Permission allow user set purchase from which provider
+      AMOUNT: 126,
+      SHOP: 127,
     },
   },
   INVENTORY: {
@@ -314,6 +316,16 @@ export const PERMISSION_MODULE = [
       {
         id: PERMISSION.ORDER.PURCHASE.PROVIDER,
         name: "Set Provider for Purchasing",
+        enableType: PERMISSION_ENABLE_TYPE.NOT_ALLOW_CHOOSE_TYPE,
+      },
+      {
+        id: PERMISSION.ORDER.PURCHASE.SHOP,
+        name: "Set Shop for Purchasing",
+        enableType: PERMISSION_ENABLE_TYPE.NOT_ALLOW_CHOOSE_TYPE,
+      },
+      {
+        id: PERMISSION.ORDER.PURCHASE.AMOUNT,
+        name: "Set Amount for Purchasing",
         enableType: PERMISSION_ENABLE_TYPE.NOT_ALLOW_CHOOSE_TYPE,
       },
     ],

@@ -20,7 +20,6 @@ import SubmitButton from "../../../../components/button/SubmitButton";
 import BackButton from "../../../../components/button/BackButton";
 import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
 import CreateButton from "../../../../components/button/CreateButton";
-import OrderFormDetail from "../../components/OrderFormDetail";
 import purchaseApi from "../../../../libs/apis/order/purchase.api";
 import { ERROR } from "../../../../components/Form/messages";
 import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
@@ -31,6 +30,11 @@ import FormError from "../../../../components/Form/FormError";
 import SelectProvider from "../../../provider/components/SelectProvider";
 import messages from "../messages";
 import { commonMessage } from "../../../messages";
+import SelectUserShop from "../../../user/components/SelectUserShop";
+import Permission from "../../../../components/Acl/Permission";
+import { PERMISSION } from "../../../../components/Acl/constants";
+import PurchaseOrderFormDetail from "./PurchaseOrderFormDetail";
+import SelectOrderStatus from "../../components/SelectOrderStatus";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(),
@@ -45,10 +49,6 @@ const validationSchema = Yup.object().shape({
           .typeError(ERROR.required)
           .moreThan(0, ERROR.numberGT0)
           .required(ERROR.required),
-        price: Yup.number()
-          .transform(transformUnNumber)
-          .moreThan(0)
-          .required(),
         unit: Yup.object()
           .required()
           .nullable(true),
@@ -92,6 +92,7 @@ function MyForm({ id }) {
       remark: "",
       subject: null,
       tagging: [],
+      shop: null,
       details: [
         {
           product: null,
@@ -139,54 +140,81 @@ function MyForm({ id }) {
                 </FormGroup>
               )}
             </FormattedMessage>
-            <FormattedMessage {...messages.formPartner}>
+            <Permission permissions={[PERMISSION.ORDER.PURCHASE.SHOP]}>
+              <FormattedMessage {...commonMessage.formShop}>
+                {msg => (
+                  <FormGroup>
+                    <Label for="shop" className="mr-sm-2">
+                      {msg}
+                    </Label>
+                    <Controller
+                      name="shop"
+                      defaultValue={formData ? formData.shop : null}
+                      control={control}
+                      render={props => (
+                        <SelectUserShop
+                          id="shop"
+                          placeholder={msg}
+                          {...props}
+                        />
+                      )}
+                    />
+                  </FormGroup>
+                )}
+              </FormattedMessage>
+            </Permission>
+            <Permission permissions={[PERMISSION.ORDER.PURCHASE.PROVIDER]}>
+              <FormattedMessage {...messages.formPartner}>
+                {msg => (
+                  <FormGroup>
+                    <Label for="subject" className="mr-sm-2">
+                      {msg}
+                    </Label>
+                    <Controller
+                      name="subject"
+                      defaultValue={formData ? formData.partnerCompanyId : null}
+                      control={control}
+                      render={({ onChange, ...data }) => (
+                        <SelectProvider
+                          id="subject"
+                          placeholder={msg}
+                          onAdded={newCompany => {
+                            setValue("subject", newCompany, {
+                              shouldValidate: true,
+                            });
+                          }}
+                          onChange={val => {
+                            onChange(val);
+                          }}
+                          {...data}
+                        />
+                      )}
+                    />
+                  </FormGroup>
+                )}
+              </FormattedMessage>
+            </Permission>
+            <FormattedMessage {...commonMessage.formStatus}>
               {msg => (
                 <FormGroup>
-                  <Label for="subject" className="mr-sm-2">
+                  <Label for="status" className="mr-sm-2">
                     {msg}
                   </Label>
                   <Controller
-                    name="subject"
-                    defaultValue={formData ? formData.partnerCompanyId : null}
+                    name="status"
+                    defaultValue={formData ? formData.shop : null}
                     control={control}
-                    render={({ onChange, ...data }) => (
-                      <SelectProvider
-                        id="subject"
+                    render={props => (
+                      <SelectOrderStatus
+                        id="status"
                         placeholder={msg}
-                        onAdded={newCompany => {
-                          setValue("subject", newCompany, {
-                            shouldValidate: true,
-                          });
-                        }}
-                        onChange={val => {
-                          onChange(val);
-                        }}
-                        {...data}
+                        {...props}
                       />
                     )}
                   />
                 </FormGroup>
               )}
             </FormattedMessage>
-            <FormGroup>
-              <Label for="tagging" className="mr-sm-2">
-                Tagging
-              </Label>
-              <Controller
-                name="tagging"
-                id="tagging"
-                defaultValue={formData.tagging}
-                control={control}
-                render={({ onChange, ...data }) => (
-                  <InputAsyncTagging
-                    {...data}
-                    onChange={onChange}
-                    loadOptionApi={taggingApi.search}
-                  />
-                )}
-              />
-              <FormHookErrorMessage error={errors.tagging} />
-            </FormGroup>
           </Col>
           <Col md="6">
             <FormattedMessage {...messages.formRemark}>
@@ -206,6 +234,25 @@ function MyForm({ id }) {
                 </FormGroup>
               )}
             </FormattedMessage>
+            <FormGroup>
+              <Label for="tagging" className="mr-sm-2">
+                <FormattedMessage {...commonMessage.formTagging} />
+              </Label>
+              <Controller
+                name="tagging"
+                id="tagging"
+                defaultValue={formData.tagging}
+                control={control}
+                render={({ onChange, ...data }) => (
+                  <InputAsyncTagging
+                    {...data}
+                    onChange={onChange}
+                    loadOptionApi={taggingApi.search}
+                  />
+                )}
+              />
+              <FormHookErrorMessage error={errors.tagging} />
+            </FormGroup>
           </Col>
         </Row>
         <FormGroup>
@@ -224,10 +271,12 @@ function MyForm({ id }) {
                   <FormattedMessage {...messages.formTableQty} />
                   <span className="text-danger">*</span>
                 </th>
-                <th style={{ width: "150px" }}>
-                  <FormattedMessage {...messages.formTablePrice} />
-                  <span className="text-danger">*</span>
-                </th>
+                <Permission permissions={[PERMISSION.ORDER.PURCHASE.AMOUNT]}>
+                  <th style={{ width: "150px" }}>
+                    <FormattedMessage {...messages.formTablePrice} />
+                    <span className="text-danger">*</span>
+                  </th>
+                </Permission>
                 <th>
                   <FormattedMessage {...messages.formTableRemark} />
                 </th>
@@ -238,7 +287,7 @@ function MyForm({ id }) {
             </thead>
             <tbody>
               {fields.map((item, index) => (
-                <OrderFormDetail
+                <PurchaseOrderFormDetail
                   key={item.id}
                   control={control}
                   errors={errors}

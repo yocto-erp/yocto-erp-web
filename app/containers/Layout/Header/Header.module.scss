@@ -179,7 +179,8 @@
   box-shadow: 0 0 40px 2px rgba(#020202, .5);
   border: none;
   color: $white;
-  margin-top: 10px !important;
+  margin-top: 4px !important;
+  padding: 0 !important;
 
   &.messages {
     left: -50px !important;
@@ -242,7 +243,8 @@
   }
 
   button {
-    display: flex;
+    display: inline-flex;
+    align-self: center;
     padding: 5px 10px;
     font-weight: $font-weight-base;
 

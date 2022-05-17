@@ -21,6 +21,7 @@ export default () => {
 
   // eslint-disable-next-line no-unused-vars
   const isHasAnyPermission = ({ permission, type = PERMISSION_TYPE.FULL }) => {
+    console.log(permission);
     let rs = false;
     if (user && user.permissions) {
       let perms;

@@ -119,7 +119,7 @@ const InputAsyncTagging = React.forwardRef((
         isMulti
         isDisabled={isDisabled}
         onChange={handleChange}
-        placeholder={placeholder || "Search and select labels"}
+        placeholder={placeholder || "Tìm và chọn nhãn"}
         onCreateOption={handleCreate}
         getOptionValue={data => data.id}
         value={value}

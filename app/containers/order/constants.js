@@ -1,3 +1,25 @@
 import { ADMIN_PATH } from "../../constants";
 
 export const ORDER_ROOT_PATH = `${ADMIN_PATH}/order`;
+
+export const ORDER_STATUS = {
+  PENDING: 1,
+  PROCESSING: 2,
+  SHIPPING: 3,
+  DONE: 4,
+  CANCELLED: 5,
+};
+
+export const LIST_ORDER_STATUS = [
+  ORDER_STATUS.PENDING,
+  ORDER_STATUS.PROCESSING,
+  ORDER_STATUS.SHIPPING,
+  ORDER_STATUS.DONE,
+  ORDER_STATUS.CANCELLED,
+];
+
+export const ORDER_PAYMENT_STATUS = {
+  PENDING: 1,
+  PAID: 2,
+  CANCELLED: 3,
+};

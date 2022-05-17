@@ -9,11 +9,7 @@ const EditPage = () => {
   const { id } = useParams();
   return (
     <>
-      <PageTitle
-        title={
-          <PageTitle title={<FormattedMessage {...messages.editPageTitle} />} />
-        }
-      />
+      <PageTitle title={<FormattedMessage {...messages.editPageTitle} />} />
       <div className="row">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
           <MyForm id={id} />
