@@ -1,27 +1,27 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import { FormattedMessage } from 'react-intl';
-import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
-import { TEMPLATE_PRINT_ROOT_PATH } from '../constants';
-import Filter from './components/Filter';
-import PageTitle from '../../Layout/PageTitle';
+import React from "react";
+import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
+import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
+import { TEMPLATE_PRINT_ROOT_PATH } from "../constants";
+import Filter from "./components/Filter";
+import PageTitle from "../../Layout/PageTitle";
 import {
   deletePage,
   deletePagePattern,
   editPage,
   newPage,
-} from '../../../libs/utils/crud.util';
-import CreateButton from '../../../components/button/CreateButton';
-import DeleteConfirmModal from '../../../components/modal/DeleteConfirmModal';
-import ListWidget from '../../../components/ListWidget';
-import messages from '../messages';
-import { templateApi } from '../../../libs/apis/template/template.api';
+} from "../../../libs/utils/crud.util";
+import CreateButton from "../../../components/button/CreateButton";
+import DeleteConfirmModal from "../../../components/modal/DeleteConfirmModal";
+import ListWidget from "../../../components/ListWidget";
+import messages from "../messages";
+import { templateApi } from "../../../libs/apis/template/template.api";
 import {
   CreatedByColumn,
   SORT_DIR,
-} from '../../../components/ListWidget/constants';
+} from "../../../components/ListWidget/constants";
 
 const ROOT_PATH = TEMPLATE_PRINT_ROOT_PATH;
 
@@ -30,29 +30,29 @@ const ListPage = ({ history }) => {
     () => [
       {
         header: <strong>Name</strong>,
-        data: 'name',
+        data: "name",
         sort: {
-          name: 'name',
+          name: "name",
         },
       },
       {
-        header: 'Type',
-        data: 'type',
+        header: "Type",
+        data: "type",
         render: row => {
           const { templateType } = row;
           return templateType.name;
         },
       },
       {
-        header: 'Remark',
-        data: 'remark',
-        width: '40%',
+        header: "Remark",
+        data: "remark",
+        width: "40%",
       },
       CreatedByColumn,
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             onEdit={() => {
@@ -68,7 +68,7 @@ const ListPage = ({ history }) => {
     [],
   );
 
-  const search = { search: '', type: null };
+  const search = { search: "", type: null };
 
   const action = (
     <div>
@@ -104,7 +104,7 @@ const ListPage = ({ history }) => {
             }}
             title="Delete Template?"
             message={row => {
-              if (!row) return '';
+              if (!row) return "";
               return (
                 <p>
                   Are you sure to delete template <strong>{row.name}</strong> ?

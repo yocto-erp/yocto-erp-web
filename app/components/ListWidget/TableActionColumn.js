@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { isArray, isFunction } from "lodash";
 import { Button, ButtonGroup, ButtonToolbar } from "reactstrap";
 import useUser from "../../libs/hooks/useUser";
+import { IconEdit, IconTrash, IconView } from "../../containers/Icon/constants";
 
 const TableActionColumns = ({
   onEdit,
@@ -25,7 +26,7 @@ const TableActionColumns = ({
   ) {
     buttonEls.push(
       <Button key="view" onClick={onView} color="info">
-        <i className="fi flaticon-view" />
+        <IconView />
       </Button>,
     );
   }
@@ -35,7 +36,7 @@ const TableActionColumns = ({
   ) {
     buttonEls.push(
       <Button key="edit" onClick={onEdit} color="warning">
-        <i className="fi flaticon-edit" />
+        <IconEdit />
       </Button>,
     );
   }
@@ -45,7 +46,7 @@ const TableActionColumns = ({
   ) {
     buttonEls.push(
       <Button key="delete" onClick={onDelete} color="danger" title="Delete">
-        <i className="fi flaticon-trash" />
+        <IconTrash />
       </Button>,
     );
   }

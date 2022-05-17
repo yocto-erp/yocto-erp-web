@@ -19,6 +19,9 @@ import FormError from "../../components/Form/FormError";
 import { selectCompany } from "../../libs/apis/auth.api";
 import { set, STORAGE } from "../../libs/utils/storage";
 import useUser from "../../libs/hooks/useUser";
+import { isArrayHasItem } from "../../utils/util";
+import { IconShop } from "../Icon/constants";
+import "./ProfilePage.scss";
 
 const schema = yup.object().shape({
   fullName: yup.string().required(),
@@ -63,7 +66,7 @@ const ProfilePage = () => {
     if (state.status === API_STATE.SUCCESS) {
       selectCompany(user.companyId).then(async resp1 => {
         set(STORAGE.JWT, resp1.token);
-        await setUser(resp1.user);
+        await setUser(resp1.user, false);
       });
       toast.success("Cập nhập thông tin thành công");
     }
@@ -76,7 +79,7 @@ const ProfilePage = () => {
   return (
     <>
       <PageTitle title="Thông tin cá nhân" />
-      <Widget>
+      <Widget className="profile-page">
         <Form onSubmit={onSubmit} noValidate formNoValidate>
           <FormError errors={state.errors} />
           <div className="row">
@@ -102,6 +105,21 @@ const ProfilePage = () => {
                   )}
                 />
               </FormGroup>
+              {isArrayHasItem(getProfileState.resp?.shops) && (
+                <div className="shop-info">
+                  <p className="lead mb-0  d-flex align-items-center">
+                    <IconShop size={24} className="mr-2" />
+                    Thành viên cửa hàng
+                  </p>
+                  <ol>
+                    {getProfileState.resp?.shops.map(t => (
+                      <li className="" key={t.id}>
+                        {t.name}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
             </div>
             <div className="col-md-7">
               <FormattedMessage {...messages.profilePageFormName}>

@@ -1,9 +1,10 @@
 import isFunction from "lodash/isFunction";
-import isArray from "lodash/isArray";
 
 export const isFunc = isFunction;
+const { isArray } = Array;
 export { isArray };
-export const isArrayHasItem = items => isArray(items) && items.length > 0;
+export const isArrayHasItem = items => Array.isArray(items) && items.length > 0;
+
 export const isSafari =
   /constructor/i.test(window.HTMLElement) ||
   (function checkSafari(p) {

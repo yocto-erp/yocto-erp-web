@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { FormattedMessage, injectIntl, intlShape } from "react-intl";
-import { FaEye, FaSignature } from "react-icons/fa";
 import { Button } from "reactstrap";
 import CreatedBy from "../../components/ListWidget/CreatedBy";
 import TableActionColumns from "../../components/ListWidget/TableActionColumn";
@@ -31,6 +30,7 @@ import { PERMISSION } from "../../components/Acl/constants";
 import ProviderApproveModal from "./components/ProviderApproveModal";
 import ProviderApproveStatus from "./components/ProviderApproveStatus";
 import useUser from "../../libs/hooks/useUser";
+import { IconSignature, IconView } from "../Icon/constants";
 
 const ROOT_PATH = PROVIDER_ROOT_PATH;
 const ListPage = ({ history, intl }) => {
@@ -127,7 +127,7 @@ const ListPage = ({ history, intl }) => {
                 color="primary"
                 onClick={() => setApproveItem(row)}
               >
-                <FaSignature />
+                <IconSignature />
               </Button>
             </Permission>
             <Permission permissions={[PERMISSION.PROVIDER.READ]}>
@@ -136,7 +136,7 @@ const ListPage = ({ history, intl }) => {
                 color="success"
                 onClick={() => history.push(viewPage(ROOT_PATH, row.id))}
               >
-                <FaEye />
+                <IconView />
               </Button>
             </Permission>
           </TableActionColumns>

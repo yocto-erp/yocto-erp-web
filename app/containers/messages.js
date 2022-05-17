@@ -55,4 +55,52 @@ export const commonMessage = defineMessages({
     id: `${scope}.btnClose`,
     defaultMessage: "Đóng",
   },
+  formName: {
+    id: `${scope}.formName`,
+    defaultMessage: "Tên",
+  },
+  formRemark: {
+    id: `${scope}.formRemark`,
+    defaultMessage: "Chú thích",
+  },
+  formFullName: {
+    id: `${scope}.formFullName`,
+    defaultMessage: "Họ và Tên",
+  },
+  formAddress: {
+    id: `${scope}.formAddress`,
+    defaultMessage: "Địa chỉ",
+  },
+  formPhone: {
+    id: `${scope}.formPhone`,
+    defaultMessage: "Số điện thoại",
+  },
+  formTagging: {
+    id: `${scope}.formTagging`,
+    defaultMessage: "Đánh nhãn",
+  },
+  formProvider: {
+    id: `${scope}.formProvider`,
+    defaultMessage: "Nhà cung cấp",
+  },
+  formShop: {
+    id: `${scope}.formShop`,
+    defaultMessage: "Cửa hàng",
+  },
+  tableColHeaderAddress: {
+    id: `${scope}.tableColHeaderAddress`,
+    defaultMessage: "Địa chỉ",
+  },
+  tableColHeaderAction: {
+    id: `${scope}.tableColHeaderAction`,
+    defaultMessage: "Thao tác",
+  },
+  tableColHeaderCreatedBy: {
+    id: `${scope}.tableColHeaderCreatedBy`,
+    defaultMessage: "Tạo bởi",
+  },
+  tableColHeaderLastModifiedBy: {
+    id: `${scope}.tableColHeaderLastModifiedBy`,
+    defaultMessage: "Cập nhập",
+  },
 });

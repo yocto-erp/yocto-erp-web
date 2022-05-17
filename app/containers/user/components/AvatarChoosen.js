@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { Button } from "reactstrap";
-import { FaEdit, FaTrash } from "react-icons/all";
 import noImage from "../../../images/No_image_available.svg";
 import "./AvatarChoosen.scss";
+import { IconImageEdit, IconTrash } from "../../Icon/constants";
 
 const AvatarChoosen = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
@@ -33,8 +33,8 @@ const AvatarChoosen = React.forwardRef(
     }, [value]);
     return (
       <div className={classnames("avatar-wrapper", { invalid })}>
-        <label htmlFor="chooseFile" className="btn-edit btn btn-info">
-          <FaEdit />
+        <label htmlFor="chooseFile" className="btn-edit btn btn-info btn-sm">
+          <IconImageEdit />
         </label>
         <Button
           size="sm"
@@ -45,7 +45,7 @@ const AvatarChoosen = React.forwardRef(
           })}
           onClick={() => onChange(null)}
         >
-          <FaTrash />
+          <IconTrash />
         </Button>
         <img
           ref={imgRef}

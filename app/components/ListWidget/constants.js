@@ -51,7 +51,7 @@ export const CreatedByColumn = {
 };
 
 export const LastUpdatedByColumn = {
-  header: <span className="text-nowrap">Last Updated</span>,
+  header: <FormattedMessage {...commonMessage.tableColHeaderLastModifiedBy} />,
   data: "lastUpdatedBy",
   sort: {
     name: "lastUpdatedDate",
@@ -64,7 +64,7 @@ export const LastUpdatedByColumn = {
 };
 
 export const LastModifiedByColumn = {
-  header: <span className="text-nowrap">Last Modified</span>,
+  header: <FormattedMessage {...commonMessage.tableColHeaderLastModifiedBy} />,
   data: "lastModifiedBy",
   sort: {
     name: "lastModifiedDate",

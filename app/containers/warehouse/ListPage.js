@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import CreatedBy from "../../components/ListWidget/CreatedBy";
+import { FormattedMessage } from "react-intl";
 import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import warehouseApi from "../../libs/apis/warehouse.api";
 import { WAREHOUSE_ROOT_PATH } from "./constants";
@@ -17,34 +17,29 @@ import {
 import CreateButton from "../../components/button/CreateButton";
 import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal";
 import ListWidget from "../../components/ListWidget";
+import { CreatedByColumn } from "../../components/ListWidget/constants";
+import { commonMessage } from "../messages";
+import messages from "./messages";
 
 const ROOT_PATH = WAREHOUSE_ROOT_PATH;
 const ListPage = ({ history }) => {
   const columns = React.useMemo(
     () => [
       {
-        header: <strong>Warehouse</strong>,
+        header: <FormattedMessage {...messages.listPageTableColWarehouse} />,
         data: "name",
         sort: {
           name: "name",
         },
       },
       {
-        header: "Address",
+        header: <FormattedMessage {...commonMessage.tableColHeaderAddress} />,
         data: "address",
         width: "40%",
       },
+      CreatedByColumn,
       {
-        header: "Created By",
-        data: "createdBy",
-        class: "min-width",
-        render: row => {
-          const { createdBy, createdDate } = row;
-          return <CreatedBy user={createdBy} date={createdDate} />;
-        },
-      },
-      {
-        header: "Action",
+        header: <FormattedMessage {...commonMessage.tableColHeaderAction} />,
         data: "",
         class: "action",
         render: row => (

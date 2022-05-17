@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { ButtonTypes } from "./constants";
 import { commonMessage } from "../../containers/messages";
+import { IconPlus } from "../../containers/Icon/constants";
 
-const CreateButton = props => (
-  <Button {...props} color={props.color ? props.color : "primary"}>
-    <i className={props.icon ? `${props.icon}` : "las la-plus"} />
-    {/* eslint-disable-next-line react/prop-types */}
-    <span className="d-sm-none d-md-inline-block ml-2">
+const CreateButton = ({ color, ...props }) => (
+  <Button {...props} color={color || "primary"}>
+    <span className="d-flex align-items-center justify-content-center">
+      {props.icon || <IconPlus className="mr-1" />}
       {props.children ? (
         props.children
       ) : (
