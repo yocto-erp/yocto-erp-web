@@ -10,6 +10,7 @@ import SelectSubject from "../../partner/subject/components/SelectSubject";
 import messages from "../messages";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
 import taggingApi from "../../../libs/apis/tagging.api";
+import DateRangePicker from "../../../components/date/DateRangePicker";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -108,6 +109,12 @@ const Filter = () => {
             )}
           </FormattedMessage>
         </div>
+        <Controller
+          name="dateRange1234"
+          defaultValue={null}
+          control={control}
+          render={data => <DateRangePicker {...data} />}
+        />
         <SearchButton className="mt-2 mt-md-0" />
       </div>
     </Form>

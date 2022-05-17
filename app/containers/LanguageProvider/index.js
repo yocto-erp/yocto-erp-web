@@ -21,7 +21,7 @@ export function LanguageProvider(props) {
       key={props.locale}
       messages={props.messages[props.locale]}
       onError={() => {
-        console.log("env", process.env.NODE_ENV);
+        // console.log("env", process.env.NODE_ENV);
         // TODO: Ignore, we will enable later
       }}
     >

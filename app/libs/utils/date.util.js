@@ -8,10 +8,12 @@ import {
   startOfWeek,
   parseISO,
   formatDistanceToNowStrict,
+  addDays as fnsAddDays,
 } from "date-fns";
 import { vi, enUS } from "date-fns/locale";
 import { hasText } from "../../utils/util";
 
+export const addDays = fnsAddDays;
 export const FNS_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
 export const FNS_DATE_FORMAT = "dd/MM/yyyy";
 export const FNS_MONTH_FORMAT = "MM/yyyy";
