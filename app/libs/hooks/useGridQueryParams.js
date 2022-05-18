@@ -21,6 +21,7 @@ export const useGridQueryParams = (
       const parseObj = parse(obj, {
         ignoreQueryPrefix: true,
       });
+      console.log("Search", parseObj);
       for (let i = 0; i < Object.keys(parseObj).length; i += 1) {
         const key = Object.keys(parseObj)[i];
         const value = parseObj[key];

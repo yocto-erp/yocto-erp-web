@@ -37,3 +37,20 @@ export const convertQueryWithDate = (dateParams = ["startDate", "endDate"]) => (
   }
   return value;
 };
+
+export const convertQueryWithDateRange = (dateRangeParam = "dateRange") => (
+  key,
+  value,
+) => {
+  if (dateRangeParam === key) {
+    console.log("fromUrl dateRange", value);
+    let rs = null;
+    if (value) {
+      rs = { key: "selection" };
+      rs.startDate = new Date(value.startDate);
+      rs.endDate = new Date(value.endDate);
+    }
+    return rs;
+  }
+  return value;
+};

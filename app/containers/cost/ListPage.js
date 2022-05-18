@@ -28,7 +28,7 @@ import {
   CreatedByColumn,
   SORT_DIR,
 } from "../../components/ListWidget/constants";
-import { convertQueryWithDate } from "../../libs/utils/query.util";
+import { convertQueryWithDateRange } from "../../libs/utils/query.util";
 import Tags from "../../components/Form/tagging/ViewTags";
 import SubjectView from "../partner/subject/components/SubjectView";
 import messages from "./messages";
@@ -191,7 +191,7 @@ const ListPage = ({ history }) => {
       initPage={1}
       initSize={10}
       initSorts={{ createdDate: SORT_DIR.DESC }}
-      mappingUrlData={convertQueryWithDate()}
+      mappingUrlData={convertQueryWithDateRange()}
     >
       <Filter />
     </ListWidget>

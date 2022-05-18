@@ -1,9 +1,9 @@
-import React from 'react';
-import useUser from '../../libs/hooks/useUser';
-import LayoutComponent from '../Layout/Layout';
-import CompanyChoose from '../Auth/company-choose';
-import OnBoardPage from '../Auth/onboard';
-import Login from '../Auth/login';
+import React from "react";
+import useUser from "../../libs/hooks/useUser";
+import LayoutComponent from "../Layout/Layout";
+import CompanyChoose from "../Auth/company-choose";
+import OnBoardPage from "../Auth/onboard";
+import Login from "../Auth/login";
 
 const UserAdminDashboard = () => {
   const { isAuthenticated, user, isLoading } = useUser();

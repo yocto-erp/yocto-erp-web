@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Form, Input } from "reactstrap";
 import { Controller, useForm } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
 import SearchButton from "../../../components/button/SearchButton";
 import { useListFilter } from "../../../components/ListWidget/constants";
-import DateSelect from "../../../components/date/DateSelect";
 import SelectSubject from "../../partner/subject/components/SelectSubject";
 import messages from "../messages";
 import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
@@ -14,8 +13,6 @@ import DateRangePicker from "../../../components/date/DateRangePicker";
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter();
-  const [startDate, setStartDate] = useState(filter?.startDate);
-  const [endDate, setEndDate] = useState(filter?.endDate);
   const { register, handleSubmit, reset, control } = useForm({
     defaultValues: {},
   });
@@ -24,7 +21,8 @@ const Filter = () => {
     reset(filter);
   }, [filter]);
   const onSubmit = handleSubmit(val => {
-    searchByFilter({ ...val, startDate, endDate });
+    console.log("Search: ", val);
+    searchByFilter({ ...val });
   });
   return (
     <Form onSubmit={onSubmit}>
@@ -32,7 +30,7 @@ const Filter = () => {
         <FormattedMessage {...messages.listPageFilterName}>
           {msg => (
             <Input
-              type="text"
+              type="search"
               name="search"
               className="mr-2 mt-2 mt-md-0"
               placeholder={msg}
@@ -80,40 +78,13 @@ const Filter = () => {
             )}
           />
         </div>
-
-        <div className="mr-2 mt-2 mt-md-0">
-          <FormattedMessage {...messages.listPageFilterFromDate}>
-            {msg => (
-              <DateSelect
-                placeholder={msg}
-                id="fromDate"
-                value={startDate}
-                onChange={setStartDate}
-                isClearable
-              />
-            )}
-          </FormattedMessage>
-        </div>
-
-        <div className="mr-2 mt-2 mt-md-0">
-          <FormattedMessage {...messages.listPageFilterToDate}>
-            {msg => (
-              <DateSelect
-                placeholder={msg}
-                id="toDate"
-                value={endDate}
-                minDate={startDate}
-                onChange={setEndDate}
-                isClearable
-              />
-            )}
-          </FormattedMessage>
-        </div>
         <Controller
-          name="dateRange1234"
+          name="dateRange"
           defaultValue={null}
           control={control}
-          render={data => <DateRangePicker {...data} />}
+          render={data => (
+            <DateRangePicker {...data} className="mr-2 mt-2 mt-md-0" />
+          )}
         />
         <SearchButton className="mt-2 mt-md-0" />
       </div>
