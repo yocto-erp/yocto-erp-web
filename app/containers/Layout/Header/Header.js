@@ -144,9 +144,8 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
             <Notifications />
           </DropdownMenu>
         </Dropdown>
-        */}
         <NavItem className={`${s.divider} text-white`} />
-        <LanguageDropDown />
+        <LanguageDropDown /> */}
         <NavItem className="d-md-none">
           <NavLink
             onClick={toggleSidebar}
