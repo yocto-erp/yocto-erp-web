@@ -14,7 +14,7 @@ import {
 import s from "./Header.module.scss";
 import "../../../../node_modules/animate.css/animate.css";
 import AccountDropDown from "./components/AccountDropdown";
-import LanguageDropDown from "./components/LanguageDropdown";
+// import LanguageDropDown from "./components/LanguageDropdown";
 import useUser from "../../../libs/hooks/useUser";
 import { CONFIGURATION_COMPANY_ROOT_PATH } from "../../configuration/constants";
 import { IconEdit } from "../../Icon/constants";
