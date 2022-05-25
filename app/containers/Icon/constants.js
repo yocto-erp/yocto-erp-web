@@ -1,7 +1,7 @@
 import { AiFillShop } from "react-icons/ai";
 import { RiEditLine, RiImageEditLine } from "react-icons/ri";
 import { FiTrash2 } from "react-icons/fi";
-import { FaEye, FaSignature } from "react-icons/fa";
+import { FaClone, FaEye, FaSignature } from "react-icons/fa";
 import { BiPlus, BiCalendar } from "react-icons/bi";
 
 export const IconShop = AiFillShop;
@@ -12,3 +12,4 @@ export const IconSignature = FaSignature;
 export const IconImageEdit = RiImageEditLine;
 export const IconPlus = BiPlus;
 export const IconCalendar = BiCalendar;
+export const IconClone = FaClone;

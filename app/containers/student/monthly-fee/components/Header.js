@@ -14,6 +14,7 @@ import SendMailStudentFee from "./SendMail";
 import CloneNextMonth from "./CloneNextMonth";
 import { useConfirmDialog } from "../../../../libs/hooks/useConfirmDialog";
 import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api";
+import { IconClone, IconEdit, IconTrash } from "../../../Icon/constants";
 
 const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
 const Header = ({ history }) => {
@@ -33,7 +34,7 @@ const Header = ({ history }) => {
       <CreateButton
         size="sm"
         className="mr-2 btn-raised"
-        icon="fa fa-clone"
+        icon={<IconClone className="mr-1" />}
         color="info"
         disabled={!totalSelectedItems}
         onClick={() => {
@@ -52,7 +53,7 @@ const Header = ({ history }) => {
       <CreateButton
         size="sm"
         className="mr-2 btn-raised"
-        icon="fi flaticon-edit"
+        icon={<IconEdit className="mr-1" />}
         disabled={!totalSelectedItems}
         color="warning"
         onClick={() => {
@@ -65,7 +66,7 @@ const Header = ({ history }) => {
       <CreateButton
         size="sm"
         className="mr-2 btn-raised"
-        icon="fi flaticon-trash"
+        icon={<IconTrash className="mr-1" />}
         disabled={!totalSelectedItems}
         color="danger"
         onClick={() => {

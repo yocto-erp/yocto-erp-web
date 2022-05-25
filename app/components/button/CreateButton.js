@@ -27,7 +27,7 @@ CreateButton.propsType = ButtonTypes;
 CreateButton.propTypes = {
   color: PropTypes.string,
   text: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.node,
   children: PropTypes.node,
   className: PropTypes.string,
 };
