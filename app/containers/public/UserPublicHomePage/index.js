@@ -15,7 +15,7 @@ const UserPublicHomePage = () => (
           position: "fixed",
           top: "50%",
           left: "50%",
-          "-webkit-transform": "translate(-50%, -50%)",
+          WebkitTransform: "translate(-50%, -50%)",
           transform: "translate(-50%, -50%)",
           textAlign: "center",
         }}

@@ -1,24 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Form, FormGroup, Input, Label, Row, Col, Table } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
-import { Controller, useFieldArray } from 'react-hook-form';
-import Widget from '../../../../components/Widget/Widget';
-import SubmitButton from '../../../../components/button/SubmitButton';
-import BackButton from '../../../../components/button/BackButton';
-import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
-import CreateButton from '../../../../components/button/CreateButton';
-import OrderFormDetail from '../../components/OrderFormDetail';
-import CustomerSelect from '../../../../components/common/customer/CustomerSelect';
-import saleApi from '../../../../libs/apis/order/sale.api';
-import CompanySelect from '../../../../components/common/company/CompanySelect';
-import { ERROR } from '../../../../components/Form/messages';
-import FormHookErrorMessage from '../../../../components/Form/FormHookErrorMessage';
-import { mappingServerTagging } from '../../../../components/constants';
-import InputAsyncTagging from '../../../../components/Form/InputAsyncTagging';
-import taggingApi from '../../../../libs/apis/tagging.api';
+import React from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Form, FormGroup, Input, Label, Row, Col, Table } from "reactstrap";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import { Controller, useFieldArray } from "react-hook-form";
+import Widget from "../../../../components/Widget/Widget";
+import SubmitButton from "../../../../components/button/SubmitButton";
+import BackButton from "../../../../components/button/BackButton";
+import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
+import CreateButton from "../../../../components/button/CreateButton";
+import OrderFormDetail from "../../components/OrderFormDetail";
+import CustomerSelect from "../../../../components/common/customer/CustomerSelect";
+import saleApi from "../../../../libs/apis/order/sale.api";
+import CompanySelect from "../../../../components/common/company/CompanySelect";
+import { ERROR } from "../../../../components/Form/messages";
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
+import { mappingServerTagging } from "../../../../components/constants";
+import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
+import taggingApi from "../../../../libs/apis/tagging.api";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -93,8 +93,8 @@ function MyForm({ id }) {
     }),
     validationSchema,
     initForm: {
-      name: '',
-      remark: '',
+      name: "",
+      remark: "",
       partnerPersonId: null,
       partnerCompanyId: null,
       tagging: [],
@@ -102,9 +102,9 @@ function MyForm({ id }) {
         {
           product: null,
           unit: null,
-          quantity: '',
-          price: '',
-          remark: '',
+          quantity: "",
+          price: "",
+          remark: "",
           id: uuidv4(),
         },
       ],
@@ -114,14 +114,14 @@ function MyForm({ id }) {
 
   React.useEffect(() => {
     if (serverErrors && serverErrors.length) {
-      toast.error(serverErrors.map(t => t.message).join('\n'));
+      toast.error(serverErrors.map(t => t.message).join("\n"));
     }
   }, [serverErrors]);
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'details',
-    keyName: 'fId',
+    name: "details",
+    keyName: "fId",
   });
 
   const form = React.useMemo(
@@ -156,7 +156,7 @@ function MyForm({ id }) {
                     id="partnerPersonId"
                     placeholder="Choose Customer"
                     onAdded={newCustomer => {
-                      setValue('partnerPersonId', newCustomer, {
+                      setValue("partnerPersonId", newCustomer, {
                         shouldValidate: true,
                       });
                     }}
@@ -182,7 +182,7 @@ function MyForm({ id }) {
                     placeholder="Choose Partner Company"
                     onAdded={newCompany => {
                       console.log(`OnAdd: ${JSON.stringify(newCompany)}`);
-                      setValue('partnerCompanyId', newCompany, {
+                      setValue("partnerCompanyId", newCompany, {
                         shouldValidate: true,
                       });
                     }}
@@ -233,16 +233,16 @@ function MyForm({ id }) {
           <Table bordered hover striped>
             <thead>
               <tr>
-                <th style={{ width: '30%' }}>
+                <th style={{ width: "30%" }}>
                   Product<span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '250px' }}>
+                <th style={{ width: "250px" }}>
                   Unit<span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '150px' }}>
+                <th style={{ width: "150px" }}>
                   Quantity<span className="text-danger">*</span>
                 </th>
-                <th style={{ width: '150px' }}>
+                <th style={{ width: "150px" }}>
                   Price Per Unit<span className="text-danger">*</span>
                 </th>
                 <th>Remark</th>
@@ -277,7 +277,7 @@ function MyForm({ id }) {
                         unit: null,
                         quantity: 0,
                         price: 0,
-                        remark: '',
+                        remark: "",
                       });
                     }}
                   >

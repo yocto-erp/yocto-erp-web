@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Input } from "reactstrap";
 import Widget from "../../../components/Widget/Widget";
-import { PERMISSION_TYPE } from "../../../components/Acl/constants";
+import { PERMISSION_TYPE } from "../../../components/Acl/permission/constants";
 
 const PermissionForm = ({ onChange, value, module }) => {
   const { permissions } = module;

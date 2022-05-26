@@ -12,12 +12,12 @@ import { VerifyInvitationPage } from "../Auth/verify-invitation";
 import ForgotPasswordPage from "../Auth/forgot-password";
 import RestPasswordPage from "../Auth/reset-password";
 import UserAdminDashboard from "../UserAdminDashboard";
-
 import "styles/theme.scss";
 import "overlayscrollbars/css/OverlayScrollbars.css";
 import UserPublicHomePage from "../public/UserPublicHomePage/Loadable";
 import UserProductPage from "../public/shop/UserProductPage/Loadable";
 import UserOrderPage from "../public/shop/UserOrderPage/Loadable";
+import CompanyChoosePage from "../Auth/company-choose/Loadable";
 
 export default function App() {
   return (
@@ -44,6 +44,7 @@ export default function App() {
           component={RestPasswordPage}
         />
         <Route path="/invite-confirm" exact component={VerifyInvitationPage} />
+        <Route path="/workspace" component={CompanyChoosePage} />
         <Route path="/admin" component={UserAdminDashboard} />
         <Route path="/cpm/:publicId/product" component={UserProductPage} />
         <Route path="/cpm/:publicId/order" component={UserOrderPage} />

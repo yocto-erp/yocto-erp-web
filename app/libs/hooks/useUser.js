@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { getInfo } from "../apis/auth.api";
 import { isArray } from "../../utils/util";
-import { PERMISSION_TYPE } from "../../components/Acl/constants";
+import { PERMISSION_TYPE } from "../../components/Acl/permission/constants";
 
 export const SWR_KEY_USER = "user";
 

@@ -66,6 +66,14 @@ const AccountDropDown = () => {
             <span className={s.details}>Administrator</span>
           </Link>
         </DropdownItem>
+        <DropdownItem>
+          <Link to="/workspace">
+            <Badge color="primary">
+              <i className="glyphicon glyphicon-th-list" />
+            </Badge>
+            <span className={s.details}>Change Workspace</span>
+          </Link>
+        </DropdownItem>
         <DropdownItem onClick={logout}>
           <Badge color="secondary">
             <i className="glyphicon glyphicon-off" />

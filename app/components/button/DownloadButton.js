@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { useApi } from '../../libs/hooks/useApi';
-import { download } from '../../libs/apis/fetch';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { Button } from "reactstrap";
+import { toast } from "react-toastify";
+import { useApi } from "../../libs/hooks/useApi";
+import { download } from "../../libs/apis/fetch";
 
 const DownloadButton = ({ link, fileName, ...props }) => {
   const {
@@ -13,7 +13,7 @@ const DownloadButton = ({ link, fileName, ...props }) => {
 
   useEffect(() => {
     if (errors && errors.length) {
-      toast.error(errors.map(t => t.message).join('\n'));
+      toast.error(errors.map(t => t.message).join("\n"));
     }
   }, [errors]);
 

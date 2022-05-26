@@ -1,3 +1,6 @@
+import { PERMISSION_MODULE_PROJECT } from "../../containers/project/constants";
+import { PERMISSION_ENABLE_TYPE } from "./permission/constants";
+
 // MAX = 127
 
 export const PERMISSION = {
@@ -191,23 +194,6 @@ export const PERMISSION = {
       UPDATE: 123,
     },
   },
-};
-
-export const PERMISSION_TYPE = {
-  OWNER: 1, // OWNER: Mean user can only see their own record.
-  PARTIAL: 2, // PARTIAL: Mean user can see their own record and other user.
-  FULL: 3, // FULL: Mean user can see all record.
-};
-
-/**
- * enableType:
- *  - 1: Allow User select type (OWNER/PARTIAL/FULL)
- *  - 2: Not allow (hide) user select type.
- * @type {{permissions: [{enableType: number, name: string, id: number}], name: string, id: number}[]}
- */
-export const PERMISSION_ENABLE_TYPE = {
-  ALLOW_CHOOSE_TYPE: 1,
-  NOT_ALLOW_CHOOSE_TYPE: 2,
 };
 
 export const PERMISSION_MODULE = [
@@ -428,32 +414,6 @@ export const PERMISSION_MODULE = [
       },
       {
         id: PERMISSION.COST.UPDATE,
-        name: "Update",
-        enableType: PERMISSION_ENABLE_TYPE.ALLOW_CHOOSE_TYPE,
-      },
-    ],
-  },
-  {
-    id: 8,
-    name: "Person Management",
-    permissions: [
-      {
-        id: PERMISSION.PERSON.CREATE,
-        name: "Create",
-        enableType: PERMISSION_ENABLE_TYPE.ALLOW_CHOOSE_TYPE,
-      },
-      {
-        id: PERMISSION.PERSON.READ,
-        name: "Read",
-        enableType: PERMISSION_ENABLE_TYPE.ALLOW_CHOOSE_TYPE,
-      },
-      {
-        id: PERMISSION.PERSON.DELETE,
-        name: "Delete",
-        enableType: PERMISSION_ENABLE_TYPE.ALLOW_CHOOSE_TYPE,
-      },
-      {
-        id: PERMISSION.PERSON.UPDATE,
         name: "Update",
         enableType: PERMISSION_ENABLE_TYPE.ALLOW_CHOOSE_TYPE,
       },
@@ -912,4 +872,5 @@ export const PERMISSION_MODULE = [
       },
     ],
   },
+  ...PERMISSION_MODULE_PROJECT,
 ];

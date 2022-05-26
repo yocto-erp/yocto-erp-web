@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import * as yup from 'yup';
+import React, { useMemo } from "react";
+import { Helmet } from "react-helmet";
+import { FormattedMessage } from "react-intl";
+import * as yup from "yup";
 
 import {
   Container,
@@ -10,20 +10,20 @@ import {
   InputGroup,
   Input,
   FormFeedback,
-} from 'reactstrap';
-import { mutate } from 'swr';
-import messages from './messages';
-import Widget from '../../../components/Widget/Widget';
-import Footer from '../../Layout/Footer';
-import SubmitButton from '../../../components/button/SubmitButton';
-import { createCompany } from '../../../libs/apis/auth.api';
-import FormError from '../../../components/Form/FormError';
-import useMyForm from '../../../libs/hooks/useMyForm';
-import { set, STORAGE } from '../../../libs/utils/storage';
-import { SWR_KEY_USER } from '../../../libs/hooks/useUser';
+} from "reactstrap";
+import { mutate } from "swr";
+import messages from "./messages";
+import Widget from "../../../components/Widget/Widget";
+import Footer from "../../Layout/Footer";
+import SubmitButton from "../../../components/button/SubmitButton";
+import { createCompany } from "../../../libs/apis/auth.api";
+import FormError from "../../../components/Form/FormError";
+import useMyForm from "../../../libs/hooks/useMyForm";
+import { set, STORAGE } from "../../../libs/utils/storage";
+import { SWR_KEY_USER } from "../../../libs/hooks/useUser";
 
 const schema = yup.object().shape({
-  name: yup.string().required('This field is required.'),
+  name: yup.string().required("This field is required."),
 });
 
 export function OnboardPage() {
@@ -206,11 +206,7 @@ export function OnboardPage() {
                   <p className="widget-auth-info">
                     Nhập thông tin để tạo company!
                   </p>
-                  <FormError
-                    className="mt-3"
-                    errors={serverErrors}
-                    item={item => 'Create failed!'}
-                  />
+                  <FormError className="mt-3" errors={serverErrors} />
                   {formEls}
                 </Widget>
               </Container>
