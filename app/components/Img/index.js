@@ -15,9 +15,9 @@ function Img(props) {
   return (
     <Image
       src={props.src}
-      alt={props.alt}
       NativeImgProps={{
         className: props.className,
+        alt: props.alt,
       }}
       errorFallback={() => <img src={noImage} alt="not available" />}
       fallback={

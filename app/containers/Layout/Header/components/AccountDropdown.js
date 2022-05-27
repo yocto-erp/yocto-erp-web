@@ -14,6 +14,7 @@ import { set, STORAGE } from "../../../../libs/utils/storage";
 import useUser, { SWR_KEY_USER } from "../../../../libs/hooks/useUser";
 import { USER_ROOT_PATH } from "../../../user/constants";
 import { cloudAssetUrl } from "../../../../libs/apis/image.api";
+import Img from "../../../../components/Img";
 
 const AccountDropDown = () => {
   const { user } = useUser();
@@ -35,7 +36,7 @@ const AccountDropDown = () => {
         }}
       >
         <span className={`${s.avatar} rounded-circle float-left mr-2`}>
-          <img src={cloudAssetUrl(user?.avatar)} alt="..." />
+          <Img src={cloudAssetUrl(user?.avatar)} alt="..." />
         </span>
         <div
           className={`small ${s.accountCheck} text-truncate`}
