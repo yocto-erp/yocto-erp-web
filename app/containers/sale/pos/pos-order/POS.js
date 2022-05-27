@@ -22,6 +22,7 @@ import {
 import PosListOrder from "./pos-list-order";
 import PosOrderForm from "./pos-order.form";
 import { PRODUCT_CACHE_LRU } from "./constants";
+import Img from "../../../../components/Img";
 
 const POS = () => {
   const { state: productListState, exec: listProductExec } = useApi(
@@ -86,7 +87,7 @@ const POS = () => {
                 onClick={() => onProductClick(t)}
               >
                 <div className="card">
-                  <img
+                  <Img
                     className="card-img-top"
                     src={cloudAssetUrl(t.thumbnail)}
                     alt="thumbnail"

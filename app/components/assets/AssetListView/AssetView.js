@@ -21,6 +21,7 @@ import {
 import { COLOR } from "../../../styles/color";
 import AssetPdfView from "./AssetPdfView";
 import AssetVideoView from "./AssetVideoView";
+import Img from "../../Img";
 
 const AssetView = ({
   asset,
@@ -30,7 +31,7 @@ const AssetView = ({
 }) => {
   if (isImageMimeType(asset.mimeType)) {
     return (
-      <img
+      <Img
         className="img-thumbnail"
         src={cloudAssetUrl(asset)}
         alt="thumbnail"

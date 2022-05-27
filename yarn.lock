@@ -5227,7 +5227,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.1.1":
+"clsx@npm:^1.1.0, clsx@npm:^1.1.1":
   version: 1.1.1
   resolution: "clsx@npm:1.1.1"
   checksum: ff052650329773b9b245177305fc4c4dc3129f7b2be84af4f58dc5defa99538c61d4207be7419405a5f8f3d92007c954f4daba5a7b74e563d5de71c28c830063
@@ -15851,6 +15851,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-shimmer@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "react-shimmer@npm:3.2.0"
+  dependencies:
+    clsx: ^1.1.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: e8f36e6ddfe736df09420e9a8d9b03da0bebfc4d8a669852904d44694bb356063828f5f1fcf24ee0372cc26dd12439d27dce20ad58be431e1d185661d97c35ed
+  languageName: node
+  linkType: hard
+
 "react-side-effect@npm:^2.1.0":
   version: 2.1.1
   resolution: "react-side-effect@npm:2.1.1"
@@ -20255,6 +20268,7 @@ __metadata:
     react-redux: ^7.2.1
     react-router-dom: ^5.3.1
     react-select: ^3.1.0
+    react-shimmer: ^3.2.0
     react-sortablejs: ^6.0.0
     react-sticky: ^6.0.3
     react-sticky-el: ^2.0.5

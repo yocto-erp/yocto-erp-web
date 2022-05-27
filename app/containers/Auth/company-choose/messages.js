@@ -3,6 +3,10 @@ import { defineMessages } from "react-intl";
 export const scope = "app.containers.Onboard";
 
 export default defineMessages({
+  title: {
+    id: `${scope}.title`,
+    defaultMessage: "Chọn công ty",
+  },
   createCompanyButton: {
     id: `${scope}.button.createCompany`,
     defaultMessage: "Tạo công ty",

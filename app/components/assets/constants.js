@@ -11,8 +11,8 @@ import {
   FaFileWord,
 } from "react-icons/all";
 import { ADMIN_PATH } from "../../constants";
-import noImage from "../../images/No_image_available.svg";
 import { thumbnail } from "../../libs/apis/image.api";
+import Img from "../Img";
 
 export const STORAGE_PROVIDER = {
   LOCAL: 1,
@@ -84,8 +84,8 @@ export const getLocalFileThumbnail = file => {
   if (isImageMimeType(file.mimeType)) {
     return (
       <div className="thumbnail">
-        <img
-          src={file.thumbnail || thumbnail(file.fileId) || noImage}
+        <Img
+          src={file.thumbnail || thumbnail(file.fileId)}
           alt="thumbnail"
           referrerPolicy="no-referrer"
         />

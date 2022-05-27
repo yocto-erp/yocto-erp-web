@@ -62,6 +62,13 @@ export function CompanyChoose() {
             <LoadingIndicator />
           ) : (
             <>
+              <div className="row mb-5">
+                <div className="col-md-12 text-center text-capitalize">
+                  <p className="display-4">
+                    <FormattedMessage {...messages.title} />
+                  </p>
+                </div>
+              </div>
               <div className="row">
                 {state.resp?.rows
                   ?.map(t => t.company)
