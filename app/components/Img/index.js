@@ -22,7 +22,7 @@ function Img(props) {
       errorFallback={() => <img src={noImage} alt="not available" />}
       fallback={
         <div
-          className="display-flex h-100 align-content-center justify-content-center"
+          className="display-flex h-100 align-items-center justify-content-center"
           style={{ opacity: 0.35 }}
         >
           <Spinner />
