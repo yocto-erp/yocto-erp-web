@@ -61,39 +61,41 @@ export function CompanyChoose() {
           {isLoading ? (
             <LoadingIndicator />
           ) : (
-            <div className="row">
-              {state.resp?.rows
-                ?.map(t => t.company)
-                .map(t => (
-                  <div className="col-sm-4 pt-2 pb-2" key={t.id}>
-                    <Card outline color="primary" className="h-100">
-                      <CardBody>
-                        <CardTitle>
-                          <h3>{t.name}</h3>
-                        </CardTitle>
-                        <CardText>{t.remark}</CardText>
-                      </CardBody>
-                      <CardFooter>
-                        <Button
-                          color="primary"
-                          type="button"
-                          onClick={() => exec(t.id)}
-                        >
-                          <FormattedMessage {...messages.chooseCompany} />
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </div>
-                ))}
-            </div>
+            <>
+              <div className="row">
+                {state.resp?.rows
+                  ?.map(t => t.company)
+                  .map(t => (
+                    <div className="col-sm-4 pt-2 pb-2" key={t.id}>
+                      <Card outline color="primary" className="h-100">
+                        <CardBody>
+                          <CardTitle>
+                            <h3>{t.name}</h3>
+                          </CardTitle>
+                          <CardText>{t.remark}</CardText>
+                        </CardBody>
+                        <CardFooter>
+                          <Button
+                            color="primary"
+                            type="button"
+                            onClick={() => exec(t.id)}
+                          >
+                            <FormattedMessage {...messages.chooseCompany} />
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </div>
+                  ))}
+              </div>
+              <div className="row mt-4">
+                <div className="col-md-12">
+                  <CreateButton type="button" onClick={() => setIsOpen(true)}>
+                    <FormattedMessage {...messages.createCompanyButton} />
+                  </CreateButton>
+                </div>
+              </div>
+            </>
           )}
-          <div className="row mt-4">
-            <div className="col-md-12">
-              <CreateButton type="button" onClick={() => setIsOpen(true)}>
-                <FormattedMessage {...messages.createCompanyButton} />
-              </CreateButton>
-            </div>
-          </div>
         </Container>
         <Footer />
       </div>

@@ -1,27 +1,4 @@
 import React from "react";
-import {
-  AiFillShop,
-  AiOutlineAudit,
-  AiOutlineSetting,
-  BiBuildingHouse,
-  BsEnvelopeOpen,
-  BsFillTagsFill,
-  CgTemplate,
-  FaCashRegister,
-  FaHouseUser,
-  FaMoneyCheckAlt,
-  FaTh,
-  FaUserFriends,
-  FaUserShield,
-  FaWarehouse,
-  FiHardDrive,
-  GiTakeMyMoney,
-  HiOutlineDesktopComputer,
-  MdMapsHomeWork,
-  MdOutlineAddShoppingCart,
-  MdOutlineInventory,
-  RiMailSettingsFill,
-} from "react-icons/all";
 import { AUDIT_ROOT_PATH } from "../../Audit/constants";
 import { TAGGING_ROOT_PATH } from "../../tagging/constants";
 import { USER_ROOT_PATH } from "../../user/constants";
@@ -60,6 +37,40 @@ import { DEBT_ROOT_PATH } from "../../debt/constants";
 import { STUDENT_TRACKING_ROOT_PATH } from "../../student/student-tracking/constants";
 import { PROVIDER_ROOT_PATH } from "../../provider/constants";
 import { PERMISSION } from "../../../components/Acl/constants";
+import {
+  IconSystemAudit,
+  IconBus,
+  IconClassRoom,
+  IconClient,
+  IconCompanySetting,
+  IconCost,
+  IconDebt,
+  IconEmailLog,
+  IconTax,
+  IconEmailSetting,
+  IconFinance,
+  IconHardDriver,
+  IconInventory,
+  IconLabel,
+  IconList,
+  IconMoney,
+  IconPos,
+  IconProduct,
+  IconProvider,
+  IconPurchase,
+  IconSetting,
+  IconStudent,
+  IconStudentAttendant,
+  IconSurvey,
+  IconSystem,
+  IconUserLog,
+  IconUsers,
+  IconWarehouse,
+  IconTemplate,
+  IconShop,
+  IconPrint,
+  IconEmail,
+} from "../../Icon/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -74,7 +85,7 @@ export const SIDE_BAR_MENU = {
     {
       header: "POS",
       isHeader: true,
-      icon: <HiOutlineDesktopComputer />,
+      icon: <IconPos />,
       link: `${POS_ROOT_PATH}/list`,
       index: "pos-list",
       exact: true,
@@ -85,7 +96,7 @@ export const SIDE_BAR_MENU = {
     {
       header: "Mua hàng",
       isHeader: true,
-      icon: <MdOutlineAddShoppingCart />,
+      icon: <IconPurchase />,
       link: PURCHASE_ORDER_ROOT_PATH,
       index: "purchase",
       permission: PERMISSION.ORDER.PURCHASE.READ,
@@ -93,7 +104,7 @@ export const SIDE_BAR_MENU = {
     {
       header: "Thu chi",
       isHeader: true,
-      icon: <FaCashRegister />,
+      icon: <IconCost />,
       link: COST_ROOT_PATH,
       index: "cost",
       exact: true,
@@ -101,7 +112,7 @@ export const SIDE_BAR_MENU = {
     },
     {
       header: "Công nợ",
-      icon: <GiTakeMyMoney />,
+      icon: <IconDebt />,
       link: DEBT_ROOT_PATH,
       index: "debt",
       permission: [PERMISSION.TAX.READ],
@@ -110,7 +121,7 @@ export const SIDE_BAR_MENU = {
     {
       header: "Nhập, xuất kho",
       isHeader: true,
-      icon: <MdOutlineInventory />,
+      icon: <IconInventory />,
       link: INVENTORY_ROOT_PATH,
       index: "inventory",
       permission: [
@@ -121,7 +132,7 @@ export const SIDE_BAR_MENU = {
     {
       header: "Student",
       isHeader: true,
-      iconName: "fi flaticon-user-2",
+      icon: <IconStudent />,
       index: "student",
       link: "",
       permission: [
@@ -138,12 +149,14 @@ export const SIDE_BAR_MENU = {
           isHeader: true,
           link: STUDENT_CLASS_ROOT_PATH,
           index: "student.class",
+          icon: <IconClassRoom />,
           permission: [PERMISSION.STUDENT.CLASS.READ],
         },
         {
           header: "Bus Stop",
           isHeader: true,
           exact: true,
+          icon: <IconBus />,
           link: STUDENT_BUS_STOP_ROOT_PATH,
           index: "student.busStop",
           permission: [PERMISSION.STUDENT.BUS.READ],
@@ -151,6 +164,7 @@ export const SIDE_BAR_MENU = {
         {
           header: "List Student",
           isHeader: true,
+          icon: <IconList />,
           link: STUDENT_MANAGEMENT_ROOT_PATH,
           permission: [PERMISSION.STUDENT.READ],
           exact: true,
@@ -160,6 +174,7 @@ export const SIDE_BAR_MENU = {
           header: "Monthly Fee",
           isHeader: true,
           exact: true,
+          icon: <IconMoney />,
           link: STUDENT_MONTHLY_ROOT_PATH,
           permission: [PERMISSION.STUDENT.MONTHLY_FEE.READ],
           index: "student.monthly-fee",
@@ -168,6 +183,7 @@ export const SIDE_BAR_MENU = {
           header: "Tracking",
           isHeader: true,
           exact: true,
+          icon: <IconStudentAttendant />,
           link: STUDENT_TRACKING_ROOT_PATH,
           permission: [PERMISSION.STUDENT.DAILY_TRACKING.READ],
           index: "student.tracking",
@@ -176,6 +192,7 @@ export const SIDE_BAR_MENU = {
           header: "Configure",
           isHeader: true,
           link: STUDENT_CONFIGURATION_ROOT_PATH,
+          icon: <IconSetting />,
           permission: [PERMISSION.STUDENT.CONFIGURE],
           index: "student.configure",
         },
@@ -194,14 +211,14 @@ export const SIDE_BAR_MENU = {
           header: "Shop",
           link: SHOP_ROOT_PATH,
           index: "management.shop",
-          icon: <AiFillShop />,
+          icon: <IconShop />,
           permission: PERMISSION.SHOP.READ,
           isHeader: true,
         },
         {
           header: "Quản lý POS",
           link: POS_ROOT_PATH,
-          icon: <HiOutlineDesktopComputer />,
+          icon: <IconPos />,
           index: "management.pos",
           permission: PERMISSION.POS.READ,
           isHeader: false,
@@ -210,6 +227,7 @@ export const SIDE_BAR_MENU = {
         {
           header: "Survey",
           isHeader: true,
+          icon: <IconSurvey />,
           link: SURVEY_MANAGEMENT_ROOT_PATH,
           permission: PERMISSION.SURVEY.READ,
           index: "management.survey-management",
@@ -217,14 +235,14 @@ export const SIDE_BAR_MENU = {
         {
           header: "Kho",
           isHeader: true,
-          icon: <FaWarehouse />,
+          icon: <IconWarehouse />,
           link: WAREHOUSE_ROOT_PATH,
           permission: PERMISSION.WAREHOUSE.READ,
           index: "management.warehouse",
         },
         {
           header: "Sản phẩm",
-          icon: <FaTh />,
+          icon: <IconProduct />,
           link: PRODUCT_ROOT_PATH,
           index: "management.product",
           permission: PERMISSION.PRODUCT.READ,
@@ -232,7 +250,7 @@ export const SIDE_BAR_MENU = {
         },
         {
           header: "Nhà cung cấp",
-          icon: <MdMapsHomeWork />,
+          icon: <IconProvider />,
           link: PROVIDER_ROOT_PATH,
           index: "management.provider",
           permission: [PERMISSION.PROVIDER.READ],
@@ -241,7 +259,7 @@ export const SIDE_BAR_MENU = {
         {
           header: "Khách hàng - Công ty",
           link: PARTNER_ROOT_PATH,
-          icon: <FaHouseUser />,
+          icon: <IconClient />,
           index: "management.partner",
           permission: [PERMISSION.CUSTOMER.READ, PERMISSION.COMPANY.READ],
           isHeader: true,
@@ -249,14 +267,14 @@ export const SIDE_BAR_MENU = {
         {
           header: "Labels",
           link: TAGGING_ROOT_PATH,
-          icon: <BsFillTagsFill />,
+          icon: <IconLabel />,
           index: "management.label",
           isHeader: true,
         },
         {
           header: "Quản lý dữ liệu",
           link: ASSET_ROOT_PATH,
-          icon: <FiHardDrive />,
+          icon: <IconHardDriver />,
           index: "management.asset",
           isHeader: true,
         },
@@ -264,7 +282,7 @@ export const SIDE_BAR_MENU = {
           header: "User",
           permission: PERMISSION.USER.READ,
           isHeader: true,
-          icon: <FaUserFriends />,
+          icon: <IconUsers />,
           link: USER_ROOT_PATH,
           index: "management.user",
         },
@@ -274,7 +292,7 @@ export const SIDE_BAR_MENU = {
       header: "Tài chính",
       link: "",
       index: "finance",
-      icon: <FaMoneyCheckAlt />,
+      icon: <IconFinance />,
       isHeader: true,
       permission: [PERMISSION.TAX.READ],
       children: [
@@ -282,6 +300,7 @@ export const SIDE_BAR_MENU = {
           header: "Danh sách thuế",
           link: TAX_ROOT_PATH,
           exact: true,
+          icon: <IconTax />,
           index: "finance.tax",
           permission: [PERMISSION.TAX.READ],
           isHeader: true,
@@ -309,7 +328,7 @@ export const SIDE_BAR_MENU = {
     {
       header: "Mẫu tài liệu",
       link: "",
-      icon: <CgTemplate />,
+      icon: <IconTemplate />,
       isHeader: true,
       index: "template",
       permission: PERMISSION.TEMPLATE.READ,
@@ -317,11 +336,13 @@ export const SIDE_BAR_MENU = {
         {
           header: "Mẫu in",
           link: TEMPLATE_PRINT_ROOT_PATH,
+          icon: <IconPrint />,
           exact: true,
           index: "template.print",
         },
         {
           header: "Mẫu Email",
+          icon: <IconEmail />,
           link: TEMPLATE_EMAIL_ROOT_PATH,
           exact: true,
           index: "template.email",
@@ -332,19 +353,19 @@ export const SIDE_BAR_MENU = {
       header: "Hệ thống",
       permission: PERMISSION.CONFIGURATION,
       isHeader: true,
-      icon: <AiOutlineSetting />,
+      icon: <IconSystem />,
       index: "configuration",
       link: "",
       children: [
         {
           header: "Email",
-          icon: <RiMailSettingsFill />,
+          icon: <IconEmailSetting />,
           link: CONFIGURATION_EMAIL_ROOT_PATH,
           index: "configuration.email",
         },
         {
           header: "Company",
-          icon: <BiBuildingHouse />,
+          icon: <IconCompanySetting />,
           link: CONFIGURATION_COMPANY_ROOT_PATH,
           index: "configuration.company",
         },
@@ -353,7 +374,7 @@ export const SIDE_BAR_MENU = {
     {
       header: "Log",
       isHeader: true,
-      icon: <AiOutlineAudit />,
+      icon: <IconSystemAudit />,
       index: "log",
       link: "",
       permission: [PERMISSION.EMAIL.READ, PERMISSION.AUDIT],
@@ -361,14 +382,14 @@ export const SIDE_BAR_MENU = {
         {
           permission: PERMISSION.EMAIL.READ,
           header: "Email",
-          icon: <BsEnvelopeOpen />,
+          icon: <IconEmailLog />,
           link: LOG_EMAIL_ROOT_PATH,
           index: "log.email",
         },
         {
           permission: PERMISSION.AUDIT,
           header: "Audit",
-          icon: <FaUserShield />,
+          icon: <IconUserLog />,
           link: AUDIT_ROOT_PATH,
           index: "log.audit",
         },

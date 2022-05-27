@@ -8,6 +8,7 @@ import {
 } from "reactstrap";
 import { Link, useHistory } from "react-router-dom";
 import { mutate } from "swr";
+import { MdWorkspacesOutline } from "react-icons/md";
 import s from "../Header.module.scss";
 import { set, STORAGE } from "../../../../libs/utils/storage";
 import useUser, { SWR_KEY_USER } from "../../../../libs/hooks/useUser";
@@ -68,8 +69,8 @@ const AccountDropDown = () => {
         </DropdownItem>
         <DropdownItem>
           <Link to="/workspace">
-            <Badge color="primary">
-              <i className="glyphicon glyphicon-th-list" />
+            <Badge color="warning">
+              <MdWorkspacesOutline size={12} />
             </Badge>
             <span className={s.details}>Change Workspace</span>
           </Link>
