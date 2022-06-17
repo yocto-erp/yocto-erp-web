@@ -1,26 +1,26 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from "react";
 
-import { Button, Input, Modal, ModalBody, ModalHeader } from 'reactstrap';
-import { v4 as uuidv4 } from 'uuid';
-import { toast } from 'react-toastify';
-import TableActionColumns from '../../../components/ListWidget/TableActionColumn';
-import { TEMPLATE_TYPE } from '../../../libs/apis/template/templateType.api';
-import EmailTemplateSelect from '../../../components/common/template/EmailTemplateSelect';
-import { emailApi } from '../../../libs/apis/email.api';
-import { MAIL_MERGE_ROW_STATE } from './constants';
-import { useApi } from '../../../libs/hooks/useApi';
-import TextIconButton from '../../../components/button/TextIconButton';
-import MailMergeStateBtnIcon from './components/MailMergeStateBtnIcon';
-import PageTitle from '../../Layout/PageTitle';
-import { emailSchema } from '../../../libs/utils/schema.util';
-import MailMergeUpload from './components/MailMergeUpload';
-import ListWidget from '../../../components/ListWidget';
-import RawHTML from '../../../components/RawHtml';
-import { useConfirmDialog } from '../../../libs/hooks/useConfirmDialog';
+import { Button, Input, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-toastify";
+import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
+import { TEMPLATE_TYPE } from "../../../libs/apis/template/templateType.api";
+import EmailTemplateSelect from "../../../components/common/template/EmailTemplateSelect";
+import { emailApi } from "../../../libs/apis/email.api";
+import { MAIL_MERGE_ROW_STATE } from "./constants";
+import { useApi } from "../../../libs/hooks/useApi";
+import TextIconButton from "../../../components/button/TextIconButton";
+import MailMergeStateBtnIcon from "./components/MailMergeStateBtnIcon";
+import PageTitle from "../../Layout/PageTitle";
+import { emailSchema } from "../../../libs/utils/schema.util";
+import MailMergeUpload from "./components/MailMergeUpload";
+import ListWidget from "../../../components/ListWidget";
+import RawHTML from "../../../components/RawHtml";
+import { useConfirmDialog } from "../../../libs/hooks/useConfirmDialog";
 
 const MailMerge = () => {
   const [emailContent, setEmailContent] = React.useState(null);
-  const [emailColumn, setEmailColumn] = React.useState('0');
+  const [emailColumn, setEmailColumn] = React.useState("0");
   const [table, setTable] = React.useState({
     columns: [],
     rows: [],
@@ -109,7 +109,7 @@ const MailMerge = () => {
 
   const sendAllEmail = React.useCallback(() => {
     openConfirm({
-      title: 'Send All Email',
+      title: "Send All Email",
       message: `Are you sure to send total ${unsentMessages.length} email?`,
       onClose: isConfirm => {
         if (isConfirm) {
@@ -125,7 +125,7 @@ const MailMerge = () => {
     row => {
       const emailMessage = emailRender(row);
       openConfirm({
-        title: 'Send Email',
+        title: "Send Email",
         message: `Send email to ${emailMessage.to}`,
         onClose: isConfirm => {
           if (isConfirm) {
@@ -157,9 +157,9 @@ const MailMerge = () => {
         render: row => String(row.data[i]),
       })),
       {
-        header: 'Action',
-        data: '',
-        class: 'action',
+        header: "Action",
+        data: "",
+        class: "action",
         render: row => (
           <TableActionColumns
             buttons={[
@@ -220,7 +220,7 @@ const MailMerge = () => {
           <div className="d-inline mr-2">
             <EmailTemplateSelect
               enableAction
-              style={{ width: '300px' }}
+              style={{ width: "300px" }}
               name="templateId"
               type={TEMPLATE_TYPE.MAIL_MERGE}
               value={templateId}
@@ -272,7 +272,7 @@ const MailMerge = () => {
       }
     }
     toast.warning(
-      'Can not detect any email column in upload file. Must have at least 1 column contain email',
+      "Can not detect any email column in upload file. Must have at least 1 column contain email",
     );
   }, []);
 
@@ -302,7 +302,7 @@ const MailMerge = () => {
 
   useEffect(() => {
     if (errors && errors.length) {
-      toast.error(errors.map(t => t.message).join('\n'));
+      toast.error(errors.map(t => t.message).join("\n"));
     }
   }, [errors]);
 
@@ -355,13 +355,13 @@ const MailMerge = () => {
               {emailContent && emailContent.cc && emailContent.cc.length ? (
                 <tr>
                   <td className="min">CC:</td>
-                  <td>{emailContent.cc.join(',')}</td>
+                  <td>{emailContent.cc.join(",")}</td>
                 </tr>
               ) : null}
               {emailContent && emailContent.bcc && emailContent.bcc.length ? (
                 <tr>
                   <td className="min">BCC:</td>
-                  <td>{emailContent.bcc.join(',')}</td>
+                  <td>{emailContent.bcc.join(",")}</td>
                 </tr>
               ) : null}
               <tr>

@@ -60,7 +60,7 @@ const InvitePage = () => {
               <ul className="">
                 {resp.map((t, i) => (
                   <li key={t}>
-                    {i} - {t}
+                    {i} - {t.email}
                   </li>
                 ))}
               </ul>
