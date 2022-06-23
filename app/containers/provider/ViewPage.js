@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Button } from "reactstrap";
@@ -21,10 +21,12 @@ import CommentEditor, {
 } from "../comment/components/CommentEditor";
 import ProviderApproveStatus from "./components/ProviderApproveStatus";
 import AssetListView from "../../components/assets/AssetListView/AssetListView";
+import ProviderApproveModal from "./components/ProviderApproveModal";
 
 const ViewPage = () => {
   const { id } = useParams();
   const { state, exec } = useApi(providerApi.read);
+  const [approve, setApprove] = useState(null);
 
   useEffect(() => {
     exec(id);
@@ -44,7 +46,11 @@ const ViewPage = () => {
         actions={
           <>
             <BackButton className="mr-2" />
-            <Button type="button" color="primary">
+            <Button
+              type="button"
+              color="primary"
+              onClick={() => setApprove(resp)}
+            >
               <FaSignature /> Sign
             </Button>
           </>
@@ -93,6 +99,15 @@ const ViewPage = () => {
           </div>
         </div>
       </Widget>
+      <ProviderApproveModal
+        onClose={isOk => {
+          if (isOk) {
+            exec(id);
+          }
+          setApprove(null);
+        }}
+        item={approve}
+      />
     </>
   );
 };

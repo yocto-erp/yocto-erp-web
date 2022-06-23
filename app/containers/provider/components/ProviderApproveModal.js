@@ -18,7 +18,7 @@ const schema = yup.object().shape({
 });
 
 const ProviderApproveModal = ({ item, onClose }) => {
-  const { refresh } = useListActionContext();
+  const listAction = useListActionContext();
   const {
     state,
     onSubmit,
@@ -39,13 +39,15 @@ const ProviderApproveModal = ({ item, onClose }) => {
 
   useEffect(() => {
     if (state.status === API_STATE.SUCCESS) {
-      refresh();
+      if (listAction && listAction.refresh) {
+        listAction.refresh();
+      }
       toast.success("Duyệt nhà cung cấp thành công");
       resetState();
       reset({});
       onClose(true);
     }
-  }, [state]);
+  }, [state, listAction]);
 
   return (
     <Modal isOpen={item !== null} className="warning">
