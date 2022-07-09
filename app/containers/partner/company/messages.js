@@ -13,7 +13,7 @@ export default defineMessages({
     defaultMessage: "Thông tin đối tác",
   },
   listPageHeader: {
-    id: `${scope}.header`,
+    id: `${scope}.listPageHeader`,
     defaultMessage: "Quản lý đối tác",
   },
   listPageType2: {
@@ -25,11 +25,11 @@ export default defineMessages({
     defaultMessage: "Cá nhân",
   },
   createPageHeader: {
-    id: `${scope}.header`,
+    id: `${scope}.createPageHeader`,
     defaultMessage: "Tạo thông tin đối tác",
   },
   updatePageHeader: {
-    id: `${scope}.header`,
+    id: `${scope}.updatePageHeader`,
     defaultMessage: "Cập nhập thông tin đối tác",
   },
   formCompanyLabel: {
@@ -57,7 +57,7 @@ export default defineMessages({
     defaultMessage: "Mô tả",
   },
   formContactPerson: {
-    id: `${scope}.formRemark`,
+    id: `${scope}.formContactPerson`,
     defaultMessage: "Người liên hệ",
   },
 });

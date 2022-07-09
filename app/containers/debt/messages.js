@@ -13,7 +13,7 @@ export default defineMessages({
     defaultMessage: "Quản lý nợ",
   },
   listPageCommonHeader: {
-    id: `${scope}.header`,
+    id: `${scope}.listPageCommonHeader`,
     defaultMessage: "Quản lý nợ",
   },
   tabCommon: {
@@ -34,11 +34,11 @@ export default defineMessages({
     defaultMessage: "Cá nhân",
   },
   createPageHeader: {
-    id: `${scope}.header`,
+    id: `${scope}.createPageHeader`,
     defaultMessage: "Tạo thông tin đối tác",
   },
   updatePageHeader: {
-    id: `${scope}.header`,
+    id: `${scope}.updatePageHeader`,
     defaultMessage: "Cập nhập thông tin đối tác",
   },
   formCompanyLabel: {
@@ -66,7 +66,7 @@ export default defineMessages({
     defaultMessage: "Mô tả",
   },
   formContactPerson: {
-    id: `${scope}.formRemark`,
+    id: `${scope}.formContactPerson`,
     defaultMessage: "Người liên hệ",
   },
   debtType1: {
@@ -98,7 +98,7 @@ export default defineMessages({
     defaultMessage: "Cập nhập phiếu ghi nợ",
   },
   btnAddDebtPaid: {
-    id: `${scope}.btnAddDebt`,
+    id: `${scope}.btnAddDebtPaid`,
     defaultMessage: "Thanh toán nợ",
   },
   addDebtPaidTitle: {

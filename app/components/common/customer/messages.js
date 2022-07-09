@@ -36,7 +36,7 @@ export default defineMessages({
     defaultMessage: "Giới tính",
   },
   formGenderSelectDefault: {
-    id: `${scope}.formGender`,
+    id: `${scope}.formGenderSelectDefault`,
     defaultMessage: "Chọn chức danh",
   },
   formGender0: {

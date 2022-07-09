@@ -120,7 +120,7 @@ export default defineMessages({
     defaultMessage: "Chấp nhận",
   },
   formApproveStatusReject: {
-    id: `${scope}.formApproveStatusAccept`,
+    id: `${scope}.formApproveStatusReject`,
     defaultMessage: "Từ chối",
   },
 });

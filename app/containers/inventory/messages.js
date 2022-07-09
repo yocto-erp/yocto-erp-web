@@ -8,7 +8,7 @@ export const inventoryMessages = defineMessages({
     defaultMessage: "Nhập xuất kho",
   },
   inventoryTitle: {
-    id: `${scope}.listPage.title`,
+    id: `${scope}.listPage.inventoryTitle`,
     defaultMessage: "Chi tiết mặt hàng kho",
   },
   btnCreateGoodReceipt: {

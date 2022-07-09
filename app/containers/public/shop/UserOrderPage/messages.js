@@ -24,11 +24,11 @@ export default defineMessages({
     defaultMessage: "Giá",
   },
   tableHeaderQty: {
-    id: `${scope}.tableHeaderPrice`,
+    id: `${scope}.tableHeaderQty`,
     defaultMessage: "SL",
   },
   tableHeaderAction: {
-    id: `${scope}.tableHeaderPrice`,
+    id: `${scope}.tableHeaderAction`,
     defaultMessage: "Thao tác",
   },
   formBtnCheckOut: {
@@ -65,7 +65,7 @@ export default defineMessages({
     defaultMessage: "Khách hàng",
   },
   checkoutModalCustomerPay: {
-    id: `${scope}.checkoutModalCustomer`,
+    id: `${scope}.checkoutModalCustomerPay`,
     defaultMessage: "Khách hàng trả",
   },
   checkoutModalTotal: {
