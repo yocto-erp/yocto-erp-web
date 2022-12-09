@@ -18538,6 +18538,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tinymce@npm:^5.10.7":
+  version: 5.10.7
+  resolution: "tinymce@npm:5.10.7"
+  checksum: fe471f1004a29523d5ac39fc5023c2aa30efee653366dfd1c3c6649be2178bd04f87985c9cec00662465cd623a4f3572734ee1009c4edcf0f5af339dd7a544ad
+  languageName: node
+  linkType: hard
+
 "tinymce@npm:^5.5.1":
   version: 5.10.3
   resolution: "tinymce@npm:5.10.3"
@@ -20298,7 +20305,7 @@ __metadata:
     svg-url-loader: 2.3.2
     swr: ^0.3.2
     terser-webpack-plugin: 1.2.3
-    tinymce: ^5.5.1
+    tinymce: ^5.10.7
     ua-parser-js: ^0.7.22
     url-loader: 1.1.2
     use-immer: ^0.4.1
