@@ -87,7 +87,7 @@
     "cross-env": "5.2.0",
     "date-fns": "^2.16.1",
     "dompurify": "^2.2.2",
-    "express": "4.16.4",
+    "express": "4.17.3",
     "filepond": "^4.30.3",
     "filepond-plugin-file-validate-type": "^1.2.6",
     "filepond-plugin-image-exif-orientation": "^1.0.11",
