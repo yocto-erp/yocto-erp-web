@@ -1,0 +1,38 @@
+.form-product {
+  position: relative;
+  width: 100%;
+  border-radius: 4px;
+
+  .card-img, .card-img-top {
+    cursor: zoom-in;
+    border-top-left-radius: unset;
+    border-top-right-radius: unset;
+    padding: 2px;
+    height: 120px;
+    width: 100%;
+    object-fit: contain;
+    object-position: top;
+  }
+
+  .card-body {
+    padding: 10px;
+  }
+
+  i.active {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 2px;
+    padding: 2px;
+    border-radius: 2px;
+  }
+
+  &.grow {
+    transition: all .1s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+  }
+}

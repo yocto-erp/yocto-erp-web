@@ -16,7 +16,12 @@ import useUser from "../../../libs/hooks/useUser";
 import s from "../../Layout/Header/Header.module.scss";
 import CardNotification from "./CardNotification/CardNotification";
 
-function Header({ companyName }) {
+function Header({
+  companyName,
+  isShowSignUp = true,
+  isShowSignIn = true,
+  isShowCart = true,
+}) {
   const { user } = useUser();
   const [messagesOpen, setMessagesOpen] = useState(false);
   const toggleMessagesDropdown = useCallback(() => {
@@ -38,27 +43,40 @@ function Header({ companyName }) {
               <AccountDropDown />
             ) : (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link text-white" to="/login">
-                    Sign In
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link text-white" to="/register">
-                    Sign Up
-                  </Link>
-                </li>
+                {isShowSignIn && (
+                  <li className="nav-item">
+                    <Link className="nav-link text-white" to="/login">
+                      Sign In
+                    </Link>
+                  </li>
+                )}
+                {isShowSignUp && (
+                  <li className="nav-item">
+                    <Link className="nav-link text-white" to="/register">
+                      Sign Up
+                    </Link>
+                  </li>
+                )}
               </>
             )}
-            <Dropdown nav isOpen={messagesOpen} toggle={toggleMessagesDropdown}>
-              <DropdownToggle nav className={`${s.navItem} text-white`}>
-                <i className="glyphicon glyphicon-shopping-cart" />
-                <span className={`${s.count}`}>{products?.length}</span>
-              </DropdownToggle>
-              <DropdownMenu right className={`${s.dropdownMenu} ${s.support}`}>
-                <CardNotification />
-              </DropdownMenu>
-            </Dropdown>
+            {isShowCart && (
+              <Dropdown
+                nav
+                isOpen={messagesOpen}
+                toggle={toggleMessagesDropdown}
+              >
+                <DropdownToggle nav className={`${s.navItem} text-white`}>
+                  <i className="glyphicon glyphicon-shopping-cart" />
+                  <span className={`${s.count}`}>{products?.length}</span>
+                </DropdownToggle>
+                <DropdownMenu
+                  right
+                  className={`${s.dropdownMenu} ${s.support}`}
+                >
+                  <CardNotification />
+                </DropdownMenu>
+              </Dropdown>
+            )}
             {/* <LanguageDropDown /> */}
           </Nav>
         </div>
@@ -69,6 +87,9 @@ function Header({ companyName }) {
 
 Header.propTypes = {
   companyName: PropTypes.any,
+  isShowCart: PropTypes.bool,
+  isShowSignUp: PropTypes.bool,
+  isShowSignIn: PropTypes.bool,
 };
 
 export default Header;

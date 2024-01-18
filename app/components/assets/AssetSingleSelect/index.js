@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { thumbnail } from "../../../libs/apis/image.api";
+import { imageUrl, thumbnail } from "../../../libs/apis/image.api";
 import FilePickerModal from "../FileBrowser/FilePickerModal";
 import { MIME_TYPE } from "../constants";
 import "./asset-single-select.scss";
@@ -10,7 +10,15 @@ import ViewLargeAssetModal from "../ViewLargeAssetModal";
 const AssetSingleSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
   (
-    { onChange, value = null, invalid, className, fileTypes, ...props },
+    {
+      onChange,
+      value = null,
+      invalid,
+      className,
+      fileTypes,
+      isPreviewThumbnail = true,
+      ...props
+    },
     // eslint-disable-next-line no-unused-vars
     ref,
   ) => {
@@ -64,7 +72,11 @@ const AssetSingleSelect = React.forwardRef(
         >
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
           <img
-            src={thumbnail(value?.fileId)}
+            src={
+              isPreviewThumbnail
+                ? thumbnail(value?.fileId)
+                : imageUrl(value?.fileId)
+            }
             alt="..."
             className="img-thumbnail"
           />
@@ -100,6 +112,7 @@ AssetSingleSelect.propTypes = {
   fileTypes: PropTypes.arrayOf(PropTypes.string),
   width: PropTypes.number,
   height: PropTypes.number,
+  isPreviewThumbnail: PropTypes.bool,
 };
 
 export default AssetSingleSelect;

@@ -19,20 +19,12 @@ import InventoryPage from "../inventory/Loadable";
 import { INVENTORY_ROOT_PATH } from "../inventory/constants";
 import { PURCHASE_ORDER_ROOT_PATH } from "../order/purchase/constants";
 import PurchasePage from "../order/purchase/Loadable";
-import { COST_ROOT_PATH } from "../cost/constants";
-import CostPage from "../cost";
 import { SALE_ORDER_ROOT_PATH } from "../order/sale/constants";
 import SaleOrderPage from "../order/sale/Loadable";
 import { PARTNER_ROOT_PATH } from "../partner/constants";
 import PartnerPage from "../partner/Loadable";
 import { STUDENT_ROOT_PATH } from "../student/constants";
-import StudentPage from "../student/Loadable";
-import StudentClassPage from "../student/student-class/Loadable";
-import StudentBusStopPage from "../student/student-bus-stop/Loadable";
-import StudentTrackingPage from "../student/student-tracking/Loadable";
 import ConfigurationPage from "../configuration/Loadable";
-import StudentMonthlyPage from "../student/monthly-fee/Loadable";
-import { STUDENT_MONTHLY_ROOT_PATH } from "../student/monthly-fee/constants";
 import {
   TEMPLATE_EMAIL_ROOT_PATH,
   TEMPLATE_PRINT_ROOT_PATH,
@@ -57,8 +49,6 @@ import { ADMIN_PATH } from "../../constants";
 import EcommercePage from "../ecommerce/Loadable";
 import { ECOMMERCE_ROOT_PATH } from "../ecommerce/constants";
 import SalePage from "../sale/Loadable";
-import { STUDENT_CLASS_ROOT_PATH } from "../student/student-class/constants";
-import { STUDENT_BUS_STOP_ROOT_PATH } from "../student/student-bus-stop/constants";
 import { ASSET_ROOT_PATH } from "../../components/assets/constants";
 import { FINANCE_ROOT_PATH } from "../finance/constants";
 import FinancePage from "../finance/Loadable";
@@ -66,11 +56,13 @@ import { SALE_ROOT_PATH } from "../sale/constants";
 import DebtPage from "../debt/Loadable";
 import { DEBT_ROOT_PATH } from "../debt/constants";
 import "animate.css";
-import { STUDENT_TRACKING_ROOT_PATH } from "../student/student-tracking/constants";
 import ProviderPage from "../provider/Loadable";
 import { PROVIDER_ROOT_PATH } from "../provider/constants";
 import { COLOR } from "../../styles/color";
 import { DEFAULT_SCROLL_OPTIONS } from "../public/shop/UserOrderPage/constants";
+import StudentRoutePage from "../student/Route";
+import { FORM_ROOT_PATH } from "../pages/form-register/constants";
+import FormRegisterPage from "../pages/form-register/Loadable";
 
 function Layout({
   sidebarPosition,
@@ -137,24 +129,8 @@ function Layout({
                   component={InventoryPage}
                 />
                 <Route path={PARTNER_ROOT_PATH} component={PartnerPage} />
-                <Route
-                  path={`${STUDENT_MONTHLY_ROOT_PATH}`}
-                  component={StudentMonthlyPage}
-                />
-                <Route path={`${COST_ROOT_PATH}`} component={CostPage} />
-                <Route
-                  path={`${STUDENT_CLASS_ROOT_PATH}`}
-                  component={StudentClassPage}
-                />
-                <Route
-                  path={STUDENT_BUS_STOP_ROOT_PATH}
-                  component={StudentBusStopPage}
-                />
-                <Route
-                  path={STUDENT_TRACKING_ROOT_PATH}
-                  component={StudentTrackingPage}
-                />
-                <Route path={STUDENT_ROOT_PATH} component={StudentPage} />
+                <Route path={FORM_ROOT_PATH} component={FormRegisterPage} />
+                <Route path={STUDENT_ROOT_PATH} component={StudentRoutePage} />
                 <Route
                   path={`${CONFIGURATION_ROOT_PATH}`}
                   component={ConfigurationPage}

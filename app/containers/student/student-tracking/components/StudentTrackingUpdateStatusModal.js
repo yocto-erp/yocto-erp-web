@@ -93,6 +93,7 @@ const StudentTrackingUpdateStatusModal = ({
             <option value="">Select Status</option>
             {LIST_STUDENT_DAILY_STATUS.map(t => (
               <FormattedMessage
+                key={t.id}
                 {...studentTrackingMessage[`formStatus${t.id}`]}
               >
                 {msg => <option value={t.id}>{msg}</option>}

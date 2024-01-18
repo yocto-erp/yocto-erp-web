@@ -10,7 +10,7 @@ const EditPage = () => {
       <PageTitle title="Update Sale Product" />
       <div className="row">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-          <ECommerceProductForm id={id} />
+          <ECommerceProductForm id={Number(id)} />
         </div>
       </div>
     </>

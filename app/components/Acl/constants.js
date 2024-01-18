@@ -28,9 +28,9 @@ export const PERMISSION = {
       READ: 26,
       UPDATE: 27,
       DELETE: 28,
-      PROVIDER: 125, // Permission allow user set purchase from which provider
-      AMOUNT: 126,
-      SHOP: 127,
+      PROVIDER: 125, // Permission allow user set purchase from which provider,
+      AMOUNT: 126, // Permission allow user set amount,
+      SHOP: 127, // Permission allow user set shop
     },
   },
   INVENTORY: {
@@ -116,6 +116,9 @@ export const PERMISSION = {
     },
     SETTING: 67,
   },
+  SETTING: {
+    COMPANY: 68,
+  },
   SHOP: {
     READ: 69,
     CREATE: 70,
@@ -193,6 +196,24 @@ export const PERMISSION = {
       SIGN: 122,
       UPDATE: 123,
     },
+  },
+  PROJECT: {
+    READ: 128,
+    CREATE: 129,
+    DELETE: 130,
+    UPDATE: 131,
+  },
+  PROJECT_TASK: {
+    READ: 132,
+    CREATE: 133,
+    DELETE: 134,
+    UPDATE: 135,
+  },
+  FORM: {
+    READ: 136,
+    CREATE: 137,
+    DELETE: 138,
+    UPDATE: 139,
   },
 };
 

@@ -71,6 +71,7 @@ import {
   IconPrint,
   IconEmail,
 } from "../../Icon/constants";
+import { FORM_ROOT_PATH } from "../../pages/form-register/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -127,6 +128,24 @@ export const SIDE_BAR_MENU = {
       permission: [
         PERMISSION.INVENTORY.GOODS_ISSUE.READ,
         PERMISSION.INVENTORY.GOODS_RECEIPT.READ,
+      ],
+    },
+    {
+      header: "Form đăng ký",
+      isHeader: true,
+      icon: <i className="fa fa-form" />,
+      index: "form",
+      link: "",
+      permission: [PERMISSION.FORM.READ],
+      children: [
+        {
+          header: "Quản lý form",
+          isHeader: true,
+          link: FORM_ROOT_PATH,
+          index: "form.register",
+          icon: <IconClassRoom />,
+          permission: [PERMISSION.FORM.READ],
+        },
       ],
     },
     {

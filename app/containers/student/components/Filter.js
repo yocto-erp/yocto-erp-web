@@ -40,7 +40,7 @@ const Filter = () => {
       <Input name="status" type="select" innerRef={register} className="mr-2">
         <option value="">Trạng thái</option>
         {STUDENT_STATUS_LIST.map(t => (
-          <FormattedMessage {...listPageMessage[`status${t.id}`]}>
+          <FormattedMessage key={t.id} {...listPageMessage[`status${t.id}`]}>
             {msg => (
               <option key={t.id} value={t.id}>
                 {msg}

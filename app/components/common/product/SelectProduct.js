@@ -25,23 +25,20 @@ const formatOptionLabel = (item, { context }) => (
       />
     )}
     <div className="media-body">
-      <p className="mt-0 mb-0 font-weight-bold">{item.productDocumentId}</p>
-      <p className="mt-0 mb-0">
-        {hasText(item.productDocumentId) && (
-          <span>({item.productDocumentId})</span>
-        )}{" "}
-        {item.name}
-      </p>
+      {hasText(item.productDocumentId) && (
+        <p className="mt-0 mb-0 font-weight-bold">{item.productDocumentId}</p>
+      )}
+      <p className="mt-0 mb-0">{item.name}</p>
     </div>
   </div>
 );
 
 export const searchMappingProduct = val => ({ id: val.id, name: val.name });
 /**
- * @Deprecated
+ * New Component support for single and multiple select
  * @type {React.ForwardRefExoticComponent<React.PropsWithoutRef<{readonly isMulti?: boolean, readonly mappingProduct?: function(*): {name: *, id: *}, readonly onBlur?: *, readonly onChange?: *, readonly name?: *, readonly onAdded?: *, readonly placeholder?: *, readonly creatable?: boolean, readonly error?: *, readonly value?: *}> & React.RefAttributes<unknown>>}
  */
-const ProductSelect = React.forwardRef((
+const SelectProduct = React.forwardRef((
   {
     onBlur,
     error,
@@ -69,13 +66,14 @@ const ProductSelect = React.forwardRef((
           search: inputValue,
         },
       })
-      .then(resp => cb(resp.rows));
+      .then(resp => cb(resp.rows.map(mappingProduct)));
   }, 300);
 
   return (
     <div key={`${name}_${lastId}`}>
       <InputGroup className={classNames({ "is-invalid": !!error })} {...props}>
         <AsyncSelect
+          ref={ref}
           aria-labelledby="test"
           className="react-select-container"
           classNamePrefix="react-select"
@@ -91,13 +89,7 @@ const ProductSelect = React.forwardRef((
           defaultOptions
           isMulti={isMulti}
           onBlur={onBlur}
-          onChange={val => {
-            let mapVal = val;
-            if (mappingProduct && val) {
-              mapVal = mappingProduct(val);
-            }
-            onChange(mapVal);
-          }}
+          onChange={onChange}
           formatOptionLabel={formatOptionLabel}
           getOptionValue={data => data.id}
           name={name}
@@ -135,7 +127,7 @@ const ProductSelect = React.forwardRef((
   );
 });
 
-ProductSelect.propTypes = {
+SelectProduct.propTypes = {
   value: PropTypes.any,
   error: PropTypes.object,
   name: PropTypes.string.isRequired,
@@ -148,4 +140,4 @@ ProductSelect.propTypes = {
   isMulti: PropTypes.bool,
 };
 
-export default ProductSelect;
+export default SelectProduct;

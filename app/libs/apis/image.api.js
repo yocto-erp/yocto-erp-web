@@ -8,7 +8,8 @@ const IPFS_GATEWAY = {
   dweb: "https://dweb.link/ipfs",
 };
 export const ASSET_API_ENDPOINT_URL = `${API_URL}/image`;
-export const imageUrl = fileId => `${ASSET_API_ENDPOINT_URL}/${fileId}`;
+export const imageUrl = fileId =>
+  fileId ? `${ASSET_API_ENDPOINT_URL}/${fileId}` : noImage;
 export const imagePath = filename =>
   filename ? `/upload/${filename}` : noImage;
 export const thumbnail = filename =>
