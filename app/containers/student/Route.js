@@ -3,8 +3,6 @@ import { Route, Switch } from "react-router-dom";
 import { STUDENT_ROOT_PATH } from "./constants";
 import { STUDENT_MONTHLY_ROOT_PATH } from "./monthly-fee/constants";
 import StudentMonthlyPage from "./monthly-fee/Loadable";
-import { COST_ROOT_PATH } from "../cost/constants";
-import CostPage from "../cost";
 import { STUDENT_CLASS_ROOT_PATH } from "./student-class/constants";
 import StudentClassPage from "./student-class/Loadable";
 import { STUDENT_BUS_STOP_ROOT_PATH } from "./student-bus-stop/constants";
@@ -20,7 +18,6 @@ function StudentRoutePage() {
         path={`${STUDENT_MONTHLY_ROOT_PATH}`}
         component={StudentMonthlyPage}
       />
-      <Route path={`${COST_ROOT_PATH}`} component={CostPage} />
       <Route path={`${STUDENT_CLASS_ROOT_PATH}`} component={StudentClassPage} />
       <Route path={STUDENT_BUS_STOP_ROOT_PATH} component={StudentBusStopPage} />
       <Route

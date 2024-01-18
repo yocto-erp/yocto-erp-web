@@ -69,18 +69,7 @@ export const useHookCRUDForm = ({
     formData: initForm,
   }));
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    errors,
-    control,
-    getValues,
-    setValue,
-    watch,
-    formState,
-    trigger,
-  } = useForm({
+  const props = useForm({
     mode: "all",
     reValidateMode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -97,7 +86,7 @@ export const useHookCRUDForm = ({
           payload: localFormData,
         });
         console.log("Init form", localFormData);
-        reset(localFormData);
+        props.reset(localFormData);
       });
     } /* else {
       reset(initForm);
@@ -118,7 +107,7 @@ export const useHookCRUDForm = ({
   };
 
   const submit = useCallback(
-    handleSubmit(values => {
+    props.handleSubmit(values => {
       let form = values;
       if (isFunction(mappingToServer)) {
         form = mappingToServer(values);
@@ -129,26 +118,19 @@ export const useHookCRUDForm = ({
         .then(resp => {
           if (!id) {
             console.log("reset", initForm);
-            reset({ ...initForm });
+            props.reset({ ...initForm });
           }
           dispatch({ type: FORM_TYPE.SUBMIT_DONE, payload: resp });
           return onSuccess(resp);
         }, handleError)
         .catch(handleError);
     }),
-    [update, create, onSuccess, dispatch, initForm, handleSubmit],
+    [update, create, onSuccess, dispatch, initForm, props.handleSubmit],
   );
 
   return {
     state,
-    register,
     submit,
-    errors,
-    control,
-    getValues,
-    setValue,
-    formState,
-    trigger,
-    watch,
+    ...props,
   };
 };

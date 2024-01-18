@@ -63,6 +63,8 @@ import { DEFAULT_SCROLL_OPTIONS } from "../public/shop/UserOrderPage/constants";
 import StudentRoutePage from "../student/Route";
 import { FORM_ROOT_PATH } from "../pages/form-register/constants";
 import FormRegisterPage from "../pages/form-register/Loadable";
+import { COST_ROOT_PATH } from "../cost/constants";
+import CostPage from "../cost";
 
 function Layout({
   sidebarPosition,
@@ -129,6 +131,7 @@ function Layout({
                   component={InventoryPage}
                 />
                 <Route path={PARTNER_ROOT_PATH} component={PartnerPage} />
+                <Route path={`${COST_ROOT_PATH}`} component={CostPage} />
                 <Route path={FORM_ROOT_PATH} component={FormRegisterPage} />
                 <Route path={STUDENT_ROOT_PATH} component={StudentRoutePage} />
                 <Route

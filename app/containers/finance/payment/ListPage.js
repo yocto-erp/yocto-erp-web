@@ -4,11 +4,11 @@ import Widget from "../../../components/Widget/Widget";
 import PaymentSettingFormModal from "./components/PaymentSettingFormModal";
 import { API_STATE, useApi } from "../../../libs/hooks/useApi";
 import { ecommercePaymentMethodStr } from "./constants";
-import RawHTML from "../../../components/RawHtml";
 import { useConfirmDialog } from "../../../libs/hooks/useConfirmDialog";
 import PageTitle from "../../Layout/PageTitle";
 import CreateButton from "../../../components/button/CreateButton";
 import { PaymentApi } from "../../../libs/apis/finance/payment.api";
+import CreatedBy from "../../../components/ListWidget/CreatedBy";
 
 const ListPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +83,7 @@ const ListPage = () => {
               <th>ID</th>
               <th>Name</th>
               <th>Payment Type</th>
-              <th>Information</th>
+              <th>Create On</th>
               <th className="min">Action</th>
             </tr>
           </thead>
@@ -96,16 +96,9 @@ const ListPage = () => {
                   {ecommercePaymentMethodStr(t.paymentTypeId)}
                 </td>
                 <td>
-                  <RawHTML html={t.setting} />
+                  <CreatedBy date={t.createdDate} user={t.createdBy} />
                 </td>
                 <td className="min">
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-danger"
-                    onClick={() => onDelete(t)}
-                  >
-                    <i className="fa fa-trash" />{" "}
-                  </button>{" "}
                   <button
                     type="button"
                     className="btn btn-sm btn-info"
@@ -115,17 +108,23 @@ const ListPage = () => {
                     }}
                   >
                     <i className="fa fa-edit" />
+                  </button>{" "}
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-danger"
+                    onClick={() => onDelete(t)}
+                  >
+                    <i className="fa fa-trash" />{" "}
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <PaymentSettingFormModal
-          isOpen={isOpen}
-          onClose={onClose}
-          id={editItem}
-        />
+        {isOpen && (
+          <PaymentSettingFormModal isOpen onClose={onClose} id={editItem} />
+        )}
+
         {confirmModal}
       </Widget>
     </>
