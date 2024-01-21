@@ -57,6 +57,7 @@ $borderColor: #1870DC;
       padding: .108rem .75rem;
     }
   }
+
   .react-select__menu {
     background-color: $primaryColor;
     border: 1px solid $borderColor;
@@ -85,6 +86,12 @@ $borderColor: #1870DC;
       .react-select__single-value {
         color: white !important;
       }
+    }
+  }
+
+  .react-select__input {
+    input {
+      color: white;
     }
   }
 }

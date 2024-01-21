@@ -33,14 +33,16 @@ const FormViewProduct = ({ product, isActive = false, onClick }) => {
         <CardText>
           <Price amount={product.price} />
         </CardText>
-        <Button
-          color={!isActive ? "primary" : "danger"}
-          className="w-100"
-          type="button"
-          onClick={onClick}
-        >
-          {!isActive ? <span>Chọn</span> : <span>Bỏ chọn</span>}
-        </Button>
+        {onClick && (
+          <Button
+            color={!isActive ? "primary" : "danger"}
+            className="w-100"
+            type="button"
+            onClick={onClick}
+          >
+            {!isActive ? <span>Chọn</span> : <span>Bỏ chọn</span>}
+          </Button>
+        )}
       </CardBody>
       {isActive && <i className="fa fa-check active bg-success" />}
       {product.thumbnail ? (

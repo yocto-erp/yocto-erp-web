@@ -23,7 +23,14 @@ const PaymentSelect = React.forwardRef((
       filter: {
         search: inputValue,
       },
-    }).then(resp => cb(resp));
+    }).then(resp =>
+      cb(
+        resp.map(t => ({
+          id: t.id,
+          name: t.name,
+        })),
+      ),
+    );
   }, 300);
   return (
     <AsyncSelect

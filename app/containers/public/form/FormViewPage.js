@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
@@ -6,7 +7,7 @@ import * as Yup from "yup";
 import { Controller } from "react-hook-form";
 import Header from "../components/Header";
 import "../index.scss";
-import { useApi } from "../../../libs/hooks/useApi";
+import { API_STATE, useApi } from "../../../libs/hooks/useApi";
 import { FormPublicApi } from "../../../libs/apis/form/form-public.api";
 import Widget from "../../../components/Widget/Widget";
 import { hasText } from "../../../utils/util";
@@ -47,7 +48,7 @@ const schema = Yup.object()
       );
     },
   });
-const FormViewPage = () => {
+const FormViewPage = ({ history }) => {
   const { publicId } = useParams();
 
   const { exec, state } = useApi(FormPublicApi.get);
@@ -62,7 +63,7 @@ const FormViewPage = () => {
     watch,
     reset,
     formState: { isDirty, isValid },
-    state: { isLoading, errors: serverErrors },
+    state: { isLoading, errors: serverErrors, status, resp: registerResp },
   } = useMyForm({
     validationSchema: schema,
     api: form => FormPublicApi.register(publicId, form),
@@ -108,6 +109,12 @@ const FormViewPage = () => {
     exec(publicId);
   }, [publicId]);
 
+  useEffect(() => {
+    if (status === API_STATE.SUCCESS) {
+      history.push(`/cpm/${registerResp.formRegister.publicId}/register`);
+    }
+  }, [status, registerResp]);
+
   const total =
     (products || []).map(t => t.price).reduce((a, b) => a + b, 0) +
     (classes || []).map(t => t.tuitionFeePerMonth).reduce((a, b) => a + b, 0);
@@ -128,10 +135,10 @@ const FormViewPage = () => {
     <div className="public-page">
       <Header isShowSignUp={false} isShowCart={false} />
       <main>
-        <div className="container mt-5">
+        <div className="container mt-4">
           <Widget bodyClass="form-register">
             {resp.banner && (
-              <div className="banner">
+              <div className="banner mb-5">
                 <img src={cloudAssetUrl(resp.banner)} alt="banner" />
               </div>
             )}
@@ -151,7 +158,66 @@ const FormViewPage = () => {
                 className="mt-5"
               >
                 <div className="row">
-                  <div className="col-4">
+                  <div className="col-md-6 col-sm-12">
+                    <FormGroup>
+                      <Label className="d-block text-center">
+                        Khoá học <span className="help">(click để chọn)</span>
+                      </Label>
+                      <Controller
+                        name="classes"
+                        control={control}
+                        render={({ value, onChange }) => (
+                          <div className="container">
+                            <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
+                              {resp.classes.map(t => (
+                                <div className="col p-2" key={t.id}>
+                                  <FormViewClass
+                                    isActive={isClassActive(value, t.id)}
+                                    clazz={t}
+                                    onClick={() =>
+                                      onChange(toggleClass(value, t))
+                                    }
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      />
+                    </FormGroup>
+                    <FormGroup className="">
+                      <Label className="d-block text-center">
+                        Sản phẩm <span className="help">(click để chọn)</span>
+                      </Label>
+                      <Controller
+                        name="products"
+                        control={control}
+                        render={({ value, onChange }) => (
+                          <div className="container">
+                            <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
+                              {resp.products.map(t => (
+                                <div className="col p-2" key={t.id}>
+                                  <FormViewProduct
+                                    product={t}
+                                    isActive={isProductActive(value, t.id)}
+                                    onClick={() =>
+                                      onChange(toggleProduct(value, t))
+                                    }
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      />
+                    </FormGroup>
+                    {errors.asset && (
+                      <FormFeedback className="d-block mt-0 mb-3">
+                        Vui lòng chọn lớp hoặc sản phẩm
+                      </FormFeedback>
+                    )}
+                  </div>
+                  <div className="col-md-6 col-sm-12">
                     <FormGroupInput
                       isRequired
                       name="name"
@@ -223,68 +289,9 @@ const FormViewPage = () => {
                       )}
                     />
                   </div>
-                  <div className="col-8">
-                    <FormGroup>
-                      <Label className="">
-                        Khoá học <span className="help">(click để chọn)</span>
-                      </Label>
-                      <Controller
-                        name="classes"
-                        control={control}
-                        render={({ value, onChange }) => (
-                          <div className="container">
-                            <div className="row row-cols-4">
-                              {resp.classes.map(t => (
-                                <div className="col p-2" key={t.id}>
-                                  <FormViewClass
-                                    isActive={isClassActive(value, t.id)}
-                                    clazz={t}
-                                    onClick={() =>
-                                      onChange(toggleClass(value, t))
-                                    }
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      />
-                    </FormGroup>
-                    <FormGroup className="mb-0">
-                      <Label className="">
-                        Sản phẩm <span className="help">(click để chọn)</span>
-                      </Label>
-                      <Controller
-                        name="products"
-                        control={control}
-                        render={({ value, onChange }) => (
-                          <div className="container">
-                            <div className="row row-cols-4">
-                              {resp.products.map(t => (
-                                <div className="col p-2" key={t.id}>
-                                  <FormViewProduct
-                                    product={t}
-                                    isActive={isProductActive(value, t.id)}
-                                    onClick={() =>
-                                      onChange(toggleProduct(value, t))
-                                    }
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      />
-                    </FormGroup>
-                    {errors.asset && (
-                      <FormFeedback className="d-block mt-0 mb-3">
-                        Vui lòng chọn lớp hoặc sản phẩm
-                      </FormFeedback>
-                    )}
-                  </div>
                 </div>
                 <FormError errors={serverErrors} />
-                <div className="footer p-0 pt-3">
+                <div className="footer p-0 pt-3 mt-3">
                   <div className="container">
                     <div className="row align-items-center">
                       <div className="col-6 p-0 text-left text-danger">
@@ -312,11 +319,13 @@ const FormViewPage = () => {
           </Widget>
         </div>
       </main>
-      <Footer />;
+      <Footer />
     </div>
   );
 };
 
-FormViewPage.propTypes = {};
+FormViewPage.propTypes = {
+  history: PropTypes.any,
+};
 
 export default FormViewPage;

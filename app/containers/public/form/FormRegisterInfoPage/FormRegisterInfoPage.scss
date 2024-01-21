@@ -1,0 +1,21 @@
+.form-register-info-page {
+  padding: 0;
+
+  .banner {
+    img {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .body-content {
+    padding: 20px;
+
+    .thank-you {
+      font-size: 1.1rem;
+    }
+  }
+}

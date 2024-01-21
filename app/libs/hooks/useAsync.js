@@ -1,5 +1,10 @@
 import { useCallback, useState } from "react";
 
+/**
+ * Deprecated, use useApi instead
+ * @param asyncApi
+ * @return {[boolean,(function(...[*]): *),unknown]}
+ */
 export const useAsync = ({ asyncApi }) => {
   const [resp, setResp] = useState(null);
   const [isLoading, setIsLoading] = useState(false);

@@ -1,4 +1,4 @@
-import { ADMIN_PATH } from '../../constants';
+import { ADMIN_PATH } from "../../constants";
 
 export const TEMPLATE_ROOT_PATH = `${ADMIN_PATH}/template`;
 
