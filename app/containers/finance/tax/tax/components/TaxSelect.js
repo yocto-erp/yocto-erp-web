@@ -47,7 +47,6 @@ const TaxSelect = React.forwardRef((
       key={`${name}`}
     >
       <AsyncSelect
-        aria-labelledby="test"
         className="react-select-container"
         classNamePrefix="react-select"
         placeholder={placeholder}

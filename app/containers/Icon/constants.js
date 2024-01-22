@@ -35,6 +35,8 @@ import {
   MdClass,
   MdMapsHomeWork,
   MdOutlineAttachEmail,
+  MdOutlinePhone,
+  MdOutlinePerson,
 } from "react-icons/md";
 import {
   BsCurrencyBitcoin,
@@ -85,3 +87,5 @@ export const IconTax = HiReceiptTax;
 export const IconTemplate = CgTemplate;
 export const IconPrint = BiPrinter;
 export const IconEmail = MdOutlineAttachEmail;
+export const IconPhone = MdOutlinePhone;
+export const IconPerson = MdOutlinePerson;

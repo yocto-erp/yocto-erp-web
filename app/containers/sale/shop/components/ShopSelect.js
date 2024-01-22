@@ -44,7 +44,6 @@ const ShopSelect = React.forwardRef((
   return (
     <div className={classNames({ "is-invalid": invalid })} {...props}>
       <AsyncSelect
-        aria-labelledby="test"
         className="react-select-container"
         classNamePrefix="react-select"
         placeholder={placeholder}

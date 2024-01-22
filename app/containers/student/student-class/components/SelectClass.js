@@ -56,7 +56,6 @@ export const SelectClass = React.forwardRef(
     return (
       <AsyncSelect
         ref={ref}
-        aria-labelledby="test"
         className="react-select-container"
         classNamePrefix="react-select"
         placeholder={placeholder}

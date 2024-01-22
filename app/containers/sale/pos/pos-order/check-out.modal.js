@@ -157,7 +157,6 @@ const PosCheckOut = ({ order, onClose }) => {
               })}
               id="tab1"
               role="tabpanel"
-              aria-labelledby="tab1"
             >
               <h1 className="text-success text-center">
                 <Price amount={order.totalWithTax} />
@@ -250,7 +249,6 @@ const PosCheckOut = ({ order, onClose }) => {
               })}
               id="tab2"
               role="tabpanel"
-              aria-labelledby="pills-profile-tab"
             >
               {order.paymentAmount > 0 ? (
                 <div className="form-group">

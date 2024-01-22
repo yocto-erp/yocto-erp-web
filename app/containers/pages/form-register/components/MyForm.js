@@ -47,7 +47,7 @@ function MyForm({ id }) {
     submit,
     errors,
     control,
-    state: { isLoading, errors: serverErrors },
+    state: { isLoading, errors: serverErrors, formData },
     formState: { isDirty, isValid },
   } = useHookCRUDForm({
     create,
@@ -111,12 +111,13 @@ function MyForm({ id }) {
             control={control}
             render={({ onChange, onBlur, value, name }) => (
               <Editor
+                id="introduction"
                 type={EDITOR_TYPE.NORMAL}
                 value={value}
                 onBlur={onBlur}
                 onChange={onChange}
                 name={name}
-                height={200}
+                height={400}
               />
             )}
           />
@@ -136,9 +137,7 @@ function MyForm({ id }) {
           <div className="col-6">
             <p className="form-heading">Thông tin đăng ký</p>
             <FormGroup>
-              <Label for="class" className="mr-sm-2 required">
-                Danh sách lớp học
-              </Label>
+              <Label className="mr-sm-2 required">Danh sách lớp học</Label>
               <Controller
                 name="classes"
                 defaultValue={[]}
@@ -177,6 +176,22 @@ function MyForm({ id }) {
           </div>
           <div className="col-6">
             <p className="form-heading">Thiết lập đăng ký</p>
+            <FormGroup label="Email xác nhận đăng ký">
+              <Controller
+                name="registerTemplate"
+                control={control}
+                defaultValue={null}
+                render={({ onChange, value }) => (
+                  <EmailTemplateSelect
+                    style={{ width: "100%" }}
+                    name="template"
+                    type={TEMPLATE_TYPE.REGISTER_FORM}
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
+            </FormGroup>
             <FormGroup label="Kênh thanh toán">
               <Controller
                 name="payment"
@@ -223,8 +238,28 @@ function MyForm({ id }) {
           </div>
         </div>
 
-        <BackButton className="mr-2" />
-        <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
+        <div className="mt-2">
+          <div className="row">
+            <div className="col-md-6">
+              <BackButton className="mr-2" />
+              <SubmitButton
+                disabled={!isValid || !isDirty}
+                isLoading={isLoading}
+              />
+            </div>
+            <div className="col-md-6 text-right">
+              {id && (
+                <a
+                  className="btn btn-outline-success"
+                  href={`/cpm/${formData.publicId}/form`}
+                  target="_blank"
+                >
+                  Xem trang <i className="fa fa-external-link" />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
       </Form>
     </Widget>
   );
@@ -232,6 +267,7 @@ function MyForm({ id }) {
 
 MyForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  history: PropTypes.any,
 };
 
 MyForm.defaultProps = {};

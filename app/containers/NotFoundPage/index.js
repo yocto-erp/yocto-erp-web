@@ -12,7 +12,7 @@ import messages from "./messages";
 
 export default function NotFound() {
   return (
-    <article>
+    <article className="fullscreened d-flex justify-content-center align-items-center">
       <H1>
         <FormattedMessage {...messages.header} />
       </H1>

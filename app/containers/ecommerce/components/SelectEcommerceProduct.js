@@ -76,7 +76,6 @@ const SelectEcommerceProduct = React.forwardRef(
       <div key={`${name}`}>
         <AsyncSelect
           ref={ref}
-          aria-labelledby="test"
           className="react-select-container"
           classNamePrefix="react-select"
           placeholder={placeholder || "Search and Select"}

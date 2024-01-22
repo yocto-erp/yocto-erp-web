@@ -72,6 +72,7 @@ import {
   IconEmail,
 } from "../../Icon/constants";
 import { FORM_ROOT_PATH } from "../../pages/form-register/constants";
+import { FORM_REGISTER_ROOT_PATH } from "../../pages/form/form-register-signup/constants";
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -143,6 +144,14 @@ export const SIDE_BAR_MENU = {
           isHeader: true,
           link: FORM_ROOT_PATH,
           index: "form.register",
+          icon: <IconClassRoom />,
+          permission: [PERMISSION.FORM.READ],
+        },
+        {
+          header: "Danh sách đăng ký",
+          isHeader: true,
+          link: FORM_REGISTER_ROOT_PATH,
+          index: "form.signup",
           icon: <IconClassRoom />,
           permission: [PERMISSION.FORM.READ],
         },

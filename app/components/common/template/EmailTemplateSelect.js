@@ -66,7 +66,6 @@ const EmailTemplateSelect = React.forwardRef((
           </InputGroupAddon>
         ) : null}
         <AsyncSelect
-          aria-labelledby="Email Template Select"
           className="react-select-container"
           classNamePrefix="react-select"
           placeholder={placeholder}

@@ -65,7 +65,6 @@ const SelectDebt = React.forwardRef((
       >
         <InputGroup {...props}>
           <AsyncSelect
-            aria-labelledby="test"
             className="react-select-container"
             classNamePrefix="react-select"
             placeholder={placeholder}

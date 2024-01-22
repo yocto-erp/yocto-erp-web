@@ -1,33 +1,33 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Form, Label } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { Controller, useWatch } from 'react-hook-form';
-import { useHookCRUDForm } from '../../../../libs/hooks/useHookCRUDForm';
-import Widget from '../../../../components/Widget/Widget';
-import SubmitButton from '../../../../components/button/SubmitButton';
-import BackButton from '../../../../components/button/BackButton';
-import { templateEmailApi } from '../../../../libs/apis/template/template.api';
-import Editor from '../../../../components/Form/Editor';
-import FormGroupInput from '../../../../components/Form/FormGroupInput';
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Form, Label } from "reactstrap";
+import { toast } from "react-toastify";
+import { Controller, useWatch } from "react-hook-form";
+import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
+import Widget from "../../../../components/Widget/Widget";
+import SubmitButton from "../../../../components/button/SubmitButton";
+import BackButton from "../../../../components/button/BackButton";
+import { templateEmailApi } from "../../../../libs/apis/template/template.api";
+import Editor from "../../../../components/Form/Editor";
+import FormGroupInput from "../../../../components/Form/FormGroupInput";
 import {
   useTemplateType,
   useTemplateTypeId,
-} from '../../../../libs/apis/template/templateType.api';
-import { transformUnNumber } from '../../../../libs/utils/number.util';
-import MultipleEmailInput from '../../../../components/Form/MultipleEmailInput';
+} from "../../../../libs/apis/template/templateType.api";
+import { transformUnNumber } from "../../../../libs/utils/number.util";
+import MultipleEmailInput from "../../../../components/Form/MultipleEmailInput";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('This field is required.'),
-  subject: Yup.string().required('This field is required.'),
+  name: Yup.string().required("This field is required."),
+  subject: Yup.string().required("This field is required."),
   from: Yup.string().email(),
   cc: Yup.array().nullable(),
   bcc: Yup.array().nullable(),
   templateTypeId: Yup.number()
     .transform(transformUnNumber)
-    .required('Template Type is required'),
-  content: Yup.string().required('Content is required'),
+    .required("Template Type is required"),
+  content: Yup.string().required("Content is required"),
 });
 
 const { create, update, read } = templateEmailApi;
@@ -68,11 +68,11 @@ function MyForm({ id }) {
     }),
     validationSchema,
     initForm: {
-      name: '',
-      subject: '',
-      templateTypeId: '',
-      content: '',
-      from: '',
+      name: "",
+      subject: "",
+      templateTypeId: "",
+      content: "",
+      from: "",
       cc: [],
       bcc: [],
     },
@@ -82,7 +82,7 @@ function MyForm({ id }) {
   const { templateTypeList } = useTemplateType();
   const templateTypeId = useWatch({
     control,
-    name: 'templateTypeId', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both,
+    name: "templateTypeId", // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both,
     defaultValue: formData?.templateTypeId,
   });
   const { templateType } = useTemplateTypeId(templateTypeId);
@@ -90,20 +90,21 @@ function MyForm({ id }) {
   const contentEditor = useMemo(
     () => (
       <div className="form-group">
-        <Label for="content" className="mr-sm-2">
+        <Label htmlFor="content" className="mr-sm-2">
           Content
         </Label>
         <Controller
           name="content"
+          id="content"
           control={control}
-          defaultValue={formData?.content || ''}
-          render={({ onChange, onBlur, value }) => (
+          defaultValue={formData?.content || ""}
+          render={({ onChange, onBlur, value, name }) => (
             <Editor
               value={value}
               onBlur={onBlur}
               onChange={onChange}
               variables={templateType}
-              name="content"
+              name={name}
             />
           )}
         />
@@ -115,20 +116,21 @@ function MyForm({ id }) {
   const subjectEditor = useMemo(
     () => (
       <div className="form-group">
-        <Label for="content" className="mr-sm-2">
+        <Label htmlFor="subject" className="mr-sm-2">
           Subject
         </Label>
         <Controller
           name="subject"
           control={control}
-          defaultValue={formData?.subject || ''}
-          render={({ onChange, onBlur, value }) => (
+          defaultValue={formData?.subject || ""}
+          render={({ onChange, onBlur, value, name }) => (
             <Editor
               value={value}
               onBlur={onBlur}
               onChange={onChange}
               variables={templateType}
-              name="subject"
+              name={name}
+              id="subject"
               format="text"
               height={80}
             />
@@ -183,6 +185,7 @@ function MyForm({ id }) {
             <div className="col-md-4">
               <FormGroupInput
                 name="from"
+                placeholder="From Email"
                 register={register}
                 label="From"
                 error={errors.from}
@@ -190,23 +193,47 @@ function MyForm({ id }) {
             </div>
             <div className="col-md-4">
               <div className="form-group">
-                <label htmlFor="emailTemplate">CC</label>
+                <label htmlFor="cc">CC </label>
                 <Controller
                   name="cc"
                   control={control}
                   defaultValue={[]}
-                  as={MultipleEmailInput}
+                  render={({ value, onChange, onBlur }) => (
+                    <>
+                      <MultipleEmailInput
+                        id="cc"
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                      />
+                      <span className="small help-block">
+                        Input email and press enter for add multiple
+                      </span>
+                    </>
+                  )}
                 />
               </div>
             </div>
             <div className="col-md-4">
               <div className="form-group">
-                <label htmlFor="emailTemplate">BCC</label>
+                <label htmlFor="bcc">BCC</label>
                 <Controller
                   name="bcc"
                   control={control}
                   defaultValue={[]}
-                  as={MultipleEmailInput}
+                  render={({ value, onChange, onBlur }) => (
+                    <>
+                      <MultipleEmailInput
+                        id="bcc"
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                      />
+                      <span className="small help-block">
+                        Input email and press enter for add multiple
+                      </span>
+                    </>
+                  )}
                 />
               </div>
             </div>

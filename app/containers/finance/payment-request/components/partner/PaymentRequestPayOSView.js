@@ -38,7 +38,7 @@ const PaymentRequestPayOSView = ({ partnerPayment }) => {
           viewBox="0 0 256 256"
         />
       </div>
-      <p className="text-primary font-weight-bold mt-2 text-center">
+      <p className="text-primary font-weight-bold mt-2 mb-0 text-center">
         Quét mã QR để thanh toán qua bất kỳ App ngân hàng nào.
       </p>
     </>

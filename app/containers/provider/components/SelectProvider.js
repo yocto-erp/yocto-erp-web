@@ -62,7 +62,6 @@ const SelectProvider = React.forwardRef((
       className={classNames({ "is-invalid": invalid })}
     >
       <AsyncSelect
-        aria-labelledby="test"
         className="react-select-container"
         classNamePrefix="react-select"
         placeholder={placeholder}

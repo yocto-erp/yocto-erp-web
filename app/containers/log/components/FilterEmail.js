@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
-import { useForm } from 'react-hook-form';
-import SearchButton from '../../../components/button/SearchButton';
-import { useListFilter } from '../../../components/ListWidget/constants';
-import DateSelect from '../../../components/date/DateSelect';
+import React, { useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import { Form, FormGroup, Input, Label } from "reactstrap";
+import { useForm } from "react-hook-form";
+import SearchButton from "../../../components/button/SearchButton";
+import { useListFilter } from "../../../components/ListWidget/constants";
+import DateSelect from "../../../components/date/DateSelect";
 
 const FilterEmail = () => {
   const { searchByFilter, filter } = useListFilter();
@@ -31,7 +31,7 @@ const FilterEmail = () => {
           name="search"
           className="mr-2"
           placeholder="Search By From or To"
-          style={{ width: '250px' }}
+          style={{ width: "250px" }}
           innerRef={register}
         />
       </FormGroup>

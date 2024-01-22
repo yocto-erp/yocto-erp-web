@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
 
 const ShortText = ({ text, maxWidth = 80, className, ...props }) => (
   <span
-    className={classnames(className, 'd-inline-block')}
+    className={classnames(className, "d-inline-block")}
     {...props}
-    style={{ maxWidth, overflow: 'hidden', textOverflow: 'ellipsis' }}
+    style={{ maxWidth, overflow: "hidden", textOverflow: "ellipsis" }}
     title={text}
   >
     {text}

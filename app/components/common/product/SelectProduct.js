@@ -74,7 +74,6 @@ const SelectProduct = React.forwardRef((
       <InputGroup className={classNames({ "is-invalid": !!error })} {...props}>
         <AsyncSelect
           ref={ref}
-          aria-labelledby="test"
           className="react-select-container"
           classNamePrefix="react-select"
           placeholder={placeholder || "Search and Select"}

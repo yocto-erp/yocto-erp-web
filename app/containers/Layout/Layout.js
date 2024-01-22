@@ -65,6 +65,8 @@ import { FORM_ROOT_PATH } from "../pages/form-register/constants";
 import FormRegisterPage from "../pages/form-register/Loadable";
 import { COST_ROOT_PATH } from "../cost/constants";
 import CostPage from "../cost";
+import FormRegisterSignupPage from "../pages/form/form-register-signup/Loadable";
+import { FORM_REGISTER_ROOT_PATH } from "../pages/form/form-register-signup/constants";
 
 function Layout({
   sidebarPosition,
@@ -133,6 +135,10 @@ function Layout({
                 <Route path={PARTNER_ROOT_PATH} component={PartnerPage} />
                 <Route path={`${COST_ROOT_PATH}`} component={CostPage} />
                 <Route path={FORM_ROOT_PATH} component={FormRegisterPage} />
+                <Route
+                  path={FORM_REGISTER_ROOT_PATH}
+                  component={FormRegisterSignupPage}
+                />
                 <Route path={STUDENT_ROOT_PATH} component={StudentRoutePage} />
                 <Route
                   path={`${CONFIGURATION_ROOT_PATH}`}

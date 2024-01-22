@@ -76,6 +76,7 @@ const Editor = ({
   format = "html",
   height = 600,
   type = EDITOR_TYPE.NORMAL,
+  ...other
 }) => {
   const ref = useRef(null);
   const editor = useRef(null);
@@ -189,12 +190,20 @@ const Editor = ({
       }
     };
   }, [variables, format, height, toolbar]);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.value = value;
+    }
+  }, [value]);
+
   return (
     <textarea
       ref={ref}
       onChange={onChange}
       defaultValue={value}
       onBlur={onBlur}
+      {...other}
     />
   );
 };

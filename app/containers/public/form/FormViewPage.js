@@ -24,6 +24,8 @@ import FormViewClass from "./FormViewClass";
 import FormViewProduct from "./FormViewProduct";
 import Price from "../../../components/common/Price";
 import useUser from "../../../libs/hooks/useUser";
+import { FORM_STATUS } from "../../pages/form-register/constants";
+import NotFound from "../../NotFoundPage";
 
 const schema = Yup.object()
   .shape({
@@ -131,195 +133,203 @@ const FormViewPage = ({ history }) => {
   if (!resp) {
     return null;
   }
+
   return (
     <div className="public-page">
       <Header isShowSignUp={false} isShowCart={false} />
-      <main>
-        <div className="container mt-4">
-          <Widget bodyClass="form-register">
-            {resp.banner && (
-              <div className="banner mb-5">
-                <img src={cloudAssetUrl(resp.banner)} alt="banner" />
-              </div>
-            )}
-            <div className="form-register-body">
-              <h1 className="display-4">{resp.name}</h1>
+      {resp.status !== FORM_STATUS.ACTIVE && <NotFound />}
+      {resp.status === FORM_STATUS.ACTIVE && (
+        <>
+          <main>
+            <div className="container mt-4">
+              <Widget bodyClass="form-register">
+                {resp.banner && (
+                  <div className="banner mb-5">
+                    <img src={cloudAssetUrl(resp.banner)} alt="banner" />
+                  </div>
+                )}
+                <div className="form-register-body">
+                  <h1 className="display-4">{resp.name}</h1>
 
-              {hasText(resp.introduction) && (
-                <RawHtml
-                  className="introduction mt-4"
-                  html={resp.introduction}
-                />
-              )}
-              <Form
-                onSubmit={onSubmit}
-                noValidate
-                formNoValidate
-                className="mt-5"
-              >
-                <div className="row">
-                  <div className="col-md-6 col-sm-12">
-                    <FormGroup>
-                      <Label className="d-block text-center">
-                        Khoá học <span className="help">(click để chọn)</span>
-                      </Label>
-                      <Controller
-                        name="classes"
-                        control={control}
-                        render={({ value, onChange }) => (
-                          <div className="container">
-                            <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
-                              {resp.classes.map(t => (
-                                <div className="col p-2" key={t.id}>
-                                  <FormViewClass
-                                    isActive={isClassActive(value, t.id)}
-                                    clazz={t}
-                                    onClick={() =>
-                                      onChange(toggleClass(value, t))
-                                    }
-                                  />
+                  {hasText(resp.introduction) && (
+                    <RawHtml
+                      className="introduction mt-4"
+                      html={resp.introduction}
+                    />
+                  )}
+                  <Form
+                    onSubmit={onSubmit}
+                    noValidate
+                    formNoValidate
+                    className="mt-5"
+                  >
+                    <div className="row">
+                      <div className="col-md-6 col-sm-12">
+                        <FormGroup>
+                          <Label className="d-block text-center">
+                            Khoá học{" "}
+                            <span className="help">(click để chọn)</span>
+                          </Label>
+                          <Controller
+                            name="classes"
+                            control={control}
+                            render={({ value, onChange }) => (
+                              <div className="container">
+                                <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
+                                  {resp.classes.map(t => (
+                                    <div className="col p-2" key={t.id}>
+                                      <FormViewClass
+                                        isActive={isClassActive(value, t.id)}
+                                        clazz={t}
+                                        onClick={() =>
+                                          onChange(toggleClass(value, t))
+                                        }
+                                      />
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      />
-                    </FormGroup>
-                    <FormGroup className="">
-                      <Label className="d-block text-center">
-                        Sản phẩm <span className="help">(click để chọn)</span>
-                      </Label>
-                      <Controller
-                        name="products"
-                        control={control}
-                        render={({ value, onChange }) => (
-                          <div className="container">
-                            <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
-                              {resp.products.map(t => (
-                                <div className="col p-2" key={t.id}>
-                                  <FormViewProduct
-                                    product={t}
-                                    isActive={isProductActive(value, t.id)}
-                                    onClick={() =>
-                                      onChange(toggleProduct(value, t))
-                                    }
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      />
-                    </FormGroup>
-                    {errors.asset && (
-                      <FormFeedback className="d-block mt-0 mb-3">
-                        Vui lòng chọn lớp hoặc sản phẩm
-                      </FormFeedback>
-                    )}
-                  </div>
-                  <div className="col-md-6 col-sm-12">
-                    <FormGroupInput
-                      isRequired
-                      name="name"
-                      className="input-sm"
-                      label="Họ Tên"
-                      placeholder="Họ Tên"
-                      register={register}
-                      error={errors.name}
-                      type="text"
-                    />
-                    <FormGroupInput
-                      isRequired
-                      name="email"
-                      className="input-sm"
-                      label="Email"
-                      placeholder="Email"
-                      register={register}
-                      error={errors.email}
-                      type="email"
-                    />
-                    <FormGroupInput
-                      isRequired
-                      name="phone"
-                      className="input-sm"
-                      label="Số điện thoại"
-                      placeholder="Số điện thoại"
-                      register={register}
-                      error={errors.phone}
-                      type="tel"
-                    />
-                    {resp.isAllowCreateUser && !user && (
-                      <div className="checkbox abc-checkbox pl-0 mb-3">
-                        <Input
-                          type="checkbox"
-                          name="isCreateUser"
-                          innerRef={register}
-                          id="isCreateUser"
-                        />{" "}
-                        <Label for="isCreateUser">Tạo tài khoản</Label>
-                      </div>
-                    )}
-                    <FormGroupInput
-                      name="description"
-                      className="input-sm"
-                      label="Góp ý thêm"
-                      placeholder="Góp ý của bạn"
-                      register={register}
-                      type="textarea"
-                    />
-                    <Controller
-                      name="captcha"
-                      defaultValue={null}
-                      control={control}
-                      render={({ onChange }, { invalid }) => (
-                        <>
-                          <HCaptcha
-                            languageOverride="vi"
-                            sitekey="62b59756-7a60-4dc3-8512-94c7937c98f8"
-                            onVerify={(token, ekey) => {
-                              onChange({ token, ekey });
-                            }}
+                              </div>
+                            )}
                           />
-                          {invalid && (
-                            <FormFeedback className="d-block mt-0 mb-3">
-                              Captcha required
-                            </FormFeedback>
-                          )}
-                        </>
-                      )}
-                    />
-                  </div>
-                </div>
-                <FormError errors={serverErrors} />
-                <div className="footer p-0 pt-3 mt-3">
-                  <div className="container">
-                    <div className="row align-items-center">
-                      <div className="col-6 p-0 text-left text-danger">
-                        <p
-                          className="font-weight-bold mb-0"
-                          style={{ fontSize: "1.2rem" }}
-                        >
-                          Tổng tiền: <Price amount={total} />
-                        </p>
+                        </FormGroup>
+                        <FormGroup className="">
+                          <Label className="d-block text-center">
+                            Sản phẩm{" "}
+                            <span className="help">(click để chọn)</span>
+                          </Label>
+                          <Controller
+                            name="products"
+                            control={control}
+                            render={({ value, onChange }) => (
+                              <div className="container">
+                                <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
+                                  {resp.products.map(t => (
+                                    <div className="col p-2" key={t.id}>
+                                      <FormViewProduct
+                                        product={t}
+                                        isActive={isProductActive(value, t.id)}
+                                        onClick={() =>
+                                          onChange(toggleProduct(value, t))
+                                        }
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          />
+                        </FormGroup>
+                        {errors.asset && (
+                          <FormFeedback className="d-block mt-0 mb-3">
+                            Vui lòng chọn lớp hoặc sản phẩm
+                          </FormFeedback>
+                        )}
                       </div>
-                      <div className="col-6 p-0 text-right">
-                        <SubmitButton
-                          className="btn-lg"
-                          disabled={!isValid || !isDirty}
-                          isLoading={isLoading}
-                        >
-                          Đăng ký
-                        </SubmitButton>
+                      <div className="col-md-6 col-sm-12">
+                        <FormGroupInput
+                          isRequired
+                          name="name"
+                          className="input-sm"
+                          label="Họ Tên"
+                          placeholder="Họ Tên"
+                          register={register}
+                          error={errors.name}
+                          type="text"
+                        />
+                        <FormGroupInput
+                          isRequired
+                          name="email"
+                          className="input-sm"
+                          label="Email"
+                          placeholder="Email"
+                          register={register}
+                          error={errors.email}
+                          type="email"
+                        />
+                        <FormGroupInput
+                          isRequired
+                          name="phone"
+                          className="input-sm"
+                          label="Số điện thoại"
+                          placeholder="Số điện thoại"
+                          register={register}
+                          error={errors.phone}
+                          type="tel"
+                        />
+                        {resp.isAllowCreateUser && !user && (
+                          <div className="checkbox abc-checkbox pl-0 mb-3">
+                            <Input
+                              type="checkbox"
+                              name="isCreateUser"
+                              innerRef={register}
+                              id="isCreateUser"
+                            />{" "}
+                            <Label for="isCreateUser">Tạo tài khoản</Label>
+                          </div>
+                        )}
+                        <FormGroupInput
+                          name="description"
+                          className="input-sm"
+                          label="Góp ý thêm"
+                          placeholder="Góp ý của bạn"
+                          register={register}
+                          type="textarea"
+                        />
+                        <Controller
+                          name="captcha"
+                          defaultValue={null}
+                          control={control}
+                          render={({ onChange }, { invalid }) => (
+                            <>
+                              <HCaptcha
+                                languageOverride="vi"
+                                sitekey="62b59756-7a60-4dc3-8512-94c7937c98f8"
+                                onVerify={(token, ekey) => {
+                                  onChange({ token, ekey });
+                                }}
+                              />
+                              {invalid && (
+                                <FormFeedback className="d-block mt-0 mb-3">
+                                  Captcha required
+                                </FormFeedback>
+                              )}
+                            </>
+                          )}
+                        />
                       </div>
                     </div>
-                  </div>
+                    <FormError errors={serverErrors} />
+                    <div className="footer p-0 pt-3 mt-3">
+                      <div className="container">
+                        <div className="row align-items-center">
+                          <div className="col-6 p-0 text-left text-danger">
+                            <p
+                              className="font-weight-bold mb-0"
+                              style={{ fontSize: "1.2rem" }}
+                            >
+                              Tổng tiền: <Price amount={total} />
+                            </p>
+                          </div>
+                          <div className="col-6 p-0 text-right">
+                            <SubmitButton
+                              className="btn-lg"
+                              disabled={!isValid || !isDirty}
+                              isLoading={isLoading}
+                            >
+                              Đăng ký
+                            </SubmitButton>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Form>
                 </div>
-              </Form>
+              </Widget>
             </div>
-          </Widget>
-        </div>
-      </main>
-      <Footer />
+          </main>
+          <Footer />
+        </>
+      )}
     </div>
   );
 };

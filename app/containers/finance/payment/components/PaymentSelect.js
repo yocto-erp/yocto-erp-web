@@ -34,7 +34,6 @@ const PaymentSelect = React.forwardRef((
   }, 300);
   return (
     <AsyncSelect
-      aria-labelledby="test"
       className="react-select-container"
       classNamePrefix="react-select"
       placeholder={placeholder}
