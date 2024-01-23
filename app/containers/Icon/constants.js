@@ -18,7 +18,8 @@ import {
   FaHouseUser,
   FaUserFriends,
   FaMoneyCheckAlt,
-  FaUserShield, FaWpforms
+  FaUserShield,
+  FaWpforms,
 } from "react-icons/fa";
 import {
   BiPlus,
@@ -37,7 +38,7 @@ import {
   MdOutlineAttachEmail,
   MdOutlinePhone,
   MdOutlinePerson,
-  MdLink
+  MdLink,
 } from "react-icons/md";
 import {
   BsCurrencyBitcoin,
