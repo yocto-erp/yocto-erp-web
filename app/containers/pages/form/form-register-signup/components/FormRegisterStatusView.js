@@ -7,7 +7,7 @@ const FormRegisterStatusView = ({ status }) => {
     case FormRegisterStatus.REQUEST:
       return <span className="badge badge-secondary">Đang chờ</span>;
     case FormRegisterStatus.CONFIRMED:
-      return <span className="badge badge-success">Đã xác nhận</span>;
+      return <span className="badge badge-primary">Đã xác nhận</span>;
     case FormRegisterStatus.PAID:
       return <span className="badge badge-success">Đã thanh toán</span>;
     case FormRegisterStatus.CANCEL:

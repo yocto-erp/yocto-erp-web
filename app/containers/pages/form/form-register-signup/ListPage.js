@@ -19,9 +19,10 @@ import registerFormApi from "../../../../libs/apis/form/register-form.api";
 import DateView from "../../../../components/common/date/DateView";
 import registerFormSignupApi from "../../../../libs/apis/form/register-form-signup.api";
 import ShortText from "../../../../components/ShortText";
-import { IconEmail, IconPerson, IconPhone } from "../../../Icon/constants";
 import FormRegisterStatusView from "./components/FormRegisterStatusView";
 import Price from "../../../../components/common/Price";
+import SubjectView from "../../../partner/subject/components/SubjectView";
+import { IconView } from "../../../Icon/constants";
 
 const ROOT_PATH = FORM_REGISTER_ROOT_PATH;
 
@@ -33,17 +34,11 @@ const ListPage = ({ history }) => {
         data: "name",
         class: "min",
         render: row => (
-          <>
-            <p className="mb-0 text-nowrap">
-              <IconPerson /> <strong>{row.name}</strong>
-            </p>
-            <p className="mb-0 text-nowrap">
-              <IconEmail /> {row.email}
-            </p>
-            <p className="mb-0 text-nowrap">
-              <IconPhone /> {row.phone}
-            </p>
-          </>
+          <SubjectView
+            item={row.subject}
+            isShowAddress={false}
+            isShowTagging={false}
+          />
         ),
       },
       {
@@ -95,7 +90,15 @@ const ListPage = ({ history }) => {
               history.push(editPage(ROOT_PATH, [row.id]));
             }}
             onDelete={onDelete(ROOT_PATH, row.id, history)}
-            buttons={[]}
+            buttons={[
+              <a
+                href={`/cpm/${row.publicId}/register`}
+                className="btn btn-outline-info"
+                target="_blank"
+              >
+                <IconView />
+              </a>,
+            ]}
           />
         ),
       },

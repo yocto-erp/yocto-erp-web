@@ -1,32 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import { Button, FormFeedback, Input } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import get from "lodash/get";
+import { Button, FormFeedback, Input } from "reactstrap";
 
 const BusRouteForm = ({ errors, register, item, index, remove }) => (
   <tr key={item.key}>
     <td>
       <Input
         type="text"
-        invalid={!!get(errors, ['busRoutes', index, 'id'], false)}
+        invalid={!!get(errors, ["busRoutes", index, "id"], false)}
         name={`busRoutes[${index}].id`}
         innerRef={register}
         defaultValue={item.id} // make sure to set up defaultValue
       />
       <FormFeedback>
-        {get(errors, ['busRoutes', index, 'id', 'message'], '')}
+        {get(errors, ["busRoutes", index, "id", "message"], "")}
       </FormFeedback>
     </td>
     <td>
       <Input
         type="text"
-        invalid={!!get(errors, ['busRoutes', index, 'name'], false)}
+        invalid={!!get(errors, ["busRoutes", index, "name"], false)}
         name={`busRoutes[${index}].name`}
         innerRef={register}
         defaultValue={item.name} // make sure to set up defaultValue
       />
       <FormFeedback>
-        {get(errors, ['busRoutes', index, 'name', 'message'], '')}
+        {get(errors, ["busRoutes", index, "name", "message"], "")}
       </FormFeedback>
     </td>
     <td className="action">
@@ -36,7 +36,7 @@ const BusRouteForm = ({ errors, register, item, index, remove }) => (
         size="sm"
         onClick={() => remove(index)}
       >
-        <i className="fi flaticon-trash" />{' '}
+        <i className="fi flaticon-trash" />{" "}
       </Button>
     </td>
   </tr>

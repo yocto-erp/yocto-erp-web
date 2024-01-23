@@ -30,6 +30,8 @@ import PersonView from "../partner/person/components/PersonView";
 import { GENDER } from "../../libs/apis/person.api";
 import { listPageMessage } from "./messages";
 import { commonMessage } from "../messages";
+import StudentStatusView from "./components/StudentStatusView";
+import { hasText } from "../../utils/util";
 
 const ROOT_PATH = STUDENT_MANAGEMENT_ROOT_PATH;
 const ListPage = ({ history }) => {
@@ -45,30 +47,7 @@ const ListPage = ({ history }) => {
         sort: {
           name: "status",
         },
-        render: row => {
-          if (row.status === STUDENT_STATUS.PENDING) {
-            return (
-              <span className="badge badge-warning">
-                <FormattedMessage {...listPageMessage[`status${row.status}`]} />
-              </span>
-            );
-          }
-          if (row.status === STUDENT_STATUS.ACTIVE) {
-            return (
-              <span className="badge badge-success">
-                <FormattedMessage {...listPageMessage[`status${row.status}`]} />
-              </span>
-            );
-          }
-          if (row.status === STUDENT_STATUS.LEAVE) {
-            return (
-              <span className="badge badge-danger">
-                <FormattedMessage {...listPageMessage[`status${row.status}`]} />
-              </span>
-            );
-          }
-          return <></>;
-        },
+        render: row => <StudentStatusView status={row.status} />,
       },
       {
         header: <FormattedMessage {...listPageMessage.tableStudent} />,
@@ -91,7 +70,8 @@ const ListPage = ({ history }) => {
               />
               &nbsp;
               <strong>
-                {row.child.name} ({row.alias})
+                {row.child.name}{" "}
+                <>{hasText(row.alias) && <span>({row.alias})</span>}</>
               </strong>
               {row.child.birthday ? (
                 <>
@@ -136,7 +116,9 @@ const ListPage = ({ history }) => {
                   />
                 </Button>
               ) : null}
-              {row.mainContact ? (
+              {[MAIN_CONTACT_TYPE.MOTHER, MAIN_CONTACT_TYPE.FATHER].includes(
+                row.mainContact,
+              ) ? (
                 <UncontrolledTooltip target={`mainContact${row?.id}`}>
                   Liên lạc chính
                 </UncontrolledTooltip>

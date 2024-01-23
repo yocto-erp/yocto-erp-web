@@ -37,6 +37,7 @@ import {
   MdOutlineAttachEmail,
   MdOutlinePhone,
   MdOutlinePerson,
+  MdLink
 } from "react-icons/md";
 import {
   BsCurrencyBitcoin,
@@ -89,3 +90,4 @@ export const IconPrint = BiPrinter;
 export const IconEmail = MdOutlineAttachEmail;
 export const IconPhone = MdOutlinePhone;
 export const IconPerson = MdOutlinePerson;
+export const IconLink = MdLink;

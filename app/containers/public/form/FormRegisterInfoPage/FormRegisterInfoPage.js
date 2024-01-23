@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { FormGroup, Label } from "reactstrap";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import { useApi } from "../../../../libs/hooks/useApi";
+import { API_STATE, useApi } from "../../../../libs/hooks/useApi";
 import { FormPublicApi } from "../../../../libs/apis/form/form-public.api";
 import Widget from "../../../../components/Widget/Widget";
 import { cloudAssetUrl } from "../../../../libs/apis/image.api";
@@ -46,34 +46,42 @@ const FormRegisterInfoPage = () => {
                   </p>
                   <div className="row mt-5">
                     <div className="col-md-6 col-sm-12">
-                      <FormGroup>
-                        <Label className="d-block text-center">Khoá học</Label>
-                        <div className="container">
-                          <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
-                            {resp.classes.map(t => (
-                              <div className="col p-2" key={t.id}>
-                                <FormViewClass
-                                  isActive
-                                  clazz={t}
-                                  onClick={() => console.log("nothing")}
-                                />
-                              </div>
-                            ))}
+                      {resp.classes && resp.classes.length && (
+                        <FormGroup>
+                          <Label className="d-block text-center">
+                            Khoá học
+                          </Label>
+                          <div className="container">
+                            <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
+                              {resp.classes.map(t => (
+                                <div className="col p-2" key={t.id}>
+                                  <FormViewClass
+                                    isActive
+                                    clazz={t}
+                                    onClick={() => console.log("nothing")}
+                                  />
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      </FormGroup>
-                      <FormGroup className="">
-                        <Label className="d-block text-center">Sản phẩm</Label>
-                        <div className="container">
-                          <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
-                            {resp.products.map(t => (
-                              <div className="col p-2" key={t.id}>
-                                <FormViewProduct product={t} isActive />
-                              </div>
-                            ))}
+                        </FormGroup>
+                      )}
+                      {resp.products && resp.products.length && (
+                        <FormGroup className="">
+                          <Label className="d-block text-center">
+                            Sản phẩm
+                          </Label>
+                          <div className="container">
+                            <div className="row justify-content-center row-cols-md-2 row-cols-sm-1">
+                              {resp.products.map(t => (
+                                <div className="col p-2" key={t.id}>
+                                  <FormViewProduct product={t} isActive />
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      </FormGroup>
+                        </FormGroup>
+                      )}
                     </div>
                     <div className="col-md-6 col-sm-12">
                       <table className="table table-sm table-borderless">
@@ -108,7 +116,7 @@ const FormRegisterInfoPage = () => {
                 </div>
               </>
             )}
-            {!resp && (
+            {!resp && state.status === API_STATE.SUCCESS && (
               <div className="p-2">
                 <NotFound />
               </div>

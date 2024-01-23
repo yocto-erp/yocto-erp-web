@@ -41,7 +41,7 @@ const Filter = () => {
         <option value={`${FormRegisterStatus.REQUEST}`}>Đang chờ</option>
         <option value={`${FormRegisterStatus.CANCEL}`}>Đã huỷ</option>
       </Input>
-      <div style={{ width: "250px" }} className="mr-2 mt-2 mt-md-0">
+      <div style={{ width: "250px" }} className="mr-2 mt-2">
         <Controller
           name="form"
           defaultValue={[]}

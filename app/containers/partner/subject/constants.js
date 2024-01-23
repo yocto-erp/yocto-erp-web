@@ -49,9 +49,9 @@ export const mappingSubject = sub => {
   } else {
     rs.firstName = person?.firstName;
     rs.lastName = person?.lastName;
-    rs.name = `${person?.firstName} ${person?.lastName}`;
-    rs.email = person?.email;
-    rs.gsm = person?.gsm;
+    rs.name = sub.name || `${person?.firstName} ${person?.lastName}`;
+    rs.email = sub.email || person?.email;
+    rs.gsm = sub.gsm || person?.gsm;
     rs.address = person?.address;
     rs.sex = person?.sex;
   }

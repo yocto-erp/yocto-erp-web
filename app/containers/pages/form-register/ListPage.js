@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import TableActionColumns from "../../../components/ListWidget/TableActionColumn";
-import { FORM_ROOT_PATH } from "./constants";
+import { FORM_ROOT_PATH, FORM_STATUS } from "./constants";
 import Filter from "./components/Filter";
 import {
   deletePagePattern,
@@ -17,6 +17,7 @@ import CreateButton from "../../../components/button/CreateButton";
 import PageTitle from "../../Layout/PageTitle";
 import CreatedBy from "../../../components/ListWidget/CreatedBy";
 import registerFormApi from "../../../libs/apis/form/register-form.api";
+import { IconLink, IconView } from "../../Icon/constants";
 
 const ROOT_PATH = FORM_ROOT_PATH;
 
@@ -41,7 +42,7 @@ const ListPage = ({ history }) => {
         class: "min",
         render: row => {
           switch (row.status) {
-            case 1:
+            case FORM_STATUS.ACTIVE:
               return <span className="badge badge-primary">Hoạt động</span>;
             default:
               return <span className="badge badge-secondary">Tạm ngưng</span>;
@@ -70,7 +71,15 @@ const ListPage = ({ history }) => {
               history.push(editPage(ROOT_PATH, [row.id]));
             }}
             onDelete={onDelete(ROOT_PATH, row.id, history)}
-            buttons={[]}
+            buttons={[
+              <a
+                href={`/cpm/${row.publicId}/form`}
+                className="btn btn-outline-info"
+                target="_blank"
+              >
+                <IconLink />
+              </a>,
+            ]}
           />
         ),
       },
