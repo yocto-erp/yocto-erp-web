@@ -18,7 +18,7 @@ import {
   FaHouseUser,
   FaUserFriends,
   FaMoneyCheckAlt,
-  FaUserShield,
+  FaUserShield, FaWpforms
 } from "react-icons/fa";
 import {
   BiPlus,
@@ -91,3 +91,4 @@ export const IconEmail = MdOutlineAttachEmail;
 export const IconPhone = MdOutlinePhone;
 export const IconPerson = MdOutlinePerson;
 export const IconLink = MdLink;
+export const IconForm = FaWpforms;

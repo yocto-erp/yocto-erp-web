@@ -70,6 +70,7 @@ import {
   IconShop,
   IconPrint,
   IconEmail,
+  IconForm,
 } from "../../Icon/constants";
 import { FORM_ROOT_PATH } from "../../pages/form-register/constants";
 import { FORM_REGISTER_ROOT_PATH } from "../../pages/form/form-register-signup/constants";
@@ -134,7 +135,7 @@ export const SIDE_BAR_MENU = {
     {
       header: "Form đăng ký",
       isHeader: true,
-      icon: <i className="fa fa-form" />,
+      icon: <IconForm />,
       index: "form",
       link: "",
       permission: [PERMISSION.FORM.READ],
