@@ -7,11 +7,7 @@ import { Button, UncontrolledTooltip } from "reactstrap";
 import { FormattedMessage } from "react-intl";
 import TableActionColumns from "../../components/ListWidget/TableActionColumn";
 import studentApi from "../../libs/apis/student/student.api";
-import {
-  MAIN_CONTACT_TYPE,
-  STUDENT_MANAGEMENT_ROOT_PATH,
-  STUDENT_STATUS,
-} from "./constants";
+import { MAIN_CONTACT_TYPE, STUDENT_MANAGEMENT_ROOT_PATH } from "./constants";
 import PageTitle from "../Layout/PageTitle";
 import {
   deletePagePattern,
@@ -119,6 +115,7 @@ const ListPage = ({ history }) => {
               {[MAIN_CONTACT_TYPE.MOTHER, MAIN_CONTACT_TYPE.FATHER].includes(
                 row.mainContact,
               ) ? (
+                // eslint-disable-next-line indent
                 <UncontrolledTooltip target={`mainContact${row?.id}`}>
                   Liên lạc chính
                 </UncontrolledTooltip>
