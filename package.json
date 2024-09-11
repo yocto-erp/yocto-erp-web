@@ -12,6 +12,7 @@
   },
   "author": "Le Phuoc Canh",
   "license": "MIT",
+  "proxy": "http://127.0.0.1:3011",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
     "preanalyze": "npm run analyze:clean",
@@ -53,8 +54,7 @@
     "IE 10"
   ],
   "lint-staged": {
-    "*.js": [
-    ],
+    "*.js": [],
     "*.json": [
       "prettier --write",
       "git add --force"

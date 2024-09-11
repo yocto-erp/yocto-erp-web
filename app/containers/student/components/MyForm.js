@@ -1,26 +1,26 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import * as Yup from "yup";
-import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import { toast } from "react-toastify";
-import { Controller, useWatch } from "react-hook-form";
-import { FormattedMessage } from "react-intl";
-import Widget from "../../../components/Widget/Widget";
-import SubmitButton from "../../../components/button/SubmitButton";
-import BackButton from "../../../components/button/BackButton";
-import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
-import CustomerSelect from "../../../components/common/customer/CustomerSelect";
-import studentApi from "../../../libs/apis/student/student.api";
-import DateSelect from "../../../components/date/DateSelect";
-import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
-import { ERROR } from "../../../components/Form/messages";
-import BusStopSelect from "../student-bus-stop/components/BusStopSelect";
-import StudentClassSelect from "../student-class/components/StudentClassSelect";
-import { parseIso } from "../../../libs/utils/date.util";
-import { MAIN_CONTACT_TYPE, STUDENT_STATUS_LIST } from "../constants";
-import FormGroupInput from "../../../components/Form/FormGroupInput";
-import { studentFormMessage } from "../messages";
-import { LIST_GENDER } from "../../../libs/apis/person.api";
+import React, { useEffect } from "react"
+import PropTypes from "prop-types"
+import * as Yup from "yup"
+import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap"
+import { toast } from "react-toastify"
+import { Controller, useWatch } from "react-hook-form"
+import { FormattedMessage } from "react-intl"
+import Widget from "../../../components/Widget/Widget"
+import SubmitButton from "../../../components/button/SubmitButton"
+import BackButton from "../../../components/button/BackButton"
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm"
+import CustomerSelect from "../../../components/common/customer/CustomerSelect"
+import studentApi from "../../../libs/apis/student/student.api"
+import DateSelect from "../../../components/date/DateSelect"
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage"
+import { ERROR } from "../../../components/Form/messages"
+import BusStopSelect from "../student-bus-stop/components/BusStopSelect"
+import StudentClassSelect from "../student-class/components/StudentClassSelect"
+import { parseIso } from "../../../libs/utils/date.util"
+import { MAIN_CONTACT_TYPE, STUDENT_STATUS_LIST } from "../constants"
+import FormGroupInput from "../../../components/Form/FormGroupInput"
+import { studentFormMessage } from "../messages"
+import { LIST_GENDER } from "../../../libs/apis/person.api"
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required(ERROR.required),
@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
   mother: Yup.object()
     .nullable()
     .when("mainContact", {
-      is: val => Number(val) === MAIN_CONTACT_TYPE.MOTHER,
+      is: (val) => Number(val) === MAIN_CONTACT_TYPE.MOTHER,
       then: Yup.object()
         .nullable()
         .required(),
@@ -38,14 +38,14 @@ const validationSchema = Yup.object().shape({
   father: Yup.object()
     .nullable()
     .when("mainContact", {
-      is: val => Number(val) === MAIN_CONTACT_TYPE.FATHER,
+      is: (val) => Number(val) === MAIN_CONTACT_TYPE.FATHER,
       then: Yup.object()
         .nullable()
         .required(),
     }),
-});
+})
 
-const { create, update, read } = studentApi;
+const { create, update, read } = studentApi
 
 function MyForm({ id }) {
   const {
@@ -62,23 +62,25 @@ function MyForm({ id }) {
     update,
     read,
     onSuccess: () => {
-      toast.success(id ? `Update student success` : `Create student success`);
+      toast.success(id ? `Update student success` : `Create student success`)
     },
-    mappingToForm: form => ({
-      ...form,
-      fullName: form.child
-        ? `${form.child.firstName} ${form.child.lastName}`
-        : "",
-      joinDate: form.joinDate ? new Date(form.joinDate) : new Date(),
-      birthday: form.child ? parseIso(form.child.birthday) : null,
-      sex: form.child.sex,
-    }),
+    mappingToForm: (form) => {
+      return {
+        ...form,
+        fullName: form.child ? `${form.child.firstName} ${form.child.lastName}` : "",
+        joinDate: form.joinDate ? new Date(form.joinDate) : new Date(),
+        birthday: form.child ? parseIso(form.child.birthday) : null,
+        sex: form.child.sex,
+        classStudents: form.classStudents,
+        studentId: form.studentId,
+      }
+    },
     validationSchema,
     initForm: {
       studentId: "",
       fullName: "",
       sex: "",
-      class: "",
+      classStudents: [],
       birthday: new Date(),
       joinDate: new Date(),
       status: "",
@@ -92,21 +94,21 @@ function MyForm({ id }) {
       mainContact: MAIN_CONTACT_TYPE.MOTHER,
     },
     id,
-  });
+  })
 
   useEffect(() => {
     if (serverErrors && serverErrors.length) {
-      toast.error(serverErrors.map(t => t.message).join("\n"));
+      toast.error(serverErrors.map((t) => t.message).join("\n"))
     }
-  }, [serverErrors]);
+  }, [serverErrors])
 
   const enableBus = useWatch({
     control,
     name: "enableBus",
-  });
+  })
 
-  const mainContact = watch("mainContact");
-  console.log(mainContact);
+  const mainContact = watch("mainContact")
+  console.log(mainContact)
   return (
     <Widget>
       <Form onSubmit={submit} noValidate formNoValidate>
@@ -127,7 +129,7 @@ function MyForm({ id }) {
             <Row>
               <Col md={6}>
                 <FormattedMessage {...studentFormMessage.fullName}>
-                  {msg => (
+                  {(msg) => (
                     <FormGroupInput
                       name="fullName"
                       error={errors.fullName}
@@ -142,7 +144,7 @@ function MyForm({ id }) {
               </Col>
               <Col md={6}>
                 <FormattedMessage {...studentFormMessage.alias}>
-                  {msg => (
+                  {(msg) => (
                     <FormGroupInput
                       name="alias"
                       error={errors.alias}
@@ -157,10 +159,8 @@ function MyForm({ id }) {
             </Row>
             <Row>
               <Col md={6}>
-                <FormattedMessage
-                  {...studentFormMessage.formGenderSelectDefault}
-                >
-                  {msg => (
+                <FormattedMessage {...studentFormMessage.formGenderSelectDefault}>
+                  {(msg) => (
                     <FormGroupInput
                       name="sex"
                       error={errors.sex}
@@ -171,12 +171,9 @@ function MyForm({ id }) {
                       isRequired
                     >
                       <option value="">{msg}</option>
-                      {LIST_GENDER.map(t => (
-                        <FormattedMessage
-                          {...studentFormMessage[`formGender${t.id}`]}
-                          key={t.id}
-                        >
-                          {msg1 => <option value={t.id}>{msg1}</option>}
+                      {LIST_GENDER.map((t) => (
+                        <FormattedMessage {...studentFormMessage[`formGender${t.id}`]} key={t.id}>
+                          {(msg1) => <option value={t.id}>{msg1}</option>}
                         </FormattedMessage>
                       ))}
                     </FormGroupInput>
@@ -194,11 +191,7 @@ function MyForm({ id }) {
                     control={control}
                     render={({ value, onChange }, { invalid }) => (
                       <div>
-                        <DateSelect
-                          value={value}
-                          onChange={onChange}
-                          invalid={invalid}
-                        />
+                        <DateSelect value={value} onChange={onChange} invalid={invalid} />
                       </div>
                     )}
                   />
@@ -209,7 +202,7 @@ function MyForm({ id }) {
             <div className="row align-items-center">
               <div className="col">
                 <FormattedMessage {...studentFormMessage.father}>
-                  {msg => (
+                  {(msg) => (
                     <FormGroup>
                       <Label for="father" className="mr-sm-2">
                         {msg}
@@ -223,13 +216,13 @@ function MyForm({ id }) {
                             id="father"
                             placeholder={msg}
                             invalid={invalid}
-                            onAdded={newCustomer => {
+                            onAdded={(newCustomer) => {
                               setValue("father", newCustomer, {
                                 shouldValidate: true,
-                              });
+                              })
                             }}
-                            onChange={val => {
-                              onChange(val);
+                            onChange={(val) => {
+                              onChange(val)
                             }}
                             {...data}
                           />
@@ -251,21 +244,16 @@ function MyForm({ id }) {
                       control={control}
                       render={() => (
                         <input
-                          defaultChecked={
-                            formData.mainContact === MAIN_CONTACT_TYPE.FATHER
-                          }
+                          defaultChecked={formData.mainContact === MAIN_CONTACT_TYPE.FATHER}
                           type="radio"
                           className="form-check-input"
                           name="mainContact"
-                          onClick={e => {
-                            console.log(
-                              "setFATHERvalue",
-                              e.currentTarget.value,
-                            );
+                          onClick={(e) => {
+                            console.log("setFATHERvalue", e.currentTarget.value)
                             setValue("mainContact", e.currentTarget.value, {
                               shouldDirty: true,
                               shouldValidate: true,
-                            });
+                            })
                           }}
                           id="fatherMainContact"
                           value={MAIN_CONTACT_TYPE.FATHER}
@@ -282,7 +270,7 @@ function MyForm({ id }) {
             <div className="row align-items-center">
               <div className="col">
                 <FormattedMessage {...studentFormMessage.mother}>
-                  {msg => (
+                  {(msg) => (
                     <FormGroup>
                       <Label for="mother" className="mr-sm-2">
                         {msg}
@@ -296,10 +284,10 @@ function MyForm({ id }) {
                             id="mother"
                             invalid={invalid}
                             placeholder={msg}
-                            onAdded={newCustomer => {
+                            onAdded={(newCustomer) => {
                               setValue("mother", newCustomer, {
                                 shouldValidate: true,
-                              });
+                              })
                             }}
                             onChange={onChange}
                             {...data}
@@ -323,21 +311,16 @@ function MyForm({ id }) {
                       control={control}
                       render={() => (
                         <input
-                          defaultChecked={
-                            formData.mainContact === MAIN_CONTACT_TYPE.MOTHER
-                          }
+                          defaultChecked={formData.mainContact === MAIN_CONTACT_TYPE.MOTHER}
                           type="radio"
                           className="form-check-input"
                           name="mainContact"
-                          onClick={e => {
-                            console.log(
-                              "Set Mother Value",
-                              e.currentTarget.value,
-                            );
+                          onClick={(e) => {
+                            console.log("Set Mother Value", e.currentTarget.value)
                             setValue("mainContact", e.currentTarget.value, {
                               shouldDirty: true,
                               shouldValidate: true,
-                            });
+                            })
                           }}
                           id="motherMainContact"
                           value={MAIN_CONTACT_TYPE.MOTHER}
@@ -361,7 +344,7 @@ function MyForm({ id }) {
                 Lớp học
               </Label>
               <Controller
-                name="class"
+                name="classStudents"
                 control={control}
                 render={({ onChange, ...data }, { invalid }) => (
                   <StudentClassSelect
@@ -369,6 +352,7 @@ function MyForm({ id }) {
                     placeholder="Chọn lớp học"
                     invalid={invalid}
                     onChange={onChange}
+                    isMultiple
                     {...data}
                   />
                 )}
@@ -384,7 +368,7 @@ function MyForm({ id }) {
                   register={register}
                 >
                   <option value="">Select Status</option>
-                  {STUDENT_STATUS_LIST.map(t => (
+                  {STUDENT_STATUS_LIST.map((t) => (
                     <option key={t.id} value={t.id}>
                       {t.name}
                     </option>
@@ -402,11 +386,7 @@ function MyForm({ id }) {
                       name="joinDate"
                       control={control}
                       render={({ value, onChange }, { invalid }) => (
-                        <DateSelect
-                          value={value}
-                          onChange={onChange}
-                          invalid={invalid}
-                        />
+                        <DateSelect value={value} onChange={onChange} invalid={invalid} />
                       )}
                     />
                   </div>
@@ -421,12 +401,7 @@ function MyForm({ id }) {
                     &nbsp;
                   </Label>
                   <div className="checkbox abc-checkbox pl-0">
-                    <Input
-                      type="checkbox"
-                      name="enableBus"
-                      innerRef={register}
-                      id="enableBus"
-                    />{" "}
+                    <Input type="checkbox" name="enableBus" innerRef={register} id="enableBus" />{" "}
                     <Label for="enableBus">Đi xe bus</Label>
                   </div>
                 </FormGroup>
@@ -478,12 +453,7 @@ function MyForm({ id }) {
             </div>
             <FormGroup>
               <div className="checkbox abc-checkbox pl-0">
-                <Input
-                  type="checkbox"
-                  name="enableMeal"
-                  innerRef={register}
-                  id="enableMeal"
-                />{" "}
+                <Input type="checkbox" name="enableMeal" innerRef={register} id="enableMeal" />{" "}
                 <Label for="enableMeal" className="required">
                   <FormattedMessage {...studentFormMessage.meal} />
                 </Label>
@@ -496,13 +466,13 @@ function MyForm({ id }) {
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
     </Widget>
-  );
+  )
 }
 
 MyForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
+}
 
-MyForm.defaultProps = {};
+MyForm.defaultProps = {}
 
-export default MyForm;
+export default MyForm

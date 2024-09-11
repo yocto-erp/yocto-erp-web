@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import AsyncSelect from "react-select/async";
-import debounce from "lodash/debounce";
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../../components/constants";
-import studentClassApi from "../../../../libs/apis/student/student-class.api";
-import Price from "../../../../components/common/Price";
+import React from "react"
+import PropTypes from "prop-types"
+import AsyncSelect from "react-select/async"
+import debounce from "lodash/debounce"
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../../components/constants"
+import studentClassApi from "../../../../libs/apis/student/student-class.api"
+import Price from "../../../../components/common/Price"
 
 const formatOptionLabel = (data, isShowPrice) => (
   <div className="text-white">
@@ -15,7 +15,7 @@ const formatOptionLabel = (data, isShowPrice) => (
       </p>
     )}
   </div>
-);
+)
 
 export const SelectClass = React.forwardRef(
   (
@@ -43,16 +43,17 @@ export const SelectClass = React.forwardRef(
             search: inputValue,
           },
         })
-        .then(resp =>
+        .then((resp) =>
           cb(
-            resp.rows.map(t => ({
+            resp.rows.map((t) => ({
               id: t.id,
               name: t.name,
               tuitionFeePerMonth: t.tuitionFeePerMonth,
+              ...t,
             })),
           ),
-        );
-    }, 300);
+        )
+    }, 300)
     return (
       <AsyncSelect
         ref={ref}
@@ -72,15 +73,15 @@ export const SelectClass = React.forwardRef(
         onBlur={onBlur}
         isDisabled={disabled}
         onChange={onChange}
-        formatOptionLabel={data => formatOptionLabel(data, isShowPrice)}
-        getOptionValue={data => data.id}
+        formatOptionLabel={(data) => formatOptionLabel(data, isShowPrice)}
+        getOptionValue={(data) => data.id}
         name={name}
         value={value}
         {...props}
       />
-    );
+    )
   },
-);
+)
 
 SelectClass.propTypes = {
   value: PropTypes.any,
@@ -93,4 +94,4 @@ SelectClass.propTypes = {
   disabled: PropTypes.bool,
   isMulti: PropTypes.bool,
   isShowPrice: PropTypes.bool,
-};
+}

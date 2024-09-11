@@ -38,7 +38,7 @@ const ListPage = ({ history }) => {
         sort: {
           name: "status",
         },
-        render: (row) => <StudentStatusView status={row.status} />,
+        render: (row) => <StudentStatusView status={row?.student?.status} />,
       },
       {
         header: <FormattedMessage {...listPageMessage.tableStudent} />,
@@ -50,33 +50,33 @@ const ListPage = ({ history }) => {
         render: (row) => (
           <>
             <p className="mb-0">
-              <strong className="text-danger">{row.studentId}</strong>
+              <strong className="text-danger">{row?.student?.studentId}</strong>
               <br />
               <i
                 className={classNames("fa fa-fw", {
-                  "fa-female": row.child.sex === GENDER.FEMALE,
-                  "fa-male": row.child.sex === GENDER.MALE,
-                  "fa-user": !row.child.sex,
+                  "fa-female": row?.student?.child?.sex === GENDER.FEMALE,
+                  "fa-male": row?.student?.child?.sex === GENDER.MALE,
+                  "fa-user": !row?.student?.child?.sex,
                 })}
               />
               &nbsp;
               <strong>
-                {row.child.name} <>{hasText(row.alias) && <span>({row.alias})</span>}</>
+                {row?.student?.child?.name} <>{hasText(row?.student?.alias) && <span>({row?.student?.alias})</span>}</>
               </strong>
-              {row.child.birthday ? (
+              {row?.student?.child.birthday ? (
                 <>
                   <br />
                   <i className="fa fa-birthday-cake fa-fw" />{" "}
-                  <strong>{formatDateOnly(new Date(row.child.birthday))}</strong>
+                  <strong>{formatDateOnly(new Date(row?.student?.child.birthday))}</strong>
                 </>
               ) : null}
               <br />
               <i className="fa fa-universal-access fa-fw" />
               &nbsp;
-              {row?.classStudents?.map((item) => (
+              {row?.classStudents?.map((item) =>
                 // eslint-disable-next-line prettier/prettier
-                <span className="badge badge-primary w-100px mx-1">{item?.name}</span>
-              ))}
+                <span className="badge badge-primary w-100px mx-1">{item?.class?.name}</span>
+              )}
             </p>
           </>
         ),
@@ -88,22 +88,24 @@ const ListPage = ({ history }) => {
         render: (row) => (
           <>
             <p className="m-0 text-nowrap">
-              <PersonView item={row.father} />
-              {row.mainContact === MAIN_CONTACT_TYPE.FATHER ? (
-                <Button color="link" id={`mainContact${row?.id}`}>
+              <PersonView item={row?.student?.father} />
+              {row?.student?.mainContact === MAIN_CONTACT_TYPE.FATHER ? (
+                <Button color="link" id={`mainContact${row?.student?.id}`}>
                   <i className="fa fa-phone-square fa-fw" title="Liên lạc chính" />
                 </Button>
               ) : null}
               <br />
-              <PersonView item={row.mother} />
-              {row.mainContact === MAIN_CONTACT_TYPE.MOTHER ? (
-                <Button color="link" id={`mainContact${row?.id}`}>
+              <PersonView item={row?.student?.mother} />
+              {row?.student?.mainContact === MAIN_CONTACT_TYPE.MOTHER ? (
+                <Button color="link" id={`mainContact${row?.student?.id}`}>
                   <i className="fa fa-phone-square fa-fw" title="Liên lạc chính" />
                 </Button>
               ) : null}
-              {[MAIN_CONTACT_TYPE.MOTHER, MAIN_CONTACT_TYPE.FATHER].includes(row.mainContact) ? (
+              {[MAIN_CONTACT_TYPE.MOTHER, MAIN_CONTACT_TYPE.FATHER].includes(
+                row?.student?.mainContact,
+              ) ? (
                 // eslint-disable-next-line indent
-                <UncontrolledTooltip target={`mainContact${row?.id}`}>
+                <UncontrolledTooltip target={`mainContact${row?.student?.id}`}>
                   Liên lạc chính
                 </UncontrolledTooltip>
               ) : null}
@@ -116,7 +118,7 @@ const ListPage = ({ history }) => {
         data: "enableMeal",
         width: "min text-center",
         render: (row) =>
-          row.enableMeal ? (
+          row?.student?.enableMeal ? (
             <span className="badge badge-success">Có</span>
           ) : (
             <span className="badge badge-danger">Không</span>
@@ -128,16 +130,16 @@ const ListPage = ({ history }) => {
         class: "min no-wrap",
         render: (row) => {
           const { toSchoolBusStop, toHomeBusStop } = row
-          return row.enableBus ? (
+          return row?.student?.enableBus ? (
             <>
               {toSchoolBusStop ? (
                 <p className="m-0">
-                  To School From: <strong>{toSchoolBusStop.name}</strong>
+                  To School From: <strong>{toSchoolBusStop?.student?.name}</strong>
                 </p>
               ) : null}
               {toHomeBusStop ? (
                 <p>
-                  From School To: <strong>{toHomeBusStop.name}</strong>
+                  From School To: <strong>{toHomeBusStop?.student?.name}</strong>
                 </p>
               ) : null}
             </>
@@ -152,9 +154,9 @@ const ListPage = ({ history }) => {
         render: (row) => (
           <TableActionColumns
             onEdit={() => {
-              history.push(editPage(ROOT_PATH, row.id))
+              history.push(editPage(ROOT_PATH, row?.student.id))
             }}
-            onDelete={onDelete(ROOT_PATH, row.id, history)}
+            onDelete={onDelete(ROOT_PATH, row?.student.id, history)}
           />
         ),
       },

@@ -1,43 +1,35 @@
-import React, { useEffect } from "react";
-import * as yup from "yup";
-import { Form, FormGroup } from "reactstrap";
-import { Controller } from "react-hook-form";
-import { FormattedMessage } from "react-intl";
-import { toast } from "react-toastify";
-import useMyForm from "../../libs/hooks/useMyForm";
-import { memberApi } from "../../libs/apis/member.api";
-import Widget from "../../components/Widget/Widget";
-import PageTitle from "../Layout/PageTitle";
-import FormGroupInput from "../../components/Form/FormGroupInput";
-import messages from "./messages";
-import BackButton from "../../components/button/BackButton";
-import SubmitButton from "../../components/button/SubmitButton";
-import { API_STATE, useApi } from "../../libs/hooks/useApi";
-import AvatarChoosen from "./components/AvatarChoosen";
-import { cloudAssetUrl } from "../../libs/apis/image.api";
-import FormError from "../../components/Form/FormError";
-import { selectCompany } from "../../libs/apis/auth.api";
-import { set, STORAGE } from "../../libs/utils/storage";
-import useUser from "../../libs/hooks/useUser";
-import { isArrayHasItem } from "../../utils/util";
-import { IconShop } from "../Icon/constants";
-import "./ProfilePage.scss";
+import React, { useEffect } from "react"
+import * as yup from "yup"
+import { Form, FormGroup } from "reactstrap"
+import { Controller } from "react-hook-form"
+import { FormattedMessage } from "react-intl"
+import { toast } from "react-toastify"
+import useMyForm from "../../libs/hooks/useMyForm"
+import { memberApi } from "../../libs/apis/member.api"
+import Widget from "../../components/Widget/Widget"
+import PageTitle from "../Layout/PageTitle"
+import FormGroupInput from "../../components/Form/FormGroupInput"
+import messages from "./messages"
+import BackButton from "../../components/button/BackButton"
+import SubmitButton from "../../components/button/SubmitButton"
+import { API_STATE, useApi } from "../../libs/hooks/useApi"
+import AvatarChoosen from "./components/AvatarChoosen"
+import { cloudAssetUrl } from "../../libs/apis/image.api"
+import FormError from "../../components/Form/FormError"
+import { selectCompany } from "../../libs/apis/auth.api"
+import { set, STORAGE } from "../../libs/utils/storage"
+import useUser from "../../libs/hooks/useUser"
+import { isArrayHasItem } from "../../utils/util"
+import { IconShop } from "../Icon/constants"
+import "./ProfilePage.scss"
 
 const schema = yup.object().shape({
   fullName: yup.string().required(),
-});
+})
 
 const ProfilePage = () => {
-  const { user, setUser } = useUser();
-  const {
-    onSubmit,
-    control,
-    register,
-    state,
-    formState,
-    reset,
-    setValue,
-  } = useMyForm({
+  const { user, setUser } = useUser()
+  const { onSubmit, control, register, state, formState, reset, setValue } = useMyForm({
     validationSchema: schema,
     form: {
       fullName: "",
@@ -46,35 +38,35 @@ const ProfilePage = () => {
       gsm: "",
       avatar: null,
     },
-    api: data => memberApi.updateProfile(data),
-  });
+    api: (data) => memberApi.updateProfile(data),
+  })
 
-  const { state: getProfileState, exec } = useApi(memberApi.getProfile);
+  const { state: getProfileState, exec } = useApi(memberApi.getProfile)
 
   useEffect(() => {
     if (getProfileState.status === API_STATE.SUCCESS) {
-      const { person, displayName } = getProfileState.resp;
+      const { person, displayName } = getProfileState.resp
       reset({
-        fullName: person.fullName || displayName,
-        address: person.address,
-        phone: person.gsm,
-      });
+        fullName: person?.fullName || displayName,
+        address: person?.address,
+        phone: person?.gsm,
+      })
     }
-  }, [getProfileState]);
+  }, [getProfileState])
 
   useEffect(() => {
     if (state.status === API_STATE.SUCCESS) {
-      selectCompany(user.companyId).then(async resp1 => {
-        set(STORAGE.JWT, resp1.token);
-        await setUser(resp1.user, false);
-      });
-      toast.success("Cập nhập thông tin thành công");
+      selectCompany(user.companyId).then(async (resp1) => {
+        set(STORAGE.JWT, resp1.token)
+        await setUser(resp1.user, false)
+      })
+      toast.success("Cập nhập thông tin thành công")
     }
-  }, [state]);
+  }, [state])
 
   useEffect(() => {
-    exec();
-  }, []);
+    exec()
+  }, [])
 
   return (
     <>
@@ -96,9 +88,9 @@ const ProfilePage = () => {
                       isDirty={isDirty}
                       defaultValue={cloudAssetUrl(getProfileState.resp?.avatar)}
                       value={value}
-                      onChange={val => {
-                        onChange(val);
-                        setValue("isUpdateAvatar", 1);
+                      onChange={(val) => {
+                        onChange(val)
+                        setValue("isUpdateAvatar", 1)
                       }}
                       name={name}
                     />
@@ -112,7 +104,7 @@ const ProfilePage = () => {
                     Thành viên cửa hàng
                   </p>
                   <ol>
-                    {getProfileState.resp?.shops.map(t => (
+                    {getProfileState.resp?.shops.map((t) => (
                       <li className="" key={t.id}>
                         {t.name}
                       </li>
@@ -123,7 +115,7 @@ const ProfilePage = () => {
             </div>
             <div className="col-md-7">
               <FormattedMessage {...messages.profilePageFormName}>
-                {msg => (
+                {(msg) => (
                   <FormGroupInput
                     name="fullName"
                     label={msg}
@@ -135,7 +127,7 @@ const ProfilePage = () => {
                 )}
               </FormattedMessage>
               <FormattedMessage {...messages.profilePageFormPhone}>
-                {msg => (
+                {(msg) => (
                   <FormGroupInput
                     name="phone"
                     label={msg}
@@ -146,7 +138,7 @@ const ProfilePage = () => {
                 )}
               </FormattedMessage>
               <FormattedMessage {...messages.profilePageFormAddress}>
-                {msg => (
+                {(msg) => (
                   <FormGroupInput
                     name="address"
                     label={msg}
@@ -166,9 +158,9 @@ const ProfilePage = () => {
         </Form>
       </Widget>
     </>
-  );
-};
+  )
+}
 
-ProfilePage.propTypes = {};
+ProfilePage.propTypes = {}
 
-export default ProfilePage;
+export default ProfilePage

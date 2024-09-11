@@ -1,15 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import AsyncSelect from "react-select/async";
-import debounce from "lodash/debounce";
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../../components/constants";
-import studentClassApi from "../../../../libs/apis/student/student-class.api";
-
-const formatOptionLabel = data => (
-  <div className="text-white">
-    <span>{data.name}</span>
-  </div>
-);
+import React, { useState } from "react"
+import AsyncCreatableSelect from "react-select/async-creatable"
+import PropTypes from "prop-types"
+import debounce from "lodash/debounce"
+import studentClassApi from "../../../../libs/apis/student/student-class.api"
+import StudentClassItem from "./StudentClassItem"
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../../components/constants"
 
 const StudentClassSelect = React.forwardRef((
   {
@@ -21,6 +16,8 @@ const StudentClassSelect = React.forwardRef((
     onChange,
     value,
     disabled,
+    isMultiple,
+    isClearable,
     ...props
   },
   // eslint-disable-next-line no-unused-vars
@@ -36,32 +33,37 @@ const StudentClassSelect = React.forwardRef((
         },
       })
       .then(resp => cb(resp.rows));
-  }, 300);
+  }, 300)
+  console.log("value", value);
   return (
-    <AsyncSelect
-      className="react-select-container"
-      classNamePrefix="react-select"
-      placeholder={placeholder}
+    <AsyncCreatableSelect
+      isDisabled={disabled}
+      isMulti={isMultiple}
       noOptionsMessage={({ inputValue }) =>
         inputValue
           ? `Not found any Class with search "${inputValue}", try to search another`
           : "Input and search Class"
       }
-      loadOptions={loadOptions}
-      defaultOptions
+      className={"react-select-container"}
+      classNamePrefix="my-select"
       styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
-      isClearable
-      onBlur={onBlur}
-      isDisabled={disabled}
-      onChange={val => onChange(val ? { id: val.id, name: val.name } : null)}
-      formatOptionLabel={formatOptionLabel}
-      getOptionValue={data => data.id}
-      name={name}
+      menuPortalTarget={document.body}
+      placeholder={placeholder}
       value={value}
+      onChange={(val) => onChange(val)}
+      formatCreateLabel={(val) => `Create Student Class ${val} ...`}
+      isSearchable
+      isClearable={isClearable}
       {...props}
+      name={name}
+      loadOptions={loadOptions}
+      formatOptionLabel={(t) => <StudentClassItem studentClass={t} />}
+      getOptionValue={(e) => e?.class?.id || e.id}
+      cacheOptions={false}
+      defaultOptions
     />
-  );
-});
+  )
+})
 
 StudentClassSelect.propTypes = {
   value: PropTypes.any,
@@ -72,6 +74,8 @@ StudentClassSelect.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   disabled: PropTypes.bool,
-};
+  isMultiple: PropTypes.bool,
+  isClearable: PropTypes.bool,
+}
 
-export default StudentClassSelect;
+export default StudentClassSelect

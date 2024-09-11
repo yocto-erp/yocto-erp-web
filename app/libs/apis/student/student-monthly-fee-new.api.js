@@ -1,0 +1,24 @@
+import { createCRUDApi, fetchJSON, postJSON } from "../fetch"
+import { API_URL } from "../../../constants"
+
+const API_ENDPOINT_URL = `${API_URL}/student-monthly-fee-new`
+
+const studentMonthlyFeeNewApi = {
+  ...createCRUDApi(API_ENDPOINT_URL),
+  pdf: (id, templateId) => `${API_URL}/student-monthly-fee-new/${id}/pdf/${templateId}`,
+  printData: (id) => fetchJSON(`${API_ENDPOINT_URL}/${id}/print-data`),
+  pay: (id, data) => postJSON(`${API_ENDPOINT_URL}/${id}/pay`, data),
+  deleteList: (ids) => postJSON(`${API_ENDPOINT_URL}/list/delete`, ids),
+  sendEmail: (ids, emailTemplateId, isPDFAttached, printTemplateId, from, cc, bcc) =>
+    postJSON(`${API_ENDPOINT_URL}/send-email`, {
+      listId: ids,
+      emailTemplateId,
+      isPDFAttached,
+      printTemplateId,
+      from,
+      cc,
+      bcc,
+    }),
+}
+
+export default studentMonthlyFeeNewApi

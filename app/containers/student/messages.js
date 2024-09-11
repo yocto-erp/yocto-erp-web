@@ -1,6 +1,6 @@
-import { defineMessages } from "react-intl";
+import { defineMessages } from "react-intl"
 
-const studentFormScope = "containers.student.form";
+const studentFormScope = "containers.student.form"
 
 export const studentFormMessage = defineMessages({
   header: {
@@ -63,7 +63,7 @@ export const studentFormMessage = defineMessages({
     id: `${studentFormScope}.motherContact`,
     defaultMessage: "Liên lạc mẹ",
   },
-});
+})
 
 export const listPageMessage = {
   header: {
@@ -90,6 +90,10 @@ export const listPageMessage = {
     id: `${studentFormScope}.listPageTableParent`,
     defaultMessage: "Phụ huynh",
   },
+  tableClass: {
+    id: `${studentFormScope}.listPageTableClassStudents`,
+    defaultMessage: "Lớp học",
+  },
   tableMeal: {
     id: `${studentFormScope}.listPageTableMeal`,
     defaultMessage: "Đăng ký ăn",
@@ -110,4 +114,4 @@ export const listPageMessage = {
     id: `${studentFormScope}.status3`,
     defaultMessage: "Nghỉ học",
   },
-};
+}

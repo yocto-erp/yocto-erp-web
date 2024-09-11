@@ -1,42 +1,39 @@
-import React from "react";
-import { AUDIT_ROOT_PATH } from "../../Audit/constants";
-import { TAGGING_ROOT_PATH } from "../../tagging/constants";
-import { USER_ROOT_PATH } from "../../user/constants";
-import { ADMIN_PATH } from "../../../constants";
-import { PURCHASE_ORDER_ROOT_PATH } from "../../order/purchase/constants";
-import { COST_ROOT_PATH } from "../../cost/constants";
-import { INVENTORY_ROOT_PATH } from "../../inventory/constants";
+import React from "react"
+import { AUDIT_ROOT_PATH } from "../../Audit/constants"
+import { TAGGING_ROOT_PATH } from "../../tagging/constants"
+import { USER_ROOT_PATH } from "../../user/constants"
+import { ADMIN_PATH } from "../../../constants"
+import { PURCHASE_ORDER_ROOT_PATH } from "../../order/purchase/constants"
+import { COST_ROOT_PATH } from "../../cost/constants"
+import { INVENTORY_ROOT_PATH } from "../../inventory/constants"
 import {
   STUDENT_CONFIGURATION_ROOT_PATH,
   STUDENT_MANAGEMENT_ROOT_PATH,
-} from "../../student/constants";
-import { STUDENT_MONTHLY_ROOT_PATH } from "../../student/monthly-fee/constants";
-import { SURVEY_MANAGEMENT_ROOT_PATH } from "../../survey/Admin/constants";
-import { WAREHOUSE_ROOT_PATH } from "../../warehouse/constants";
-import { PRODUCT_ROOT_PATH } from "../../product/constants";
-import { PARTNER_ROOT_PATH } from "../../partner/constants";
-import { LOG_EMAIL_ROOT_PATH } from "../../log/constants";
+} from "../../student/constants"
+import { STUDENT_MONTHLY_ROOT_PATH } from "../../student/monthly-fee/constants"
+import { SURVEY_MANAGEMENT_ROOT_PATH } from "../../survey/Admin/constants"
+import { WAREHOUSE_ROOT_PATH } from "../../warehouse/constants"
+import { PRODUCT_ROOT_PATH } from "../../product/constants"
+import { PARTNER_ROOT_PATH } from "../../partner/constants"
+import { LOG_EMAIL_ROOT_PATH } from "../../log/constants"
 import {
   CONFIGURATION_COMPANY_ROOT_PATH,
   CONFIGURATION_EMAIL_ROOT_PATH,
-} from "../../configuration/constants";
-import {
-  TEMPLATE_EMAIL_ROOT_PATH,
-  TEMPLATE_PRINT_ROOT_PATH,
-} from "../../template/constants";
-import { SALE_MENU_SETTING } from "../../ecommerce/constants";
-import { SHOP_ROOT_PATH } from "../../sale/shop/constants";
-import { STUDENT_CLASS_ROOT_PATH } from "../../student/student-class/constants";
-import { STUDENT_BUS_STOP_ROOT_PATH } from "../../student/student-bus-stop/constants";
-import { POS_ROOT_PATH } from "../../sale/pos/constants";
-import { TAX_ROOT_PATH } from "../../finance/tax/tax/constants";
-import { TAX_SET_ROOT_PATH } from "../../finance/tax/tax-set/constants";
-import { ASSET_ROOT_PATH } from "../../../components/assets/constants";
-import { PAYMENT_ROOT_PATH } from "../../finance/payment/constants";
-import { DEBT_ROOT_PATH } from "../../debt/constants";
-import { STUDENT_TRACKING_ROOT_PATH } from "../../student/student-tracking/constants";
-import { PROVIDER_ROOT_PATH } from "../../provider/constants";
-import { PERMISSION } from "../../../components/Acl/constants";
+} from "../../configuration/constants"
+import { TEMPLATE_EMAIL_ROOT_PATH, TEMPLATE_PRINT_ROOT_PATH } from "../../template/constants"
+import { SALE_MENU_SETTING } from "../../ecommerce/constants"
+import { SHOP_ROOT_PATH } from "../../sale/shop/constants"
+import { STUDENT_CLASS_ROOT_PATH } from "../../student/student-class/constants"
+import { STUDENT_BUS_STOP_ROOT_PATH } from "../../student/student-bus-stop/constants"
+import { POS_ROOT_PATH } from "../../sale/pos/constants"
+import { TAX_ROOT_PATH } from "../../finance/tax/tax/constants"
+import { TAX_SET_ROOT_PATH } from "../../finance/tax/tax-set/constants"
+import { ASSET_ROOT_PATH } from "../../../components/assets/constants"
+import { PAYMENT_ROOT_PATH } from "../../finance/payment/constants"
+import { DEBT_ROOT_PATH } from "../../debt/constants"
+import { STUDENT_TRACKING_ROOT_PATH } from "../../student/student-tracking/constants"
+import { PROVIDER_ROOT_PATH } from "../../provider/constants"
+import { PERMISSION } from "../../../components/Acl/constants"
 import {
   IconSystemAudit,
   IconBus,
@@ -71,9 +68,10 @@ import {
   IconPrint,
   IconEmail,
   IconForm,
-} from "../../Icon/constants";
-import { FORM_ROOT_PATH } from "../../pages/form-register/constants";
-import { FORM_REGISTER_ROOT_PATH } from "../../pages/form/form-register-signup/constants";
+} from "../../Icon/constants"
+import { FORM_ROOT_PATH } from "../../pages/form-register/constants"
+import { FORM_REGISTER_ROOT_PATH } from "../../pages/form/form-register-signup/constants"
+import { STUDENT_MONTHLY_NEW_ROOT_PATH } from "../../student/monthly-fee-new/constants"
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -127,10 +125,7 @@ export const SIDE_BAR_MENU = {
       icon: <IconInventory />,
       link: INVENTORY_ROOT_PATH,
       index: "inventory",
-      permission: [
-        PERMISSION.INVENTORY.GOODS_ISSUE.READ,
-        PERMISSION.INVENTORY.GOODS_RECEIPT.READ,
-      ],
+      permission: [PERMISSION.INVENTORY.GOODS_ISSUE.READ, PERMISSION.INVENTORY.GOODS_RECEIPT.READ],
     },
     {
       header: "Form đăng ký",
@@ -207,6 +202,15 @@ export const SIDE_BAR_MENU = {
           link: STUDENT_MONTHLY_ROOT_PATH,
           permission: [PERMISSION.STUDENT.MONTHLY_FEE.READ],
           index: "student.monthly-fee",
+        },
+        {
+          header: "Monthly Fee New",
+          isHeader: true,
+          exact: true,
+          icon: <IconMoney />,
+          link: STUDENT_MONTHLY_NEW_ROOT_PATH,
+          permission: [PERMISSION.STUDENT.MONTHLY_FEE.READ],
+          index: "student.monthly-fee-new",
         },
         {
           header: "Tracking",
@@ -425,4 +429,4 @@ export const SIDE_BAR_MENU = {
       ],
     },
   ],
-};
+}

@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import * as Yup from "yup";
-import { Form } from "reactstrap";
-import { toast } from "react-toastify";
-import { Controller } from "react-hook-form";
-import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
-import Widget from "../../../../components/Widget/Widget";
-import SubmitButton from "../../../../components/button/SubmitButton";
-import BackButton from "../../../../components/button/BackButton";
-import { ERROR } from "../../../../components/Form/messages";
-import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
-import studentClassApi from "../../../../libs/apis/student/student-class.api";
-import InputAmount from "../../../../components/Form/InputAmount";
-import FormGroup from "../../../../components/Form/FormGroup";
-import FormGroupInput from "../../../../components/Form/FormGroupInput";
-import { transformUnNumberToNull } from "../../../../libs/utils/number.util";
+import React from "react"
+import PropTypes from "prop-types"
+import * as Yup from "yup"
+import { Form } from "reactstrap"
+import { toast } from "react-toastify"
+import { Controller } from "react-hook-form"
+import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm"
+import Widget from "../../../../components/Widget/Widget"
+import SubmitButton from "../../../../components/button/SubmitButton"
+import BackButton from "../../../../components/button/BackButton"
+import { ERROR } from "../../../../components/Form/messages"
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage"
+import studentClassApi from "../../../../libs/apis/student/student-class.api"
+import InputAmount from "../../../../components/Form/InputAmount"
+import FormGroup from "../../../../components/Form/FormGroup"
+import FormGroupInput from "../../../../components/Form/FormGroupInput"
+import { transformUnNumberToNull } from "../../../../libs/utils/number.util"
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(ERROR.required),
@@ -39,9 +39,9 @@ const validationSchema = Yup.object().shape({
   mealFeeReturnPerDay: Yup.number()
     .transform(transformUnNumberToNull)
     .nullable(),
-});
+})
 
-const { create, update, read } = studentClassApi;
+const { create, update, read } = studentClassApi
 
 function MyForm({ id }) {
   const {
@@ -55,19 +55,15 @@ function MyForm({ id }) {
     create,
     update,
     read,
-    onSuccess: resp => {
-      toast.success(
-        id
-          ? `Update class ${resp.name} success`
-          : `Create class ${resp.name} success`,
-      );
+    onSuccess: (resp) => {
+      toast.success(id ? `Update class ${resp.name} success` : `Create class ${resp.name} success`)
     },
     validationSchema,
     initForm: {
       name: "",
     },
     id,
-  });
+  })
 
   return (
     <Widget>
@@ -82,11 +78,7 @@ function MyForm({ id }) {
         />
         <div className="row">
           <div className="col-md-6">
-            <FormGroup
-              label="Monthly Tuition Fee"
-              id="tuitionFeePerMonth"
-              isRequired
-            >
+            <FormGroup label="Monthly Tuition Fee" id="tuitionFeePerMonth" isRequired>
               <Controller
                 name="tuitionFeePerMonth"
                 control={control}
@@ -104,11 +96,7 @@ function MyForm({ id }) {
             </FormGroup>
           </div>
           <div className="col-md-6">
-            <FormGroup
-              label="Absent Fee Return Per Day"
-              id="absentFeeReturnPerDay"
-              isRequired
-            >
+            <FormGroup label="Absent Fee Return Per Day" id="absentFeeReturnPerDay" isRequired>
               <Controller
                 name="absentFeeReturnPerDay"
                 control={control}
@@ -145,11 +133,7 @@ function MyForm({ id }) {
         </FormGroup>
         <div className="row">
           <div className="col-md-6">
-            <FormGroup
-              label="Meal Fee Per Month"
-              id="mealFeePerMonth"
-              isRequired
-            >
+            <FormGroup label="Meal Fee Per Month" id="mealFeePerMonth" isRequired>
               <Controller
                 name="mealFeePerMonth"
                 control={control}
@@ -167,11 +151,7 @@ function MyForm({ id }) {
             </FormGroup>
           </div>
           <div className="col-md-6">
-            <FormGroup
-              label="Meal Fee Return Per Day"
-              id="mealFeeReturnPerDay"
-              isRequired
-            >
+            <FormGroup label="Meal Fee Return Per Day" id="mealFeeReturnPerDay" isRequired>
               <Controller
                 name="mealFeeReturnPerDay"
                 control={control}
@@ -194,13 +174,13 @@ function MyForm({ id }) {
         <SubmitButton disabled={!isValid || !isDirty} isLoading={isLoading} />
       </Form>
     </Widget>
-  );
+  )
 }
 
 MyForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
+}
 
-MyForm.defaultProps = {};
+MyForm.defaultProps = {}
 
-export default MyForm;
+export default MyForm

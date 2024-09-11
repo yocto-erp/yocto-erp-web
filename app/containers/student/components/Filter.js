@@ -1,30 +1,34 @@
-import React, { useEffect } from "react";
-import { Button, Form, Input } from "reactstrap";
-import { Controller, useForm } from "react-hook-form";
-import { FormattedMessage } from "react-intl";
-import { useListFilter } from "../../../components/ListWidget/constants";
-import SearchButton from "../../../components/button/SearchButton";
-import StudentClassSelect from "../student-class/components/StudentClassSelect";
-import { STUDENT_STATUS_LIST } from "../constants";
-import { listPageMessage } from "../messages";
-import { commonMessage } from "../../messages";
+import React, { useEffect } from "react"
+import { Button, Form, Input } from "reactstrap"
+import { Controller, useForm } from "react-hook-form"
+import { FormattedMessage } from "react-intl"
+import { useListFilter } from "../../../components/ListWidget/constants"
+import SearchButton from "../../../components/button/SearchButton"
+import StudentClassSelect from "../student-class/components/StudentClassSelect"
+import { STUDENT_STATUS_LIST } from "../constants"
+import { listPageMessage } from "../messages"
+import { commonMessage } from "../../messages"
 
 const Filter = () => {
-  const { searchByFilter, filter } = useListFilter();
-  console.log(filter);
+  const { searchByFilter, filter } = useListFilter()
   const { handleSubmit, register, reset, control } = useForm({
     defaultValues: filter || {},
-  });
+  })
 
   useEffect(() => {
-    reset(filter || {});
-  }, [filter]);
-  const onSubmit = handleSubmit(val => searchByFilter(val));
+    reset(filter || {})
+  }, [reset])
+  const onSubmit = handleSubmit((val) =>
+    searchByFilter({
+      ...val,
+      class: JSON.stringify(val?.class),
+    }),
+  )
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
       <FormattedMessage {...listPageMessage.filterSearch}>
-        {msg => (
+        {(msg) => (
           <Input
             type="search"
             name="search"
@@ -39,9 +43,9 @@ const Filter = () => {
 
       <Input name="status" type="select" innerRef={register} className="mr-2">
         <option value="">Trạng thái</option>
-        {STUDENT_STATUS_LIST.map(t => (
+        {STUDENT_STATUS_LIST.map((t) => (
           <FormattedMessage key={t.id} {...listPageMessage[`status${t.id}`]}>
-            {msg => (
+            {(msg) => (
               <option key={t.id} value={t.id}>
                 {msg}
               </option>
@@ -54,14 +58,18 @@ const Filter = () => {
           name="class"
           control={control}
           defaultValue={null}
-          render={({ onChange, ...data }) => (
-            <StudentClassSelect
-              id="class"
-              placeholder="Chọn lớp học"
-              onChange={onChange}
-              {...data}
-            />
-          )}
+          render={({ onChange, value, ...data }) => {
+            return (
+              <StudentClassSelect
+                id="class"
+                placeholder="Chọn lớp học"
+                onChange={onChange}
+                isMultiple
+                value={value}
+                {...data}
+              />
+            )
+          }}
         />
       </div>
       <SearchButton className="ml-2" />
@@ -69,15 +77,15 @@ const Filter = () => {
         color="danger"
         className="ml-2"
         onClick={() => {
-          reset({});
-          searchByFilter({});
+          reset({})
+          searchByFilter({})
         }}
         type="button"
       >
         <FormattedMessage {...commonMessage.btnReset} />
       </Button>
     </Form>
-  );
-};
+  )
+}
 
-export default Filter;
+export default Filter
