@@ -1,23 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import debounce from "lodash/debounce";
-import { toast } from "react-toastify";
-import { Input, Spinner } from "reactstrap";
+import React, { useCallback, useEffect, useState } from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import debounce from "lodash/debounce"
+import { toast } from "react-toastify"
+import { Input, Spinner } from "reactstrap"
 import {
   COLUMN_PROPS,
   ListActionProvider,
   ListFilterProvider,
   ListStateProvider,
-} from "./constants";
-import TableHeader from "./TableHeader";
-import TableBody from "./TableBody";
-import Pagination from "../Pagination";
-import "./List.scss";
-import Widget from "../Widget/Widget";
-import { useIsMounted } from "../../libs/hooks/useIsMounted";
-import { useGridQueryParams } from "../../libs/hooks/useGridQueryParams";
-import { commonMessage } from "../../containers/messages";
+} from "./constants"
+import TableHeader from "./TableHeader"
+import TableBody from "./TableBody"
+import Pagination from "../Pagination"
+import "./List.scss"
+import Widget from "../Widget/Widget"
+import { useIsMounted } from "../../libs/hooks/useIsMounted"
+import { useGridQueryParams } from "../../libs/hooks/useGridQueryParams"
+import { commonMessage } from "../../containers/messages"
 
 const ListWidget = ({
   columns,
@@ -32,97 +32,94 @@ const ListWidget = ({
   isWidgetWrapper = true,
   ...props
 }) => {
-  const {
-    queryObj,
-    setPage,
-    setSize,
-    setSorts,
-    setFilter,
-  } = useGridQueryParams(mappingUrlData, { initFilter, initSorts });
-  const [isLoading, setIsLoading] = useState(false);
-  const isMounted = useIsMounted();
+  const { queryObj, setPage, setSize, setSorts, setFilter } = useGridQueryParams(mappingUrlData, {
+    initFilter,
+    initSorts,
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const isMounted = useIsMounted()
   const [{ count, rows }, setResponse] = useState({
     count: 0,
     rows: [],
-  });
+  })
 
-  const [selectedList, setSelectedList] = useState({});
+  const [selectedList, setSelectedList] = useState({})
 
   const onSelectItem = useCallback(
-    row => {
-      setSelectedList(prevState => {
+    (row) => {
+      setSelectedList((prevState) => {
         if (prevState[`item${String(row.id)}`]) {
           // eslint-disable-next-line no-param-reassign
-          delete prevState[`item${String(row.id)}`];
+          delete prevState[`item${String(row.id)}`]
           return {
             ...prevState,
-          };
+          }
         }
         return {
           ...prevState,
           [`item${String(row.id)}`]: row.id,
-        };
-      });
+        }
+      })
     },
     [setSelectedList],
-  );
+  )
 
   const searchApi = React.useCallback(
     debounce(
-      args => {
-        setIsLoading(true);
+      (args) => {
+        setIsLoading(true)
         return fetchData(args).then(
-          resp => {
+          (resp) => {
             if (isMounted()) {
               setResponse({
                 count: resp.count,
                 rows: [...resp.rows],
-              });
-              setIsLoading(false);
+              })
+              setIsLoading(false)
             }
           },
-          err => {
+          (err) => {
             if (isMounted()) {
-              setIsLoading(false);
+              setIsLoading(false)
               const {
                 errors: [error],
-              } = err;
+              } = err
               if (error) {
-                toast.error(error.message);
+                toast.error(error.message)
               }
             }
           },
-        );
+        )
       },
       300,
       { trailing: true },
     ),
     [fetchData, setIsLoading, setResponse],
-  );
+  )
 
   const onSort = React.useCallback(
     (name, newDir) => {
       setSorts({
         [name]: newDir,
-      });
+      })
     },
     [setSorts],
-  );
+  )
 
   const onSelectAll = React.useCallback(
-    isSelectAll => {
+    (isSelectAll) => {
       if (isSelectAll) {
-        const newState = { ...selectedList };
+        const newState = { ...selectedList }
         for (let i = 0; i < rows.length; i += 1) {
-          newState[`item${String(rows[i].id)}`] = rows[i].id;
+          newState[`item${String(rows[i].id)}`] = rows[i].id
         }
-        setSelectedList(newState);
+        setSelectedList(newState)
       } else {
-        setSelectedList({});
+        setSelectedList({})
       }
     },
     [rows, selectedList],
-  );
+  )
 
   const tableHeader = React.useMemo(
     () => (
@@ -135,7 +132,7 @@ const ListWidget = ({
       />
     ),
     [columns, queryObj, enableSelectColumn, onSelectAll],
-  );
+  )
 
   const tableBody = React.useMemo(
     () => (
@@ -148,21 +145,21 @@ const ListWidget = ({
       />
     ),
     [columns, rows, enableSelectColumn, selectedList],
-  );
+  )
 
   const pagination = React.useMemo(
     () => (
       <div className="w-100 mt-2">
         <div className="d-flex align-items-center">
           <FormattedMessage {...commonMessage.pagingPage}>
-            {msg => (
+            {(msg) => (
               <Input
                 type="select"
                 name="pageSize"
                 className="mr-2"
                 bsSize="sm"
-                onChange={event => {
-                  setSize(Number(event.target.value));
+                onChange={(event) => {
+                  setSize(Number(event.target.value))
                 }}
                 style={{ width: "auto" }}
                 value={queryObj.size}
@@ -188,38 +185,35 @@ const ListWidget = ({
       </div>
     ),
     [queryObj, count, isLoading],
-  );
+  )
 
-  const refresh = React.useCallback(() => searchApi(queryObj), [
-    searchApi,
-    queryObj,
-  ]);
+  const refresh = React.useCallback(() => searchApi(queryObj), [searchApi, queryObj])
 
   const searchByFilter = React.useCallback(
-    par => {
-      setFilter(par);
+    (par) => {
+      setFilter(par)
     },
     [setPage, setFilter],
-  );
+  )
 
   const onDeleted = React.useCallback(
-    ids => {
-      const listId = [...ids];
-      listId.forEach(id => {
+    (ids) => {
+      const listId = [...ids]
+      listId.forEach((id) => {
         if (selectedList[`item${String(id)}`]) {
-          delete selectedList[`item${String(id)}`];
+          delete selectedList[`item${String(id)}`]
         }
-      });
+      })
 
-      setSelectedList({ ...selectedList });
-      refresh();
+      setSelectedList({ ...selectedList })
+      refresh()
     },
     [refresh, selectedList],
-  );
+  )
 
   useEffect(() => {
-    searchApi(queryObj);
-  }, [queryObj, searchApi]);
+    searchApi(queryObj)
+  }, [queryObj, searchApi])
 
   const mainEls = columns.length ? (
     <div className="wrapper">
@@ -236,22 +230,20 @@ const ListWidget = ({
       </div>
       {pagination}
     </div>
-  ) : nullz;
+  ) : (
+    nullz
+  )
 
   return (
     <ListActionProvider value={{ refresh, onDeleted }}>
       <ListStateProvider value={selectedList}>
         {pageHeader}
-        {isWidgetWrapper ? (
-          <Widget className={widgetClassname}>{mainEls}</Widget>
-        ) : (
-          mainEls
-        )}
+        {isWidgetWrapper ? <Widget className={widgetClassname}>{mainEls}</Widget> : mainEls}
         {deleteDialog}
       </ListStateProvider>
     </ListActionProvider>
-  );
-};
+  )
+}
 
 ListWidget.propTypes = {
   columns: COLUMN_PROPS,
@@ -267,6 +259,6 @@ ListWidget.propTypes = {
   widgetClassname: PropTypes.string,
   mappingUrlData: PropTypes.func,
   isWidgetWrapper: PropTypes.bool,
-};
+}
 
-export default ListWidget;
+export default ListWidget

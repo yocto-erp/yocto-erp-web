@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { Route } from "react-router-dom"
 import PropTypes from "prop-types"
 import { toast } from "react-toastify"
-import TableActionColumns from "../../../components/ListWidget/TableActionColumn"
 import studentMonthlyFeeApi from "../../../libs/apis/student/student-monthly-fee.api"
 import { STUDENT_MONTHLY_NEW_ROOT_PATH } from "./constants"
 import Filter from "./components/Filter"
@@ -18,6 +17,7 @@ import IconButton from "../../../components/button/IconButton"
 import StudentFeePaid from "./components/StudentFeePaid"
 import ShortText from "../../../components/ShortText"
 import studentMonthlyFeeNewApi from "../../../libs/apis/student/student-monthly-fee-new.api"
+import TableActionColumns from "../../../components/ListWidgetNew/TableActionColumn"
 
 const ROOT_PATH = STUDENT_MONTHLY_NEW_ROOT_PATH
 const ListPage = ({ history }) => {
