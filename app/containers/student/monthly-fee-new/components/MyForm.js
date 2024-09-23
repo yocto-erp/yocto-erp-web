@@ -40,7 +40,6 @@ const newFee = () => ({
   remark: "",
   debt: "",
   privateId: null,
-  class: null,
 })
 
 function MyForm({ id }) {
@@ -67,9 +66,6 @@ function MyForm({ id }) {
               otherFee: Yup.number().transform(transferUnNumber),
               debt: Yup.number().transform(transferUnNumber),
               otherDeduceFee: Yup.number().transform(transferUnNumber),
-              class: Yup.object().shape({
-                name: Yup.string(),
-              }),
             }),
           )
           .required("Details is required"),
@@ -232,7 +228,7 @@ function MyForm({ id }) {
       ) : null,
     [studentConfig],
   )
-  console.log("checkkkk class", className)
+
   const form = React.useMemo(
     () => (
       <Form onSubmit={submit} noValidate formNoValidate className="mt-10">
@@ -299,7 +295,6 @@ function MyForm({ id }) {
                     isUpdated={!!id}
                     formState={formState}
                     className={className}
-                    id={id}
                   />
                 )
               })}
