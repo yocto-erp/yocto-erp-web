@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import * as Yup from "yup"
 import PropTypes from "prop-types"
 import { useLocation } from "react-router-dom"
@@ -40,10 +40,12 @@ const newFee = () => ({
   remark: "",
   debt: "",
   privateId: null,
+  class: null,
 })
 
 function MyForm({ id }) {
   const { configure: studentConfig } = useStudentConfigure()
+  const [className, setClassName] = useState()
   const location = useLocation()
 
   const validationSchema = React.useMemo(
@@ -65,6 +67,9 @@ function MyForm({ id }) {
               otherFee: Yup.number().transform(transferUnNumber),
               debt: Yup.number().transform(transferUnNumber),
               otherDeduceFee: Yup.number().transform(transferUnNumber),
+              class: Yup.object().shape({
+                name: Yup.string(),
+              }),
             }),
           )
           .required("Details is required"),
@@ -171,6 +176,7 @@ function MyForm({ id }) {
           absentDayFee,
           totalAmount,
           privateId: result.privateId,
+          class: form?.class,
         }
       })
       return {
@@ -191,7 +197,6 @@ function MyForm({ id }) {
     name: "details",
     keyName: "fId",
   })
-
   useEffect(() => {
     if (serverErrors && serverErrors.length) {
       toast.error(serverErrors.map((t) => t.message).join("<br/>"))
@@ -227,6 +232,7 @@ function MyForm({ id }) {
       ) : null,
     [studentConfig],
   )
+  console.log("checkkkk class", className)
   const form = React.useMemo(
     () => (
       <Form onSubmit={submit} noValidate formNoValidate className="mt-10">
@@ -246,7 +252,10 @@ function MyForm({ id }) {
                     placeholder="Chọn lớp học"
                     invalid={invalid}
                     name={name}
-                    onChange={onChange}
+                    onChange={(val) => {
+                      onChange(val)
+                      setClassName(val)
+                    }}
                     value={value}
                     {...data}
                   />
@@ -274,22 +283,26 @@ function MyForm({ id }) {
               </tr>
             </thead>
             <tbody>
-              {fields.map((item, index) => (
-                <FormDetail
-                  studentConfig={studentConfig}
-                  key={item.id}
-                  control={control}
-                  register={register}
-                  getValues={getValues}
-                  setValue={setValue}
-                  item={item}
-                  index={index}
-                  remove={remove}
-                  trigger={trigger}
-                  isUpdated={!!id}
-                  formState={formState}
-                />
-              ))}
+              {fields.map((item, index) => {
+                return (
+                  <FormDetail
+                    studentConfig={studentConfig}
+                    key={item.id}
+                    control={control}
+                    register={register}
+                    getValues={getValues}
+                    setValue={setValue}
+                    item={item}
+                    index={index}
+                    remove={remove}
+                    trigger={trigger}
+                    isUpdated={!!id}
+                    formState={formState}
+                    className={className}
+                    id={id}
+                  />
+                )
+              })}
             </tbody>
             {id ? (
               <></>

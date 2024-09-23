@@ -29,6 +29,8 @@ const FormDetail = ({
   studentConfig,
   formState,
   isUpdated = false,
+  className,
+  id,
 }) => {
   const {
     monthYear,
@@ -70,7 +72,9 @@ const FormDetail = ({
       if (isUpdated) {
         totalMealFee = item.mealFee
       } else {
-        totalMealFee = student.class?.mealFeePerMonth * monthYear.numberOfMonths
+        totalMealFee = id
+          ? item.class?.mealFeePerMonth * monthYear.numberOfMonths
+          : className?.mealFeePerMonth * monthYear.numberOfMonths
       }
     }
     setValue(`details[${index}].mealFee`, totalMealFee)
@@ -80,7 +84,9 @@ const FormDetail = ({
   const absentDayFee = useMemo(() => {
     let rs = 0
     if (student && absentDay) {
-      rs = absentDay * student.class?.absentFeeReturnPerDay
+      rs = id
+        ? absentDay * item.class?.absentFeeReturnPerDay
+        : absentDay * className?.absentFeeReturnPerDay
     }
     return rs
   }, [student, absentDay])
@@ -89,15 +95,17 @@ const FormDetail = ({
     console.log(studentAbsentDay)
     let rs = 0
     if (student && student.enableMeal && studentAbsentDay) {
-      rs = studentAbsentDay * student.class?.mealFeeReturnPerDay
+      rs = id
+        ? studentAbsentDay * item.class?.mealFeeReturnPerDay
+        : studentAbsentDay * className?.mealFeeReturnPerDay
     }
     return rs
   }, [student, studentAbsentDay])
 
   const trialDateFee = useMemo(() => {
     let rs = 0
-    if (student && student.class) {
-      rs = trialDate * student.class?.feePerTrialDay
+    if (student) {
+      rs = id ? trialDate * item.class?.feePerTrialDay : trialDate * className?.feePerTrialDay
     }
     return rs
   }, [student, trialDate])
@@ -106,7 +114,9 @@ const FormDetail = ({
     let rsFee = 0
     if (student && monthYear) {
       rsFee =
-        student.class?.tuitionFeePerMonth * monthYear?.numberOfMonths -
+        (id
+          ? item.class?.tuitionFeePerMonth * monthYear?.numberOfMonths
+          : className?.tuitionFeePerMonth * monthYear?.numberOfMonths) -
         absentDayFee -
         studentAbsentDayDeductMealFee +
         trialDateFee +
@@ -133,15 +143,18 @@ const FormDetail = ({
   const scholarShipFee = useMemo(() => {
     let rs = 0
     if (student && monthYear) {
-      rs =
-        ((student.class?.tuitionFeePerMonth * monthYear?.numberOfMonths - absentDayFee) *
-          scholarShip) /
-        100
+      rs = id
+        ? ((item.class?.tuitionFeePerMonth * monthYear?.numberOfMonths - absentDayFee) *
+            scholarShip) /
+          100
+        : ((className?.tuitionFeePerMonth * monthYear?.numberOfMonths - absentDayFee) *
+            scholarShip) /
+          100
     }
     return rs
   }, [student, absentDayFee, scholarShip, monthYear])
 
-  const totalFee = useMemo(() => totalFeeWithoutScholarShip - scholarShipFee, [
+  const totalFee = useMemo(() => Number(totalFeeWithoutScholarShip) - Number(scholarShipFee), [
     totalFeeWithoutScholarShip,
     scholarShipFee,
   ])
