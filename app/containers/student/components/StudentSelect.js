@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Button, InputGroup, InputGroupAddon } from "reactstrap";
-import AsyncSelect from "react-select/async";
-import classNames from "classnames";
-import debounce from "lodash/debounce";
-import studentApi from "../../../libs/apis/student/student.api";
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../components/constants";
-import StudentInfoView from "./StudentInfoView";
+import React from "react"
+import PropTypes from "prop-types"
+import { Button, InputGroup, InputGroupAddon } from "reactstrap"
+import AsyncSelect from "react-select/async"
+import classNames from "classnames"
+import debounce from "lodash/debounce"
+import studentApi from "../../../libs/apis/student/student.api"
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../components/constants"
+import StudentInfoView from "./StudentInfoView"
 
-const formatOptionLabel = data => (
+const formatOptionLabel = (data) => (
   <div className="text-white">
     <span>
       {data.child.name} (<strong>{data.alias}</strong>)
     </span>
   </div>
-);
+)
 
 const StudentSelect = React.forwardRef((
   {
@@ -34,7 +34,7 @@ const StudentSelect = React.forwardRef((
   // eslint-disable-next-line no-unused-vars
   ref,
 ) => {
-  const [isShowInfo, setIsShowInfo] = React.useState(false);
+  const [isShowInfo, setIsShowInfo] = React.useState(false)
   const loadOptions1 = debounce((inputValue, cb) => {
     studentApi
       .search({
@@ -44,8 +44,8 @@ const StudentSelect = React.forwardRef((
           search: inputValue,
         },
       })
-      .then(resp => cb(resp.rows));
-  }, 300);
+      .then((resp) => cb(resp.rows))
+  }, 300)
   return (
     <>
       <InputGroup className={classNames({ "is-invalid": invalid })} {...props}>
@@ -68,7 +68,7 @@ const StudentSelect = React.forwardRef((
           onFocus={onFocus}
           onChange={onChange}
           formatOptionLabel={formatOptionLabel}
-          getOptionValue={data => data.id}
+          getOptionValue={(data) => data.id}
           name={name}
           innerRef={ref}
           value={value}
@@ -85,15 +85,11 @@ const StudentSelect = React.forwardRef((
         </InputGroupAddon>
       </InputGroup>
       {value ? (
-        <StudentInfoView
-          student={value}
-          isOpen={isShowInfo}
-          onClose={setIsShowInfo}
-        />
+        <StudentInfoView student={value} isOpen={isShowInfo} onClose={setIsShowInfo} />
       ) : null}
     </>
-  );
-});
+  )
+})
 
 StudentSelect.propTypes = {
   value: PropTypes.any,
@@ -108,6 +104,6 @@ StudentSelect.propTypes = {
   id: PropTypes.string,
   disabled: PropTypes.bool,
   isClearable: PropTypes.bool,
-};
+}
 
-export default StudentSelect;
+export default StudentSelect

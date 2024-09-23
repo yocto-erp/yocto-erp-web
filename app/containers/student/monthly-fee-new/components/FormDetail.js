@@ -64,7 +64,7 @@ const FormDetail = ({
     }
     setValue(`details[${index}].busFee`, totalBusFee)
     trigger([`details[${index}].busFee`])
-  }, [student, index, item, monthYear])
+  }, [student, index, item, monthYear, className])
 
   useEffect(() => {
     let totalMealFee = 0
@@ -79,7 +79,7 @@ const FormDetail = ({
     }
     setValue(`details[${index}].mealFee`, totalMealFee)
     trigger([`details[${index}].mealFee`])
-  }, [student, item, index, monthYear])
+  }, [student, item, index, monthYear, className])
 
   const absentDayFee = useMemo(() => {
     let rs = 0
@@ -89,7 +89,7 @@ const FormDetail = ({
         : absentDay * className?.absentFeeReturnPerDay
     }
     return rs
-  }, [student, absentDay])
+  }, [student, absentDay, className])
 
   const studentAbsentDayDeductMealFee = useMemo(() => {
     console.log(studentAbsentDay)
@@ -100,7 +100,7 @@ const FormDetail = ({
         : studentAbsentDay * className?.mealFeeReturnPerDay
     }
     return rs
-  }, [student, studentAbsentDay])
+  }, [student, studentAbsentDay, className])
 
   const trialDateFee = useMemo(() => {
     let rs = 0
@@ -108,7 +108,7 @@ const FormDetail = ({
       rs = id ? trialDate * item.class?.feePerTrialDay : trialDate * className?.feePerTrialDay
     }
     return rs
-  }, [student, trialDate])
+  }, [student, trialDate, className])
 
   const totalFeeWithoutScholarShip = useMemo(() => {
     let rsFee = 0
@@ -138,6 +138,7 @@ const FormDetail = ({
     otherDeduceFee,
     studentAbsentDayDeductMealFee,
     monthYear,
+    className,
   ])
 
   const scholarShipFee = useMemo(() => {
@@ -152,11 +153,12 @@ const FormDetail = ({
           100
     }
     return rs
-  }, [student, absentDayFee, scholarShip, monthYear])
+  }, [student, absentDayFee, scholarShip, monthYear, className])
 
   const totalFee = useMemo(() => Number(totalFeeWithoutScholarShip) - Number(scholarShipFee), [
     totalFeeWithoutScholarShip,
     scholarShipFee,
+    className,
   ])
 
   return React.useMemo(() => {
