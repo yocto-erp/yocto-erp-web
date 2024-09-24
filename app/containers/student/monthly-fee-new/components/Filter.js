@@ -9,13 +9,13 @@ import StudentClassSelect from "../../student-class/components/StudentClassSelec
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter()
   const { handleSubmit, register, control, reset } = useForm({
-    defaultValues: { month: null, search: "", class: null, isPaid: 0 },
+    defaultValues: filter || {},
   })
   const onSubmit = handleSubmit((val) => searchByFilter(val))
 
   useEffect(() => {
-    reset(filter)
-  }, [filter])
+    reset(filter || {})
+  }, [reset])
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
@@ -32,6 +32,7 @@ const Filter = () => {
         <Controller
           name="class"
           control={control}
+          defaultValue={null}
           render={({ onChange, value, ...data }) => {
             return (
               <StudentClassSelect

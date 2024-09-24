@@ -11,11 +11,11 @@ const Filter = () => {
   const { handleSubmit, register, control, reset } = useForm({
     defaultValues: { month: null, search: "", class: null, isPaid: 0 },
   })
-  const onSubmit = handleSubmit((val) => searchByFilter(val))
 
   useEffect(() => {
-    reset(filter)
-  }, [filter])
+    reset(filter || {})
+  }, [reset])
+  const onSubmit = handleSubmit((val) => searchByFilter(val))
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>

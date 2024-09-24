@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import AsyncCreatableSelect from "react-select/async-creatable"
 import PropTypes from "prop-types"
 import debounce from "lodash/debounce"
@@ -44,7 +44,7 @@ const StudentClassSelect = React.forwardRef((
           ? `Not found any Class with search "${inputValue}", try to search another`
           : "Input and search Class"
       }
-      className={"react-select-container"}
+      className="react-select-container"
       classNamePrefix="my-select"
       styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
       menuPortalTarget={document.body}
