@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Button, Form, Input } from "reactstrap"
 import { Controller, useForm } from "react-hook-form"
 import { useListFilter } from "../../../../components/ListWidgetNew/constants"
@@ -38,7 +38,8 @@ const Filter = () => {
                 id="class"
                 placeholder="Chọn lớp học"
                 onChange={onChange}
-                value={value === undefined ? null : value}
+                value={value}
+                isClearable
                 {...data}
               />
             )

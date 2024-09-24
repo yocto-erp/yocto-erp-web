@@ -37,7 +37,8 @@ const Filter = () => {
               id="class"
               placeholder="Chọn lớp học"
               onChange={onChange}
-              value={value === undefined ? null : value}
+              value={value}
+              isClearable
               {...data}
             />
           )}
