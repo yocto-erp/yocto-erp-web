@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import { Button, Form, Input } from "reactstrap";
-import { Controller, useForm } from "react-hook-form";
-import { useListFilter } from "../../../../components/ListWidget/constants";
-import SearchButton from "../../../../components/button/SearchButton";
-import MonthSelect from "../../../../components/date/MonthSelect";
-import StudentClassSelect from "../../student-class/components/StudentClassSelect";
+import React, { useEffect } from "react"
+import { Button, Form, Input } from "reactstrap"
+import { Controller, useForm } from "react-hook-form"
+import { useListFilter } from "../../../../components/ListWidget/constants"
+import SearchButton from "../../../../components/button/SearchButton"
+import MonthSelect from "../../../../components/date/MonthSelect"
+import StudentClassSelect from "../../student-class/components/StudentClassSelect"
 
 const Filter = () => {
-  const { searchByFilter, filter } = useListFilter();
+  const { searchByFilter, filter } = useListFilter()
   const { handleSubmit, register, control, reset } = useForm({
     defaultValues: { month: null, search: "", class: null, isPaid: 0 },
-  });
-  const onSubmit = handleSubmit(val => searchByFilter(val));
+  })
+  const onSubmit = handleSubmit((val) => searchByFilter(val))
 
   useEffect(() => {
-    reset(filter);
-  }, [filter]);
+    reset(filter)
+  }, [filter])
 
   return (
     <Form inline onSubmit={onSubmit} noValidate>
@@ -32,23 +32,18 @@ const Filter = () => {
         <Controller
           name="class"
           control={control}
-          render={({ onChange, ...data }) => (
+          render={({ onChange, value, ...data }) => (
             <StudentClassSelect
               id="class"
               placeholder="Chọn lớp học"
               onChange={onChange}
+              value={value === undefined ? null : value}
               {...data}
             />
           )}
         />
       </div>
-      <Input
-        type="select"
-        name="isPaid"
-        className="mr-2 mt-2"
-        innerRef={register}
-        id="isPaid"
-      >
+      <Input type="select" name="isPaid" className="mr-2 mt-2" innerRef={register} id="isPaid">
         <option value={0}>ALL (Paid + UnPaid)</option>
         <option value={1}>UNPAID</option>
         <option value={2}>PAID</option>
@@ -74,15 +69,15 @@ const Filter = () => {
         color="danger"
         className="ml-2 mt-2"
         onClick={() => {
-          reset({});
-          searchByFilter({});
+          reset({})
+          searchByFilter({})
         }}
         type="button"
       >
         Reset
       </Button>
     </Form>
-  );
-};
+  )
+}
 
-export default Filter;
+export default Filter

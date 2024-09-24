@@ -32,14 +32,17 @@ const Filter = () => {
         <Controller
           name="class"
           control={control}
-          render={({ onChange, ...data }) => (
-            <StudentClassSelect
-              id="class"
-              placeholder="Chọn lớp học"
-              onChange={onChange}
-              {...data}
-            />
-          )}
+          render={({ onChange, value, ...data }) => {
+            return (
+              <StudentClassSelect
+                id="class"
+                placeholder="Chọn lớp học"
+                onChange={onChange}
+                value={value === undefined ? null : value}
+                {...data}
+              />
+            )
+          }}
         />
       </div>
       <Input type="select" name="isPaid" className="mr-2 mt-2" innerRef={register} id="isPaid">
