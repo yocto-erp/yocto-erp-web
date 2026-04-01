@@ -28,6 +28,5 @@ conn.on("ready", async function() {
   host: "104.248.156.227",
   port: 22,
   username: "root",
-  privateKey: require("fs").readFileSync("/Users/huynhminhquan/.ssh/id_ed25519"),
-  passphrase: "Minhquan@123"
+  privateKey: require("fs").readFileSync("/Users/duynt/.ssh/id_ed25519"),
 });
