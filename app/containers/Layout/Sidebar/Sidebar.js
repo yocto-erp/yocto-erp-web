@@ -79,11 +79,7 @@ function Sidebar({ dispatch, sidebarOpened }) {
 
           <ul className={cx(s.nav)}>
             {SIDE_BAR_MENU.main
-              .filter(
-                t =>
-                  !t.permission ||
-                  isHasAnyPermission({ permission: t.permission }),
-              )
+              .filter((t) => !t.permission || isHasAnyPermission({ permission: t.permission }))
               .map(processLinkGroup)}
           </ul>
           <h5 className={s.navTitle}>Tiện ích</h5>

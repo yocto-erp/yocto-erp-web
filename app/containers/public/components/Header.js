@@ -57,6 +57,13 @@ function Header({
                     </Link>
                   </li>
                 )}
+                {isShowSignUp && (
+                  <li className="nav-item">
+                    <Link className="nav-link text-white" to="/register-shool">
+                      Sign Up For School
+                    </Link>
+                  </li>
+                )}
               </>
             )}
             {isShowCart && (

@@ -15,6 +15,14 @@ export const registerUser = ({ firstName, lastName, email, password }) =>
     password,
   });
 
+export const registerUserSchool = ({ firstName, lastName, email, password }) =>
+  postJSON(`${API_URL}/register-school`, {
+    firstName,
+    lastName,
+    email,
+    password,
+  });
+
 export const verifyEmail = ({ email, token }) =>
   postJSON(`${API_URL}/email-verify`, {
     email,
@@ -36,9 +44,10 @@ export const resetPassword = ({ token, password, rePassword }) =>
     rePassword,
   });
 
-export const createCompany = ({ name, gsm, address, remark }) =>
+export const createCompany = ({ name, englishName, gsm, address, remark }) =>
   postJSON(`${API_URL}/createCompanyOnboard`, {
     name,
+    englishName,
     gsm,
     address,
     remark,

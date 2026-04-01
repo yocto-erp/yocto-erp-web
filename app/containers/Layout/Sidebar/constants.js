@@ -72,6 +72,7 @@ import {
 import { FORM_ROOT_PATH } from "../../pages/form-register/constants"
 import { FORM_REGISTER_ROOT_PATH } from "../../pages/form/form-register-signup/constants"
 import { STUDENT_MONTHLY_NEW_ROOT_PATH } from "../../student/monthly-fee-new/constants"
+import { COMPANY_SCHOOL_UPDATE_LIST } from "../../CompanySchool/constants"
 
 export const SIDE_BAR_MENU = {
   main: [
@@ -152,6 +153,14 @@ export const SIDE_BAR_MENU = {
           permission: [PERMISSION.FORM.READ],
         },
       ],
+    },
+    {
+      header: "School ",
+      isHeader: true,
+      icon: <IconCompanySetting />,
+      link: COMPANY_SCHOOL_UPDATE_LIST,
+      index: "school",
+      permission: [PERMISSION.COMPANY_SCHOOL.READ],
     },
     {
       header: "Student",

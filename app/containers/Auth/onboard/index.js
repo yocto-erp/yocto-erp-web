@@ -12,6 +12,7 @@ import {
   FormFeedback,
 } from "reactstrap";
 import { mutate } from "swr";
+import { useHistory } from "react-router-dom"
 import messages from "./messages";
 import Widget from "../../../components/Widget/Widget";
 import Footer from "../../Layout/Footer";
@@ -43,6 +44,13 @@ export function OnboardPage() {
     await mutate(SWR_KEY_USER);
   };
 
+  const history = useHistory();
+  const logout = () => {
+    set(STORAGE.JWT, null);
+    history.push("/");
+    return mutate(SWR_KEY_USER, null);
+  };
+
   const formEls = useMemo(
     () => (
       <>
@@ -52,11 +60,6 @@ export function OnboardPage() {
               Name<span className="text-danger">*</span>
             </Label>
             <InputGroup className="input-group-no-border">
-              {/* <InputGroupAddon addonType="prepend"> */}
-              {/*  <InputGroupText> */}
-              {/*    <i className="la la-building text-white" /> */}
-              {/*  </InputGroupText> */}
-              {/* </InputGroupAddon> */}
               <Input
                 invalid={!!errors.name}
                 id="name"
@@ -69,15 +72,27 @@ export function OnboardPage() {
               <FormFeedback>{errors.name && errors.name.message}</FormFeedback>
             </InputGroup>
           </FormGroup>
+          <FormGroup className="mt">
+            <Label for="name">
+              Name English<span className="text-danger">*</span>
+            </Label>
+            <InputGroup className="input-group-no-border">
+              <Input
+                invalid={!!errors.englishName}
+                id="name"
+                className="input-transparent pl-3"
+                type="text"
+                innerRef={register}
+                name="englishName"
+                placeholder="Company Name English"
+              />
+              <FormFeedback>{errors.englishName && errors.englishName.message}</FormFeedback>
+            </InputGroup>
+          </FormGroup>
 
           <FormGroup className="mt">
             <Label for="gsm">Phone</Label>
             <InputGroup className="input-group-no-border">
-              {/* <InputGroupAddon addonType="prepend"> */}
-              {/*  <InputGroupText> */}
-              {/*    <i className="la la-envelope text-white" /> */}
-              {/*  </InputGroupText> */}
-              {/* </InputGroupAddon> */}
               <Input
                 invalid={!!errors.gsm}
                 id="gsm"
@@ -94,11 +109,6 @@ export function OnboardPage() {
           <FormGroup className="mt">
             <Label for="address">Address</Label>
             <InputGroup className="input-group-no-border">
-              {/* <InputGroupAddon addonType="prepend"> */}
-              {/*  <InputGroupText> */}
-              {/*    <i className="la la-address-book text-white" /> */}
-              {/*  </InputGroupText> */}
-              {/* </InputGroupAddon> */}
               <Input
                 invalid={!!errors.address}
                 id="address"
@@ -117,11 +127,6 @@ export function OnboardPage() {
           <FormGroup className="mt">
             <Label for="remark">Introduction</Label>
             <InputGroup className="input-group-no-border">
-              {/* <InputGroupAddon addonType="prepend"> */}
-              {/*  <InputGroupText> */}
-              {/*    <i className="la la-envelope text-white" /> */}
-              {/*  </InputGroupText> */}
-              {/* </InputGroupAddon> */}
               <Input
                 invalid={!!errors.remark}
                 id="remark"
@@ -137,16 +142,28 @@ export function OnboardPage() {
             </InputGroup>
           </FormGroup>
           <div className="bg-widget auth-widget-footer">
-            <SubmitButton
-              type="submit"
-              color="danger"
-              className="auth-btn text-white mb-3"
-              size="sm"
-              disabled={!(formState.isValid && formState.isDirty)}
-              isLoading={isLoading}
-            >
-              <FormattedMessage {...messages.createCompanyButton} />
-            </SubmitButton>
+            <div className="display-flex justify-content-between">
+              <SubmitButton
+                type="button"
+                color="primary"
+                className="auth-btn text-white mb-3"
+                size="sm"
+                isLoading={isLoading}
+                onClick={logout}
+              >
+                Logout
+              </SubmitButton>
+              <SubmitButton
+                type="submit"
+                color="danger"
+                className="auth-btn text-white mb-3"
+                size="sm"
+                disabled={!(formState.isValid && formState.isDirty)}
+                isLoading={isLoading}
+              >
+                <FormattedMessage {...messages.createCompanyButton} />
+              </SubmitButton>
+            </div>
           </div>
         </form>
       </>

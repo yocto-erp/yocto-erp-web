@@ -1,7 +1,7 @@
-import { PERMISSION_MODULE_PROJECT } from "../../containers/project/constants";
-import { PERMISSION_ENABLE_TYPE } from "./permission/constants";
+import { PERMISSION_MODULE_PROJECT } from "../../containers/project/constants"
+import { PERMISSION_ENABLE_TYPE } from "./permission/constants"
 
-// MAX = 127
+// MAX = 140
 
 export const PERMISSION = {
   PRODUCT: {
@@ -215,7 +215,10 @@ export const PERMISSION = {
     DELETE: 138,
     UPDATE: 139,
   },
-};
+  COMPANY_SCHOOL: {
+    READ: 140,
+  },
+}
 
 export const PERMISSION_MODULE = [
   {
@@ -894,4 +897,4 @@ export const PERMISSION_MODULE = [
     ],
   },
   ...PERMISSION_MODULE_PROJECT,
-];
+]

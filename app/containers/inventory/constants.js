@@ -1,4 +1,4 @@
-import { ADMIN_PATH } from '../../constants';
+import { ADMIN_PATH } from "../../constants"
 
 export const INVENTORY_ROOT_PATH = `${ADMIN_PATH}/inventory`;
 export const PATH_GOODS_RECEIPT = `${INVENTORY_ROOT_PATH}/goods-receipt`;

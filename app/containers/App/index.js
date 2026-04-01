@@ -17,6 +17,7 @@ import "overlayscrollbars/css/OverlayScrollbars.css";
 import UserPublicHomePage from "../public/UserPublicHomePage/Loadable";
 import CompanyChoosePage from "../Auth/company-choose/Loadable";
 import PublicRoute from "../public/Route";
+import RegisterSchoolPage from "../Auth/register-school"
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
       <Switch>
         <Route path="/login" exact component={Login} />
         <Route path="/register" exact component={RegisterPage} />
+        <Route path="/register-shool" exact component={RegisterSchoolPage} />
         <Route path="/email-activate" exact component={VerifyMailPage} />
         <Route
           path="/forgot-password/send-mail"
