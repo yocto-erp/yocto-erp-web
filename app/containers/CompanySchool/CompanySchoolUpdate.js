@@ -279,7 +279,7 @@ const CompanySchoolUpdate = () => {
                 name="methodTeacher"
                 label={
                   <>
-                    Method Teacher
+                    Courses/Training
                     <div>
                       (Tình hình đào tạo theo phương pháp Steiner (Các Module đã được đào tạo/Đã tốt
                       nghiệp khóa mấy, tại đâu/Đã hoàn tất chứng chỉ quốc tế)
@@ -288,7 +288,7 @@ const CompanySchoolUpdate = () => {
                 }
                 register={register}
                 type="textarea"
-                placeholder="Method Teacher"
+                placeholder="Courses/Training"
               />
             </div>
             <div className="col-md-4">
@@ -296,7 +296,7 @@ const CompanySchoolUpdate = () => {
                 name="methodSchool"
                 label={
                   <>
-                    Method School
+                    Mentoring
                     <div>
                       (Tình hình đào tạo tại trường Giáo viên đào tạo/Giáo viên hướng dẫn (mentors)
                       đã từng làm việc và hỗ trợ trường)
@@ -306,7 +306,7 @@ const CompanySchoolUpdate = () => {
                 }
                 register={register}
                 type="textarea"
-                placeholder="Method School"
+                placeholder="Mentoring"
               />
             </div>
           </div>
@@ -316,7 +316,7 @@ const CompanySchoolUpdate = () => {
                 name="numberWorker"
                 label={
                   <>
-                    Number Worker
+                    Staff
                     <div>
                       ( Số lượng người lao động (ghi rõ số lượng giáo viên, nhân viên văn phòng,
                       bếp, bảo vệ....):)
@@ -327,7 +327,7 @@ const CompanySchoolUpdate = () => {
                 }
                 register={register}
                 type="textarea"
-                placeholder="Number Worker"
+                placeholder="Staff"
               />
             </div>
             <div className="col-md-4">

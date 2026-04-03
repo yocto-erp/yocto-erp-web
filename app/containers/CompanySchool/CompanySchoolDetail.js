@@ -59,7 +59,7 @@ const CompanySchoolDetail = () => {
           </div>
           <div className="row">
             <div className="col-md-12">
-              <strong>Number Worker:</strong> {schoolUpdate.numberWorker}
+              <strong>Staff:</strong> {schoolUpdate.numberWorker}
             </div>
           </div>
           <div className="row">
@@ -84,12 +84,12 @@ const CompanySchoolDetail = () => {
           </div>
           <div className="row">
             <div className="col-md-12">
-              <strong>Method Teacher:</strong> {schoolUpdate.methodTeacher}
+              <strong>Courses/Training:</strong> {schoolUpdate.methodTeacher}
             </div>
           </div>
           <div className="row">
             <div className="col-md-12">
-              <strong>Method School:</strong> {schoolUpdate.methodSchool}
+              <strong>Mentoring:</strong> {schoolUpdate.methodSchool}
             </div>
           </div>
           <div className="row">
