@@ -86,14 +86,14 @@ const CompanySchoolUpdate = () => {
                 name="fullNameOwner"
                 label={
                   <>
-                    Full Name Owner
-                    <div>(Họ và tên chủ trường/BLĐ)</div>
+                    Full Name Owner/chairman
+                    <div>(Họ và tên chủ trường/người đại diện pháp luật/người đại diện BLĐ)</div>
                   </>
                 }
                 register={register}
                 error={errors.fullNameOwner}
                 type="text"
-                placeholder="Full Name Owner"
+                placeholder="Full Name Owner/chairman"
               />
             </div>
             <div className="col-md-4">
