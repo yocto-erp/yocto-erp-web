@@ -17,10 +17,9 @@ import DateSelect from "../../components/date/DateSelect"
 import FormHookErrorMessage from "../../components/Form/FormHookErrorMessage"
 import FormGroup from "../../components/Form/FormGroup"
 import Label from "../../components/Form/Label"
-import { parseIso } from "../../libs/utils/date.util"
+import { formatDate, formatDateOnlyFromStr, parseIso } from "../../libs/utils/date.util"
 import { IconEdit } from "../Icon/constants"
 import { COMPANY_SCHOOL_UPDATE } from "../CompanySchool/constants"
-import DateView from "../../components/common/date/DateView"
 
 const validationSchema = yup.object().shape({
   name: yup.string().required(ERROR.required),
@@ -177,7 +176,7 @@ const SettingCompany = () => {
           <div className="col-md-7">
             <div className="display-flex justify-content-between mb-4">
               <div>
-                <h2>Information School </h2>
+                <h2>School Information</h2>
               </div>
               <div className="d-block">
                 <Link className="btn btn-primary font-weight-bolder" to={COMPANY_SCHOOL_UPDATE}>
@@ -188,84 +187,109 @@ const SettingCompany = () => {
             </div>
             {schoolUpdate ? (
               <Widget>
-                <div className="row">
-                  <div className="col-md-6">
-                    <strong>LastUpdated:</strong> <DateView date={schoolUpdate.lastUpdated} />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <strong>Name Owner:</strong> {schoolUpdate.fullNameOwner}
-                  </div>
-                  <div className="col-md-6">
-                    <strong>Name Manage:</strong> {schoolUpdate.fullNameManage}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <strong>Region:</strong> {schoolUpdate.region}
-                  </div>
-                  <div className="col-md-6">
-                    <strong>Level:</strong> {schoolUpdate.level}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <strong>Student Size:</strong> {schoolUpdate.studentSize}
-                  </div>
-                  <div className="col-md-6">
-                    <strong>Joined Date:</strong> <DateView date={schoolUpdate.joinedDate} />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Staff:</strong> {schoolUpdate.numberWorker}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Type Organization:</strong> {schoolUpdate.typeOrganization}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Legal Structure:</strong> {schoolUpdate.legalStructure}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Info Class:</strong> {schoolUpdate.infoClass}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Organizational Structure:</strong>{" "}
-                    {schoolUpdate.organizationalStructure}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Courses/Training:</strong> {schoolUpdate.methodTeacher}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Mentoring:</strong> {schoolUpdate.methodSchool}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Demand This Year:</strong> {schoolUpdate.demandThisYear}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <strong>Description Last Year:</strong> {schoolUpdate.descriptionLastYear}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">Suggestion: {schoolUpdate.suggestion}</div>
-                </div>
+                <table className="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <strong>Name Owner</strong>
+                      </td>
+                      <td>{schoolUpdate.fullNameOwner}</td>
+                      <td>
+                        {" "}
+                        <strong>Name Manage</strong>{" "}
+                      </td>
+                      <td>{schoolUpdate.fullNameManage}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Region</strong>
+                      </td>
+                      <td>{schoolUpdate.region}</td>
+                      <td>
+                        {" "}
+                        <strong>Level</strong>
+                      </td>
+                      <td>{schoolUpdate.level}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Student Size</strong>
+                      </td>
+                      <td>{schoolUpdate.studentSize}</td>
+                      <td>
+                        {" "}
+                        <strong>Joined Date</strong>
+                      </td>
+                      <td>{formatDateOnlyFromStr(schoolUpdate.joinedDate)}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Staff</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.numberWorker}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Organization</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.typeOrganization}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Legal</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.legalStructure}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Class Information</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.infoClass}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Structure</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.organizationalStructure}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Courses/Training</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.methodTeacher}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Mentoring</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.methodSchool}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Demand This Year</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.demandThisYear}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Description Last Year</strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.descriptionLastYear}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Suggestion: </strong>
+                      </td>
+                      <td colSpan="3">{schoolUpdate.suggestion}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Last Updated</strong>
+                      </td>
+                      <td colSpan="3">{formatDate(new Date(schoolUpdate.lastUpdated))}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </Widget>
             ) : (
               <Widget>

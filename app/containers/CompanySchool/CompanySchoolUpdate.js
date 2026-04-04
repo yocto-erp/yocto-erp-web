@@ -199,6 +199,7 @@ const CompanySchoolUpdate = () => {
           <div className="row">
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="typeOrganization"
                 label={
                   <>
@@ -217,6 +218,7 @@ const CompanySchoolUpdate = () => {
             </div>
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="legalStructure"
                 label={
                   <>
@@ -236,10 +238,11 @@ const CompanySchoolUpdate = () => {
             </div>
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="infoClass"
                 label={
                   <>
-                    Info Class
+                    Class Information
                     <div>
                       (Vui lòng liệt kê các thông tin về lớp học bao gồm: tên lớp, số lượng học
                       sinh, số giáo viên)
@@ -251,13 +254,14 @@ const CompanySchoolUpdate = () => {
                 }
                 register={register}
                 type="textarea"
-                placeholder="Info Class"
+                placeholder="Class Information"
               />
             </div>
           </div>
           <div className="row">
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="organizationalStructure"
                 label={
                   <>
@@ -276,6 +280,7 @@ const CompanySchoolUpdate = () => {
             </div>
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="methodTeacher"
                 label={
                   <>
@@ -293,6 +298,7 @@ const CompanySchoolUpdate = () => {
             </div>
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="methodSchool"
                 label={
                   <>
@@ -313,6 +319,7 @@ const CompanySchoolUpdate = () => {
           <div className="row">
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="numberWorker"
                 label={
                   <>
@@ -332,6 +339,7 @@ const CompanySchoolUpdate = () => {
             </div>
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="descriptionLastYear"
                 label={
                   <>
@@ -349,6 +357,7 @@ const CompanySchoolUpdate = () => {
             </div>
             <div className="col-md-4">
               <FormGroupInput
+                rows="4"
                 name="demandThisYear"
                 label={
                   <>
