@@ -15,6 +15,7 @@ import FormGroup from "../../../components/Form/FormGroup"
 import { ALL_MIME_TYPE } from "../../../components/assets/constants"
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage"
 const validationSchema = Yup.object().shape({
+  title: Yup.string().required("This field is required."),
   note: Yup.string().required("This field is required."),
 })
 
@@ -75,6 +76,18 @@ const NoteModalForm = ({ isOpen, closeHandle, companyId, noteId }) => {
           Note Form
         </ModalHeader>
         <ModalBody>
+          <FormRow
+            label={
+              <>
+                Title<span className="text-danger">*</span>
+              </>
+            }
+            name="title"
+            type="text"
+            error={errors.note}
+            register={register}
+            placeholder="title"
+          />
           <FormRow
             rows={4}
             label={

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import Widget from "../../components/Widget/Widget"
-import BackButton from "../../components/button/BackButton"
 import { CompanySchoolUpdateApi } from "../../libs/apis/company-school/company-school-update.api"
 import PageTitle from "../Layout/PageTitle"
 import { formatDate, formatDateOnlyFromStr } from "../../libs/utils/date.util"
@@ -17,17 +16,6 @@ const CompanySchoolDetail = () => {
 
   return (
     <>
-      <PageTitle
-        className=""
-        colLeft={9}
-        colRight={3}
-        title=""
-        actions={
-          <>
-            <BackButton className="mr-2" />
-          </>
-        }
-      />
       <div className="row">
         <div className="col-md-7">
           <PageTitle title={<>School {schoolUpdate?.company?.name}</>} />
