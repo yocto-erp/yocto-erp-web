@@ -11,6 +11,7 @@ import NoteModalForm from "./components/NoteModalForm"
 import TextIconButton from "../../components/button/TextIconButton"
 import AssetListView from "../../components/assets/AssetListView/AssetListView"
 import { formatDate } from "../../libs/utils/date.util"
+import RawHtml from "../../components/RawHtml"
 
 const ListPageNoteCompany = ({ companyId }) => {
   const [visibleCount, setVisibleCount] = useState(3)
@@ -102,7 +103,9 @@ const ListPageNoteCompany = ({ companyId }) => {
               </button>
             </div>
           </div>
-          <div className="card-body">{t.note || ""}</div>
+          <div className="card-body">
+            <RawHtml className="introduction mt-4" html={t.note} />
+          </div>
           <div className="card-footer display-flex justify-content-between">
             <div>
               <div className="size-10">{t.createdBy.displayName || t.createdBy.email}</div>

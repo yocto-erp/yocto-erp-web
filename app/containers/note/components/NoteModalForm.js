@@ -14,6 +14,9 @@ import AssetSelect from "../../../components/assets/AssetSelect"
 import FormGroup from "../../../components/Form/FormGroup"
 import { ALL_MIME_TYPE } from "../../../components/assets/constants"
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage"
+import Editor from "../../../components/Form/Editor"
+import { EDITOR_TYPE } from "../../../components/constants"
+import Label from "../../../components/Form/Label"
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("This field is required."),
   note: Yup.string().required("This field is required."),
@@ -65,7 +68,7 @@ const NoteModalForm = ({ isOpen, closeHandle, companyId, noteId }) => {
   }, [])
 
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={isOpen} size="lg">
       <Form noValidate formNoValidate>
         <ModalHeader
           toggle={() => {
@@ -84,23 +87,31 @@ const NoteModalForm = ({ isOpen, closeHandle, companyId, noteId }) => {
             }
             name="title"
             type="text"
-            error={errors.note}
+            error={errors.title}
             register={register}
             placeholder="title"
           />
-          <FormRow
-            rows={4}
-            label={
-              <>
-                Note<span className="text-danger">*</span>
-              </>
-            }
-            name="note"
-            type="textarea"
-            error={errors.note}
-            register={register}
-            placeholder="note"
-          />
+          <FormGroup>
+            <Label for="note" className="mr-sm-2">
+              Note<span className="text-danger">*</span>
+            </Label>
+            <Controller
+              name="note"
+              defaultValue=""
+              control={control}
+              render={({ onChange, onBlur, value, name }) => (
+                <Editor
+                  id="note"
+                  type={EDITOR_TYPE.NORMAL}
+                  value={value}
+                  onBlur={onBlur}
+                  onChange={onChange}
+                  name={name}
+                  height={400}
+                />
+              )}
+            />
+          </FormGroup>
           <FormGroup className="pb-3 h-100">
             <Controller
               name="assets"
