@@ -1,6 +1,6 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import { Button } from "reactstrap";
+import { Button } from "reactstrap"
 import { formatDate, formatDateOnly } from "../../libs/utils/date.util"
 import ListWidget from "../../components/ListWidget"
 import PageTitle from "../Layout/PageTitle"
@@ -14,7 +14,7 @@ import Permission from "../../components/Acl/Permission"
 import { COMPANY_SCHOOL_UPDATE_LIST } from "./constants"
 
 export default function ListCompanySchoolUpdate() {
-  const history = useHistory();
+  const history = useHistory()
   const columns = React.useMemo(
     () => [
       {
@@ -37,7 +37,7 @@ export default function ListCompanySchoolUpdate() {
         data: "fullNameOwner",
       },
       {
-        header: "Name Manage",
+        header: "Name Manager",
         data: "fullNameManage",
       },
       {
@@ -46,10 +46,19 @@ export default function ListCompanySchoolUpdate() {
         render: (row) => <div>{row.region}</div>,
       },
       {
+        header: "Established Date",
+        data: "establishedDate",
+        class: "min",
+        render: (row) =>
+          row.company.establishedDate
+            ? formatDateOnly(new Date(row.company.establishedDate))
+            : null,
+      },
+      {
         header: "Joined Date",
         data: "joinedDate",
         class: "min",
-        render: (row) => formatDateOnly(new Date(row.joinedDate)),
+        render: (row) => (row.joinedDate ? formatDateOnly(new Date(row.joinedDate)) : null),
       },
       {
         header: "Size",

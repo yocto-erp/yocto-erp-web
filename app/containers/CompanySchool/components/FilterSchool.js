@@ -25,7 +25,7 @@ const FilterSchool = () => {
         style={{ width: "300px" }}
         innerRef={register}
         id="search"
-        placeholder="Search By Name "
+        placeholder="Search By Name, Region... "
       />
       <SearchButton />
     </Form>

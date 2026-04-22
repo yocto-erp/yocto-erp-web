@@ -101,14 +101,14 @@ const CompanySchoolUpdate = () => {
                 name="fullNameManage"
                 label={
                   <>
-                    Full Name Manage
+                    Full Name Manager
                     <div>(Họ và tên người quản lý trực tiếp)</div>
                   </>
                 }
                 register={register}
                 error={errors.fullNameManage}
                 type="text"
-                placeholder="Full Name Manage"
+                placeholder="Full Name Manager"
               />
             </div>
             <div className="col-md-4">

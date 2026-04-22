@@ -40,7 +40,7 @@ const CompanySchoolDetail = () => {
                     <td>{schoolUpdate.fullNameOwner}</td>
                     <td>
                       {" "}
-                      <strong>Name Manage</strong>{" "}
+                      <strong>Name Manager</strong>{" "}
                     </td>
                     <td>{schoolUpdate.fullNameManage}</td>
                   </tr>
@@ -57,14 +57,20 @@ const CompanySchoolDetail = () => {
                   </tr>
                   <tr>
                     <td>
-                      <strong>Student Size</strong>
+                      <strong>Established Date</strong>
                     </td>
-                    <td>{schoolUpdate.studentSize}</td>
+                    <td>{formatDateOnlyFromStr(schoolUpdate?.company?.establishedDate)}</td>
                     <td>
                       {" "}
                       <strong>Joined Date</strong>
                     </td>
                     <td>{formatDateOnlyFromStr(schoolUpdate.joinedDate)}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Student Size</strong>
+                    </td>
+                    <td>{schoolUpdate.studentSize}</td>
                   </tr>
                   <tr>
                     <td>

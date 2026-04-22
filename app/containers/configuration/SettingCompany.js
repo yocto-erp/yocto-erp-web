@@ -196,7 +196,7 @@ const SettingCompany = () => {
                       <td>{schoolUpdate.fullNameOwner}</td>
                       <td>
                         {" "}
-                        <strong>Name Manage</strong>{" "}
+                        <strong>Name Manager</strong>{" "}
                       </td>
                       <td>{schoolUpdate.fullNameManage}</td>
                     </tr>
