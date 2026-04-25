@@ -84,7 +84,7 @@ export default function ListCompanySchoolUpdate() {
         class: "action",
         render: (row) => (
           <TableActionColumns>
-            <Permission permissions={[PERMISSION.PROVIDER.READ]}>
+            <Permission permissions={[PERMISSION.COMPANY_SCHOOL.READ]}>
               <Button
                 type="button"
                 color="success"
