@@ -1,7 +1,7 @@
 import { PERMISSION_MODULE_PROJECT } from "../../containers/project/constants"
 import { PERMISSION_ENABLE_TYPE } from "./permission/constants"
 
-// MAX = 140
+// MAX = 143
 
 export const PERMISSION = {
   PRODUCT: {
@@ -217,6 +217,9 @@ export const PERMISSION = {
   },
   COMPANY_SCHOOL: {
     READ: 140,
+    CREATE: 141,
+    DELETE: 142,
+    UPDATE: 143,
   },
 }
 
@@ -897,4 +900,30 @@ export const PERMISSION_MODULE = [
     ],
   },
   ...PERMISSION_MODULE_PROJECT,
+  {
+    id: 30,
+    name: "School Update",
+    permissions: [
+      {
+        id: PERMISSION.COMPANY_SCHOOL.CREATE,
+        name: "CREATE",
+        enableType: PERMISSION_ENABLE_TYPE.NOT_ALLOW_CHOOSE_TYPE,
+      },
+      {
+        id: PERMISSION.COMPANY_SCHOOL.READ,
+        name: "READ",
+        enableType: PERMISSION_ENABLE_TYPE.NOT_ALLOW_CHOOSE_TYPE,
+      },
+      {
+        id: PERMISSION.COMPANY_SCHOOL.UPDATE,
+        name: "UPDATE",
+        enableType: PERMISSION_ENABLE_TYPE.NOT_ALLOW_CHOOSE_TYPE,
+      },
+      {
+        id: PERMISSION.COMPANY_SCHOOL.DELETE,
+        name: "DELETE",
+        enableType: PERMISSION_ENABLE_TYPE.NOT_ALLOW_CHOOSE_TYPE,
+      },
+    ],
+  },
 ]
