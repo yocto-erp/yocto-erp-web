@@ -11,7 +11,7 @@ const FilterSchool = () => {
   const { handleSubmit, register, reset, watch } = useForm({
     defaultValues: filter || { month: null },
   })
-  const getStateSelect = useListStateContext();
+  const getStateSelect = useListStateContext()
 
   const onSubmit = handleSubmit((val) => searchByFilter(val))
 
