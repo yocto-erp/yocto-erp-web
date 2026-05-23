@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Input } from "reactstrap"
 import { useForm } from "react-hook-form"
-import { useListFilter } from "../../../components/ListWidget/constants"
+import { useListFilter, useListStateContext } from "../../../components/ListWidget/constants"
 import SearchButton from "../../../components/button/SearchButton"
 import DownloadButton from "../../../components/button/DownloadButton"
 import { CompanySchoolUpdateApi } from "../../../libs/apis/company-school/company-school-update.api"
@@ -11,6 +11,7 @@ const FilterSchool = () => {
   const { handleSubmit, register, reset, watch } = useForm({
     defaultValues: filter || { month: null },
   })
+  const getStateSelect = useListStateContext();
 
   const onSubmit = handleSubmit((val) => searchByFilter(val))
 
@@ -39,8 +40,8 @@ const FilterSchool = () => {
           <DownloadButton
             key="execl"
             title="Download Excel"
-            link={() => CompanySchoolUpdateApi.download(search)}
-            fileName={() => `list_school_${new Date().getTime()}.csv`}
+            link={() => CompanySchoolUpdateApi.download(search, Object.values(getStateSelect))}
+            fileName={() => `list_school_${new Date().getTime()}.xlsx`}
           >
             <i className="fa fa-file-excel-o" />
           </DownloadButton>
