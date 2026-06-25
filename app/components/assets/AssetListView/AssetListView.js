@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { UncontrolledTooltip } from "reactstrap";
-import AssetView from "./AssetView";
-import "./AssetListView.scss";
-import { formatDate } from "../../../libs/utils/date.util";
-import AssetLargeViewModal from "./AssetLargeViewModal";
+import React, { useState } from "react"
+import PropTypes from "prop-types"
+import classNames from "classnames"
+import { UncontrolledTooltip } from "reactstrap"
+import AssetView from "./AssetView"
+import "./AssetListView.scss"
+import { formatDate } from "../../../libs/utils/date.util"
+import AssetLargeViewModal from "./AssetLargeViewModal"
 
 const AssetListView = ({ list, type = "thumbnail" }) => {
-  const [viewIndex, setViewIndex] = useState(-1);
+  const [viewIndex, setViewIndex] = useState(-1)
 
-  if (!list) return null;
+  if (!list) return null
   return (
     <div className="row no-gutters">
       {list.map((t, i) => (
@@ -24,10 +24,7 @@ const AssetListView = ({ list, type = "thumbnail" }) => {
               <AssetView asset={t} />
             </button>
           </div>
-          <UncontrolledTooltip
-            target={`item${t.id}`}
-            className="tooltip-purple"
-          >
+          <UncontrolledTooltip target={`item${t.id}`} className="tooltip-purple">
             <div className="text-left text-white">
               <strong>{t.name}</strong>
               <br />
@@ -48,12 +45,12 @@ const AssetListView = ({ list, type = "thumbnail" }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
 AssetListView.propTypes = {
   list: PropTypes.array.isRequired,
   type: PropTypes.oneOf(["thumbnail", "normal"]),
-};
+}
 
-export default AssetListView;
+export default AssetListView

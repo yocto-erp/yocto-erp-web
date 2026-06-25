@@ -12,38 +12,47 @@ import { viewPage } from "../../libs/utils/crud.util"
 import { PERMISSION } from "../../components/Acl/constants"
 import Permission from "../../components/Acl/Permission"
 import { COMPANY_SCHOOL_UPDATE_LIST } from "./constants"
+import { SchoolRegion } from "./components/SchoolRegion"
+import { SchoolLevel } from "./components/SchoolLevel"
 
 export default function ListCompanySchoolUpdate() {
   const history = useHistory()
   const columns = React.useMemo(
     () => [
       {
-        header: "Name",
+        header: "Thông tin chung",
         data: "name",
-        render: (row) => <div>{row.company.name}</div>,
+        width: "150px",
+        render: (row) => (
+          <span>
+            Name: <strong>{row.company.name}</strong>
+            <br />
+            English: <strong>{row.company.englishName}</strong>
+            {row.company.email && (
+              <>
+                <br />
+                Email: <strong>{row.company.email}</strong>
+              </>
+            )}
+          </span>
+        ),
       },
       {
-        header: "Name English",
-        data: "englishName",
-        render: (row) => <div>{row.company.englishName}</div>,
-      },
-      {
-        header: "email",
-        data: "email",
-        render: (row) => <div>{row.company.email}</div>,
-      },
-      {
-        header: "Name Owner",
+        header: <span>Quản lý</span>,
         data: "fullNameOwner",
-      },
-      {
-        header: "Name Manager",
-        data: "fullNameManage",
+        class: "min",
+        render: (row) => (
+          <span>
+            Chủ trường: <strong>{row.school.fullNameOwner}</strong>
+            <br />
+            Quản lý: <strong>{row.school.fullNameManage}</strong>
+          </span>
+        ),
       },
       {
         header: "Region",
         data: "region",
-        render: (row) => <div>{row.region}</div>,
+        render: (row) => <SchoolRegion region={row.school.region} />,
       },
       {
         header: "Established Date",
@@ -58,25 +67,24 @@ export default function ListCompanySchoolUpdate() {
         header: "Joined Date",
         data: "joinedDate",
         class: "min",
-        render: (row) => (row.joinedDate ? formatDateOnly(new Date(row.joinedDate)) : null),
+        render: (row) =>
+          row.school.joinedDate ? formatDateOnly(new Date(row.school.joinedDate)) : null,
       },
       {
         header: "Size",
         data: "studentSize",
+        render: (row) => row.school.studentSize,
       },
       {
         header: "Level",
         data: "level",
-      },
-      {
-        header: "Worker",
-        data: "numberWorker",
+        render: (row) => <SchoolLevel level={row.school.level} />,
       },
       {
         header: "Last Update",
         data: "lastUpdated",
         class: "min",
-        render: (row) => formatDate(new Date(row.lastUpdated)),
+        render: (row) => formatDate(new Date(row.school.lastUpdated)),
       },
       {
         header: "Action",
@@ -88,7 +96,7 @@ export default function ListCompanySchoolUpdate() {
               <Button
                 type="button"
                 color="success"
-                onClick={() => history.push(viewPage(COMPANY_SCHOOL_UPDATE_LIST, row.id))}
+                onClick={() => history.push(viewPage(COMPANY_SCHOOL_UPDATE_LIST, row.school.id))}
               >
                 <IconView />
               </Button>
@@ -103,12 +111,11 @@ export default function ListCompanySchoolUpdate() {
   return (
     <>
       <ListWidget
-        pageHeader={<PageTitle title="List Info School" />}
+        pageHeader={<PageTitle title="Danh sách các trường" />}
         columns={columns}
         fetchData={CompanySchoolUpdateApi.search}
         initPage={1}
         initSize={10}
-        enableSelectColumn
       >
         <FilterSchool />
       </ListWidget>

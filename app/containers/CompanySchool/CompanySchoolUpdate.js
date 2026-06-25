@@ -155,12 +155,52 @@ const CompanySchoolUpdate = () => {
             <FormHookErrorMessage error={errors.level} />
           </FormRowOnly>
           <FormRow
+            label={<FormattedMessage {...commonCompanyMessages.schoolArea} />}
+            name="extraData.buildingArea"
+            type="number"
+            register={register}
+            error={errors.extraData?.buildingArea}
+            placeholder="Tổng diện tích xây dựng"
+          />
+          <FormRow
+            label={<FormattedMessage {...commonCompanyMessages.schoolPlaygroundArea} />}
+            name="extraData.buildingArea"
+            type="number"
+            register={register}
+            error={errors.extraData?.playgroundArea}
+            placeholder="Tổng diện tích sân chơi"
+          />
+          <FormRow
+            label={<FormattedMessage {...commonCompanyMessages.schoolTotalClass} />}
+            name="extraData.totalClass"
+            type="number"
+            register={register}
+            error={errors.extraData?.playgroundArea}
+            placeholder="Quy mô lớp tối đa"
+          />
+          <FormRow
+            label={<FormattedMessage {...commonCompanyMessages.schoolCurrentClass} />}
+            name="extraData.schoolCurrentClass"
+            type="number"
+            register={register}
+            error={errors.extraData?.playgroundArea}
+            placeholder="Số lớp hiện tại"
+          />
+          <FormRow
+            label={<FormattedMessage {...commonCompanyMessages.schoolTotalStudent} />}
+            name="extraData.schoolTotalStudent"
+            type="number"
+            register={register}
+            error={errors.extraData?.schoolTotalStudent}
+            placeholder="Số học sinh tối đa"
+          />
+          <FormRow
             label={<FormattedMessage {...commonCompanyMessages.schoolStudentSize} />}
             name="studentSize"
             type="number"
             register={register}
             error={errors.studentSize}
-            placeholder="Tổng số lượng học sinh"
+            placeholder="Số học sinh hiện tại"
           />
           <FormRowOnly label={<FormattedMessage {...commonCompanyMessages.schoolJoinSWAN} />}>
             <Controller

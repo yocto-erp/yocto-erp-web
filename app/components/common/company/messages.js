@@ -63,9 +63,29 @@ export default defineMessages({
     id: `${scope}.schoolLevel`,
     defaultMessage: "Khối lớp",
   },
+  schoolArea: {
+    id: `${scope}.schoolArea`,
+    defaultMessage: "Diện tích xây dựng (m2)",
+  },
+  schoolPlaygroundArea: {
+    id: `${scope}.schoolPlaygroundArea`,
+    defaultMessage: "Diện tích sân chơi (m2)",
+  },
+  schoolTotalClass: {
+    id: `${scope}.schoolTotalClass`,
+    defaultMessage: "Số lớp tối đa",
+  },
+  schoolCurrentClass: {
+    id: `${scope}.schoolCurrentClass`,
+    defaultMessage: "Số lớp hiện tại",
+  },
+  schoolTotalStudent: {
+    id: `${scope}.schoolTotalStudent`,
+    defaultMessage: "Số học sinh tối đa",
+  },
   schoolStudentSize: {
     id: `${scope}.schoolStudentSize`,
-    defaultMessage: "Quy mô học sinh",
+    defaultMessage: "Số học sinh hiện tại",
   },
   schoolJoinSWAN: {
     id: `${scope}.schoolJoinSWAN`,

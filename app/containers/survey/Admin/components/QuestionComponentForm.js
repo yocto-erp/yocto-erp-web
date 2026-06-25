@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react"
 import {
   Button,
   ButtonGroup,
@@ -7,35 +7,32 @@ import {
   CardBody,
   CardHeader,
   Collapse,
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import { SURVEY_QUESTION_TYPE } from '../../constants';
+} from "reactstrap"
+import PropTypes from "prop-types"
+import { SURVEY_QUESTION_TYPE } from "../../constants"
 
 const QuestionComponentForm = ({ question, isOpen, onEdit, onDelete }) => {
-  const [state, setIsOpen] = React.useState(false);
+  const [state, setIsOpen] = React.useState(false)
 
   useEffect(() => {
-    setIsOpen(isOpen);
-  }, [isOpen]);
+    setIsOpen(isOpen)
+  }, [isOpen])
 
   return React.useMemo(() => {
-    let rs = '';
+    let rs = ""
     switch (question?.type) {
       case SURVEY_QUESTION_TYPE.CHECKBOX:
-        rs = <span className="badge badge-info">CHECKBOX</span>;
-        break;
+        rs = <span className="badge badge-info">CHECKBOX</span>
+        break
       case SURVEY_QUESTION_TYPE.RADIO:
-        rs = <span className="badge badge-primary">RADIO</span>;
-        break;
+        rs = <span className="badge badge-primary">RADIO</span>
+        break
       default:
-        return rs;
+        return rs
     }
     return (
       <Card className="text-left mt-2">
-        <CardHeader
-          className="font-weight-bolder"
-          onClick={() => setIsOpen(!state)}
-        >
+        <CardHeader className="font-weight-bolder" onClick={() => setIsOpen(!state)}>
           <div className="row align-items-center">
             <div className="col-9">{question?.content}</div>
             <div className="col-1">
@@ -44,18 +41,10 @@ const QuestionComponentForm = ({ question, isOpen, onEdit, onDelete }) => {
             <div className="col-2">
               <ButtonToolbar className="">
                 <ButtonGroup size="sm">
-                  <Button
-                    key="edit"
-                    onClick={e => onEdit(e, question)}
-                    color="warning"
-                  >
+                  <Button key="edit" onClick={(e) => onEdit(e, question)} color="warning">
                     <i className="fi flaticon-edit" />
                   </Button>
-                  <Button
-                    key="delete"
-                    onClick={() => onDelete(question)}
-                    color="danger"
-                  >
+                  <Button key="delete" onClick={() => onDelete(question)} color="danger">
                     <i className="fi flaticon-trash" />
                   </Button>
                 </ButtonGroup>
@@ -75,15 +64,15 @@ const QuestionComponentForm = ({ question, isOpen, onEdit, onDelete }) => {
           </CardBody>
         </Collapse>
       </Card>
-    );
-  }, [question, state]);
-};
+    )
+  }, [question, state])
+}
 
 QuestionComponentForm.propTypes = {
   question: PropTypes.object,
   isOpen: PropTypes.bool,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-};
+}
 
-export default QuestionComponentForm;
+export default QuestionComponentForm

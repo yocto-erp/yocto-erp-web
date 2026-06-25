@@ -43,6 +43,7 @@ const SettingCompany = () => {
     state,
     reset,
   } = useMyForm({
+    form: { establishedDate: "" },
     api: CompanySettingApi.save,
     validationSchema,
   })
@@ -294,11 +295,10 @@ const SettingCompany = () => {
                           <textarea
                             readOnly
                             rows={4}
+                            value={schoolUpdate.typeOrganization}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.typeOrganization}
-                          </textarea>
+                          />
                         </div>
                       </td>
                     </tr>
@@ -315,9 +315,8 @@ const SettingCompany = () => {
                             rows={4}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.legalStructure}
-                          </textarea>
+                            value={schoolUpdate.legalStructure}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -334,9 +333,8 @@ const SettingCompany = () => {
                             rows={4}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.infoClass}
-                          </textarea>
+                            value={schoolUpdate.infoClass}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -353,9 +351,8 @@ const SettingCompany = () => {
                             rows={4}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.organizationalStructure}
-                          </textarea>
+                            value={schoolUpdate.organizationalStructure}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -372,9 +369,8 @@ const SettingCompany = () => {
                             rows={4}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.methodTeacher}
-                          </textarea>
+                            value={schoolUpdate.methodTeacher}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -391,9 +387,7 @@ const SettingCompany = () => {
                             rows={4}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.methodSchool}
-                          </textarea>
+                            value={schoolUpdate.methodSchool} />
                         </div>
                       </td>
                     </tr>
@@ -410,9 +404,8 @@ const SettingCompany = () => {
                             rows={4}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.descriptionLastYear}
-                          </textarea>
+                            value={schoolUpdate.descriptionLastYear}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -429,9 +422,8 @@ const SettingCompany = () => {
                             rows={4}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.demandThisYear}
-                          </textarea>
+                            value={schoolUpdate.demandThisYear}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -448,9 +440,8 @@ const SettingCompany = () => {
                             rows={4}
                             className="form-control"
                             style={{ resize: "none" }}
-                          >
-                            {schoolUpdate.suggestion}
-                          </textarea>
+                            value={schoolUpdate.suggestion}
+                          />
                         </div>
                       </td>
                     </tr>

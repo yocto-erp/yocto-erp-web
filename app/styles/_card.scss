@@ -1,0 +1,16 @@
+.my-card {
+  .card-header {
+    border-bottom: 1px solid rgba(255, 255, 255, .125);
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    .card-header-title {
+      font-size: 16px;
+    }
+  }
+
+  .card-footer {
+    border-top: 1px solid rgba(255, 255, 255, .125);
+  }
+}

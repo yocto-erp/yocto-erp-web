@@ -5,6 +5,7 @@ import { CompanySchoolUpdateApi } from "../../libs/apis/company-school/company-s
 import PageTitle from "../Layout/PageTitle"
 import { formatDate, formatDateOnlyFromStr } from "../../libs/utils/date.util"
 import ListPageNoteCompany from "../note/ListPageNoteCompany"
+
 const CompanySchoolDetail = () => {
   const { id } = useParams()
   const [schoolUpdate, setSchoolUpdate] = useState(null)
@@ -16,9 +17,9 @@ const CompanySchoolDetail = () => {
 
   return (
     <>
+      <PageTitle title={<>Thông tin trường {schoolUpdate?.company?.name}</>} />
       <div className="row">
         <div className="col-md-7">
-          <PageTitle title={<>School {schoolUpdate?.company?.name}</>} />
           {schoolUpdate ? (
             <Widget>
               <table className="table table-borderless">
@@ -148,7 +149,7 @@ const CompanySchoolDetail = () => {
           )}
         </div>
         <div className="col-md-5">
-          <ListPageNoteCompany companyId={schoolUpdate?.companyId} />
+          {schoolUpdate?.companyId && <ListPageNoteCompany companyId={schoolUpdate.companyId} />}
         </div>
       </div>
     </>
