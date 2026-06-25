@@ -289,7 +289,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.typeOrganization} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.typeOrganization}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.typeOrganization}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -297,7 +308,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.structureOrganization} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.legalStructure}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.legalStructure}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -305,7 +327,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.classesDetail} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.infoClass}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.infoClass}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -313,7 +346,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.teachingMethod} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.organizationalStructure}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.organizationalStructure}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -321,7 +365,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.certificate} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.methodTeacher}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.methodTeacher}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -329,7 +384,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.mentor} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.methodSchool}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.methodSchool}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -337,7 +403,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.lastYearSummary} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.descriptionLastYear}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.descriptionLastYear}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -345,7 +422,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.nextYearSummary} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.demandThisYear}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.demandThisYear}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -353,7 +441,18 @@ const SettingCompany = () => {
                           <FormattedMessage {...commonCompanyMessages.suggestion} />
                         </strong>
                       </td>
-                      <td colSpan="3">{schoolUpdate.suggestion}</td>
+                      <td colSpan="3">
+                        <div className="form-group">
+                          <textarea
+                            readOnly
+                            rows={4}
+                            className="form-control"
+                            style={{ resize: "none" }}
+                          >
+                            {schoolUpdate.suggestion}
+                          </textarea>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>
