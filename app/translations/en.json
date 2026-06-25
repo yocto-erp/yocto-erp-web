@@ -23,6 +23,8 @@
   "app.components.form.error.numberGT0": "Number must be greater than zero",
   "app.components.form.error.priceGT0": "",
   "app.components.form.error.required": "This field is required",
+  "app.components.general.conf.company.schoolTitle": "",
+  "app.components.general.conf.company.title": "",
   "app.components.general.footer": "2020 © Yocto ERP - Simple management tool for small company.",
   "app.containers.ForgotPassword.button.forgotPassword": "Reset my password",
   "app.containers.ForgotPassword.email": "Email",

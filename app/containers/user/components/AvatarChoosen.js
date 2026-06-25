@@ -1,36 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
-import classnames from "classnames";
-import { Button } from "reactstrap";
-import noImage from "../../../images/No_image_available.svg";
-import "./AvatarChoosen.scss";
-import { IconImageEdit, IconTrash } from "../../Icon/constants";
+import React, { useEffect, useRef, useState } from "react"
+import PropTypes from "prop-types"
+import classnames from "classnames"
+import { Button } from "reactstrap"
+import noImage from "../../../images/No_image_available.svg"
+import "./AvatarChoosen.scss"
+import { IconImageEdit, IconTrash } from "../../Icon/constants"
 
 const AvatarChoosen = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
   ({ value, invalid, onChange, defaultValue, isDirty }, ref) => {
-    const imgRef = useRef();
-    const [imageUrl, setImageUrl] = useState(null);
-    const onFileChange = event => {
-      console.log(event.target.files);
+    const imgRef = useRef()
+    const [imageUrl, setImageUrl] = useState(null)
+    const onFileChange = (event) => {
+      console.log(event.target.files)
       if (event.target.files[0]) {
-        onChange(event.target.files[0]);
+        onChange(event.target.files[0])
       } else {
-        onChange(null);
+        onChange(null)
       }
-    };
+    }
 
     useEffect(() => {
       if (value) {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onload = function onLoad() {
-          setImageUrl(reader.result);
-        };
-        reader.readAsDataURL(value);
+          setImageUrl(reader.result)
+        }
+        reader.readAsDataURL(value)
       } else {
-        setImageUrl(null);
+        setImageUrl(null)
       }
-    }, [value]);
+    }, [value])
     return (
       <div className={classnames("avatar-wrapper", { invalid })}>
         <label htmlFor="chooseFile" className="btn-edit btn btn-info btn-sm">
@@ -61,9 +61,9 @@ const AvatarChoosen = React.forwardRef(
           onChange={onFileChange}
         />
       </div>
-    );
+    )
   },
-);
+)
 
 AvatarChoosen.propTypes = {
   value: PropTypes.any,
@@ -71,6 +71,6 @@ AvatarChoosen.propTypes = {
   invalid: PropTypes.bool,
   onChange: PropTypes.func,
   defaultValue: PropTypes.string,
-};
+}
 
-export default AvatarChoosen;
+export default AvatarChoosen

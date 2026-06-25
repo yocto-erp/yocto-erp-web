@@ -1,22 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { IMaskInput } from "react-imask";
-import { isFunc } from "../../utils/util";
+import React from "react"
+import PropTypes from "prop-types"
+import classNames from "classnames"
+import { IMaskInput } from "react-imask"
+import { isFunc } from "../../utils/util"
 
 const InputNumber = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
   (
-    {
-      invalid,
-      value,
-      onChange,
-      placeholder,
-      max,
-      min,
-      readOnly = false,
-      ...props
-    },
+    { invalid, value, onChange, placeholder, max, min, readOnly = false, ...props },
     // eslint-disable-next-line no-unused-vars
     ref,
   ) => (
@@ -33,15 +24,15 @@ const InputNumber = React.forwardRef(
       max={max}
       min={min}
       readOnly={readOnly}
-      onAccept={_val => {
+      onAccept={(_val) => {
         if (isFunc(onChange)) {
-          onChange(_val);
+          onChange(_val)
         }
       }}
       placeholder={placeholder}
     />
   ),
-);
+)
 
 InputNumber.propTypes = {
   invalid: PropTypes.bool,
@@ -51,6 +42,6 @@ InputNumber.propTypes = {
   max: PropTypes.number,
   min: PropTypes.number,
   readOnly: PropTypes.bool,
-};
+}
 
-export default InputNumber;
+export default InputNumber

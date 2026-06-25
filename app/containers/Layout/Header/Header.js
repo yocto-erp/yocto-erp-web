@@ -1,50 +1,46 @@
-import { connect } from "react-redux";
-import React, { useCallback, useState } from "react";
-import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
-import { BiMenu, BiMenuAltLeft } from "react-icons/all";
+import { connect } from "react-redux"
+import React, { useCallback, useState } from "react"
+import PropTypes from "prop-types"
+import { Link, withRouter } from "react-router-dom"
+import { BiMenu, BiMenuAltLeft } from "react-icons/all"
 /* eslint-disable no-unused-vars */
-import { Nav, Navbar, NavItem, NavLink } from "reactstrap";
-import classNames from "classnames";
-import {
-  changeSidebarVisibility,
-  closeSidebar,
-  openSidebar,
-} from "../redux/navigation";
-import s from "./Header.module.scss";
-import "../../../../node_modules/animate.css/animate.css";
-import AccountDropDown from "./components/AccountDropdown";
+import { Nav, Navbar, NavItem, NavLink } from "reactstrap"
+import classNames from "classnames"
+import { changeSidebarVisibility, closeSidebar, openSidebar } from "../redux/navigation"
+import s from "./Header.module.scss"
+import "../../../../node_modules/animate.css/animate.css"
+import AccountDropDown from "./components/AccountDropdown"
 // import LanguageDropDown from "./components/LanguageDropdown";
-import useUser from "../../../libs/hooks/useUser";
-import { CONFIGURATION_COMPANY_ROOT_PATH } from "../../configuration/constants";
-import { IconEdit } from "../../Icon/constants";
+import useUser from "../../../libs/hooks/useUser"
+import { CONFIGURATION_COMPANY_ROOT_PATH } from "../../configuration/constants"
+import { IconEdit } from "../../Icon/constants"
 
 function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
-  const [messagesOpen, setMessagesOpen] = useState(false);
-  const [searchFocused, setSearchFocused] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [messagesOpen, setMessagesOpen] = useState(false)
+  const [searchFocused, setSearchFocused] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
 
-  const { user } = useUser();
+  const { user } = useUser()
 
   const toggleMessagesDropdown = useCallback(() => {
-    setMessagesOpen(previousState => !previousState);
-  }, []);
+    setMessagesOpen((previousState) => !previousState)
+  }, [])
 
   const toggleSearchOpen = useCallback(() => {
-    setSearchOpen(previousState => !previousState);
-  }, []);
+    setSearchOpen((previousState) => !previousState)
+  }, [])
 
   const toggleSidebar = useCallback(() => {
     if (isSidebarOpened) {
-      dispatch(closeSidebar());
+      dispatch(closeSidebar())
     } else {
-      dispatch(openSidebar());
+      dispatch(openSidebar())
     }
-  }, [isSidebarOpened, dispatch]);
+  }, [isSidebarOpened, dispatch])
 
   const toggleVisibilitySidebar = useCallback(() => {
-    dispatch(changeSidebarVisibility());
-  }, []);
+    dispatch(changeSidebarVisibility())
+  }, [])
 
   return (
     <Navbar className={`d-print-none ${s.root}`}>
@@ -55,16 +51,8 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
         )}
       >
         <NavItem className="">
-          <NavLink
-            onClick={toggleVisibilitySidebar}
-            className={`${s.navItem} text-white`}
-            href="#"
-          >
-            {sidebarVisibility === "show" ? (
-              <BiMenuAltLeft size={32} />
-            ) : (
-              <BiMenu size={32} />
-            )}
+          <NavLink onClick={toggleVisibilitySidebar} className={`${s.navItem} text-white`} href="#">
+            {sidebarVisibility === "show" ? <BiMenuAltLeft size={32} /> : <BiMenu size={32} />}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -147,31 +135,27 @@ function Header({ dispatch, isSidebarOpened, sidebarVisibility }) {
         <NavItem className={`${s.divider} text-white`} />
         <LanguageDropDown /> */}
         <NavItem className="d-md-none">
-          <NavLink
-            onClick={toggleSidebar}
-            className={`${s.navItem} text-white`}
-            href="#"
-          >
+          <NavLink onClick={toggleSidebar} className={`${s.navItem} text-white`} href="#">
             <i className="fa fa-bars" />
           </NavLink>
         </NavItem>
       </Nav>
     </Navbar>
-  );
+  )
 }
 
 Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isSidebarOpened: PropTypes.bool,
   sidebarVisibility: PropTypes.string,
-};
+}
 
 function mapStateToProps(store) {
   return {
     isSidebarOpened: store.navigation.sidebarOpened,
     sidebarVisibility: store.navigation.sidebarVisibility,
     sidebarPosition: store.navigation.sidebarPosition,
-  };
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(Header));
+export default withRouter(connect(mapStateToProps)(Header))

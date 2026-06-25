@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormGroup as BootStrapFormGroup, Label } from "reactstrap";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormGroup as BootStrapFormGroup, Label } from "reactstrap"
 
 const FormGroup = ({ id, label, children, className, isRequired }) => (
   <BootStrapFormGroup className={className}>
@@ -11,7 +11,7 @@ const FormGroup = ({ id, label, children, className, isRequired }) => (
     ) : null}
     {children}
   </BootStrapFormGroup>
-);
+)
 
 FormGroup.propTypes = {
   children: PropTypes.any,
@@ -19,6 +19,6 @@ FormGroup.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   className: PropTypes.string,
   isRequired: PropTypes.bool,
-};
+}
 
-export default FormGroup;
+export default FormGroup

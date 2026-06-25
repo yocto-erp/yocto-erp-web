@@ -1,6 +1,6 @@
-import { defineMessages } from "react-intl";
+import { defineMessages } from "react-intl"
 
-const scope = "app.containers.template";
+const scope = "app.containers.template"
 
 export const commonMessage = defineMessages({
   searchPartnerPlaceHolder: {
@@ -119,4 +119,4 @@ export const commonMessage = defineMessages({
     id: `${scope}.tableColHeaderStatus`,
     defaultMessage: "Trạng thái",
   },
-});
+})

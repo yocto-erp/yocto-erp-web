@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import CreatableSelect from "react-select/creatable";
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../constants";
+import React, { useEffect } from "react"
+import PropTypes from "prop-types"
+import CreatableSelect from "react-select/creatable"
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../constants"
 
-const createOption = label => ({
+const createOption = (label) => ({
   label,
   value: label,
-});
+})
 
 const components = {
   DropdownIndicator: null,
-};
+}
 
 const InputTag = React.forwardRef((
   // eslint-disable-next-line no-unused-vars
@@ -21,52 +21,52 @@ const InputTag = React.forwardRef((
   const [tagObject, setTagObject] = React.useState({
     inputValue: "",
     tags: [],
-  });
+  })
 
-  const { inputValue, tags } = tagObject;
+  const { inputValue, tags } = tagObject
 
   const handleInputChange = React.useCallback(
-    _value => {
+    (_value) => {
       setTagObject({
         ...tagObject,
         inputValue: _value,
-      });
+      })
     },
     [setTagObject],
-  );
+  )
 
   const handleKeyDown = React.useCallback(
-    event => {
-      if (!inputValue) return;
+    (event) => {
+      if (!inputValue) return
       // eslint-disable-next-line default-case
       switch (event.key) {
         case "Enter":
         case "Tab": {
           if (isValidNewOption(inputValue)) {
-            const newTags = [...tags, createOption(inputValue)];
+            const newTags = [...tags, createOption(inputValue)]
             setTagObject({
               inputValue: "",
               tags: newTags,
-            });
-            onChange(newTags);
+            })
+            onChange(newTags)
           } else {
-            console.log("Invalid", inputValue);
+            console.log("Invalid", inputValue)
           }
-          event.preventDefault();
+          event.preventDefault()
         }
       }
     },
     [inputValue, tags],
-  );
+  )
 
   useEffect(() => {
     if (value !== tags) {
       setTagObject({
         ...tagObject,
         tags: value || [],
-      });
+      })
     }
-  }, [value, tags]);
+  }, [value, tags])
 
   return (
     <CreatableSelect
@@ -86,8 +86,8 @@ const InputTag = React.forwardRef((
       placeholder={placeholder || "Type something and press enter..."}
       value={tags}
     />
-  );
-});
+  )
+})
 
 InputTag.propTypes = {
   value: PropTypes.any,
@@ -96,6 +96,6 @@ InputTag.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   isValidNewOption: PropTypes.func,
-};
+}
 
-export default InputTag;
+export default InputTag

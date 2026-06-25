@@ -1,27 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Popover, PopoverBody, PopoverHeader } from "reactstrap";
-import classnames from "classnames";
-import { v4 as uuidv4 } from "uuid";
-import TagItem from "./TagItem";
+import React from "react"
+import PropTypes from "prop-types"
+import { Popover, PopoverBody, PopoverHeader } from "reactstrap"
+import classnames from "classnames"
+import { v4 as uuidv4 } from "uuid"
+import TagItem from "./TagItem"
 
-const MAX_SHOW_ITEM = 3;
+const MAX_SHOW_ITEM = 3
 const Tags = ({ item, className = "mb-0 pb-0 mt-1" }) => {
-  const [popoverOpen, setPopoverOpen] = React.useState(false);
+  const [popoverOpen, setPopoverOpen] = React.useState(false)
 
-  const toggle = () => setPopoverOpen(!popoverOpen);
+  const toggle = () => setPopoverOpen(!popoverOpen)
 
-  const id = React.useMemo(() => `tags${uuidv4()}`, [item]);
+  const id = React.useMemo(() => `tags${uuidv4()}`, [item])
 
   if (item && item.length) {
-    item.sort((a, b) => a.label.localeCompare(b.label));
-    const length = Math.min(item.length, MAX_SHOW_ITEM);
+    item.sort((a, b) => a.label.localeCompare(b.label))
+    const length = Math.min(item.length, MAX_SHOW_ITEM)
     return (
       <>
         <ul className={classnames("list-inline", className)}>
           {item
             .filter((t, i) => i < length)
-            .map(t => (
+            .map((t) => (
               <li className="list-inline-item" key={t.id}>
                 <TagItem item={t} />
               </li>
@@ -50,7 +50,7 @@ const Tags = ({ item, className = "mb-0 pb-0 mt-1" }) => {
             <PopoverHeader>Labels</PopoverHeader>
             <PopoverBody>
               <ul className={classnames("list-inline", className)}>
-                {item.map(t => (
+                {item.map((t) => (
                   <li className="list-inline-item" key={t.id}>
                     <TagItem item={t} background="light" />
                   </li>
@@ -60,14 +60,14 @@ const Tags = ({ item, className = "mb-0 pb-0 mt-1" }) => {
           </Popover>
         ) : null}
       </>
-    );
+    )
   }
-  return null;
-};
+  return null
+}
 
 Tags.propTypes = {
   item: PropTypes.array,
   className: PropTypes.string,
-};
+}
 
-export default Tags;
+export default Tags

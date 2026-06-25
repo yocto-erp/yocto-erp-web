@@ -1,9 +1,9 @@
 import React from "react"
-import { FormGroup as BootStrapFormGroup, Input, Label } from "reactstrap"
+import { Col, FormGroup as BootStrapFormGroup, Input, Label } from "reactstrap"
 import PropTypes from "prop-types"
 import FormHookErrorMessage from "./FormHookErrorMessage"
 
-const FormGroupInput = ({
+const FormRowInput = ({
   name,
   label,
   register,
@@ -33,39 +33,39 @@ const FormGroupInput = ({
   )
 
   return (
-    <BootStrapFormGroup className={className}>
+    <BootStrapFormGroup className={className} row>
       {label ? (
-        <Label for={name}>
+        <Label for={name} sm={2}>
           {label} {isRequired ? <span className="text-danger">*</span> : null}
         </Label>
       ) : null}
-      {iconLeft || iconRight ? (
-        <div className="input-group">
-          {iconLeft ? (
-            <div className="input-group-prepend">
-              <span className="input-group-text style-icon">{iconLeft}</span>
-            </div>
-          ) : null}
-          {input}
-          {iconRight ? (
-            <div className="input-group-append">
-              <span className="input-group-text">{iconRight}</span>
-            </div>
-          ) : null}
-          <FormHookErrorMessage error={error} />
-        </div>
-      ) : (
-        <>
-          {input}
-          <FormHookErrorMessage error={error} />
-        </>
-      )}
-      {hint}
+      <Col sm={10}>
+        {iconLeft || iconRight ? (
+          <div className="input-group">
+            {iconLeft ? (
+              <div className="input-group-prepend">
+                <span className="input-group-text style-icon">{iconLeft}</span>
+              </div>
+            ) : null}
+            {input}
+            {iconRight ? (
+              <div className="input-group-append">
+                <span className="input-group-text">{iconRight}</span>
+              </div>
+            ) : null}
+            <FormHookErrorMessage error={error} />
+          </div>
+        ) : (
+          <>{input}</>
+        )}
+        {hint}
+        <FormHookErrorMessage error={error} />
+      </Col>
     </BootStrapFormGroup>
   )
 }
 
-FormGroupInput.propTypes = {
+FormRowInput.propTypes = {
   type: PropTypes.oneOf([
     "text",
     "email",
@@ -106,4 +106,4 @@ FormGroupInput.propTypes = {
   isRequired: PropTypes.bool,
 }
 
-export default FormGroupInput
+export default FormRowInput

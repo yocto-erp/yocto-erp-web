@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react"
+import PropTypes from "prop-types"
 
 const Label = ({ required = false, children }) => (
   <span className="text-nowrap">
@@ -9,14 +9,14 @@ const Label = ({ required = false, children }) => (
         &nbsp;<span className="text-danger">*</span>
       </>
     ) : (
-      ''
+      ""
     )}
   </span>
-);
+)
 
 Label.propTypes = {
   required: PropTypes.bool,
   children: PropTypes.node,
-};
+}
 
-export default Label;
+export default Label

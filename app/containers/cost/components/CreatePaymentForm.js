@@ -1,32 +1,24 @@
-import React, { useEffect } from "react";
-import {
-  FormFeedback,
-  FormGroup,
-  Form,
-  Input,
-  Label,
-  Row,
-  Col,
-} from "reactstrap";
-import { PropTypes } from "prop-types";
-import { toast } from "react-toastify";
-import * as yup from "yup";
-import { Controller } from "react-hook-form";
+import React, { useEffect } from "react"
+import { FormFeedback, FormGroup, Form, Input, Label, Row, Col } from "reactstrap"
+import { PropTypes } from "prop-types"
+import { toast } from "react-toastify"
+import * as yup from "yup"
+import { Controller } from "react-hook-form"
 
-import apiCost from "../../../libs/apis/cost.api";
-import Widget from "../../../components/Widget/Widget";
-import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm";
-import SubmitButton from "../../../components/button/SubmitButton";
-import BackButton from "../../../components/button/BackButton";
-import InputAmount from "../../../components/Form/InputAmount";
-import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
-import { ERROR } from "../../../components/Form/messages";
-import InputAsyncTagging from "../../../components/Form/InputAsyncTagging";
-import taggingApi from "../../../libs/apis/tagging.api";
-import PaymentSelect from "../../finance/payment/components/PaymentSelect";
-import FormError from "../../../components/Form/FormError";
-import AssetSelect from "../../../components/assets/AssetSelect";
-import SelectSubject from "../../partner/subject/components/SelectSubject";
+import apiCost from "../../../libs/apis/cost.api"
+import Widget from "../../../components/Widget/Widget"
+import { useHookCRUDForm } from "../../../libs/hooks/useHookCRUDForm"
+import SubmitButton from "../../../components/button/SubmitButton"
+import BackButton from "../../../components/button/BackButton"
+import InputAmount from "../../../components/Form/InputAmount"
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage"
+import { ERROR } from "../../../components/Form/messages"
+import InputAsyncTagging from "../../../components/Form/InputAsyncTagging"
+import taggingApi from "../../../libs/apis/tagging.api"
+import PaymentSelect from "../../finance/payment/components/PaymentSelect"
+import FormError from "../../../components/Form/FormError"
+import AssetSelect from "../../../components/assets/AssetSelect"
+import SelectSubject from "../../partner/subject/components/SelectSubject"
 
 const CreatePaymentForm = ({ id }) => {
   const validationSchema = yup.object().shape({
@@ -37,28 +29,18 @@ const CreatePaymentForm = ({ id }) => {
       .positive(ERROR.amountGT0)
       .required(ERROR.required),
     tagging: yup.array().nullable(),
-  });
-  const { create, read, update } = apiCost;
-  const {
-    control,
-    register,
-    submit,
-    errors,
-    setValue,
-    formState,
-    state,
-  } = useHookCRUDForm({
+  })
+  const { create, read, update } = apiCost
+  const { control, register, submit, errors, setValue, formState, state } = useHookCRUDForm({
     create,
     update,
     read,
-    onSuccess: resp => {
+    onSuccess: (resp) => {
       toast.success(
-        id
-          ? `Update Payment ${resp.name} success`
-          : `Create Payment ${resp.name} success`,
-      );
+        id ? `Update Payment ${resp.name} success` : `Create Payment ${resp.name} success`,
+      )
     },
-    mappingToForm: form => ({
+    mappingToForm: (form) => ({
       ...form,
       purpose: form.costPurpose.purpose,
     }),
@@ -72,12 +54,12 @@ const CreatePaymentForm = ({ id }) => {
     },
     validationSchema,
     id,
-  });
+  })
 
-  console.log("CreatePaymentForm");
+  console.log("CreatePaymentForm")
   useEffect(() => {
-    console.log("ServerErrors", state);
-  }, [state]);
+    console.log("ServerErrors", state)
+  }, [state])
 
   const form = React.useMemo(
     () => (
@@ -110,7 +92,7 @@ const CreatePaymentForm = ({ id }) => {
                   control={control}
                   defaultValue={state.formData.amount}
                   render={({ onChange, value }, { invalid }) => {
-                    console.log("Value change", value);
+                    console.log("Value change", value)
                     return (
                       <InputAmount
                         placeholder="Enter Amount here"
@@ -118,7 +100,7 @@ const CreatePaymentForm = ({ id }) => {
                         value={value}
                         invalid={invalid}
                       />
-                    );
+                    )
                   }}
                 />
                 <FormHookErrorMessage error={errors.amount} />
@@ -166,13 +148,13 @@ const CreatePaymentForm = ({ id }) => {
                       id="subject"
                       placeholder="Choose Partner"
                       invalid={invalid}
-                      onAdded={newCompany => {
+                      onAdded={(newCompany) => {
                         setValue("subject", newCompany, {
                           shouldValidate: true,
-                        });
+                        })
                       }}
-                      onChange={val => {
-                        onChange(val);
+                      onChange={(val) => {
+                        onChange(val)
                       }}
                       {...data}
                     />
@@ -217,9 +199,7 @@ const CreatePaymentForm = ({ id }) => {
                   />
                 )}
               />
-              <FormFeedback>
-                {errors.assets && errors.assets.message}
-              </FormFeedback>
+              <FormFeedback>{errors.assets && errors.assets.message}</FormFeedback>
             </FormGroup>
             <Input innerRef={register} type="hidden" value="2" name="type" />
           </Col>
@@ -233,12 +213,12 @@ const CreatePaymentForm = ({ id }) => {
       </Form>
     ),
     [submit, errors, state, formState, register],
-  );
+  )
 
-  return <Widget>{form}</Widget>;
-};
+  return <Widget>{form}</Widget>
+}
 CreatePaymentForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-CreatePaymentForm.defaultProps = {};
-export default CreatePaymentForm;
+}
+CreatePaymentForm.defaultProps = {}
+export default CreatePaymentForm

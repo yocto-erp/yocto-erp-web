@@ -1,29 +1,23 @@
-import React from "react";
-import {
-  Badge,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  UncontrolledDropdown,
-} from "reactstrap";
-import { Link, useHistory } from "react-router-dom";
-import { mutate } from "swr";
-import { MdWorkspacesOutline } from "react-icons/md";
-import s from "../Header.module.scss";
-import { set, STORAGE } from "../../../../libs/utils/storage";
-import useUser, { SWR_KEY_USER } from "../../../../libs/hooks/useUser";
-import { USER_ROOT_PATH } from "../../../user/constants";
-import { cloudAssetUrl } from "../../../../libs/apis/image.api";
-import Img from "../../../../components/Img";
+import React from "react"
+import { Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap"
+import { Link, useHistory } from "react-router-dom"
+import { mutate } from "swr"
+import { MdWorkspacesOutline } from "react-icons/md"
+import s from "../Header.module.scss"
+import { set, STORAGE } from "../../../../libs/utils/storage"
+import useUser, { SWR_KEY_USER } from "../../../../libs/hooks/useUser"
+import { USER_ROOT_PATH } from "../../../user/constants"
+import { cloudAssetUrl } from "../../../../libs/apis/image.api"
+import Img from "../../../../components/Img"
 
 const AccountDropDown = () => {
-  const { user } = useUser();
-  const history = useHistory();
+  const { user } = useUser()
+  const history = useHistory()
   const logout = () => {
-    set(STORAGE.JWT, null);
-    history.push("/");
-    return mutate(SWR_KEY_USER, null);
-  };
+    set(STORAGE.JWT, null)
+    history.push("/")
+    return mutate(SWR_KEY_USER, null)
+  }
   return (
     <UncontrolledDropdown nav>
       <DropdownToggle
@@ -38,10 +32,7 @@ const AccountDropDown = () => {
         <span className={`${s.avatar} rounded-circle float-left mr-2`}>
           <Img src={cloudAssetUrl(user?.avatar)} alt="..." />
         </span>
-        <div
-          className={`small ${s.accountCheck} text-truncate`}
-          style={{ maxWidth: "100px" }}
-        >
+        <div className={`small ${s.accountCheck} text-truncate`} style={{ maxWidth: "100px" }}>
           {user?.displayName || user?.email}
         </div>
       </DropdownToggle>
@@ -50,7 +41,7 @@ const AccountDropDown = () => {
           <Badge color="primary">
             <i className="fi flaticon-user" />
           </Badge>
-          <div className={s.details}>Profile</div>
+          <span className={s.details}>Profile</span>
         </DropdownItem>
         <DropdownItem>
           <Link to="/orders">
@@ -84,9 +75,9 @@ const AccountDropDown = () => {
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
-  );
-};
+  )
+}
 
-AccountDropDown.propTypes = {};
+AccountDropDown.propTypes = {}
 
-export default AccountDropDown;
+export default AccountDropDown

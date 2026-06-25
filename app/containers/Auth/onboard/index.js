@@ -1,31 +1,24 @@
-import React, { useMemo } from "react";
-import { Helmet } from "react-helmet";
-import { FormattedMessage } from "react-intl";
-import * as yup from "yup";
+import React, { useMemo } from "react"
+import { Helmet } from "react-helmet"
+import { FormattedMessage } from "react-intl"
+import * as yup from "yup"
 
-import {
-  Container,
-  FormGroup,
-  Label,
-  InputGroup,
-  Input,
-  FormFeedback,
-} from "reactstrap";
-import { mutate } from "swr";
+import { Container, FormGroup, Label, InputGroup, Input, FormFeedback } from "reactstrap"
+import { mutate } from "swr"
 import { useHistory } from "react-router-dom"
-import messages from "./messages";
-import Widget from "../../../components/Widget/Widget";
-import Footer from "../../Layout/Footer";
-import SubmitButton from "../../../components/button/SubmitButton";
-import { createCompany } from "../../../libs/apis/auth.api";
-import FormError from "../../../components/Form/FormError";
-import useMyForm from "../../../libs/hooks/useMyForm";
-import { set, STORAGE } from "../../../libs/utils/storage";
-import { SWR_KEY_USER } from "../../../libs/hooks/useUser";
+import messages from "./messages"
+import Widget from "../../../components/Widget/Widget"
+import Footer from "../../Layout/Footer"
+import SubmitButton from "../../../components/button/SubmitButton"
+import { createCompany } from "../../../libs/apis/auth.api"
+import FormError from "../../../components/Form/FormError"
+import useMyForm from "../../../libs/hooks/useMyForm"
+import { set, STORAGE } from "../../../libs/utils/storage"
+import { SWR_KEY_USER } from "../../../libs/hooks/useUser"
 
 const schema = yup.object().shape({
   name: yup.string().required("This field is required."),
-});
+})
 
 export function OnboardPage() {
   const {
@@ -37,19 +30,19 @@ export function OnboardPage() {
   } = useMyForm({
     api: createCompany,
     validationSchema: schema,
-  });
+  })
 
   const onSubmitOk = async () => {
-    set(STORAGE.JWT, resp.token);
-    await mutate(SWR_KEY_USER);
-  };
+    // set(STORAGE.JWT, resp.token)
+    await mutate(SWR_KEY_USER)
+  }
 
-  const history = useHistory();
+  const history = useHistory()
   const logout = () => {
-    set(STORAGE.JWT, null);
-    history.push("/");
-    return mutate(SWR_KEY_USER, null);
-  };
+    set(STORAGE.JWT, null)
+    history.push("/")
+    return mutate(SWR_KEY_USER, null)
+  }
 
   const formEls = useMemo(
     () => (
@@ -118,9 +111,7 @@ export function OnboardPage() {
                 name="address"
                 placeholder="address"
               />
-              <FormFeedback>
-                {errors.address && errors.address.message}
-              </FormFeedback>
+              <FormFeedback>{errors.address && errors.address.message}</FormFeedback>
             </InputGroup>
           </FormGroup>
 
@@ -136,9 +127,7 @@ export function OnboardPage() {
                 name="remark"
                 placeholder="Introduction company"
               />
-              <FormFeedback>
-                {errors.remark && errors.remark.message}
-              </FormFeedback>
+              <FormFeedback>{errors.remark && errors.remark.message}</FormFeedback>
             </InputGroup>
           </FormGroup>
           <div className="bg-widget auth-widget-footer">
@@ -169,7 +158,7 @@ export function OnboardPage() {
       </>
     ),
     [onSubmit, errors, register, formState, isLoading],
-  );
+  )
 
   return (
     <div>
@@ -178,10 +167,7 @@ export function OnboardPage() {
           <>
             <div className="auth-page d-flex align-items-center">
               <Container>
-                <Widget
-                  className="widget-auth mx-auto"
-                  title={<h3 className="mt-0">Thank You</h3>}
-                >
+                <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Thank You</h3>}>
                   <p className="widget-auth-info">
                     Your company has been created success !. Click Ok to start
                   </p>
@@ -205,10 +191,7 @@ export function OnboardPage() {
           <>
             <Helmet>
               <title>Create Company</title>
-              <meta
-                name="description"
-                content="Description of create company"
-              />
+              <meta name="description" content="Description of create company" />
             </Helmet>
             <div className="auth-page d-flex align-items-center">
               <Container>
@@ -220,9 +203,7 @@ export function OnboardPage() {
                     </h3>
                   }
                 >
-                  <p className="widget-auth-info">
-                    Nhập thông tin để tạo company!
-                  </p>
+                  <p className="widget-auth-info">Nhập thông tin để tạo company!</p>
                   <FormError className="mt-3" errors={serverErrors} />
                   {formEls}
                 </Widget>
@@ -233,7 +214,7 @@ export function OnboardPage() {
         )}
       </>
     </div>
-  );
+  )
 }
 
-export default OnboardPage;
+export default OnboardPage

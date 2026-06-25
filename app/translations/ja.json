@@ -23,6 +23,8 @@
   "app.components.form.error.numberGT0": "",
   "app.components.form.error.priceGT0": "",
   "app.components.form.error.required": "",
+  "app.components.general.conf.company.schoolTitle": "",
+  "app.components.general.conf.company.title": "",
   "app.components.general.footer": "",
   "app.containers.ForgotPassword.button.forgotPassword": "",
   "app.containers.ForgotPassword.email": "",

@@ -1,6 +1,6 @@
-import React from "react";
-import PageTitle from "../../Layout/PageTitle";
-import StudentConfigurationForm from "./components/StudentConfigurationForm";
+import React from "react"
+import PageTitle from "../../Layout/PageTitle"
+import StudentConfigurationForm from "./components/StudentConfigurationForm"
 
 const ConfigurationPage = () => (
   <>
@@ -11,8 +11,8 @@ const ConfigurationPage = () => (
       </div>
     </div>
   </>
-);
+)
 
-ConfigurationPage.propTypes = {};
+ConfigurationPage.propTypes = {}
 
-export default ConfigurationPage;
+export default ConfigurationPage

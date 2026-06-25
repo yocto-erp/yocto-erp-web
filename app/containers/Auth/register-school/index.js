@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
-import { Helmet } from "react-helmet";
-import { FormattedHTMLMessage, FormattedMessage } from "react-intl";
-import * as yup from "yup";
+import React, { useMemo } from "react"
+import { Helmet } from "react-helmet"
+import { FormattedHTMLMessage, FormattedMessage } from "react-intl"
+import * as yup from "yup"
 
 import {
   Container,
@@ -12,18 +12,18 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-} from "reactstrap";
+} from "reactstrap"
 
-import { Link } from "react-router-dom";
-import Alert from "reactstrap/es/Alert";
-import messages from "./messages";
-import Widget from "../../../components/Widget/Widget";
-import Footer from "../../Layout/Footer";
-import SubmitButton from "../../../components/button/SubmitButton";
+import { Link } from "react-router-dom"
+import Alert from "reactstrap/es/Alert"
+import messages from "./messages"
+import Widget from "../../../components/Widget/Widget"
+import Footer from "../../Layout/Footer"
+import SubmitButton from "../../../components/button/SubmitButton"
 import { registerUserSchool } from "../../../libs/apis/auth.api"
-import useMyForm from "../../../libs/hooks/useMyForm";
-import FormError from "../../../components/Form/FormError";
-import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage";
+import useMyForm from "../../../libs/hooks/useMyForm"
+import FormError from "../../../components/Form/FormError"
+import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage"
 
 const schema = yup.object().shape({
   email: yup
@@ -33,7 +33,7 @@ const schema = yup.object().shape({
   password: yup.string().required("Password is required."),
   firstName: yup.string().required("First Name is required."),
   lastName: yup.string().required("Last Name is required."),
-});
+})
 
 export function RegisterSchoolPage() {
   const {
@@ -45,7 +45,7 @@ export function RegisterSchoolPage() {
   } = useMyForm({
     validationSchema: schema,
     api: registerUserSchool,
-  });
+  })
 
   const formEls = useMemo(
     () => (
@@ -63,7 +63,7 @@ export function RegisterSchoolPage() {
                 </InputGroupText>
               </InputGroupAddon>
               <FormattedMessage {...messages.formFirstName}>
-                {msg => (
+                {(msg) => (
                   <Input
                     invalid={!!errors.firstName}
                     id="firstName"
@@ -76,7 +76,7 @@ export function RegisterSchoolPage() {
                 )}
               </FormattedMessage>
               <FormattedMessage {...messages.formLastName}>
-                {msg => (
+                {(msg) => (
                   <Input
                     invalid={!!errors.lastName}
                     id="lastName"
@@ -95,8 +95,7 @@ export function RegisterSchoolPage() {
           </FormGroup>
           <FormGroup className="mt">
             <Label for="email">
-              <FormattedMessage {...messages.formEmail} />{" "}
-              <span className="text-danger">*</span>
+              <FormattedMessage {...messages.formEmail} /> <span className="text-danger">*</span>
             </Label>
             <InputGroup className="input-group-no-border">
               <InputGroupAddon addonType="prepend">
@@ -113,14 +112,12 @@ export function RegisterSchoolPage() {
                 name="email"
                 placeholder="Email"
               />
-              <FormFeedback>
-                {errors.email && errors.email.message}
-              </FormFeedback>
+              <FormFeedback>{errors.email && errors.email.message}</FormFeedback>
             </InputGroup>
           </FormGroup>
           <FormGroup>
             <FormattedMessage {...messages.formPassword}>
-              {msg => (
+              {(msg) => (
                 <>
                   <Label for="password">
                     {msg}&nbsp;<span className="text-danger">*</span>
@@ -142,9 +139,7 @@ export function RegisterSchoolPage() {
                       name="password"
                       placeholder={msg}
                     />
-                    <FormFeedback>
-                      {errors.password && errors.password.message}
-                    </FormFeedback>
+                    <FormFeedback>{errors.password && errors.password.message}</FormFeedback>
                   </InputGroup>
                 </>
               )}
@@ -174,14 +169,12 @@ export function RegisterSchoolPage() {
       </>
     ),
     [onSubmit, errors, register, formState, isLoading],
-  );
+  )
 
   return (
     <div>
       <Helmet>
-        <FormattedMessage {...messages.header}>
-          {msg => <title>{msg}</title>}
-        </FormattedMessage>
+        <FormattedMessage {...messages.header}>{(msg) => <title>{msg}</title>}</FormattedMessage>
 
         <meta name="description" content="Description of Register" />
       </Helmet>
@@ -196,11 +189,7 @@ export function RegisterSchoolPage() {
             }
           >
             {resp ? (
-              <Alert
-                color="primary"
-                className="mt-2"
-                style={{ fontSize: "1.1rem" }}
-              >
+              <Alert color="primary" className="mt-2" style={{ fontSize: "1.1rem" }}>
                 <FormattedHTMLMessage
                   {...messages.registerSuccess}
                   values={{ email: resp.email }}
@@ -208,11 +197,7 @@ export function RegisterSchoolPage() {
               </Alert>
             ) : (
               <>
-                <FormError
-                  className="mt-3"
-                  errors={serverErrors}
-                  item={item => [item]}
-                />
+                <FormError className="mt-3" errors={serverErrors} item={(item) => [item]} />
                 {formEls}
               </>
             )}
@@ -221,7 +206,7 @@ export function RegisterSchoolPage() {
         <Footer />
       </div>
     </div>
-  );
+  )
 }
 
-export default RegisterSchoolPage;
+export default RegisterSchoolPage

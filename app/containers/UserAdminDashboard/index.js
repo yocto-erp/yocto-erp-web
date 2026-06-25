@@ -1,12 +1,12 @@
-import React from "react";
-import useUser from "../../libs/hooks/useUser";
-import LayoutComponent from "../Layout/Layout";
-import CompanyChoose from "../Auth/company-choose";
-import OnBoardPage from "../Auth/onboard";
-import Login from "../Auth/login";
+import React from "react"
+import useUser from "../../libs/hooks/useUser"
+import LayoutComponent from "../Layout/Layout"
+import CompanyChoose from "../Auth/company-choose"
+import OnBoardPage from "../Auth/onboard"
+import Login from "../Auth/login"
 
 const UserAdminDashboard = () => {
-  const { isAuthenticated, user, isLoading } = useUser();
+  const { isAuthenticated, user, isLoading } = useUser()
 
   return React.useMemo(() => {
     let rs = (
@@ -16,22 +16,22 @@ const UserAdminDashboard = () => {
           <small>. . .</small>
         </div>
       </div>
-    );
+    )
     if (!isLoading) {
       if (!isAuthenticated) {
-        rs = <Login />;
-      } else if (user && user.companyId !== null) {
-        rs = <LayoutComponent />;
+        rs = <Login />
+      } else if (user && user.company !== null && user.company.name) {
+        rs = <LayoutComponent />
       } else if (user && user.userCompanies && user.userCompanies.length) {
-        rs = <CompanyChoose />;
-      } else {
-        rs = <OnBoardPage />;
+        rs = <CompanyChoose />
+      } else if (user.company && !user.company.name) {
+        rs = <OnBoardPage />
       }
     }
-    return rs;
-  }, [isAuthenticated, user, isLoading]);
-};
+    return rs
+  }, [isAuthenticated, user, isLoading])
+}
 
-UserAdminDashboard.propTypes = {};
+UserAdminDashboard.propTypes = {}
 
-export default UserAdminDashboard;
+export default UserAdminDashboard

@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import useUserShop from "../../../libs/hooks/swr/useUserShop";
-import Select from "../../../components/common/Select";
+import React from "react"
+import PropTypes from "prop-types"
+import classNames from "classnames"
+import useUserShop from "../../../libs/hooks/swr/useUserShop"
+import Select from "../../../components/common/Select"
 
-const formatOptionLabel = data => (
+const formatOptionLabel = (data) => (
   <div className="text-white">
     <span>{data.name}</span>
   </div>
-);
+)
 const SelectUserShop = React.forwardRef((
   {
     onBlur,
@@ -25,7 +25,7 @@ const SelectUserShop = React.forwardRef((
   // eslint-disable-next-line no-unused-vars
   ref,
 ) => {
-  const { shop } = useUserShop();
+  const { shop } = useUserShop()
 
   return (
     <div className={classNames({ "is-invalid": invalid })} {...props}>
@@ -33,7 +33,7 @@ const SelectUserShop = React.forwardRef((
         options={shop || []}
         onChange={onChange}
         formatOptionLabel={formatOptionLabel}
-        getOptionValue={data => data.id}
+        getOptionValue={(data) => data.id}
         isDisabled={disabled}
         isClearable={isClearable}
         name={name}
@@ -44,8 +44,8 @@ const SelectUserShop = React.forwardRef((
         value={value}
       />
     </div>
-  );
-});
+  )
+})
 
 SelectUserShop.propTypes = {
   value: PropTypes.any,
@@ -60,6 +60,6 @@ SelectUserShop.propTypes = {
   id: PropTypes.string,
   disabled: PropTypes.bool,
   isClearable: PropTypes.bool,
-};
+}
 
-export default SelectUserShop;
+export default SelectUserShop

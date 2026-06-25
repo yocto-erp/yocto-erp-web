@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Col, FormGroup, Input, Label } from "reactstrap";
-import FormHookErrorMessage from "./FormHookErrorMessage";
+import React from "react"
+import PropTypes from "prop-types"
+import { Col, FormGroup, Input, Label } from "reactstrap"
+import FormHookErrorMessage from "./FormHookErrorMessage"
 
 const FormRow = ({
   name,
@@ -12,6 +12,7 @@ const FormRow = ({
   valueCol = 10,
   error,
   placeholder,
+  hint,
   isRequired = false,
   ...props
 }) => (
@@ -29,10 +30,11 @@ const FormRow = ({
         placeholder={placeholder}
         {...props}
       />
+      {hint}
       <FormHookErrorMessage error={error} />
     </Col>
   </FormGroup>
-);
+)
 
 FormRow.propTypes = {
   type: PropTypes.oneOf([
@@ -69,7 +71,8 @@ FormRow.propTypes = {
   valueCol: PropTypes.number,
   error: PropTypes.object,
   placeholder: PropTypes.string,
+  hint: PropTypes.node,
   isRequired: PropTypes.bool,
-};
+}
 
-export default FormRow;
+export default FormRow

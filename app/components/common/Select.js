@@ -1,14 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ReactSelect from "react-select";
-import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../constants";
-import { defaultFormatOptionLabel } from "../Form/constants";
+import React from "react"
+import PropTypes from "prop-types"
+import ReactSelect from "react-select"
+import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../constants"
+import { defaultFormatOptionLabel } from "../Form/constants"
 
 const Select = React.forwardRef(
   (
     {
       onBlur,
       name,
+      id,
       placeholder,
       onFocus,
       onChange,
@@ -18,15 +19,18 @@ const Select = React.forwardRef(
       options,
       formatOptionLabel = defaultFormatOptionLabel,
       getOptionValue,
+      isMulti = false,
     },
     ref,
   ) => (
     <ReactSelect
+      inputId={id}
       options={options}
       className="react-select-container"
       classNamePrefix="react-select"
       styles={REACT_SELECT_OPTION_CUSTOM_STYLE}
       onChange={onChange}
+      isMulti={isMulti}
       formatOptionLabel={formatOptionLabel}
       getOptionValue={getOptionValue}
       isDisabled={disabled}
@@ -39,11 +43,12 @@ const Select = React.forwardRef(
       value={value}
     />
   ),
-);
+)
 
 Select.propTypes = {
   value: PropTypes.any,
   name: PropTypes.string.isRequired,
+  id: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
@@ -53,6 +58,7 @@ Select.propTypes = {
   options: PropTypes.array,
   formatOptionLabel: PropTypes.func,
   getOptionValue: PropTypes.func,
-};
+  isMulti: PropTypes.bool,
+}
 
-export default Select;
+export default Select
