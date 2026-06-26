@@ -11,7 +11,7 @@ const FilterSchool = () => {
   const { handleSubmit, register, reset, watch } = useForm({
     defaultValues: filter || { month: null },
   })
-  const getStateSelect = useListStateContext()
+  const { selectedList: getStateSelect, isLoading, totalSelected } = useListStateContext()
 
   const onSubmit = handleSubmit((val) => searchByFilter(val))
 
@@ -32,11 +32,15 @@ const FilterSchool = () => {
             style={{ width: "300px" }}
             innerRef={register}
             id="search"
-            placeholder="Search By Name, Region... "
+            placeholder="Search by school name"
           />
-          <SearchButton />
+          <SearchButton isLoading={isLoading} />
         </div>
-        <div>
+        <div
+          className="display-flex justify-content-center align-items-center"
+          style={{ gap: "4px" }}
+        >
+          {totalSelected > 0 && <div>Selected: {totalSelected}</div>}
           <DownloadButton
             key="execl"
             title="Download Excel"

@@ -97,7 +97,7 @@ function getFormDataAuthHeader() {
 }
 
 export function fetchWithAuth(pathToResource) {
-  return fetch(pathToResource, { headers: getAuthHeader() })
+  return fetch(pathToResource, { headers: getAuthHeader() }).then(validateResponse)
 }
 
 export function fetchJSON(pathToResource) {

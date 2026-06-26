@@ -1,19 +1,19 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState } from "react"
 
 export const API_STATE = {
   PENDING: "PENDING",
   LOADING: "LOADING",
   SUCCESS: "SUCCESS",
   FAIL: "FAIL",
-};
+}
 
-export const useApi = asyncApi => {
+export const useApi = (asyncApi) => {
   const [state, setState] = useState({
     isLoading: false,
     errors: [],
     resp: null,
     status: API_STATE.PENDING,
-  });
+  })
 
   const exec = useCallback(
     (...args) => {
@@ -21,39 +21,39 @@ export const useApi = asyncApi => {
         ...state,
         isLoading: true,
         status: API_STATE.LOADING,
-      });
+      })
       return asyncApi(...args).then(
-        t => {
+        (t) => {
           setState({
             errors: [],
             resp: t,
             isLoading: false,
             status: API_STATE.SUCCESS,
-          });
-          return t;
+          })
+          return t
         },
-        err => {
-          let errors = [];
+        (err) => {
+          let errors = []
           if (err.error) {
-            errors = [{ message: err.error, code: "INVALID", name: "Unknown" }];
+            errors = [{ message: err.error, code: "INVALID", name: "Unknown" }]
           } else if (err.errors && err.errors.length) {
             // eslint-disable-next-line prefer-destructuring
-            errors = err.errors;
+            errors = err.errors
           } else if (err.message) {
-            errors = [{ message: err.message, code: "INVALID" }];
+            errors = [{ message: err.message, code: "INVALID" }]
           }
           setState({
             errors,
             resp: null,
             isLoading: false,
             status: API_STATE.FAIL,
-          });
-          return err;
+          })
+          return err
         },
-      );
+      )
     },
     [asyncApi],
-  );
+  )
 
   return {
     state,
@@ -65,5 +65,5 @@ export const useApi = asyncApi => {
         resp: null,
         status: API_STATE.PENDING,
       }),
-  };
-};
+  }
+}

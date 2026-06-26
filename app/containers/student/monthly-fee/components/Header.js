@@ -1,29 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { toast } from "react-toastify";
-import CreateButton from "../../../../components/button/CreateButton";
-import { editPage, newPage } from "../../../../libs/utils/crud.util";
+import React from "react"
+import PropTypes from "prop-types"
+import { toast } from "react-toastify"
+import CreateButton from "../../../../components/button/CreateButton"
+import { editPage, newPage } from "../../../../libs/utils/crud.util"
 import {
   useListActionContext,
   useListStateContext,
-} from "../../../../components/ListWidget/constants";
-import SendMailButton from "../../../../components/button/SendMailButton";
-import PageTitle from "../../../Layout/PageTitle";
-import { STUDENT_MONTHLY_ROOT_PATH } from "../constants";
-import SendMailStudentFee from "./SendMail";
-import CloneNextMonth from "./CloneNextMonth";
-import { useConfirmDialog } from "../../../../libs/hooks/useConfirmDialog";
-import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api";
-import { IconClone, IconEdit, IconTrash } from "../../../Icon/constants";
+} from "../../../../components/ListWidget/constants"
+import SendMailButton from "../../../../components/button/SendMailButton"
+import PageTitle from "../../../Layout/PageTitle"
+import { STUDENT_MONTHLY_ROOT_PATH } from "../constants"
+import SendMailStudentFee from "./SendMail"
+import CloneNextMonth from "./CloneNextMonth"
+import { useConfirmDialog } from "../../../../libs/hooks/useConfirmDialog"
+import studentMonthlyFeeApi from "../../../../libs/apis/student/student-monthly-fee.api"
+import { IconClone, IconEdit, IconTrash } from "../../../Icon/constants"
 
-const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH;
+const ROOT_PATH = STUDENT_MONTHLY_ROOT_PATH
 const Header = ({ history }) => {
-  const getStateSelect = useListStateContext();
-  const totalSelectedItems = Object.keys(getStateSelect).length;
-  const [isOpenSendMail, setIsOpenSendMail] = React.useState(false);
-  const [isOpenCloneNextMonth, setIsOpenCloneNextMonth] = React.useState(false);
-  const { confirmModal, openConfirm } = useConfirmDialog();
-  const { onDeleted } = useListActionContext();
+  const { selectedList: getStateSelect, totalSelected: totalSelectedItems } = useListStateContext()
+
+  const [isOpenSendMail, setIsOpenSendMail] = React.useState(false)
+  const [isOpenCloneNextMonth, setIsOpenCloneNextMonth] = React.useState(false)
+  const { confirmModal, openConfirm } = useConfirmDialog()
+  const { onDeleted } = useListActionContext()
   const actions = (
     <>
       {totalSelectedItems ? (
@@ -38,7 +38,7 @@ const Header = ({ history }) => {
         color="info"
         disabled={!totalSelectedItems}
         onClick={() => {
-          setIsOpenCloneNextMonth(true);
+          setIsOpenCloneNextMonth(true)
         }}
       >
         Clone for Next Month
@@ -47,7 +47,7 @@ const Header = ({ history }) => {
         size="sm"
         className="mr-2 btn-raised"
         onClick={() => {
-          history.push(newPage(ROOT_PATH));
+          history.push(newPage(ROOT_PATH))
         }}
       />
       <CreateButton
@@ -57,7 +57,7 @@ const Header = ({ history }) => {
         disabled={!totalSelectedItems}
         color="warning"
         onClick={() => {
-          history.push(editPage(ROOT_PATH, Object.values(getStateSelect)));
+          history.push(editPage(ROOT_PATH, Object.values(getStateSelect)))
         }}
       >
         Edit
@@ -73,7 +73,7 @@ const Header = ({ history }) => {
           openConfirm({
             title: `Delete total ${totalSelectedItems} Student Monthly Fee ?`,
             message: "Are you sure to delete ?",
-            onClose: isConfirm => {
+            onClose: (isConfirm) => {
               if (isConfirm) {
                 studentMonthlyFeeApi
                   .deleteList({
@@ -81,14 +81,14 @@ const Header = ({ history }) => {
                   })
                   .then(
                     () => {
-                      toast.success("Delete success");
-                      onDeleted(Object.values(getStateSelect));
+                      toast.success("Delete success")
+                      onDeleted(Object.values(getStateSelect))
                     },
-                    err => toast.error(err.errors[0].message),
-                  );
+                    (err) => toast.error(err.errors[0].message),
+                  )
               }
             },
-          });
+          })
         }}
       >
         Delete
@@ -99,19 +99,14 @@ const Header = ({ history }) => {
         className="mr-2 btn-raised"
         disabled={!totalSelectedItems}
         onClick={() => {
-          setIsOpenSendMail(true);
+          setIsOpenSendMail(true)
         }}
       />
     </>
-  );
+  )
   return (
     <>
-      <PageTitle
-        title="Student Monthly Fee"
-        actions={actions}
-        colLeft={4}
-        colRight={8}
-      />
+      <PageTitle title="Student Monthly Fee" actions={actions} colLeft={4} colRight={8} />
       {confirmModal}
       <CloneNextMonth
         ids={Object.values(getStateSelect)}
@@ -124,11 +119,11 @@ const Header = ({ history }) => {
         isOpen={isOpenSendMail}
       />
     </>
-  );
-};
+  )
+}
 
 Header.propTypes = {
   history: PropTypes.any.isRequired,
-};
+}
 
-export default Header;
+export default Header

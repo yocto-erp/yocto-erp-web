@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Button } from "reactstrap";
-import { FormattedMessage } from "react-intl";
-import { commonMessage } from "../../containers/messages";
+import React from "react"
+import PropTypes from "prop-types"
+import { Button } from "reactstrap"
+import { FormattedMessage } from "react-intl"
+import { commonMessage } from "../../containers/messages"
 
 const SearchButton = ({
   isLoading,
@@ -12,27 +12,21 @@ const SearchButton = ({
   outline = true,
   ...props
 }) => {
-  let els = "Loading";
+  let els = "Loading"
   if (!isLoading) {
     if (children) {
-      els = children;
+      els = children
     } else {
-      els = <FormattedMessage {...commonMessage.btnSearch} />;
+      els = <FormattedMessage {...commonMessage.btnSearch} />
     }
   }
   return (
-    <Button
-      color={color}
-      className={className}
-      outline={outline}
-      disabled={isLoading}
-      {...props}
-    >
+    <Button color={color} className={className} outline={outline} disabled={isLoading} {...props}>
       <i className="fi flaticon-search mr-2" />
       {els}
     </Button>
-  );
-};
+  )
+}
 
 SearchButton.propTypes = {
   isLoading: PropTypes.bool,
@@ -40,6 +34,6 @@ SearchButton.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   outline: PropTypes.bool,
-};
+}
 
-export default SearchButton;
+export default SearchButton

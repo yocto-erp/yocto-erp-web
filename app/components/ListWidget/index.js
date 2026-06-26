@@ -230,13 +230,17 @@ const ListWidget = ({
       </div>
       {pagination}
     </div>
-  ) : (
-    nullz
-  )
+  ) : null
 
   return (
     <ListActionProvider value={{ refresh, onDeleted }}>
-      <ListStateProvider value={selectedList}>
+      <ListStateProvider
+        value={{
+          selectedList,
+          totalSelected: Object.keys(selectedList).length,
+          isLoading,
+        }}
+      >
         {pageHeader}
         {isWidgetWrapper ? <Widget className={widgetClassname}>{mainEls}</Widget> : mainEls}
         {deleteDialog}

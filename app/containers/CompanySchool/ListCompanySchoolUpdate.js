@@ -116,6 +116,7 @@ export default function ListCompanySchoolUpdate() {
         fetchData={CompanySchoolUpdateApi.search}
         initPage={1}
         initSize={10}
+        enableSelectColumn
       >
         <FilterSchool />
       </ListWidget>
