@@ -36,4 +36,13 @@ table {
       }
     }
   }
+
+  &.report {
+    td.key {
+      opacity: 0.75;
+    }
+    td.value {
+      font-weight: bold;
+    }
+  }
 }

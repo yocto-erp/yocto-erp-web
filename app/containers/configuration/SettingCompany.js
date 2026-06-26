@@ -22,6 +22,7 @@ import { IconEdit } from "../Icon/constants"
 import { COMPANY_SCHOOL_UPDATE } from "../CompanySchool/constants"
 import messages from "./messages"
 import commonCompanyMessages from "../../components/common/company/messages"
+import { hasText } from "../../utils/util"
 
 const validationSchema = yup.object().shape({
   name: yup.string().required(ERROR.required),
@@ -215,29 +216,23 @@ const SettingCompany = () => {
             </div>
             {schoolUpdate ? (
               <Widget>
-                <table className="table table-borderless">
+                <table className="table table-borderless report">
                   <tbody>
                     <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.schoolOwner} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolOwner} />
                       </td>
-                      <td>{schoolUpdate.fullNameOwner}</td>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.schoolManager} />
-                        </strong>
+                      <td className="value">{schoolUpdate.fullNameOwner}</td>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolManager} />
                       </td>
-                      <td>{schoolUpdate.fullNameManage}</td>
+                      <td className="value">{schoolUpdate.fullNameManage}</td>
                     </tr>
                     <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.schoolRegion} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolRegion} />
                       </td>
-                      <td>
+                      <td className="value">
                         <ul className="list-inline">
                           {schoolUpdate.region.map((t) => (
                             <li key={t.value} className="list-inline-item badge">
@@ -246,12 +241,10 @@ const SettingCompany = () => {
                           ))}
                         </ul>
                       </td>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.schoolLevel} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolLevel} />
                       </td>
-                      <td>
+                      <td className="value">
                         <ul className="list-inline">
                           {schoolUpdate.level.map((t) => (
                             <li key={t.value} className="list-inline-item badge">
@@ -262,196 +255,230 @@ const SettingCompany = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.schoolStudentSize} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolArea} />
                       </td>
-                      <td>{schoolUpdate.studentSize}</td>
-                      <td>
-                        {" "}
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.schoolJoinSWAN} />
-                        </strong>
+                      <td className="value">{schoolUpdate.extraData?.buildingArea}</td>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolPlaygroundArea} />
                       </td>
-                      <td>{formatDateOnlyFromStr(schoolUpdate.joinedDate)}</td>
+                      <td className="value">{schoolUpdate.extraData?.playgroundArea}</td>
                     </tr>
                     <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.staff} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolTotalClass} />
                       </td>
-                      <td colSpan="3">{schoolUpdate.numberWorker}</td>
+                      <td className="value">{schoolUpdate.extraData.totalClass}</td>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolCurrentClass} />
+                      </td>
+                      <td className="value">{schoolUpdate.extraData.schoolCurrentClass}</td>
                     </tr>
                     <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.typeOrganization} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolTotalStudent} />
+                      </td>
+                      <td className="value">{schoolUpdate.extraData.schoolTotalStudent}</td>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolStudentSize} />
+                      </td>
+                      <td className="value">{schoolUpdate.studentSize}</td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.schoolJoinSWAN} />
+                      </td>
+                      <td colSpan="3" className="value">
+                        {formatDateOnlyFromStr(schoolUpdate.joinedDate)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.staff} />
+                      </td>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.numberWorker) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              value={schoolUpdate.numberWorker}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                            />
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.typeOrganization} />
+                      </td>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.typeOrganization) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              value={schoolUpdate.typeOrganization}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                            />
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.structureOrganization} />
+                      </td>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.legalStructure) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                              value={schoolUpdate.legalStructure}
+                            />
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.classesDetail} />
+                      </td>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.infoClass) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                              value={schoolUpdate.infoClass}
+                            />
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.teachingMethod} />
+                      </td>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.organizationalStructure) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                              value={schoolUpdate.organizationalStructure}
+                            />
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.certificate} />
+                      </td>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.methodTeacher) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                              value={schoolUpdate.methodTeacher}
+                            />
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.mentor} />
+                      </td>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.methodSchool) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                              value={schoolUpdate.methodSchool}
+                            />
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.lastYearSummary} />
                       </td>
                       <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            value={schoolUpdate.typeOrganization}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                          />
-                        </div>
+                        {hasText(schoolUpdate.descriptionLastYear) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                              value={schoolUpdate.descriptionLastYear}
+                            />
+                          </div>
+                        )}
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.structureOrganization} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.nextYearSummary} />
                       </td>
-                      <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                            value={schoolUpdate.legalStructure}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.classesDetail} />
-                        </strong>
-                      </td>
-                      <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                            value={schoolUpdate.infoClass}
-                          />
-                        </div>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.demandThisYear) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                              value={schoolUpdate.demandThisYear}
+                            />
+                          </div>
+                        )}
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.teachingMethod} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.suggestion} />
                       </td>
-                      <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                            value={schoolUpdate.organizationalStructure}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.certificate} />
-                        </strong>
-                      </td>
-                      <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                            value={schoolUpdate.methodTeacher}
-                          />
-                        </div>
+                      <td colSpan="3" className="value">
+                        {hasText(schoolUpdate.suggestion) && (
+                          <div className="form-group">
+                            <textarea
+                              readOnly
+                              rows={4}
+                              className="form-control"
+                              style={{ resize: "none" }}
+                              value={schoolUpdate.suggestion}
+                            />
+                          </div>
+                        )}
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.mentor} />
-                        </strong>
+                      <td className="key">
+                        <FormattedMessage {...commonCompanyMessages.lastUpdated} />
                       </td>
-                      <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                            value={schoolUpdate.methodSchool} />
-                        </div>
+                      <td colSpan="3" className="value">
+                        {formatDate(new Date(schoolUpdate.lastUpdated))}
                       </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.lastYearSummary} />
-                        </strong>
-                      </td>
-                      <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                            value={schoolUpdate.descriptionLastYear}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.nextYearSummary} />
-                        </strong>
-                      </td>
-                      <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                            value={schoolUpdate.demandThisYear}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.suggestion} />
-                        </strong>
-                      </td>
-                      <td colSpan="3">
-                        <div className="form-group">
-                          <textarea
-                            readOnly
-                            rows={4}
-                            className="form-control"
-                            style={{ resize: "none" }}
-                            value={schoolUpdate.suggestion}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>
-                          <FormattedMessage {...commonCompanyMessages.lastUpdated} />
-                        </strong>
-                      </td>
-                      <td colSpan="3">{formatDate(new Date(schoolUpdate.lastUpdated))}</td>
                     </tr>
                   </tbody>
                 </table>

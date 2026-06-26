@@ -164,7 +164,7 @@ const CompanySchoolUpdate = () => {
           />
           <FormRow
             label={<FormattedMessage {...commonCompanyMessages.schoolPlaygroundArea} />}
-            name="extraData.buildingArea"
+            name="extraData.playgroundArea"
             type="number"
             register={register}
             error={errors.extraData?.playgroundArea}
@@ -175,7 +175,7 @@ const CompanySchoolUpdate = () => {
             name="extraData.totalClass"
             type="number"
             register={register}
-            error={errors.extraData?.playgroundArea}
+            error={errors.extraData?.totalClass}
             placeholder="Quy mô lớp tối đa"
           />
           <FormRow
@@ -183,7 +183,7 @@ const CompanySchoolUpdate = () => {
             name="extraData.schoolCurrentClass"
             type="number"
             register={register}
-            error={errors.extraData?.playgroundArea}
+            error={errors.extraData?.schoolCurrentClass}
             placeholder="Số lớp hiện tại"
           />
           <FormRow
