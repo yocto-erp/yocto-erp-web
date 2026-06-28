@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from "react"
+import { useCallback, useReducer } from "react"
 import produce from "immer"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers"
@@ -53,7 +53,8 @@ const formReducer = (state, action) =>
         throw new Error(`Not support type: ${action.type}`)
     }
   })
-export const useHookCRUDForm = ({
+
+export const useHookCRUDFormNew = ({
   id,
   read,
   create,
@@ -76,7 +77,7 @@ export const useHookCRUDForm = ({
     defaultValues: initForm,
   })
 
-  useEffect(() => {
+  const initData = useCallback(() => {
     if (id) {
       dispatch({ type: FORM_TYPE.LOAD_DATA })
       read(id).then((data) => {
@@ -131,6 +132,7 @@ export const useHookCRUDForm = ({
   return {
     state,
     submit,
+    initData,
     ...props,
   }
 }

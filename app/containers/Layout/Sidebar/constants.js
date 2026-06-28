@@ -10,7 +10,7 @@ import {
   STUDENT_CONFIGURATION_ROOT_PATH,
   STUDENT_MANAGEMENT_ROOT_PATH,
 } from "../../student/constants"
-import { STUDENT_MONTHLY_ROOT_PATH } from "../../student/monthly-fee/constants"
+// import { STUDENT_MONTHLY_ROOT_PATH } from "../../student/monthly-fee/constants"
 import { SURVEY_MANAGEMENT_ROOT_PATH } from "../../survey/Admin/constants"
 import { WAREHOUSE_ROOT_PATH } from "../../warehouse/constants"
 import { PRODUCT_ROOT_PATH } from "../../product/constants"
@@ -203,7 +203,7 @@ export const SIDE_BAR_MENU = {
           exact: true,
           index: "student.list",
         },
-        {
+        /* {
           header: "Monthly Fee",
           isHeader: true,
           exact: true,
@@ -211,9 +211,9 @@ export const SIDE_BAR_MENU = {
           link: STUDENT_MONTHLY_ROOT_PATH,
           permission: [PERMISSION.STUDENT.MONTHLY_FEE.READ],
           index: "student.monthly-fee",
-        },
+        }, */
         {
-          header: "Monthly Fee New",
+          header: "Monthly Fee",
           isHeader: true,
           exact: true,
           icon: <IconMoney />,

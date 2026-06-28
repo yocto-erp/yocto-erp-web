@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form"
 import { useListFilter } from "../../../../components/ListWidget/constants"
 import SearchButton from "../../../../components/button/SearchButton"
 import MonthSelect from "../../../../components/date/MonthSelect"
-import StudentClassSelect from "../../student-class/components/StudentClassSelect"
+import { SelectClass } from "../../student-class/components/SelectClass"
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter()
@@ -33,7 +33,7 @@ const Filter = () => {
           name="class"
           control={control}
           render={({ onChange, value, ...data }) => (
-            <StudentClassSelect
+            <SelectClass
               id="class"
               placeholder="Chọn lớp học"
               onChange={onChange}

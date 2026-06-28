@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
-import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
-import { Controller } from "react-hook-form";
-import Widget from "../../../../components/Widget/Widget";
-import studentConfigurationApi from "../../../../libs/apis/student/student-config.api";
-import { ERROR } from "../../../../components/Form/messages";
-import useMyForm from "../../../../libs/hooks/useMyForm";
-import FormError from "../../../../components/Form/FormError";
-import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage";
-import SubmitButton from "../../../../components/button/SubmitButton";
-import InputNumber from "../../../../components/Form/InputNumber";
-import InputAmount from "../../../../components/Form/InputAmount";
-import { useApi } from "../../../../libs/hooks/useApi";
-import { templateApi } from "../../../../libs/apis/template/template.api";
-import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging";
-import taggingApi from "../../../../libs/apis/tagging.api";
-import BackButton from "../../../../components/button/BackButton";
+import React, { useEffect } from "react"
+import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap"
+import * as Yup from "yup"
+import { toast } from "react-toastify"
+import { Controller } from "react-hook-form"
+import Widget from "../../../../components/Widget/Widget"
+import studentConfigurationApi from "../../../../libs/apis/student/student-config.api"
+import { ERROR } from "../../../../components/Form/messages"
+import useMyForm from "../../../../libs/hooks/useMyForm"
+import FormError from "../../../../components/Form/FormError"
+import FormHookErrorMessage from "../../../../components/Form/FormHookErrorMessage"
+import SubmitButton from "../../../../components/button/SubmitButton"
+import InputNumber from "../../../../components/Form/InputNumber"
+import InputAmount from "../../../../components/Form/InputAmount"
+import { useApi } from "../../../../libs/hooks/useApi"
+import { templateApi } from "../../../../libs/apis/template/template.api"
+import InputAsyncTagging from "../../../../components/Form/InputAsyncTagging"
+import taggingApi from "../../../../libs/apis/tagging.api"
+import BackButton from "../../../../components/button/BackButton"
 
 const StudentConfigurationForm = () => {
   const validationSchema = React.useMemo(
@@ -70,7 +70,7 @@ const StudentConfigurationForm = () => {
          */
       }),
     [],
-  );
+  )
 
   const {
     control,
@@ -81,7 +81,7 @@ const StudentConfigurationForm = () => {
     formState: { isValid, isDirty },
     state: { isLoading, errors: serverErrors, resp: submitResp },
   } = useMyForm({
-    api: async data => studentConfigurationApi.save(data),
+    api: async (data) => studentConfigurationApi.save(data),
     validationSchema,
     defaultValues: {
       numberDayOfMonth: 0,
@@ -104,35 +104,33 @@ const StudentConfigurationForm = () => {
       ],
       printTemplateId: "",
     },
-  });
+  })
 
   const {
     state: { resp: templates },
     exec,
-  } = useApi(() =>
-    templateApi.search({ page: 1, size: 1000, filter: { type: 1 } }),
-  );
+  } = useApi(() => templateApi.search({ page: 1, size: 1000, filter: { type: 1 } }))
 
   useEffect(() => {
-    exec().then(_resp => {
-      console.log(_resp);
-    });
-  }, []);
+    exec().then((_resp) => {
+      console.log(_resp)
+    })
+  }, [])
 
   useEffect(() => {
-    studentConfigurationApi.get().then(resp => {
-      console.log(resp);
+    studentConfigurationApi.get().then((resp) => {
+      console.log(resp)
       if (resp) {
-        reset(resp);
+        reset(resp)
       }
-    });
-  }, [reset]);
+    })
+  }, [reset])
 
   useEffect(() => {
     if (submitResp) {
-      toast.success(`Update student configuration success.`);
+      toast.success(`Update student configuration success.`)
     }
-  }, [submitResp]);
+  }, [submitResp])
 
   /*
   const { fields, append, remove } = useFieldArray({
@@ -152,7 +150,7 @@ const StudentConfigurationForm = () => {
   });
   */
   const form = React.useMemo(() => {
-    if (!templates) return null;
+    if (!templates) return null
     return (
       <Form onSubmit={onSubmit} noValidate formNoValidate>
         <Row>
@@ -206,7 +204,7 @@ const StudentConfigurationForm = () => {
               <Label for="printTemplate">Print Template</Label>
               <Input type="select" innerRef={register} name="printTemplateId">
                 <option value="">Select Print Template</option>
-                {templates?.rows.map(t => (
+                {templates?.rows.map((t) => (
                   <option value={t.id} key={t.id}>
                     {t.name}
                   </option>
@@ -397,20 +395,16 @@ const StudentConfigurationForm = () => {
         <BackButton className="mr-2" />
         <SubmitButton isLoading={isLoading} disabled={!(isValid && isDirty)} />
       </Form>
-    );
-  }, [onSubmit, errors, register, isLoading, reset, templates]);
+    )
+  }, [onSubmit, errors, register, isLoading, reset, templates])
   return (
     <Widget>
-      {serverErrors && serverErrors.length ? (
-        <FormError errors={serverErrors} />
-      ) : (
-        ""
-      )}
+      {serverErrors && serverErrors.length ? <FormError errors={serverErrors} /> : ""}
       {form}
     </Widget>
-  );
-};
+  )
+}
 
-StudentConfigurationForm.propTypes = {};
+StudentConfigurationForm.propTypes = {}
 
-export default StudentConfigurationForm;
+export default StudentConfigurationForm

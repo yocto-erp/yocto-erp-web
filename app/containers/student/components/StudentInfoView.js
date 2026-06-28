@@ -1,19 +1,19 @@
-import React, { useMemo } from "react";
-import PropTypes from "prop-types";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import useStudentConfigure from "../../../libs/hooks/useStudentConfigure";
-import ModalOKButton from "../../../components/button/ModalOKButton";
-import Price from "../../../components/common/Price";
+import React, { useMemo } from "react"
+import PropTypes from "prop-types"
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
+import useStudentConfigure from "../../../libs/hooks/useStudentConfigure"
+import ModalOKButton from "../../../components/button/ModalOKButton"
+import Price from "../../../components/common/Price"
 
 const StudentInfoView = ({ student, isOpen, onClose }) => {
-  const { configure } = useStudentConfigure();
+  const { configure } = useStudentConfigure()
   const studentClass = useMemo(() => {
-    let rs = null;
+    let rs = null
     if (student) {
-      rs = student.class;
+      rs = student.class
     }
-    return rs;
-  }, [student, configure]);
+    return rs
+  }, [student, configure])
   return (
     <Modal className="primary" isOpen={isOpen} fade={false}>
       <ModalHeader toggle={() => onClose(false)}>
@@ -56,10 +56,7 @@ const StudentInfoView = ({ student, isOpen, onClose }) => {
               <td>Daily Fee Return</td>
               <td>
                 <strong>
-                  <Price
-                    amount={studentClass?.absentFeeReturnPerDay}
-                    scale={2}
-                  />
+                  <Price amount={studentClass?.absentFeeReturnPerDay} scale={2} />
                 </strong>
               </td>
             </tr>
@@ -96,13 +93,13 @@ const StudentInfoView = ({ student, isOpen, onClose }) => {
         </ModalOKButton>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
 StudentInfoView.propTypes = {
   student: PropTypes.object,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
-};
+}
 
-export default StudentInfoView;
+export default StudentInfoView

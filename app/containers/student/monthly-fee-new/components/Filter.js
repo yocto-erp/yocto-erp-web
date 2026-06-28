@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { Button, Form, Input } from "reactstrap"
 import { Controller, useForm } from "react-hook-form"
 import { useListFilter } from "../../../../components/ListWidgetNew/constants"
 import SearchButton from "../../../../components/button/SearchButton"
 import MonthSelect from "../../../../components/date/MonthSelect"
-import StudentClassSelect from "../../student-class/components/StudentClassSelect"
+import { SelectClass } from "../../student-class/components/SelectClass"
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter()
@@ -35,8 +35,9 @@ const Filter = () => {
           defaultValue={null}
           render={({ onChange, value, ...data }) => {
             return (
-              <StudentClassSelect
+              <SelectClass
                 id="class"
+                isShowPrice={false}
                 placeholder="Chọn lớp học"
                 onChange={onChange}
                 value={value}

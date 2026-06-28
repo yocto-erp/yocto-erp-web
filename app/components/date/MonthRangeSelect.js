@@ -1,13 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import isFunction from "lodash/isFunction";
-import DatePicker from "react-datepicker";
-import classNames from "classnames";
-import {
-  FNS_MONTH_FORMAT,
-  monthToLocalDateObj,
-  toMonthObj,
-} from "../../libs/utils/date.util";
+import React, { useCallback, useEffect, useState } from "react"
+import PropTypes from "prop-types"
+import isFunction from "lodash/isFunction"
+import DatePicker from "react-datepicker"
+import classNames from "classnames"
+import { FNS_MONTH_FORMAT, monthToLocalDateObj, toMonthObj } from "../../libs/utils/date.util"
 
 const MonthRangeSelect = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
@@ -26,35 +22,39 @@ const MonthRangeSelect = React.forwardRef(
     // eslint-disable-next-line no-unused-vars
     ref,
   ) => {
-    const [startMonth, setStartMonth] = useState(null);
-    const [endMonth, setEndMonth] = useState(null);
+    const [startMonth, setStartMonth] = useState(null)
+    const [endMonth, setEndMonth] = useState(null)
 
     useEffect(() => {
-      let month = null;
-      let newEndMonth = null;
-      console.log(value);
+      let month = null
+      let newEndMonth = null
       if (value && (value.from || value.to)) {
-        const { from, to } = value;
-        try {
-          month = monthToLocalDateObj(from.month, from.year);
-        } catch (e) {
-          console.error(e);
+        const { from, to } = value
+        if (from) {
+          try {
+            month = monthToLocalDateObj(from.month, from.year)
+          } catch (e) {
+            console.error(e)
+          }
         }
 
-        try {
-          newEndMonth = monthToLocalDateObj(to.month, to.year);
-        } catch (e) {
-          console.error(e);
+        if (to) {
+          try {
+            newEndMonth = monthToLocalDateObj(to.month, to.year)
+          } catch (e) {
+            console.error(e)
+          }
         }
       }
+      console.log("MonthRangeSelect:", value)
+      console.log("From: ", month)
+      console.log("To: ", newEndMonth)
       if (
-        (month !== null &&
-          startMonth !== null &&
-          month.getTime() !== startMonth.getTime()) ||
+        (month !== null && startMonth !== null && month.getTime() !== startMonth.getTime()) ||
         (month !== null && startMonth == null) ||
         (month == null && startMonth !== null)
       ) {
-        setStartMonth(month);
+        setStartMonth(month)
       }
       if (
         (newEndMonth !== null &&
@@ -63,72 +63,68 @@ const MonthRangeSelect = React.forwardRef(
         (newEndMonth !== null && endMonth == null) ||
         (newEndMonth == null && endMonth !== null)
       ) {
-        setEndMonth(newEndMonth);
+        setEndMonth(newEndMonth)
       }
-    }, [value]);
+    }, [value])
 
     const onFromMonthChange = useCallback(
-      newFromMonth => {
-        let newValue = null;
+      (newFromMonth) => {
+        let newValue = null
         if (newFromMonth) {
-          newValue = { from: null, to: null };
+          newValue = { from: null, to: null }
           if (newFromMonth) {
-            newValue.from = toMonthObj(newFromMonth);
+            newValue.from = toMonthObj(newFromMonth)
           }
           if (endMonth) {
-            newValue.to = toMonthObj(endMonth);
+            newValue.to = toMonthObj(endMonth)
           }
           if (newValue.from && newValue.to) {
-            newValue.numberOfMonths =
-              newValue.to.absolute - newValue.from.absolute + 1;
+            newValue.numberOfMonths = newValue.to.absolute - newValue.from.absolute + 1
           } else if (newValue.from) {
-            newValue.numberOfMonths = 1;
+            newValue.numberOfMonths = 1
           }
         }
-        onChange(newValue);
-        setStartMonth(newFromMonth);
+        onChange(newValue)
+        setStartMonth(newFromMonth)
         if (newFromMonth == null) {
-          setEndMonth(null);
+          setEndMonth(null)
         }
       },
       [endMonth, onChange],
-    );
+    )
 
     const onToMonthChange = useCallback(
-      newToMonth => {
-        let newValue = null;
+      (newToMonth) => {
+        let newValue = null
         if (newToMonth || startMonth) {
-          newValue = { from: null, to: null };
+          newValue = { from: null, to: null }
           if (startMonth) {
-            newValue.from = toMonthObj(startMonth);
+            newValue.from = toMonthObj(startMonth)
           }
           if (newToMonth) {
-            newValue.to = toMonthObj(newToMonth);
+            newValue.to = toMonthObj(newToMonth)
           }
           if (newValue.from && newValue.to) {
-            newValue.numberOfMonths =
-              newValue.to.absolute - newValue.from.absolute + 1;
+            newValue.numberOfMonths = newValue.to.absolute - newValue.from.absolute + 1
           } else if (newValue.from) {
-            newValue.numberOfMonths = 1;
+            newValue.numberOfMonths = 1
           }
         }
-        onChange(newValue);
-        setEndMonth(newToMonth);
+        onChange(newValue)
+        setEndMonth(newToMonth)
       },
       [startMonth, onChange],
-    );
+    )
 
-    const handleOnBlur = ({ target: { val } }) => {
-      console.log(val);
-
+    const handleOnBlur = () => {
       if (isFunction(onBlur)) {
-        onBlur();
+        onBlur()
       }
-    };
+    }
 
     return (
-      <div className="d-flex align-items-center">
-        <div className="flex-fill">
+      <div className="d-flex align-items-center" style={{ gap: "4px" }}>
+        <div className="">
           <DatePicker
             className={classNames("form-control", className, {
               "is-invalid": !!invalid,
@@ -148,8 +144,8 @@ const MonthRangeSelect = React.forwardRef(
             maxDate={endMonth}
           />
         </div>
-        <div className="mr-2 ml-2">-</div>
-        <div className="flex-fill">
+        <div>-</div>
+        <div className="">
           <DatePicker
             className={classNames("form-control", className, {
               "is-invalid": !!invalid,
@@ -170,9 +166,9 @@ const MonthRangeSelect = React.forwardRef(
           />
         </div>
       </div>
-    );
+    )
   },
-);
+)
 
 MonthRangeSelect.propTypes = {
   onChange: PropTypes.func,
@@ -183,6 +179,6 @@ MonthRangeSelect.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   isClearable: PropTypes.bool,
-};
+}
 
-export default MonthRangeSelect;
+export default MonthRangeSelect

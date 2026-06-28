@@ -113,4 +113,15 @@ $borderColor: #1870DC;
       border-bottom-right-radius: 0;
     }
   }
+
+  &:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: none !important;
+
+    .react-select__control {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
 }

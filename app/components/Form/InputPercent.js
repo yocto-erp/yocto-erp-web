@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { IMaskInput } from "react-imask";
-import { InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
-import { isFunc } from "../../utils/util";
+import React from "react"
+import PropTypes from "prop-types"
+import classNames from "classnames"
+import { IMaskInput } from "react-imask"
+import { InputGroup, InputGroupAddon, InputGroupText } from "reactstrap"
+import { isFunc } from "../../utils/util"
 
 const InputPercent = React.forwardRef(
   // eslint-disable-next-line no-unused-vars
@@ -21,9 +21,9 @@ const InputPercent = React.forwardRef(
         max={100}
         min={0}
         unmask="typed" // true|false|'typed'
-        onAccept={_val => {
+        onAccept={(_val) => {
           if (isFunc(onChange)) {
-            onChange(_val);
+            onChange(_val)
           }
         }}
         placeholder={placeholder}
@@ -33,7 +33,7 @@ const InputPercent = React.forwardRef(
       </InputGroupAddon>
     </InputGroup>
   ),
-);
+)
 
 InputPercent.propTypes = {
   invalid: PropTypes.bool,
@@ -41,6 +41,6 @@ InputPercent.propTypes = {
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   size: PropTypes.string,
-};
+}
 
-export default InputPercent;
+export default InputPercent

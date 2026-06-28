@@ -25,6 +25,7 @@ import StudentStatusView from "./components/StudentStatusView"
 import { hasText } from "../../utils/util"
 
 const ROOT_PATH = STUDENT_MANAGEMENT_ROOT_PATH
+
 const ListPage = ({ history }) => {
   const { configure } = useStudentConfigure()
 
@@ -218,6 +219,16 @@ const ListPage = ({ history }) => {
       initialSize={10}
       initialPage={1}
       initialFilter={search}
+      mappingUrlData={(key, value) => {
+        if (key === "class") {
+          try {
+            return JSON.parse(value)
+          } catch (e) {
+            // ignore
+          }
+        }
+        return value
+      }}
     >
       <Filter />
     </ListWidget>

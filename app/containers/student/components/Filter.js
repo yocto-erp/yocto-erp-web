@@ -4,10 +4,10 @@ import { Controller, useForm } from "react-hook-form"
 import { FormattedMessage } from "react-intl"
 import { useListFilter } from "../../../components/ListWidget/constants"
 import SearchButton from "../../../components/button/SearchButton"
-import StudentClassSelect from "../student-class/components/StudentClassSelect"
 import { STUDENT_STATUS_LIST } from "../constants"
 import { listPageMessage } from "../messages"
 import { commonMessage } from "../../messages"
+import { SelectClass } from "../student-class/components/SelectClass"
 
 const Filter = () => {
   const { searchByFilter, filter } = useListFilter()
@@ -18,6 +18,7 @@ const Filter = () => {
   useEffect(() => {
     reset(filter || {})
   }, [reset])
+
   const onSubmit = handleSubmit((val) =>
     searchByFilter({
       ...val,
@@ -58,18 +59,16 @@ const Filter = () => {
           name="class"
           control={control}
           defaultValue={null}
-          render={({ onChange, value, ...data }) => {
-            return (
-              <StudentClassSelect
-                id="class"
-                placeholder="Chọn lớp học"
-                onChange={onChange}
-                isMultiple
-                value={value}
-                {...data}
-              />
-            )
-          }}
+          render={({ onChange, value, ...data }) => (
+            <SelectClass
+              id="class"
+              placeholder="Chọn lớp học"
+              onChange={onChange}
+              isMulti
+              value={value}
+              {...data}
+            />
+          )}
         />
       </div>
       <SearchButton className="ml-2" />

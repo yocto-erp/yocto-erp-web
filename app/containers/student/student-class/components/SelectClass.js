@@ -6,16 +6,21 @@ import { REACT_SELECT_OPTION_CUSTOM_STYLE } from "../../../../components/constan
 import studentClassApi from "../../../../libs/apis/student/student-class.api"
 import Price from "../../../../components/common/Price"
 
-const formatOptionLabel = (data, isShowPrice) => (
-  <div className="text-white">
-    <p className="mb-0">{data.name}</p>
-    {isShowPrice && (
-      <p className="mb-0">
-        <Price amount={data.tuitionFeePerMonth} />
-      </p>
-    )}
-  </div>
-)
+const formatOptionLabel = (data, isShowPrice, context) => {
+  if (context.context === "menu" && isShowPrice) {
+    return (
+      <div className="text-white">
+        <p className="mb-0">{data.name}</p>
+        {isShowPrice && (
+          <p className="mb-0">
+            <Price amount={data.tuitionFeePerMonth} />
+          </p>
+        )}
+      </div>
+    )
+  }
+  return data.name
+}
 
 export const SelectClass = React.forwardRef(
   (
@@ -43,16 +48,17 @@ export const SelectClass = React.forwardRef(
             search: inputValue,
           },
         })
-        .then((resp) =>
-          cb(
+        .then((resp) => {
+          if (isShowPrice) {
+            return cb(resp.rows)
+          }
+          return cb(
             resp.rows.map((t) => ({
               id: t.id,
               name: t.name,
-              tuitionFeePerMonth: t.tuitionFeePerMonth,
-              ...t,
             })),
-          ),
-        )
+          )
+        })
     }, 300)
     return (
       <AsyncSelect
@@ -60,6 +66,7 @@ export const SelectClass = React.forwardRef(
         className="react-select-container"
         classNamePrefix="react-select"
         placeholder={placeholder}
+        menuPortalTarget={document.body}
         noOptionsMessage={({ inputValue }) =>
           inputValue
             ? `Not found any Class with search "${inputValue}", try to search another`
@@ -73,7 +80,7 @@ export const SelectClass = React.forwardRef(
         onBlur={onBlur}
         isDisabled={disabled}
         onChange={onChange}
-        formatOptionLabel={(data) => formatOptionLabel(data, isShowPrice)}
+        formatOptionLabel={(data, context) => formatOptionLabel(data, isShowPrice, context)}
         getOptionValue={(data) => data.id}
         name={name}
         value={value}

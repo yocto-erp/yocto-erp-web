@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect } from "react"
 import * as Yup from "yup"
 import PropTypes from "prop-types"
 import { useLocation } from "react-router-dom"
 import { Form, Table } from "reactstrap"
 import { toast } from "react-toastify"
 import { v4 as uuidv4 } from "uuid"
-import { Controller, useFieldArray } from "react-hook-form"
+import { useFieldArray } from "react-hook-form"
 import SubmitButton from "../../../../components/button/SubmitButton"
 import BackButton from "../../../../components/button/BackButton"
 import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm"
@@ -14,11 +14,8 @@ import FormDetail from "./FormDetail"
 import "../../student.scss"
 import useStudentConfigure from "../../../../libs/hooks/useStudentConfigure"
 import Widget from "../../../../components/Widget/Widget"
-import Price from "../../../../components/common/Price"
 import studentMonthlyFeeNewApi from "../../../../libs/apis/student/student-monthly-fee-new.api"
-import FormGroup from "../../../../components/Form/FormGroup"
-import Label from "../../../../components/Form/Label"
-import { SelectClass } from "../../student-class/components/SelectClass"
+import { studentFeeCalculate } from "./student-fee.util"
 
 const { create, update, read } = studentMonthlyFeeNewApi
 
@@ -40,11 +37,11 @@ const newFee = () => ({
   remark: "",
   debt: "",
   privateId: null,
+  studentClass: null,
 })
 
 function MyForm({ id }) {
   const { configure: studentConfig } = useStudentConfigure()
-  const [className, setClassName] = useState()
   const location = useLocation()
 
   const validationSchema = React.useMemo(
@@ -56,6 +53,7 @@ function MyForm({ id }) {
               monthYear: Yup.object()
                 .required("This field is required.")
                 .nullable(true),
+              studentClass: Yup.object().required("This field is required."),
               student: Yup.object()
                 .required("Student is required.")
                 .nullable(true),
@@ -69,9 +67,6 @@ function MyForm({ id }) {
             }),
           )
           .required("Details is required"),
-        class: Yup.object().shape({
-          name: Yup.string().required(),
-        }),
       }),
     [],
   )
@@ -93,64 +88,62 @@ function MyForm({ id }) {
         id ? `Update Student Monthly Fees success` : `Create Student Monthly Fees success`,
       )
     },
-    mappingToForm: (form) => {
-      let data
-      return {
-        details: form.map((t) => {
-          const monthYear = {
-            from: {
-              month: t.monthFee,
-              year: t.yearFee,
-            },
-            to: null,
-            numberOfMonths: t.numberOfMonths || 1,
+    mappingToForm: (form) => ({
+      details: form.map((t) => {
+        const monthYear = {
+          from: {
+            month: t.monthFee,
+            year: t.yearFee,
+          },
+          to: null,
+          numberOfMonths: t.numberOfMonths || 1,
+        }
+        if (t.numberOfMonths > 1) {
+          monthYear.to = {
+            month: t.toMonth,
+            year: t.toYear,
           }
-          if (t.numberOfMonths > 1) {
-            monthYear.to = {
-              month: t.toMonth,
-              year: t.toYear,
-            }
-          }
-          data = t.class
-          return {
-            ...t,
-            monthYear,
-            class: t.class,
-          }
-        }),
-        class: data,
-      }
-    },
+        }
+        return {
+          ...t,
+          monthYear,
+          studentClass: t.class,
+        }
+      }),
+    }),
     mappingToServer: (form) => {
       const details = form.details.map((result) => {
-        /* const studentClassConfigure = studentConfig.classes.find(
-          clz => clz.id === result.student.class,
-        ); */
-        const studentClassConfigure = form?.class
-        const trialDateFee = result.trialDate * studentClassConfigure?.feePerTrialDay
-        const absentDayFee = result.absentDay * studentClassConfigure?.absentFeeReturnPerDay
+        const studentClassConfigure = result.studentClass
+        const {
+          student,
+          absentDay,
+          studentClass,
+          scholarShip,
+          studentAbsentDay,
+          monthYear,
+          otherFee,
+          otherDeduceFee,
+          busFee,
+          mealFee,
+        } = result
+        const {
+          totalFee,
+          absentDayFee,
+          studentAbsentDayDeductMealFee,
+          scholarShipFee,
+        } = studentFeeCalculate({
+          student,
+          absentDay,
+          studentClass,
+          scholarShip,
+          studentAbsentDay,
+          monthYear,
+          otherFee,
+          otherDeduceFee,
+          busFee,
+          mealFee,
+        })
 
-        const studentAbsentDayFee = result.student.enableMeal
-          ? studentClassConfigure?.mealFeeReturnPerDay * result.studentAbsentDay
-          : 0
-
-        const totalAmountWithoutScholarShip =
-          studentClassConfigure?.tuitionFeePerMonth * result.monthYear.numberOfMonths -
-          absentDayFee -
-          studentAbsentDayFee +
-          trialDateFee +
-          result.busFee +
-          result.mealFee +
-          (result.otherFee || 0) -
-          (result.otherDeduceFee || 0) +
-          (result.debt || 0)
-
-        const scholarFee =
-          ((studentClassConfigure?.tuitionFeePerMonth * result.monthYear.numberOfMonths -
-            absentDayFee) *
-            (result.scholarShip || 0)) /
-          100
-        const totalAmount = totalAmountWithoutScholarShip - scholarFee
         return {
           id: result.id,
           monthYear: result.monthYear,
@@ -158,26 +151,24 @@ function MyForm({ id }) {
           scholarShip: result.scholarShip,
           absentDay: result.absentDay,
           studentAbsentDay: result.studentAbsentDay,
-          studentAbsentDayFee,
+          studentAbsentDayFee: studentAbsentDayDeductMealFee,
           trialDate: result.trialDate,
           busFee: result.busFee,
           mealFee: result.mealFee,
           otherFee: result.otherFee,
-          otherDeduceFee: result.otherDeduceFee,
+          otherFeeDesc: result.otherFeeDesc,
+          extraData: result.extraData,
           remark: result.remark,
-          debt: result.debt,
-          scholarFee,
-          feePerMonth: studentClassConfigure?.tuitionFeePerMonth,
-          trialDateFee,
+          scholarFee: scholarShipFee,
+          feePerMonth: studentClassConfigure.tuitionFeePerMonth,
           absentDayFee,
-          totalAmount,
+          totalAmount: totalFee,
           privateId: result.privateId,
-          class: form?.class,
+          class: result.studentClass,
         }
       })
       return {
         details,
-        class: form?.class,
       }
     },
     validationSchema,
@@ -206,98 +197,73 @@ function MyForm({ id }) {
     }
   }, [location, id])
 
-  const configure = useMemo(
-    () =>
-      studentConfig ? (
-        <div>
-          <table className="table table-bordered table-sm">
-            <tbody>
-              <tr>
-                <td className="min font-weight-bold">Days Of Month</td>
-                <td className="text-nowrap">{studentConfig.numberDayOfMonth}</td>
-              </tr>
-              <tr>
-                <td className="min font-weight-bold">Bus Fee</td>
-                <td className="text-nowrap">
-                  <Price amount={studentConfig.busFee} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      ) : null,
-    [studentConfig],
-  )
-
   const form = React.useMemo(
     () => (
       <Form onSubmit={submit} noValidate formNoValidate className="mt-10">
-        <div className="row">
-          <div className="col-4">{configure}</div>
-          <div className="col-6">
-            <FormGroup>
-              <Label for="class" className="required">
-                Class
-              </Label>
-              <Controller
-                name="class"
-                control={control}
-                render={({ onChange, name, value, ...data }, { invalid }) => (
-                  <SelectClass
-                    id="class"
-                    placeholder="Chọn lớp học"
-                    invalid={invalid}
-                    name={name}
-                    onChange={(val) => {
-                      onChange(val)
-                      setClassName(val)
-                    }}
-                    value={value}
-                    {...data}
-                  />
-                )}
-              />
-            </FormGroup>
-          </div>
-        </div>
-        <div className="table-responsive my-5">
+        <div className="table-responsive mb-5">
           <Table bordered striped size="sm">
             <thead>
               <tr>
-                <th style={{ width: "250px" }}>
-                  Month / Student<span className="text-danger">*</span>
+                <th style={{ width: "200px" }}>
+                  Month / Student
+                  <br />
+                  Scholar Ship<span className="text-danger">*</span>
                 </th>
-                <th className="min">Scholar Ship</th>
-                <th className="min">Absent Day(s)</th>
-                <th className="min">Trial Day(s)</th>
-                <th style={{ width: "100px" }}>Bus Fee</th>
-                <th style={{ width: "100px" }}>Meal Fee</th>
-                <th style={{ width: "120px" }}>Other Fee</th>
-                <th>Remark</th>
-                <th className="min text-nowrap">Total</th>
-                {id ? <></> : <th className="action">Action</th>}
+                <th className="min" style={{ verticalAlign: "middle", textAlign: "center" }}>
+                  Chi phí bus, tiền ăn
+                </th>
+                <th style={{ width: "120px", verticalAlign: "middle", textAlign: "center" }}>
+                  Chí phí khác
+                </th>
+                <th
+                  className="min"
+                  style={{ width: "120px", verticalAlign: "middle", textAlign: "center" }}
+                >
+                  Ngày nghỉ
+                  <br /> (trả lại tiền)
+                </th>
+                <th style={{ width: "120px", verticalAlign: "middle", textAlign: "center" }}>
+                  Tiền trả lại khác
+                </th>
+
+                <th style={{ width: "120px", verticalAlign: "middle", textAlign: "center" }}>
+                  Remark
+                </th>
+                <th
+                  className="min text-nowrap"
+                  style={{ width: "120px", verticalAlign: "middle", textAlign: "center" }}
+                >
+                  Total
+                </th>
+                {id ? (
+                  <></>
+                ) : (
+                  <th
+                    className="action min"
+                    style={{ verticalAlign: "middle", textAlign: "center" }}
+                  >
+                    Action
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
-              {fields.map((item, index) => {
-                return (
-                  <FormDetail
-                    studentConfig={studentConfig}
-                    key={item.id}
-                    control={control}
-                    register={register}
-                    getValues={getValues}
-                    setValue={setValue}
-                    item={item}
-                    index={index}
-                    remove={remove}
-                    trigger={trigger}
-                    isUpdated={!!id}
-                    formState={formState}
-                    className={className}
-                  />
-                )
-              })}
+              {fields.map((item, index) => (
+                <FormDetail
+                  studentConfig={studentConfig}
+                  key={item.id}
+                  control={control}
+                  register={register}
+                  getValues={getValues}
+                  setValue={setValue}
+                  item={item}
+                  index={index}
+                  remove={remove}
+                  trigger={trigger}
+                  isUpdated={!!id}
+                  formState={formState}
+                />
+              ))}
             </tbody>
             {id ? (
               <></>

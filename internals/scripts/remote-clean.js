@@ -1,3 +1,6 @@
+const os = require("os");
+
+const homeDir = os.homedir();
 var Client = require("ssh2").Client;
 
 var conn = new Client();
@@ -28,5 +31,5 @@ conn.on("ready", async function() {
   host: "104.248.156.227",
   port: 22,
   username: "root",
-  privateKey: require("fs").readFileSync("/Users/duynt/.ssh/id_ed25519")
+  privateKey: require("fs").readFileSync(`${homeDir}/.ssh/id_rsa`)
 });

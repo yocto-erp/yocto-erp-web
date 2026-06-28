@@ -18,6 +18,8 @@ import StudentFeePaid from "./components/StudentFeePaid"
 import ShortText from "../../../components/ShortText"
 import studentMonthlyFeeNewApi from "../../../libs/apis/student/student-monthly-fee-new.api"
 import TableActionColumns from "../../../components/ListWidgetNew/TableActionColumn"
+import { ClassView } from "../student-class/components/ClassView"
+import DateView from "../../../components/common/date/DateView"
 
 const ROOT_PATH = STUDENT_MONTHLY_NEW_ROOT_PATH
 const ListPage = ({ history }) => {
@@ -47,8 +49,11 @@ const ListPage = ({ history }) => {
                 {row.student.child.name} ({row.student.alias})
               </strong>
               <br />
-              {row.class?.name}
+              <ClassView studentClass={row.class} />
             </p>
+            <span>
+              Created On: <DateView date={row.createdDate} />
+            </span>
           </>
         ),
       },
@@ -182,26 +187,22 @@ const ListPage = ({ history }) => {
         header: "Action",
         data: "",
         class: "action",
-        render: (row) => {
-          return (
-            <TableActionColumns
-              onEdit={
-                !row.paidDate ? () => history.push(editPage(ROOT_PATH, [row.privateId])) : null
-              }
-            >
-              <div className="btn-group-sm btn-group">
-                <DownloadButton
-                  key="pdf"
-                  title="Download PDF"
-                  link={() => studentMonthlyFeeApi.pdf(row.id, configure.printTemplateId || 0)}
-                  fileName={() => `${row.student.child.name}.pdf`}
-                >
-                  <i className="fa fa-file-pdf-o" />
-                </DownloadButton>
-              </div>
-            </TableActionColumns>
-          )
-        },
+        render: (row) => (
+          <TableActionColumns
+            onEdit={!row.paidDate ? () => history.push(editPage(ROOT_PATH, [row.privateId])) : null}
+          >
+            <div className="btn-group-sm btn-group">
+              <DownloadButton
+                key="pdf"
+                title="Download PDF"
+                link={() => studentMonthlyFeeApi.pdf(row.id, configure.printTemplateId || 0)}
+                fileName={() => `${row.student.child.name}.pdf`}
+              >
+                <i className="fa fa-file-pdf-o" />
+              </DownloadButton>
+            </div>
+          </TableActionColumns>
+        ),
       },
     ],
     [configure, setPaymentStudent],

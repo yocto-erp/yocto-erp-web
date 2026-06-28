@@ -4,7 +4,7 @@ import PageTitle from "../../Layout/PageTitle"
 
 const CreatePage = () => (
   <>
-    <PageTitle title="Create Student Monthly Fee New" />
+    <PageTitle title="Create Student Monthly Fee" />
     <div className="row">
       <div className="col-md-12">
         <MyForm />

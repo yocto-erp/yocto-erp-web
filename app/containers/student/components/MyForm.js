@@ -15,12 +15,12 @@ import DateSelect from "../../../components/date/DateSelect"
 import FormHookErrorMessage from "../../../components/Form/FormHookErrorMessage"
 import { ERROR } from "../../../components/Form/messages"
 import BusStopSelect from "../student-bus-stop/components/BusStopSelect"
-import StudentClassSelect from "../student-class/components/StudentClassSelect"
 import { parseIso } from "../../../libs/utils/date.util"
 import { MAIN_CONTACT_TYPE, STUDENT_STATUS_LIST } from "../constants"
 import FormGroupInput from "../../../components/Form/FormGroupInput"
 import { studentFormMessage } from "../messages"
 import { LIST_GENDER } from "../../../libs/apis/person.api"
+import { SelectClass } from "../student-class/components/SelectClass"
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required(ERROR.required),
@@ -64,17 +64,15 @@ function MyForm({ id }) {
     onSuccess: () => {
       toast.success(id ? `Update student success` : `Create student success`)
     },
-    mappingToForm: (form) => {
-      return {
-        ...form,
-        fullName: form.child ? `${form.child.firstName} ${form.child.lastName}` : "",
-        joinDate: form.joinDate ? new Date(form.joinDate) : new Date(),
-        birthday: form.child ? parseIso(form.child.birthday) : null,
-        sex: form.child.sex,
-        classStudents: form.classStudents,
-        studentId: form.studentId,
-      }
-    },
+    mappingToForm: (form) => ({
+      ...form,
+      fullName: form.child ? `${form.child.firstName} ${form.child.lastName}` : "",
+      joinDate: form.joinDate ? new Date(form.joinDate) : new Date(),
+      birthday: form.child ? parseIso(form.child.birthday) : null,
+      sex: form.child.sex,
+      classStudents: form.classStudents,
+      studentId: form.studentId,
+    }),
     validationSchema,
     initForm: {
       studentId: "",
@@ -347,7 +345,7 @@ function MyForm({ id }) {
                 name="classStudents"
                 control={control}
                 render={({ onChange, ...data }, { invalid }) => (
-                  <StudentClassSelect
+                  <SelectClass
                     id="class"
                     placeholder="Chọn lớp học"
                     invalid={invalid}
