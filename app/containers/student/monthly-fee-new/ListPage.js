@@ -195,7 +195,9 @@ const ListPage = ({ history }) => {
               <DownloadButton
                 key="pdf"
                 title="Download PDF"
-                link={() => studentMonthlyFeeApi.pdf(row.id, configure.printTemplateId || 0)}
+                link={() =>
+                  studentMonthlyFeeNewApi.pdf(row.privateId, configure.printTemplateId || 0)
+                }
                 fileName={() => `${row.student.child.name}.pdf`}
               >
                 <i className="fa fa-file-pdf-o" />
