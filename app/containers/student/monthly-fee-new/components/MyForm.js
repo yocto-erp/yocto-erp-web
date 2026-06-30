@@ -54,7 +54,7 @@ function MyForm({ id }) {
               monthYear: Yup.object()
                 .required("This field is required.")
                 .nullable(true),
-              isTuitionPaid: Yup.string().nullable(),
+              isTuitionPaid: Yup.bool().nullable(),
               studentClass: Yup.object().required("This field is required."),
               student: Yup.object()
                 .required("Student is required.")
