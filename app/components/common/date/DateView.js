@@ -1,22 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { formatDate } from "../../../libs/utils/date.util";
+import React from "react"
+import PropTypes from "prop-types"
+import { formatDate } from "../../../libs/utils/date.util"
 
-const DateView = ({ date }) => {
-  let rs = "";
+const DateView = ({ date, title }) => {
+  let rs = ""
   try {
-    rs = formatDate(new Date(date));
+    rs = formatDate(new Date(date))
     // eslint-disable-next-line no-empty
   } catch (e) {}
   return (
-    <span className="text-nowrap">
+    <span className="text-nowrap" title={title}>
       <i className="fi flaticon-time" /> {rs}
     </span>
-  );
-};
+  )
+}
 
 DateView.propTypes = {
   date: PropTypes.string,
-};
+  title: PropTypes.string,
+}
 
-export default DateView;
+export default DateView

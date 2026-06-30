@@ -20,6 +20,7 @@ import studentMonthlyFeeNewApi from "../../../libs/apis/student/student-monthly-
 import TableActionColumns from "../../../components/ListWidgetNew/TableActionColumn"
 import { ClassView } from "../student-class/components/ClassView"
 import DateView from "../../../components/common/date/DateView"
+import { hasText } from "../../../utils/util"
 
 const ROOT_PATH = STUDENT_MONTHLY_NEW_ROOT_PATH
 const ListPage = ({ history }) => {
@@ -33,27 +34,28 @@ const ListPage = ({ history }) => {
         class: "text-nowrap min",
         render: (row) => (
           <>
-            <span>{formatMonth(row.monthFee, row.yearFee)}</span>
-            {row.toMonth > 0 && row.toYear > 0 ? (
-              <>
-                {" "}
-                -{" "}
-                <span>
-                  {formatMonth(row.toMonth, row.toYear)} <strong>({row.numberOfMonths}M)</strong>
-                </span>
-              </>
-            ) : null}
+            <strong>
+              <span>{formatMonth(row.monthFee, row.yearFee)}</span>
+              {row.toMonth > 0 && row.toYear > 0 ? (
+                <>
+                  {" "}
+                  -{" "}
+                  <span>
+                    {formatMonth(row.toMonth, row.toYear)} <strong>({row.numberOfMonths}M)</strong>
+                  </span>
+                </>
+              ) : null}
+            </strong>
             <br />
             <p className="mb-0">
               <strong>
-                {row.student.child.name} ({row.student.alias})
+                {row.student.child.name}
+                {hasText(row.student.alias) && <>&nbsp;({row.student.alias})</>}
               </strong>
               <br />
-              <ClassView studentClass={row.class} />
             </p>
-            <span>
-              Created On: <DateView date={row.createdDate} />
-            </span>
+            <ClassView studentClass={row.class} />
+            <DateView date={row.createdDate} />
           </>
         ),
       },

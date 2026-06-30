@@ -9,6 +9,7 @@ export const studentFeeCalculate = ({
   otherDeduceFee,
   busFee,
   mealFee,
+  isTuitionPaid,
 }) => {
   const rs = {
     absentDayFee: 0,
@@ -21,25 +22,29 @@ export const studentFeeCalculate = ({
     rs.absentDayFee =
       absentDay * studentClass.absentFeeReturnPerDay * (1 - (scholarShip || 0) / 100)
   }
-  if (student && student.enableMeal && studentAbsentDay && studentClass) {
+  if (student && student.enableMeal && studentAbsentDay && studentClass?.mealFeeReturnPerDay) {
     rs.studentAbsentDayDeductMealFee = studentAbsentDay * studentClass.mealFeeReturnPerDay
   }
 
   if (student && monthYear && studentClass) {
+    const tuitionFee = !isTuitionPaid
+      ? studentClass.tuitionFeePerMonth * monthYear.numberOfMonths
+      : 0
+    console.log("tuitionFee", tuitionFee)
     rs.totalFeeWithoutScholarShip =
-      studentClass.tuitionFeePerMonth * monthYear.numberOfMonths -
+      tuitionFee -
       rs.absentDayFee -
       rs.studentAbsentDayDeductMealFee +
-      busFee +
-      mealFee +
+      (busFee || 0) +
+      (mealFee || 0) +
       (otherFee || 0) -
       (otherDeduceFee || 0)
+
+    rs.scholarShipFee = !isTuitionPaid
+      ? (studentClass.tuitionFeePerMonth * monthYear.numberOfMonths * (scholarShip || 0)) / 100
+      : 0
   }
 
-  if (student && monthYear && studentClass) {
-    rs.scholarShipFee =
-      (studentClass.tuitionFeePerMonth * monthYear.numberOfMonths * scholarShip) / 100
-  }
   rs.totalFee = rs.totalFeeWithoutScholarShip - rs.scholarShipFee
 
   return rs

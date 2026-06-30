@@ -106,7 +106,7 @@ const Header = ({ history }) => {
   )
   return (
     <>
-      <PageTitle title="Student Monthly Fee New" actions={actions} colLeft={4} colRight={8} />
+      <PageTitle title="Student Monthly Fee" actions={actions} colLeft={4} colRight={8} />
       {confirmModal}
       <CloneNextMonth
         ids={Object.values(getStateSelect)}

@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  Label,
 } from "reactstrap"
 import { Controller, useWatch } from "react-hook-form"
 import classNames from "classnames"
@@ -45,12 +46,14 @@ const FormDetail = ({
     busFee,
     mealFee,
     studentClass,
+    isTuitionPaid,
   } = useWatch({
     control,
     name: `details[${index}]`,
     defaultValue: item,
   })
 
+  console.log("isTuitionPaid: ", isTuitionPaid)
   const { configure } = useStudentConfigure()
 
   useEffect(() => {
@@ -86,6 +89,7 @@ const FormDetail = ({
         otherDeduceFee,
         busFee,
         mealFee,
+        isTuitionPaid,
       }),
     [
       student,
@@ -98,6 +102,7 @@ const FormDetail = ({
       otherDeduceFee,
       busFee,
       mealFee,
+      isTuitionPaid,
     ],
   )
 
@@ -211,6 +216,35 @@ const FormDetail = ({
             </p>
           )}
           <FormHookErrorMessage error={get(errors, ["details", index, "scholarShip"])} />
+        </div>
+        <div className="mt-2">
+          <Controller
+            control={control}
+            defaultValue={item.isTuitionPaid}
+            name={`details[${index}].isTuitionPaid`}
+            render={({ onChange, value }) => (
+              <div className="checkbox abc-checkbox pl-0">
+                <input
+                  type="checkbox"
+                  name={`details[${index}].isTuitionPaid`}
+                  value={value}
+                  defaultChecked={item.isTuitionPaid}
+                  onChange={(e) => {
+                    onChange(e.target.checked)
+                  }}
+                  id="isTuitionPaid"
+                />{" "}
+                <Label for="isTuitionPaid">
+                  Học phí {isTuitionPaid}
+                  {value ? (
+                    <span className="text-success">đã đóng trước</span>
+                  ) : (
+                    <span className="text-danger">chưa đóng trước</span>
+                  )}
+                </Label>
+              </div>
+            )}
+          />
         </div>
       </td>
       <td>

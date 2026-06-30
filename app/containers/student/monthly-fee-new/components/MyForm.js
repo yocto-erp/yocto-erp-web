@@ -38,6 +38,7 @@ const newFee = () => ({
   debt: "",
   privateId: null,
   studentClass: null,
+  isTuitionPaid: "",
 })
 
 function MyForm({ id }) {
@@ -53,6 +54,7 @@ function MyForm({ id }) {
               monthYear: Yup.object()
                 .required("This field is required.")
                 .nullable(true),
+              isTuitionPaid: Yup.string().nullable(),
               studentClass: Yup.object().required("This field is required."),
               student: Yup.object()
                 .required("Student is required.")
@@ -125,6 +127,7 @@ function MyForm({ id }) {
           otherDeduceFee,
           busFee,
           mealFee,
+          isTuitionPaid,
         } = result
         const {
           totalFee,
@@ -142,6 +145,7 @@ function MyForm({ id }) {
           otherDeduceFee,
           busFee,
           mealFee,
+          isTuitionPaid,
         })
 
         return {
@@ -165,6 +169,7 @@ function MyForm({ id }) {
           totalAmount: totalFee,
           privateId: result.privateId,
           class: result.studentClass,
+          isTuitionPaid,
         }
       })
       return {

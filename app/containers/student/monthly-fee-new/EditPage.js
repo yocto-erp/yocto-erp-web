@@ -7,7 +7,7 @@ const EditPage = () => {
   const { id } = useParams()
   return (
     <>
-      <PageTitle title="Update Student Monthly Fee New" />
+      <PageTitle title="Update Student Monthly Fee" />
       <div className="row">
         <div className="col-md-12">
           <MyForm id={id} />

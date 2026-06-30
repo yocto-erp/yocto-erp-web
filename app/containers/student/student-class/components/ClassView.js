@@ -6,16 +6,15 @@ import { IconClassRoom } from "../../../Icon/constants"
 export const ClassView = ({ studentClass, isShowTuition = false }) => {
   if (!studentClass) return null
   return (
-    <div className="text-white">
-      <p className="mb-0">
-        <IconClassRoom className="ml-1" /> {studentClass.name}
-      </p>
+    <p className="mb-0">
+      <IconClassRoom className="" /> {studentClass.name}
       {isShowTuition && (
-        <p className="mb-0">
+        <>
+          <br />
           <Price amount={studentClass.tuitionFeePerMonth} />
-        </p>
+        </>
       )}
-    </div>
+    </p>
   )
 }
 
