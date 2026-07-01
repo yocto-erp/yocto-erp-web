@@ -1,28 +1,25 @@
-import React, { useMemo } from "react";
-import PropTypes from "prop-types";
-import * as Yup from "yup";
-import { Form, Label } from "reactstrap";
-import { toast } from "react-toastify";
-import { Controller, useWatch } from "react-hook-form";
-import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm";
-import Widget from "../../../../components/Widget/Widget";
-import SubmitButton from "../../../../components/button/SubmitButton";
-import BackButton from "../../../../components/button/BackButton";
-import { templateApi } from "../../../../libs/apis/template/template.api";
-import Editor from "../../../../components/Form/Editor";
-import FormGroupInput from "../../../../components/Form/FormGroupInput";
-import {
-  useTemplateType,
-  useTemplateTypeId,
-} from "../../../../libs/apis/template/templateType.api";
+import React, { useMemo } from "react"
+import PropTypes from "prop-types"
+import * as Yup from "yup"
+import { Form, Label } from "reactstrap"
+import { toast } from "react-toastify"
+import { Controller, useWatch } from "react-hook-form"
+import { useHookCRUDForm } from "../../../../libs/hooks/useHookCRUDForm"
+import Widget from "../../../../components/Widget/Widget"
+import SubmitButton from "../../../../components/button/SubmitButton"
+import BackButton from "../../../../components/button/BackButton"
+import { templateApi } from "../../../../libs/apis/template/template.api"
+import Editor from "../../../../components/Form/Editor"
+import FormGroupInput from "../../../../components/Form/FormGroupInput"
+import { useTemplateType, useTemplateTypeId } from "../../../../libs/apis/template/templateType.api"
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("This field is required."),
   templateTypeId: Yup.number().required("Template Type is required"),
   content: Yup.string().required("Content is required"),
-});
+})
 
-const { create, update, read } = templateApi;
+const { create, update, read } = templateApi
 
 function MyForm({ id }) {
   const {
@@ -36,14 +33,12 @@ function MyForm({ id }) {
     create,
     update,
     read,
-    onSuccess: resp => {
+    onSuccess: (resp) => {
       toast.success(
-        id
-          ? `Update Template ${resp.name} success`
-          : `Create Template ${resp.name} success`,
-      );
+        id ? `Update Template ${resp.name} success` : `Create Template ${resp.name} success`,
+      )
     },
-    mappingToForm: form => ({
+    mappingToForm: (form) => ({
       name: form.name,
       content: form.content,
       templateTypeId: String(form.templateTypeId),
@@ -56,14 +51,14 @@ function MyForm({ id }) {
       content: "",
     },
     id,
-  });
+  })
 
-  const { templateTypeList } = useTemplateType();
+  const { templateTypeList } = useTemplateType()
   const templateTypeId = useWatch({
     control,
     name: "templateTypeId",
-  });
-  const { templateType } = useTemplateTypeId(templateTypeId);
+  })
+  const { templateType } = useTemplateTypeId(templateTypeId)
 
   const editor = useMemo(
     () =>
@@ -89,7 +84,7 @@ function MyForm({ id }) {
         </div>
       ) : null,
     [control, templateType, templateTypeId, formData.content],
-  );
+  )
 
   const form = React.useMemo(
     () =>
@@ -113,7 +108,7 @@ function MyForm({ id }) {
                 label="Template Type"
               >
                 <option value="">Select Type</option>
-                {templateTypeList.map(i => (
+                {templateTypeList.map((i) => (
                   <option value={i.id} key={i.id}>
                     {i.name}
                   </option>
@@ -145,14 +140,14 @@ function MyForm({ id }) {
       templateTypeId,
       formData.content,
     ],
-  );
-  return <Widget>{form}</Widget>;
+  )
+  return <Widget>{form}</Widget>
 }
 
 MyForm.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
+}
 
-MyForm.defaultProps = {};
+MyForm.defaultProps = {}
 
-export default MyForm;
+export default MyForm

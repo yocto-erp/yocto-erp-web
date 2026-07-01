@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import isFunction from "lodash/isFunction";
-import { toast } from "react-toastify";
-import { useAsync } from "../../libs/hooks/useAsync";
-import ModalOKButton from "../button/ModalOKButton";
-import ModalCancelButton from "../button/ModalCancelButton";
-import { useListActionContext } from "../ListWidget/constants";
+import React, { useCallback, useEffect, useState } from "react"
+import PropTypes from "prop-types"
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap"
+import isFunction from "lodash/isFunction"
+import { toast } from "react-toastify"
+import { useAsync } from "../../libs/hooks/useAsync"
+import ModalOKButton from "../button/ModalOKButton"
+import ModalCancelButton from "../button/ModalCancelButton"
+import { useListActionContext } from "../ListWidget/constants"
 
 const DeleteConfirmModal = ({
   id,
@@ -17,54 +17,52 @@ const DeleteConfirmModal = ({
   onClose,
   isReload = true,
 }) => {
-  const [isLoading, exec] = useAsync({ asyncApi: deleteApi });
-  const [item, setItem] = useState(null);
+  const [isLoading, exec] = useAsync({ asyncApi: deleteApi })
+  const [item, setItem] = useState(null)
 
-  const { onDeleted, refresh } = useListActionContext();
+  const { onDeleted, refresh } = useListActionContext()
 
   const onCloseHandle = useCallback(
-    result => {
+    (result) => {
       if (isReload) {
         if (result && result.id) {
-          onDeleted([result.id]);
+          onDeleted([result.id])
         } else {
-          refresh();
+          refresh()
         }
       }
 
-      setItem(null);
+      setItem(null)
       if (isFunction(onClose)) {
-        onClose(result);
+        onClose(result)
       }
     },
     [onClose, onDeleted, refresh],
-  );
+  )
 
   useEffect(() => {
-    console.log(`UseEffect: ${JSON.stringify(id)}`);
+    console.log(`UseEffect: ${JSON.stringify(id)}`)
     if (id) {
-      readApi(id).then(resp => {
-        setItem(resp);
-      });
+      readApi(id).then((resp) => {
+        setItem(resp)
+      })
     }
-  }, [id]);
+  }, [id])
 
   const onDelete = () => {
     exec(item.id).then(
       () => {
-        onCloseHandle(item);
+        onCloseHandle(item)
       },
-      onerror => {
-        toast.error(onerror.errors[0].message);
+      (onerror) => {
+        toast.error(onerror.errors[0].message)
       },
-    );
-  };
+    )
+  }
 
   return (
     <Modal className="danger" isOpen={id != null && item != null} fade={false}>
-      <ModalHeader toggle={() => onCloseHandle(false)}>
-        {title || "Confirmation ?"}
-      </ModalHeader>
+      <ModalHeader toggle={() => onCloseHandle(false)}>{title || "Confirmation ?"}</ModalHeader>
       <ModalBody>{isFunction(message) ? message(item) : message}</ModalBody>
       <ModalFooter>
         <ModalCancelButton onClick={() => onCloseHandle(false)} />
@@ -73,8 +71,8 @@ const DeleteConfirmModal = ({
         </ModalOKButton>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
 DeleteConfirmModal.propTypes = {
   id: PropTypes.string.isRequired,
@@ -84,6 +82,6 @@ DeleteConfirmModal.propTypes = {
   title: PropTypes.node,
   onClose: PropTypes.func,
   isReload: PropTypes.bool,
-};
+}
 
-export default DeleteConfirmModal;
+export default DeleteConfirmModal

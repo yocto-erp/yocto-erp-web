@@ -8,5 +8,6 @@ export const CompanySchoolUpdateApi = {
   getCompanySchoolUpdateById: (id) => fetchJSON(`${API_ENDPOINT_URL}/${id}`),
   save: (form) => postJSON(API_ENDPOINT_URL, form),
   search: createSearchApi(API_ENDPOINT_URL),
+  print: (id, templateId) => `${API_ENDPOINT_URL}/${id}/print/${templateId}`,
   download: (search, ids) => `${API_ENDPOINT_URL}/download?search=${search}&ids=${ids}`,
 }

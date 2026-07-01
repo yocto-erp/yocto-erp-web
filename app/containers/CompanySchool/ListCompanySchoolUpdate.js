@@ -7,16 +7,17 @@ import PageTitle from "../Layout/PageTitle"
 import { CompanySchoolUpdateApi } from "../../libs/apis/company-school/company-school-update.api"
 import FilterSchool from "./components/FilterSchool"
 import TableActionColumns from "../../components/ListWidget/TableActionColumn"
-import { IconView } from "../Icon/constants"
+import { IconPrint } from "../Icon/constants"
 import { viewPage } from "../../libs/utils/crud.util"
-import { PERMISSION } from "../../components/Acl/constants"
-import Permission from "../../components/Acl/Permission"
 import { COMPANY_SCHOOL_UPDATE_LIST } from "./constants"
 import { SchoolRegion } from "./components/SchoolRegion"
 import { SchoolLevel } from "./components/SchoolLevel"
+import ModalSchoolPrint from "./components/ModalSchoolPrint"
+import { SelectTemplate } from "../template/SelectTemplate"
 
 export default function ListCompanySchoolUpdate() {
   const history = useHistory()
+  const [printId, setPrintId] = React.useState(null)
   const columns = React.useMemo(
     () => [
       {
@@ -50,12 +51,12 @@ export default function ListCompanySchoolUpdate() {
         ),
       },
       {
-        header: "Region",
+        header: "Vùng",
         data: "region",
         render: (row) => <SchoolRegion region={row.school.region} />,
       },
       {
-        header: "Established Date",
+        header: "Ngày thành lập",
         data: "establishedDate",
         class: "min",
         render: (row) =>
@@ -64,19 +65,19 @@ export default function ListCompanySchoolUpdate() {
             : null,
       },
       {
-        header: "Joined Date",
+        header: "Ngày tham gia SWAN",
         data: "joinedDate",
         class: "min",
         render: (row) =>
           row.school.joinedDate ? formatDateOnly(new Date(row.school.joinedDate)) : null,
       },
       {
-        header: "Size",
+        header: "Số học sinh",
         data: "studentSize",
         render: (row) => row.school.studentSize,
       },
       {
-        header: "Level",
+        header: "Khối lớp",
         data: "level",
         render: (row) => <SchoolLevel level={row.school.level} />,
       },
@@ -91,17 +92,19 @@ export default function ListCompanySchoolUpdate() {
         data: "",
         class: "action",
         render: (row) => (
-          <TableActionColumns>
-            <Permission permissions={[PERMISSION.COMPANY_SCHOOL.READ]}>
+          <TableActionColumns
+            onView={() => history.push(viewPage(COMPANY_SCHOOL_UPDATE_LIST, row.school.id))}
+            buttons={[
               <Button
+                key="school-print"
                 type="button"
                 color="success"
-                onClick={() => history.push(viewPage(COMPANY_SCHOOL_UPDATE_LIST, row.school.id))}
+                onClick={() => setPrintId(row)}
               >
-                <IconView />
-              </Button>
-            </Permission>
-          </TableActionColumns>
+                <IconPrint />
+              </Button>,
+            ]}
+          />
         ),
       },
     ],
@@ -120,6 +123,12 @@ export default function ListCompanySchoolUpdate() {
       >
         <FilterSchool />
       </ListWidget>
+      <ModalSchoolPrint
+        schoolUpdate={printId}
+        isOpen={printId != null}
+        onClose={() => setPrintId(null)}
+      />
+      <SelectTemplate />
     </>
   )
 }

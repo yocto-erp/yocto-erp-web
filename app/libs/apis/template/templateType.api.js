@@ -1,51 +1,48 @@
-import useSWR from "swr";
-import { fetchJSON } from "../fetch";
-import { API_URL } from "../../../constants";
+import useSWR from "swr"
+import { fetchJSON } from "../fetch"
+import { API_URL } from "../../../constants"
 
-const API_ENDPOINT_URL = `${API_URL}/template/type`;
+const API_ENDPOINT_URL = `${API_URL}/template/type`
 
 export const TEMPLATE_TYPE = {
   STUDENT_FEE: 1,
   MAIL_MERGE: 2,
   REGISTER_FORM: 3,
+  SCHOOL: 4,
   OTHER: 0,
-};
+}
 
 export const templateTypeApi = {
   search: () => fetchJSON(API_ENDPOINT_URL),
-  read: id => fetchJSON(`${API_ENDPOINT_URL}/${id}`),
-};
+  read: (id) => fetchJSON(`${API_ENDPOINT_URL}/${id}`),
+}
 
 export const useTemplateType = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data: templateType, error, mutate } = useSWR(
-    "getTemplateType",
-    templateTypeApi.search,
-    {
-      initialData: [],
-      shouldRetryOnError: true,
-      revalidateOnMount: true,
-      errorRetryCount: 3,
-      errorRetryInterval: 15000,
-    },
-  );
-  const isLoading = !templateType && !error;
+  const { data: templateType, error, mutate } = useSWR("getTemplateType", templateTypeApi.search, {
+    initialData: [],
+    shouldRetryOnError: true,
+    revalidateOnMount: true,
+    errorRetryCount: 3,
+    errorRetryInterval: 15000,
+  })
+  const isLoading = !templateType && !error
 
   return {
     isLoading,
     templateTypeList: templateType,
     getTemplate: mutate,
-  };
-};
+  }
+}
 
-export const useTemplateTypeId = id => {
+export const useTemplateTypeId = (id) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: templateType, error, mutate } = useSWR(
     () => (id ? ["getTemplateTypeId", id] : null),
     (url, _id) => {
-      console.log(url);
-      console.log(_id);
-      return templateTypeApi.read(_id);
+      console.log(url)
+      console.log(_id)
+      return templateTypeApi.read(_id)
     },
     {
       initialData: [],
@@ -54,12 +51,12 @@ export const useTemplateTypeId = id => {
       errorRetryCount: 3,
       errorRetryInterval: 15000,
     },
-  );
-  const isLoading = !templateType && !error;
+  )
+  const isLoading = !templateType && !error
 
   return {
     isLoading,
     templateType,
     getTemplate: mutate,
-  };
-};
+  }
+}
