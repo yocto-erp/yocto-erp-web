@@ -38,7 +38,7 @@ const newFee = () => ({
   debt: "",
   privateId: null,
   studentClass: null,
-  isTuitionPaid: "",
+  isTuitionPaid: false,
 })
 
 function MyForm({ id }) {
@@ -161,6 +161,7 @@ function MyForm({ id }) {
           mealFee: result.mealFee,
           otherFee: result.otherFee,
           otherFeeDesc: result.otherFeeDesc,
+          otherDeduceFee: result.otherDeduceFee,
           extraData: result.extraData,
           remark: result.remark,
           scholarFee: scholarShipFee,

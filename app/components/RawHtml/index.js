@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import DOMPurify from "dompurify";
+import React from "react"
+import PropTypes from "prop-types"
+import DOMPurify from "dompurify"
 
 const RawHTML = ({ html, ...props }) => (
   /* eslint-disable react/no-danger */
@@ -13,11 +13,11 @@ const RawHTML = ({ html, ...props }) => (
       }),
     }}
   />
-);
+)
 
 RawHTML.propTypes = {
   html: PropTypes.string,
   ALLOWED_TAGS: PropTypes.array,
-};
+}
 
-export default RawHTML;
+export default RawHTML
