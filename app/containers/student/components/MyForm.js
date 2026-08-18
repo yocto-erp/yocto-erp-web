@@ -68,9 +68,9 @@ function MyForm({ id }) {
       ...form,
       fullName: form.child ? `${form.child.firstName} ${form.child.lastName}` : "",
       joinDate: form.joinDate ? new Date(form.joinDate) : new Date(),
-      birthday: form.child ? parseIso(form.child.birthday) : null,
+      birthday: form.child && form.child.birthday ? parseIso(form.child.birthday) : null,
       sex: form.child.sex,
-      classStudents: form.classStudents,
+      classStudents: form.classStudents.map(t => t.class),
       studentId: form.studentId,
     }),
     validationSchema,
@@ -350,7 +350,7 @@ function MyForm({ id }) {
                     placeholder="Chọn lớp học"
                     invalid={invalid}
                     onChange={onChange}
-                    isMultiple
+                    isMulti
                     {...data}
                   />
                 )}

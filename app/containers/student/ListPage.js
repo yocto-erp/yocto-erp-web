@@ -15,7 +15,6 @@ import DeleteConfirmModal from "../../components/modal/DeleteConfirmModal"
 import ListWidget from "../../components/ListWidget"
 import Filter from "./components/Filter"
 import { formatDateOnly } from "../../libs/utils/date.util"
-import useStudentConfigure from "../../libs/hooks/useStudentConfigure"
 import { CreatedByColumn } from "../../components/ListWidget/constants"
 import PersonView from "../partner/person/components/PersonView"
 import { GENDER } from "../../libs/apis/person.api"
@@ -27,8 +26,6 @@ import { hasText } from "../../utils/util"
 const ROOT_PATH = STUDENT_MANAGEMENT_ROOT_PATH
 
 const ListPage = ({ history }) => {
-  const { configure } = useStudentConfigure()
-
   const columns = React.useMemo(
     () => [
       {
@@ -74,9 +71,9 @@ const ListPage = ({ history }) => {
               <br />
               <i className="fa fa-universal-access fa-fw" />
               &nbsp;
-              {row?.classStudents?.map((item) => (
+              {row.classStudents?.map((item) => (
                 // eslint-disable-next-line prettier/prettier
-                <span className="badge badge-primary w-100px mx-1">{item?.name}</span>
+                <span className="badge badge-primary w-100px mx-1" key={`class${item.id}`}>{item?.name}</span>
               ))}
             </p>
           </>
@@ -148,7 +145,7 @@ const ListPage = ({ history }) => {
       CreatedByColumn,
       {
         header: <FormattedMessage {...commonMessage.action} />,
-        data: "",
+        data: "action",
         class: "action",
         render: (row) => (
           <TableActionColumns
@@ -160,7 +157,7 @@ const ListPage = ({ history }) => {
         ),
       },
     ],
-    [configure],
+    [],
   )
 
   const search = { search: "" }

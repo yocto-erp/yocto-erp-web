@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { v4 as uuidv4 } from "uuid";
-import { COLUMN_PROPS } from "./constants";
-import { isArrayHasItem, isFunc } from "../../utils/util";
-import useUser from "../../libs/hooks/useUser";
+import React from "react"
+import PropTypes from "prop-types"
+import classNames from "classnames"
+import { v4 as uuidv4 } from "uuid"
+import { COLUMN_PROPS } from "./constants"
+import { isArrayHasItem, isFunc } from "../../utils/util"
+import useUser from "../../libs/hooks/useUser"
 
 const TableBody = ({
   columns,
@@ -13,10 +13,10 @@ const TableBody = ({
   selectedList = {},
   onItemSelect,
 }) => {
-  const { isHasAnyPermission } = useUser();
+  const { isHasAnyPermission } = useUser()
   return (
     <>
-      {rows.map(row => (
+      {rows.map((row) => (
         <tr key={row.id || uuidv4()}>
           {enableSelectColumn ? (
             <td className="min text-center">
@@ -34,31 +34,27 @@ const TableBody = ({
               </div>
             </td>
           ) : null}
-          {columns.map(item => {
+          {columns.map((item) => {
             if (
               isArrayHasItem(item.permissions) &&
               !isHasAnyPermission({ permission: item.permissions })
             )
-              return null;
+              return null
             return (
               <td
                 key={item.data}
-                style={
-                  item.width
-                    ? { width: item.width ? `${item.width}` : "inherit" }
-                    : {}
-                }
+                style={item.width ? { width: item.width ? `${item.width}` : "inherit" } : {}}
                 className={classNames(item.class)}
               >
                 {item.render ? item.render(row) : row[item.data]}
               </td>
-            );
+            )
           })}
         </tr>
       ))}
     </>
-  );
-};
+  )
+}
 
 TableBody.propTypes = {
   columns: COLUMN_PROPS,
@@ -66,6 +62,6 @@ TableBody.propTypes = {
   enableSelectColumn: PropTypes.bool,
   selectedList: PropTypes.object,
   onItemSelect: PropTypes.func,
-};
+}
 
-export default TableBody;
+export default TableBody
